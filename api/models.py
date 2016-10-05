@@ -1,9 +1,10 @@
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils import timezone
 
+AUTH_USER_MODEL = getattr(settings, "AUTH_USER_MODEL", 'auth.User')
 
 
 class SingletonModel(models.Model):
@@ -72,7 +73,7 @@ class MaintenanceRecord(models.Model):
 
 
 class UserPreferences(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(AUTH_USER_MODEL)
     show_beta_interface = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -118,6 +119,10 @@ class SiteMetadata(SingletonModel):
         max_length=254,
         default=b"http://atmosphere.status.io",
         help_text="Hyperlink to page communicate Atmosphere stats information.")
+    site_footer_link = models.CharField(
+        max_length=254,
+        default=b"http://user.cyverse.org/",
+        help_text="Hyperlink in footer to host installation organization or product page.")
 
     class Meta:
         db_table = 'site_metadata'
@@ -168,4 +173,4 @@ def get_or_create_preferences(sender, instance, created, **kwargs):
 
 
 # Instantiate the hook(s):
-post_save.connect(get_or_create_preferences, sender=User)
+post_save.connect(get_or_create_preferences, sender=AUTH_USER_MODEL)

@@ -118,8 +118,6 @@ export default React.createClass({
         var ssh_keys = this.state.ssh_keys;
 
         return (
-        <div>
-            <h3>SSH Configuration</h3>
             <div>
                 <h3>SSH Configuration</h3>
                 <div style={{maxWidth: "600px"}}>
@@ -142,7 +140,7 @@ export default React.createClass({
                             { ssh_keys ? ssh_keys.map(this.renderSSHKeyRow) : [] }
                             <tr>
                                 <td>
-                                    <a onClick={ this.launchSSHKeyUploadModal.bind(this, profile.get( 'user')) }>
+                                    <a onClick={ this.launchSSHKeyUploadModal.bind(this, profile.get("user")) }>
                                         <i className="glyphicon glyphicon-plus" />
                                     </a>
                                 </td>
@@ -151,30 +149,6 @@ export default React.createClass({
                     </table>
                 </div>
             </div>
-            <div>
-                <table className="clearfix table" style={{ tableLayout: "fixed" }}>
-                    <thead>
-                        <tr>
-                            <th style={{ width: "100px" }}>
-                                name
-                            </th>
-                            <th>
-                                public key
-                            </th>
-                            <th style={{ width: "30px" }}></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {ssh_keys ? ssh_keys.map(this.renderSSHKeyRow) : []}
-                        <tr>
-                            <td>
-                                <a onClick={this.launchSSHKeyUploadModal.bind(this, profile.get("user"))}><i className="glyphicon glyphicon-plus" /></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
         );
     }
 

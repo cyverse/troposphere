@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-UI_VERSION = "Quasi Quail"
+UI_VERSION = "Ravenous Raven"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'webpack_loader', # resolved JS asset + hash for template rendering
     'iplantauth',
     'api',
+    'troposphere',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,6 +53,8 @@ ROOT_URLCONF = 'troposphere.urls'
 WSGI_APPLICATION = 'troposphere.wsgi.application'
 
 DATABASES = {}
+
+AUTH_USER_MODEL = 'troposphere.TroposphereUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

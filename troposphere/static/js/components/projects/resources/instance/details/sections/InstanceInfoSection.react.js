@@ -1,11 +1,11 @@
 import React from "react";
 import Backbone from "backbone";
-import Time from "components/common/Time.react";
+import CryptoJS from "crypto-js";
+import Gravatar from "components/common/Gravatar.react";
 import EditableInputField from "components/common/EditableInputField.react";
 import actions from "actions";
 import stores from "stores";
-import CryptoJS from "crypto-js";
-import Gravatar from "components/common/Gravatar.react";
+
 
 export default React.createClass({
     displayName: "InstanceInfoSection",
@@ -40,6 +40,32 @@ export default React.createClass({
         });
     },
 
+    onDebugInfo: function(e) {
+        /**
+         * Including as a way to facilitate collecting information without getting UI elements
+         *
+         * suggested format:
+         *  <image-name> - <instance-GUID> - <provider> - <deploy-date-time> - <ip-address>
+         *
+         * altered format:
+         *  <image-name> - <instance-GUID> - <provider> - <ip-address> - <deploy-date-time>
+         *
+         * I thought swapping the order would make _seeing_ the IP address easier than it
+         * getting lost in the various bits of date-time info
+         */
+
+        let instance = this.props.instance,
+            imageName = instance.get("image") ? instance.get("image").name : "...",
+            uuid = instance.get("uuid") || "...",
+            provider = instance.get("provider") ? instance.get("provider").name : "...",
+            ip = instance.get("ip_address") || "x.x.x.x",
+            startDate = instance.get("start_date") || "<no-start-date>";
+
+        /* eslint-disable no-console */
+        console.log(`${imageName} - ${uuid} - ${provider} - ${ip} - ${startDate}`);
+        /* eslint-enable no-console */
+    },
+
     render: function() {
         var instance = this.props.instance,
             instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
@@ -58,20 +84,18 @@ export default React.createClass({
         }
 
         return (
-        <div className="resource-info-section section clearfix">
-            <div className="resource-image">
-                <Gravatar hash={instanceHash} size={iconSize} type={type} />
-            </div>
-            <div className="resource-info">
-                <div className="resource-name editable">
-                    {nameContent}
+            <div className="resource-info-section section clearfix">
+                <div className="resource-image" onClick={this.onDebugInfo}>
+                    <Gravatar hash={instanceHash}
+                              size={iconSize}
+                              type={type}/>
                 </div>
-                <div className="resource-launch-date">
-                    Launched on
-                    <Time date={instance.get("start_date")} />
+                <div className="resource-info">
+                    <div className="resource-name editable">
+                        {nameContent}
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
 });
