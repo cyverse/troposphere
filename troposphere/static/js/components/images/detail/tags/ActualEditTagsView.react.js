@@ -54,7 +54,6 @@ export default React.createClass({
 
         return (
         <div className="resource-tags">
-            <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewEmptyTag}>+ New tag</a>
             <TagMultiSelect models={tags}
                 activeModels={this.props.activeTags}
                 onModelAdded={this.props.onTagAdded}
@@ -63,6 +62,11 @@ export default React.createClass({
                 onEnterKeyPressed={this.onEnterKeyPressed}
                 onQueryChange={this.onQueryChange}
                 placeholderText="Search by tag name..." />
+            <a className="btn btn-primary new-tag"
+                href="#"
+                onClick={this.onCreateNewEmptyTag}>
+                + Create New tag
+            </a>
         </div>
         );
     }

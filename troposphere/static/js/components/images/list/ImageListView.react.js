@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 import ImageCardList from "./list/ImageCardList.react";
-import ImageCardGrid from "./grid/ImageCardGrid.react";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 import Router from "react-router";
 
@@ -122,17 +121,6 @@ export default React.createClass({
         });
     },
 
-    onChangeViewType: function() {
-        if (this.state.viewType === "list") {
-            this.setState({
-                viewType: "grid"
-            });
-        } else {
-            this.setState({
-                viewType: "list"
-            });
-        }
-    },
 
     // --------------
     // Render methods
@@ -145,45 +133,26 @@ export default React.createClass({
             tags = this.props.tags;
 
         // If a query is present, bail
-        if (!images || !tags || this.state.query)
-            return;
+        if (!images || !tags || this.state.query) return;
 
-        if (this.state.viewType === "list") {
             return (
-            <ImageCardList key="featured"
-                title="Featured Images"
-                images={images}
-                tags={tags} />
+                <ImageCardList key="featured"         
+                    title="Featured Images"
+                    images={images}
+                    tags={tags} />
             );
-        } else {
-            return (
-            <ImageCardGrid key="featured"
-                title="Featured Images"
-                images={images}
-                tags={tags} />
-            );
-        }
     },
 
     renderImages: function(images) {
         var tags = this.props.tags;
 
         if (images && tags) {
-            if (this.state.viewType === "list") {
-                return (
+            return (
                 <ImageCardList key="all"
                     title="All Images"
                     images={images}
                     tags={tags} />
-                );
-            } else {
-                return (
-                <ImageCardGrid key="all"
-                    title="All Images"
-                    images={images}
-                    tags={tags} />
-                );
-            }
+            );
         }
 
         return (
@@ -205,34 +174,6 @@ export default React.createClass({
             </button>
             )
         }
-    },
-
-    renderListButton: function() {
-        var classValues = "btn btn-default";
-
-        if (this.state.viewType === "list") {
-            classValues += " active";
-        }
-
-        return (
-        <button type="button" className={classValues} onClick={this.onChangeViewType}>
-            <span className="glyphicon glyphicon-align-justify"></span> List
-        </button>
-        );
-    },
-
-    renderGridButton: function() {
-        var classValues = "btn btn-default";
-
-        if (this.state.viewType === "grid") {
-            classValues += " active";
-        }
-
-        return (
-        <button type="button" className={classValues} onClick={this.onChangeViewType}>
-            <span className="glyphicon glyphicon-th"></span> Grid
-        </button>
-        );
     },
 
     renderBody: function() {
@@ -262,12 +203,8 @@ export default React.createClass({
 
         return (
         <div>
-            <div className="display-toggles clearfix">
-                <h3 className="t-body-2">{title}</h3>
-                <div className="btn-group pull-right hidden-xs hiddin-sm">
-                    {this.renderListButton()}
-                    {this.renderGridButton()}
-                </div>
+            <div style={{ marginBottom: "30px" }} className="t-body-2">
+                {title}
             </div>
             {this.renderFeaturedImages()}
             {this.renderImages(images)}
@@ -279,6 +216,9 @@ export default React.createClass({
     render: function() {
         return (
         <div className="container image-card-view">
+            <h1 className="t-display-1">
+                Image Search
+            </h1>
             <div id="search-container">
                 <input type="text"
                     className="form-control search-input"
@@ -286,7 +226,6 @@ export default React.createClass({
                     onChange={this.onSearchChange}
                     value={this.state.query}
                     ref="textField" />
-                <hr/>
             </div>
             {this.renderBody()}
         </div>
