@@ -1,10 +1,57 @@
-
-// Note: while we could include all the actions here, I'm not going to
-// instead, I'm going to let the application load the actions it needs
-// to use during the bootstrapping process so that the application
-// will throw exceptions if any actions don't exist (which will be the default
-// state for functional tests that need mocked actions)
+import BadgeActions from "actions/BadgeActions";
+import ExternalLinkActions from "actions/ExternalLinkActions";
+import HelpActions from "actions/HelpActions";
+import IdentityMembershipActions from "actions/IdentityMembershipActions";
+import ImageActions from "actions/ImageActions";
+import ImageVersionActions from "actions/ImageVersionActions";
+import ImageVersionMembershipActions from "actions/ImageVersionMembershipActions";
+import ImageVersionLicenseActions from "actions/ImageVersionLicenseActions";
+import ImageVersionScriptActions from "actions/ImageVersionScriptActions";
+import ImageBookmarkActions from "actions/ImageBookmarkActions";
+import InstanceActions from "actions/InstanceActions";
+import InstanceTagActions from "actions/InstanceTagActions";
+import InstanceVolumeActions from "actions/InstanceVolumeActions";
+import LicenseActions from "actions/LicenseActions";
+import ScriptActions from "actions/ScriptActions";
+import NullProjectActions from "actions/NullProjectActions";
+import ProfileActions from "actions/ProfileActions";
+import ProjectActions from "actions/ProjectActions";
+import ProviderMachineActions from "actions/ProviderMachineActions";
+import ProjectExternalLinkActions from "actions/ProjectExternalLinkActions";
+import ProjectImageActions from "actions/ProjectImageActions";
+import ProjectInstanceActions from "actions/ProjectInstanceActions";
+import ProjectVolumeActions from "actions/ProjectVolumeActions";
+import ResourceActions from "actions/ResourceActions";
+import TagActions from "actions/TagActions";
+import UserActions from "actions/UserActions";
+import VolumeActions from "actions/VolumeActions";
 
 export default {
-    // add actions here
+    BadgeActions,
+    ExternalLinkActions,
+    HelpActions,
+    IdentityMembershipActions,
+    ImageActions,
+    ImageVersionActions,
+    ImageVersionMembershipActions,
+    ImageVersionLicenseActions,
+    ImageVersionScriptActions,
+    ImageBookmarkActions,
+    InstanceActions,
+    InstanceTagActions,
+    InstanceVolumeActions,
+    LicenseActions,
+    ScriptActions,
+    NullProjectActions,
+    ProfileActions,
+    ProjectActions,
+    ProviderMachineActions,
+    ProjectExternalLinkActions,
+    ProjectImageActions,
+    ProjectInstanceActions,
+    ProjectVolumeActions,
+    ResourceActions,
+    TagActions,
+    UserActions,
+    VolumeActions,
 };
