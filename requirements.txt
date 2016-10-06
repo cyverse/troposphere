@@ -17,4 +17,4 @@ newrelic==2.64.0.48
 
 # Ours
 caslib.py==2.2.2
-django-iplant-auth==0.1.18
+django-iplant-auth==0.1.19

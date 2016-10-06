@@ -31,6 +31,8 @@ UWSGI_LOG_PATH =
 
 [local.py]
 DEBUG =
+ADMINS_EMAIL_TUPLE = ; [('Atmosphere Admin', 'atmo-admin@website.com'),('System Admins', 'sys-admin@website.com')]
+SERVER_EMAIL =
 THEME_NAME =
 SITE_TITLE =
 SITE_FOOTER =

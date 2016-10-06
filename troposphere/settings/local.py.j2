@@ -4,6 +4,21 @@ globals().update(vars(sys.modules['troposphere.settings']))
 
 DEBUG = {{ DEBUG }}
 
+{%- if ADMINS_EMAIL_TUPLE %}
+ADMINS = [
+# The first admin will AUTHOR all e-mails.
+# These ADMINS override values set in __init__.py
+{%- for email_tuple in ADMINS_EMAIL_TUPLE %}
+  {{ email_tuple }},
+{%- endfor %}
+]
+{%- endif %}
+
+{%- if SERVER_EMAIL %}
+# This email will be used as the FROM: address for emails to the ADMINS
+SERVER_EMAIL="{{ SERVER_EMAIL }}"
+{%- endif %}
+
 {% if DEBUG -%}
 if len(TEMPLATES) > 0 and 'OPTIONS' in TEMPLATES[0]:
     if 'debug' in TEMPLATES[0]['OPTIONS']:
@@ -211,6 +226,8 @@ AUTHENTICATION_BACKENDS += (
 from datetime import timedelta
 AUTHENTICATION = {
     #GLOBAL
+    "APP_NAME": SITE_TITLE,
+    "SITE_NAME": ORG_NAME,
     "TOKEN_EXPIRY_TIME": timedelta(days={{ TOKEN_EXPIRY_TIME_DAYS }}),
     "LOGOUT_REDIRECT_URL": '{{ LOGOUT_REDIRECT_URL }}',
     #LDAP
