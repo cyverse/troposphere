@@ -21,7 +21,7 @@ export default React.createClass({
     },
 
     render: function() {
-        // only attempt to get bookmarks if there is a profile that might have them ...
+        // Only attempt to get bookmarks if there is a profile that might have them ...
         let userLoggedIn = context.hasLoggedInUser();
 
         let routes;
@@ -39,7 +39,8 @@ export default React.createClass({
 
 
             if (!userImages || !favoritedImages) {
-                return <div className="loading"></div>
+                // Rendering the secondary-nav without links as a place holder
+                return <div style={{ height: "63px" }} className="secondary-nav"/>
             }
 
             let myImagesText = `My Images (${userImages.length})`;
