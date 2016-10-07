@@ -120,6 +120,9 @@ module.exports = {
     ],
     extensions: ["", ".js", ".scss", ".sass"]
   },
+  resolveLoader: {
+      root: path.join(__dirname, 'node_modules')
+  },
   // defined the PostCSS plugins to be used
   postcss: function() {
     return [precss, autoprefixer({ browsers: ['last 2 versions'] })]
