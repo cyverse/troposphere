@@ -109,6 +109,7 @@ module.exports = {
   },
   plugins: plugins,
   resolve: {
+    fallback: [path.join(__dirname, "/node_modules")],
     alias: {
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
