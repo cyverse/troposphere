@@ -5,7 +5,7 @@ import Glyphicon from "components/common/Glyphicon.react";
 import modals from "modals";
 import stores from "stores";
 
-import { VerticalMenu, Button, Sheet } from 'troposphere-ui';
+import { VerticalMenu, Button, Sheet, Title } from 'troposphere-ui';
 
 export default React.createClass({
     displayName: "SecondaryProjectNavigation",
@@ -47,9 +47,9 @@ export default React.createClass({
         return (
             <div style = {{ maxWidth: "1200px", margin: "auto" }} >
                 <div style = {{ display: "inline-block" }} >
-                    <h1> 
+                    <Title h1 headline>                   
                         { project.get('name') }
-                    </h1>
+                    </Title>
                 </div>
                 <div style = {{ 
                         float: "right",
