@@ -66,7 +66,6 @@ export default React.createClass({
             // State for general operation (switching views, etc)
             view,
             image,
-            provider: null,
             showValidationErr: false,
 
             // State for launch
@@ -118,26 +117,28 @@ export default React.createClass({
             imageVersion = imageVersionList.first();
         }
 
-        let providerList;
+        let providerList, identityList;
         if (imageVersion) {
             providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
 
         let provider = this.state.provider;
         if (providerList) {
+            identityList = this.providerForIdentityList(providerList);
             provider = provider || providerList.shuffle()[0];
         }
 
+        //FIXME: providerSizeList should be based on the selected identity rather than the provider (minute detail for now)
         let identityProvider,
             providerSizeList;
         if (provider) {
-            identityProvider = stores.IdentityStore.findOne({
-                "provider.id": provider.id
-            });
-
+            let provider_id = provider.id;
             providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
+                provider__id: provider_id
             });
+        }
+        if (identityList) {
+            identityProvider = identityList.first();
         }
 
         let providerSize;
@@ -251,6 +252,7 @@ export default React.createClass({
         ;
 
         let provider,
+            identityList,
             providerSizeList,
             identityProvider;
         if (providerList) {
@@ -258,12 +260,12 @@ export default React.createClass({
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
+            identityList = this.providerForIdentityList(providerList);
 
-            identityProvider = stores.IdentityStore.findOne({
-                "provider.id": provider.id
-            });
         }
-        ;
+        if (identityList) {
+            identityProvider = identityList.first();
+        }
 
         let providerSize;
         if (providerSizeList) {
@@ -300,7 +302,8 @@ export default React.createClass({
 
     onVersionChange: function(imageVersion) {
         let providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
-        let providerSizeList;
+        let identityList,
+            providerSizeList;
         let providerSize;
         let provider;
         let identityProvider;
@@ -310,16 +313,16 @@ export default React.createClass({
                 provider__id: provider.id
             });
 
-            identityProvider = stores.IdentityStore.findOne({
-                "provider.id": provider.id
-            });
+            identityList = this.providerForIdentityList(providerList);
 
             if (providerSizeList) {
                 providerSize = providerSizeList.first();
             }
             ;
         }
-
+        if (identityList) {
+            identityProvider = identityList.first();
+        }
         this.setState({
             imageVersion,
             provider,
@@ -340,16 +343,17 @@ export default React.createClass({
         });
     },
 
-    onProviderChange: function(provider) {
+    onIdentityChange: function(identity) {
+        let provider = stores.ProviderStore.findOne({
+            "id": identity.get('provider').id
+        });
+
         let providerSizeList = stores.SizeStore.fetchWhere({
             provider__id: provider.id
         });
 
         let providerSize;
-
-        let identityProvider = stores.IdentityStore.findOne({
-            "provider.id": provider.id
-        });
+        let identityProvider = identity;
 
         if (providerSizeList) {
             providerSize = providerSizeList.first();
@@ -562,6 +566,19 @@ export default React.createClass({
         );
     },
 
+    providerForIdentityList: function(providerList) {
+        let identityList;
+        providerList.forEach(function(provider) {
+            let tmp_identityList = stores.IdentityStore.getIdentitiesForProvider(provider);
+            if(identityList) {
+                identityList.add(tmp_identityList.models);
+            } else {
+                identityList = tmp_identityList;
+            }
+        });
+        return identityList;
+    },
+
     renderProjectCreateStep: function() {
         return (
         <ProjectCreateView cancel={this.hide} onConfirm={this.onProjectCreateConfirm} />
@@ -589,9 +606,13 @@ export default React.createClass({
             }
         }
 
-        let providerList;
+        let providerList, identityList;
         if (imageVersion) {
             providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
+        }
+
+        if (providerList) {
+            identityList = this.providerForIdentityList(providerList);
         }
 
         let providerSizeList,
@@ -611,10 +632,10 @@ export default React.createClass({
 
         return (
         <BasicLaunchStep { ...{ showValidationErr: this.state.showValidationErr, attachedScripts: this.state.attachedScripts, backIsDisabled: this.props.initialView=="BASIC_VIEW"
-            , launchIsDisabled: !this.canLaunch(), identityProvider: this.state.identityProvider, image, imageVersion, imageVersionList, instanceName: this.state.instanceName,
+            , launchIsDisabled: !this.canLaunch(), identity: this.state.identityProvider, identityProvider: this.state.identityProvider, image, imageVersion, imageVersionList, instanceName: this.state.instanceName,
             onBack: this.onBack, onCancel: this.hide, onNameChange: this.onNameChange, onNameBlur: this.onNameBlur, onProjectChange: this.onProjectChange, onAllocationSourceChange:
-            this.onAllocationSourceChange, onProviderChange: this.onProviderChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
-            this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
+            this.onAllocationSourceChange, onIdentityChange: this.onIdentityChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
+            this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, identityList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
             this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList, }} />
         )
     },

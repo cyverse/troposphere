@@ -4,7 +4,20 @@ import IdentityCollection from "collections/IdentityCollection";
 import AccountConstants from "constants/AccountConstants";
 
 let IdentityStore = BaseStore.extend({
-    collection: IdentityCollection
+    collection: IdentityCollection,
+
+    getIdentitiesForProvider: function(provider) {
+        if (!this.models) {
+            this.fetchModels();
+        } else {
+            let identities = this.models;
+            let versionIdentities = identities.cfilter(ident => {
+                return ident.get('provider').id == provider.id;
+            });
+            return versionIdentities;
+        }
+    },
+
 });
 
 let store = new IdentityStore();

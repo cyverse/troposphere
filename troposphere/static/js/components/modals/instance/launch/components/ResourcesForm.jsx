@@ -9,14 +9,14 @@ import SelectMenu from "components/common/ui/SelectMenu";
 
 export default React.createClass({
     propTypes: {
-        provider: React.PropTypes.instanceOf(Backbone.Model),
+        identity: React.PropTypes.instanceOf(Backbone.Model),
         providerSizeList: React.PropTypes.instanceOf(Backbone.Collection),
-        providerList: React.PropTypes.instanceOf(Backbone.Collection),
+        identityList: React.PropTypes.instanceOf(Backbone.Collection),
         providerSize: React.PropTypes.instanceOf(Backbone.Model),
         allocationSourceList: React.PropTypes.instanceOf(Backbone.Collection),
         allocationSource: React.PropTypes.instanceOf(Backbone.Model),
         onSizeChange: React.PropTypes.func,
-        onProviderChange: React.PropTypes.func
+        onIdentityChange: React.PropTypes.func
     },
 
     getProviderSizeName(providerSize) {
@@ -50,28 +50,29 @@ export default React.createClass({
     },
 
     renderProviderGraph() {
+        //FIXME: Identity-specific this quota could change.
         return (
         <ProviderAllocationGraph { ...this.props } />
         );
     },
 
     render: function() {
-        let { provider, providerList, onProviderChange, providerSize, providerSizeList, onSizeChange, } = this.props;
-
+        let { identity, identityList, onIdentityChange, providerSize, providerSizeList, onSizeChange, } = this.props;
         return (
         <form>
             {globals.USE_ALLOCATION_SOURCES
              ? this.renderAllocationSourceMenu()
              : null}
             <div className="form-group">
-                <label htmlFor="provider">
-                    Provider
+                <label htmlFor="identity">
+                    Identity
                 </label>
-                <SelectMenu id="provider"
-                            current={ provider }
-                            optionName={ p => p.get("name") }
-                            list={ providerList }
-                            onSelect={ onProviderChange } />
+                //FIXME: The optionName is ugly maybe make it a function?
+                <SelectMenu id="identity"
+                            current={ identity }
+                            optionName={ ident => ""+ident.getCredentialValue('ex_project_name')+" on "+ident.get("provider").name }
+                            list={ identityList }
+                            onSelect={ onIdentityChange } />
             </div>
             <div className="form-group">
                 <label htmlFor="instanceSize">
