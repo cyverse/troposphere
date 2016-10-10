@@ -19,7 +19,7 @@ export default {
     ProjectModals,
     PublicModals,
     TagModals,
-    UnsupportedModal
+    UnsupportedModal,
     VersionModals,
     VolumeModals,
 };
