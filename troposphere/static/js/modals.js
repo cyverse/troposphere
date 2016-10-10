@@ -8,6 +8,7 @@ import TagModals from "modals/TagModals";
 import VersionModals from "modals/VersionModals";
 import VolumeModals from "modals/VolumeModals";
 import UnsupportedModal from "modals/UnsupportedModal";
+import PublicModals from "modals/PublicModals";
 
 export default {
     BadgeModals,
@@ -16,6 +17,7 @@ export default {
     InstanceModals,
     InstanceVolumeModals,
     ProjectModals,
+    PublicModals,
     TagModals,
     VersionModals,
     VolumeModals,
