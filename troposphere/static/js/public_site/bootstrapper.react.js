@@ -5,7 +5,6 @@ import $ from "jquery";
 import Router from "../Router";
 import Profile from "models/Profile";
 import routes from "./AppRoutes.react";
-import modals from "modals";
 import stores from "stores";
 
 // Mock out the profile store with an empty profile
