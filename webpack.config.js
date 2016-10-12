@@ -113,8 +113,7 @@ module.exports = {
     alias: {
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
-      highcharts: "highcharts-commonjs",
-      react: path.join(__dirname, "/node_modules/react")
+      highcharts: "highcharts-commonjs"
     },
     root: [
       PATHS.context,
