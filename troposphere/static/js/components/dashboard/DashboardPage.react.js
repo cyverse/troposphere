@@ -96,7 +96,7 @@ export default React.createClass({
                             </div>
 
                             <div className="resource-header">
-                                {`Resources in Use`}
+                                {`Resources Used`}
                                 <a href="#"
                                     onClick={this.renderRequestMoreResources}>
                                     Need more{String.fromCharCode(63)}
