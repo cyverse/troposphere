@@ -16,7 +16,7 @@ export default React.createClass({
 
         return (
           <div>
-            {"You are using "}
+            {"You have used "}
             <b>{this.props.used + " of " + this.props.max}</b>
             {" allocated "}
             <b>{this.props.resourceName}</b>
