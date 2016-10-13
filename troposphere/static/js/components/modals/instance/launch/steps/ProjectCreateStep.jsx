@@ -1,4 +1,6 @@
 import React from "react";
+import stores from "stores";
+import SelectMenu from "components/common/ui/SelectMenu.react";
 
 export default React.createClass({
     displayName: "ProjectCreateModal",
@@ -6,14 +8,16 @@ export default React.createClass({
     getInitialState: function() {
         return {
             projectName: "",
-            projectDescription: ""
+            projectDescription: "",
+            groupOwner: null,
         };
     },
 
     isSubmittable: function() {
         var hasName = !!this.state.projectName.trim();
         var hasDescription = !!this.state.projectDescription.trim();
-        return hasName && hasDescription;
+        var hasOwner = !!this.state.groupOwner;
+        return hasName && hasDescription && hasOwner;
     },
 
     //
@@ -27,7 +31,7 @@ export default React.createClass({
 
     confirm: function() {
         this.hide();
-        this.props.onConfirm(this.state.projectName, this.state.projectDescription);
+        this.props.onConfirm(this.state.projectName, this.state.projectDescription, this.state.groupOwner);
     },
 
     //
@@ -56,6 +60,11 @@ export default React.createClass({
     //
 
     renderBody: function() {
+        let groupList = stores.GroupStore.getAll();
+        if(!groupList) {
+            return (<div class="loading"></div>);
+        }
+
         return (
         <div role="form">
             <div className="form-group">
@@ -77,10 +86,23 @@ export default React.createClass({
                     value={this.state.projectDescription}
                     onChange={this.onDescriptionChange} />
             </div>
+            <div className="form-group">
+                <label htmlFor="groupOwner">
+                    Group Owner
+                </label>
+                <SelectMenu current={group}
+                    list={groupList}
+                    optionName={g => g.get("name")}
+                    onSelect={this.onGroupChange} />
+            </div>
         </div>
         );
     },
-
+    onGroupChange: function(group) {
+        this.setState({
+            groupOwner: group,
+        });
+    },
     render: function() {
 
         return (

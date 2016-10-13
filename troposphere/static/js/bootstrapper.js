@@ -30,6 +30,7 @@ import stores from "stores";
 stores.AllocationStore = require("stores/AllocationStore");
 stores.BadgeStore = require("stores/BadgeStore");
 stores.ExternalLinkStore = require("stores/ExternalLinkStore");
+stores.GroupStore = require("stores/GroupStore");
 stores.HelpLinkStore = require("stores/HelpLinkStore");
 stores.ImageStore = require("stores/ImageStore");
 stores.ImageVersionStore = require("stores/ImageVersionStore");
