@@ -10,7 +10,6 @@ if len(TEMPLATES) > 0 and 'OPTIONS' in TEMPLATES[0]:
         TEMPLATES[0]['OPTIONS']['debug'] = {{ DEBUG }}
 {%- endif %}
 
-SECRET_KEY="{{ SECRET_KEY }}"
 SERVER_URL="{{ SERVER_URL }}"
 BASE_URL= "{{ BASE_URL }}"
 ALLOWED_HOSTS = [SERVER_URL.replace("https://",""), "localhost"]
