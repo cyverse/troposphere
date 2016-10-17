@@ -33,6 +33,8 @@
 
     // Wraps around the img tag to create the optional image anchor
     .media__img {
+        border-radius: 50%; 
+        overflow: hidden;
         float:left; 
         margin-right:20px;
         img {
@@ -45,12 +47,11 @@
 // The card class is used on the same wrapper as the media class
 // it can be reused without the media class.
 .card {
-    border-radius: 3px;
-    padding:20px;
-    box-shadow: $shadow-1;
+    padding:10px;
+    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
     background: white;
 
     .media__footer {
-        margin: 0 -20px -20px;
+        margin: 0 -10px -10px;
     }
 }

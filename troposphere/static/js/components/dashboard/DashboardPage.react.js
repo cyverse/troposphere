@@ -90,7 +90,7 @@ export default React.createClass({
                         </div>
                     </div>
                     <div className="resource-header clearfix">
-                        <h2 className="t-headline pull-left"> Resources in Use </h2>
+                        <h2 className="t-headline pull-left">Resources Used</h2>
                         <a href="#" className="btn btn-sm btn-primary pull-left" onClick={this.renderRequestMoreResources}>Need more{String.fromCharCode(63)}</a>
                     </div>
                     <div className="row">

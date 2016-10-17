@@ -69,6 +69,7 @@ def emulate(request, username):
     logger.info("[EMULATE]User %s (Token: %s) has emulated User %s (Token:%s)"
                 % (emulator, old_token, username, new_token))
 
+    request.session["username"] = username
     request.session["emulator"] = emulator
     request.session['emulator_token'] = old_token
     request.session['access_token'] = new_token

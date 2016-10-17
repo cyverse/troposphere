@@ -13,7 +13,7 @@ export default React.createClass({
 
     //
     // Helper Methods
-    // 
+    //
 
     getChartData: function() {
         var summaries = [];
@@ -46,9 +46,9 @@ export default React.createClass({
                 enabled: true,
                 formatter: function() {
                     if (this.y != 0) {
-                        return (Math.round(this.y * 100) / 100) + "%";
+                        return (Math.round(this.y * 100) / 100) + '%';
                     } else {
-                        return null;
+                        return '0%';
                     }
                 }
             },

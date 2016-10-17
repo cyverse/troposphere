@@ -2,8 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import Backbone from "backbone";
-import Router from "react-router";
-
 
 export default React.createClass({
     displayName: "Tag",
@@ -16,6 +14,15 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             renderLinks: true
+        }
+    },
+
+    onClick(e) {
+        let { onTagClick } = this.props;
+        e.stopPropagation();
+        e.preventDefault();
+        if (onTagClick) {
+            onTagClick(this.props.tag);
         }
     },
 
@@ -33,29 +40,15 @@ export default React.createClass({
     },
 
     render: function() {
-        var tag = this.props.tag,
-            tagName = tag.get("name"),
-            link;
-
-        if (this.props.renderLinks) {
-            link = (
-                <Router.Link to="search" query={{ q: tagName }}>
-                    {tagName}
-                </Router.Link>
-            );
-        } else {
-            link = (
-                <a href="javascript:void(0)">
-                    {tagName}
-                </a>
-            )
-        }
+        let tag = this.props.tag;
+        let tagName = tag.get("name");
 
         return (
-        <li className="tag">
-            {link}
-        </li>
+            <li className="tag">
+                <span onClick={ this.onClick }>
+                    {tagName}
+                </span>
+            </li>
         );
-
     }
 });
