@@ -13,6 +13,11 @@ import noAllocationSource from "modals/allocationSource/noAllocationSource.js";
 
 import Router from "react-router";
 import { RouteHandler } from "react-router";
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
 export default React.createClass({
     displayName: "Master",
