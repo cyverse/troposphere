@@ -1,21 +1,21 @@
 #!/bin/bash
 
 # Warn when requirements.txt changes
-if [ -e contrib/requirements-warning.rb ]; then
-    ruby contrib/requirements-warning.rb;
+if [ -e extras/hooks/requirements-warning.rb ]; then
+    ruby extras/hooks/requirements-warning.rb;
 fi
 
 # Warn on new migration files
-if [ -e contrib/migrations-warning.rb ]; then
-    ruby contrib/migrations-warning.rb;
+if [ -e extras/hooks/migrations-warning.rb ]; then
+    ruby extras/hooks/migrations-warning.rb;
 fi
 
 # Warn when package.json changes
-if [ -e contrib/package-json-warning.rb ]; then
-    ruby contrib/package-json-warning.rb;
+if [ -e extras/hooks/package-json-warning.rb ]; then
+    ruby extras/hooks/package-json-warning.rb;
 fi
 
 # Warn when there is a configure error
-if [ -e contrib/configure-warning.sh ]; then
-    bash contrib/configure-warning.sh;
+if [ -e extras/hooks/configure-warning.sh ]; then
+    bash extras/hooks/configure-warning.sh;
 fi
