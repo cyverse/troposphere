@@ -16,6 +16,7 @@ export default React.createClass({
     render: function() {
         let project = this.props.project,
             description,
+            projectOwner,
             projectCreationDate,
             projectExternalLinks,
             projectInstances,
@@ -30,6 +31,7 @@ export default React.createClass({
         // only attempt to fetching project metadata for persisted projects
         if (project && project.id && !project.isNew()) {
             description = project.get('description');
+            projectOwner = project.get('owner').name;
             projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY hh:mm a");
             projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
             projectInstances = stores.ProjectInstanceStore.getInstancesFor(project);
@@ -62,8 +64,11 @@ export default React.createClass({
                             <h2 className="t-title">{project.get("name")}</h2>
                             <hr/>
                             <time className="t-caption" style={{ display: "block" }}>
-                                {"Created " + projectCreationDate}
+                                {"Created on " + projectCreationDate}
                             </time>
+                            <p className="t-caption" style={{ display: "block" }}>
+                               {"By Owner " + projectOwner}
+                            </p>
                             <p className="description" style={{ minHeight: "200px" }}>
                                 {description}
                             </p>

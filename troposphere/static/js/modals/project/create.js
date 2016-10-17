@@ -8,7 +8,7 @@ export default {
             actions.ProjectActions.create({
                 name: name,
                 description: description,
-                groupOwner: groupOwner
+                owner: groupOwner
             });
         })
 

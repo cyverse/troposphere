@@ -32,13 +32,17 @@ export default {
             throw new Error("Missing name");
         if (!params.description)
             throw new Error("Missing description");
-
+        if (!params.owner)
+            throw new Error("Missing group owner");
         var name = params.name,
-            description = params.description;
+            description = params.description,
+            owner = params.owner;
 
+        //FIXME: Sending owner as nested dict, likely we will want to send group ID/UUID
         var project = new Project({
             name: name,
-            description: description
+            description: description,
+            owner: owner.get('name'),
         });
 
 

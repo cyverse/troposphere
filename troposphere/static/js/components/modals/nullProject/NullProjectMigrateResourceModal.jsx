@@ -5,6 +5,9 @@ import ProjectSelect from "components/common/project/ProjectSelect";
 import ResourceListItem from "components/modals/migrate_resources/ResourceListItem";
 import stores from "stores";
 
+//FIXME: If the latest changes are to move forward, we will need this FORM to change to look much more like the AllocationSource selection.
+//  Each resource can/will potentially have to go to a different project, as constrained by the identities that created them
+//  - More specifically, that their tenant name matches the name of the Group Owner of the Project
 export default React.createClass({
     displayName: "NullProjectMigrateResourceModal",
 

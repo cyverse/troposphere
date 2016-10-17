@@ -1,9 +1,10 @@
 import React from "react";
 import stores from "stores";
 import SelectMenu from "components/common/ui/SelectMenu.react";
+//FIXME: Why not use common/ProjectCreateView.react here?
 
 export default React.createClass({
-    displayName: "ProjectCreateModal",
+    displayName: "ProjectCreateStep",
 
     getInitialState: function() {
         return {
@@ -31,7 +32,7 @@ export default React.createClass({
 
     confirm: function() {
         this.hide();
-        this.props.onConfirm(this.state.projectName, this.state.projectDescription, this.state.groupOwner);
+        this.props.onConfirm(this.state.projectName.trim(), this.state.projectDescription.trim(), this.state.groupOwner);
     },
 
     //
@@ -54,6 +55,12 @@ export default React.createClass({
         });
     },
 
+    componentDidMount: function() {
+        stores.GroupStore.addChangeListener(this.updateState);
+    },
+    componentWillUnmount: function() {
+        stores.GroupStore.removeChangeListener(this.updateState);
+    },
     //
     // Render
     // ------
@@ -62,7 +69,7 @@ export default React.createClass({
     renderBody: function() {
         let groupList = stores.GroupStore.getAll();
         if(!groupList) {
-            return (<div class="loading"></div>);
+            return (<div className="loading"></div>);
         }
 
         return (
@@ -90,7 +97,8 @@ export default React.createClass({
                 <label htmlFor="groupOwner">
                     Group Owner
                 </label>
-                <SelectMenu current={group}
+                <SelectMenu current={this.state.groupOwner}
+                    hintText={"Select a Group Owner"}
                     list={groupList}
                     optionName={g => g.get("name")}
                     onSelect={this.onGroupChange} />

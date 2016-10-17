@@ -55,6 +55,11 @@ export default React.createClass({
         <ProviderAllocationGraph { ...this.props } />
         );
     },
+    renderIdentitySelectOptionName: function(ident) {
+        return ident.getCredentialValue('key')
+            + "/" + ident.getCredentialValue('ex_project_name')
+            + " on " + ident.get("provider").name;
+    },
 
     render: function() {
         let { identity, identityList, onIdentityChange, providerSize, providerSizeList, onSizeChange, } = this.props;
@@ -67,10 +72,9 @@ export default React.createClass({
                 <label htmlFor="identity">
                     Identity
                 </label>
-                //FIXME: The optionName is ugly maybe make it a function?
                 <SelectMenu id="identity"
                             current={ identity }
-                            optionName={ ident => ""+ident.getCredentialValue('ex_project_name')+" on "+ident.get("provider").name }
+                            optionName={ ident => this.renderIdentitySelectOptionName(ident) }
                             list={ identityList }
                             onSelect={ onIdentityChange } />
             </div>

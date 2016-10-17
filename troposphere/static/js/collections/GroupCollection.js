@@ -1,5 +1,5 @@
 import Backbone from "backbone";
-import Group from "models/group";
+import Group from "models/Group";
 import globals from "globals";
 
 export default Backbone.Collection.extend({

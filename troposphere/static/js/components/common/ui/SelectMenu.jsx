@@ -27,8 +27,15 @@ export default React.createClass({
             React.PropTypes.instanceOf(Backbone.Collection),
             React.PropTypes.array
         ]),
+        hintText: React.PropTypes.string,
         current: React.PropTypes.object,
         placeholder: React.PropTypes.string,
+    },
+
+    getDefaultProps: function() {
+        return {
+            hintText: "",
+        }
     },
 
     getInitialState() {
@@ -110,7 +117,7 @@ export default React.createClass({
             // placeholder option, it can be blank or have some placeholder
             // text
             if (current == null) {
-                options.push(this.renderPlaceholderOption(placeholder || ""))
+                options.push(this.renderPlaceholderOption(placeholder || this.props.hintText))
             }
 
             // Append options from the list

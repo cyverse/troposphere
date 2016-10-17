@@ -10,11 +10,6 @@ let GroupStore = BaseStore.extend({
         return this.models.get(modelId) != null;
     },
 
-    queryParams: {
-        page_size: 3000
-    },
-
-
     getGroupsFromList: function(groupnameList) {
         if (!this.models)
             throw new Error("Must fetch groups before calling getGroupsFromList");
