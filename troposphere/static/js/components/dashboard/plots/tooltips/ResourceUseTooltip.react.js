@@ -15,8 +15,8 @@ export default React.createClass({
         // You are using 12 of 32 allocated CPUs
 
         return (
-        <div>
-            {"You are using "}
+          <div>
+            {"You have used "}
             <b>{this.props.used + " of " + this.props.max}</b>
             {" allocated "}
             <b>{this.props.resourceName}</b>
