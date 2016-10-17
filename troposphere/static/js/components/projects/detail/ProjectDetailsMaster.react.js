@@ -1,7 +1,11 @@
 import React from 'react';
 import Router from 'react-router';
-import ResourcesHeader from '../common/ProjectResourcesHeader.react';
 import stores from 'stores';
+
+import { Section } from 'troposphere-ui';
+
+import Wrapper from 'components/common/ui/Wrapper.react';
+import ResourcesHeader from '../common/ProjectResourcesHeader.react';
 
 let RouteHandler = Router.RouteHandler;
 
@@ -20,10 +24,12 @@ export default React.createClass({
         }
 
         return (
-            <div className="project-details">
-              <ResourcesHeader project = { project } />
-              <RouteHandler project = { project } />
-            </div>
+            <Section pt={ 4 }>
+                <Wrapper>
+                  <ResourcesHeader project = { project } />
+                  <RouteHandler project = { project } />
+                </Wrapper>
+            </Section>
         );
     }
 });
