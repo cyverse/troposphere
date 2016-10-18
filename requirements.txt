@@ -1,4 +1,5 @@
 # External/Third Party
+pycparser==2.14 # TEMPORARY
 django==1.9.4
 django-sslserver==0.18
 djangorestframework==3.3.2
