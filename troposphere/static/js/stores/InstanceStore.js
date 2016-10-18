@@ -125,6 +125,10 @@ Dispatcher.register(function(dispatch) {
             store.pollNowUntilBuildIsFinished(payload.instance);
             break;
 
+        case InstanceConstants.POLL_INSTANCE_WITH_DELAY:
+            store.pollUntilBuildIsFinished(payload.instance, payload.delay);
+            break;
+
         case InstanceConstants.POLL_FOR_DELETED:
             store.pollUntilDeleted(payload.instance);
             break;

@@ -48,8 +48,9 @@ export default {
             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
                 instance: instance
             });
-            Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
-                instance: instance
+            Utils.dispatch(InstanceConstants.POLL_INSTANCE_WITH_DELAY, {
+                instance: instance,
+                delay: 15*1000,
             });
         });
     }

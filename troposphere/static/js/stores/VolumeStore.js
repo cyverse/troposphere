@@ -118,7 +118,7 @@ Dispatcher.register(function(dispatch) {
             break;
 
         case VolumeConstants.POLL_VOLUME_WITH_DELAY:
-            store.pollUntilBuildIsFinished(payload.volume);
+            store.pollUntilBuildIsFinished(payload.volume, payload.delay);
             break;
 
         default:
