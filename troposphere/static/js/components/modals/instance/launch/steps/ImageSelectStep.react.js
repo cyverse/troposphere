@@ -7,6 +7,8 @@ import ImageList from "../components/ImageList.react";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 import InstanceLaunchFooter from "../components/InstanceLaunchFooter.react";
 
+import { filterEndDate } from "utilities/filterCollection";
+
 export default React.createClass({
     displayName: "InstanceLaunchWizardModal-ImageSelectStep",
     mixins: [ComponentHandleInputWithDelay],
@@ -244,7 +246,9 @@ export default React.createClass({
 
     renderSearchInput: function() {
         return (
-        <input ref="searchField"
+        <input
+            style={{ marginBottom: "20px" }}
+            ref="searchField"
             type="text"
             placeholder="Search across image name, tag or description"
             className="form-control search-input"
@@ -288,16 +292,24 @@ export default React.createClass({
         }
 
         let numberOfResults = this.state.page * this.RESULTS_PER_PAGE;
-        let shownImages = new ImageCollection(images.first(numberOfResults));
+        let pagedImages = new ImageCollection(images.first(numberOfResults));
+
+        // Check if we should display the show more button
+        let isMoreImages = images.length > pagedImages.length;
+
+        // Filter out endated images from render
+        let shownImages = pagedImages.cfilter(filterEndDate);
 
         return (
         <div>
             {this.renderSearchInput()}
             {this.renderFilterDescription(shownImages, images.length)}
             <ImageList images={shownImages} onSelectImage={this.props.onSelectImage}>
-                {images.length > shownImages.length
-                 ? this.renderMoreImagesButton()
-                 : null}
+                {       
+                    isMoreImages
+                    ? this.renderMoreImagesButton()
+                    : null
+                }
             </ImageList>
         </div>
         );
