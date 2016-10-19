@@ -76,7 +76,7 @@ export default React.createClass({
                     if (this.y != 0) {
                         return (Math.round(this.y * 100) / 100) + "%";
                     } else {
-                        return null;
+                        return "0%";
                     }
                 }
             },
