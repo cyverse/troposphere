@@ -2,7 +2,6 @@ import React from "react";
 import Image from "./Image.react";
 import Backbone from "backbone";
 
-import { filterEndDate } from "utilities/filterCollection";
 
 
 export default React.createClass({
@@ -20,7 +19,7 @@ export default React.createClass({
     },
 
     render: function() {
-        let images = this.props.images.cfilter(filterEndDate);
+        let images = this.props.images;
         return (
         <ul className="app-card-list modal-list">
             {images.map(this.renderImage)}
