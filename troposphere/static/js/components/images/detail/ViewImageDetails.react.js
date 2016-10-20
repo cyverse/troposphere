@@ -6,6 +6,7 @@ import RemovedView from "./removed/RemovedView.react";
 import AuthorView from "./author/AuthorView.react";
 import DescriptionView from "./description/DescriptionView.react";
 import stores from "stores";
+import Gravatar from "components/common/Gravatar.react";
 
 export default React.createClass({
     displayName: "ViewImageDetails",
@@ -40,26 +41,43 @@ export default React.createClass({
 
     render: function() {
         let { image, tags } = this.props;
+        let type = stores.ProfileStore.get().get("icon_set");
         let style = {
             wrapper: {
+                display: "flex",
+                alignItems: "flex-start",
                 marginBottom: "80px",
-                maxWidth: "600px",
+            },
+            img: {
+                borderRadius: "999px",
+                overflow: "hidden",
+                marginRight: "20px",
+                minWidth: "50px",
             },
             details: {
                 marginBottom: "20px",
+                minWidth: "600px",
             }
         };
 
         return (
             <div style={ style.wrapper }>
-                <div style={ style.details }>
-                    <CreatedView image={ image } />
-                    <RemovedView image={ image } />
-                    <AuthorView image={ image } />
-                    <DescriptionView image={ image } />
-                    <TagsView image={ image } tags={ tags } />
+                <div style={ style.img }>
+                    <Gravatar 
+                        hash={image.get("uuid_hash")} 
+                        size={ 50 } type={type} 
+                    />
                 </div>
-                {this.renderEditLink()}
+                <div>
+                    <div style={ style.details }>
+                        <CreatedView image={ image } />
+                        <RemovedView image={ image } />
+                        <AuthorView image={ image } />
+                        <DescriptionView image={ image } />
+                        <TagsView image={ image } tags={ tags } />
+                    </div>
+                    {this.renderEditLink()}
+                </div>
             </div>
         );
     }
