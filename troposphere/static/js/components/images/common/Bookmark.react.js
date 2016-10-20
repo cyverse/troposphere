@@ -34,9 +34,12 @@ export default React.createClass({
         let img = isFavorited ? filled_star : empty_star;
 
         return (
-        <a className="bookmark" href="#" onClick={this.toggleFavorite}>
+        <span 
+            style={{ cursor: "pointer" }} 
+            onClick={this.toggleFavorite}
+        >
             <img width={ this.props.width } src={ img }/>
-        </a>
+        </span>
         );
     }
 });
