@@ -163,12 +163,16 @@ export default {
                     // need to make sure we remove the splash-image element is included in the HTML
                     // template by default but re-apply the splash screen-class to body so that the
                     // splash page displays correctly
-                    $(".splash-image").remove();
-                    $("body").addClass("splash-screen");
+                    //FIXME: Either a. make this page look good or b. remove the entire snippet in favor of window.location below
+                    //$(".splash-image").remove();
+                    //$("body").addClass("splash-screen");
 
-                    // replace the current view with the
-                    var MaintenanceComponent = React.createFactory(MaintenanceScreen);
-                    ReactDOM.render(MaintenanceComponent(), document.getElementById("application"));
+                    //// replace the current view with the
+                    //var MaintenanceComponent = React.createFactory(MaintenanceScreen);
+                    //ReactDOM.render(MaintenanceComponent(), document.getElementById("application"));
+
+                    //END-FIXME:
+                    window.location = '/maintenance'
                 } else {
                     dfd.reject.apply(this, arguments);
                 }

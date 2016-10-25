@@ -88,6 +88,10 @@ def unemulate(request):
                 % (old_token, ))
     request.session['access_token'] = old_token
 
+
+    if "username" in request.session:
+        del request.session['username']
+
     if "emulate_by" in request.session:
         del request.session['emulate_by']
 
