@@ -4,7 +4,8 @@ import Backbone from "backbone";
 import React from "react";
 import ReactDOM from "react-dom";
 import SplashScreen from "components/SplashScreen.react";
-import MaintenanceScreen from "components/MaintenanceScreen.react";
+// See FIXME below where MaintenanceScreen would have been used
+//import MaintenanceScreen from "components/MaintenanceScreen.react";
 import FunctionalCollection from "collections/FunctionalCollection";
 
 // Important:
