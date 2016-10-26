@@ -5,59 +5,67 @@ import Router from "react-router";
 export default React.createClass({
     displayName: "ImageTagsPage",
 
-    getState: function() {
+    getState() {
         return {
             images: stores.ImageStore.getAll(),
             tags: stores.TagStore.getAll()
         };
     },
 
-    getInitialState: function() {
+    getInitialState() {
         var state = this.getState();
         state.searchTerm = "";
         return state;
     },
 
-    updateState: function() {
+    updateState() {
         if (this.isMounted()) this.setState(this.getState());
     },
 
-    componentDidMount: function() {
+    componentDidMount() {
         stores.ImageStore.addChangeListener(this.updateState);
         stores.TagStore.addChangeListener(this.updateState);
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         stores.ImageStore.removeChangeListener(this.updateState);
         stores.TagStore.removeChangeListener(this.updateState);
     },
 
-    handleFilterChange: function(e) {
+    handleFilterChange(e) {
         var searchTerm = e.target.value;
         this.setState({
             searchTerm: searchTerm
         });
     },
 
-    renderTagRow: function(tag) {
+    renderTagRow(tag) {
         var name = tag.get("name"),
             description = tag.get("description");
 
         return (
-        <tr key={tag.id || tag.cid}>
-            <td style={{ "verticalAlign": "top", "width": "117px" }}>
-                <h4 className="t-body-2" style={{ "margin": "0", "color": "#5A5A5A", "fontSize": "18px" }}><Router.Link to="search" query={{ q: name }}> {name} </Router.Link></h4>
+        <tr key={tag.id || tag.cid}
+            className="card"
+        >
+            <td style={{ paddingRight: "20px", border: "none" }}>
+                <h4 
+                    className="t-body-2" 
+                    style={{ "margin": "0", "color": "#5A5A5A" }}
+                >
+                    <Router.Link to="search" query={{ q: name }}>
+                        {name}
+                    </Router.Link></h4>
             </td>
-            <td>
-                <p style={{ "fontSize": "14px" }}>
+            <td style={{ border: "none" }}>
+                <span style={{ maxWidth: "550px", display: "block" }}>
                     {description}
-                </p>
+                </span>
             </td>
         </tr>
         )
     },
 
-    getFilteredTags: function(tags, searchTerm) {
+    getFilteredTags(tags, searchTerm) {
         var filteredTags = tags;
         searchTerm = searchTerm.trim().toLowerCase();
 
@@ -75,7 +83,7 @@ export default React.createClass({
         return filteredTags;
     },
 
-    renderTagsAsTable: function(tags) {
+    renderTagsAsTable(tags) {
         if (tags) {
             return (
             <table className="table">
@@ -91,7 +99,7 @@ export default React.createClass({
         )
     },
 
-    render: function() {
+    render() {
         var tags = this.state.tags,
             searchTerm = this.state.searchTerm,
             text = "";
@@ -112,20 +120,23 @@ export default React.createClass({
 
         return (
         <div className="container">
-            <div id="search-container">
+            <h1 className="t-display-1">
+                Image Tags
+            </h1>
+            <div style={{ marginBottom: "30px" }}>
                 <input type="text"
                     className="form-control search-input"
                     placeholder="Filter by tag name or description"
                     value={this.state.searchTerm}
                     onChange={this.handleFilterChange} />
-                <hr/>
-                <h3 style={{ textAlign: "left", fontSize: "24px" }}>{text}</h3>
+                <h3 className="t-body-2" >
+                    { text }
+                </h3>
             </div>
             <div className="image-tag-list">
-                {this.renderTagsAsTable(tags)}
+                { this.renderTagsAsTable(tags) }
             </div>
         </div>
         );
-
     }
 });
