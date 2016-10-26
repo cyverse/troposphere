@@ -123,12 +123,17 @@ export default React.createClass({
             <h1 className="t-display-1">
                 Image Tags
             </h1>
-            <div style={{ marginBottom: "30px" }}>
-                <input type="text"
+            <div 
+                id="search-container" 
+                style={{ marginBottom: "30px" }}
+            >
+                <input 
+                    type="text"
                     className="form-control search-input"
                     placeholder="Filter by tag name or description"
                     value={this.state.searchTerm}
-                    onChange={this.handleFilterChange} />
+                    onChange={this.handleFilterChange} 
+                />
                 <h3 className="t-body-2" >
                     { text }
                 </h3>
