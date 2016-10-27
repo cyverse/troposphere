@@ -78,23 +78,48 @@ export default React.createClass({
         }
 
         return (
-        <table className="admin-table table table-striped table-hover" style={{ marginTop: "20px" }}>
+        <table className="table table-hover" style={{ marginTop: "20px" }}>
             <tbody>
                 <tr className="admin-row">
-                    <th>
-                        <h4 className="t-body-2">User</h4>
+                    <th style={{ border: "none" }}>
+                        <h4 
+                            style={{ margin: "0" }}
+                            className="t-body-2"
+                        >
+                            User
+                        </h4>
                     </th>
-                    <th>
-                        <h4 className="t-body-2">E-Mail</h4>
+                    <th style={{ border: "none" }}>
+                        <h4 
+                            style={{ margin: "0" }} 
+                            className="t-body-2"
+                        >
+                            E-Mail
+                        </h4>
                     </th>
-                    <th>
-                        <h4 className="t-body-2">Staff</h4>
+                    <th style={{ border: "none" }}>
+                        <h4
+                            style={{ margin: "0" }}
+                            className="t-body-2"
+                        >
+                            Staff
+                        </h4>
                     </th>
-                    <th>
-                        <h4 className="t-body-2">Superuser</h4>
+                    <th style={{ border: "none" }}>
+                        <h4
+                            style={{ margin: "0" }}
+                            className="t-body-2"
+                        >
+                            Superuser
+                        </h4>
                     </th>
-                    <th>
-                        <h4 className="t-body-2">Enabled/Disabled</h4>
+                    <th style={{ border: "none" }}>
+                        <h4
+                            style={{ margin: "0" }}
+                            className="t-body-2"
+                        >
+                            Enabled/Disabled
+                        </h4>
                     </th>
                 </tr>
                 {rows}
@@ -113,7 +138,7 @@ export default React.createClass({
                     value={this.state.query}
                     ref="textField" />
             </div>
-            <h3 className="t-title">Atmosphere Users</h3>
+            <h3 className="t-body-2">Atmosphere Users</h3>
             {this.renderTable()}
         </div>
         );

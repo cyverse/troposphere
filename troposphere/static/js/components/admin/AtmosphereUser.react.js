@@ -39,12 +39,12 @@ export default React.createClass({
     },
 
     render: function() {
-        var user = this.props.user;
-        var userStatus = user.get("end_date");
-        var email_str = user.get("email");
-        var btnStatus = userStatus ? "primary" : "danger";
-        var btnClass = "btn btn-" + btnStatus + " btn-xs pull-right";
-        var statusDisc = {
+        let user = this.props.user;
+        let userStatus = user.get("end_date");
+        let email_str = user.get("email");
+        let btnStatus = userStatus ? "primary" : "danger";
+        let btnClass = "btn btn-" + btnStatus + " btn-xs pull-right";
+        let statusDisc = {
             display: "inline-block",
             marginRight: "10px",
             background: userStatus ? "red" : "green",
@@ -56,20 +56,20 @@ export default React.createClass({
             email_str = "No E-mail listed";
         }
         return (
-        <tr>
-            <td className="user-name">
+        <tr className="card">
+            <td style={{ border: "none" }} lassName="user-name card_cell">
                 {user.get("username")}
             </td>
-            <td className="email">
+            <td  style={{ border: "none" }} className="email card_cell">
                 {email_str}
             </td>
-            <td className="is-superuser">
+            <td style={{ border: "none" }} className="is-superuser card_cell">
                 <ToggleButton isEnabled={user.get("is_superuser")} onToggle={this.toggleSuperuserStatus} />
             </td>
-            <td className="is-staff">
+            <td  style={{ border: "none" }} className="is-staff card_cell">
                 <ToggleButton isEnabled={user.get("is_staff")} onToggle={this.toggleStaffStatus} />
             </td>
-            <td className="end-date">
+            <td style={{ border: "none" }} className="end-date card_cell">
                 <span style={statusDisc}></span>
                 {userStatus ? "Disabled as of " + user.get("end_date") : "Enabled"}
                 <button type="button"
