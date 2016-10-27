@@ -57,26 +57,45 @@ export default React.createClass({
         }
         return (
         <tr className="card">
-            <td style={{ border: "none" }} lassName="user-name card_cell">
+            <td style={{ border: "none" }} 
+                className="user-name"
+            >
                 {user.get("username")}
             </td>
-            <td  style={{ border: "none" }} className="email card_cell">
+            <td style={{ border: "none" }}
+                className="email"
+            >
                 {email_str}
             </td>
-            <td style={{ border: "none" }} className="is-superuser card_cell">
-                <ToggleButton isEnabled={user.get("is_superuser")} onToggle={this.toggleSuperuserStatus} />
+            <td style={{ border: "none" }}
+                className="is-superuser"
+            >
+                <ToggleButton 
+                    isEnabled={user.get("is_superuser")} 
+                    onToggle={this.toggleSuperuserStatus}
+                />
             </td>
-            <td  style={{ border: "none" }} className="is-staff card_cell">
-                <ToggleButton isEnabled={user.get("is_staff")} onToggle={this.toggleStaffStatus} />
+            <td style={{ border: "none" }}
+                className="is-staff"
+            >
+                <ToggleButton 
+                    isEnabled={user.get("is_staff")}
+                    onToggle={this.toggleStaffStatus}
+                />
             </td>
-            <td style={{ border: "none" }} className="end-date card_cell">
-                <span style={statusDisc}></span>
-                {userStatus ? "Disabled as of " + user.get("end_date") : "Enabled"}
+            <td style={{ border: "none" }} className="end-date">
+                <span style={statusDisc} />
+                { 
+                    userStatus 
+                        ? "Disabled as of " + user.get("end_date") 
+                        : "Enabled"
+                }
                 <button type="button"
                     className={btnClass}
                     style={{ marginLeft: "10px" }}
-                    onClick={this.toggleDisableUser}>
-                    {userStatus ? "Enable" : "Disable"}
+                    onClick={this.toggleDisableUser}
+                >
+                    { userStatus ? "Enable" : "Disable" }
                 </button>
             </td>
         </tr>
