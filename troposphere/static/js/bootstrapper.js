@@ -4,7 +4,8 @@ import Backbone from "backbone";
 import React from "react";
 import ReactDOM from "react-dom";
 import SplashScreen from "components/SplashScreen.react";
-import MaintenanceScreen from "components/MaintenanceScreen.react";
+// Fixes aberrant lint violation found by TravisCI
+//import MaintenanceScreen from "components/MaintenanceScreen.react";
 import FunctionalCollection from "collections/FunctionalCollection";
 
 // Important:
