@@ -1,3 +1,4 @@
+import _ from "underscore";
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import HelpLinkCollection from "collections/HelpLinkCollection";
@@ -16,7 +17,7 @@ var store = new HelpLinkStore();
 Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
-    if (!options.silent) {
+    if (_.has(options, "silent") && !options.silent) {
         store.emitChange();
     }
 
