@@ -39,12 +39,12 @@ export default React.createClass({
     },
 
     render: function() {
-        var user = this.props.user;
-        var userStatus = user.get("end_date");
-        var email_str = user.get("email");
-        var btnStatus = userStatus ? "primary" : "danger";
-        var btnClass = "btn btn-" + btnStatus + " btn-xs pull-right";
-        var statusDisc = {
+        let user = this.props.user;
+        let userStatus = user.get("end_date");
+        let email_str = user.get("email");
+        let btnStatus = userStatus ? "primary" : "danger";
+        let btnClass = "btn btn-" + btnStatus + " btn-xs pull-right";
+        let statusDisc = {
             display: "inline-block",
             marginRight: "10px",
             background: userStatus ? "red" : "green",
@@ -56,27 +56,46 @@ export default React.createClass({
             email_str = "No E-mail listed";
         }
         return (
-        <tr>
-            <td className="user-name">
+        <tr className="card">
+            <td style={{ border: "none" }} 
+                className="user-name"
+            >
                 {user.get("username")}
             </td>
-            <td className="email">
+            <td style={{ border: "none" }}
+                className="email"
+            >
                 {email_str}
             </td>
-            <td className="is-superuser">
-                <ToggleButton isEnabled={user.get("is_superuser")} onToggle={this.toggleSuperuserStatus} />
+            <td style={{ border: "none" }}
+                className="is-superuser"
+            >
+                <ToggleButton 
+                    isEnabled={user.get("is_superuser")} 
+                    onToggle={this.toggleSuperuserStatus}
+                />
             </td>
-            <td className="is-staff">
-                <ToggleButton isEnabled={user.get("is_staff")} onToggle={this.toggleStaffStatus} />
+            <td style={{ border: "none" }}
+                className="is-staff"
+            >
+                <ToggleButton 
+                    isEnabled={user.get("is_staff")}
+                    onToggle={this.toggleStaffStatus}
+                />
             </td>
-            <td className="end-date">
-                <span style={statusDisc}></span>
-                {userStatus ? "Disabled as of " + user.get("end_date") : "Enabled"}
+            <td style={{ border: "none" }} className="end-date">
+                <span style={statusDisc} />
+                { 
+                    userStatus 
+                        ? "Disabled as of " + user.get("end_date") 
+                        : "Enabled"
+                }
                 <button type="button"
                     className={btnClass}
                     style={{ marginLeft: "10px" }}
-                    onClick={this.toggleDisableUser}>
-                    {userStatus ? "Enable" : "Disable"}
+                    onClick={this.toggleDisableUser}
+                >
+                    { userStatus ? "Enable" : "Disable" }
                 </button>
             </td>
         </tr>
