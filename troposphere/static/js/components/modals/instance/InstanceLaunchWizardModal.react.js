@@ -488,9 +488,10 @@ export default React.createClass({
             let allocationMem = identityProvider.get("quota").memory;
             let memUsed = resourcesUsed.mem / 1024;
             let memWillTotal = memUsed + size.get("mem");
-            if (allocationConsumed >= allocationTotal) {
-                return true;
-            }
+            //NOTE: Forcibly removed to disable enforcement on the UI side - By Sgregory
+            // if (allocationConsumed >= allocationTotal) {
+            //     return true;
+            // }
             if (cpuWillTotal > allocationCpu) {
                 return true;
             }
