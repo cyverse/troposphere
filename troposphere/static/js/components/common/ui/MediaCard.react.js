@@ -10,18 +10,23 @@ export default React.createClass({
             avatar,
             title,
             subheading,
-            description,
+            summary,
+            detail,
         } = this.props;
 
         return (
             <div
-                onClick={ onCardClick }
+                className="MediaCard"
                 style={ style.card }
-            >
-                <div style={ style.avatar }>
-                    { avatar }
-                </div>
-                <div style={ style.content } >
+            >   
+                <div    
+                    className="MediaCard_header"
+                    style={ style.header }
+                    onClick={ onCardClick }
+                >
+                    <div style={ style.avatar }>
+                        { avatar }
+                    </div>
                     <div style={ style.titleSection } >
                         <h2
                             className="t-body-2"
@@ -30,60 +35,100 @@ export default React.createClass({
                             { title }
                         </h2>
                         <div style={ style.subheading } >
-                                { subheading}
+                            { subheading}
                         </div>
                     </div>
-                    <div style={ style.description } >
-                        { description }
+                    <div 
+                        className="MediaCard_summary" 
+                        style={ style.summary } 
+                    >
+                        { summary }
                     </div>
+                </div>
+                <div
+                    className="MediaCard_description"
+                    style={ style.description } 
+                >
+                    { detail }
                 </div>
             </div>
         );
     },
 
     style() {
-        let cardCursor = this.props.onCardClick ?
+        
+        let { onCardClick, isOpen } = this.props;
+        let styles = {};
+
+        // card
+        let cardCursor = onCardClick ?
             "pointer" : "default";
-        return {
-            card: {
-                display: "flex",
-                position: "relative",
-                cursor: cardCursor,
-                padding: "10px",
-                boxShadow: "0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24)",
-                background: 'white',
-            },
 
-            avatar: {
-                display: "table",
-                borderRadius: "50%",
-                overflow: "hidden",
-                marginRight: "20px",
-            },
+        styles.card = {
+            position: "relative",
+            cursor: cardCursor,
+            padding: "10px",
+            boxShadow: "0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24)",
+            background: 'white',
+        }; 
 
-            content: {
-                display: "flex",
-                flexFlow: "wrap",
-                flex: "1",
-            },
+        // header
+        let openHeader = isOpen 
+            ? { 
+                paddingBottom: "10px",
+                borderBottom: "solid 1px #EFEFEF",
+                marginBottom: "20px"
+            } : {};
 
-            titleSection: {
-                minWidth: "220px",
-                marginRight: "40px"
-            },
+        styles.header = {
+            display: "flex",
+            flexWrap: "wrap",
+            ...openHeader
+        };
 
-            title: {
-                marginBottom: "0",
-            },
+        // avitar
+        styles.avatar = {
+            display: "table",
+            borderRadius: "50%",
+            overflow: "hidden",
+            marginRight: "20px",
+        };
 
-            subheading: {
-                 fontSize: "12px",
-            },
+        // title section
+        styles.titleSection = {
+            minWidth: "200px",
+            marginRight: "40px"
+        };
 
-            description: {
-                minWidth: "250px",
-                flex: "1"
-            },
-        }
+        // title
+        styles.title = {
+            marginBottom: "0",
+        };
+
+        // subheading
+        styles.subheading = {
+             fontSize: "12px",
+        };
+
+        // summary
+        let sumDisplay = isOpen 
+            ? "none" : "block";
+
+        styles.summary = {
+            flex: "1",
+            width: "100%",
+            paddingRight: "35px",
+            display: sumDisplay 
+        };
+        
+        // description
+        let descDisplay = isOpen 
+            ? "block" : "none";
+
+        styles.description = {
+            display: descDisplay
+        };
+       
+        return styles
     },
 });
