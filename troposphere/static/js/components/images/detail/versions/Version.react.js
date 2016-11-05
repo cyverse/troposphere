@@ -34,7 +34,6 @@ export default React.createClass({
     },
 
     onCardClick() {
-        console.log('clicked')
         let isOpen = this.state.isOpen
             ? false : true;
 
