@@ -13,9 +13,9 @@ export default React.createClass({
 
     renderProviderMachine( provider ) {
         let { isSummary } = this.props;
-
+        debugger;
         // Hide 'end-dated' provider_machines
-        let endDate = provider( "end_date" );
+        let endDate = provider.get( "end_date" );
         if (endDate && endDate.isValid()) return;
 
         // Assign strings for render
