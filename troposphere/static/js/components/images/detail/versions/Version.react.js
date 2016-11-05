@@ -9,7 +9,6 @@ import globals from "globals";
 import moment from "moment";
 import showdown from "showdown";
 
-
 export default React.createClass({
     displayName: "Version",
 
@@ -139,7 +138,6 @@ export default React.createClass({
     render() {
         // todo: figure out if anything is ever recommended, or if it's just a concept idea
         let { version, image } = this.props;
-        let styles = this.styles();
 
         let versionHash = CryptoJS.MD5(version.id.toString()).toString();
         let type = stores.ProfileStore.get().get("icon_set");
@@ -152,6 +150,7 @@ export default React.createClass({
                 { this.renderEditLink() }
             </span>
         );
+
         return (
             <MediaCard
                 onCardClick={ this.onCardClick }
@@ -175,41 +174,45 @@ export default React.createClass({
         let isOpen = this.state.isOpen;
         let styles = {}
 
-            let contentDisplay = isOpen
-                ? "block" : "flex";
-            styles.content = {
-                display: contentDisplay,
-                flexWrap: "wrap",
-                justifyContent: "space-between",
+        // content
+        let contentDisplay = isOpen
+            ? "block" : "flex";
+
+        styles.content = {
+            display: contentDisplay,
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+        };
+
+        // description
+        let descriptionWidth = isOpen
+            ? {
+                width: "100%",
+                maxWidth: "700px"
+            } : {};
+        
+        styles.description = {
+            marginRight: "40px",
+            flex: "1",
+            ...descriptionWidth
+        };
+
+        // availability 
+        let availabilityWidth = isOpen
+            ? {
+                width: "100%",
+            }
+            : {
+                width: "30%",
+                minWidth: "200px",
             };
 
-            let descriptionWidth = isOpen
-                ? {
-                    width: "100%",
-                    maxWidth: "700px"
-                } : {};
+        styles.availability = {
+            fontSize: "12px",
+            ...availabilityWidth,
+        };
 
-            styles.description = {
-                marginRight: "40px",
-                flex: "1",
-                ...descriptionWidth
-            };
-
-
-            let availabilityWidth = isOpen
-                ? {
-                    width: "100%",
-                }
-                : {
-                    width: "30%",
-                    minWidth: "200px",
-                };
-
-            styles.availability = {
-                fontSize: "12px",
-                ...availabilityWidth,
-            };
-
+        // return result
         return styles;
     }
 });
