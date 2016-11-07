@@ -97,13 +97,23 @@ export default React.createClass({
         }, function() {});
     },
 
+    style() {
+        return {
+            td: {
+                wordWrap: "break-word",
+                whiteSpace: "normal"
+            }
+        }
+    },
+
     renderSSHKeyRow: function(sshKey) {
+        let { td } = this.style();
         return (
         <tr key={sshKey.get("id")}>
-            <td>
+            <td style={td}>
                 {sshKey.get("name")}
             </td>
-            <td style={{ wordWrap: "break-word", whiteSpace: "normal" }}>
+            <td style={td}>
                 {sshKey.get("pub_key").replace(/\n/g, " ")}
             </td>
             <td>
