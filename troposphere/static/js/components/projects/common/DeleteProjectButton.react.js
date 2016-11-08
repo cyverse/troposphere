@@ -3,7 +3,7 @@ import modals from 'modals';
 import stores from 'stores';
 import onDeleteProject from './eventHandlers/onDeleteProject';
 
-import { DeleteIcon } from 'troposphere-ui/icons';
+import { DeleteIcon } from 'cyverse-ui/icons';
 
 export default React.createClass({
     displayName: "DeleteProjectButton",

@@ -1,7 +1,7 @@
 import React from "react";
 import modals from "modals";
 
-import { ButtonMenu, MenuItem } from 'troposphere-ui';
+import { ButtonMenu, MenuItem } from 'cyverse-ui';
 
 export default React.createClass({
     displayName: "NewResourceButton",

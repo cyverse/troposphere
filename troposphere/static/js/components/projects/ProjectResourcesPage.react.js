@@ -2,8 +2,8 @@ import React from 'react';
 import stores from 'stores';
 import Router from 'react-router';
 
-import { Section, Tabs, InstanceCard, MediaCardGroup } from 'troposphere-ui';
-import { ConsoleIcon, ReplayIcon, PauseIcon } from 'troposphere-ui/icons';
+import { Section, Tabs, InstanceCard, MediaCardGroup } from 'cyverse-ui';
+import { ConsoleIcon, ReplayIcon, PauseIcon } from 'cyverse-ui/icons';
 
 import Wrapper from 'components/common/ui/Wrapper.react';
 import InstanceList from './InstanceList.react';

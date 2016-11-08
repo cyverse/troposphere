@@ -4,8 +4,8 @@ import stores from "stores";
 import Router from "react-router";
 import moment from "moment";
 import ProjectResource from "./ProjectResource.react";
-import { MediaCard, Avatar } from 'troposphere-ui';
-import { VolumeIcon, InstanceIcon, LinkIcon, ImageIcon } from 'troposphere-ui/icons';
+import { MediaCard, Avatar } from 'cyverse-ui';
+import { VolumeIcon, InstanceIcon, LinkIcon, ImageIcon } from 'cyverse-ui/icons';
 export default React.createClass({
     displayName: "Project",
 

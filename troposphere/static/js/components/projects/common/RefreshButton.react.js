@@ -4,7 +4,7 @@ import $ from "jquery";
 import stores from "stores";
 import actions from "actions";
 
-import { ReplayIcon } from 'troposphere-ui/icons';
+import { ReplayIcon } from 'cyverse-ui/icons';
 
 
 function randomIntFromInterval(min, max) {

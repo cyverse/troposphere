@@ -50,7 +50,7 @@
     "react-tooltip": "^3.0.10",
     "showdown": "^1.2.1",
     "toastr": "^2.1.0",
-    "troposphere-ui": "git@github.com:cyverse/troposphere-ui.git#InstanceCards",
+    "cyverse-ui": "^1.*",
     "underscore": "^1.8.3"
   },
   "devDependencies": {

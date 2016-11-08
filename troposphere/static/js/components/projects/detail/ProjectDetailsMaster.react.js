@@ -2,7 +2,7 @@ import React from 'react';
 import Router from 'react-router';
 import stores from 'stores';
 
-import { Section } from 'troposphere-ui';
+import { Section } from 'cyverse-ui';
 
 import Wrapper from 'components/common/ui/Wrapper.react';
 import ResourcesHeader from '../common/ProjectResourcesHeader.react';

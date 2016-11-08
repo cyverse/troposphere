@@ -4,8 +4,8 @@ import RouterInstance from 'Router';
 import modals from 'modals';
 import stores from 'stores';
 
-import { SubHeader } from 'troposphere-ui';
-import { DeleteIcon, ReplayIcon } from 'troposphere-ui/icons';
+import { SubHeader } from 'cyverse-ui';
+import { DeleteIcon, ReplayIcon } from 'cyverse-ui/icons';
 
 import Wrapper from 'components/common/ui/Wrapper.react';
 import DeleteProjectButton from './DeleteProjectButton.react';

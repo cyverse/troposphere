@@ -1,5 +1,5 @@
 import React from 'react';
-import { marg } from 'troposphere-ui/styles';
+import { marg } from 'cyverse-ui/styles';
 
 const Wrapper = React.createClass({
     render() {

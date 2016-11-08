@@ -1,6 +1,6 @@
 import React from 'react';
-import { Section, Tabs, InstanceCard, MediaCardGroup } from 'troposphere-ui';
-import { ConsoleIcon, ReplayIcon, PauseIcon } from 'troposphere-ui/icons';
+import { Section, Tabs, InstanceCard, MediaCardGroup } from 'cyverse-ui';
+import { ConsoleIcon, ReplayIcon, PauseIcon } from 'cyverse-ui/icons';
 
 export default React.createClass({
     
