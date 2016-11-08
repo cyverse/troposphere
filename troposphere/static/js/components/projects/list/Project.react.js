@@ -63,7 +63,7 @@ export default React.createClass({
                     title={ project.get('name') }
                     subTitle={ "Created " + projectCreationDate }
                     summary={
-                        <div>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
                             { description }
                             <div style={{ display: "flex" }}>
                                 <div style={ style.resource }>

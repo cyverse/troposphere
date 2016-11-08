@@ -1,8 +1,12 @@
 import React from "react";
 import Backbone from "backbone";
-import ProjectList from "./ProjectList.react";
+
 import modals from "modals";
+
+import Wrapper from 'components/common/ui/Wrapper.react';
+
 import ProjectListHeader from "../common/ProjectListHeader.react";
+import ProjectList from "./ProjectList.react";
 
 
 export default React.createClass({
@@ -18,15 +22,15 @@ export default React.createClass({
 
     render: function() {
         return (
-        <div>
+        <div style={{ paddingTop: "30px" }}>
             <ProjectListHeader title={this.props.projects.length + " Projects"}>
                 <button className="btn btn-primary" onClick={this.launchNewProjectModal}>
                     Create New Project
                 </button>
             </ProjectListHeader>
-            <div className="container">
+            <Wrapper>
                 <ProjectList projects={this.props.projects} />
-            </div>
+            </Wrapper>
         </div>
         );
     }
