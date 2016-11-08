@@ -1,6 +1,6 @@
 import React from "react";
 import Router from "react-router";
-import SecondaryProjectNavigation from "../common/SecondaryProjectNavigation.react";
+import SecondaryProjectNavigation from "../common/SecondaryProjectNavigation";
 import stores from "stores";
 
 let RouteHandler = Router.RouteHandler;

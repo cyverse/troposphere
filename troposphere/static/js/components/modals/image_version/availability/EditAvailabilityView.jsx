@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import ProviderMachineEditItem from "./ProviderMachineEditItem.react";
+import ProviderMachineEditItem from "./ProviderMachineEditItem";
 import stores from "stores";
 
 

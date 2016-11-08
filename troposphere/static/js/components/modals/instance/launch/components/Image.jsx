@@ -2,8 +2,8 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 import moment from "moment";
-import Tags from "components/common/tags/ViewTags.react";
-import Gravatar from "components/common/Gravatar.react";
+import Tags from "components/common/tags/ViewTags";
+import Gravatar from "components/common/Gravatar";
 
 export default React.createClass({
     displayName: "Image",

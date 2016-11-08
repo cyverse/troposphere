@@ -1,6 +1,6 @@
 import React from "react";
 import Router from "react-router";
-import SecondaryAdminNavigation from "./SecondaryAdminNavigation.react";
+import SecondaryAdminNavigation from "./SecondaryAdminNavigation";
 
 let RouteHandler = Router.RouteHandler;
 

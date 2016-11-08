@@ -1,13 +1,13 @@
 import React from "react";
 import Backbone from "backbone";
-import SelectableRow from "../SelectableRow.react";
-import Name from "../tableData/volume/Name.react";
-import Status from "../tableData/volume/Status.react";
-import Size from "../tableData/volume/Size.react";
-import Provider from "../tableData/volume/Provider.react";
+import SelectableRow from "../SelectableRow";
+import Name from "../tableData/volume/Name";
+import Status from "../tableData/volume/Status";
+import Size from "../tableData/volume/Size";
+import Provider from "../tableData/volume/Provider";
 import stores from "stores";
 import CryptoJS from "crypto-js";
-import Gravatar from "components/common/Gravatar.react";
+import Gravatar from "components/common/Gravatar";
 
 export default React.createClass({
     displayName: "VolumeRow",

@@ -1,5 +1,5 @@
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import { trackAction } from "../../utilities/userActivity";
 
 // Example Usage from http://bl.ocks.org/insin/raw/8449696/

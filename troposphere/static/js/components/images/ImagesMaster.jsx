@@ -1,6 +1,6 @@
 import React from "react";
 import Router from "react-router";
-import SecondaryImageNavigation from "./common/SecondaryImageNavigation.react";
+import SecondaryImageNavigation from "./common/SecondaryImageNavigation";
 
 let RouteHandler = Router.RouteHandler;
 

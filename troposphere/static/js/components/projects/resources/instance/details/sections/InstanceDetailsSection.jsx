@@ -2,15 +2,15 @@ import React from "react";
 import Backbone from "backbone";
 
 // Resource Detail;
-import Id from "./details/Id.react";
-import Alias from "./details/Alias.react";
-import Status from "./details/Status.react";
-import Activity from "./details/Activity.react";
-import Size from "./details/Size.react";
-import IpAddress from "./details/IpAddress.react";
-import LaunchDate from "./details/LaunchDate.react";
-import CreatedFrom from "./details/CreatedFrom.react";
-import Identity from "./details/Identity.react";
+import Id from "./details/Id";
+import Alias from "./details/Alias";
+import Status from "./details/Status";
+import Activity from "./details/Activity";
+import Size from "./details/Size";
+import IpAddress from "./details/IpAddress";
+import LaunchDate from "./details/LaunchDate";
+import CreatedFrom from "./details/CreatedFrom";
+import Identity from "./details/Identity";
 
 export default React.createClass({
     displayName: "InstanceDetailsSection",

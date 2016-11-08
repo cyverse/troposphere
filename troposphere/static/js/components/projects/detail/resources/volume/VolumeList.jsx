@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import VolumeTable from "./VolumeTable.react";
-import NoVolumeNotice from "./NoVolumeNotice.react";
+import VolumeTable from "./VolumeTable";
+import NoVolumeNotice from "./NoVolumeNotice";
 
 export default React.createClass({
     displayName: "VolumeList",

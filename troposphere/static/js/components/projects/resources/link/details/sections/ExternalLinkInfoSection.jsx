@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import EditableInputField from "components/common/EditableInputField.react";
-import EditableTextAreaField from "components/common/EditableTextAreaField.react";
+import EditableInputField from "components/common/EditableInputField";
+import EditableTextAreaField from "components/common/EditableTextAreaField";
 import actions from "actions";
 
 

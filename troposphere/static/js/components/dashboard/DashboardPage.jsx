@@ -3,12 +3,12 @@ import React from "react";
 import globals from "globals";
 import modals from "modals";
 import stores from "stores";
-import InstanceHistoryList from "./InstanceHistoryList.react";
-import ResourceStatusSummaryPlot from "./plots/ResourceStatusSummaryPlot.react";
-import AllocationSourcePlot from "./plots/AllocationSourcePlot.react";
-import ProviderAllocationPlot from "./plots/ProviderAllocationPlot.react";
-import ProviderSummaryLinePlot from "./plots/ProviderSummaryLinePlot.react";
-import CallToAction from "./CallToAction.react";
+import InstanceHistoryList from "./InstanceHistoryList";
+import ResourceStatusSummaryPlot from "./plots/ResourceStatusSummaryPlot";
+import AllocationSourcePlot from "./plots/AllocationSourcePlot";
+import ProviderAllocationPlot from "./plots/ProviderAllocationPlot";
+import ProviderSummaryLinePlot from "./plots/ProviderSummaryLinePlot";
+import CallToAction from "./CallToAction";
 import { trackAction } from "../../utilities/userActivity";
 
 // images

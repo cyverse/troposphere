@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import ImageTable from "./ImageTable.react";
-import NoImageNotice from "./NoImageNotice.react";
+import ImageTable from "./ImageTable";
+import NoImageNotice from "./NoImageNotice";
 
 
 export default React.createClass({

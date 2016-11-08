@@ -3,8 +3,8 @@ import Backbone from "backbone";
 import stores from "stores";
 import ProviderCollection from "collections/ProviderCollection";
 import IdentityCollection from "collections/IdentityCollection";
-import ProviderSummaryLinePlot from "components/dashboard/plots/ProviderSummaryLinePlot.react";
-import ResourceStatusSummaryPlot from "components/dashboard/plots/ResourceStatusSummaryPlot.react";
+import ProviderSummaryLinePlot from "components/dashboard/plots/ProviderSummaryLinePlot";
+import ResourceStatusSummaryPlot from "components/dashboard/plots/ResourceStatusSummaryPlot";
 
 
 export default React.createClass({

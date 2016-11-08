@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import ScriptMultiSelect from "./ScriptMultiSelectAndCreate.react";
+import ScriptMultiSelect from "./ScriptMultiSelectAndCreate";
 
 
 export default React.createClass({

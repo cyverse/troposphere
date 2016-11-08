@@ -1,8 +1,8 @@
 import React from "react";
 import Router from "react-router";
 import CryptoJS from "crypto-js";
-import Gravatar from "components/common/Gravatar.react";
-import RefreshComponent from "components/projects/resources/instance/details/sections/metrics/RefreshComponent.react";
+import Gravatar from "components/common/Gravatar";
+import RefreshComponent from "components/projects/resources/instance/details/sections/metrics/RefreshComponent";
 import moment from "moment";
 import stores from "stores";
 

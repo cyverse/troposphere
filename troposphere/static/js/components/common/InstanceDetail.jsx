@@ -2,14 +2,14 @@ import React from "react";
 import Router from "react-router";
 import stores from "stores";
 import globals from "globals";
-import InstanceDetailsSection from "components/projects/resources/instance/details/sections/InstanceDetailsSection.react";
-import PastInstanceDetailsSection from "components/projects/resources/instance/details/sections/PastInstanceDetailsSection.react";
-import InstanceActionsAndLinks from "components/projects/resources/instance/details/actions/InstanceActionsAndLinks.react";
-import InstanceMetricsSection from "components/projects/resources/instance/details/sections/InstanceMetricsSection.react";
+import InstanceDetailsSection from "components/projects/resources/instance/details/sections/InstanceDetailsSection";
+import PastInstanceDetailsSection from "components/projects/resources/instance/details/sections/PastInstanceDetailsSection";
+import InstanceActionsAndLinks from "components/projects/resources/instance/details/actions/InstanceActionsAndLinks";
+import InstanceMetricsSection from "components/projects/resources/instance/details/sections/InstanceMetricsSection";
 import Instance from "models/Instance";
 import InstanceState from "models/InstanceState";
-import InstanceInfoSection from "components/projects/resources/instance/details/sections/InstanceInfoSection.react";
-import InstanceHistorySection from "components/common/InstanceHistorySection.react";
+import InstanceInfoSection from "components/projects/resources/instance/details/sections/InstanceInfoSection";
+import InstanceHistorySection from "components/common/InstanceHistorySection";
 
 
 var InstanceDetail = React.createClass({

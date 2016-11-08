@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import ExternalLinkTable from "./ExternalLinkTable.react";
-import NoExternalLinkNotice from "./NoExternalLinkNotice.react";
+import ExternalLinkTable from "./ExternalLinkTable";
+import NoExternalLinkNotice from "./NoExternalLinkNotice";
 
 
 export default React.createClass({

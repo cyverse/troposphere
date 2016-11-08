@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import MembershipList from "./ImageMembership.react";
+import MembershipList from "./ImageMembership";
 
 
 export default React.createClass({

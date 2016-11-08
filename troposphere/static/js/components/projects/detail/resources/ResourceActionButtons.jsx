@@ -4,10 +4,10 @@ import Instance from "models/Instance";
 import Image from "models/Image";
 import ExternalLink from "models/ExternalLink";
 import Volume from "models/Volume";
-import ImageActionButtons from "./ImageActionButtons.react";
-import ExternalLinkActionButtons from "./ExternalLinkActionButtons.react";
-import InstanceActionButtons from "./InstanceActionButtons.react";
-import VolumeActionButtons from "./VolumeActionButtons.react";
+import ImageActionButtons from "./ImageActionButtons";
+import ExternalLinkActionButtons from "./ExternalLinkActionButtons";
+import InstanceActionButtons from "./InstanceActionButtons";
+import VolumeActionButtons from "./VolumeActionButtons";
 
 
 export default React.createClass({

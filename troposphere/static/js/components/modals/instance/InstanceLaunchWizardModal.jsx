@@ -18,14 +18,14 @@ import modals from "modals";
 import stores from "stores";
 import globals from "globals";
 import actions from "actions";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import { filterEndDate } from "utilities/filterCollection";
 
-import ImageSelectStep from "./launch/steps/ImageSelectStep.react";
-import ProjectCreateView from "components/common/ProjectCreateView.react";
-import BasicLaunchStep from "./launch/steps/BasicLaunchStep.react";
-import AdvancedLaunchStep from "./launch/steps/AdvancedLaunchStep.react";
-import LicenseStep from "./launch/steps/LicenseStep.react";
+import ImageSelectStep from "./launch/steps/ImageSelectStep";
+import ProjectCreateView from "components/common/ProjectCreateView";
+import BasicLaunchStep from "./launch/steps/BasicLaunchStep";
+import AdvancedLaunchStep from "./launch/steps/AdvancedLaunchStep";
+import LicenseStep from "./launch/steps/LicenseStep";
 
 // This class implements the instance launch walkthrough. By design it keeps
 // track of two states. First is the state for switching between separate

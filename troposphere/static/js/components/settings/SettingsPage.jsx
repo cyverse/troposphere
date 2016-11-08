@@ -1,8 +1,8 @@
 import { trackAction } from "../../utilities/userActivity";
 import React from "react";
-import AdvancedSettingsPage from "components/settings/AdvancedSettingsPage.react";
-import IconSelect from "./IconSelect.react";
-import SettingsHeader from "./SettingsHeader.react";
+import AdvancedSettingsPage from "components/settings/AdvancedSettingsPage";
+import IconSelect from "./IconSelect";
+import SettingsHeader from "./SettingsHeader";
 import actions from "actions";
 import modals from "modals";
 import stores from "stores";

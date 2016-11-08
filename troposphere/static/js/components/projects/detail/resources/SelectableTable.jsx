@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import Checkbox from "./Checkbox.react";
+import Checkbox from "./Checkbox";
 
 
 export default React.createClass({

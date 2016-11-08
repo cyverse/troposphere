@@ -1,5 +1,5 @@
 import ModalHelpers from "components/modals/ModalHelpers";
-import ManageUserModal from "components/modals/admin/ManageUserModal.react";
+import ManageUserModal from "components/modals/admin/ManageUserModal";
 
 
 export default {

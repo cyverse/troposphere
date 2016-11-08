@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 
-import PercentageGraph from "components/common/ui/PercentageGraph.react";
+import PercentageGraph from "components/common/ui/PercentageGraph";
 
 export default React.createClass({
     displayName: "ProviderSummaryLinePlot",

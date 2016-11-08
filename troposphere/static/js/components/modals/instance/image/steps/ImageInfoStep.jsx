@@ -1,10 +1,10 @@
 import $ from "jquery";
 import React from "react";
 import Backbone from "backbone";
-import Name from "../components/Name.react";
-import CreateUpdateFlag from "../components/CreateUpdateFlag.react";
-import Description from "../components/Description.react";
-import Tags from "../components/Tags.react";
+import Name from "../components/Name";
+import CreateUpdateFlag from "../components/CreateUpdateFlag";
+import Description from "../components/Description";
+import Tags from "../components/Tags";
 import actions from "actions";
 import stores from "stores";
 

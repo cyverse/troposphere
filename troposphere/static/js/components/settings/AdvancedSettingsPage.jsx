@@ -1,5 +1,5 @@
 import React from "react";
-import SSHConfiguration from "components/settings/advanced/SSHConfiguration.react";
+import SSHConfiguration from "components/settings/advanced/SSHConfiguration";
 
 export default React.createClass({
 

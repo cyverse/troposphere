@@ -1,5 +1,5 @@
 import React from "react";
-import Glyphicon from "components/common/Glyphicon.react";
+import Glyphicon from "components/common/Glyphicon";
 
 
 export default React.createClass({

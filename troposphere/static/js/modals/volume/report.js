@@ -1,7 +1,7 @@
 import ModalHelpers from "components/modals/ModalHelpers";
 import actions from "actions";
 import stores from "stores";
-import VolumeReportModal from "components/modals/volume/VolumeReportModal.react";
+import VolumeReportModal from "components/modals/volume/VolumeReportModal";
 
 
 export default {

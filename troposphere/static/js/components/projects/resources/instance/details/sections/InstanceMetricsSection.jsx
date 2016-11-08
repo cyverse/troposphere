@@ -1,5 +1,5 @@
 import React from "react";
-import InstanceMetrics from "./metrics/InstanceMetrics.react";
+import InstanceMetrics from "./metrics/InstanceMetrics";
 
 export default React.createClass({
     displayName: "InstanceMetricsSection",

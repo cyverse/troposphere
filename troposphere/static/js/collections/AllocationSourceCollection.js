@@ -2,7 +2,7 @@ import Backbone from "backbone";
 
 import AllocationSource from "models/AllocationSource";
 import globals from "globals";
-import { api } from "mock/allocationSources.js";
+import { api } from "mock/allocationSources";
 import mockSync from "utilities/mockSync";
 
 export default Backbone.Collection.extend({

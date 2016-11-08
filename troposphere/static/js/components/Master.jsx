@@ -3,13 +3,13 @@ import stores from "stores";
 import Backbone from "backbone";
 import context from "context";
 import globals from "globals";
-import Header from "./Header.react";
-import Footer from "./Footer.react";
+import Header from "./Header";
+import Footer from "./Footer";
 import actions from "actions";
 import modals from "modals";
-import modernizrTest from "components/modals/unsupported/modernizrTest.js";
+import modernizrTest from "components/modals/unsupported/modernizrTest";
 import NullProject from "models/NullProject";
-import noAllocationSource from "modals/allocationSource/noAllocationSource.js";
+import noAllocationSource from "modals/allocationSource/noAllocationSource";
 
 import Router from "react-router";
 import { RouteHandler } from "react-router";

@@ -1,7 +1,7 @@
 import actions from "actions";
 import stores from "stores";
 import ModalHelpers from "components/modals/ModalHelpers";
-import VolumeDetachModal from "components/modals/volume/VolumeDetachModal.react";
+import VolumeDetachModal from "components/modals/volume/VolumeDetachModal";
 
 
 export default {

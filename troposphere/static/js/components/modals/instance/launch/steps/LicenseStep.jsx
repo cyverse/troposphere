@@ -1,6 +1,6 @@
 import React from "react";
 
-import InstanceLaunchFooter from "../components/InstanceLaunchFooter.react";
+import InstanceLaunchFooter from "../components/InstanceLaunchFooter";
 
 export default React.createClass({
     getInitialState: function() {

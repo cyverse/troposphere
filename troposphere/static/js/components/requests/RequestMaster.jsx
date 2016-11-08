@@ -1,5 +1,5 @@
 import React from "react";
-import SecondaryRequestNavigation from "./SecondaryRequestNavigation.react";
+import SecondaryRequestNavigation from "./SecondaryRequestNavigation";
 import Router from "react-router";
 
 

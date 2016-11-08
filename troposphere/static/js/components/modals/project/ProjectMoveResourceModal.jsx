@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
-import ProjectSelect from "../instance_launch/ProjectSelect.react";
+import ProjectSelect from "../instance_launch/ProjectSelect";
 
 
 function getState(currentProject, currentState) {

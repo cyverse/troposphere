@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import context from "context";
 import stores from "stores";
 import Router from "../Router";
-import routes from "../AppRoutes.react";
+import routes from "../AppRoutes";
 
 export default React.createClass({
     displayName: "SplashScreen",

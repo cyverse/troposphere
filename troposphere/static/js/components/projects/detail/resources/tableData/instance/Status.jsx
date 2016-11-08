@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import StatusLight from "components/projects/common/StatusLight.react";
-import StatusBar from "./StatusBar.react";
+import StatusLight from "components/projects/common/StatusLight";
+import StatusBar from "./StatusBar";
 
 export default React.createClass({
     displayName: "Status",

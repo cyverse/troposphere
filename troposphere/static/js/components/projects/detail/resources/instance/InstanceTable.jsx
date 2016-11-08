@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import InstanceRow from "./InstanceRow.react";
-import SelectableTable from "../SelectableTable.react";
+import InstanceRow from "./InstanceRow";
+import SelectableTable from "../SelectableTable";
 
 export default React.createClass({
     displayName: "InstanceTable",

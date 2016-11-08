@@ -2,7 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import context from "context";
 import stores from "stores";
-import VersionList from "./VersionList.react";
+import VersionList from "./VersionList";
 
 
 export default React.createClass({

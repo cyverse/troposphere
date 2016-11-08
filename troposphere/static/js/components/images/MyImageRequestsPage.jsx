@@ -1,7 +1,7 @@
 import React from "react";
 import modals from "modals";
 import moment from "moment";
-import RefreshComponent from "components/projects/resources/instance/details/sections/metrics/RefreshComponent.react";
+import RefreshComponent from "components/projects/resources/instance/details/sections/metrics/RefreshComponent";
 import stores from "stores";
 
 

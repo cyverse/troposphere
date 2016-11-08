@@ -1,7 +1,7 @@
 import _ from "underscore";
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
-import Glyphicon from "components/common/Glyphicon.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import Glyphicon from "components/common/Glyphicon";
 import { trackAction } from "../../../utilities/userActivity";
 
 export default React.createClass({

@@ -1,6 +1,6 @@
 import _ from "underscore";
 import React from "react";
-import IconOption from "./IconOption.react";
+import IconOption from "./IconOption";
 
 export default React.createClass({
     displayName: "IconSelect",

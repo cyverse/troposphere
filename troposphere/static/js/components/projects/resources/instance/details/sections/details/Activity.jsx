@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import ResourceDetail from "components/projects/common/ResourceDetail.react";
-import ActivitySection from "components/projects/detail/resources/tableData/instance/Activity.react";
+import ResourceDetail from "components/projects/common/ResourceDetail";
+import ActivitySection from "components/projects/detail/resources/tableData/instance/Activity";
 
 var Activity = React.createClass({
     propTypes: {

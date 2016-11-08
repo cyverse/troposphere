@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import Profile from "models/Profile";
 import $ from "jquery";
 import Router from "../Router";
-import routes from "./AppRoutes.react";
+import routes from "./AppRoutes";
 
 
 import modals from "modals";

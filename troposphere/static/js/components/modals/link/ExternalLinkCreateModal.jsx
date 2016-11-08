@@ -1,6 +1,6 @@
 import React from "react";
 import $ from "jquery";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import { trackAction } from "../../../utilities/userActivity";
 
 

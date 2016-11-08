@@ -19,8 +19,8 @@ import Volume from "models/Volume";
 
 // Modals
 import ModalHelpers from "components/modals/ModalHelpers";
-import NullProjectMoveAttachedVolumesModal from "components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react";
-import NullProjectMigrateResourceModal from "components/modals/nullProject/NullProjectMigrateResourceModal.react";
+import NullProjectMoveAttachedVolumesModal from "components/modals/nullProject/NullProjectMoveAttachedVolumesModal";
+import NullProjectMigrateResourceModal from "components/modals/nullProject/NullProjectMigrateResourceModal";
 
 //
 // Module

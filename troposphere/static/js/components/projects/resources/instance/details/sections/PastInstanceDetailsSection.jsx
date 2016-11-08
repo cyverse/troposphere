@@ -1,13 +1,13 @@
 import React from "react";
 import Backbone from "backbone";
-import Status from "./details/Status.react";
-import Id from "./details/Id.react";
-import Alias from "./details/Alias.react";
-import Size from "./details/Size.react";
-import LaunchDate from "./details/LaunchDate.react";
-import EndDate from "./details/EndDate.react";
-import CreatedFrom from "./details/CreatedFrom.react";
-import Identity from "./details/Identity.react";
+import Status from "./details/Status";
+import Id from "./details/Id";
+import Alias from "./details/Alias";
+import Size from "./details/Size";
+import LaunchDate from "./details/LaunchDate";
+import EndDate from "./details/EndDate";
+import CreatedFrom from "./details/CreatedFrom";
+import Identity from "./details/Identity";
 
 var PastInstanceDetailsSection = React.createClass({
     displayName: "PastInstanceDetailsSection",

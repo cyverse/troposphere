@@ -1,6 +1,6 @@
 import React from "react";
-import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper.react";
-import ProjectDetails from "./detail/resources/ProjectDetails.react";
+import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper";
+import ProjectDetails from "./detail/resources/ProjectDetails";
 import stores from "stores";
 import Router from "react-router";
 

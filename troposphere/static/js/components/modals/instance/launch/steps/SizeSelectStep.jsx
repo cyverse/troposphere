@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
-import InstanceSizeSelect from "../components/InstanceSizeSelect.react";
-import Glyphicon from "components/common/Glyphicon.react";
+import InstanceSizeSelect from "../components/InstanceSizeSelect";
+import Glyphicon from "components/common/Glyphicon";
 
 let ENTER_KEY = 13;
 let selectedSize;

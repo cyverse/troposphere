@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-import SelectableRow from "../SelectableRow.react";
-import Name from "../tableData/link/Name.react";
-import Link from "../tableData/link/Link.react";
+import SelectableRow from "../SelectableRow";
+import Name from "../tableData/link/Name";
+import Link from "../tableData/link/Link";
 
 
 export default React.createClass({

@@ -2,10 +2,10 @@ import React from "react";
 import Backbone from "backbone";
 
 import globals from "globals";
-import ResourceGraphs from "../components/ResourceGraphs.react";
-import ProviderAllocationGraph from "../components/ProviderAllocationGraph.react";
-import AllocationSourceGraph from "components/common/AllocationSourceGraph.react";
-import SelectMenu from "components/common/ui/SelectMenu.react";
+import ResourceGraphs from "../components/ResourceGraphs";
+import ProviderAllocationGraph from "../components/ProviderAllocationGraph";
+import AllocationSourceGraph from "components/common/AllocationSourceGraph";
+import SelectMenu from "components/common/ui/SelectMenu";
 
 export default React.createClass({
     propTypes: {

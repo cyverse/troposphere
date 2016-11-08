@@ -2,7 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 import actions from "actions";
-import TagMultiSelect from "components/common/tags/TagMultiSelect.react";
+import TagMultiSelect from "components/common/tags/TagMultiSelect";
 
 
 export default React.createClass({

@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import InstanceTable from "./InstanceTable.react";
-import NoInstanceNotice from "./NoInstanceNotice.react";
+import InstanceTable from "./InstanceTable";
+import NoInstanceNotice from "./NoInstanceNotice";
 
 export default React.createClass({
     displayName: "InstanceList",

@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import ResourceDetail from "components/projects/common/ResourceDetail.react";
+import ResourceDetail from "components/projects/common/ResourceDetail";
 import Router from "react-router";
 import stores from "stores";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import Button from "./Button.react";
+import Button from "./Button";
 import modals from "modals";
 
 export default React.createClass({

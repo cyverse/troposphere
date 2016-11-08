@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import ReactDOMServer from "react-dom/server";
 import $ from "jquery";
 import Highcharts from "highcharts";
-import ResourceUseTooltip from "./tooltips/ResourceUseTooltip.react";
+import ResourceUseTooltip from "./tooltips/ResourceUseTooltip";
 
 /**
  * Finds a maximum within the data points for all providers

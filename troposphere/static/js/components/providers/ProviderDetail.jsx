@@ -1,11 +1,11 @@
 import React from "react";
 import Router from "react-router";
 import stores from "stores";
-import Name from "./Name.react";
-import Stats from "./Stats.react";
-import Description from "./Description.react";
-import Instances from "./Instances.react";
-import Resources from "./Resources.react";
+import Name from "./Name";
+import Stats from "./Stats";
+import Description from "./Description";
+import Instances from "./Instances";
+import Resources from "./Resources";
 
 export default React.createClass({
     displayName: "ProviderListView",

@@ -1,7 +1,7 @@
 import React from "react";
 import GraphController from "./GraphController";
-import TimeframeBreadcrumb from "./TimeframeBreadcrumb.react";
-import RefreshComponent from "./RefreshComponent.react";
+import TimeframeBreadcrumb from "./TimeframeBreadcrumb";
+import RefreshComponent from "./RefreshComponent";
 import moment from "moment";
 
 

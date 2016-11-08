@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import ImageRow from "./ImageRow.react";
-import SelectableTable from "../SelectableTable.react";
+import ImageRow from "./ImageRow";
+import SelectableTable from "../SelectableTable";
 
 export default React.createClass({
     displayName: "ImageTable",

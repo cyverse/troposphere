@@ -1,6 +1,6 @@
 import React from "react";
 import stores from "stores";
-import ProviderList from "./ProviderList.react";
+import ProviderList from "./ProviderList";
 
 export default React.createClass({
     displayName: "ProvidersListSection",

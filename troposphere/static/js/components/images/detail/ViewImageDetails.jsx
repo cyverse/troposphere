@@ -1,12 +1,12 @@
 import React from "react";
 import Backbone from "backbone";
-import TagsView from "./tags/TagsView.react";
-import CreatedView from "./created/CreatedView.react";
-import RemovedView from "./removed/RemovedView.react";
-import AuthorView from "./author/AuthorView.react";
-import DescriptionView from "./description/DescriptionView.react";
+import TagsView from "./tags/TagsView";
+import CreatedView from "./created/CreatedView";
+import RemovedView from "./removed/RemovedView";
+import AuthorView from "./author/AuthorView";
+import DescriptionView from "./description/DescriptionView";
 import stores from "stores";
-import Gravatar from "components/common/Gravatar.react";
+import Gravatar from "components/common/Gravatar";
 
 export default React.createClass({
     displayName: "ViewImageDetails",

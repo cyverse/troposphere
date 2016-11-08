@@ -1,5 +1,5 @@
 import ModalHelpers from "components/modals/ModalHelpers";
-import InstanceRedeployModal from "components/modals/instance/InstanceRedeployModal.react";
+import InstanceRedeployModal from "components/modals/instance/InstanceRedeployModal";
 import actions from "actions";
 
 export default {

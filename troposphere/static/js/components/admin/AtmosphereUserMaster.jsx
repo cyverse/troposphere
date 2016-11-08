@@ -2,7 +2,7 @@ import React from "react";
 import Router from "react-router";
 import stores from "stores";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
-import AtmosphereUser from "./AtmosphereUser.react";
+import AtmosphereUser from "./AtmosphereUser";
 
 export default React.createClass({
     displayName: "AtmosphereUserMaster",

@@ -2,10 +2,10 @@ import React from "react";
 import Backbone from "backbone";
 import _ from "underscore";
 
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
 import globals from "globals";
-import SelectMenu from "components/common/ui/SelectMenu.react";
+import SelectMenu from "components/common/ui/SelectMenu";
 import Utils from "actions/Utils";
 import EventActions from "actions/EventActions";
 import EventConstants from "constants/EventConstants";

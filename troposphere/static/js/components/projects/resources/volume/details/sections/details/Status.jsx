@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import ResourceDetail from "components/projects/common/ResourceDetail.react";
-import Status from "components/projects/detail/resources/tableData/volume/Status.react";
+import ResourceDetail from "components/projects/common/ResourceDetail";
+import Status from "components/projects/detail/resources/tableData/volume/Status";
 
 export default React.createClass({
     displayName: "Status",

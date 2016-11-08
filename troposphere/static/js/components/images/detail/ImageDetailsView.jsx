@@ -1,10 +1,10 @@
 import React from "react";
 import Backbone from "backbone";
-import HeaderView from "./header/HeaderView.react";
+import HeaderView from "./header/HeaderView";
 import actions from "actions";
-import ViewImageDetails from "./ViewImageDetails.react";
-import EditImageDetails from "./EditImageDetails.react";
-import VersionsView from "./versions/VersionsView.react";
+import ViewImageDetails from "./ViewImageDetails";
+import EditImageDetails from "./EditImageDetails";
+import VersionsView from "./versions/VersionsView";
 import modals from "modals";
 import { trackAction } from "../../../utilities/userActivity";
 

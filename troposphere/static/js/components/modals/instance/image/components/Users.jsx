@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
-import ChosenDropdown from "components/common/tags/UserMultiSelect.react";
+import ChosenDropdown from "components/common/tags/UserMultiSelect";
 
 export default React.createClass({
     displayName: "Users",

@@ -5,7 +5,7 @@ import ReactDOMServer from "react-dom/server";
 import Backbone from "backbone";
 import Highcharts from "highcharts";
 
-import ResourceStatusTooltip from "./tooltips/ResourceStatusTooltip.react";
+import ResourceStatusTooltip from "./tooltips/ResourceStatusTooltip";
 
 
 export default React.createClass({

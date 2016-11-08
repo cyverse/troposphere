@@ -1,5 +1,5 @@
 import React from "react";
-import BootstrapModal from "components/common/BootstrapModal.react";
+import BootstrapModal from "components/common/BootstrapModal";
 
 export default React.createClass({
     displayName: "CancelConfirmModal",

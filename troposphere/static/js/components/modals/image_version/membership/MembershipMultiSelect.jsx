@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-import ChosenDropdownMembership from "./ChosenDropdownMembership.react";
-import ChosenSelectedMembership from "./ChosenSelectedMembership.react";
-import ChosenMixin from "components/mixins/ChosenMixinExternal.react";
+import ChosenDropdownMembership from "./ChosenDropdownMembership";
+import ChosenSelectedMembership from "./ChosenSelectedMembership";
+import ChosenMixin from "components/mixins/ChosenMixinExternal";
 
 export default React.createClass({
     displayName: "MembershipMultiSelect",

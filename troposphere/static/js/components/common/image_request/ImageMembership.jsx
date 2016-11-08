@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import ManyToManyList from "components/common/ManyToManyList.react";
+import ManyToManyList from "components/common/ManyToManyList";
 
 
 export default React.createClass({

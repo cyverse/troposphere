@@ -1,11 +1,11 @@
 import React from "react";
 import Backbone from "backbone";
-import Time from "components/common/Time.react";
-import EditableInputField from "components/common/EditableInputField.react";
+import Time from "components/common/Time";
+import EditableInputField from "components/common/EditableInputField";
 import actions from "actions";
 import stores from "stores";
 import CryptoJS from "crypto-js";
-import Gravatar from "components/common/Gravatar.react";
+import Gravatar from "components/common/Gravatar";
 
 export default React.createClass({
     displayName: "VolumeInfoSection",

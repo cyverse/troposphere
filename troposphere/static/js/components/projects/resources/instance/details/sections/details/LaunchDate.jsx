@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import ResourceDetail from "components/projects/common/ResourceDetail.react";
-import Time from "components/common/Time.react";
+import ResourceDetail from "components/projects/common/ResourceDetail";
+import Time from "components/common/Time";
 
 
 export default React.createClass({

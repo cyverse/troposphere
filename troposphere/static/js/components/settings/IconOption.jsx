@@ -1,6 +1,6 @@
 import _ from "underscore";
 import React from "react";
-import Gravatar from "components/common/Gravatar.react";
+import Gravatar from "components/common/Gravatar";
 
 export default React.createClass({
     displayName: "IconOption",

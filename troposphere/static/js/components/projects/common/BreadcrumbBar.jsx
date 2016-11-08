@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import Breadcrumb from "./Breadcrumb.react";
+import Breadcrumb from "./Breadcrumb";
 
 
 export default React.createClass({

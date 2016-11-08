@@ -1,5 +1,5 @@
 import React from "react";
-import modernizrTest from "components/modals/unsupported/modernizrTest.js";
+import modernizrTest from "components/modals/unsupported/modernizrTest";
 
 
 export default React.createClass({

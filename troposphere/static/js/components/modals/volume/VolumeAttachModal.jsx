@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
-import InstanceSelect from "../volume_attach/InstanceSelect.react";
+import InstanceSelect from "../volume_attach/InstanceSelect";
 
 // Example Usage from http://bl.ocks.org/insin/raw/8449696/
 // render: function(){

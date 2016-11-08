@@ -1,8 +1,8 @@
 import React from "react";
 import Router from "react-router";
 
-import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper.react";
-import InstanceDetailsView from "./resources/instance/details/InstanceDetailsView.react";
+import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper";
+import InstanceDetailsView from "./resources/instance/details/InstanceDetailsView";
 import globals from "globals";
 import stores from "stores";
 

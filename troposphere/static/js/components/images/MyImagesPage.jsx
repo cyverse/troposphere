@@ -1,5 +1,5 @@
 import React from "react";
-import ImageCardList from "./list/list/ImageCardList.react";
+import ImageCardList from "./list/list/ImageCardList";
 import stores from "stores";
 
 

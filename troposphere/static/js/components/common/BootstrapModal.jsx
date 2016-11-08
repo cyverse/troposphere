@@ -1,5 +1,5 @@
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
 // Example Usage from http://bl.ocks.org/insin/raw/8449696/
 // render: function(){

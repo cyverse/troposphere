@@ -1,6 +1,6 @@
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
-import AUCalculator from "components/common/AUCalculator.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import AUCalculator from "components/common/AUCalculator";
 import stores from "stores";
 import globals from "globals";
 

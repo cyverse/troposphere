@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import Visibility from "../components/Visibility.react";
-import Users from "../components/Users.react";
+import Visibility from "../components/Visibility";
+import Users from "../components/Users";
 
 export default React.createClass({
     displayName: "ImageWizard-VisibilityStep",

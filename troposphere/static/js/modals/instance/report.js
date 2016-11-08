@@ -1,5 +1,5 @@
 import ModalHelpers from "components/modals/ModalHelpers";
-import InstanceReportModal from "components/modals/instance/InstanceReportModal.react";
+import InstanceReportModal from "components/modals/instance/InstanceReportModal";
 import stores from "stores";
 import actions from "actions";
 

@@ -2,7 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 
-import ResourceDetail from "components/projects/common/ResourceDetail.react";
+import ResourceDetail from "components/projects/common/ResourceDetail";
 
 export default React.createClass({
     displayName: "Id",

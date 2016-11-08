@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 
-import ProgressBar from "components/common/ui/ProgressBar.react";
+import ProgressBar from "components/common/ui/ProgressBar";
 
 export default React.createClass({
 

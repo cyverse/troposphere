@@ -1,5 +1,5 @@
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
 
 export default React.createClass({

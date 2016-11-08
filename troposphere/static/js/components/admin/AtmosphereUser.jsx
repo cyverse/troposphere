@@ -2,7 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import moment from "moment";
 import actions from "actions";
-import ToggleButton from "components/common/ToggleButton.react";
+import ToggleButton from "components/common/ToggleButton";
 
 
 export default React.createClass({

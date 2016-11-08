@@ -1,6 +1,6 @@
 import React from "react";
-import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper.react";
-import VolumeDetailsView from "./resources/volume/details/VolumeDetailsView.react";
+import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper";
+import VolumeDetailsView from "./resources/volume/details/VolumeDetailsView";
 import Router from "react-router";
 import stores from "stores";
 

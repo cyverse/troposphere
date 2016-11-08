@@ -4,7 +4,7 @@ import Backbone from 'backbone';
 import toastr from 'toastr';
 
 import modals from 'modals';
-import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
+import MaintenanceMessageBanner from './MaintenanceMessageBanner';
 import context from 'context';
 import globals from 'globals';
 

@@ -1,5 +1,5 @@
 import React from "react";
-import FileToExclude from "../components/FilesToExclude.react";
+import FileToExclude from "../components/FilesToExclude";
 
 
 export default React.createClass({

@@ -1,6 +1,6 @@
 import React from "react";
-import BootScriptOption from "../components/BootScriptOption.react";
-import AdvancedOptionsFooter from "../components/AdvancedOptionsFooter.react";
+import BootScriptOption from "../components/BootScriptOption";
+import AdvancedOptionsFooter from "../components/AdvancedOptionsFooter";
 
 export default React.createClass({
 

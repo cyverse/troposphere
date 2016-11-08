@@ -1,6 +1,6 @@
 import React from "react";
 import stores from "stores";
-import ProjectDetailsView from "./detail/details/ProjectDetailsView.react";
+import ProjectDetailsView from "./detail/details/ProjectDetailsView";
 import Router from "react-router";
 
 export default React.createClass({

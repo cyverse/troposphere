@@ -1,5 +1,5 @@
 import React from "react";
-import Project from "./Project.react";
+import Project from "./Project";
 import Backbone from "backbone";
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Router from "react-router";
-import EarnedBadge from "./EarnedBadge.react";
+import EarnedBadge from "./EarnedBadge";
 import stores from "stores";
 import globals from "globals";
 import modals from "modals";

@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
-import ProjectSelect from "components/common/project/ProjectSelect.react";
-import ResourceListItem from "components/modals/migrate_resources/ResourceListItem.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import ProjectSelect from "components/common/project/ProjectSelect";
+import ResourceListItem from "components/modals/migrate_resources/ResourceListItem";
 import stores from "stores";
 
 export default React.createClass({

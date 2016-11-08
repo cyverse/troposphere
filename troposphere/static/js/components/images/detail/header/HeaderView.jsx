@@ -5,7 +5,7 @@ import $ from "jquery";
 import stores from "stores";
 import modals from "modals";
 import { trackAction } from "utilities/userActivity";
-import Bookmark from "../../common/Bookmark.react";
+import Bookmark from "../../common/Bookmark";
 
 export default React.createClass({
     displayName: "HeaderView",

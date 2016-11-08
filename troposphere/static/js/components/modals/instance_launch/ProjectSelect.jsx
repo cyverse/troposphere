@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import ProjectOption from "./ProjectOption.react";
+import ProjectOption from "./ProjectOption";
 
 export default React.createClass({
     displayName: "ProjectSelect",

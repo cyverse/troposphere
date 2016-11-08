@@ -3,7 +3,7 @@ import Backbone from "backbone";
 import stores from "stores";
 import Router from "react-router";
 import moment from "moment";
-import ProjectResource from "./ProjectResource.react";
+import ProjectResource from "./ProjectResource";
 
 export default React.createClass({
     displayName: "Project",

@@ -1,9 +1,9 @@
 import React from "react";
 import Backbone from "backbone";
-import EditTagsView from "./tags/EditTagsView.react";
-import EditNameView from "./name/EditNameView.react";
-import EditDescriptionView from "./description/EditDescriptionView.react";
-import InteractiveDateField from "components/common/InteractiveDateField.react";
+import EditTagsView from "./tags/EditTagsView";
+import EditNameView from "./name/EditNameView";
+import EditDescriptionView from "./description/EditDescriptionView";
+import InteractiveDateField from "components/common/InteractiveDateField";
 import globals from "globals";
 import stores from "stores";
 

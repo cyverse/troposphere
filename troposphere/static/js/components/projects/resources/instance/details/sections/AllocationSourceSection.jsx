@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
 
-import SelectMenu from "./SelectMenu2.react";
-import AllocationSourceGraph from "components/common/AllocationSourceGraph.react";
+import SelectMenu from "./SelectMenu2";
+import AllocationSourceGraph from "components/common/AllocationSourceGraph";
 
 export default React.createClass({
 

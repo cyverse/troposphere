@@ -2,7 +2,7 @@ import React from "react";
 import context from "context";
 import Router from "react-router";
 import stores from "stores";
-import ImageDetailsView from "./detail/ImageDetailsView.react";
+import ImageDetailsView from "./detail/ImageDetailsView";
 
 export default React.createClass({
     displayName: "ImageDetailsPage",

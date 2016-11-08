@@ -1,5 +1,5 @@
 import React from "react";
-import ProgressBar from "components/common/ui/ProgressBar.react";
+import ProgressBar from "components/common/ui/ProgressBar";
 
 export default React.createClass({
     propTypes: {

@@ -1,15 +1,15 @@
 import React from "react";
 import Backbone from "backbone";
 import _ from "underscore";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
-import BreadcrumbNav from "components/common/breadcrumb/BreadcrumbNav.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import BreadcrumbNav from "components/common/breadcrumb/BreadcrumbNav";
 import stores from "stores";
-import ImageInfoStep from "./image/steps/ImageInfoStep.react";
-import VersionInfoStep from "./image/steps/VersionInfoStep.react";
-import VisibilityStep from "./image/steps/VisibilityStep.react";
-import FilesToExcludeStep from "./image/steps/FilesToExcludeStep.react";
-import BootScriptsAndLicenseStep from "./image/steps/BootScriptsLicensingStep.react";
-import ReviewStep from "./image/steps/ReviewStep.react";
+import ImageInfoStep from "./image/steps/ImageInfoStep";
+import VersionInfoStep from "./image/steps/VersionInfoStep";
+import VisibilityStep from "./image/steps/VisibilityStep";
+import FilesToExcludeStep from "./image/steps/FilesToExcludeStep";
+import BootScriptsAndLicenseStep from "./image/steps/BootScriptsLicensingStep";
+import ReviewStep from "./image/steps/ReviewStep";
 
 let IMAGE_INFO_STEP = 1,
     VERSION_INFO_STEP = 2,

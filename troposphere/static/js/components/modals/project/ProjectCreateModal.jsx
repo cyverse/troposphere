@@ -1,6 +1,6 @@
 import React from "react";
-import ProjectCreateView from "components/common/ProjectCreateView.react.js";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import ProjectCreateView from "components/common/ProjectCreateView";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
 export default React.createClass({
     displayName: "ProjectCreateModal",

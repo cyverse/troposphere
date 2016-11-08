@@ -1,6 +1,6 @@
 import React from "react";
 import Router from "react-router";
-import Stats from "./Stats.react";
+import Stats from "./Stats";
 
 export default React.createClass({
     displayName: "ProvidersList",

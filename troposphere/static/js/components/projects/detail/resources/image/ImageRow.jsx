@@ -1,10 +1,10 @@
 import React from "react";
 import Backbone from "backbone";
-import SelectableRow from "../SelectableRow.react";
-import Name from "../tableData/image/Name.react";
+import SelectableRow from "../SelectableRow";
+import Name from "../tableData/image/Name";
 import stores from "stores";
 import CryptoJS from "crypto-js";
-import Gravatar from "components/common/Gravatar.react";
+import Gravatar from "components/common/Gravatar";
 
 
 export default React.createClass({

@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import ViewTags from "components/common/tags/ViewTags.react";
+import ViewTags from "components/common/tags/ViewTags";
 import stores from "stores";
 
 export default React.createClass({

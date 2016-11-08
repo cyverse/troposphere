@@ -1,6 +1,6 @@
 import React from "react";
 import Router from "react-router";
-import Badge from "./Badge.react";
+import Badge from "./Badge";
 import stores from "stores";
 
 export default React.createClass({

@@ -1,7 +1,7 @@
 import React from "react";
 import stores from "stores";
 import Router from "react-router";
-import Glyphicon from "components/common/Glyphicon.react";
+import Glyphicon from "components/common/Glyphicon";
 import context from "context";
 
 export default React.createClass({

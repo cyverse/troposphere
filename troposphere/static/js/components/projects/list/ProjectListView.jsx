@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-import ProjectList from "./ProjectList.react";
+import ProjectList from "./ProjectList";
 import modals from "modals";
-import ProjectListHeader from "../common/ProjectListHeader.react";
+import ProjectListHeader from "../common/ProjectListHeader";
 
 
 export default React.createClass({

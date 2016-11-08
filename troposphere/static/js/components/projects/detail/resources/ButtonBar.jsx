@@ -1,10 +1,10 @@
 import React from "react";
 import Backbone from "backbone";
 import context from "context";
-import Button from "./Button.react";
-import RefreshButton from "./RefreshButton.react";
-import RequestResourcesButton from "./RequestResourcesButton.react";
-import ResourceActionButtons from "./ResourceActionButtons.react";
+import Button from "./Button";
+import RefreshButton from "./RefreshButton";
+import RequestResourcesButton from "./RequestResourcesButton";
+import ResourceActionButtons from "./ResourceActionButtons";
 
 export default React.createClass({
     displayName: "ButtonBar",

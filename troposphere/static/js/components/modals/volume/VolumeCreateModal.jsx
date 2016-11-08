@@ -1,7 +1,7 @@
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
-import IdentitySelect from "../instance/launch/components/IdentitySelect.react";
+import IdentitySelect from "../instance/launch/components/IdentitySelect";
 import modals from "modals";
 
 export default React.createClass({

@@ -1,6 +1,6 @@
 import React from "react";
-import VersionName from "../components/VersionName.react";
-import VersionChanges from "../components/VersionChangeLog.react";
+import VersionName from "../components/VersionName";
+import VersionChanges from "../components/VersionChangeLog";
 import $ from "jquery";
 
 

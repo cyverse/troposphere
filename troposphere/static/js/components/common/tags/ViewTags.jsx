@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import Tag from "./Tag.react";
+import Tag from "./Tag";
 
 export default React.createClass({
     displayName: "ViewTags",

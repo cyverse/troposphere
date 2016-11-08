@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import ViewTags from "./ViewTags.react";
-import TagMultiSelect from "./TagMultiSelect.react";
+import ViewTags from "./ViewTags";
+import TagMultiSelect from "./TagMultiSelect";
 
 
 let ENTER_KEY = 13;

@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "components/common/ui/Button.react";
+import Button from "components/common/ui/Button";
 
 export default React.createClass({
     onClearAdvanced: function() {

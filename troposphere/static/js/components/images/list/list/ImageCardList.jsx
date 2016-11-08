@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import ImageListCard from "../common/ImageListCard.react";
+import ImageListCard from "../common/ImageListCard";
 import { filterEndDate } from "utilities/filterCollection";
 
 

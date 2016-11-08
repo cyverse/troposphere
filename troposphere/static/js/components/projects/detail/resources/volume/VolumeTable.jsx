@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import VolumeRow from "./VolumeRow.react";
-import SelectableTable from "../SelectableTable.react";
+import VolumeRow from "./VolumeRow";
+import SelectableTable from "../SelectableTable";
 
 export default React.createClass({
     displayName: "VolumeTable",

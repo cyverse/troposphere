@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import ExternalLinkRow from "./ExternalLinkRow.react";
-import SelectableTable from "../SelectableTable.react";
+import ExternalLinkRow from "./ExternalLinkRow";
+import SelectableTable from "../SelectableTable";
 
 
 export default React.createClass({

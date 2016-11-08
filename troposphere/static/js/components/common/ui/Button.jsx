@@ -1,5 +1,5 @@
 import React from "react";
-import Tooltip from "components/common/ui/Tooltip.react";
+import Tooltip from "components/common/ui/Tooltip";
 
 export default React.createClass({
     propTypes: {

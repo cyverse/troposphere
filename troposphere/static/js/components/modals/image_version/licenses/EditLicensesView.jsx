@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import LicenseMultiSelect from "./LicenseMultiSelectAndCreate.react";
+import LicenseMultiSelect from "./LicenseMultiSelectAndCreate";
 
 
 export default React.createClass({

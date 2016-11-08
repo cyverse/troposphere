@@ -5,13 +5,13 @@ let Route = Router.Route,
     Redirect = Router.Redirect,
     DefaultRoute = Router.DefaultRoute;
 
-import Master from "components/Master.react";
-import HelpPage from "components/help/HelpPage.react";
-import ImageListPage from "components/images/ImageListPage.react";
-import ImageDetailsPage from "components/images/ImageDetailsPage.react";
-import ImageTagsPage from "components/images/ImageTagsPage.react";
-import ImagesMaster from "components/images/ImagesMaster.react";
-import NotFoundPage from "components/NotFoundPage.react";
+import Master from "components/Master";
+import HelpPage from "components/help/HelpPage";
+import ImageListPage from "components/images/ImageListPage";
+import ImageDetailsPage from "components/images/ImageDetailsPage";
+import ImageTagsPage from "components/images/ImageTagsPage";
+import ImagesMaster from "components/images/ImagesMaster";
+import NotFoundPage from "components/NotFoundPage";
 
 let AppRoutes = (
 <Route name="root" path="/application" handler={Master}>

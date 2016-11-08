@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
 import actions from "actions";
-import ViewDetails from "./ViewDetails.react";
-import EditDetails from "./EditDetails.react";
+import ViewDetails from "./ViewDetails";
+import EditDetails from "./EditDetails";
 
 export default React.createClass({
     displayName: "ProjectDetailsView",

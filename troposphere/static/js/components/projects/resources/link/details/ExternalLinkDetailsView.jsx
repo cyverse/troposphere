@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-import ExternalLinkInfoSection from "./sections/ExternalLinkInfoSection.react";
-import ExternalLinkActions from "./sections/ExternalLinkActions.react";
-import BreadcrumbBar from "components/projects/common/BreadcrumbBar.react";
+import ExternalLinkInfoSection from "./sections/ExternalLinkInfoSection";
+import ExternalLinkActions from "./sections/ExternalLinkActions";
+import BreadcrumbBar from "components/projects/common/BreadcrumbBar";
 
 export default React.createClass({
     displayName: "ExternalLinkDetailsView",

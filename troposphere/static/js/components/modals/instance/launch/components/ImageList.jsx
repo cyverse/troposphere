@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "./Image.react";
+import Image from "./Image";
 import Backbone from "backbone";
 
 

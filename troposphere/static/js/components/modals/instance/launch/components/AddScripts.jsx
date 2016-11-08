@@ -1,6 +1,6 @@
 import React from "react";
-import SelectMenu from "components/common/ui/SelectMenu.react";
-import ScriptTags from "./ScriptTags.react";
+import SelectMenu from "components/common/ui/SelectMenu";
+import ScriptTags from "./ScriptTags";
 
 export default React.createClass({
     displayName: "AddScripts",

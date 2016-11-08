@@ -1,9 +1,9 @@
 import React from "react";
 import _ from "underscore";
 
-import BasicInfoForm from "../components/BasicInfoForm.react";
-import ResourcesForm from "../components/ResourcesForm.react";
-import InstanceLaunchFooter from "../components/InstanceLaunchFooter.react";
+import BasicInfoForm from "../components/BasicInfoForm";
+import ResourcesForm from "../components/ResourcesForm";
+import InstanceLaunchFooter from "../components/InstanceLaunchFooter";
 
 export default React.createClass({
     render: function() {

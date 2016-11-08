@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import TagMultiSelect from "components/common/tags/TagMultiSelect.react";
+import TagMultiSelect from "components/common/tags/TagMultiSelect";
 
 
 let ENTER_KEY = 13;

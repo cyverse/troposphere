@@ -1,5 +1,5 @@
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
 export default React.createClass({
     displayName: "InstanceStopModal",

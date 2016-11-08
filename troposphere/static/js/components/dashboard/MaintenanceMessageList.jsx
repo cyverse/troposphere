@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import MaintenanceMessage from "./MaintenanceMessage.react";
-import ImageCreatedMessage from "./ImageCreatedMessage.react";
+import MaintenanceMessage from "./MaintenanceMessage";
+import ImageCreatedMessage from "./ImageCreatedMessage";
 
 export default React.createClass({
     displayName: "MaintenanceMessageList",

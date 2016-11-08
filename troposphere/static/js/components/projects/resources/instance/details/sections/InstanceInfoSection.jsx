@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
 import CryptoJS from "crypto-js";
-import Gravatar from "components/common/Gravatar.react";
-import EditableInputField from "components/common/EditableInputField.react";
+import Gravatar from "components/common/Gravatar";
+import EditableInputField from "components/common/EditableInputField";
 import actions from "actions";
 import stores from "stores";
 

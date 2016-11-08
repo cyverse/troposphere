@@ -1,9 +1,9 @@
 import React from "react";
 import Backbone from "backbone";
-import ChosenDropdownItem from "components/common/chosen/ChosenDropdownItem.react";
-import ChosenSelectedItem from "components/common/chosen/ChosenSelectedItem.react";
-import ChosenMixinExternal from "components/mixins/ChosenMixinExternal.react";
-import CreateLicenseView from "./CreateLicenseView.react";
+import ChosenDropdownItem from "components/common/chosen/ChosenDropdownItem";
+import ChosenSelectedItem from "components/common/chosen/ChosenSelectedItem";
+import ChosenMixinExternal from "components/mixins/ChosenMixinExternal";
+import CreateLicenseView from "./CreateLicenseView";
 
 
 export default React.createClass({

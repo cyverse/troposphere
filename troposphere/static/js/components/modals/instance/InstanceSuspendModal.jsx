@@ -1,6 +1,6 @@
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
-import Glyphicon from "components/common/Glyphicon.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import Glyphicon from "components/common/Glyphicon";
 
 export default React.createClass({
     displayName: "InstanceSuspendModal",

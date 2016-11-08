@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
 function getState() {
     return {

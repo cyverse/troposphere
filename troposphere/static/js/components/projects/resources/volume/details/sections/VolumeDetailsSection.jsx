@@ -1,10 +1,10 @@
 import React from "react";
 import Backbone from "backbone";
-import ResourceDetail from "components/projects/common/ResourceDetail.react";
-import Id from "./details/Id.react";
-import Status from "./details/Status.react";
-import Size from "./details/Size.react";
-import Identity from "./details/Identity.react";
+import ResourceDetail from "components/projects/common/ResourceDetail";
+import Id from "./details/Id";
+import Status from "./details/Status";
+import Size from "./details/Size";
+import Identity from "./details/Identity";
 
 export default React.createClass({
     displayName: "VolumeDetailsSection",

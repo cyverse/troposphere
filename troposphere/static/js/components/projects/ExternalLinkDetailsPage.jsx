@@ -1,8 +1,8 @@
 import React from "react";
 import Router from "react-router";
 
-import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper.react";
-import ExternalLinkDetailsView from "./resources/link/details/ExternalLinkDetailsView.react";
+import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper";
+import ExternalLinkDetailsView from "./resources/link/details/ExternalLinkDetailsView";
 import stores from "stores";
 
 

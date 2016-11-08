@@ -1,7 +1,7 @@
 import React from "react";
 import stores from "stores";
 
-import PercentGraph from "components/common/ui/PercentageGraph.react";
+import PercentGraph from "components/common/ui/PercentageGraph";
 
 export default React.createClass({
     displayName: "ProviderSummaryLinePlot",

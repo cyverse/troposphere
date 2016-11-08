@@ -1,9 +1,9 @@
 import React from "react";
 import Backbone from "backbone";
-import VolumeDetailsSection from "./sections/VolumeDetailsSection.react";
-import VolumeInfoSection from "./sections/VolumeInfoSection.react";
-import BreadcrumbBar from "components/projects/common/BreadcrumbBar.react";
-import VolumeActionsAndLinks from "./actions/VolumeActionsAndLinks.react";
+import VolumeDetailsSection from "./sections/VolumeDetailsSection";
+import VolumeInfoSection from "./sections/VolumeInfoSection";
+import BreadcrumbBar from "components/projects/common/BreadcrumbBar";
+import VolumeActionsAndLinks from "./actions/VolumeActionsAndLinks";
 
 
 export default React.createClass({

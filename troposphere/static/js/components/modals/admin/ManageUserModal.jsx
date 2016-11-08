@@ -1,6 +1,6 @@
 import React from "react";
-import InteractiveDateField from "components/common/InteractiveDateField.react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import InteractiveDateField from "components/common/InteractiveDateField";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
 
 export default React.createClass({

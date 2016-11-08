@@ -1,7 +1,7 @@
 import React from "react";
 import Router from "react-router";
 import stores from "stores";
-import IdentityMembership from "./IdentityMembership.react";
+import IdentityMembership from "./IdentityMembership";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 
 export default React.createClass({

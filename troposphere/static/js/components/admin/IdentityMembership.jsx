@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import showManageUserModal from "modals/admin/showManageUserModal.js";
+import showManageUserModal from "modals/admin/showManageUserModal";
 import actions from "actions";
 import moment from "moment";
 

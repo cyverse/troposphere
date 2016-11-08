@@ -1,14 +1,14 @@
 import React from "react";
 import Backbone from "backbone";
 
-import BreadcrumbBar from "components/projects/common/BreadcrumbBar.react";
+import BreadcrumbBar from "components/projects/common/BreadcrumbBar";
 import globals from "globals";
 import Utils from "actions/Utils";
-import InstanceInfoSection from "./sections/InstanceInfoSection.react";
-import InstanceDetailsSection from "./sections/InstanceDetailsSection.react";
-import InstanceMetricsSection from "./sections/InstanceMetricsSection.react";
-import AllocationSourceSection from "./sections/AllocationSourceSection.react";
-import InstanceActionsAndLinks from "./actions/InstanceActionsAndLinks.react";
+import InstanceInfoSection from "./sections/InstanceInfoSection";
+import InstanceDetailsSection from "./sections/InstanceDetailsSection";
+import InstanceMetricsSection from "./sections/InstanceMetricsSection";
+import AllocationSourceSection from "./sections/AllocationSourceSection";
+import InstanceActionsAndLinks from "./actions/InstanceActionsAndLinks";
 import EventActions from "actions/EventActions";
 import EventConstants from "constants/EventConstants";
 

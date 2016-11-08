@@ -1,11 +1,11 @@
 import React from "react";
 import stores from "stores";
 
-import TabLinks from "components/common/ui/TabLinks.react";
+import TabLinks from "components/common/ui/TabLinks";
 import ImageCollection from "collections/ImageCollection";
-import ImageList from "../components/ImageList.react";
+import ImageList from "../components/ImageList";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
-import InstanceLaunchFooter from "../components/InstanceLaunchFooter.react";
+import InstanceLaunchFooter from "../components/InstanceLaunchFooter";
 
 import { filterEndDate } from "utilities/filterCollection";
 

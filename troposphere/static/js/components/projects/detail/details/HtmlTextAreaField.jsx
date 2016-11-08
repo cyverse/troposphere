@@ -1,5 +1,5 @@
 import React from "react";
-import EditableTextAreaField from "components/common/EditableTextAreaField.react";
+import EditableTextAreaField from "components/common/EditableTextAreaField";
 import Showdown from "showdown";
 
 

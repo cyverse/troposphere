@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
-import ProjectSelect from "../instance_launch/ProjectSelect.react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import ProjectSelect from "../instance_launch/ProjectSelect";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import { trackAction } from "../../../utilities/userActivity";
 
 export default React.createClass({

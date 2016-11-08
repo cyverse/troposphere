@@ -1,9 +1,9 @@
 import React from "react";
 import Backbone from "backbone";
-import ChosenDropdownTag from "./ChosenDropdownTag.react";
-import ChosenSelectedTag from "./ChosenSelectedTag.react";
-import CreateTagView from "./CreateTagView.react";
-import ChosenMixin from "components/mixins/ChosenMixinExternal.react";
+import ChosenDropdownTag from "./ChosenDropdownTag";
+import ChosenSelectedTag from "./ChosenSelectedTag";
+import CreateTagView from "./CreateTagView";
+import ChosenMixin from "components/mixins/ChosenMixinExternal";
 
 
 export default React.createClass({

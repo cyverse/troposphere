@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import InstanceOption from "./InstanceOption.react";
+import InstanceOption from "./InstanceOption";
 
 export default React.createClass({
     displayName: "InstanceSelect",

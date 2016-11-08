@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import MembershipMultiSelect from "./MembershipMultiSelect.react";
+import MembershipMultiSelect from "./MembershipMultiSelect";
 
 export default React.createClass({
     displayName: "EditMembershipView",

@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
-import Glyphicon from "components/common/Glyphicon.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import Glyphicon from "components/common/Glyphicon";
 
 export default React.createClass({
     displayName: "VolumeDetachModal",
