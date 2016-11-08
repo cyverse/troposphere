@@ -24,11 +24,9 @@ export default React.createClass({
         }
 
         return (
-            <Section pt={ 4 }>
-                <Wrapper>
-                  <ResourcesHeader project = { project } />
-                  <RouteHandler project = { project } />
-                </Wrapper>
+            <Section>
+              <ResourcesHeader project = { project } />
+              <RouteHandler project = { project } />
             </Section>
         );
     }

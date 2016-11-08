@@ -3,8 +3,9 @@ import Router from 'react-router';
 import RouterInstance from 'Router';
 import modals from 'modals';
 import stores from 'stores';
+import moment from "moment";
 
-import { SubHeader } from 'cyverse-ui';
+import { Avatar, SubHeader, Title, Div } from 'cyverse-ui';
 import { DeleteIcon, ReplayIcon } from 'cyverse-ui/icons';
 
 import Wrapper from 'components/common/ui/Wrapper.react';
@@ -27,20 +28,54 @@ export default React.createClass({
     },
 
     render() {
-        const project = this.props.project;
+        const { project } = this.props;
+        let projectName = project.get('name');
+        let projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY hh:mm a");
+        let projectDescription = project.get('description');
 
         return (
-            <Wrapper>
-                <SubHeader
-                    name={ project.get( 'name' ) }
-                    quickOptions={[ 
-                        <RefreshButton />, 
-                        <DeleteProjectButton project={ project } />,
-                        <NewResourceButton project={ project } />,
-                    ]}
-                    onBack={ this.onBack }
-                />
-            </Wrapper>
+            <Div>
+                <Div mb={3} style={{ background: "white" }}>
+                    <Wrapper>
+                        <SubHeader
+                            quickOptions={[ 
+                                <RefreshButton />, 
+                                <DeleteProjectButton project={ project } />,
+                                <NewResourceButton project={ project } />,
+                            ]}
+                            onBack={ this.onBack }
+                        />
+                    </Wrapper>    
+                </Div>
+                <Wrapper>
+                    <Div
+                        mb={ 4 }
+                        style={{ display: "flex"}}
+                    >
+                        <Div mr={ 3 }>
+                            <Avatar 
+                                size={ 40 } 
+                                name={ projectName } 
+                            />
+                        </Div>
+                        <Div>
+                            <Div mb={ 2 }>
+                                <Title
+                                    h1
+                                    headline
+                                    mb={ 1 }
+                                >
+                                    { projectName }
+                                </Title>
+                                { projectCreationDate }
+                            </Div>
+                            <p>
+                                { projectDescription }
+                            </p>
+                        </Div>
+                    </Div>
+                </Wrapper>
+            </Div>
         );
     }
 });

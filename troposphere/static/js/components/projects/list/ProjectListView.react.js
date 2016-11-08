@@ -25,7 +25,7 @@ export default React.createClass({
         <div style={{ paddingTop: "30px" }}>
             <ProjectListHeader title={this.props.projects.length + " Projects"}>
                 <button className="btn btn-primary" onClick={this.launchNewProjectModal}>
-                    Create New Project
+                    New Project
                 </button>
             </ProjectListHeader>
             <Wrapper>
