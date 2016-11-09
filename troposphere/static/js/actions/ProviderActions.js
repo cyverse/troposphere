@@ -1,0 +1,58 @@
+import Utils from "./Utils";
+import NotificationController from "controllers/NotificationController";
+import Router from "../Router";
+import actions from "actions";
+
+// Constants
+import ProviderConstants from "constants/ProviderConstants";
+
+// Models
+import Provider from "models/Provider";
+
+// Modals
+import ModalHelpers from "components/modals/ModalHelpers";
+
+
+export default {
+
+    // ------------------------
+    // Standard CRUD Operations
+    // ------------------------
+
+    create: function(params, onSuccess, onFailure) {
+        if (!params.name)
+            throw new Error("Missing name");
+        if (!params.description)
+            throw new Error("Missing description");
+
+        var name = params.name,
+            description = params.description;
+
+        var provider = new Provider(params)
+
+
+        Utils.dispatch(ProviderConstants.ADD_PROVIDER, {
+            provider: provider
+        });
+
+        provider.save().done(function() {
+            //NotificationController.success(null, "Provider " + provider.get('name') + " created.");
+            Utils.dispatch(ProviderConstants.UPDATE_PROVIDER, {
+                provider: provider
+            });
+            if (onSuccess != null) {
+                onSuccess(provider);
+            }
+
+        }).fail(function() {
+            var message = "Error creating Provider " + provider.get("name") + ".";
+            NotificationController.error(null, message);
+            Utils.dispatch(ProviderConstants.REMOVE_PROVIDER, {
+                provider: provider
+            });
+            if (onFailure != null) {
+                onFailure(provider);
+            }
+        });
+    }
+};
