@@ -5,13 +5,19 @@ import MediaCard from "components/common/ui/MediaCard.react";
 import AvailabilityView from "../availability/AvailabilityView.react";
 import CryptoJS from "crypto-js";
 import stores from "stores";
+import context from "context";
 import globals from "globals";
 import moment from "moment";
 import showdown from "showdown";
 
-
 export default React.createClass({
     displayName: "Version",
+
+    getInitialState() {
+        return {
+            isOpen: false
+        }
+    },
 
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -21,29 +27,41 @@ export default React.createClass({
         showAvailability: React.PropTypes.bool
     },
 
-    getDefaultProps: function() {
+    getDefaultProps() {
         return {
             showAvailability: true,
             editable: true
         }
     },
 
-    onEditClicked: function() {
+    onCardClick() {
+        let isOpen = !this.state.isOpen;
+
+        this.setState({
+            isOpen
+        });
+    },
+
+    onEditClicked() {
         return this.props.onEditClicked(this.props.version);
     },
 
-    renderAvailability: function() {
-        var version = this.props.version;
+    renderAvailability() {
+        let isOpen = this.state.isOpen;
+        let version = this.props.version;
         if (!this.props.showAvailability) {
             return;
         }
 
         return (
-        <AvailabilityView version={version} />
+        <AvailabilityView
+            isSummary={ !isOpen }
+            version={ version }
+        />
         );
     },
 
-    renderEditLink: function() {
+    renderEditLink() {
         //NOTE: Undefined/null/etc. defaults to "TRUE" case.
         if (this.props.editable == false) {
             return;
@@ -72,7 +90,7 @@ export default React.createClass({
         }
     },
 
-    renderDateString: function(version) {
+    renderDateString(version) {
         let date_str;
         let dateCreated = moment(version.get("start_date"))
                 .tz(globals.TZ_REGION)
@@ -91,26 +109,91 @@ export default React.createClass({
 
     },
 
-    render: function() {
-        // todo: figure out if anything is ever recommended, or if it's just a concept idea
-        let { version, image } = this.props;
-        let style = this.style();
-
-        let versionHash = CryptoJS.MD5(version.id.toString()).toString();
-        let type = stores.ProfileStore.get().get("icon_set");
-        let owner = image.get("created_by").username;
+    renderChangeLog() {
+        let { version } = this.props;
+        let styles = this.styles();
         let changeLog = version.get("change_log");
         let converter = new showdown.Converter();
         let changeLogHTML = converter.makeHtml(changeLog);
 
+        return (
+        <div style={ styles.description }
+            dangerouslySetInnerHTML={{
+                __html: changeLogHTML
+            }}
+        />
+       );
+    },
+
+    renderSummary() {
+        let { version } = this.props;
+        let styles = this.styles();
+        let isOpen = this.state.isOpen;
+        let providerAvailability;
+        if (context.hasLoggedInUser()) {
+            providerAvailability = (
+                <AvailabilityView
+                    isSummary={ !isOpen }
+                    version={ version } />
+            );
+        }
+
+        return (
+        <div style={ styles.content }>
+            { this.renderChangeLog() }
+            <div style={ styles.availability }>
+                { providerAvailability }
+            </div>
+        </div>
+       );
+    },
+
+    renderDetail() {
+        let { version } = this.props;
+        let styles = this.styles();
+        let isOpen = this.state.isOpen;
+
+        let providerAvailability;
+        if (context.hasLoggedInUser()) {
+            providerAvailability = (
+                <AvailabilityView
+                    isSummary={ !isOpen }
+                    version={ version } />
+            );
+        } else {
+            providerAvailability = "Please login to view available providers.";
+        }
+
+        return (
+        <div style={ styles.content }>
+            { this.renderChangeLog() }
+            <div style={ styles.availability } >
+                { providerAvailability }
+            </div>
+        </div>
+        );
+    },
+
+    render() {
+        // todo: figure out if anything is ever recommended, or if it's just a concept idea
+        let { version, image } = this.props;
+
+        let versionHash = CryptoJS.MD5(version.id.toString()).toString();
+        let type = stores.ProfileStore.get().get("icon_set");
+        let owner = image.get("created_by").username;
+        let date = this.renderDateString(version);
+
         let subheading =  (
             <span>
-                { `${this.renderDateString(version)} by ${owner}` }
+                { `${date} by ${owner}` }
                 { this.renderEditLink() }
             </span>
         );
+
         return (
             <MediaCard
+                onCardClick={ this.onCardClick }
+                isOpen={ this.state.isOpen }
                 title={ version.get("name") }
                 subheading={ subheading }
                 avatar={
@@ -120,41 +203,55 @@ export default React.createClass({
                         type={type}
                     />
                 }
-                description={
-                    <div
-                        style={ style.content }
-                    >
-                        <div style={ style.description }
-                            dangerouslySetInnerHTML={{ __html: changeLogHTML }}
-                        />
-                        <div style={ style.availability }
-                        >
-                            { this.renderAvailability() }
-                        </div>
-                    </div>
-                }
+                summary={ this.renderSummary() }
+                detail={ this.renderDetail() }
             />
         );
     },
 
-    style() {
-        return {
-            content: {
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
-            },
+    styles() {
+        let isOpen = this.state.isOpen;
+        let styles = {}
 
-            description: {
-                marginRight: "40px"
-            },
+        // content
+        let contentDisplay = isOpen
+            ? "block" : "flex";
 
-            availability: {
-                fontSize: "12px",
-                width: "30%",
-                minWidth: "220px",
-                marginRight: "30px",
-            },
+        styles.content = {
+            display: contentDisplay,
+            flexWrap: "wrap",
+            justifyContent: "space-between",
         };
+
+        // description
+        let descriptionWidth = isOpen
+            ? {
+                width: "100%",
+                maxWidth: "700px"
+            } : {};
+
+        styles.description = {
+            marginRight: "40px",
+            flex: "1",
+            ...descriptionWidth
+        };
+
+        // availability
+        let availabilityWidth = isOpen
+            ? {
+                width: "100%",
+            }
+            : {
+                width: "30%",
+                minWidth: "200px",
+            };
+
+        styles.availability = {
+            fontSize: "12px",
+            ...availabilityWidth,
+        };
+
+        // return result
+        return styles;
     }
 });
