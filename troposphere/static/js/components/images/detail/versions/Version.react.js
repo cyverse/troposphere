@@ -152,7 +152,7 @@ export default React.createClass({
         // Note: we are passing 'renderDetail' to both 'detail' and 'summary'
         // This is because we are toggling the render of 'Availability' based on 'isOpen'
         // In many cases we would rather pass two different components or are not controling 'isOpen
-        // In this case, the cahnge is so small and we are controlling 'isOpen'
+        // In this case, the change is so small and we are controlling 'isOpen'
         return (
             <MediaCard
                 onCardClick={ this.onCardClick }
