@@ -5,6 +5,7 @@ import MediaCard from "components/common/ui/MediaCard.react";
 import AvailabilityView from "../availability/AvailabilityView.react";
 import CryptoJS from "crypto-js";
 import stores from "stores";
+import context from "context";
 import globals from "globals";
 import moment from "moment";
 import showdown from "showdown";
@@ -108,29 +109,69 @@ export default React.createClass({
 
     },
 
-    renderDetail() {
+    renderChangeLog() {
         let { version } = this.props;
         let styles = this.styles();
-
         let changeLog = version.get("change_log");
         let converter = new showdown.Converter();
         let changeLogHTML = converter.makeHtml(changeLog);
 
         return (
-            <div
-                style={ styles.content }
-            >
-                <div style={ styles.description }
-                    dangerouslySetInnerHTML={{
-                        __html: changeLogHTML
-                    }}
-                />
-                <div style={ styles.availability }
-                >
-                    { this.renderAvailability() }
-                </div>
+        <div style={ styles.description }
+            dangerouslySetInnerHTML={{
+                __html: changeLogHTML
+            }}
+        />
+       );
+    },
+
+    renderSummary() {
+        let { version } = this.props;
+        let styles = this.styles();
+        let isOpen = this.state.isOpen;
+        let providerAvailability;
+        if (context.hasLoggedInUser()) {
+            providerAvailability = (
+                <AvailabilityView
+                    isSummary={ !isOpen }
+                    version={ version } />
+            );
+        }
+
+        return (
+        <div style={ styles.content }>
+            { this.renderChangeLog() }
+            <div style={ styles.availability }>
+                { providerAvailability }
             </div>
-        )
+        </div>
+       );
+    },
+
+    renderDetail() {
+        let { version } = this.props;
+        let styles = this.styles();
+        let isOpen = this.state.isOpen;
+
+        let providerAvailability;
+        if (context.hasLoggedInUser()) {
+            providerAvailability = (
+                <AvailabilityView
+                    isSummary={ !isOpen }
+                    version={ version } />
+            );
+        } else {
+            providerAvailability = "Please login to view available providers.";
+        }
+
+        return (
+        <div style={ styles.content }>
+            { this.renderChangeLog() }
+            <div style={ styles.availability } >
+                { providerAvailability }
+            </div>
+        </div>
+        );
     },
 
     render() {
@@ -149,10 +190,6 @@ export default React.createClass({
             </span>
         );
 
-        // Note: we are passing 'renderDetail' to both 'detail' and 'summary'
-        // This is because we are toggling the render of 'Availability' based on 'isOpen'
-        // In many cases we would rather pass two different components or are not controling 'isOpen
-        // In this case, the change is so small and we are controlling 'isOpen'
         return (
             <MediaCard
                 onCardClick={ this.onCardClick }
@@ -166,7 +203,7 @@ export default React.createClass({
                         type={type}
                     />
                 }
-                summary={ this.renderDetail() }
+                summary={ this.renderSummary() }
                 detail={ this.renderDetail() }
             />
         );
