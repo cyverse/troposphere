@@ -34,8 +34,7 @@ export default React.createClass({
     },
 
     onCardClick() {
-        let isOpen = this.state.isOpen
-            ? false : true;
+        let isOpen = !this.state.isOpen;
 
         this.setState({
             isOpen
@@ -150,6 +149,10 @@ export default React.createClass({
             </span>
         );
 
+        // Note: we are passing 'renderDetail' to both 'detail' and 'summary'
+        // This is because we are toggling the render of 'Availability' based on 'isOpen'
+        // In many cases we would rather pass two different components or are not controling 'isOpen
+        // In this case, the cahnge is so small and we are controlling 'isOpen'
         return (
             <MediaCard
                 onCardClick={ this.onCardClick }
@@ -189,14 +192,14 @@ export default React.createClass({
                 width: "100%",
                 maxWidth: "700px"
             } : {};
-        
+
         styles.description = {
             marginRight: "40px",
             flex: "1",
             ...descriptionWidth
         };
 
-        // availability 
+        // availability
         let availabilityWidth = isOpen
             ? {
                 width: "100%",

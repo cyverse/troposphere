@@ -24,12 +24,14 @@ export default React.createClass({
 
         // Optionally render the UUID if not set as
         // summary by parent
-        let optMachineID = isSummary ? null
-            : (
+        let optMachineID;
+        if (!isSummary) {
+            optMachineID = (
                 <Code mb="10px" >
                     { machineID }
                 </Code>
             );
+        }
 
         let key = `${providerName}-${machineID}`;
         return (
@@ -49,9 +51,11 @@ export default React.createClass({
 
         // If there are any providers for this machine
         // map to render the list
-        let providers = machines
-            ? machines.map(this.renderProviderMachine)
-            : null;
+        let providers;
+        if ( machines ) {
+            providers = machines
+                .map(this.renderProviderMachine);
+        }
 
         return (
             <div>
