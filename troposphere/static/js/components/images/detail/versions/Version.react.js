@@ -23,12 +23,10 @@ export default React.createClass({
         version: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onEditClicked: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        showAvailability: React.PropTypes.bool
     },
 
     getDefaultProps() {
         return {
-            showAvailability: true,
             editable: true
         }
     },

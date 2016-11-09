@@ -13,8 +13,7 @@ export default React.createClass({
     },
     render: function() {
         var image = this.props.image,
-            versions = stores.ImageStore.getVersions(image.id),
-            showAvailableOn = context.hasLoggedInUser();
+            versions = stores.ImageStore.getVersions(image.id);
 
         if (!versions) {
             return (<div className="loading" />);
@@ -24,8 +23,7 @@ export default React.createClass({
             <h4 className="t-title">Versions</h4>
             <VersionList image={image}
                 versions={versions}
-                editable={true}
-                showAvailability={showAvailableOn} />
+                editable={true} />
         </div>
         );
     }
