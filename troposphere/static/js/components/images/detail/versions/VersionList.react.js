@@ -13,11 +13,9 @@ export default React.createClass({
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         versions: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         editable: React.PropTypes.bool,
-        showAvailability: React.PropTypes.bool
     },
     getDefaultProps: function() {
         return {
-            showAvailability: true,
             editable: true
         }
     },
@@ -56,7 +54,6 @@ export default React.createClass({
             version={version}
             image={this.props.image}
             editable={this.props.editable}
-            showAvailability={this.props.showAvailability}
             onEditClicked={this.openEditVersion} />
         );
     },
