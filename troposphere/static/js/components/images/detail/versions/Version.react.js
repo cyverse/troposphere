@@ -129,6 +129,8 @@ export default React.createClass({
                     isSummary={ !isOpen }
                     version={ version } />
             );
+        } else {
+            providerAvailability = "Please login to view available providers.";
         }
 
         return (
