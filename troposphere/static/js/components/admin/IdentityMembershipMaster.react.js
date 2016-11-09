@@ -1,6 +1,7 @@
 import React from "react";
 import Router from "react-router";
 import stores from "stores";
+import modals from "modals";
 import IdentityMembership from "./IdentityMembership.react";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 
@@ -144,9 +145,18 @@ export default React.createClass({
         </div>
         );
     },
+    launchNewProviderModal: function() {
+        modals.ProviderModals.create();
+    },
+
     render: function() {
         return (
         <div className="resource-master">
+            <div id="create-container">
+                <button className="btn btn-primary" onClick={this.launchNewProviderModal}>
+                    Create New Provider
+                </button>
+            </div>
             <div id="membership-container">
                 <input type="text"
                     className="form-control search-input"
