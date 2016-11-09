@@ -161,16 +161,17 @@ export default React.createClass({
 
     confirm: function() {
         if (this.isSubmittable()) {
-            this.props.onConfirm({
+            let provider_post_data = {
                 'name': this.state.providerName.trim(),
                 'description': this.state.providerDescription.trim(),
-                'cloud_config': this.state.providerCloudConfig,
-                'credentials': this.state.providerCredentials,
+                'cloud_config': JSON.parse(this.state.providerCloudConfig),
+                'credentials': JSON.parse(this.state.providerCredentials),
                 'timezone': this.state.providerTimezone,
                 'public': this.state.providerIsPublic,
                 'active': this.state.providerIsActive,
                 'auto_imaging': this.state.providerAllowAutoImaging
-            });
+            }
+            this.props.onConfirm(provider_post_data);
         }
         trackAction("created-provider", {});
         this.setState({
@@ -220,19 +221,19 @@ export default React.createClass({
 
     onIsPublicChange: function(new_status, e) {
         this.setState({
-            providerIsPublic: e.target.value
+            providerIsPublic: new_status,
         });
     },
 
     onIsActiveChange: function(new_status, e) {
         this.setState({
-            providerIsActive: e.target.value
+            providerIsActive: new_status,
         });
     },
 
     onImagingChange: function(new_status, e) {
         this.setState({
-            providerAllowAutoImaging: e.target.value
+            providerAllowAutoImaging: new_status,
         });
     },
 

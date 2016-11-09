@@ -145,16 +145,28 @@ export default React.createClass({
         </div>
         );
     },
+    launchNewAccountModal: function() {
+        modals.AccountModals.create();
+    },
     launchNewProviderModal: function() {
         modals.ProviderModals.create();
     },
-
+    newIdentityDisabled: function() {
+        var providers = stores.ProviderStore.getAll();
+        if (!providers || providers.length == 0) {
+            return true;
+        }
+        return false;
+    },
     render: function() {
         return (
         <div className="resource-master">
             <div id="create-container">
                 <button className="btn btn-primary" onClick={this.launchNewProviderModal}>
                     Create New Provider
+                </button>
+                <button className="btn btn-primary" disabled={this.newIdentityDisabled()} onClick={this.launchNewAccountModal}>
+                    Create New Account
                 </button>
             </div>
             <div id="membership-container">

@@ -69,6 +69,7 @@ stores.AllocationSourceStore = require("stores/AllocationSourceStore");
 
 import actions from "actions";
 
+actions.AccountActions = require("actions/AccountActions");
 actions.BadgeActions = require("actions/BadgeActions");
 actions.ExternalLinkActions = require("actions/ExternalLinkActions");
 actions.HelpActions = require("actions/HelpActions");
@@ -100,6 +101,7 @@ actions.VolumeActions = require("actions/VolumeActions");
 
 import modals from "modals";
 
+modals.AccountModals = require("modals/AccountModals");
 modals.BadgeModals = require("modals/BadgeModals");
 modals.ExternalLinkModals = require("modals/ExternalLinkModals");
 modals.HelpModals = require("modals/HelpModals");
