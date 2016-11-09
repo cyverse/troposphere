@@ -46,6 +46,21 @@ export default React.createClass({
         return this.props.onEditClicked(this.props.version);
     },
 
+    renderAvailability() {
+        let isOpen = this.state.isOpen;
+        let version = this.props.version;
+        if (!this.props.showAvailability) {
+            return;
+        }
+
+        return (
+        <AvailabilityView
+            isSummary={ !isOpen }
+            version={ version }
+        />
+        );
+    },
+
     renderEditLink() {
         //NOTE: Undefined/null/etc. defaults to "TRUE" case.
         if (this.props.editable == false) {
@@ -111,10 +126,24 @@ export default React.createClass({
     },
 
     renderSummary() {
+        let { version } = this.props;
         let styles = this.styles();
+        let isOpen = this.state.isOpen;
+        let providerAvailability;
+        if (context.hasLoggedInUser()) {
+            providerAvailability = (
+                <AvailabilityView
+                    isSummary={ !isOpen }
+                    version={ version } />
+            );
+        }
+
         return (
         <div style={ styles.content }>
             { this.renderChangeLog() }
+            <div style={ styles.availability }>
+                { providerAvailability }
+            </div>
         </div>
        );
     },
