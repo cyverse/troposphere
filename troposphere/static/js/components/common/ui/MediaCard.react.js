@@ -61,9 +61,6 @@ export default React.createClass({
         let styles = {};
 
         // card
-        let cardCursor = onCardClick 
-            ? "pointer" : "default";
-
         let cardMargin;
         if (isOpen) {
             cardMargin = {
@@ -73,7 +70,6 @@ export default React.createClass({
         }
         styles.card = {
             position: "relative",
-            cursor: cardCursor,
             padding: "10px",
             boxShadow: "0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24)",
             background: 'white',
@@ -88,9 +84,13 @@ export default React.createClass({
                 marginBottom: "20px"
             } : {};
 
+        let headerCursor = onCardClick 
+            ? "pointer" : "default";
+
         styles.header = {
             display: "flex",
             flexWrap: "wrap",
+            cursor: headerCursor,
             ...openHeader
         };
 
