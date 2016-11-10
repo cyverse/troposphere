@@ -52,6 +52,10 @@ _.extend(Store.prototype, Backbone.Events, {
     // ---------------
     // Event listeners
     // ---------------
+    clearCache: function() {
+        this.models = null;
+        this.queryModels = {};
+    },
 
     addChangeListener: function(callback) {
         this.on(CHANGE_EVENT, callback);

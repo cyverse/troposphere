@@ -2,6 +2,7 @@ import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import IdentityMembershipCollection from "collections/IdentityMembershipCollection";
 import IdentityMembershipConstants from "constants/IdentityMembershipConstants";
+import AccountConstants from "constants/AccountConstants";
 
 let IdentityMembershipStore = BaseStore.extend({
     collection: IdentityMembershipCollection
@@ -15,6 +16,10 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
+        case AccountConstants.UPDATE_ACCOUNT:
+            store.clearCache();
+            break;
+
         case IdentityMembershipConstants.UPDATE:
             store.update(payload.model);
             break;
