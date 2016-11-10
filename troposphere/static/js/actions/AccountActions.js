@@ -37,8 +37,9 @@ export default {
                 onSuccess(account);
             }
 
-        }).fail(function() {
-            var message = "Error creating Account " + account.get("name") + ".";
+        }).fail(function(response) {
+            var err_response = response.responseJSON || response.responseText;
+            var message = "Error creating Account " + account.get("atmo_user") + ":" + err_response;
             NotificationController.error(null, message);
             Utils.dispatch(AccountConstants.REMOVE_ACCOUNT, {
                 account: account

@@ -44,8 +44,9 @@ export default {
                 onSuccess(provider);
             }
 
-        }).fail(function() {
-            var message = "Error creating Provider " + provider.get("name") + ".";
+        }).fail(function(response) {
+            var err_response = response.responseJSON || response.responseText;
+            var message = "Error creating Provider " + provider.get("name") + ":" + err_response;
             NotificationController.error(null, message);
             Utils.dispatch(ProviderConstants.REMOVE_PROVIDER, {
                 provider: provider
