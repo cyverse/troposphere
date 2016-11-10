@@ -35,7 +35,13 @@ export default React.createClass({
 
         return (
             <Div>
-                <Div mb={3} style={{ background: "white" }}>
+                <Div 
+                    mb={5} 
+                    style={{ 
+                        background: "white",
+                        boxShadow: "1px 1px 1px rgba(0,0,0,.3)",
+                    }}
+                >
                     <Wrapper>
                         <SubHeader
                             quickOptions={[ 
