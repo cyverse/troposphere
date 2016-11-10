@@ -20,14 +20,6 @@ export default {
     // ------------------------
 
     create: function(params, onSuccess, onFailure) {
-        if (!params.name)
-            throw new Error("Missing name");
-        if (!params.description)
-            throw new Error("Missing description");
-
-        var name = params.name,
-            description = params.description;
-
         var provider = new Provider(params)
 
 
