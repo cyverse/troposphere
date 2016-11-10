@@ -94,6 +94,9 @@ export default React.createClass({
                         <h4 className="t-body-2">User</h4>
                     </th>
                     <th>
+                        <h4 className="t-body-2">Identity</h4>
+                    </th>
+                    <th>
                         <h4 className="t-body-2">Provider</h4>
                     </th>
                     <th>
