@@ -82,9 +82,6 @@ const appRoutes = (
         <Route name="my-requests-resources" path="resources" handler={RequestHistory} />
         <Route name="my-requests-images" path="images" handler={MyImageRequestsPage} />
     </Route>
-    <Route name="instances">
-        <Route name="new-instance-detail" path=":id" handler={NewInstanceDetail} />
-    </Route>
     <DefaultRoute handler={DashboardPage} />
 </Route>
 );
