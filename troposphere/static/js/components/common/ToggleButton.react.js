@@ -1,5 +1,5 @@
-import React from "react";
-
+import React from 'react';
+import tinyColor from 'tinycolor2'
 
 export default React.createClass({
     displayName: "ToggleButton",
@@ -12,62 +12,107 @@ export default React.createClass({
         onToggle: React.PropTypes.func.isRequired,
     },
 
-    getInitialState: function() {
+    getInitialState() {
         return {
             isEnabled: this.props.isEnabled || false,
         };
     },
-    getDefaultProps: function() {
+
+    getDefaultProps() {
         return {
             enabled_text: "True",
             disabled_text: "False"
         };
     },
-    renderToggle: function() {
-        return (this.state.isEnabled) ? this.renderEnabledToggle() : this.renderDisabledToggle();
-    },
-    onEnabled: function(e) {
+
+    onToggle(e) {
+
+        let isEnabled = this.state.isEnabled ? false : true;
         this.setState({
-            isEnabled: true
+            isEnabled
         });
-        return this.props.onToggle(true, e);
+        return this.props.onToggle(isEnabled, e);
     },
-    onDisabled: function(e) {
-        this.setState({
-            isEnabled: false
-        });
-        return this.props.onToggle(false, e);
-    },
-    renderDisabledToggle: function() {
+
+    render() {
+        let { enabled_text, disabled_text } = this.props;
+        let styles = this.styles();
+        let text = this.state.isEnabled
+            ? enabled_text
+            : disabled_text;
+
         return (
-        <div className="toggle-wrapper" onClick={this.onEnabled}>
-            <div className="toggle-switch"></div>
-            <div className="toggle-background">
-                <div className="toggle-text">
-                    {this.props.disabled_text}
+        <div style={ styles.toggleWrapper } onClick={ this.onToggle} >
+            <div style={ styles.toggleSwitch } />
+            <div style={ styles.toggleBackground }>
+                <div style={ styles.toggleText }>
+                    { text }
                 </div>
             </div>
         </div>
         );
     },
-    renderEnabledToggle: function() {
-        return (
-        <div className="toggle-wrapper" onClick={this.onDisabled}>
-            <div className="toggle-background">
-                <div className="toggle-text">
-                    {this.props.enabled_text}
-                </div>
-            </div>
-            <div className="toggle-switch"></div>
-        </div>
-        );
-    },
-    render: function() {
-        // REMOVE this style-hack when we replace this with 'a better switch'
-        return (
-        <div className="button-toggle" style={{ width: "105px" }}>
-            {this.renderToggle()}
-        </div>
-        );
+
+    styles() {
+
+        let isEnabled = this.state.isEnabled;
+
+        let enabledColor = "#eb6538";
+        let disabledColor = "#dbdbdb";
+
+        let style = {};
+
+        style.toggleWrapper = {
+            cursor: "pointer",
+            position: "relative",
+            paddingTop: "1px",
+            width: "120px",
+        };
+
+        let toggleBGColor = isEnabled
+            ? tinyColor(enabledColor).lighten(10)
+            : tinyColor(disabledColor).lighten(10);
+
+        style.toggleBackground = {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "inset 1px 1px 1px rgba(0,0,0,.1), 0px 0px 1px white",
+            height: "20px",
+            borderRadius: "900px",
+            backgroundColor: toggleBGColor,
+            transition: "background-color ease .2s",
+        };
+
+        let textColor = isEnabled
+            ? "white" : "black";
+
+        style.toggleText = {
+            textAlign: "center",
+            color: textColor,
+            fontWeight: "100",
+            fontSize: "12px",
+        };
+
+        let switchBGColor = isEnabled
+            ? enabledColor
+            : disabledColor;
+
+        let switchPosition = isEnabled
+        ? { right: "0"} : { right: "calc(100% - 22px)" };
+
+        style.toggleSwitch = {
+            ...switchPosition,
+            top: -1,
+            width: "22px",
+            height: "22px",
+            position: "absolute",
+            backgroundColor: switchBGColor,
+            borderRadius: "12px",
+            boxShadow: "0px 1px 1px 0px rgba(0,0,0,.3)",
+            transition: "right ease .1s"
+        };
+
+        return style
     }
 });

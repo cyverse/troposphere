@@ -189,19 +189,6 @@
   }
 }
 
-/* Bookmarks */
-.bookmark {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-
-  img {
-    height: 24px;
-    width: 24px;
-    display: block;
-  }
-}
-
 /* View selector for cards, as list or as cards */
 .view-selector {
   float: right;
@@ -247,10 +234,6 @@
 }
 
 /* Search */
-#search-container {
-  text-align: center;
-}
-
 .search-input {
   margin-bottom: 5px;
 }
@@ -258,14 +241,6 @@
 .advanced-search-options {
   margin-top: 10px;
   text-align: left;
-}
-
-.image-tag-list {
-  table {
-    .t-body-2 {
-      min-height: 30px;
-    }
-  }
 }
 
 .tag-title {

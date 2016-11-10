@@ -7,6 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
+from troposphere.models import TroposphereUser
 
 logger = logging.getLogger(__name__)
 
@@ -21,18 +22,25 @@ def _create_signature(secret, *parts):
 
 def web_shell(request):
     response = HttpResponse()
+    shell_user = request.user
+    if request.session:
+        logger.info("request.session: %s" % request.session.items())
+        atmo_username = request.session.get('username','')
+        atmo_user = TroposphereUser.objects.filter(username=atmo_username).first()
+        if atmo_user:
+            shell_user = atmo_user
 
     logger.info("request.user = %s" % request.user)
+    logger.info("User for shell = %s" % shell_user)
     logger.info("is_auth? %s" % request.user.is_authenticated())
 
     if request.user.is_authenticated():
         logger.info("rendering web_shell template... ")
-        logger.info("request.session: %s" % request.session)
 
         secret = settings.GATE_ONE_API_SECRET
         authobj = {
             'api_key': settings.GATE_ONE_API_KEY,
-            'upn': request.user.username,
+            'upn': shell_user.username,
             'timestamp': str(int(time.time() * 1000)),
         }
 

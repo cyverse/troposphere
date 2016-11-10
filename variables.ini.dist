@@ -31,11 +31,14 @@ UWSGI_LOG_PATH =
 
 [local.py]
 DEBUG =
+ADMINS_EMAIL_TUPLE = ; [('Atmosphere Admin', 'atmo-admin@website.com'),('System Admins', 'sys-admin@website.com')]
+SERVER_EMAIL =
 THEME_NAME =
 SITE_TITLE =
 SITE_FOOTER =
 ORG_NAME =
 SUPPORT_EMAIL =
+MAINTENANCE_EXEMPT_USERNAMES = ; ['test1','test2'] -- a list of usernames that will be exempt from Maintenance
 API_SERVER =
 BASE_URL =
 DYNAMIC_ASSET_LOADING = ; False for local dev - controls JS asset generations and loading (app.js vs app-[hash].js)
@@ -95,7 +98,6 @@ GATE_ONE_API_KEY =
 GATE_ONE_API_SECRET =
 WEB_SH_BASE_URL =
 WEB_SH_JS_FILE =
-STAFF_LIST_USERNAMES =
 # NoVNC related variables
 # - feature flag: WEB_DESKTOP_INCLUDE_LINK
 WEB_DESKTOP_SIGNING_SALT =

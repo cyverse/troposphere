@@ -13,14 +13,20 @@ class Migration(migrations.Migration):
 
     # These one-off operations are no longer necessary. The file was already executed in a production environment so it will stay as-is.
     operations = [
-        # migrations.RunSQL(
-        #     '''ALTER TABLE api_userpreferences DROP CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id''',
-        # reverse_sql='''ALTER TABLE api_userpreferences ADD CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id
-        #     FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED'''
-        # ),
-        # migrations.RunSQL(
-        # '''ALTER TABLE api_userpreferences ADD CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id
-        #     FOREIGN KEY (user_id) REFERENCES troposphere_user(id) DEFERRABLE INITIALLY DEFERRED''',
-        # reverse_sql='''ALTER TABLE api_userpreferences DROP CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id'''
-        # ),
+        migrations.RunSQL(
+            '''delete from api_userpreferences''',
+        ),
+        migrations.RunSQL(
+            '''ALTER TABLE api_userpreferences DROP CONSTRAINT IF EXISTS api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id''',
+        reverse_sql='''ALTER TABLE api_userpreferences ADD CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id
+            FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED'''
+        ),
+        migrations.RunSQL(
+            '''ALTER TABLE api_userpreferences DROP CONSTRAINT IF EXISTS api_userpreferences_user_id_63286be2_fk_troposphere_user_id''',
+        ),
+        migrations.RunSQL(
+        '''ALTER TABLE api_userpreferences ADD CONSTRAINT api_userpreferences_user_id_63286be2_fk_troposphere_user_id
+            FOREIGN KEY (user_id) REFERENCES troposphere_user(id) DEFERRABLE INITIALLY DEFERRED''',
+        reverse_sql='''ALTER TABLE api_userpreferences DROP CONSTRAINT api_userpreferences_user_id_63286be2_fk_troposphere_user_id'''
+        ),
     ]

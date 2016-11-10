@@ -69,6 +69,7 @@ def emulate(request, username):
     logger.info("[EMULATE]User %s (Token: %s) has emulated User %s (Token:%s)"
                 % (emulator, old_token, username, new_token))
 
+    request.session["username"] = username
     request.session["emulator"] = emulator
     request.session['emulator_token'] = old_token
     request.session['access_token'] = new_token
@@ -86,6 +87,10 @@ def unemulate(request):
     logger.info("[EMULATE]Session_token: %s. Request to remove emulation."
                 % (old_token, ))
     request.session['access_token'] = old_token
+
+
+    if "username" in request.session:
+        del request.session['username']
 
     if "emulate_by" in request.session:
         del request.session['emulate_by']

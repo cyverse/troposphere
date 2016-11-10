@@ -20,19 +20,20 @@ from .maintenance import get_maintenance, get_notice
 logger = logging.getLogger(__name__)
 
 
-if hasattr(settings, "STAFF_LIST_USERNAMES"):
-    STAFF_LIST_USERNAMES = settings.STAFF_LIST_USERNAMES
+if hasattr(settings, "MAINTENANCE_EXEMPT_USERNAMES"):
+    MAINTENANCE_EXEMPT_USERNAMES = settings.MAINTENANCE_EXEMPT_USERNAMES
 else:
     logger.error("""
-        STAFF_LIST_USERNAMES has not been set correctly.
+        MAINTENANCE_EXEMPT_USERNAMES has not been set correctly.
         Help look at atmosphere/settings/local.py or
         add to variables.ini under [local.py] & re-run
         the ./configure script
     """)
-    logger.warn("Adding fallback STAFF_LIST_USERNAMES...")
-    STAFF_LIST_USERNAMES = [
-        'sgregory', 'lenards', 'tharon', 'cdosborn', 'julianp', 'josephgarcia',
-        'mattd', 'amercer'
+    logger.warn("Adding fallback MAINTENANCE_EXEMPT_USERNAMES...")
+    MAINTENANCE_EXEMPT_USERNAMES = [
+        'sgregory', 'lenards', 'tharon',
+        'cdosborn', 'julianp', 'amercer',
+        'amitj', 'cmart', 'jchansen'
     ]
 
 
@@ -46,7 +47,7 @@ def should_route_to_maintenace(request, in_maintenance):
     """
     return (in_maintenance
         and request.user.is_staff is not True
-        and request.user.username not in STAFF_LIST_USERNAMES
+        and request.user.username not in MAINTENANCE_EXEMPT_USERNAMES
         and not is_emulated_session(request))
 
 
@@ -211,7 +212,7 @@ def application_backdoor(request):
         logger.info('No maintenance, Go to /application - do not collect $100')
         return redirect('application')
 
-    if request.user.is_authenticated() and request.user.username not in STAFF_LIST_USERNAMES:
+    if request.user.is_authenticated() and request.user.username not in MAINTENANCE_EXEMPT_USERNAMES:
         logger.warn('[Backdoor] %s is NOT in staff_list_usernames' % request.user.username)
         return redirect('maintenance')
 

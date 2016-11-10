@@ -49,6 +49,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "react-tooltip": "^3.0.10",
     "showdown": "^1.2.1",
+    "tinycolor2": "^1.4.1",
     "toastr": "^2.1.0",
     "cyverse-ui": "^1.*",
     "underscore": "^1.8.3"

@@ -470,8 +470,11 @@ _.extend(Store.prototype, Backbone.Events, {
     },
 
     // Delays before polling, should be removed...
-    pollUntilBuildIsFinished: function(model) {
-        setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), this.pollingFrequency);
+    pollUntilBuildIsFinished: function(model, pollingDelay) {
+        if(!pollingDelay) {
+            pollingDelay = this.pollingFrequency;
+        }
+        setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), pollingDelay);
     },
 });
 

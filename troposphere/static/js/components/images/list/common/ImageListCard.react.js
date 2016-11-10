@@ -88,8 +88,8 @@ export default React.createClass({
         var bookmark;
         if (hasLoggedInUser) {
             bookmark = (
-                <span 
-                    style={{ 
+                <span
+                    style={{
                         position: "absolute",
                         top: "10px",
                         right: "10px",
@@ -114,7 +114,7 @@ export default React.createClass({
                         <strong> { image.get("created_by").username }</strong>
                     </span>
                 }
-                description={
+                summary={
                     <span>
                         { this.renderEndDated() }
                         { bookmark }
