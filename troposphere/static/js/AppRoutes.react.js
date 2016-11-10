@@ -22,7 +22,6 @@ import ProviderDetail from "./components/providers/ProviderDetail.react";
 import HelpPage from "./components/help/HelpPage.react";
 import ProjectsMaster from "./components/projects/ProjectsMaster.react";
 import ProjectDetailsMaster from "./components/projects/detail/ProjectDetailsMaster.react";
-import ProjectDetailsPage from "./components/projects/ProjectDetailsPage.react";
 import ProjectResourcesPage from "./components/projects/ProjectResourcesPage.react";
 import FavoritedImagesPage from "./components/images/FavoritedImagesPage.react";
 import MyImagesPage from "./components/images/MyImagesPage.react";
@@ -31,9 +30,6 @@ import ImageTagsPage from "./components/images/ImageTagsPage.react";
 import ImagesMaster from "./components/images/ImagesMaster.react";
 import NewInstanceDetail from "./components/common/InstanceDetail.react";
 import SettingsPage from "./components/settings/SettingsPage.react";
-import ProjectInstancePage from "./components/projects/InstanceDetailsPage.react";
-import ProjectVolumePage from "./components/projects/VolumeDetailsPage.react";
-import ProjectLinkPage from "./components/projects/ExternalLinkDetailsPage.react";
 import AdminMaster from "./components/admin/AdminMaster.react";
 import AtmosphereUserMaster from "./components/admin/AtmosphereUserMaster.react";
 import ImageMaster from "./components/admin/ImageMaster.react";
@@ -53,12 +49,7 @@ const appRoutes = (
     <Route name="dashboard" handler={DashboardPage} />
     <Route name="projects" handler={ProjectsMaster}>
         <Route name="project" path=":projectId" handler={ProjectDetailsMaster}>
-            <Route name="project-details" path="details" handler={ProjectDetailsPage} />
             <Route name="project-resources" path="resources" handler={ProjectResourcesPage} />
-            <Route name="project-instance-details" path="instances/:instanceId" handler={ProjectInstancePage} />
-            <Route name="project-volume-details" path="volumes/:volumeId" handler={ProjectVolumePage} />
-            <Route name="project-link-details" path="links/:linkId" handler={ProjectLinkPage} />
-            <DefaultRoute handler={ProjectDetailsPage} />
         </Route>
         <DefaultRoute handler={ProjectListPage} />
     </Route>
