@@ -28,7 +28,6 @@ import MyImagesPage from "./components/images/MyImagesPage.react";
 import MyImageRequestsPage from "./components/images/MyImageRequestsPage.react";
 import ImageTagsPage from "./components/images/ImageTagsPage.react";
 import ImagesMaster from "./components/images/ImagesMaster.react";
-import NewInstanceDetail from "./components/common/InstanceDetail.react";
 import SettingsPage from "./components/settings/SettingsPage.react";
 import AdminMaster from "./components/admin/AdminMaster.react";
 import AtmosphereUserMaster from "./components/admin/AtmosphereUserMaster.react";
