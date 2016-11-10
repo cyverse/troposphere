@@ -71,7 +71,7 @@ export default React.createClass({
     renderTable: function() {
         let memberships = this.state.memberships;
 
-        if (!memberships) return <div className="loading"></div>;
+        if (memberships == null) return <div className="loading"></div>;
 
         var identityMembershipRows = memberships.map(function(membership) {
             return (
