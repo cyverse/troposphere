@@ -69,6 +69,7 @@ stores.AllocationSourceStore = require("stores/AllocationSourceStore");
 
 import actions from "actions";
 
+actions.AccountActions = require("actions/AccountActions");
 actions.BadgeActions = require("actions/BadgeActions");
 actions.ExternalLinkActions = require("actions/ExternalLinkActions");
 actions.HelpActions = require("actions/HelpActions");
@@ -87,6 +88,7 @@ actions.ScriptActions = require("actions/ScriptActions");
 actions.NullProjectActions = require("actions/NullProjectActions");
 actions.ProfileActions = require("actions/ProfileActions");
 actions.ProjectActions = require("actions/ProjectActions");
+actions.ProviderActions = require("actions/ProviderActions");
 actions.ProviderMachineActions = require("actions/ProviderMachineActions");
 actions.ProjectExternalLinkActions = require("actions/ProjectExternalLinkActions");
 actions.ProjectImageActions = require("actions/ProjectImageActions");
@@ -99,12 +101,14 @@ actions.VolumeActions = require("actions/VolumeActions");
 
 import modals from "modals";
 
+modals.AccountModals = require("modals/AccountModals");
 modals.BadgeModals = require("modals/BadgeModals");
 modals.ExternalLinkModals = require("modals/ExternalLinkModals");
 modals.HelpModals = require("modals/HelpModals");
 modals.InstanceModals = require("modals/InstanceModals");
 modals.InstanceVolumeModals = require("modals/InstanceVolumeModals");
 modals.ProjectModals = require("modals/ProjectModals");
+modals.ProviderModals = require("modals/ProviderModals");
 modals.TagModals = require("modals/TagModals");
 modals.VersionModals = require("modals/VersionModals");
 modals.VolumeModals = require("modals/VolumeModals");

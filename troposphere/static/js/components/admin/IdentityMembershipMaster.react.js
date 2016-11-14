@@ -1,6 +1,7 @@
 import React from "react";
 import Router from "react-router";
 import stores from "stores";
+import modals from "modals";
 import IdentityMembership from "./IdentityMembership.react";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 
@@ -70,7 +71,7 @@ export default React.createClass({
     renderTable: function() {
         let memberships = this.state.memberships;
 
-        if (!memberships) return <div className="loading"></div>;
+        if (memberships == null) return <div className="loading"></div>;
 
         var identityMembershipRows = memberships.map(function(membership) {
             return (
@@ -91,6 +92,9 @@ export default React.createClass({
                 <tr className="admin-row">
                     <th>
                         <h4 className="t-body-2">User</h4>
+                    </th>
+                    <th>
+                        <h4 className="t-body-2">Identity</h4>
                     </th>
                     <th>
                         <h4 className="t-body-2">Provider</h4>
@@ -144,9 +148,30 @@ export default React.createClass({
         </div>
         );
     },
+    launchNewAccountModal: function() {
+        modals.AccountModals.create();
+    },
+    launchNewProviderModal: function() {
+        modals.ProviderModals.create();
+    },
+    newIdentityDisabled: function() {
+        var providers = stores.ProviderStore.getAll();
+        if (!providers || providers.length == 0) {
+            return true;
+        }
+        return false;
+    },
     render: function() {
         return (
         <div className="resource-master">
+            <div id="create-container">
+                <button className="btn btn-primary" onClick={this.launchNewProviderModal}>
+                    Create New Provider
+                </button>
+                <button className="btn btn-primary" disabled={this.newIdentityDisabled()} onClick={this.launchNewAccountModal}>
+                    Create New Account
+                </button>
+            </div>
             <div id="membership-container">
                 <input type="text"
                     className="form-control search-input"

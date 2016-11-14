@@ -1,5 +1,7 @@
 import BaseStore from "stores/BaseStore";
+import Dispatcher from "dispatchers/Dispatcher";
 import ProviderCollection from "collections/ProviderCollection";
+import ProviderConstants from "constants/ProviderConstants";
 
 let ProviderStore = BaseStore.extend({
     collection: ProviderCollection,
@@ -21,5 +23,26 @@ let ProviderStore = BaseStore.extend({
 });
 
 let store = new ProviderStore();
+
+Dispatcher.register(function(dispatch) {
+    var actionType = dispatch.action.actionType;
+    var payload = dispatch.action.payload;
+    var options = dispatch.action.options || options;
+
+    switch (actionType) {
+
+        case ProviderConstants.UPDATE_PROVIDER:
+            store.clearCache();
+            break;
+        default:
+            return true;
+    }
+
+    if (!options.silent) {
+        store.emitChange();
+    }
+
+    return true;
+});
 
 export default store;
