@@ -1,7 +1,5 @@
 import Utils from "./Utils";
 import NotificationController from "controllers/NotificationController";
-import Router from "../Router";
-import actions from "actions";
 
 // Constants
 import AccountConstants from "constants/AccountConstants";
@@ -9,8 +7,9 @@ import AccountConstants from "constants/AccountConstants";
 // Models
 import Account from "models/Account";
 
+// If a modal was used, then uncomment the import below
 // Modals
-import ModalHelpers from "components/modals/ModalHelpers";
+//import ModalHelpers from "components/modals/ModalHelpers";
 
 
 export default {

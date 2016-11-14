@@ -1,7 +1,5 @@
 import Utils from "./Utils";
 import NotificationController from "controllers/NotificationController";
-import Router from "../Router";
-import actions from "actions";
 
 // Constants
 import ProviderConstants from "constants/ProviderConstants";
@@ -9,8 +7,9 @@ import ProviderConstants from "constants/ProviderConstants";
 // Models
 import Provider from "models/Provider";
 
+// If a modal was used, then uncomment the import below
 // Modals
-import ModalHelpers from "components/modals/ModalHelpers";
+//import ModalHelpers from "components/modals/ModalHelpers";
 
 
 export default {
@@ -28,7 +27,7 @@ export default {
         });
 
         provider.save().done(function() {
-            //NotificationController.success(null, "Provider " + provider.get('name') + " created.");
+            // NotificationController.success(null, "Provider " + provider.get('name') + " created.");
             Utils.dispatch(ProviderConstants.UPDATE_PROVIDER, {
                 provider: provider
             });
