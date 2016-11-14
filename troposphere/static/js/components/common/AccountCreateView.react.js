@@ -198,15 +198,20 @@ export default React.createClass({
         let cpu = quota.get("cpu");
         let memory = quota.get("memory");
         let storage = quota.get("storage");
-        // These values arent yet used
-        let storage_count = quota.get("storage_count");
-        let instance_count = quota.get("instance_count");
-        let snapshot_count = quota.get("snapshot_count");
-        let floating_ip_count = quota.get("floating_ip_count");
-        let port_count = quota.get("port_count");
+        // TODO: include the following when needed
+        //
+        // currently, these values are not in the
+        // initial phase of the account creation...
+        //
+        //let storage_count = quota.get("storage_count");
+        //let instance_count = quota.get("instance_count");
+        //let snapshot_count = quota.get("snapshot_count");
+        //let floating_ip_count = quota.get("floating_ip_count");
+        //let port_count = quota.get("port_count");
 
         return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB, Disk: ${ storage } GB, ...)`;
     },
+
     onQuotaChange: function(quota) {
         this.setState({
             quota: quota

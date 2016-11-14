@@ -26,7 +26,8 @@ let store = new ProviderStore();
 
 Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
-    var payload = dispatch.action.payload;
+    // Payload not used in current implementation
+    // var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
