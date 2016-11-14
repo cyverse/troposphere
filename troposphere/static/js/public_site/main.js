@@ -1,5 +1,5 @@
 import "babel-polyfill";
-import bootstrapper from "public_site/bootstrapper.react";
+import bootstrapper from "public_site/bootstrapper";
 import Raven from "raven-js";
 
 let sentryDSN = "https://27643f06676048be96ad6df686c17da3@app.getsentry.com/73366";

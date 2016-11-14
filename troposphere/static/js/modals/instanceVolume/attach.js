@@ -1,5 +1,5 @@
 import ModalHelpers from "components/modals/ModalHelpers";
-import VolumeAttachModal from "components/modals/volume/VolumeAttachModal.react";
+import VolumeAttachModal from "components/modals/volume/VolumeAttachModal";
 import stores from "stores";
 import actions from "actions";
 

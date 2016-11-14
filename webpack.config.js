@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === "production") {
     new CompressionPlugin({
             asset: "[path].gz[query]",
             algorithm: "gzip",
-            test: /\.js$|\.css$/,
+            test: /\.jsx?$|\.css$/,
             threshold: 10240,
             minRatio: 0.8
     })
@@ -91,7 +91,7 @@ module.exports = {
             path.join(__dirname, 'node_modules/moment-timezone')
         ]
       },
-      { test: /\.js$/,
+      { test: /\.jsx?$/,
         loader: "babel-loader",
         query: { cacheDirectory: '/tmp/' },
         exclude: /(node_modules|troposphere\/static\/js\/lib)/ },
@@ -117,7 +117,7 @@ module.exports = {
     root: [
       PATHS.context,
     ],
-    extensions: ["", ".js", ".scss", ".sass"]
+    extensions: ["", ".js", ".jsx", ".scss", ".sass"]
   },
   // defined the PostCSS plugins to be used
   postcss: function() {

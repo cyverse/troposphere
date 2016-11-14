@@ -1,5 +1,5 @@
 import ModalHelpers from "components/modals/ModalHelpers";
-import InstanceStartModal from "components/modals/instance/InstanceStartModal.react";
+import InstanceStartModal from "components/modals/instance/InstanceStartModal";
 import actions from "actions";
 
 export default {

@@ -2,7 +2,7 @@ import Backbone from "backbone";
 
 import globals from "globals";
 import Instance from "models/Instance";
-import { api } from "mock/instances.js";
+import { api } from "mock/instances";
 import mockSync from "utilities/mockSync";
 
 export default Backbone.Collection.extend({

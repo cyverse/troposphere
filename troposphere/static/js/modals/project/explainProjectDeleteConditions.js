@@ -1,5 +1,5 @@
 import ModalHelpers from "components/modals/ModalHelpers";
-import ProjectDeleteConditionsModal from "components/modals/project/ProjectDeleteConditionsModal.react";
+import ProjectDeleteConditionsModal from "components/modals/project/ProjectDeleteConditionsModal";
 
 export default {
     explainProjectDeleteConditions: function() {

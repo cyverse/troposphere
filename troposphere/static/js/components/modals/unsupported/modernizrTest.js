@@ -1,4 +1,4 @@
-import modernizr from "lib/modernizr-latest.js";
+import modernizr from "lib/modernizr-latest";
 import _ from "underscore";
 
 let features = modernizr;

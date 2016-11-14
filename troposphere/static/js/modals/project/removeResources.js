@@ -1,6 +1,6 @@
 import actions from "actions";
 import ModalHelpers from "components/modals/ModalHelpers";
-import ProjectRemoveResourceModal from "components/modals/project/ProjectRemoveResourceModal.react";
+import ProjectRemoveResourceModal from "components/modals/project/ProjectRemoveResourceModal";
 
 export default {
     removeResources: function(resources, project) {

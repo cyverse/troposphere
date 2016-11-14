@@ -1,6 +1,6 @@
 import actions from "actions";
 import ModalHelpers from "components/modals/ModalHelpers";
-import ExternalLinkCreateModal from "components/modals/link/ExternalLinkCreateModal.react";
+import ExternalLinkCreateModal from "components/modals/link/ExternalLinkCreateModal";
 
 export default {
 

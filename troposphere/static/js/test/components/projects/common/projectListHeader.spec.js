@@ -7,8 +7,8 @@
 
 
 var TestUtils = require("react-addons-test-utils"),
-    projectListHeader = require("components/projects/common/ProjectListHeader.react"),
-    projectCollectionFixture = require("./test/fixtures/projects.fixture.js"),
+    projectListHeader = require("components/projects/common/ProjectListHeader"),
+    projectCollectionFixture = require("./test/fixtures/projects.fixture"),
     title;
 
 describe("Project List Header", function() {

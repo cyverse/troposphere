@@ -1,6 +1,6 @@
 
 import ModalHelpers from "components/modals/ModalHelpers";
-import PublicSupportModal from "components/modals/PublicSupportModal.react";
+import PublicSupportModal from "components/modals/PublicSupportModal";
 
 
 export default {

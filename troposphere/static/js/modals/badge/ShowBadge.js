@@ -1,5 +1,5 @@
 import ModalHelpers from "components/modals/ModalHelpers";
-import BadgeModal from "components/modals/BadgeModal.react";
+import BadgeModal from "components/modals/BadgeModal";
 
 export default {
     ShowBadge: function(badge) {
