@@ -2,8 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import stores from "stores";
 import ToggleButton from "components/common/ToggleButton.react";
-import { trackAction } from "../../utilities/userActivity";
 import SelectMenu from "components/common/ui/SelectMenu.react";
+
+import { trackAction } from "../../utilities/userActivity";
+
 
 export default React.createClass({
     displayName: "AccountCreateView",
