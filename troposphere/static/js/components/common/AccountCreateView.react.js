@@ -129,7 +129,7 @@ export default React.createClass({
     confirm: function() {
         if (this.isSubmittable()) {
             let quota = (this.state.quota) ? this.state.quota.get('uuid') : null;
-            let account_post_data = {
+            let accountPostData = {
                 'atmo_user': this.state.atmosphereUsername.trim(),
                 'atmo_group': this.state.atmosphereGroupname.trim(),
                 'credentials': JSON.parse(this.state.accountCredentials),
@@ -138,7 +138,7 @@ export default React.createClass({
                 'create_account': this.state.createAccount,
                 'admin_account': this.state.adminAccount
             }
-            this.props.onConfirm(account_post_data);
+            this.props.onConfirm(accountPostData);
         }
         trackAction("created-account", {});
         this.setState({
