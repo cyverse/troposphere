@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
-import ToggleButton from "components/common/ToggleButton.react";
+import ToggleButton from "components/common/ToggleButton";
+
 import { trackAction } from "../../utilities/userActivity";
 
 export default React.createClass({

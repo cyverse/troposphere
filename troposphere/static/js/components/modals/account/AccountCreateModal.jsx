@@ -1,9 +1,9 @@
 import React from "react";
-import ProviderCreateView from "components/common/ProviderCreateView.react.js";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import AccountCreateView from "components/common/AccountCreateView";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
 export default React.createClass({
-    displayName: "ProviderCreateModal",
+    displayName: "AccountCreateModal",
 
     mixins: [BootstrapModalMixin],
 
@@ -11,9 +11,9 @@ export default React.createClass({
         this.hide();
     },
 
-    confirm: function(provider_attrs) {
+    confirm: function(new_account_attrs) {
         this.hide();
-        this.props.onConfirm(provider_attrs);
+        this.props.onConfirm(new_account_attrs);
     },
 
     render: function() {
@@ -24,10 +24,10 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h1 className="t-title">Create Provider</h1>
+                        <h1 className="t-title">Create Account</h1>
                     </div>
                     <div className="modal-body">
-                        <ProviderCreateView cancel={this.cancel} onConfirm={this.confirm} />
+                        <AccountCreateView cancel={this.cancel} onConfirm={this.confirm} />
                     </div>
                 </div>
             </div>

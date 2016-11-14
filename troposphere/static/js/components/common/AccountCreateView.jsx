@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import stores from "stores";
-import ToggleButton from "components/common/ToggleButton.react";
-import SelectMenu from "components/common/ui/SelectMenu.react";
+import ToggleButton from "components/common/ToggleButton";
+import SelectMenu from "components/common/ui/SelectMenu";
 
 import { trackAction } from "../../utilities/userActivity";
 

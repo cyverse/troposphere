@@ -239,11 +239,11 @@ export default {
 
     deleteResources: function(resources, project) {
         // According to this line below the following functionality has been disabled!
-        // components/projects/detail/resources/ButtonBar.react.js:25
+        // components/projects/detail/resources/ButtonBar.jsx:25
         //
         // Further the modal below HAS BEEN DELETED :C
         // It can be scavenged from here:
-        // 
+        //
         //    git show ca1a6ef18c:troposphere/static/js/actions/modalHelpers/ProjectModalHelpers.js
         //
         // Or:
