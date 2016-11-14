@@ -29,6 +29,7 @@ export default React.createClass({
         var membership = this.props.membership;
         var membershipStatus = membership.get("end_date");
         var provider_str = membership.get("provider").name;
+        var identity_key = membership.get("identity_key");
         var btnStatus = membershipStatus ? "primary" : "danger";
         var btnClass = "btn btn-" + btnStatus + " btn-xs pull-right";
         var statusDisc = {
@@ -48,6 +49,9 @@ export default React.createClass({
         <tr>
             <td className="user-name">
                 {membership.get("user").username}
+            </td>
+            <td className="identity-key">
+                {identity_key}
             </td>
             <td className="provider">
                 {provider_str}
