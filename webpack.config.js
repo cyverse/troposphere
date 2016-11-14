@@ -109,6 +109,7 @@ module.exports = {
   },
   plugins: plugins,
   resolve: {
+    fallback: [path.join(__dirname, "/node_modules")],
     alias: {
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
@@ -118,6 +119,9 @@ module.exports = {
       PATHS.context,
     ],
     extensions: ["", ".js", ".jsx", ".scss", ".sass"]
+  },
+  resolveLoader: {
+      root: path.join(__dirname, 'node_modules')
   },
   // defined the PostCSS plugins to be used
   postcss: function() {
