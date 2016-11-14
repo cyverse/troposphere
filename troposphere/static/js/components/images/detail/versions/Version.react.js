@@ -117,12 +117,6 @@ export default React.createClass({
         let converter = new showdown.Converter();
         let changeLogHTML = converter.makeHtml(changeLog);
 
-        let subheading =  (
-            <span>
-                { `${this.renderDateString(version)} by ${owner}` }
-                { this.renderEditLink() }
-            </span>
-        );
         return (
         <div style={ styles.description }
             dangerouslySetInnerHTML={{
