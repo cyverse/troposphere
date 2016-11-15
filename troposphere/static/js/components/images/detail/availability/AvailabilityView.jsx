@@ -1,33 +1,61 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
-
+import Code from "components/common/ui/Code";
 
 export default React.createClass({
     displayName: "AvailabilityView",
 
     propTypes: {
-        version: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        version: React.PropTypes
+            .instanceOf( Backbone.Model ).isRequired
     },
 
-    renderProviderMachine: function(provider_machine) {
+    renderProviderMachine( provider ) {
+        let { isSummary } = this.props;
+
         // Hide 'end-dated' provider_machines
-        let endDate = provider_machine.get("end_date");
+        let endDate = provider.get( "end_date" );
         if (endDate && endDate.isValid()) return;
 
+        // Assign strings for render
+        let machineID = provider.get( "uuid" );
+        let providerName = provider.get( "provider" ).name;
+
+        // Optionally render the UUID if not set as
+        // summary by parent
+        let optMachineID;
+        if (!isSummary) {
+            optMachineID = (
+                <Code mb="10px" >
+                    { machineID }
+                </Code>
+            );
+        }
+
+        let key = `${providerName}-${machineID}`;
         return (
-            <div key={provider_machine.get("id")}>
-                {provider_machine.get("provider").name}
+            <div key={ key }>
+                { providerName }
+                { optMachineID }
             </div>
         )
     },
 
-    render: function() {
-        let machines = stores.ProviderMachineStore
-            .getMachinesForVersion(this.props.version);
+    render() {
+        let { version } = this.props;
 
-        let providers = machines ? machines.map(this.renderProviderMachine)
-            : null;
+        // Get providers this version is available on
+        let machines = stores.ProviderMachineStore
+            .getMachinesForVersion(version);
+
+        // If there are any providers for this machine
+        // map to render the list
+        let providers;
+        if ( machines ) {
+            providers = machines
+                .map(this.renderProviderMachine);
+        }
 
         return (
             <div>
@@ -35,11 +63,10 @@ export default React.createClass({
                     className="t-body-2"
                     style={{ marginBottom: "5px" }}
                 >
-                Available on:
+                    Available on
                 </h4>
                 { providers }
             </div>
         );
-
-    }
+    },
 });

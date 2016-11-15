@@ -73,12 +73,22 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             and 'auth_token' in request.COOKIES:
         request.session['access_token'] = request.COOKIES['auth_token']
 
+    #NOTE: Now that we've moved this section from .js to Django, sentry configuration _could_ become more dynamic:
+    if settings.DEBUG:
+        sentry_dict = None
+    else:
+        sentry_dict = {
+            "dsn": "https://27643f06676048be96ad6df686c17da3@app.getsentry.com/73366",
+            "release":"205096b5fde3a47303ad8d1fef9ff8052cbbd7d4",
+        }
+
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulator': request.session.get('emulator'),
         'records': maintenance_records,
         'notice': notice,
+        'sentry': sentry_dict,
         'new_relic_enabled': enable_new_relic,
         'show_public_site': public
     }

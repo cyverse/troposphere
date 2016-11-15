@@ -122,16 +122,15 @@ export default React.createClass({
         } else {
             membership_list = "N/A";
         }
-        // ensure boolean values are displayed as strings
-        var allowImaging = "false";
-        var forked = "false";
+        var allowImaging = false;
+        var forked = false;
 
         if (request.get("new_version_forked")) {
-            forked = "true";
+            forked = true;
         }
 
         if (request.get("new_version_allow_imaging")) {
-            allowImaging = "true";
+            allowImaging = true;
         }
 
         return (

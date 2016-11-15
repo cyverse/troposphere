@@ -140,6 +140,14 @@
     var USE_ALLOCATION_SOURCES = false;
 {% endif %}
 
+{% if sentry %}
+    var SENTRY_ENABLED = true;
+    var SENTRY_RELEASE = {{ sentry.release }}
+    var SENTRY_DSN = {{ sentry.dsn }}
+{%  else %}
+    var SENTRY_ENABLED = false;
+{% endif %}
+
 {% if notice %}
     var maint_notice = {
          title: "{{notice.title}}",
