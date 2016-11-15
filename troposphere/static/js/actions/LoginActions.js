@@ -23,8 +23,7 @@ export default {
                 }
             },
             error: function(response) {
-                var errorMessage,
-                    response_error = response.responseJSON.detail;
+                var response_error = response.responseJSON.detail;
                 if(onFailure != null) {
                     onFailure(response_error);
                 }
