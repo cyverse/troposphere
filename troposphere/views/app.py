@@ -69,9 +69,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         notice = notice_t[1] if not notice_t[2] else None
     logger.info("maintenance notice tuple: {0}".format(notice_t))
 
-    if 'auth_token' not in request.session and 'auth_token' in request.COOKIES:
-        auth_token = request.COOKIES['auth_token']
-        request.session['access_token'] = auth_token
+    if 'access_token' not in request.session \
+            and 'auth_token' in request.COOKIES:
+        request.session['access_token'] = request.COOKIES['auth_token']
 
     template_params = {
         'access_token': request.session.get('access_token'),
@@ -243,7 +243,7 @@ def application(request):
             % request.user.username)
         logger.warn('- routing user')
         return redirect('maintenance')
-    if getattr(settings, "DISABLE_PUBLIC_AUTH", True):
+    if getattr(settings, "DISABLE_PUBLIC_AUTH", False):
         return _handle_authenticated_application_request(request,
             maintenance_records,
             notice_info)
