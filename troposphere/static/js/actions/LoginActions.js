@@ -23,9 +23,9 @@ export default {
                 }
             },
             error: function(response) {
-                var response_error = response.responseJSON.detail;
+                var response_errors = response.responseJSON.errors;
                 if(onFailure != null) {
-                    onFailure(response_error);
+                    onFailure(response_errors[0].message);
                 }
 
             }

@@ -48,9 +48,9 @@ export default React.createClass({
             this.state.username, this.state.password,
             this.onLoginSuccess, this.onLoginError);
     },
-    onLoginError: function(err_response) {
+    onLoginError: function(error_message) {
         this.setState({
-            error_message: err_response
+            error_message: error_message
         });
     },
     onLoginSuccess: function(username, token) {
@@ -77,8 +77,9 @@ export default React.createClass({
     render: function() {
         $("body").removeClass("splash-screen");
 
-        let usernameClasses = "form-group",
-            passwordClasses = "form-group",
+        let groupClasses = this.state.error_message != null ? "form-group has-error" : "form-group";
+        let usernameClasses = groupClasses,
+            passwordClasses = groupClasses,
             errorMessage = this.state.error_message != null ? "Login Failed: "+ this.state.error_message : null;
 
         return (
@@ -110,6 +111,7 @@ export default React.createClass({
                         ref="passwordInput"
                         onChange={this.onPasswordChange}
                         />
+                    <span className="help-block">{errorMessage}</span>
                 </div>
                 <div className="login-screen-footer">
                     <button type="button"
@@ -118,7 +120,6 @@ export default React.createClass({
                         disabled={!this.isSubmittable()}>
                         Login to Atmosphere
                     </button>
-                    <span className="help-block">{errorMessage}</span>
                 </div>
             </form>
         </div>
