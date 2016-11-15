@@ -114,7 +114,7 @@ export default React.createClass({
                         <strong> { image.get("created_by").username }</strong>
                     </span>
                 }
-                description={
+                summary={
                     <span>
                         { this.renderEndDated() }
                         { bookmark }
