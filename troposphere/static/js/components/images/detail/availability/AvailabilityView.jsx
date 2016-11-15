@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
-import Code from "components/common/ui/Code.react.js";
+import Code from "components/common/ui/Code";
 
 export default React.createClass({
     displayName: "AvailabilityView",
