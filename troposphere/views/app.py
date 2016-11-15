@@ -69,6 +69,10 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         notice = notice_t[1] if not notice_t[2] else None
     logger.info("maintenance notice tuple: {0}".format(notice_t))
 
+    if 'auth_token' not in request.session and 'auth_token' in request.COOKIES:
+        auth_token = request.COOKIES['auth_token']
+        request.session['access_token'] = auth_token
+
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
@@ -191,12 +195,15 @@ def _handle_authenticated_application_request(request, maintenance_records,
     else:
         logger.info("New Relic key missing from `template_params`")
 
-
     response = render_to_response(
         'index.html',
         template_params,
         context_instance=RequestContext(request)
     )
+
+    # Delete cookie after exchange
+    if 'auth_token' in request.COOKIES:
+        response.delete_cookie('auth_token')
 
     if 'maintenance_notice' not in request.COOKIES:
         response.set_cookie('maintenance_notice', 'true',
@@ -236,8 +243,11 @@ def application(request):
             % request.user.username)
         logger.warn('- routing user')
         return redirect('maintenance')
-
-    if request.user.is_authenticated() and has_valid_token(request.user):
+    if getattr(settings, "DISABLE_PUBLIC_AUTH", True):
+        return _handle_authenticated_application_request(request,
+            maintenance_records,
+            notice_info)
+    elif request.user.is_authenticated() and has_valid_token(request.user):
         return _handle_authenticated_application_request(request,
             maintenance_records,
             notice_info)
