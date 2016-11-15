@@ -10,6 +10,7 @@ import globals from 'globals';
 
 import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
+import { deleteCookie } from "utilities/cookieHelpers";
 
 
 let Link = Router.Link;
@@ -90,6 +91,12 @@ let LogoutLink = React.createClass({
         modals.VersionModals.showVersion();
     },
 
+    onLogout: function(e) {
+        e.preventDefault();
+        deleteCookie('auth_token');
+        window.location = '/logout?force=true&airport_ui=false';
+    },
+
     render: function() {
         let statusPageEl;
         let username = this.props.username;
@@ -136,7 +143,7 @@ let LogoutLink = React.createClass({
                 </li>
                 {statusPageEl}
                 <li>
-                    <a id="logout_link" href="/logout?force=true&airport_ui=false">Sign out</a>
+                    <a id="logout_link" href="#" onClick={this.onLogout}>Sign out</a>
                 </li>
             </ul>
         </li>

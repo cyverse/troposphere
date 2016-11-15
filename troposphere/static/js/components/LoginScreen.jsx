@@ -78,7 +78,7 @@ export default React.createClass({
         $.ajaxSetup({
             headers: authHeaders
         });
-        $("body").addClass("splash-screen");
+        $("#main").addClass("splash-screen");
 
         var SplashScreenComponent = React.createFactory(SplashScreen);
         ReactDOM.render(SplashScreenComponent(), document.getElementById("application"));
@@ -96,7 +96,7 @@ export default React.createClass({
     <div>
         <LoginHeader />
         <div id="main" className="login-screen-master modal-body" style={{"marginTop": "24px"}}>
-            <h2 className="t-headline">No Token Found! Please login to Atmosphere:</h2>
+            <h2 className="t-headline">Login to Atmosphere:</h2>
             <form>
                 <div className={usernameClasses}>
                     <label htmlFor="username">

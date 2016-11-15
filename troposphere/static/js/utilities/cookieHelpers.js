@@ -48,4 +48,7 @@ function setCookie(cname, cvalue, exdays) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-export { findCookie, findAllCookies, setCookie };
+function deleteCookie(cname) {
+    setCookie(cname, null, -1);
+}
+export { findCookie, findAllCookies, setCookie, deleteCookie };

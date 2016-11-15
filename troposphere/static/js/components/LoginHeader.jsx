@@ -23,71 +23,6 @@ let LoginLink = React.createClass({
     }
 });
 
-let LogoutLink = React.createClass({
-
-    propTypes: {
-        username: React.PropTypes.string.isRequired
-    },
-
-    onShowVersion: function(e) {
-        e.preventDefault();
-        modals.VersionModals.showVersion();
-    },
-
-    render: function() {
-        let statusPageEl;
-        let username = this.props.username;
-
-        if (!username && window.show_public_site) {
-            username = "AnonymousUser"
-        }
-        if (globals.STATUS_PAGE_LINK) {
-            statusPageEl = (
-                <li>
-                    <a href={globals.STATUS_PAGE_LINK} target="_blank">Status</a>
-                </li>
-            );
-        }
-
-        let trackSettings = () => {
-            trackAction("viewed-settings", {});
-        };
-
-        let trackRequests = () => {
-            trackAction("viewed-requests", {});
-        };
-
-        if (!username && window.show_public_site) {
-            username = "AnonymousUser"
-        }
-
-
-        return (
-        <li className="dropdown">
-            <a className="dropdown-toggle" href="#" data-toggle="dropdown">
-                {username} <b className="caret"></b></a>
-            <ul className="dropdown-menu">
-                <li>
-                    <Link to="settings" onClick={trackSettings}> Settings
-                    </Link>
-                </li>
-                <li>
-                    <Link to="my-requests-resources" onClick={trackRequests}> My requests
-                    </Link>
-                </li>
-                <li>
-                    <a id="version_link" href="#" onClick={this.onShowVersion}>Version</a>
-                </li>
-                {statusPageEl}
-                <li>
-                    <a id="logout_link" href="/logout?force=true&airport_ui=false">Sign out</a>
-                </li>
-            </ul>
-        </li>
-        );
-    }
-});
-
 let LoginHeader = React.createClass({
     displayName: "LoginHeader",
 
@@ -117,13 +52,6 @@ let LoginHeader = React.createClass({
     },
 
     render: function() {
-        let profile = this.props.profile;
-        let loggedIn = hasLoggedInUser(profile);
-
-        let loginLogoutDropdown = loggedIn
-            ? <LogoutLink username={profile.get("username")} />
-            : <LoginLink/>;
-
         let brandLink = (
             <a id="brand_link" className="navbar-brand active" href={"#"} />
         );
@@ -147,7 +75,7 @@ let LoginHeader = React.createClass({
                     <ul className="nav navbar-nav">
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
-                        {loginLogoutDropdown}
+                        <LoginLink/>
                     </ul>
                 </div>
             </div>
