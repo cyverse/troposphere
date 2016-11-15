@@ -2,11 +2,14 @@ import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
 import context from "context";
+import globals from "globals";
 import Router from "../Router";
 import routes from "../AppRoutes";
 import actions from "actions";
 import SplashScreen from "components/SplashScreen";
 import { setCookie } from "utilities/cookieHelpers";
+import LoginHeader from "./LoginHeader";
+import Footer from "./Footer";
 
 export default React.createClass({
     displayName: "LoginScreen",
@@ -28,6 +31,12 @@ export default React.createClass({
         this.setState({
             username: input
         });
+    },
+
+    onEnterPressed: function(e) {
+        if (e.key === 'Enter' && this.isSubmittable()) {
+            this.attemptLogin()
+        }
     },
 
     onPasswordChange: function(e) {
@@ -82,8 +91,11 @@ export default React.createClass({
             passwordClasses = groupClasses,
             errorMessage = this.state.error_message != null ? "Login Failed: "+ this.state.error_message : null;
 
+        //FIXME: Shamefully using modal- classnames outside of a modal
         return (
-        <div className="login-screen-master">
+    <div>
+        <LoginHeader />
+        <div id="main" className="login-screen-master modal-body" style={{"marginTop": "24px"}}>
             <h2 className="t-headline">No Token Found! Please login to Atmosphere:</h2>
             <form>
                 <div className={usernameClasses}>
@@ -97,6 +109,7 @@ export default React.createClass({
                         value={this.state.username}
                         ref="usernameInput"
                         onChange={this.onUsernameChange}
+                        onKeyPress={this.onEnterPressed}
                         />
                 </div>
                 <div className={passwordClasses}>
@@ -110,10 +123,11 @@ export default React.createClass({
                         value={this.state.password}
                         ref="passwordInput"
                         onChange={this.onPasswordChange}
+                        onKeyPress={this.onEnterPressed}
                         />
                     <span className="help-block">{errorMessage}</span>
                 </div>
-                <div className="login-screen-footer">
+                <div className="login-screen-footer modal-footer">
                     <button type="button"
                         className="btn btn-primary"
                         onClick={this.attemptLogin}
@@ -123,6 +137,10 @@ export default React.createClass({
                 </div>
             </form>
         </div>
+        <Footer text={globals.SITE_FOOTER}
+                link={globals.SITE_FOOTER_LINK}
+        />
+    </div>
         );
     }
 
