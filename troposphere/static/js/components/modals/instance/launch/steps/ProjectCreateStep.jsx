@@ -1,6 +1,6 @@
 import React from "react";
 import stores from "stores";
-import SelectMenu from "components/common/ui/SelectMenu.react";
+import SelectMenu from "components/common/ui/SelectMenu";
 //FIXME: Why not use common/ProjectCreateView.react here?
 
 export default React.createClass({

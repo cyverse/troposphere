@@ -1,6 +1,6 @@
 import React from "react";
 import stores from "stores";
-import SelectMenu from "components/common/ui/SelectMenu.react";
+import SelectMenu from "components/common/ui/SelectMenu";
 import { trackAction } from "../../utilities/userActivity";
 
 export default React.createClass({
