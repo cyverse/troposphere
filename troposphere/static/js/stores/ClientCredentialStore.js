@@ -91,7 +91,8 @@ Dispatcher.register(function(payload) {
 //            break;
 
         default:
-            return true;
+            // do nothing; for now
+            break;
     }
 
     ClientCredentialStore.emitChange();
