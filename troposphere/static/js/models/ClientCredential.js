@@ -4,7 +4,7 @@ import globals from "globals";
 export default Backbone.Model.extend({
 
     parse: function(response) {
-        debugger;
+        // simple pass-through, no modifications yet
         return response;
     },
 
