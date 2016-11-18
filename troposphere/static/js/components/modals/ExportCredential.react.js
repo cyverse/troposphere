@@ -89,7 +89,7 @@ export default React.createClass({
                 inputId = provider.name.replace(' ','-') + key;
 
             return (
-                <div className="form-check">
+                <div key={`check-${key}`} className="form-check">
                 <label className="form-check-label">
                     <input key={key}
                            id={inputId}
@@ -124,7 +124,7 @@ export default React.createClass({
                     Each Atmosphere "provider" will have different credentials for you.
                     Please select the provider to export:
                 </p>
-                <div className="form-group">
+                <div key="export-cred-radio-grp" className="form-group">
                     {this.renderIdentities(identities)}
                 </div>
             </div>
