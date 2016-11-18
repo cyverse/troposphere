@@ -293,6 +293,17 @@ export default React.createClass({
 
     onNameBlur: function(e) {
         let instanceName = this.state.instanceName.trim();
+        // NOTE:
+        // if the instanceName was just *deleted*, we lack required fields
+        // to launch an instance.
+        //
+        // Let's just catch that situation and put something back in the
+        // required `instanceName` textbox
+        if (!instanceName) {
+            let image = this.state.image;
+            instanceName = image ? image.get("name") : "atmosphere-instance";
+        }
+
         this.setState({
             instanceName
         });
