@@ -194,7 +194,7 @@ export default React.createClass({
                 {this.renderCloseButton()}
                 <h1 className="t-title">Exported Credential</h1>
             </div>
-            <div style={{ minHeight: "300px" }} className="modal-body">
+            <div style={{ minHeight: "500px" }} className="modal-body">
                 <p>
                     Copy the exported credential and paste into a file.
                     This file will be used within a shell scripting
@@ -234,7 +234,7 @@ export default React.createClass({
 
         return (
         <div className="modal fade">
-            <div className="modal-dialog">
+            <div className="modal-dialog" style={{ minWidth: "705px"}}>
                 {this.renderContent(identities)}
             </div>
         </div>
