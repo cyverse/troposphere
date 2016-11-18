@@ -25,7 +25,7 @@ export OS_TENANT_NAME=${credModel.get("OS_TENANT_NAME")}
 export OS_AUTH_URL=${credModel.get("OS_AUTH_URL")}
 export OS_PROJECT_DOMAIN_NAME=${credModel.get("OS_PROJECT_DOMAIN_NAME")}
 export OS_REGION_NAME=${credModel.get("OS_REGION_NAME")}
-export OS_PASSWORD=<REDACTED>
+export OS_PASSWORD=${credModel.get("OS_PASSWORD")}
 `;
 
     return openrc;
