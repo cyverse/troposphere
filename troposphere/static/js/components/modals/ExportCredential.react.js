@@ -1,6 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
-
 import moment from "moment";
 
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
