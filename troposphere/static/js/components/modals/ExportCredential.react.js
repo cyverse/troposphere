@@ -146,27 +146,6 @@ export default React.createClass({
         );
     },
 
-    copyOpenrc(e) {
-        console.log(e);
-        console.log(this.refs.openrcExport);
-        let range = document.createRange(),
-            selection = document.getSelection();
-
-        // for good measure - clear all previous selections
-        selection.removeAllRanges()
-
-        let el = document.querySelector("#openrc");
-        let rhar = ReactDOM.findDOMNode(this.refs.openrcExport);
-
-        range.selectNode(el);
-        selection.addRange(range);
-
-        var successful = document.execCommand('copy');
-
-        // let's leave things in a clean _selection_ state
-        selection.removeAllRanges()
-    },
-
     renderGenerate() {
         let identityUUID = this.state.identityUUID,
             credential =

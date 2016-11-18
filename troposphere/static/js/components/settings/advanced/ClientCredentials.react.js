@@ -3,7 +3,7 @@ import ModalHelpers from "components/modals/ModalHelpers";
 import ExportCredentialModal from "components/modals/ExportCredential.react";
 
 import stores from "stores";
-import globals from "globals";
+
 
 export default React.createClass({
     displayName: "ClientCredentials",
