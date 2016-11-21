@@ -4,7 +4,7 @@ import Backbone from "backbone";
 import React from "react";
 import ReactDOM from "react-dom";
 import SplashScreen from "components/SplashScreen";
-import LoginScreen from "components/LoginScreen";
+import LoginScreen from "components/login/LoginScreen";
 import FunctionalCollection from "collections/FunctionalCollection";
 
 // Important:
