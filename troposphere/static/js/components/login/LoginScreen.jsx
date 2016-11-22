@@ -1,17 +1,11 @@
 import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
-import context from "context";
-import globals from "globals";
-import Router from "Router";
-import routes from "AppRoutes";
 import actions from "actions";
 import SplashScreen from "components/SplashScreen";
 import { setCookie } from "utilities/cookieHelpers";
-import LoginHeader from "./LoginHeader";
 import PasswordLoginForm from "./PasswordLoginForm";
 import OAuthLoginForm from "./OAuthLoginForm";
-import Footer from "../Footer";
 
 export default React.createClass({
     displayName: "LoginScreen",
@@ -67,8 +61,6 @@ export default React.createClass({
         }
     },
     render: function() {
-        $("body").removeClass("splash-screen");
-
         return (
            <div id="main" className="login-screen-master container" style={{"marginTop": "24px"}}>
                    <h2 className="t-headline">Login to Atmosphere:</h2>
