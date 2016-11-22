@@ -49,6 +49,7 @@ export default React.createClass({
     renderAvailability() {
         let isOpen = this.state.isOpen;
         let version = this.props.version;
+
         if (!this.props.showAvailability) {
             return;
         }

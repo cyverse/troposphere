@@ -2,7 +2,7 @@ import React from "react";
 import Router from "react-router";
 import CryptoJS from "crypto-js";
 import Gravatar from "components/common/Gravatar.react";
-import RefreshComponent from "components/projects/resources/instance/details/sections/metrics/RefreshComponent.react";
+import RefreshComponent from "components/common/ui/RefreshComponent.react";
 import moment from "moment";
 import stores from "stores";
 
@@ -159,9 +159,7 @@ export default React.createClass({
                             <div>
                                 <Gravatar hash={instanceHistoryHash} size={iconSize} type={type} />
                                 <div className="instance-history-details">
-                                    <Router.Link to={"new-instance-detail"} params={{ id: instance.get("instance").id }}>
-                                        <strong className="name">{name}</strong>
-                                    </Router.Link>
+                                    <strong className="name">{name}</strong>
                                     <div>
                                         Launched from
                                         {imageLink}

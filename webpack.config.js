@@ -109,15 +109,20 @@ module.exports = {
   },
   plugins: plugins,
   resolve: {
+    fallback: [path.join(__dirname, "/node_modules")],
     alias: {
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
-      highcharts: "highcharts-commonjs"
+      highcharts: "highcharts-commonjs",
+      react: path.join(__dirname, "/node_modules/react")
     },
     root: [
       PATHS.context,
     ],
     extensions: ["", ".js", ".scss", ".sass"]
+  },
+  resolveLoader: {
+      root: path.join(__dirname, 'node_modules')
   },
   // defined the PostCSS plugins to be used
   postcss: function() {
