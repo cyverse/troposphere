@@ -82,8 +82,27 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             "release":"205096b5fde3a47303ad8d1fef9ff8052cbbd7d4",
         }
 
+    auth_backends = settings.AUTHENTICATION_BACKENDS
+    oauth_backends = [
+        'iplantauth.authBackends.OAuthLoginBackend',
+        'iplantauth.authBackends.GlobusOAuthLoginBackend'
+    ]
+    auth_type = None
+    for backend in auth_backends:
+        if backend == oauth_backends[0]:
+            auth_type = "oauth-login"
+            auth_provider = "CAS"
+        elif backend == oauth_backends[1]:
+            auth_type = "oauth-login"
+            auth_provider = "Globus"
+    if not auth_type:
+        auth_type = "token-login"
+        auth_provider = "Atmosphere"
+
     template_params = {
         'access_token': request.session.get('access_token'),
+        'login_auth_type': auth_type,
+        'login_auth_provider': auth_provider,
         'emulator_token': request.session.get('emulator_token'),
         'emulator': request.session.get('emulator'),
         'records': maintenance_records,
@@ -93,6 +112,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         'show_public_site': public
     }
 
+    logger.info("Populated template: %s" % template_params)
     if public:
         template_params['disable_login'] = disabled_login
     else:

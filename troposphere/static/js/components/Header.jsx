@@ -69,12 +69,17 @@ const links = [
 ]);
 
 let LoginLink = React.createClass({
+    onLogin: function(e) {
+        e.preventDefault();
+        modals.PublicModals.showPublicLoginModal();
+    },
+
     render: function() {
         let redirect_path = window.location.pathname;
 
         return (
         <li className="dropdown">
-            <a id="login_link" href={"/login?redirect_to=" + redirect_path}>Login</a>
+            <a id="login_link" href="#" onClick={this.onLogin}>Login</a>
         </li>
         );
     }

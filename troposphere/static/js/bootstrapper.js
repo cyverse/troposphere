@@ -4,7 +4,7 @@ import Backbone from "backbone";
 import React from "react";
 import ReactDOM from "react-dom";
 import SplashScreen from "components/SplashScreen";
-import LoginScreen from "components/login/LoginScreen";
+import LoginMaster from "components/login/LoginMaster";
 import FunctionalCollection from "collections/FunctionalCollection";
 
 // Important:
@@ -158,11 +158,11 @@ export default {
         // render the splash page which will load the rest of the application
         $(document).ready(function() {
             var SplashScreenComponent = React.createFactory(SplashScreen);
-            var LoginScreenComponent = React.createFactory(LoginScreen);
+            var LoginMasterComponent = React.createFactory(LoginMaster);
             if (window.access_token) {
                 ReactDOM.render(SplashScreenComponent(), document.getElementById("application"));
             } else {
-                ReactDOM.render(LoginScreenComponent(), document.getElementById("application"));
+                ReactDOM.render(LoginMasterComponent(), document.getElementById("application"));
             }
         });
     }

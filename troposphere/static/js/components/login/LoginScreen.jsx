@@ -3,13 +3,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import context from "context";
 import globals from "globals";
-import Router from "../Router";
-import routes from "../AppRoutes";
+import Router from "Router";
+import routes from "AppRoutes";
 import actions from "actions";
 import SplashScreen from "components/SplashScreen";
 import { setCookie } from "utilities/cookieHelpers";
 import LoginHeader from "./LoginHeader";
-import Footer from "./Footer";
+import PasswordLoginForm from "./PasswordLoginForm";
+import OAuthLoginForm from "./OAuthLoginForm";
+import Footer from "../Footer";
 
 export default React.createClass({
     displayName: "LoginScreen",
@@ -19,48 +21,19 @@ export default React.createClass({
     // ----------------
     //
 
-    getInitialState: function() {
+    getDefaultProps: function() {
         return {
-            method: "",
-            username: "",
-            password: ""
+            method: window.login_auth_type || "token-login",
         };
     },
-    onUsernameChange: function(e) {
-        var input = e.target.value.trim();
-        this.setState({
-            username: input
-        });
+    // High level logic
+    attemptOAuthLogin: function() {
+        window.location = '/login';
     },
-
-    onEnterPressed: function(e) {
-        if (e.key === 'Enter' && this.isSubmittable()) {
-            this.attemptLogin()
-        }
-    },
-
-    onPasswordChange: function(e) {
-        var input = e.target.value;
-        this.setState({
-            password: input
-        });
-    },
-
-    isSubmittable: function() {
-        var hasUsername = !!this.state.username && this.state.username.length > 0;
-        var hasPassword = !!this.state.password && this.state.password.length > 0;
-        return hasUsername && hasPassword;
-    },
-
-    attemptLogin: function() {
+    attemptPasswordLogin: function(username, password, onLoginError) {
         actions.LoginActions.attemptLogin(
-            this.state.username, this.state.password,
-            this.onLoginSuccess, this.onLoginError);
-    },
-    onLoginError: function(error_message) {
-        this.setState({
-            error_message: error_message
-        });
+            username, password,
+            this.onLoginSuccess, onLoginError);
     },
     onLoginSuccess: function(username, token) {
         //1. set window.access_token
@@ -83,64 +56,24 @@ export default React.createClass({
         var SplashScreenComponent = React.createFactory(SplashScreen);
         ReactDOM.render(SplashScreenComponent(), document.getElementById("application"));
     },
+    // Rendering
+    renderLoginMethod: function() {
+        if (this.props.method == "oauth-login") {
+            return (<OAuthLoginForm 
+                attemptLogin={this.attemptOAuthLogin}/>);
+        } else {
+            return (<PasswordLoginForm
+                attemptLogin={this.attemptPasswordLogin}/>);
+        }
+    },
     render: function() {
         $("body").removeClass("splash-screen");
 
-        let groupClasses = this.state.error_message != null ? "form-group has-error" : "form-group";
-        let usernameClasses = groupClasses,
-            passwordClasses = groupClasses,
-            errorMessage = this.state.error_message != null ? "Login Failed: "+ this.state.error_message : null;
-
-        //FIXME: Shamefully using modal- classnames outside of a modal
         return (
-    <div>
-        <LoginHeader />
-        <div id="main" className="login-screen-master modal-body" style={{"marginTop": "24px"}}>
-            <h2 className="t-headline">Login to Atmosphere:</h2>
-            <form>
-                <div className={usernameClasses}>
-                    <label htmlFor="username">
-                        Username
-                    </label>
-                    <input required
-                        type="name"
-                        className="form-control"
-                        id="username"
-                        value={this.state.username}
-                        ref="usernameInput"
-                        onChange={this.onUsernameChange}
-                        onKeyPress={this.onEnterPressed}
-                        />
-                </div>
-                <div className={passwordClasses}>
-                    <label htmlFor="password">
-                        Password
-                    </label>
-                    <input required
-                        type="password"
-                        className="form-control"
-                        id="password"
-                        value={this.state.password}
-                        ref="passwordInput"
-                        onChange={this.onPasswordChange}
-                        onKeyPress={this.onEnterPressed}
-                        />
-                    <span className="help-block">{errorMessage}</span>
-                </div>
-                <div className="login-screen-footer modal-footer">
-                    <button type="button"
-                        className="btn btn-primary"
-                        onClick={this.attemptLogin}
-                        disabled={!this.isSubmittable()}>
-                        Login to Atmosphere
-                    </button>
-                </div>
-            </form>
-        </div>
-        <Footer text={globals.SITE_FOOTER}
-                link={globals.SITE_FOOTER_LINK}
-        />
-    </div>
+           <div id="main" className="login-screen-master container" style={{"marginTop": "24px"}}>
+                   <h2 className="t-headline">Login to Atmosphere:</h2>
+                   {this.renderLoginMethod()}
+           </div>
         );
     }
 
