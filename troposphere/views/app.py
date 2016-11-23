@@ -126,6 +126,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             metadata.status_page_link
         template_params['SITE_FOOTER_LINK'] = \
             metadata.site_footer_link
+        template_params['USER_PORTAL'] = \
+            metadata.get_user_portal_as_json()
 
     if hasattr(settings, "API_ROOT"):
         template_params['API_ROOT'] = settings.API_ROOT
