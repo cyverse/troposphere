@@ -4,4 +4,8 @@ const hasLoggedInUser = (profile) => {
     return !!(profile && profile.get("username"));
 };
 
-export { hasLoggedInUser };
+const hasExpiredPassword = (profile) => {
+    return hasLoggedInUser(profile) && !!(profile.get("is_expired"));
+}
+
+export { hasLoggedInUser, hasExpiredPassword };
