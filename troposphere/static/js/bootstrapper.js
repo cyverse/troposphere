@@ -101,6 +101,7 @@ actions.VolumeActions = require("actions/VolumeActions");
 import modals from "modals";
 
 modals.BadgeModals = require("modals/BadgeModals");
+modals.ExpiredPasswordModals = require("modals/ExpiredPasswordModals");
 modals.ExternalLinkModals = require("modals/ExternalLinkModals");
 modals.HelpModals = require("modals/HelpModals");
 modals.InstanceModals = require("modals/InstanceModals");
