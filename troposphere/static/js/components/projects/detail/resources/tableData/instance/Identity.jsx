@@ -10,14 +10,14 @@ export default React.createClass({
     },
 
     render_text: function(provider, identity) {
-        return identity.get('key')+" on " + provider.get("name");
+        return identity.key + " on " + provider.get("name");
     },
     render: function() {
         var instance = this.props.instance,
-            provider = stores.ProviderStore.get(instance.get("provider").id),
-            identity = stores.IdentityStore.get(instance.get("identity").id);
+            identity = instance.get('identity'),
+            provider = stores.ProviderStore.get(instance.get("provider").id);
 
-        if (!provider || !identity) return <div className="loading-tiny-inline"></div>;
+        if (!provider) return <div className="loading-tiny-inline"></div>;
 
         return (
         <span>{this.render_text(provider, identity)}</span>
