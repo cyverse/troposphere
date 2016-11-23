@@ -117,6 +117,7 @@ let LogoutLink = React.createClass({
     onExpiredPassword: function(e) {
         e.preventDefault();
         modals.ExpiredPasswordModals.show();
+        trackAction("shown-expired-password-info", {});
     },
 
     render: function() {
