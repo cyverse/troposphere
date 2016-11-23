@@ -1,6 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
+import context from "context";
 import Router from "react-router";
 import moment from "moment";
 import ProjectResource from "./ProjectResource";
@@ -16,6 +17,7 @@ export default React.createClass({
     render: function() {
         let project = this.props.project,
             description,
+            projectType,
             projectOwner,
             projectCreationDate,
             projectExternalLinks,
@@ -32,6 +34,7 @@ export default React.createClass({
         if (project && project.id && !project.isNew()) {
             description = project.get('description');
             projectOwner = project.get('owner').name;
+            projectType = (projectOwner == context.profile.get('username')) ? "Private Project" : "Shared Project, Group Owner " + projectOwner;
             projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY hh:mm a");
             projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
             projectInstances = stores.ProjectInstanceStore.getInstancesFor(project);
@@ -67,7 +70,7 @@ export default React.createClass({
                                 {"Created on " + projectCreationDate}
                             </time>
                             <p className="t-caption" style={{ display: "block" }}>
-                               {"By Owner " + projectOwner}
+                               {projectType}
                             </p>
                             <p className="description" style={{ minHeight: "200px" }}>
                                 {description}
