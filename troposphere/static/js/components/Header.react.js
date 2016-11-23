@@ -142,7 +142,8 @@ let LogoutLink = React.createClass({
             );
             expiredMenuItem = (
                 <li>
-                    <a id="expired_password_link" href="#"
+                    <a id="expired_password_link"
+                       href="#" style={{color: "red"}}
                        onClick={this.onExpiredPassword}>
                         <Glyphicon name="exclamation-sign" />
                         Expired Password</a>
