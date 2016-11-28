@@ -5,6 +5,7 @@ import $ from "jquery";
 import stores from "stores";
 import modals from "modals";
 import { trackAction } from "utilities/userActivity";
+import { hasExpiredPassword } from "utilities/profilePredicate";
 import Bookmark from "../../common/Bookmark.react";
 
 export default React.createClass({
@@ -31,6 +32,13 @@ export default React.createClass({
         trackAction("launched-from-image-detail", {});
     },
 
+    showExpiredPasswordModal: function(e) {
+        // launch a model that explains you need to update your password
+        e.preventDefault();
+        modals.ExpiredPasswordModals.show()
+        trackAction("shown-expired-password-info", {});
+    },
+
     showAddProjectModal: function(e) {
         e.preventDefault(); // Do i need this?
         modals.ProjectModals.addImage(this.props.image);
@@ -42,9 +50,48 @@ export default React.createClass({
     },
 
     render: function() {
-        let profile = stores.ProfileStore.get();
-        let buttonGroup;
+        let profile = stores.ProfileStore.get(),
+            expiredBadge,
+            buttonGroup,
+            launchButton;
 
+        // NOTE: this could be `context.hasExpiredPassword()` if
+        // the context module were to be used.
+        // * See also: `profile.id` usage below + FIXME
+        if (hasExpiredPassword(profile)) {
+            let style = {
+                position: "absolute",
+                color: "red",
+                background: "white",
+                borderRadius: "50%",
+                top: "-5px",
+                left: "-5px"
+            };
+            expiredBadge = (
+                <i className="glyphicon glyphicon-exclamation-sign" style={style} />
+            );
+            launchButton = (
+                    <button
+                        className="btn btn-primary launch-button"
+                        style={{position: "relative"}}
+                        onClick={ this.showExpiredPasswordModal }
+                    >
+                        {expiredBadge} Launch
+                    </button>
+            );
+        } else {
+            launchButton = (
+                    <button
+                        className="btn btn-primary launch-button"
+                        onClick={ this.showLaunchModal }
+                    >
+                        Launch
+                    </button>
+            );
+        }
+
+        // FIXME: evaluate the use of hasLoggedInUser(profile) or
+        // using `context` here, and `context.hasLoggedInUser()`
         if (profile.id) {
             buttonGroup = (
                 <div>
@@ -59,12 +106,7 @@ export default React.createClass({
                             <i className="glyphicon glyphicon-plus"></i> Add to Project
                         </button>
                     </span>
-                    <button
-                        className="btn btn-primary launch-button"
-                        onClick={ this.showLaunchModal }
-                    >
-                        Launch
-                    </button>
+                    {launchButton}
                 </div>
             );
         }
