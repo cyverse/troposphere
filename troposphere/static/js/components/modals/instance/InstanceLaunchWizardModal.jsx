@@ -124,7 +124,7 @@ export default React.createClass({
 
         let provider = this.state.provider;
         if (providerList) {
-            identityList = this.getIdentityListByProviderList(providerList);
+            identityList = this.getIdentityListByProviderListAndProject(providerList);
             provider = provider || providerList.shuffle()[0];
         }
 
@@ -138,7 +138,6 @@ export default React.createClass({
             });
         }
         if (identityList) {
-            identityList = this.filterIdentityListByProject(identityList, project);
             identityProvider = identityList.first();
         }
 
@@ -261,11 +260,10 @@ export default React.createClass({
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-            identityList = this.getIdentityListByProviderList(providerList);
+            identityList = this.getIdentityListByProviderListAndProject(providerList);
 
         }
         if (identityList) {
-            identityList = this.filterIdentityListByProject(identityList, null);
             identityProvider = identityList.first();
         }
 
@@ -283,18 +281,6 @@ export default React.createClass({
             providerSize,
             identityProvider,
         }, this.viewBasic);
-    },
-
-    filterIdentityListByProject: function(identityList, project) {
-        if(! project) {
-            return identityList;
-        }
-        var project_owner_name = project.get('owner').name;
-        identityList = identityList.cfilter(function(identity) {
-            let project_name = identity.getCredentialValue('ex_project_name');
-            return project_name == project_owner_name;
-        });
-        return identityList;
     },
 
     onBack: function() {
@@ -327,7 +313,7 @@ export default React.createClass({
                 provider__id: provider.id
             });
 
-            identityList = this.getIdentityListByProviderList(providerList);
+            identityList = this.getIdentityListByProviderListAndProject(providerList);
 
             if (providerSizeList) {
                 providerSize = providerSizeList.first();
@@ -346,8 +332,23 @@ export default React.createClass({
     },
 
     onProjectChange: function(project) {
+        let identityProvider, provider,
+            providerList = stores.ProviderStore.getProvidersForVersion(this.state.imageVersion),
+            identityList = this.getIdentityListByProviderListAndProject(providerList, project);
+        if (identityList) {
+            identityProvider = identityList.first();
+            provider = stores.ProviderStore.findOne({
+                "id": identityProvider.get('provider').id
+            });
+        } else {
+            provider = null;
+            identityProvider = null;
+        }
+        debugger;
         this.setState({
-            project
+            project,
+            provider,
+            identityProvider
         });
     },
 
@@ -581,17 +582,23 @@ export default React.createClass({
         );
     },
 
-    getIdentityListByProviderList: function(providerList) {
-        let identityList;
-        providerList.forEach(function(provider) {
-            let tmp_identityList = stores.IdentityStore.getIdentitiesForProvider(provider);
-            if(identityList) {
-                identityList.add(tmp_identityList.models);
-            } else {
-                identityList = tmp_identityList;
+    getIdentityListByProviderListAndProject: function(providerList, project) {
+        if(project == null) {
+            project = this.state.project
+        }
+        let provider_ids = providerList.map(function (provider) { return provider.get('id') }),
+            identityList = stores.IdentityStore.getIdentitiesForProject(project);
+        if (!identityList) {
+            return identityList;
+        }
+        var filteredIdentities = identityList.cfilter(function (ident) {
+            let provider_id = ident.get('provider').id;
+            if ( provider_ids.indexOf(provider_id) < 0) {
+                return false;
             }
+            return ident.get('is_leader')
         });
-        return identityList;
+        return filteredIdentities;
     },
 
     renderProjectCreateStep: function() {
@@ -627,11 +634,7 @@ export default React.createClass({
         }
 
         if (providerList) {
-            identityList = this.getIdentityListByProviderList(providerList);
-        }
-
-        if (identityList) {
-            identityList = this.filterIdentityListByProject(identityList, project);
+            identityList = this.getIdentityListByProviderListAndProject(providerList);
         }
         let providerSizeList,
             resourcesUsed;

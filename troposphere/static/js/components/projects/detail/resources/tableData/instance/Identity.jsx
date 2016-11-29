@@ -23,7 +23,7 @@ export default React.createClass({
         if (!provider) return <div className="loading-tiny-inline"></div>;
 
         return (
-        <span>{this.render_text(provider, identity)}</span>
+        <span key={identity.uuid} >{this.render_text(provider, identity)}</span>
         );
     }
 });

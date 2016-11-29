@@ -6,6 +6,19 @@ import AccountConstants from "constants/AccountConstants";
 let IdentityStore = BaseStore.extend({
     collection: IdentityCollection,
 
+    getIdentitiesForProject: function(project) {
+        if (project == null) {
+            return this.fetchModels();
+        }
+        let project_key = "?project_id="+project.id,
+            query_params = {"project_id" : project.id};
+        if (!this.queryModels[project_key]) {
+            return this.fetchWhere(query_params);
+        } else {
+            return this.queryModels[project_key];
+        }
+    },
+
     getIdentitiesForProvider: function(provider) {
         if (!this.models) {
             this.fetchModels();
