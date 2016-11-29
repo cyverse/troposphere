@@ -4,6 +4,8 @@ import moment from "moment";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
 import stores from "stores";
 
+import { hasClipboardAPI,
+         copyElement } from "utilities/clipboardFunctions";
 
 /**
  * Merges the argument model with a `openrc` credential template.
@@ -79,6 +81,12 @@ export default React.createClass({
         });
     },
 
+    onCopyText(e) {
+        e.preventDefault();
+        // copy contents of ref to clipboard
+        copyElement(this.refs.openrcExport);
+    },
+
     renderIdentities(identities) {
         return identities.map((identity) => {
             let provider = identity.get("provider"),
@@ -147,7 +155,8 @@ export default React.createClass({
     renderGenerate() {
         let identityUUID = this.state.identityUUID,
             credential =
-                stores.ClientCredentialStore.getForIdentity(identityUUID);
+                stores.ClientCredentialStore.getForIdentity(identityUUID),
+            activeButton;
 
         if (!credential) {
             return (
@@ -160,6 +169,25 @@ export default React.createClass({
                     <div className="loading"></div>
                 </div>
             </div>
+            );
+        }
+
+        if (hasClipboardAPI()) {
+            activeButton = (
+                <button type="button"
+                        className="btn btn-primary"
+                        onClick={this.onCopyText}>
+                    Copy
+                </button>
+            );
+
+        } else {
+            activeButton = (
+                <button type="button"
+                        className="btn btn-primary"
+                        onClick={this.hide}>
+                    Okay
+                </button>
             );
         }
 
@@ -184,11 +212,7 @@ export default React.createClass({
                 </pre>
             </div>
             <div className="modal-footer">
-                <button type="button"
-                        className="btn btn-primary"
-                        onClick={this.hide}>
-                    Okay
-                </button>
+                {activeButton}
             </div>
         </div>
         );
