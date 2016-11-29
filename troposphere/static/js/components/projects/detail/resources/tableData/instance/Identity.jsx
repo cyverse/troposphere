@@ -10,6 +10,9 @@ export default React.createClass({
     },
 
     render_text: function(provider, identity) {
+        if( identity == null) {
+            return "--- on " + provider.get("name");
+        }
         return identity.key + " on " + provider.get("name");
     },
     render: function() {
