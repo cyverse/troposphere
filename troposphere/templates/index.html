@@ -113,7 +113,7 @@
 {% endif %}
 
 {% if WEB_DESKTOP_INCLUDE_LINK %}
-    var WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}"
+    var WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}";
 {% endif %}
 
 {% if show_public_site %}
@@ -142,8 +142,8 @@
 
 {% if sentry %}
     var SENTRY_ENABLED = true;
-    var SENTRY_RELEASE = {{ sentry.release }}
-    var SENTRY_DSN = {{ sentry.dsn }}
+    var SENTRY_RELEASE = "{{ sentry.release }}";
+    var SENTRY_DSN = "{{ sentry.dsn }}";
 {%  else %}
     var SENTRY_ENABLED = false;
 {% endif %}
