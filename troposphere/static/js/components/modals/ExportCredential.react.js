@@ -8,23 +8,27 @@ import stores from "stores";
 /**
  * Merges the argument model with a `openrc` credential template.
  *
+ * It uses an array of "possible" environment variables names expected from
+ * the /v2/identities/:uuid/export endpoint - and only includes those that
+ * have a *defined* value.
+ *
  * @param {Backbone.Model} credModel - contains credential values associated
  *                                     with a community members OpenStack identity
  */
 function populateOpenRCTemplate(credModel) {
-    let exportTime = moment().format("MMM DD, YYYY hh:mm a");
+    let exportTime = moment().format("MMM DD, YYYY hh:mm a"),
+        envVarNames = [ "OS_PROJECT_NAME", "OS_USERNAME", "OS_IDENTITY_API_VERSION",
+                        "OS_USER_DOMAIN_NAME", "OS_TENANT_NAME", "OS_AUTH_URL",
+                        "OS_PROJECT_DOMAIN_NAME", "OS_REGION_NAME", "OS_PASSWORD"];
 
-    let openrc = `# generated on ${exportTime}
-export OS_PROJECT_NAME=${credModel.get("OS_PROJECT_NAME")}
-export OS_USERNAME=${credModel.get("OS_USERNAME")}
-export OS_IDENTITY_API_VERSION=${credModel.get("OS_IDENTITY_API_VERSION")}
-export OS_USER_DOMAIN_NAME=${credModel.get("OS_USER_DOMAIN_NAME")}
-export OS_TENANT_NAME=${credModel.get("OS_TENANT_NAME")}
-export OS_AUTH_URL=${credModel.get("OS_AUTH_URL")}
-export OS_PROJECT_DOMAIN_NAME=${credModel.get("OS_PROJECT_DOMAIN_NAME")}
-export OS_REGION_NAME=${credModel.get("OS_REGION_NAME")}
-export OS_PASSWORD=${credModel.get("OS_PASSWORD")}
-`;
+    let openrc = `# generated on ${exportTime}`;
+
+    // produce an "openrc" string that includes only defined values from endpoint
+    envVarNames.forEach((env) => {
+        if (credModel.get(env)) {
+            openrc += `export ${env}=${credModel.get(env)}\n`;
+        }
+    });
 
     return openrc;
 }
