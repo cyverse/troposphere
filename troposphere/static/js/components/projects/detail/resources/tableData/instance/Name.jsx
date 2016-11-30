@@ -25,9 +25,9 @@ const ShareIcon = React.createClass({
     },
     render() {
         let opacity = this.props.tip ? this.state.opacity : "0";
-        let paddingLeft = "3px";
+        let marginRight = "3px";
         let style = { opacity,
-                      paddingLeft};
+                      marginRight};
         let rand = Math.random() + "";
         return (
         <span><span onMouseOver={this.onMouseOver}
@@ -63,7 +63,7 @@ export default React.createClass({
             identity = stores.IdentityStore.get(instance.get('identity').id),
             name = instance.get("name").trim() || "[no instance name]";
 
-        if (instance && !instance.get("id")) {
+        if ((instance && !instance.get("id") ) || !identity) {
             return (
             <span style={{ opacity: 0.57 }}>{instance.get("name")}</span>
             );

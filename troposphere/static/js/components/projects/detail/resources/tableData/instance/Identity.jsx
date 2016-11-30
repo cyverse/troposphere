@@ -21,11 +21,9 @@ export default React.createClass({
             provider = stores.ProviderStore.get(instance.get("provider").id);
 
         if (!provider || !identity) return <div className="loading-tiny-inline"></div>;
-
+        //Note: This key likely isn't unique for each row in the table, could fix by just using key: instance.get('provider_alias')
         return (
-        <div>
             <span key={identity.get("uuid")} >{this.render_text(provider, identity)}</span>
-        </div>
         );
     }
 });
