@@ -13,11 +13,32 @@ export default React.createClass({
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         className: React.PropTypes.string,
     },
+    getLeaderNames: function(project) {
+        if(!project) {
+            return "";
+        }
+        let leader_list = project.get('leaders'),
+            username_list = leader_list.map(function(g) {return g.username});
+
+        return username_list.join(", ");
+    },
+    getMemberNames: function(project) {
+        if(!project) {
+            return "";
+        }
+        let user_list = project.get('users'),
+            username_list = user_list.map(function(g) {return g.username});
+
+        return username_list.join(", ");
+    },
 
     render: function() {
         let project = this.props.project,
             description,
             projectType,
+            projectUsernameList,
+            projectLeaderList,
+            projectMeta,
             projectOwner,
             projectCreationDate,
             projectExternalLinks,
@@ -34,7 +55,10 @@ export default React.createClass({
         if (project && project.id && !project.isNew()) {
             description = project.get('description');
             projectOwner = project.get('owner').name;
-            projectType = (projectOwner == context.profile.get('username')) ? "Private Project" : "Shared Project, Group Owner " + projectOwner;
+            projectUsernameList = this.getMemberNames(project);
+            projectLeaderList = this.getLeaderNames(project);
+            projectType = (projectOwner == context.profile.get('username')) ? "Private Project" : "Shared Project";
+            //projectMeta = projectType + "\nLeaders: "+projectLeaderList+"\nMembers: "+projectUsernameList;
             projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY hh:mm a");
             projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
             projectInstances = stores.ProjectInstanceStore.getInstancesFor(project);
@@ -70,7 +94,13 @@ export default React.createClass({
                                 {"Created on " + projectCreationDate}
                             </time>
                             <p className="t-caption" style={{ display: "block" }}>
-                               {projectType}
+                               {"Type: "+projectType}
+                            </p>
+                            <p className="t-caption" style={{ display: "block" }}>
+                               {"Leaders: "+projectLeaderList}
+                            </p>
+                            <p className="t-caption" style={{ display: "block" }}>
+                               {"Users: "+projectUsernameList}
                             </p>
                             <p className="description" style={{ minHeight: "200px" }}>
                                 {description}

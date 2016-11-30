@@ -13,17 +13,19 @@ export default React.createClass({
         if( identity == null) {
             return "--- on " + provider.get("name");
         }
-        return identity.key + " on " + provider.get("name");
+        return identity.get("key") + " on " + provider.get("name");
     },
     render: function() {
         var instance = this.props.instance,
-            identity = instance.get('identity'),
+            identity = stores.IdentityStore.get(instance.get('identity').id),
             provider = stores.ProviderStore.get(instance.get("provider").id);
 
-        if (!provider) return <div className="loading-tiny-inline"></div>;
+        if (!provider || !identity) return <div className="loading-tiny-inline"></div>;
 
         return (
-        <span key={identity.uuid} >{this.render_text(provider, identity)}</span>
+        <div>
+            <span key={identity.get("uuid")} >{this.render_text(provider, identity)}</span>
+        </div>
         );
     }
 });

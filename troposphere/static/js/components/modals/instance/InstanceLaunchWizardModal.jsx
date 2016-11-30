@@ -344,7 +344,6 @@ export default React.createClass({
             provider = null;
             identityProvider = null;
         }
-        debugger;
         this.setState({
             project,
             provider,
