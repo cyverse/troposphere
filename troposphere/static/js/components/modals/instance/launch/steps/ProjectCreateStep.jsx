@@ -1,5 +1,6 @@
 import React from "react";
 import stores from "stores";
+import context from "context";
 import SelectMenu from "components/common/ui/SelectMenu";
 //FIXME: Why not use common/ProjectCreateView.react here?
 
@@ -65,13 +66,22 @@ export default React.createClass({
     // Render
     // ------
     //
+    getMemberNames: function(group) {
+        if(!group) {
+            return "";
+        }
+        let user_list = group.get('users'),
+            username_list = user_list.map(function(g) {return g.username});
 
+        return username_list.join(", ");
+    },
     renderBody: function() {
         let groupList = stores.GroupStore.getAll();
         if(!groupList) {
             return (<div className="loading"></div>);
         }
-
+        let projectUsernameList = this.getMemberNames(this.state.groupOwner);
+        let projectType = (this.state.groupOwner.get('name') == context.profile.get('username')) ? "Private" : "Shared with Users: " + projectUsernameList;
         return (
         <div role="form">
             <div className="form-group">

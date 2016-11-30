@@ -1,5 +1,6 @@
 import React from "react";
 import stores from "stores";
+import context from "context";
 import SelectMenu from "components/common/ui/SelectMenu";
 import { trackAction } from "../../utilities/userActivity";
 
@@ -125,6 +126,15 @@ export default React.createClass({
         stores.GroupStore.removeChangeListener(this.updateState);
     },
 
+    getMemberNames: function(group) {
+        if(!group) {
+            return "";
+        }
+        let user_list = group.get('users'),
+            username_list = user_list.map(function(g) {return g.username});
+
+        return username_list.join(", ");
+    },
     renderBody: function() {
         let projectName = this.state.projectName;
         let nameClassNames = "form-group";
@@ -138,6 +148,8 @@ export default React.createClass({
         if(!groupList) {
             return (<div className="loading"></div>);
         }
+        let projectUsernameList = this.getMemberNames(this.state.groupOwner);
+        let projectType = (this.state.groupOwner && this.state.groupOwner.get('name') == context.profile.get('username')) ? "Private Project" : "Shared Project with Users: " + projectUsernameList;
         if (this.state.showValidation) {
             nameClassNames = this.validateName().hasError ?
                 "form-group has-error" : null;
@@ -184,6 +196,9 @@ export default React.createClass({
                     list={groupList}
                     optionName={g => g.get("name")}
                     onSelect={this.onGroupChange} />
+                <p className="t-caption" style={{ display: "block" }}>
+                   {projectType}
+                </p>
                 <span className="help-block">{groupErrorMessage}</span>
             </div>
         </div>
