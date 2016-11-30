@@ -148,8 +148,13 @@ export default React.createClass({
         if(!groupList) {
             return (<div className="loading"></div>);
         }
-        let projectUsernameList = this.getMemberNames(this.state.groupOwner);
-        let projectType = (this.state.groupOwner && this.state.groupOwner.get('name') == context.profile.get('username')) ? "Private Project" : "Shared Project with Users: " + projectUsernameList;
+        let projectType;
+        if (!this.state.groupOwner) {
+            projectType = "Select a Group"
+        } else {
+            let projectUsernameList = this.getMemberNames(this.state.groupOwner);
+            projectType = (this.state.groupOwner && this.state.groupOwner.get('name') == context.profile.get('username')) ? "Private Project" : "Shared Project with Users: " + projectUsernameList;
+        }
         if (this.state.showValidation) {
             nameClassNames = this.validateName().hasError ?
                 "form-group has-error" : null;
