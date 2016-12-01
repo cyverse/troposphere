@@ -55,7 +55,7 @@ export default React.createClass({
             volumeUsage = volumeUsageStats.percentUsed * 100;
 
         var seriesData = {
-            name: provider.get("name"),
+            name: identity.get('key') + " on " + provider.get("name"),
             data: [cpuUsage, memoryUsage, storageUsage, volumeUsage],
             limits: {
                 CPU: cpuUsageStats.maxAllocation,
