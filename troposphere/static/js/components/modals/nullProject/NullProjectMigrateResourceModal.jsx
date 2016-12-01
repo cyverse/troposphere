@@ -1,13 +1,17 @@
 import React from "react";
 import Backbone from "backbone";
+import _ from "underscore";
+
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import ProjectSelect from "components/common/project/ProjectSelect";
-import ResourceListItem from "components/modals/migrate_resources/ResourceListItem";
+import ResourceSelectMenu from "components/modals/migrate_resources/ResourceListItem";
 import stores from "stores";
-
-//FIXME: If the latest changes are to move forward, we will need this FORM to change to look much more like the AllocationSource selection.
-//  Each resource can/will potentially have to go to a different project, as constrained by the identities that created them
-//  - More specifically, that their tenant name matches the name of the Group Owner of the Project
+// Change the render of instances to have a selectmenu similar to MigrateResourceModal2
+// Refresh page and ensure it looks correct
+// Update the action/onConfirm so that the logic works for multiple `resource->project` pairs
+// Act on page and ensure it takes
+// Test with an empty project
+// Verify you can create empty/new projects first? im not sure what to do here. ask for halp.
 export default React.createClass({
     displayName: "NullProjectMigrateResourceModal",
 
@@ -18,11 +22,16 @@ export default React.createClass({
     },
 
     isSubmittable: function() {
-        var hasLoaded = this.state.projectId !== -999;
         var hasName = !!this.state.projectName;
-        var hasTargetProject = (!!this.state.projectId && this.state.projectId !== -1);
+        // Flatten it to:
+        // [ { project, resource } ]
+        let { resourceProjectMap } = this.state;
+        let flattened = _.values(resourceProjectMap);
+        var hasValidProjectMapping = flattened.some(function(project_resource) {
+            return project_resource.project != null;
+        });
 
-        return hasLoaded || hasName || hasTargetProject;
+        return hasValidProjectMapping || hasName;
     },
 
     //
@@ -31,10 +40,20 @@ export default React.createClass({
     //
 
     getInitialState: function() {
+
+        let resourceProjectMap = {};
+
+        this.props.resources.forEach(resource => {
+            resourceProjectMap[resource.id] = {
+                project: null,
+                resource
+            }
+        })
         var initialState = {
             projectName: "",
             projects: stores.ProjectStore.getAll(),
-            projectId: -999
+            projectId: -999,
+            resourceProjectMap,
         };
 
         return initialState;
@@ -86,21 +105,19 @@ export default React.createClass({
         this.hide();
     },
 
-    confirm: function() {
+    onConfirm() {
         this.hide();
-        if (this.state.projectId == -1) {
-            //Create new project using name input
-            this.props.onConfirm({
-                projectName: this.state.projectName
-            });
-        } else {
-            //Move to existing, selected project
-            this.props.onConfirm({
-                projectId: this.state.projectId,
-                projects: this.state.projects
-            });
-        }
+        // instanceProjectMap takes the form of:
+        // {
+        //     instanceId: { project, instance }
+        // }
+        let { resourceProjectMap } = this.state;
 
+        // Flatten it to:
+        // [ { project, resource } ]
+        let flattened = _.values(resourceProjectMap);
+
+        this.props.onConfirm(this.state.projectName, flattened);
     },
 
     //
@@ -114,35 +131,28 @@ export default React.createClass({
         });
     },
 
-    onProjectChange: function(e) {
-        var int_str = e.target.value;
-        this.setState({
-            projectId: parseInt(int_str)
-        });
-    },
-
     //
     // Render
     // ------
     //
 
-    renderResource: function(resource) {
+    renderResourceProjectSelection: function(resource) {
+        let resource_project = this.state.resourceProjectMap[resource.id];
         return (
-        <ResourceListItem key={resource.id} resource={resource} />
+        <ResourceSelectMenu key={resource.id} resource={resource} projects={this.state.projects} project={resource_project.project} onProjectSelected={this.pairResourceWithProject}/>
         );
     },
 
-    renderProjectSelectionForm: function() {
-        if (this.state.projects.length > 0) {
-            return (
-            <div className="form-group">
-                <ProjectSelect projectId={this.state.projectId}
-                    projects={this.state.projects}
-                    onChange={this.onProjectChange}
-                    showCreate={true} />
-            </div>
-            );
+    pairResourceWithProject(resource, project) {
+        let { resourceProjectMap } = this.state;
+        //FIXME: This will fail if id == id, this should be UUIDs! set 'get_uuid()' for each resource-model and call that, instead.
+        resourceProjectMap[resource.id] = {
+            resource,
+            project,
         }
+        this.setState({
+            resourceProjectMap
+        });
     },
 
     renderProjectCreationForm: function() {
@@ -193,13 +203,12 @@ export default React.createClass({
                     {"Looks like you have some resources that aren't in a project!"}
                 </p>
                 <ul>
-                    {this.props.resources.map(this.renderResource)}
+                    {this.props.resources.map(this.renderResourceProjectSelection)}
                 </ul>
                 <p>
                     {this.renderExplanationText()}
                 </p>
             </div>
-            {this.renderProjectSelectionForm()}
             {this.renderProjectCreationForm()}
         </div>
         );
@@ -220,7 +229,7 @@ export default React.createClass({
                     <div className="modal-footer">
                         <button type="button"
                             className="btn btn-primary"
-                            onClick={this.confirm}
+                            onClick={this.onConfirm}
                             disabled={!this.isSubmittable()}>
                             Move resources into project
                         </button>
