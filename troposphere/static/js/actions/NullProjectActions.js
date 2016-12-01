@@ -138,10 +138,11 @@ export default {
         });
     },
     createAndSaveToNewProject: function(projectName, resources) {
+        let that = this;
         var resourcesClone = resources.models.slice(0),
             project = new Project({
-                name: params.projectName,
-                description: params.projectName,
+                name: projectName,
+                description: projectName,
                 instances: [],
                 volumes: []
             });
@@ -188,15 +189,11 @@ export default {
             };
 
             ModalHelpers.renderModal(NullProjectMigrateResourceModal, props, function(projectName, project_resource_list) {
-            //Given a flattened list of [ {resource, project}, ...] start acting on the data.
-            //var resourcesClone = resources.models.slice(0);
-            var project;
-
-            if (projectName) {
-                that.createAndSaveToNewProject(projectName, resources);
-            } else {
-                that.saveResourcesToProjects(project_resource_list);
-            }
+                if (projectName) {
+                    that.createAndSaveToNewProject(projectName, resources);
+                } else {
+                    that.saveResourcesToProjects(project_resource_list);
+                }
         });
         } else {
             that.moveAttachedVolumesIntoCorrectProject();
