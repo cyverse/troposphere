@@ -63,7 +63,7 @@ export default React.createClass({
         _.extend(lastBtnStyle, btnStyle);
 
         return (
-        <div>
+        <div className="form-group">
             {labelEl}
             <div className="input-group">
                 <input id="interactive-date-field"
