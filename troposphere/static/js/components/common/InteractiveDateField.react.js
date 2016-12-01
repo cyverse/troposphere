@@ -54,7 +54,7 @@ export default React.createClass({
                                                   {this.props.labelText}
                                               </label>) : null;
         var btnStyle = {
-            lineHeight: "1.31" // I know this is quite heinous ...
+            lineHeight: "1.48" // I know this is quite heinous ...
         };
         var lastBtnStyle = {
             borderTopRightRadius: "5px",
