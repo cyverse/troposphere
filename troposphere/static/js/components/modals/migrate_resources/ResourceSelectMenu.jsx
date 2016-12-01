@@ -15,6 +15,7 @@ export default React.createClass({
         onProjectSelected: React.PropTypes.func.isRequired
     },
     getInitialState: function() {
+        let { resource } = this.props;
         let limitedProjects = stores.ProjectStore.getProjectsForIdentity(resource.get('identity'));
 
         return {
@@ -33,6 +34,8 @@ export default React.createClass({
     },
     componentDidMount: function() {
         stores.ProjectStore.addChangeListener(this.updateState);
+
+        this.updateState();
     },
     componentWillUnmount: function() {
         stores.ProjectStore.removeChangeListener(this.updateState);
