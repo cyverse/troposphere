@@ -33,7 +33,7 @@ export default React.createClass({
 
     },
     onCompletedEdit: function(version, name, changeLog, end_date,
-        canImage, image, minCPU, minMem) {
+                              canImage, image, minCPU, minMem) {
         if (end_date) {
             // Move from datestring to ISO string
             end_date = new Date(Date.parse(end_date)).toISOString()

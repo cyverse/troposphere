@@ -350,6 +350,7 @@ export default React.createClass({
         if (name == null || images == null) {
             return (<div className="loading" />);
         }
+
         licensesView = (
             <EditLicensesView activeLicenses={activeLicensesList}
                 licenses={licensesList}
@@ -377,7 +378,10 @@ export default React.createClass({
         descriptionView = (
             <VersionChanges value={this.state.versionChangeLog} onChange={this.handleDescriptionChange} />
         );
-        availabilityView = (<EditAvailabilityView image={this.props.image} version={this.props.version} />);
+        availabilityView = (
+            <EditAvailabilityView image={this.props.image} version={this.props.version} />
+        );
+
         if (this.props.image.get("is_public")) {
             membershipView = (<div>
                                   Here lies a pretty view telling users they can add/edit/remove users they shared a specific version with.. ONLY IF that image is private
@@ -391,11 +395,16 @@ export default React.createClass({
         }
         applicationView = (
             <div className="application-select-container">
-                <ImageSelect imageId={this.state.versionImage.id} onChange={this.onImageSelected} />
+                <ImageSelect imageId={this.state.versionImage.id}
+                             onChange={this.onImageSelected} />
             </div>
         );
         //FUTURE_keyTODO: Pull this functionality out if you use it anywhere else..
-        endDateView = (<InteractiveDateField value={ended} labelText={"Version End-dated On"} onChange={this.onEndDateChange} />);
+        endDateView = (<InteractiveDateField
+                           value={ended}
+                           labelText={"Version End-dated On"}
+                           onChange={this.onEndDateChange} />);
+
         startDateView = (<div className="form-group">
                              <label htmlFor="version-version">
                                  Version Created On
