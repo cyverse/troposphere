@@ -4,7 +4,7 @@ import _ from "underscore";
 
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import ProjectSelect from "components/common/project/ProjectSelect";
-import ResourceSelectMenu from "components/modals/migrate_resources/ResourceListItem";
+import ResourceSelectMenu from "components/modals/migrate_resources/ResourceSelectMenu";
 import stores from "stores";
 // Change the render of instances to have a selectmenu similar to MigrateResourceModal2
 // Refresh page and ensure it looks correct
