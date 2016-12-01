@@ -413,7 +413,7 @@ export default React.createClass({
                                  className="form-control"
                                  value={created}
                                  readOnly={true}
-                                 editable={false} />
+                                 disabled={true} />
                          </div>
         );
         // canImageView = (<div className='form-group checkbox'>
