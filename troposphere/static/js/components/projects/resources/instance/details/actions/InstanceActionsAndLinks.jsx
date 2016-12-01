@@ -121,7 +121,8 @@ export default React.createClass({
         let instance_owner = this.props.instance.get('user'),
             project_leaders = this.props.project.get('leaders'),
             current_user = context.profile.get('username');
-        let is_leader = project_leaders.find(function(project) { return project.username == instance_owner.username });
+
+        let is_leader = project_leaders.find(function(project) { return project.username == current_user });
         let is_leader_or_owner = (current_user == instance_owner.username || is_leader != null);
 
         if (!is_leader_or_owner) {
