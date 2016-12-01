@@ -45,11 +45,15 @@ export default {
                 "project.id": project.id,
                 "image.id": image.id
             });
-
-        projectImage.destroy().done(function() {
-            Utils.dispatch(ProjectImageConstants.REMOVE_PROJECT_IMAGE, {
-                projectImage: projectImage
-            }, options);
-        });
+        // NOTICE: we have seen Sentry errors showing that 'findOne'
+        // has returned a false-y value, so the `destroy()` fails
+        // We can do better by guarding that call.
+        if (projectImage) {
+            projectImage.destroy().done(function() {
+                Utils.dispatch(ProjectImageConstants.REMOVE_PROJECT_IMAGE, {
+                    projectImage: projectImage
+                }, options);
+            });
+        }
     }
 };
