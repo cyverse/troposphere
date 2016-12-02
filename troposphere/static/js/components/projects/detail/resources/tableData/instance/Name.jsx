@@ -2,17 +2,29 @@ import React from "react";
 import Backbone from "backbone";
 import Router from "react-router";
 import stores from "stores";
+import context from "context";
 import Tooltip from "react-tooltip";
 
 const ShareIcon = React.createClass({
+    propTypes: {
+        owner: React.PropTypes.string.isRequired
+    },
+
     getDefaultProps() {
         return {
-            tip: "This is a shared resource that was created by another user.",
+            isLeader: false,
         };
     },
     getInitialState() {
+        let share_message = "You have view-only access to this shared resource from " + this.props.owner;
+        let leader_message = "You have full control to this shared resource from " + this.props.owner;
+        //Note: I want to differentiate this icon based on leader-ship/viewer-ship.. Can we tap into theme here?
+        let color = (this.props.isLeader) ? "green" : "red";
+        let tip = (this.props.isLeader) ? leader_message : share_message;
         return {
             opacity: "0.4",
+            color,
+            tip,
         };
     },
     onMouseOver() {
@@ -24,16 +36,18 @@ const ShareIcon = React.createClass({
         this.setState(this.getInitialState());
     },
     render() {
-        let opacity = this.props.tip ? this.state.opacity : "0";
+        let opacity = this.state.tip ? this.state.opacity : "0";
+        let { color } = this.state;
         let marginRight = "3px";
         let style = { opacity,
+                      color,
                       marginRight};
         let rand = Math.random() + "";
         return (
         <span><span onMouseOver={this.onMouseOver}
                   onMouseOut={this.onMouseOut}
                   style={ style }
-                  data-tip={this.props.tip}
+                  data-tip={this.state.tip}
                   data-for={rand}
                   className="glyphicon glyphicon-user"
                   aria-hidden="true"></span>
@@ -53,10 +67,16 @@ export default React.createClass({
     },
 
     render_share_icon: function(identity) {
-        if(identity.get('is_leader') == true) {
-            return;
+        let current_user = context.profile.get('username');
+        let identity_owner = identity.get('user').username;
+        if(identity_owner == current_user) {
+            return; //Owned by user
         }
-        return (<ShareIcon />);
+        //Shared with user
+        return (<ShareIcon
+                    owner={identity_owner}
+                    isLeader={identity.get('is_leader')}
+                />);
     },
     render: function() {
         var instance = this.props.instance,
