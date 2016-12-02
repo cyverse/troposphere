@@ -139,7 +139,11 @@ export default React.createClass({
     renderResourceProjectSelection: function(resource) {
         let resource_project = this.state.resourceProjectMap[resource.id];
         return (
-        <ResourceSelectMenu key={resource.id} resource={resource} projects={this.state.projects} project={resource_project.project} onProjectSelected={this.pairResourceWithProject}/>
+        <ResourceSelectMenu key={resource.id}
+	    resource={resource}
+	    projects={this.state.projects}
+	    project={resource_project.project}
+	    onProjectSelected={this.pairResourceWithProject}/>
         );
     },
 

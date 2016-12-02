@@ -28,9 +28,11 @@ export default React.createClass({
 
         limitedProjects = stores.ProjectStore.getProjectsForIdentity(resource.get('identity'));
 
-        return {
-            limitedProjects
-        };
+        if (limitedProjects !== this.state.limitedProjects) {
+            this.setState({
+                limitedProjects
+            });
+        }
     },
     componentDidMount: function() {
         stores.ProjectStore.addChangeListener(this.updateState);
