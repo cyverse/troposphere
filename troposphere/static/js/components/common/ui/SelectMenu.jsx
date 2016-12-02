@@ -28,6 +28,7 @@ export default React.createClass({
             React.PropTypes.array
         ]),
         hintText: React.PropTypes.string,
+        className: React.PropTypes.string,
         current: React.PropTypes.object,
         placeholder: React.PropTypes.string,
     },
@@ -35,6 +36,7 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             hintText: "",
+            className: "form-control"
         }
     },
 
@@ -137,7 +139,7 @@ export default React.createClass({
         }
 
         return (
-        <select value={index} className="form-control" onChange={this.onSelect}>
+        <select value={index} className={this.props.className} onChange={this.onSelect}>
             {options}
         </select>
         );

@@ -53,6 +53,7 @@ export default React.createClass({
         return (
             <span style={{ width: "40%" }}>
                 <SelectMenu
+                    className={""}
                     current={project}
                     list={limitProjects}
                     placeholder={"Select a project"}
