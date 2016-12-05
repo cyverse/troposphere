@@ -10,8 +10,8 @@ from caslib import OAuthClient as CAS_OAuthClient
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 
-from iplantauth.authBackends import get_or_create_user, generate_token
-from iplantauth.views import globus_login_redirect, globus_logout_redirect
+from django_cyverse_auth.authBackends import get_or_create_user, generate_token
+from django_cyverse_auth.views import globus_login_redirect, globus_logout_redirect
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -65,11 +65,11 @@ def login(request):
     # pro-active session cleaning
     request.session.clear_expired()
 
-    if "iplantauth.authBackends.MockLoginBackend" in all_backends:
+    if "django_cyverse_auth.authBackends.MockLoginBackend" in all_backends:
         return _mock_login(request)
-    elif 'iplantauth.authBackends.GlobusOAuthLoginBackend' in all_backends:
+    elif 'django_cyverse_auth.authBackends.GlobusOAuthLoginBackend' in all_backends:
         return _globus_login(request)
-    elif 'iplantauth.authBackends.OAuthLoginBackend' in all_backends:
+    elif 'django_cyverse_auth.authBackends.OAuthLoginBackend' in all_backends:
         return _oauth_login(request)
     elif request.META['REQUEST_METHOD'] is 'POST':
         return _post_login(request)
@@ -93,16 +93,16 @@ def logout(request):
     #Look for 'cas' to be passed on logout.
     request_data = request.GET
     if request_data.get('force', False):
-        if 'iplantauth.authBackends.CASLoginBackend' in all_backends\
-        or 'iplantauth.authBackends.OAuthLoginBackend' in all_backends:
+        if 'django_cyverse_auth.authBackends.CASLoginBackend' in all_backends\
+        or 'django_cyverse_auth.authBackends.OAuthLoginBackend' in all_backends:
             redirect_to = request_data.get("service")
             if not redirect_to:
                 redirect_to = settings.SERVER_URL + reverse('application')
             logout_url = cas_oauth_client.logout(redirect_to)
             logger.info("[CAS] Redirect user to: %s" % logout_url)
             return redirect(logout_url)
-        elif 'iplantauth.authBackends.GlobusLoginBackend' in all_backends\
-          or 'iplantauth.authBackends.GlobusOAuthLoginBackend' in all_backends:
+        elif 'django_cyverse_auth.authBackends.GlobusLoginBackend' in all_backends\
+          or 'django_cyverse_auth.authBackends.GlobusOAuthLoginBackend' in all_backends:
             logger.info("[Globus] Redirect user to logout")
             return globus_logout_redirect(request)
     return redirect('application')
