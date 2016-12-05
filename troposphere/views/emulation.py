@@ -26,7 +26,7 @@ def is_emulated_session(request):
 
 def emulate(request, username):
     if 'access_token' not in request.session:
-        if 'iplantauth.authBackends.OAuthLoginBackend' in settings.AUTHENTICATION_BACKENDS:
+        if 'django_cyverse_auth.authBackends.OAuthLoginBackend' in settings.AUTHENTICATION_BACKENDS:
             return redirect(cas_oauth_client.authorize_url())
         return redirect('/application')
 

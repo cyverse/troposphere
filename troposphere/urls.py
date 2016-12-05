@@ -11,7 +11,7 @@ ui_urlpatterns = [
     url(r'^tropo-admin/', include(admin.site.urls)),
     url(r'^$', views.root),
     # Authentication endpoints
-    url(r'', include("iplantauth.urls", namespace="iplantauth")),
+    url(r'', include("django_cyverse_auth.urls", namespace="django_cyverse_auth")),
 
     url(r'^application_backdoor', views.application_backdoor,
         name='application'),
