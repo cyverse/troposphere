@@ -1,5 +1,6 @@
 import actions from "actions";
 import ModalHelpers from "components/modals/ModalHelpers";
+
 import ProjectMoveResourceModal from "components/modals/project/ProjectMoveResourceModal";
 
 

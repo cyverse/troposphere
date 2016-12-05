@@ -1,11 +1,13 @@
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import BreakingFeatureList from "components/modals/unsupported/BreakingFeatureList";
+
 import chrome from "images/google_chrome_icon.png";
 import firefox from "images/firefox_icon.png";
 import safari from "images/safari_icon.png";
 import ModalHelpers from "components/modals/ModalHelpers";
+
 
 const UnsupportedModal = React.createClass({
     displayName: "UnsupportedModal",

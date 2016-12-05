@@ -1,6 +1,8 @@
 import ModalHelpers from "components/modals/ModalHelpers";
+
 import InstanceRedeployModal from "components/modals/instance/InstanceRedeployModal";
 import actions from "actions";
+
 
 export default {
 

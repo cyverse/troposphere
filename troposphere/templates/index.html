@@ -155,6 +155,9 @@
     };
 {% endif %}
 
+{% if USER_PORTAL %}
+    var user_portal = {{USER_PORTAL | safe}};
+{% endif %}
     </script>
 
 {% if DYNAMIC_ASSET_LOADING %}

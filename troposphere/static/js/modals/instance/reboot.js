@@ -1,6 +1,8 @@
 import ModalHelpers from "components/modals/ModalHelpers";
+
 import InstanceRebootModal from "components/modals/instance/InstanceRebootModal";
 import actions from "actions";
+
 
 export default {
 

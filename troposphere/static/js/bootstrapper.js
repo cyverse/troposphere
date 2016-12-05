@@ -29,6 +29,7 @@ import stores from "stores";
 
 stores.AllocationStore = require("stores/AllocationStore");
 stores.BadgeStore = require("stores/BadgeStore");
+stores.ClientCredentialStore = require("stores/ClientCredentialStore");
 stores.ExternalLinkStore = require("stores/ExternalLinkStore");
 stores.HelpLinkStore = require("stores/HelpLinkStore");
 stores.ImageStore = require("stores/ImageStore");
@@ -103,6 +104,7 @@ import modals from "modals";
 
 modals.AccountModals = require("modals/AccountModals");
 modals.BadgeModals = require("modals/BadgeModals");
+modals.ExpiredPasswordModals = require("modals/ExpiredPasswordModals");
 modals.ExternalLinkModals = require("modals/ExternalLinkModals");
 modals.HelpModals = require("modals/HelpModals");
 modals.InstanceModals = require("modals/InstanceModals");

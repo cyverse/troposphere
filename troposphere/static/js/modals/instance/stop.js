@@ -1,4 +1,5 @@
 import ModalHelpers from "components/modals/ModalHelpers";
+
 import InstanceStopModal from "components/modals/instance/InstanceStopModal";
 import actions from "actions";
 

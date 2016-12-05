@@ -1,7 +1,7 @@
 {
   "name": "troposphere",
   "description": "Atmosphere Web Client",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "author": "iPlant Collaborative",
   "license": "BSD-3-Clause",
   "homepage": "https://github.com/iPlantCollaborativeOpenSource/troposphere",

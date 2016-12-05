@@ -1,6 +1,8 @@
 import actions from "actions";
 import ModalHelpers from "components/modals/ModalHelpers";
+
 import FeedbackModal from "components/modals/FeedbackModal";
+
 
 export default {
     showFeedbackModal: function() {

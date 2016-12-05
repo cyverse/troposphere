@@ -9,4 +9,5 @@ if(!window.SENTRY_ENABLED) {
         release: window.SENTRY_RELEASE,
     }).install();
 }
+
 bootstrapper.run();
