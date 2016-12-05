@@ -137,36 +137,6 @@ export default {
                 project_resource.resource, project_resource.project);
         });
     },
-    createAndSaveToNewProject: function(projectName, resources) {
-        let that = this;
-        var resourcesClone = resources.models.slice(0),
-            project = new Project({
-                name: projectName,
-                description: projectName,
-                instances: [],
-                volumes: []
-            });
-
-        Utils.dispatch(ProjectConstants.ADD_PROJECT, {
-            project: project
-        });
-
-        project.save().done(function() {
-            //NotificationController.success(null, "Project " + project.get('name') + " created.");
-            Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {
-                project: project
-            });
-            that._migrateResourcesIntoProject(resourcesClone, project);
-            that.moveAttachedVolumesIntoCorrectProject();
-        }).fail(function() {
-            var message = "Error creating Project " + project.get("name") + ".";
-            NotificationController.error(null, message);
-            Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {
-                project: project
-            });
-        });
-    },
-
     migrateResourcesIntoProject: function(nullProject) {
         var instances = nullProject.get("instances"),
             volumes = nullProject.get("volumes"),
@@ -188,12 +158,8 @@ export default {
                 backdrop: "static"
             };
 
-            ModalHelpers.renderModal(NullProjectMigrateResourceModal, props, function(projectName, project_resource_list) {
-                if (projectName) {
-                    that.createAndSaveToNewProject(projectName, resources);
-                } else {
-                    that.saveResourcesToProjects(project_resource_list);
-                }
+            ModalHelpers.renderModal(NullProjectMigrateResourceModal, props, function(project_resource_list) {
+                that.saveResourcesToProjects(project_resource_list);
         });
         } else {
             that.moveAttachedVolumesIntoCorrectProject();

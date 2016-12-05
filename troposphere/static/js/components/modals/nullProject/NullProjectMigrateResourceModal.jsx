@@ -4,14 +4,12 @@ import _ from "underscore";
 
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import ProjectSelect from "components/common/project/ProjectSelect";
-import ResourceSelectMenu from "components/modals/migrate_resources/ResourceSelectMenu";
+import GroupProjectSelection from "components/modals/migrate_resources/GroupProjectSelection";
+import Instance from "models/Instance";
+import Volume from "models/Volume";
 import stores from "stores";
-// Change the render of instances to have a selectmenu similar to MigrateResourceModal2
-// Refresh page and ensure it looks correct
-// Update the action/onConfirm so that the logic works for multiple `resource->project` pairs
-// Act on page and ensure it takes
-// Test with an empty project
-// Verify you can create empty/new projects first? im not sure what to do here. ask for halp.
+
+
 export default React.createClass({
     displayName: "NullProjectMigrateResourceModal",
 
@@ -21,8 +19,25 @@ export default React.createClass({
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
+    onProjectCreated(project) {
+        //Throw out the groupProjectsMap and re-build from the groups and projects store.
+        let state = this.getState();
+        state.groupProjectsMap = {};
+        this.setState(state);
+    },
+    pairResourceWithProject(resource, project) {
+        let { resourceProjectMap } = this.state;
+        //FIXME: This will fail if id == id, this should be UUIDs! set 'get_uuid()' for each resource-model and call that, instead.
+        resourceProjectMap[resource.id] = {
+            resource,
+            project,
+        }
+        this.setState({
+            resourceProjectMap
+        });
+    },
+
     isSubmittable: function() {
-        var hasName = !!this.state.projectName;
         // Flatten it to:
         // [ { project, resource } ]
         let { resourceProjectMap } = this.state;
@@ -31,7 +46,7 @@ export default React.createClass({
             return project_resource.project != null;
         });
 
-        return hasValidProjectMapping || hasName;
+        return hasValidProjectMapping;
     },
 
     //
@@ -48,11 +63,11 @@ export default React.createClass({
                 project: null,
                 resource
             }
-        })
+        });
         var initialState = {
-            projectName: "",
             projects: stores.ProjectStore.getAll(),
-            projectId: -999,
+            groups: stores.GroupStore.getAll(),
+            groupProjectsMap: null,
             resourceProjectMap,
         };
 
@@ -61,15 +76,23 @@ export default React.createClass({
 
     getState: function() {
         var state = {
-            projectName: this.state.projectName,
             projects: stores.ProjectStore.getAll(),
-            projectId: this.state.projectId
+            groups: stores.GroupStore.getAll(),
+            groupProjectsMap: this.state.groupProjectsMap,
         };
-
-        if (state.projects && state.projects.length > 0) {
-            state.projectId = state.projects.first().id;
-        } else if (state.projects != null) {
-            state.projectId = -1
+        if(!state.groupProjectsMap && state.groups && state.projects) {
+            //Create a group-projects map
+            state.groupProjectsMap = {};
+            state.groups.forEach(function(group) {
+                let group_project_list = state.projects.cfilter(
+                    function(project) {
+                        if(project.get('owner').uuid == group.get('uuid')) {
+                            return true;
+                        }
+                        return false;
+                    });
+                state.groupProjectsMap[group.id] = group_project_list;
+            });
         }
 
         return state;
@@ -85,15 +108,13 @@ export default React.createClass({
 
     componentDidMount: function() {
         stores.ProjectStore.addChangeListener(this.updateState);
-        // Prime the "state" pump
-        // - this is isn't called then projectId is still -999
-        //   when a user simplified _clicks_ *move* given the
-        //   project shown in the drop-down
+        stores.GroupStore.addChangeListener(this.updateState);
         this.updateState();
     },
 
     componentWillUnmount: function() {
         stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.GroupStore.removeChangeListener(this.updateState);
     },
 
     //
@@ -117,7 +138,7 @@ export default React.createClass({
         // [ { project, resource } ]
         let flattened = _.values(resourceProjectMap);
 
-        this.props.onConfirm(this.state.projectName, flattened);
+        this.props.onConfirm(flattened);
     },
 
     //
@@ -125,58 +146,10 @@ export default React.createClass({
     // ----------------------
     //
 
-    onProjectNameChange: function(e) {
-        this.setState({
-            projectName: e.target.value
-        });
-    },
-
     //
     // Render
     // ------
     //
-
-    renderResourceProjectSelection: function(resource) {
-        let resource_project = this.state.resourceProjectMap[resource.id];
-        return (
-        <ResourceSelectMenu key={resource.id}
-	    resource={resource}
-	    projects={this.state.projects}
-	    project={resource_project.project}
-	    onProjectSelected={this.pairResourceWithProject}/>
-        );
-    },
-
-    pairResourceWithProject(resource, project) {
-        let { resourceProjectMap } = this.state;
-        //FIXME: This will fail if id == id, this should be UUIDs! set 'get_uuid()' for each resource-model and call that, instead.
-        resourceProjectMap[resource.id] = {
-            resource,
-            project,
-        }
-        this.setState({
-            resourceProjectMap
-        });
-    },
-
-    renderProjectCreationForm: function() {
-        // Only render this if the user has requested to create a new project from the dropdown
-        // The "new project" option has an id of -1
-        if (this.state.projectId === -1) {
-            return (
-            <div className="form-group">
-                <label>
-                    Project Name
-                </label>
-                <input type="text"
-                    className="form-control"
-                    value={this.state.projectName}
-                    onChange={this.onProjectNameChange}
-                    placeholder="Enter project name..." />
-            </div>
-            )
-        }
-    },
 
     renderExplanationText: function() {
         var explanationText = "";
@@ -194,7 +167,7 @@ export default React.createClass({
     },
 
     renderBody: function() {
-        if (this.state.projects == null) {
+        if (this.state.projects == null || this.state.groups == null) {
 
             return (
             <div className="loading"></div>
@@ -206,20 +179,29 @@ export default React.createClass({
                 <p>
                     {"Looks like you have some resources that aren't in a project!"}
                 </p>
-                <ul>
-                    {this.props.resources.map(this.renderResourceProjectSelection)}
-                </ul>
                 <p>
                     {this.renderExplanationText()}
                 </p>
             </div>
-            {this.renderProjectCreationForm()}
+            {this.state.groups.map(this.renderGroupProjectSelection)}
         </div>
         );
     },
 
+    renderGroupProjectSelection: function(group) {
+        let projects = this.state.groupProjectsMap[group.id];
+        if(! projects) {
+            return (<div key={group.id} className="loading"/>);
+        }
+        return (<GroupProjectSelection
+                key={group.id}
+                group={group}
+                resources={this.props.resources}
+                onProjectSelected={this.pairResourceWithProject}
+                onProjectCreated={this.onProjectCreated}
+                projects={projects} />);
+    },
     render: function() {
-        stores.ProjectStore.getAll();
         return (
         <div className="modal fade">
             <div className="modal-dialog">

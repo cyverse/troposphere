@@ -10,6 +10,20 @@ let GroupStore = BaseStore.extend({
         return this.models.get(modelId) != null;
     },
 
+    getGroupsForIdentity: function(identityObj) {
+        if (identityObj == null) {
+            return this.fetchModels();
+        }
+        let identity_key = "?identity_uuid="+identityObj.uuid,
+            query_params = {"identity_uuid" : identityObj.uuid};
+        if (!this.queryModels[identity_key]) {
+            return this.fetchWhere(query_params);
+        } else {
+            return this.queryModels[identity_key];
+        }
+    },
+
+
     getGroupsFromList: function(groupnameList) {
         if (!this.models)
             throw new Error("Must fetch groups before calling getGroupsFromList");
