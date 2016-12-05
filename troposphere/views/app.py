@@ -178,7 +178,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
 def _handle_authenticated_application_request(request, maintenance_records,
         notice_info):
     """
-    Deals with request verified identities via `iplantauth` module.
+    Deals with request verified identities via `django_cyverse_auth` module.
     """
     if notice_info and notice_info[1]:
         notice_info = (notice_info[0], notice_info[1],
