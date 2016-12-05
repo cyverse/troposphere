@@ -1,7 +1,7 @@
 import Backbone from "backbone";
 
-import AllocationSource from "models/AllocationSource";
 import globals from "globals";
+import AllocationSource from "models/AllocationSource";
 import { api } from "mock/allocationSources";
 import mockSync from "utilities/mockSync";
 

@@ -1,4 +1,3 @@
-
 import ModalHelpers from "components/modals/ModalHelpers";
 import PublicSupportModal from "components/modals/PublicSupportModal";
 

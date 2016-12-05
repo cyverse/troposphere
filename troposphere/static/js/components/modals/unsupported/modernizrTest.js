@@ -1,5 +1,6 @@
-import modernizr from "lib/modernizr-latest";
 import _ from "underscore";
+
+import modernizr from "lib/modernizr-latest";
 
 let features = modernizr;
 
@@ -39,6 +40,7 @@ let breakingFeatures = _.intersection(requiredFeatures, unsupportedFeatures);
 let unsupported = function() {
     return breakingFeatures.length > 0;
 };
+
 
 export default {
     unsupportedFeatures: unsupportedFeatures,

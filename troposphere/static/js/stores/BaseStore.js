@@ -47,11 +47,13 @@ let Store = function(attributes, options) {
     this.initialize.apply(this, arguments);
 };
 
+
 _.extend(Store.prototype, Backbone.Events, {
 
     // ---------------
     // Event listeners
     // ---------------
+
     clearCache: function() {
         this.models = null;
         this.queryModels = {};

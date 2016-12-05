@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -123,6 +125,20 @@ class SiteMetadata(SingletonModel):
         max_length=254,
         default=b"http://user.cyverse.org/",
         help_text="Hyperlink in footer to host installation organization or product page.")
+
+    def get_user_portal_as_json(self):
+        """
+        Provides a JSON representation of User Portal information.
+        """
+        up = self.get_user_portal()
+        return json.dumps(up)
+
+    def get_user_portal(self):
+        up = {}
+        up["link"] = str(self.user_portal_link)
+        up["text"] = str(self.user_portal_link_text)
+        return up
+
 
     class Meta:
         db_table = 'site_metadata'

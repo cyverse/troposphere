@@ -1,6 +1,8 @@
 import ModalHelpers from "components/modals/ModalHelpers";
+
 import InstanceImageWizardModal from "components/modals/instance/InstanceImageWizardModal";
 import actions from "actions";
+
 
 export default {
 

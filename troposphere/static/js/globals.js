@@ -6,6 +6,16 @@ let tz_region = timezone ? timezone.name() : "America/Phoenix";
 let shell_proxy = "https://atmo-proxy.cyverse.org/";
 let default_footer_link = "http://www.cyverse.org/";
 
+let USER_PORTAL = {
+    link() {
+        return window.user_portal && window.user_portal.link || "";
+    },
+    text() {
+        return window.user_portal && window.user_portal.text || "";
+    }
+};
+
+
 export default {
     API_ROOT: window.API_ROOT || "/api/v1",
     API_V2_ROOT: window.API_V2_ROOT || "/api/v2",
@@ -24,5 +34,6 @@ export default {
     BADGES_ENABLED: window.BADGES_ENABLED || false,
     USE_MOCK_DATA: window.USE_MOCK_DATA || false,
     USE_ALLOCATION_SOURCES: window.USE_ALLOCATION_SOURCES,
-    SHOW_INSTANCE_METRICS: window.SHOW_INSTANCE_METRICS
+    SHOW_INSTANCE_METRICS: window.SHOW_INSTANCE_METRICS,
+    USER_PORTAL
 }

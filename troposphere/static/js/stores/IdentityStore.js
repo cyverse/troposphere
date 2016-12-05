@@ -38,7 +38,7 @@ let store = new IdentityStore();
 Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
     // Payload not used in current implementation
-    //var payload = dispatch.action.payload;
+    // var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
@@ -56,5 +56,6 @@ Dispatcher.register(function(dispatch) {
 
     return true;
 });
+
 
 export default store;

@@ -1,6 +1,7 @@
-import ModalHelpers from "components/modals/ModalHelpers";
 import actions from "actions";
 import stores from "stores";
+import ModalHelpers from "components/modals/ModalHelpers";
+
 import VolumeReportModal from "components/modals/volume/VolumeReportModal";
 
 
