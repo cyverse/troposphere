@@ -52,7 +52,10 @@ export default {
 
         project.save().done(function() {
             //NotificationController.success(null, "Project " + project.get('name') + " created.");
-            actions.BadgeActions.checkOrGrant(Badges.FIRST_PROJECT_BADGE);
+
+
+            //FIXME: Wrap this so it doesn't fail
+            //actions.BadgeActions.checkOrGrant(Badges.FIRST_PROJECT_BADGE);
             Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {
                 project: project
             });

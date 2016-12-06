@@ -8,6 +8,7 @@ import ResourceSelectMenu from "components/modals/migrate_resources/ResourceSele
 import Instance from "models/Instance";
 import Volume from "models/Volume";
 import stores from "stores";
+import actions from "actions";
 
 
 export default React.createClass({
@@ -119,7 +120,7 @@ export default React.createClass({
                 value={this.state.projectName}
                 onChange={this.onProjectNameChange}
                 placeholder="Enter project name..." />
-            <button onClick={this.createNewProject} disabled={this.isCreateDisabled}>Create Project</button>
+            <button className="btn btn-primary" onClick={this.createNewProject} disabled={this.isCreateDisabled()}>Create Project</button>
             {/*FIXME: I need a Submission-button here that will:
                 1: Create a new project with group `this.props.group`
                 2: add to the list and re-render select-menus in teh group with the new proejct
@@ -129,37 +130,26 @@ export default React.createClass({
     },
 
     isCreateDisabled: function() {
-        return (this.state.projectName.trim() != "");
+        return (this.state.projectName.trim() == "");
     },
-    createNewProject: function(projectName) {
-        let that = this;
-        let project = new Project({
+    onProjectCreateFailed: function() {
+        return;
+    },
+    onProjectCreated: function(project) {
+        let state = this.getState();
+        state.projectName = "";
+        this.setState(state);
+        this.props.onProjectCreated(project);
+    },
+    createNewProject: function() {
+        let { projectName } = this.state;
+        let project_params = {
                 name: projectName,
                 description: projectName,
-                instances: [],
-                volumes: []
-            });
-
-        Utils.dispatch(ProjectConstants.ADD_PROJECT, {
-            project: project
-        });
-
-        project.save().done(function() {
-            //NotificationController.success(null, "Project " + project.get('name') + " created.");
-            Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {
-                project: project
-            });
-            let state = that.getState();
-            state.projectName = "";
-            that.setState(state);
-            that.props.onProjectCreated(project);
-        }).fail(function() {
-            var message = "Error creating Project " + project.get("name") + ".";
-            NotificationController.error(null, message);
-            Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {
-                project: project
-            });
-        });
+                owner: this.props.group,
+            };
+        actions.ProjectActions.create(
+            project_params, this.onProjectCreated, this.onProjectCreateFailed);
     },
 
 
