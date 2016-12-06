@@ -9,7 +9,15 @@ let GroupStore = BaseStore.extend({
         if (!this.models) return this.fetchModels();
         return this.models.get(modelId) != null;
     },
-
+    getPrivateGroup: function() {
+        let identity_key = "?is_private=true",
+            query_params = {"is_private" : true};
+        if (!this.queryModels[identity_key]) {
+            return this.fetchWhere(query_params);
+        } else {
+            return this.queryModels[identity_key];
+        }
+    },
     getGroupsForIdentity: function(identityObj) {
         if (identityObj == null) {
             return this.fetchModels();

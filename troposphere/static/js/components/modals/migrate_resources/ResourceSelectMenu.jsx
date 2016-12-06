@@ -1,5 +1,6 @@
 import React from "react";
 import stores from "stores";
+import context from "context";
 import Backbone from "backbone";
 import Instance from "models/Instance";
 import Volume from "models/Volume";
@@ -12,7 +13,8 @@ export default React.createClass({
         resource: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         project: React.PropTypes.instanceOf(Backbone.Model),
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        onProjectSelected: React.PropTypes.func.isRequired
+        onProjectSelected: React.PropTypes.func.isRequired,
+        onResourceMoved: React.PropTypes.func.isRequired
     },
     getInitialState: function() {
         let { resource } = this.props;
@@ -67,6 +69,18 @@ export default React.createClass({
         this.props.onProjectSelected(this.props.resource, project);
     },
 
+    renderPrivateButton() {
+        let resource_owner = this.props.resource.get('user'),
+            current_username = context.profile.get("username"),
+            isResourceOwner = (resource_owner.username == current_username);
+        if(isResourceOwner) {
+            return (
+            <button className="btn btn-primary" onClick={this.moveResource}>{"Move to Personal Group"}</button>);
+        }
+    },
+    moveResource: function() {
+        return this.props.onResourceMoved(this.props.resource);
+    },
     render: function() {
         var resource = this.props.resource;
         let resource_type = "Resource";
@@ -79,6 +93,7 @@ export default React.createClass({
 
         return (
         <li>
+            {this.renderPrivateButton()}
             <b style={{ whiteSpace: "nowrap" }}>
                 {resource_type + ": "}
             </b>

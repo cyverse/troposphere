@@ -5,8 +5,6 @@ import _ from "underscore";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import ProjectSelect from "components/common/project/ProjectSelect";
 import ResourceSelectMenu from "components/modals/migrate_resources/ResourceSelectMenu";
-import Instance from "models/Instance";
-import Volume from "models/Volume";
 import stores from "stores";
 import actions from "actions";
 
@@ -86,8 +84,21 @@ export default React.createClass({
 	    resource={resource}
 	    projects={this.props.projects}
 	    project={resource_project.project}
-	    onProjectSelected={this.pairResourceWithProject}/>
+	    onProjectSelected={this.pairResourceWithProject}
+	    onResourceMoved={this.updateGroupResources}/>
         );
+    },
+
+    updateGroupResources(resource) {
+        let { resourceGroupsMap } = this.state;
+
+        debugger;
+        let groups = that.state.resourceGroupsMap[resource.id];
+        //FIXME: This will fail if id == id, this should be UUIDs! set 'get_uuid()' for each resource-model and call that, instead.
+        this.setState({
+            resourceGroupsMap
+        });
+        //this.props.onResourceMoved(resource, group);
     },
 
     pairResourceWithProject(resource, project) {
@@ -120,7 +131,7 @@ export default React.createClass({
                 value={this.state.projectName}
                 onChange={this.onProjectNameChange}
                 placeholder="Enter project name..." />
-            <button className="btn btn-primary" onClick={this.createNewProject} disabled={this.isCreateDisabled()}>Create Project</button>
+            <button className="btn btn-primary" onClick={this.createNewProject} disabled={this.isCreateDisabled()}>{"Create Project"}</button>
             {/*FIXME: I need a Submission-button here that will:
                 1: Create a new project with group `this.props.group`
                 2: add to the list and re-render select-menus in teh group with the new proejct
