@@ -4,6 +4,7 @@ import Backbone from "backbone";
 import React from "react";
 import ReactDOM from "react-dom";
 import SplashScreen from "components/SplashScreen";
+import LoginMaster from "components/login/LoginMaster";
 import FunctionalCollection from "collections/FunctionalCollection";
 
 // Important:
@@ -85,6 +86,7 @@ actions.InstanceActions = require("actions/InstanceActions");
 actions.InstanceTagActions = require("actions/InstanceTagActions");
 actions.InstanceVolumeActions = require("actions/InstanceVolumeActions");
 actions.LicenseActions = require("actions/LicenseActions");
+actions.LoginActions = require("actions/LoginActions");
 actions.ScriptActions = require("actions/ScriptActions");
 actions.NullProjectActions = require("actions/NullProjectActions");
 actions.ProfileActions = require("actions/ProfileActions");
@@ -158,7 +160,12 @@ export default {
         // render the splash page which will load the rest of the application
         $(document).ready(function() {
             var SplashScreenComponent = React.createFactory(SplashScreen);
-            ReactDOM.render(SplashScreenComponent(), document.getElementById("application"));
+            var LoginMasterComponent = React.createFactory(LoginMaster);
+            if (window.access_token) {
+                ReactDOM.render(SplashScreenComponent(), document.getElementById("application"));
+            } else {
+                ReactDOM.render(LoginMasterComponent(), document.getElementById("application"));
+            }
         });
     }
 }
