@@ -1,9 +1,13 @@
+import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
+import { Router,
+         browserHistory } from "react-router";
+
 import Profile from "models/Profile";
-import $ from "jquery";
-import Router from "../Router";
+
 import routes from "./AppRoutes";
+import { withAppBasename } from "utilities/historyFunctions";
 
 import browserBondo from "utilities/browserBondo";
 import modals from "modals";
@@ -51,13 +55,9 @@ function startApplication() {
         $("body").removeClass("splash-screen");
 
         // Start the application router
-        Router.getInstance(routes).run(function(Handler, state) {
-            // you might want to push the state of the router to a store for whatever reason
-            // RouterActions.routeChange({routerState: state});
-
-            // whenever the url changes, this callback is called again
-            ReactDOM.render(<Handler />, document.getElementById("application"));
-        });
+        ReactDOM.render(
+            <Router history={withAppBasename(browserHistory)}>{routes}</Router>,
+            document.getElementById("application"));
     });
 }
 
