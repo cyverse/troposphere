@@ -1,14 +1,13 @@
-import React from "react";
-import Router, { RouteHandler } from "react-router";
-import stores from "stores";
-import Tooltip from "react-tooltip";
 import _ from "underscore";
+import React from "react";
+import { withRouter } from "react-router";
+import Tooltip from "react-tooltip";
 
-import RouterInstance from "../../Router";
 import ResourceActions from "actions/ResourceActions";
 import Quota from "models/Quota";
 import Allocation from "models/Allocation";
 
+import stores from "stores";
 
 export const ResourceRequestView = React.createClass({
 
@@ -192,7 +191,6 @@ export const ResourceRequestView = React.createClass({
     },
 
     renderQuotaFields() {
-
         // [ "cpu", "memory", "storage", ...]
         return this.getQuotaFields().map((field, i) => {
 
@@ -206,10 +204,13 @@ export const ResourceRequestView = React.createClass({
             let tip = this.quotaData[field].tip;
 
             return (
-            <span key={i} dataToggle="tooltip"><Label htmlFor={field}> {label} <QuestionMark tip={tip}/> </Label> <input className="form-control"
-                                                                                                                                                                                   type="number"
-                                                                                                                                                                                   value={value}
-                                                                                                                                                                                   onChange={(e) => this.handleQuotaChange.call(this, e, field)} /></span>
+            <span key={i}
+                  dataToggle="tooltip"><Label htmlFor={field}> {label} <QuestionMark tip={tip}/> </Label>{' '}
+                <input className="form-control"
+                       type="number"
+                       value={value}
+                       onChange={(e) => this.handleQuotaChange.call(this, e, field)} />
+            </span>
             );
         });
     },
@@ -353,8 +354,7 @@ const QuestionMark = React.createClass({
 // This component is responsible for interfacing with our stores, and
 // fetching/aggregating data. It does the dirty work for the
 // ResourceRequestView.
-export default React.createClass({
-    mixins: [Router.State],
+export default withRouter(React.createClass({
 
     componentDidMount() {
         stores.ResourceRequestStore.addChangeListener(this.updateState);
@@ -405,7 +405,7 @@ export default React.createClass({
             allocation,
             status
         }).then(() => {
-            RouterInstance.getInstance().transitionTo("resource-request-manager");
+            this.props.router.transitionTo("resource-request-manager");
         });
     },
 
@@ -423,7 +423,7 @@ export default React.createClass({
             response,
             status,
         }).then(() => {
-            RouterInstance.getInstance().transitionTo("resource-request-manager");
+            this.props.router.transitionTo("resource-request-manager");
         });
     },
 
@@ -517,8 +517,8 @@ export default React.createClass({
         <div className="request-admin pull-right">
             <ResourceRequestView {...{ requestId: Number(this.props.params.id), username: request.get( "user").username, request: request.get( "request"), description: request.get(
                 "description"), allocation, quota, quotaFields: this.quotaFields, onApprove: this.onApprove, onDeny: this.onDeny, }} />
-            <RouteHandler />
+            {this.props.children}
         </div>
         );
     }
-});
+}));
