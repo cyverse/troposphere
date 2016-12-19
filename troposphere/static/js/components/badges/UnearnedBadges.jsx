@@ -1,13 +1,12 @@
 import React from "react";
-import Router from "react-router";
+
 import Badge from "./Badge";
 import actions from "actions";
 import stores from "stores";
 
+
 export default React.createClass({
     displayName: "UnearnedBadges",
-
-    mixins: [Router.State],
 
     getInitialState: function() {
         var user = stores.ProfileStore.get();

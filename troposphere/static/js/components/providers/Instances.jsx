@@ -1,12 +1,10 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
-import Router from "react-router";
+
 
 export default React.createClass({
     displayName: "Instances",
-
-    mixins: [Router.State],
 
     propTypes: {
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired

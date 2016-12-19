@@ -1,20 +1,22 @@
 import React from "react";
-import Router from "react-router";
 
 import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper";
 import ExternalLinkDetailsView from "./resources/link/details/ExternalLinkDetailsView";
+
 import stores from "stores";
 
 
 export default React.createClass({
     displayName: "ExternalLinkDetailsPage",
 
-    mixins: [Router.State],
+    contextTypes: {
+        params: React.PropTypes.object
+    },
 
     render: function() {
-        var project = stores.ProjectStore.get(Number(this.getParams().projectId));
-        var linkId = this.getParams().linkId;
-        var link = stores.ExternalLinkStore.get(linkId);
+        let project = stores.ProjectStore.get(Number(this.context.params.projectId)),
+            linkId = this.context.params.linkId,
+            link = stores.ExternalLinkStore.get(linkId);
 
         if (!project || !link) return <div className="loading"></div>;
 

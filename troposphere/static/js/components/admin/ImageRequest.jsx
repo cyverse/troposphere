@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "react-router";
+
 import ImageRequestActions from "actions/ImageRequestActions";
 import stores from "stores";
 
@@ -7,7 +7,9 @@ import stores from "stores";
 export default React.createClass({
     displayName: "ImageRequest",
 
-    mixins: [Router.State],
+    contextTypes: {
+        params: React.PropTypes.object
+    },
 
     getInitialState: function() {
         return {
@@ -23,7 +25,6 @@ export default React.createClass({
     },
 
     approve: function() {
-
         var request = stores.ImageRequestStore.get(this.getParams().id),
             status = stores.StatusStore.findOne({
                 name: "approved"
@@ -34,12 +35,10 @@ export default React.createClass({
             response: this.state.response,
             status: status.id
         });
-
     },
 
     deny: function() {
-
-        var request = stores.ImageRequestStore.get(this.getParams().id),
+        var request = stores.ImageRequestStore.get(this.context.params.id),
             status = stores.StatusStore.findOne({
                 name: "denied"
             });
@@ -49,12 +48,10 @@ export default React.createClass({
             response: this.state.response,
             status: status.id
         });
-
     },
 
     resubmit: function() {
-
-        var request = stores.ImageRequestStore.get(this.getParams().id),
+        var request = stores.ImageRequestStore.get(this.context.params.id),
             status = stores.StatusStore.findOne({
                 name: "pending"
             });
@@ -64,11 +61,10 @@ export default React.createClass({
             response: this.state.response,
             status: status.id
         });
-
     },
 
     render: function() {
-        let request = stores.ImageRequestStore.get(this.getParams().id),
+        let request = stores.ImageRequestStore.get(this.context.params.id),
             machine = request.get("parent_machine"),
             new_machine = request.get("new_machine"),
             new_provider = request.get("new_machine_provider"),
@@ -153,7 +149,7 @@ export default React.createClass({
                     { `Request state: ${request.get("old_status")}` }
                 </div>
                 <div>
-                    { `Status: ${request.get("status").name}` }    
+                    { `Status: ${request.get("status").name}` }
                 </div>
             </div>
             <div style={{ marginBottom: "20px" }}>

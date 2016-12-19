@@ -3,13 +3,12 @@ import Backbone from "backbone";
 import stores from "stores";
 import ImageCardList from "./list/ImageCardList";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
-import Router from "react-router";
+
 
 export default React.createClass({
-
     displayName: "ImageListView",
 
-    mixins: [Router.State, ComponentHandleInputWithDelay],
+    mixins: [ComponentHandleInputWithDelay],
 
     propTypes: {
         tags: React.PropTypes.instanceOf(Backbone.Collection),

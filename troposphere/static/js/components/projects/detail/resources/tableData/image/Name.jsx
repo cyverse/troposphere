@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 
 export default React.createClass({
-    mixins: [Router.State],
+    displayName: "Name",
 
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired

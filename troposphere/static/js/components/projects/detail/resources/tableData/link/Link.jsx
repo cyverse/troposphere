@@ -1,11 +1,9 @@
 import React from "react";
 import Backbone from "backbone";
-import Router from "react-router";
 
 
 export default React.createClass({
-
-    mixins: [Router.State],
+    displayName: "Link",
 
     propTypes: {
         external_link: React.PropTypes.instanceOf(Backbone.Model).isRequired

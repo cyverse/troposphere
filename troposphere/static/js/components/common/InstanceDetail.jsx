@@ -1,7 +1,8 @@
 import React from "react";
-import Router from "react-router";
+
 import stores from "stores";
 import globals from "globals";
+
 import InstanceDetailsSection from "components/projects/resources/instance/details/sections/InstanceDetailsSection";
 import PastInstanceDetailsSection from "components/projects/resources/instance/details/sections/PastInstanceDetailsSection";
 import InstanceActionsAndLinks from "components/projects/resources/instance/details/actions/InstanceActionsAndLinks";
@@ -15,22 +16,24 @@ import InstanceHistorySection from "components/common/InstanceHistorySection";
 var InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 
-    mixins: [Router.State],
+    contextTypes: {
+        params: React.PropTypes.object
+    },
 
     getInitialState: function() {
         return {
-            instance: stores.InstanceStore.get(this.getParams().id),
+            instance: stores.InstanceStore.get(this.context.params.id),
             instanceHistory: stores.InstanceHistoryStore.fetchWhere({
-                "instance": this.getParams().id
+                "instance": this.context.params.id
             })
         }
     },
 
     onNewData: function() {
         this.setState({
-            instance: stores.InstanceStore.get(this.getParams().id),
+            instance: stores.InstanceStore.get(this.context.params.id),
             instanceHistory: stores.InstanceHistoryStore.fetchWhere({
-                "instance": this.getParams().id
+                "instance": this.context.params.id
             })
         });
     },

@@ -7,10 +7,8 @@ import stores from "stores";
 export default React.createClass({
     displayName: "ProjectDetailsMaster",
 
-    mixins: [Router.State],
-
     render: function() {
-        var project = stores.ProjectStore.get(Number(this.getParams().projectId));
+        var project = stores.ProjectStore.get(Number(this.props.params.projectId));
 
         if (!project) {
             return (
