@@ -1,8 +1,10 @@
 import React from "react";
-import stores from "stores";
-import Router from "react-router";
+import { Link } from "react-router";
+
 import Glyphicon from "components/common/Glyphicon";
 import context from "context";
+import stores from "stores";
+
 
 export default React.createClass({
     displayName: "SecondaryImageNavigation",
@@ -12,10 +14,10 @@ export default React.createClass({
 
         return (
         <li key={name}>
-            <Router.Link to={linksTo}>
+            <Link to={`/images/${linksTo}`}>
                 <Glyphicon name={icon} />
                 <span>{name}</span>
-            </Router.Link>
+            </Link>
         </li>
         )
     },

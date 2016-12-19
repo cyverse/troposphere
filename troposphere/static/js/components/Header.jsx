@@ -1,5 +1,5 @@
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 import Backbone from 'backbone';
 import toastr from 'toastr';
 
@@ -13,7 +13,6 @@ import { hasLoggedInUser } from 'utilities/profilePredicate';
 import { deleteCookie } from "utilities/cookieHelpers";
 
 
-let Link = Router.Link;
 
 const links = [
     {

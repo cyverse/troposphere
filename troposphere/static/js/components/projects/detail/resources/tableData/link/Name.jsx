@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import Router from "react-router";
+import { Link } from "react-router";
 
 
 export default React.createClass({
@@ -21,9 +21,9 @@ export default React.createClass({
         }
 
         return (
-        <Router.Link to="project-link-details" params={{ projectId: this.getParams().projectId, linkId: external_link.id }}>
+        <Link to={`/projects/${projectId}/links/${linkId}`}>
             {external_link.get("title")}
-        </Router.Link>
+        </Link>
         );
     }
 });
