@@ -1,7 +1,5 @@
 import React from "react";
-import Router from "react-router";
 
-let RouteHandler = Router.RouteHandler;
 
 export default React.createClass({
     displayName: "ProvidersMaster",
@@ -9,7 +7,7 @@ export default React.createClass({
     render: function() {
         return (
         <section className="container provider-master">
-            <RouteHandler/>
+            {this.props.children}
         </section>
         )
     }

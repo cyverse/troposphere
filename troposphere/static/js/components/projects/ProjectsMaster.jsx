@@ -1,18 +1,12 @@
 import React from "react";
-import Router from "react-router";
 
-
-let RouteHandler = Router.RouteHandler;
 
 export default React.createClass({
     displayName: "ProjectsMaster",
 
-    mixins: [Router.State],
-
     render: function() {
-        return (
-        <RouteHandler/>
-        );
+        // cannot return just {this.props.x}
+        return (this.props.children);
     }
 
 });

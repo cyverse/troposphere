@@ -11,13 +11,9 @@ import modernizrTest from "components/modals/unsupported/modernizrTest";
 import NullProject from "models/NullProject";
 import noAllocationSource from "modals/allocationSource/noAllocationSource";
 
-import Router from "react-router";
-import { RouteHandler } from "react-router";
 
 export default React.createClass({
     displayName: "Master",
-
-    mixins: [Router.State],
 
     getState: function() {
         return {};
@@ -111,7 +107,6 @@ export default React.createClass({
     // --------------
 
     render: function() {
-
         if (!window.show_public_site && !context.hasLoggedInUser()) {
             //Users who ARE logged in, but without an identity
             //cannot be handled in the application, currently.
@@ -131,7 +126,7 @@ export default React.createClass({
                     currentRoute={ ['projects'] }
                     maintenanceMessages={ maintenanceMessages } />
             <div id="main" style={ { 'marginTop': marginTop } }>
-                <RouteHandler/>
+                {this.props.children}
             </div>
             <Footer text={globals.SITE_FOOTER}
                     link={globals.SITE_FOOTER_LINK}
