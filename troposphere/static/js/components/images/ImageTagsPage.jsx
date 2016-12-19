@@ -1,6 +1,6 @@
 import React from "react";
 import stores from "stores";
-import Router from "react-router";
+import { Link } from "react-router";
 
 export default React.createClass({
     displayName: "ImageTagsPage",
@@ -48,13 +48,14 @@ export default React.createClass({
             className="card"
         >
             <td style={{ paddingRight: "20px", border: "none" }}>
-                <h4 
-                    className="t-body-2" 
+                <h4
+                    className="t-body-2"
                     style={{ "margin": "0", "color": "#5A5A5A" }}
                 >
-                    <Router.Link to="search" query={{ q: name }}>
+                    {/* TODO: change to react-router v2 scheme */}
+                    <Link to="search" query={{ q: name }}>
                         {name}
-                    </Router.Link></h4>
+                    </Link></h4>
             </td>
             <td style={{ border: "none" }}>
                 <span style={{ maxWidth: "550px", display: "block" }}>
@@ -123,16 +124,16 @@ export default React.createClass({
             <h1 className="t-display-1">
                 Image Tags
             </h1>
-            <div 
-                id="search-container" 
+            <div
+                id="search-container"
                 style={{ marginBottom: "30px" }}
             >
-                <input 
+                <input
                     type="text"
                     className="form-control search-input"
                     placeholder="Filter by tag name or description"
                     value={this.state.searchTerm}
-                    onChange={this.handleFilterChange} 
+                    onChange={this.handleFilterChange}
                 />
                 <h3 className="t-body-2" >
                     { text }

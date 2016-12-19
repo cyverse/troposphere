@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import Router from "react-router";
+import { Link } from "react-router";
 
 
 export default React.createClass({
@@ -15,10 +15,10 @@ export default React.createClass({
         return (
         <div style={{ paddingTop: "50px" }} className="row">
             <h1 className="t-display-1">{provider.get("name")}</h1>
-            <Router.Link className="btn btn-default" to="all-providers">
+            <Link className="btn btn-default" to="all-providers">
                 <span className="glyphicon glyphicon-arrow-left"></span>
                 {" Back to All Providers"}
-            </Router.Link>
+            </Link>
         </div>
         );
 

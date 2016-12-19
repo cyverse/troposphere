@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import Router from "react-router";
+import { Link } from "react-router";
 
 export default React.createClass({
 
@@ -20,9 +20,9 @@ export default React.createClass({
         }
 
         return (
-        <Router.Link to="project-volume-details" params={{ projectId: this.getParams().projectId, volumeId: volume.id }}>
+        <Link to={`/projects/${projectId}/volumes/${volume.id}`}>
             {volume.get("name")}
-        </Router.Link>
+        </Link>
         );
     }
 });
