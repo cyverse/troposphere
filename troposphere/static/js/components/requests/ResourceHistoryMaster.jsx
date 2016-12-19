@@ -1,13 +1,12 @@
 import React from "react";
-import stores from "stores";
+
 import ResourceActions from "actions/ResourceActions";
-import Router from "react-router";
+
+import stores from "stores";
 
 
 export default React.createClass({
     displayName: "MyResourceRequestsPage",
-
-    mixins: [Router.State],
 
     closeRequest: function(request) {
         var closedStatus = stores.StatusStore.findWhere({

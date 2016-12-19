@@ -4,14 +4,17 @@ import { Link } from "react-router";
 
 export default React.createClass({
 
-    mixins: [Router.State],
+    contextTypes: {
+        params: React.PropTypes.object
+    },
 
     propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function() {
-        var volume = this.props.volume;
+        let volume = this.props.volume,
+            projectId = this.context.params.projectId;
 
         if (!volume.id) {
             return (

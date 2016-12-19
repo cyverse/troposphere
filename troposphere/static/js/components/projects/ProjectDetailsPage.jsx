@@ -1,15 +1,16 @@
 import React from "react";
-import stores from "stores";
+
 import ProjectDetailsView from "./detail/details/ProjectDetailsView";
-import Router from "react-router";
+
+import stores from "stores";
+
 
 export default React.createClass({
     displayName: "ProjectDetailsPage",
 
-    mixins: [Router.State],
-
-    render: function() {
-        var project = stores.ProjectStore.get(Number(this.getParams().projectId));
+    render() {
+        let projectId = Number(this.props.params.projectId),
+            project = stores.ProjectStore.get(projectId);
 
         if (!project) {
             return (

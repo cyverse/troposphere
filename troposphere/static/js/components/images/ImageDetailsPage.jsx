@@ -1,16 +1,15 @@
 import React from "react";
+
 import context from "context";
-import Router from "react-router";
 import stores from "stores";
+
 import ImageDetailsView from "./detail/ImageDetailsView";
 
 export default React.createClass({
     displayName: "ImageDetailsPage",
 
-    mixins: [Router.State],
-
     renderBody: function() {
-        var image = stores.ImageStore.get(Number(this.getParams().imageId)),
+        var image = stores.ImageStore.get(Number(this.props.params.imageId)),
             tags = stores.TagStore.getAll(),
             hasLoggedInUser = context.hasLoggedInUser(),
             providers = hasLoggedInUser ? stores.ProviderStore.getAll() : null,

@@ -5,16 +5,20 @@ import { Link } from "react-router";
 
 export default React.createClass({
 
-    mixins: [Router.State],
+    contextTypes: {
+        params: React.PropTypes.object
+    },
 
     propTypes: {
         external_link: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function() {
-        var external_link = this.props.external_link;
+        let external_link = this.props.external_link,
+            linkId = external_link.id,
+            projectId = this.context.params.projectId;
 
-        if (!external_link.id) {
+        if (!linkId) {
             return (
             <span>{external_link.get("title")}</span>
             );

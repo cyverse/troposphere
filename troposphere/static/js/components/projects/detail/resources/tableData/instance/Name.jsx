@@ -5,15 +5,18 @@ import { Link } from "react-router";
 export default React.createClass({
     displayName: "Name",
 
-    mixins: [Router.State],
+    contextTypes: {
+        params: React.PropTypes.object
+    },
 
     propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function() {
-        var instance = this.props.instance,
-            name = instance.get("name").trim() || "[no instance name]";
+        let instance = this.props.instance,
+            name = instance.get("name").trim() || "[no instance name]",
+            projectId = this.context.params.projectId;
 
         if (instance && !instance.get("id")) {
             return (

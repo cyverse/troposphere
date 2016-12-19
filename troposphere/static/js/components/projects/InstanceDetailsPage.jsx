@@ -1,15 +1,18 @@
 import React from "react";
-import Router from "react-router";
 
 import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper";
 import InstanceDetailsView from "./resources/instance/details/InstanceDetailsView";
+
 import globals from "globals";
 import stores from "stores";
+
 
 export default React.createClass({
     displayName: "InstanceDetailsPage",
 
-    mixins: [Router.State],
+    contextTypes: {
+        params: React.PropTypes.object
+    },
 
     componentDidMount() {
         stores.ProjectStore.addChangeListener(this.updateState);
@@ -36,8 +39,8 @@ export default React.createClass({
     },
 
     render() {
-        let project = stores.ProjectStore.get(Number(this.getParams().projectId));
-        let instance = stores.InstanceStore.get(Number(this.getParams().instanceId));
+        let project = stores.ProjectStore.get(Number(this.context.params.projectId));
+        let instance = stores.InstanceStore.get(Number(this.context.params.instanceId));
         let helpLinks = stores.HelpLinkStore.getAll();
         let allocationSources = stores.AllocationSourceStore.getAll();
 
@@ -48,7 +51,7 @@ export default React.createClass({
         }
 
         // Use truthy check to see if loaded
-        let loaded = requires.every(r => Boolean(r))
+        let loaded = requires.every(r => Boolean(r));
         if (!loaded) {
             return <div className="loading"></div>;
         }
