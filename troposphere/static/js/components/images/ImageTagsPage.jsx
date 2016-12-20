@@ -52,8 +52,7 @@ export default React.createClass({
                     className="t-body-2"
                     style={{ "margin": "0", "color": "#5A5A5A" }}
                 >
-                    {/* TODO: change to react-router v2 scheme */}
-                    <Link to="search" query={{ q: name }}>
+                    <Link to={{ pathname: 'images/search', query: { q: name } }}>
                         {name}
                     </Link></h4>
             </td>
