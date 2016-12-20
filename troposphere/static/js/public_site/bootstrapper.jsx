@@ -5,10 +5,13 @@ import $ from "jquery";
 import Router from "../Router";
 import routes from "./AppRoutes";
 
-
+import browserBondo from "utilities/browserBondo";
 import modals from "modals";
 
 modals.PublicModals = require("modals/PublicModals");
+
+// Apply polyfills for older browser (intent: temporary use)
+browserBondo.conditionalFill();
 
 // Register which stores the application should use
 import stores from "stores";

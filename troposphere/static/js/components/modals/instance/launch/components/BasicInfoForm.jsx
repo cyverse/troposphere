@@ -31,7 +31,7 @@ export default React.createClass({
         let errorMessage = null;
 
         if (this.props.showValidationErr) {
-            errorMessage = instanceName == "" ? "This field is rquired" : null;
+            errorMessage = instanceName == "" ? "This field is required" : null;
             instanceNameClasses = instanceName == "" ? "form-group has-error" : "form-group";
         }
 
