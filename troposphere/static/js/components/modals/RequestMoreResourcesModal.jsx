@@ -131,7 +131,7 @@ export default React.createClass({
         var identities = stores.IdentityStore.getAll(),
             instances = stores.InstanceStore.getAll(),
             username = stores.ProfileStore.get().get("username"),
-            requests = stores.ResourceRequestStore.findWhere({
+            requests = stores.ResourceRequestStore.findResourceRequestsWhere({
                 "created_by.username": username
             });
 

@@ -5,7 +5,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import SplashScreen from "components/SplashScreen";
 import LoginMaster from "components/login/LoginMaster";
+// Fixes aberrant lint violation found by TravisCI
+//import MaintenanceScreen from "components/MaintenanceScreen";
 import FunctionalCollection from "collections/FunctionalCollection";
+import browserBondo from "utilities/browserBondo";
 
 // Important:
 //   Disconnect all Backbone Events from Models and Collections
@@ -24,6 +27,9 @@ Backbone.Collection.prototype.get = function(obj) {
 
 // Extend the base collection to include useful functions
 _.extend(Backbone.Collection.prototype, FunctionalCollection);
+
+// Apply polyfills for older browser (intent: temporary use)
+browserBondo.conditionalFill();
 
 // Register which stores the image should use
 import stores from "stores";
