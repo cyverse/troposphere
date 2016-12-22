@@ -12,11 +12,10 @@ const Tags = React.createClass({
     },
 
     onTagClick(tag) {
-        this.props.router.transitionTo(
-            "search",
-            null, {
-                q: tag.get('name')
-            });
+        this.props.router.push({
+            pathname: "images/search",
+            query: { q: tag.get('name') }
+        });
     },
 
     render: function() {
