@@ -34,13 +34,14 @@ export default React.createClass({
         // That means that we have to listen for props
         if (newProps.query != this.props.query) {
             this.setState({
-                query: newProps.query
+                query: newProps.query || ""
             });
         }
     },
 
     updateState: function() {
         let query = this.state.query.trim();
+
         let images;
         if (query) {
             images = stores.ImageStore.fetchWhere({
@@ -52,6 +53,7 @@ export default React.createClass({
 
         let isLoadingMoreResults = this.state.isLoadingMoreResults;
         let nextUrl = this.state.nextUrl;
+
         if (images && images.meta && images.meta.next !== this.state.nextUrl) {
             isLoadingMoreResults = false;
             nextUrl = null;
@@ -66,6 +68,9 @@ export default React.createClass({
 
     componentDidMount: function() {
         stores.ImageStore.addChangeListener(this.updateState);
+
+        // Prime the data
+        this.updateState();
     },
 
     componentWillUnmount: function() {
@@ -131,12 +136,12 @@ export default React.createClass({
         };
         images.sort();
 
-            return (
-                <ImageCardList key="featured"
-                    title="Featured Images"
-                    images={images}
-                    tags={tags} />
-            );
+        return (
+            <ImageCardList key="featured"
+                           title="Featured Images"
+                           images={images}
+                           tags={tags} />
+        );
     },
 
     renderImages: function(images) {
@@ -169,7 +174,9 @@ export default React.createClass({
 
         if (images.meta && images.meta.next) {
             return (
-            <button style={{ "margin": "auto", "display": "block" }} className="btn btn-default" onClick={this.onLoadMoreImages}>
+            <button style={{ "margin": "auto", "display": "block" }}
+                    className="btn btn-default"
+                    onClick={this.onLoadMoreImages}>
                 Show more images...
             </button>
             )
@@ -177,8 +184,8 @@ export default React.createClass({
     },
 
     renderBody: function() {
-        var query = this.state.query.trim(),
-            title = "";
+        let query = this.state.query.trim();
+        let title = "";
 
         let images;
         if (query) {
