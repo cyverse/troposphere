@@ -22,10 +22,9 @@ const ImageListCard = React.createClass({
     },
 
     onCardClick() {
-        this.props.router.transitionTo(
-            "image-details", {
-                imageId: this.props.image.id
-            });
+        let imageId = this.props.image.id;
+
+        this.props.router.push(`images/${imageId}`);
     },
 
     renderEndDated() {
