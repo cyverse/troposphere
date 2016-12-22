@@ -8,6 +8,28 @@ import ImageDetailsView from "./detail/ImageDetailsView";
 export default React.createClass({
     displayName: "ImageDetailsPage",
 
+    updateState() {
+        // TODO - probably need to do this differently :/
+        this.forceUpdate(); // trigger a render ...
+    },
+
+    componentDidMount() {
+        stores.ImageStore.addChangeListener(this.updateState);
+        // ImageStore is calling out to ImageVersionStore (oddly enough ...)
+        stores.ImageVersionStore.addChangeListener(this.updateState);
+        stores.TagStore.addChangeListener(this.updateState);
+        if (stores.ProviderStore) stores.ProviderStore.addChangeListener(this.updateState);
+        if (stores.IdentityStore) stores.IdentityStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount() {
+        stores.ImageStore.removeChangeListener(this.updateState);
+        stores.ImageVersionStore.removeChangeListener(this.updateState);
+        stores.TagStore.removeChangeListener(this.updateState);
+        if (stores.ProviderStore) stores.ProviderStore.removeChangeListener(this.updateState);
+        if (stores.IdentityStore) stores.IdentityStore.removeChangeListener(this.updateState);
+    },
+
     renderBody: function() {
         var image = stores.ImageStore.get(Number(this.props.params.imageId)),
             tags = stores.TagStore.getAll(),
