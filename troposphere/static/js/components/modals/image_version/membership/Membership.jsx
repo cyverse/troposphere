@@ -1,10 +1,11 @@
+import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
 import Backbone from "backbone";
-import $ from "jquery";
-import Router from "react-router";
+import { Link, withRouter } from "react-router";
 
-export default React.createClass({
+
+const Membership = React.createClass({
     displayName: "Membership",
 
     propTypes: {
@@ -29,8 +30,11 @@ export default React.createClass({
     },
 
     onClick: function() {
-        Router.getInstance().transitionTo("search", {}, {
-            q: this.props.membership.get("name")
+        this.context.router.push({
+            pathname: 'images/search',
+            query:{
+                q: this.props.membership.get("name")
+            }
         });
     },
 
@@ -39,11 +43,16 @@ export default React.createClass({
             membershipName = membership.get("name"),
             link;
 
+
         if (this.props.renderLinks) {
+            let descriptor = {
+                pathname: "images/search",
+                query:{ q: membershipName }
+            };
             link = (
-                <Router.Link to="search" query={{ q: membershipName }}>
+                <Link to={descriptor}>
                     {membershipName}
-                </Router.Link>
+                </Link>
             );
         } else {
             link = (
@@ -61,3 +70,5 @@ export default React.createClass({
 
     }
 });
+
+export default withRouter(Membership);
