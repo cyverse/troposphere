@@ -234,7 +234,10 @@ export default React.createClass({
 
             case EXCLUDE_FILES_STEP:
                 return (
-                <FilesToExcludeStep filesToExclude={this.state.filesToExclude} onPrevious={this.onPrevious} onNext={this.onNext} />
+                <FilesToExcludeStep
+                    filesToExclude={this.state.filesToExclude}
+                    onPrevious={this.onPrevious}
+                    onNext={this.onNext} />
                 );
 
             case SCRIPTS_LICENSE_STEP:
@@ -250,7 +253,9 @@ export default React.createClass({
 
             case REVIEW_STEP:
                 return (
-                <ReviewStep imageData={this.state} onPrevious={this.onPrevious} onNext={this.onRequestImage} />
+                <ReviewStep imageData={this.state}
+                    onPrevious={this.onPrevious}
+                    onNext={this.onRequestImage} />
                 );
         }
     },
