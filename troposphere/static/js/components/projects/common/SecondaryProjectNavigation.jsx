@@ -24,7 +24,10 @@ export default React.createClass({
             projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
             projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
 
-        if (projectInstances.length > 0 || projectImages.length > 0 || projectExternalLinks.length > 0 || projectVolumes.length > 0) {
+        if (projectInstances.length > 0
+            || projectImages.length > 0
+            || projectExternalLinks.length > 0
+            || projectVolumes.length > 0) {
             modals.ProjectModals.explainProjectDeleteConditions();
         } else {
             modals.ProjectModals.destroy(project);
