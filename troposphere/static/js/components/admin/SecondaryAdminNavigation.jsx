@@ -1,5 +1,6 @@
 import React from "react";
-import Router from "react-router";
+import { Link } from "react-router";
+
 import Glyphicon from "components/common/Glyphicon";
 
 
@@ -8,13 +9,14 @@ export default React.createClass({
 
 
     renderRoute: function(name, linksTo, icon) {
-
+        // TODO - consider passing in `admin/...` via props
+        // with a defaultProps of "admin"
         return (
         <li key={name}>
-            <Router.Link to={linksTo}>
+            <Link to={`admin/${linksTo}`}>
                 <Glyphicon name={icon} />
                 <span>{name}</span>
-            </Router.Link>
+            </Link>
         </li>
         )
     },
@@ -25,9 +27,9 @@ export default React.createClass({
             <div className="secondary-nav">
                 <div className="container">
                     <ul className="secondary-nav-links">
-                        {this.renderRoute("Manage Users", "atmosphere-user-manager", "user")}
-                        {this.renderRoute("Manage Accounts", "identity-membership-manager", "user")}
-                        {this.renderRoute("Imaging Requests", "image-request-manager", "floppy-disk")}
+                        {this.renderRoute("Manage Users", "users", "user")}
+                        {this.renderRoute("Manage Accounts", "identities", "user")}
+                        {this.renderRoute("Imaging Requests", "imaging-requests", "floppy-disk")}
                     </ul>
                 </div>
             </div>

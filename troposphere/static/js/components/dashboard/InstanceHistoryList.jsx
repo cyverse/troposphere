@@ -1,10 +1,13 @@
 import React from "react";
-import Router from "react-router";
+import { Link } from "react-router";
 import CryptoJS from "crypto-js";
 import Gravatar from "components/common/Gravatar";
-import RefreshComponent from "components/projects/resources/instance/details/sections/metrics/RefreshComponent";
 import moment from "moment";
+
 import stores from "stores";
+
+// TODO - evaluate making this a "common" component
+import RefreshComponent from "components/projects/resources/instance/details/sections/metrics/RefreshComponent";
 
 
 export default React.createClass({
@@ -135,9 +138,9 @@ export default React.createClass({
 
             if (image) {
                 imageLink = (
-                    <Router.Link to="image-details" params={{ imageId: image.id }}>
+                    <Link to={`images/${image.id}`}>
                         {imageName}
-                    </Router.Link>
+                    </Link>
                 )
             } else {
                 imageLink = (
@@ -159,9 +162,9 @@ export default React.createClass({
                             <div>
                                 <Gravatar hash={instanceHistoryHash} size={iconSize} type={type} />
                                 <div className="instance-history-details">
-                                    <Router.Link to={"new-instance-detail"} params={{ id: instance.get("instance").id }}>
+                                    <Link to={`instances/${instance.get("instance").id}`}>
                                         <strong className="name">{name}</strong>
-                                    </Router.Link>
+                                    </Link>
                                     <div>
                                         {`Launched from `}
                                         {imageLink}
@@ -170,7 +173,8 @@ export default React.createClass({
                                         {"Ran: " + formattedStartDate + " - " + formattedEndDate}
                                     </div>
                                 </div>
-                                <span className="launch-info"><strong>{timeSpan + " days ago"}</strong> {" on " + provider.name}</span>
+                                <span className="launch-info">
+                                    <strong>{timeSpan + " days ago"}</strong> {" on " + provider.name}</span>
                             </div>
                         </li>
                     </ul>

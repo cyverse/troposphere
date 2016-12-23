@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "react-router";
+import { Link } from "react-router";
 import Glyphicon from "components/common/Glyphicon";
 
 
@@ -11,10 +11,10 @@ export default React.createClass({
 
         return (
         <li key={name}>
-            <Router.Link to={linksTo}>
+            <Link to={`my-requests/${linksTo}`}>
                 <Glyphicon name={icon} />
                 <span>{name}</span>
-            </Router.Link>
+            </Link>
         </li>
         )
     },
@@ -25,8 +25,8 @@ export default React.createClass({
             <div className="secondary-nav">
                 <div className="container">
                     <ul className="secondary-nav-links">
-                        {this.renderRoute("Resource Requests", "my-requests-resources", "circle-arrow-up")}
-                        {this.renderRoute("Imaging Requests", "my-requests-images", "floppy-open")}
+                        {this.renderRoute("Resource Requests", "resources", "circle-arrow-up")}
+                        {this.renderRoute("Imaging Requests", "images", "floppy-open")}
                     </ul>
                 </div>
             </div>
