@@ -1,9 +1,10 @@
 import Backbone from "backbone";
-import stores from "stores";
+import { browserHistory } from "react-router";
+
 import NotificationController from "controllers/NotificationController";
-import Router from "../Router";
 import Utils from "./Utils";
 import actions from "actions";
+import stores from "stores";
 
 // Constants
 import NullProjectInstanceConstants from "constants/NullProjectInstanceConstants";
@@ -22,15 +23,11 @@ import ModalHelpers from "components/modals/ModalHelpers";
 import NullProjectMoveAttachedVolumesModal from "components/modals/nullProject/NullProjectMoveAttachedVolumesModal";
 import NullProjectMigrateResourceModal from "components/modals/nullProject/NullProjectMigrateResourceModal";
 
+
 //
 // Module
 //
-
 export default {
-
-    // ------------------------
-    // Standard CRUD Operations
-    // ------------------------
 
     _migrateResourceIntoProject: function(resource, project) {
         actions.ProjectActions.addResourceToProject(resource, project);
@@ -69,10 +66,13 @@ export default {
             this._migrateResourceIntoProject(resource, project);
         }.bind(this));
 
-        Router.getInstance().transitionTo("project-resources", {
-            projectId: project.id
-        });
+        browserHistory.push(`/projects/${project.id}/resources`);
     },
+
+
+    // ------------------------
+    // Exposed Operations
+    // ------------------------
 
     // synchronize project resource state
     // 1. If resource not in a project, force user to put it into one
