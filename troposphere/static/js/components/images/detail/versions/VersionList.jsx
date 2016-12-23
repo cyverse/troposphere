@@ -68,7 +68,7 @@ export default React.createClass({
             return null;
         }
         versions.map(function(version) {
-            var _versions = stores.ImageVersionStore.getVersions(version.id);
+            var _versions = stores.ImageVersionStore.get(version.id);
             if (!_versions) {
                 partialLoad = true;
                 return;
