@@ -19,14 +19,6 @@ let launch_instance = globals.THEME_URL + "/images/icon_launchnewinstance.png",
 export default React.createClass({
     displayName: "DashboardPage",
 
-    renderRequestMoreResources: function(e) {
-        e.preventDefault();
-        modals.HelpModals.requestMoreResources();
-        trackAction("made-resource-request", {
-            element: "from-dashboard"
-        });
-    },
-
     getState: function() {
         return {};
     },
@@ -43,8 +35,16 @@ export default React.createClass({
         stores.SizeStore.removeChangeListener(this.updateState);
     },
 
-    render: function() {
+    renderRequestMoreResources: function(e) {
+        e.preventDefault();
+        modals.HelpModals.requestMoreResources();
+        trackAction("made-resource-request", {
+            element: "from-dashboard"
+        });
+    },
 
+    render: function() {
+        // yes, yes - *let* the fun begin!
         let providers = stores.ProviderStore.getAll(),
             identities = stores.IdentityStore.getAll(),
             projects = stores.ProjectStore.getAll(),
@@ -57,7 +57,15 @@ export default React.createClass({
                 "page_size": 250
             });
 
-        if (providers == null || identities == null || projects == null || maintenanceMessages == null || images == null || instances == null || volumes == null || sizes == null) {
+        // TODO - bring over Connor's elegant 'any' check to make this not so UGLY
+        if (providers == null
+            || identities == null
+            || projects == null
+            || maintenanceMessages == null
+            || images == null
+            || instances == null
+            || volumes == null
+            || sizes == null) {
             return <div className="loading"></div>;
         }
 
