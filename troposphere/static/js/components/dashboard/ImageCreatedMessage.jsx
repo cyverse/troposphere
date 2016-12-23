@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 import moment from "moment";
-import Router from "react-router";
+import { Link } from "react-router";
 
 export default React.createClass({
     displayName: "ImageCreatedMessage",
@@ -29,9 +29,9 @@ export default React.createClass({
                         {startDate.format("MMM DD, YYYY hh:mm a")}
                     </div>
                     <div>
-                        <Router.Link to="image-details" params={{ imageId: image.id }}>
+                        <Link to={`images/${image.id}`}>
                             {image.get("name")}
-                        </Router.Link>
+                        </Link>
                     </div>
                 </div>
             </div>
