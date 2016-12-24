@@ -9,12 +9,12 @@ import stores from "stores";
 export default React.createClass({
     displayName: "ProjectResouresPage",
 
-    contextTypes: {
+    propTypes: {
         params: React.PropTypes.object
     },
 
     render: function() {
-        let project = stores.ProjectStore.get(Number(this.context.params.projectId)),
+        let project = stores.ProjectStore.get(Number(this.props.params.projectId)),
             helpLinks = stores.HelpLinkStore.getAll();
 
         if (!project && !helpLinks) {

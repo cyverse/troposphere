@@ -7,7 +7,7 @@ import stores from "stores";
 export default React.createClass({
     displayName: "ImageRequest",
 
-    contextTypes: {
+    propTypes: {
         params: React.PropTypes.object
     },
 
@@ -25,7 +25,7 @@ export default React.createClass({
     },
 
     approve: function() {
-        var request = stores.ImageRequestStore.get(this.getParams().id),
+        var request = stores.ImageRequestStore.get(this.props.params.id),
             status = stores.StatusStore.findOne({
                 name: "approved"
             });
@@ -38,7 +38,7 @@ export default React.createClass({
     },
 
     deny: function() {
-        var request = stores.ImageRequestStore.get(this.context.params.id),
+        var request = stores.ImageRequestStore.get(this.props.params.id),
             status = stores.StatusStore.findOne({
                 name: "denied"
             });
@@ -51,7 +51,7 @@ export default React.createClass({
     },
 
     resubmit: function() {
-        var request = stores.ImageRequestStore.get(this.context.params.id),
+        var request = stores.ImageRequestStore.get(this.props.params.id),
             status = stores.StatusStore.findOne({
                 name: "pending"
             });
@@ -64,7 +64,7 @@ export default React.createClass({
     },
 
     render: function() {
-        let request = stores.ImageRequestStore.get(this.context.params.id),
+        let request = stores.ImageRequestStore.get(this.props.params.id),
             machine = request.get("parent_machine"),
             new_machine = request.get("new_machine"),
             new_provider = request.get("new_machine_provider"),
