@@ -3,15 +3,14 @@ import { Link } from 'react-router';
 import Backbone from 'backbone';
 import toastr from 'toastr';
 
-import modals from 'modals';
 import MaintenanceMessageBanner from './MaintenanceMessageBanner';
 import context from 'context';
 import globals from 'globals';
+import modals from 'modals';
 
 import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 import { deleteCookie } from "utilities/cookieHelpers";
-
 
 
 const links = [
@@ -36,7 +35,6 @@ const links = [
         icon: "floppy-disk",
         requiresLogin: false
     }
-
 // This is a little ugly, but we conditionally include an element in a
 // list
 ].concat(
@@ -146,11 +144,13 @@ let LogoutLink = React.createClass({
                 {username} <b className="caret"></b></a>
             <ul className="dropdown-menu">
                 <li>
-                    <Link to="settings" onClick={trackSettings}> Settings
+                    <Link to="settings"
+                          onClick={trackSettings}> Settings
                     </Link>
                 </li>
                 <li>
-                    <Link to="my-requests-resources" onClick={trackRequests}> My requests
+                    <Link to="my-requests/resources"
+                          onClick={trackRequests}> My requests
                     </Link>
                 </li>
                 <li>
@@ -248,8 +248,8 @@ let Header = React.createClass({
             return (
             <li key={link.name} data-toggle={toggleMenu.toggle} data-target={toggleMenu.target}>
                 <Link to={link.linksTo}>
-                <i className={"glyphicon glyphicon-" + link.icon}></i>
-                {link.name}
+                    <i className={"glyphicon glyphicon-" + link.icon}></i>
+                    {link.name}
                 </Link>
             </li>
             );

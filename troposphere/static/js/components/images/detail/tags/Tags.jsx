@@ -1,8 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router";
-import RouterInstance from "Router";
 
 import Tag from "components/common/tags/Tag";
+
 
 const Tags = React.createClass({
     displayName: "Tags",
