@@ -47,9 +47,7 @@ const providersRoute = (
 <Route path="providers" component={ProvidersMaster}>
     <IndexRoute component={ProviderListSection} />
     <Route path=":id" component={ProviderDetail} />
-    {/* this may no longer be needed, if introduced, so do as "providers/all"
-    <Route name="all-providers" path="/" component={ProviderListSection} />
-     */}
+    <Route path="all" component={ProviderListSection} />
 </Route>
 )
 
