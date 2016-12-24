@@ -9,13 +9,14 @@ import stores from "stores";
 export default React.createClass({
     displayName: "VolumeDetailsPage",
 
-    contextTypes: {
+    propTypes: {
         params: React.PropTypes.object
     },
 
     render() {
-        let project = stores.ProjectStore.get(Number(this.context.params.projectId)),
-            volume = stores.VolumeStore.get(Number(this.context.params.volumeId)),
+        let { params } = this.props,
+            project = stores.ProjectStore.get(Number(params.projectId)),
+            volume = stores.VolumeStore.get(Number(params.volumeId)),
             helpLinks = stores.HelpLinkStore.getAll();
 
         if (!project || !volume || !helpLinks) {

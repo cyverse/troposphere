@@ -16,24 +16,26 @@ import InstanceHistorySection from "components/common/InstanceHistorySection";
 var InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 
-    contextTypes: {
+    propTypes: {
         params: React.PropTypes.object
     },
 
     getInitialState: function() {
+        let { params } = this.props;
         return {
-            instance: stores.InstanceStore.get(this.context.params.id),
+            instance: stores.InstanceStore.get(params.id),
             instanceHistory: stores.InstanceHistoryStore.fetchWhere({
-                "instance": this.context.params.id
+                "instance": params.id
             })
         }
     },
 
     onNewData: function() {
+        let { params } = this.props;
         this.setState({
-            instance: stores.InstanceStore.get(this.context.params.id),
+            instance: stores.InstanceStore.get(params.id),
             instanceHistory: stores.InstanceHistoryStore.fetchWhere({
-                "instance": this.context.params.id
+                "instance": params.id
             })
         });
     },
@@ -51,6 +53,7 @@ var InstanceDetail = React.createClass({
     },
 
     renderInactiveInstance: function() {
+        // FIXME - there is a safer, more polite way to get the first model
         var instanceHistory = this.state.instanceHistory.models[0],
             instanceObj = new Instance(instanceHistory.get("instance")),
             instanceStateObj = new InstanceState({
@@ -59,8 +62,11 @@ var InstanceDetail = React.createClass({
             image = instanceHistory.get("image"),
             size = instanceHistory.get("size"),
             dateStart = new Date(instanceHistory.get("start_date")),
+            // FIXME - consider making this a function that returns `dateEnd`
             // If the instance is given an end date in the delete action, use the end date
-            dateEnd = (this.state.instance && this.state.instance.get("end_date")) || new Date(instanceHistory.get("end_date"));
+            dateEnd = (this.state.instance
+                    && this.state.instance.get("end_date"))
+                    || new Date(instanceHistory.get("end_date"));
 
         // Construct a proper instance from the instance history information
         instanceObj.set("image", image);
