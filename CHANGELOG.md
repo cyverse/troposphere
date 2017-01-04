@@ -1,4 +1,4 @@
-        ## [Undulating-Umbrellabird](https://github.com/cyverse/troposphere/pulls?utf8=%E2%9C%93&q=is%3Amerged%20is%3Apr%20milestone%3A%22Toco-Toucan%22%20) (as of 1/4/2017)
+        ## [Undulating-Umbrellabird](https://github.com/cyverse/troposphere/pulls?utf8=%E2%9C%93&q=is%3Amerged%20is%3Apr%20milestone%3A%22Toco-Toucan%22%20milestone%3A%22Undulating-Umbrellabird%22) (as of 1/4/2017)
 
         Features:
         - Export credentials for use with OpenStack client tools
