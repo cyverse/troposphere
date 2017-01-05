@@ -1,7 +1,11 @@
 import React from "react";
+
 import SSHConfiguration from "components/settings/advanced/SSHConfiguration";
+import ClientCredentials from "components/settings/advanced/ClientCredentials";
+
 
 export default React.createClass({
+    displayName: "AdvancedSettingsPages",
 
     getInitialState: function() {
         return {
@@ -22,6 +26,7 @@ export default React.createClass({
     renderMore: function() {
         return (
         <div style={{ marginLeft: "30px" }}>
+            <ClientCredentials/>
             <SSHConfiguration/>
             <button onClick={this.showToggle}>
                 Show Less

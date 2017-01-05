@@ -2,6 +2,8 @@ import React from "react";
 import moment from "moment";
 
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import Glyphicon from "components/common/Glyphicon"
+
 import stores from "stores";
 
 import { hasClipboardAPI,
@@ -23,7 +25,7 @@ function populateOpenRCTemplate(credModel) {
                         "OS_USER_DOMAIN_NAME", "OS_TENANT_NAME", "OS_AUTH_URL",
                         "OS_PROJECT_DOMAIN_NAME", "OS_REGION_NAME", "OS_PASSWORD"];
 
-    let openrc = `# generated on ${exportTime}`;
+    let openrc = `# generated on ${exportTime}\n`;
 
     // produce an "openrc" string that includes only defined values from endpoint
     envVarNames.forEach((env) => {
@@ -210,6 +212,15 @@ export default React.createClass({
                     environment to "export" the necessary information
                     used by command-line interfaces (CLI) for the
                     OpenStack APIs.
+                </p>
+                <p className="alert alert-info">
+                    <Glyphicon name="info-sign" />
+                    {" "}
+                    <strong>PLEASE NOTE</strong><br/>
+                    When using these credentials, ensure that the domain
+                    and port for <span style={{fontFamily: "monospace"}}>$OS_AUTH_URL</span>
+                    {" "}are reachable. Simply using <span style={{fontFamily: "monospace"}}>curl</span>
+                    {" "}or navigating to the base URL will help to determine reachability.
                 </p>
                 <pre id="openrc" ref="openrcExport">
                     {openrc}
