@@ -237,6 +237,13 @@ export default React.createClass({
             var className = "section-link";
             if (link.isDangerLink)
                 className += " danger";
+
+            let linkLabelMarkup = (
+                <span>
+                    <Glyphicon name={link.icon}/>{` ${link.label}`}
+                </span>
+            );
+
             // todo: This isn't implemented well at all.  We should be disabling these
             // buttons if there isn't a valid href for the link, or (perhaps) not even
             // showing the buttons at all...but I think it's better communication to
@@ -246,13 +253,15 @@ export default React.createClass({
                 var style = {};
                 if (!link.href)
                     style.cursor = "not-allowed";
+
                 return (
                 <li key={link.label}
                     className={className + " link"}
                     style={style}
                     disabled={link.isDisabled}>
                     <a href={link.href} target="_blank">
-                        <span><Glyphicon name={link.icon}/>{link.label}</span></a>
+                        {linkLabelMarkup}
+                    </a>
                 </li>
                 );
             }
@@ -262,17 +271,21 @@ export default React.createClass({
             // Backbone.history.navigate from an onClick callback, we want all url
             // changes to pass through our Backbone catcher in main.js that we can use
             // to log requests to Google Analytics
-            if (link.href) return (
+            if (link.href) {
+                return (
                 <li key={link.label} className={className + " link"}>
-                    <a href={link.href}><span><Glyphicon name={link.icon}/>{link.label}</span></a>
+                    <a href={link.href}>
+                        {linkLabelMarkup}
+                    </a>
                 </li>
                 );
+            }
 
             // Links with onClick callbacks will typically trigger modals requiring
             // confirmation before continuing
             return (
             <li key={link.label} className={className} onClick={link.onClick}>
-                <span><Glyphicon name={link.icon}/>{link.label}</span>
+                {linkLabelMarkup}
             </li>
             );
         });
