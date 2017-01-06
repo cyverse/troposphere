@@ -33,7 +33,8 @@ const copyElement = (element) => {
             // by the "addRange" call below
             selection.removeAllRanges();
 
-            // done for "none" text area or text field elements
+            // done for "non"-textarea or textfield elements
+            // - text DOM elements will have a `select()` method
             range.selectNode(element);
             selection.addRange(range);
 
