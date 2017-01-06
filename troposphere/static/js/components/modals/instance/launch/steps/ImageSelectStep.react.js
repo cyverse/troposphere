@@ -20,6 +20,7 @@ export default React.createClass({
     ALL_VIEW: 2,
 
     getInitialState: function() {
+        stores.ImageStore.clearCacheWhere({bookmarked: true});
         return {
             images: null,
             query: null,
