@@ -1,5 +1,32 @@
+import toastr from "toastr";
 
 // TODO import Raven and log messages
+
+/**
+ *
+ */
+function acknowledge(msg, title) {
+    let toastrDefaults = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "260",
+        "hideDuration": "1000",
+        "timeOut": "1125",
+        "extendedTimeOut": "650",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    toastr.info(msg, title, toastrDefaults);
+}
+
 
 
 const hasClipboardAPI = () => {
@@ -21,7 +48,7 @@ const hasClipboardAPI = () => {
  *
  * @param element - DOM node to copy
  */
-const copyElement = (element) => {
+const copyElement = (element, options) => {
     let copied = false;
     if (hasClipboardAPI()) {
         let range = document.createRange(),
@@ -42,7 +69,12 @@ const copyElement = (element) => {
             // an error to catch - we could slim it down
             // to just this call
             copied = document.execCommand('copy');
-
+            if (copied && options) {
+                if (options.acknowledge) {
+                    acknowledge("Text has been copied to the clipboard",
+                                "Copied ... ");
+                }
+            }
             // clean up selections ...
             selection.removeAllRanges();
         } catch (e) {

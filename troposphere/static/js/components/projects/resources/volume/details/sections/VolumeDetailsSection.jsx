@@ -18,7 +18,7 @@ export default React.createClass({
 
     onClick(e) {
         e.preventDefault();
-        copyElement(e.target);
+        copyElement(e.target, { acknowledge: true });
     },
 
     render() {
