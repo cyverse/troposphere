@@ -1,9 +1,12 @@
 import toastr from "toastr";
-
-// TODO import Raven and log messages
+import Raven from "raven-js";
 
 /**
- *
+ * NOTE:
+ * internalizing the usage here until another approach
+ * to providing notification/acknowledgement (instead
+ * of using the *standard*  NotificationController
+ * component).
  */
 function acknowledge(msg, title) {
     let toastrDefaults = {
@@ -28,6 +31,27 @@ function acknowledge(msg, title) {
 }
 
 
+/**
+ * Report exception via Sentry error client (Raven)
+ *
+ * @param ex - Exception to report to Sentry backend
+ *
+ * We want to ensure that we can gain some knowledge into the usage of
+ * this feature and the availability of the Clipboard API in the wild.
+ *
+ * It is highly likely that it is available, but we would like to know
+ * where it is *not* available to assist in helping those community
+ * members on a newer browerser
+ */
+function reportException(ex) {
+    // take Mulder's advice - trustno1
+    if (Raven && Raven.isSetup()) {
+        if (Raven.captureException) {
+            Raven.captureException(ex);
+        }
+    }
+}
+
 
 const hasClipboardAPI = () => {
     let result = false;
@@ -35,7 +59,7 @@ const hasClipboardAPI = () => {
     try {
         result = document.queryCommandSupported &&
                  document.queryCommandSupported('copy');
-    } catch (e) { }
+    } catch (e) { reportException(e); }
     return result;
 };
 
@@ -78,7 +102,7 @@ const copyElement = (element, options) => {
             // clean up selections ...
             selection.removeAllRanges();
         } catch (e) {
-
+            reportException(e);
         }
     }
 
