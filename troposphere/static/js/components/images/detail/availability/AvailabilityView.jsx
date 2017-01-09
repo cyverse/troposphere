@@ -3,8 +3,7 @@ import Backbone from "backbone";
 import stores from "stores";
 import Code from "components/common/ui/Code";
 
-import { hasClipboardAPI,
-         copyElement } from "utilities/clipboardFunctions";
+import { copyElement } from "utilities/clipboardFunctions";
 
 
 export default React.createClass({
@@ -17,9 +16,7 @@ export default React.createClass({
 
     onClick(e) {
         e.preventDefault();
-        if (hasClipboardAPI()) {
-            copyElement(e.target);
-        }
+        copyElement(e.target);
     },
 
     renderProviderMachine( provider ) {

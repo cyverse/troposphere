@@ -10,18 +10,19 @@ export default React.createClass({
     },
 
     render: function() {
-        let detailValue;
+        let detailValue,
+            { children, label, onClick } = this.props;
 
-        if (this.props.onClick) {
+        if (onClick) {
             detailValue = (
-            <div className="detail-value" onClick={this.props.onClick}>
-                {this.props.children}
+            <div className="detail-value" onClick={onClick}>
+                {children}
             </div>
             );
         } else {
             detailValue = (
             <div className="detail-value">
-                {this.props.children}
+                {children}
             </div>
             );
         }
@@ -29,7 +30,7 @@ export default React.createClass({
         return (
         <li className="clearfix">
             <div className="t-body-2 detail-label">
-                {this.props.label + " "}
+                {label + " "}
             </div>
             {detailValue}
         </li>
