@@ -3,8 +3,7 @@ import Backbone from "backbone";
 import stores from "stores";
 import Code from "components/common/ui/Code";
 
-import { hasClipboardAPI,
-         copyElement } from "utilities/clipboardFunctions";
+import { copyElement } from "utilities/clipboardFunctions";
 
 
 export default React.createClass({
@@ -17,9 +16,7 @@ export default React.createClass({
 
     onClick(e) {
         e.preventDefault();
-        if (hasClipboardAPI()) {
-            copyElement(e.target);
-        }
+        copyElement(e.target, { acknowledge: true });
     },
 
     renderProviderMachine( provider ) {
@@ -39,16 +36,15 @@ export default React.createClass({
         if (!isSummary) {
             optMachineID = (
                 <Code mb="10px">
-                    { machineID }
+                    <div onClick={ this.onClick }>{ machineID }</div>
                 </Code>
             );
         }
 
         let key = `${providerName}-${machineID}`;
         return (
-            <div key={ key } onClick={ this.onClick }>
-                { providerName }
-                { optMachineID }
+            <div key={ key }>
+                { providerName }<br/>{ optMachineID }
             </div>
         )
     },
