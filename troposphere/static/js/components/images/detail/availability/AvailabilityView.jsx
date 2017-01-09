@@ -16,7 +16,7 @@ export default React.createClass({
 
     onClick(e) {
         e.preventDefault();
-        copyElement(e.target);
+        copyElement(e.target, { acknowledge: true });
     },
 
     renderProviderMachine( provider ) {
@@ -36,16 +36,15 @@ export default React.createClass({
         if (!isSummary) {
             optMachineID = (
                 <Code mb="10px">
-                    { machineID }
+                    <div onClick={ this.onClick }>{ machineID }</div>
                 </Code>
             );
         }
 
         let key = `${providerName}-${machineID}`;
         return (
-            <div key={ key } onClick={ this.onClick }>
-                { providerName }
-                { optMachineID }
+            <div key={ key }>
+                { providerName }<br/>{ optMachineID }
             </div>
         )
     },
