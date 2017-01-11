@@ -1,5 +1,6 @@
 TROPOSPHERE_PATH={{TROPOSPHERE_PATH}}
 DHPARAM={{ DHPARAM }}
+DHPARAM_KEY_SIZE={{ DHPARAM_KEY_SIZE }}
 LOCATIONS_DIR={{ LOCATIONS_DIR }}
 SERVER_URL={{ SERVER_URL }}
 SITES_AVAILABLE_DIR={{ SITES_AVAILABLE_DIR }}
@@ -20,7 +21,7 @@ TROPO_CONFIG=$(TROPOSPHERE_PATH)/extras/nginx/locations/$(TROPO_FILE)
 all: deploy
 
 $(DHPARAM):
-	openssl dhparam -out $(DHPARAM) $(KEY_SIZE)
+	openssl dhparam -out $(DHPARAM) $(DHPARAM_KEY_SIZE)
 
 setup: setup-site setup-tropo
 
