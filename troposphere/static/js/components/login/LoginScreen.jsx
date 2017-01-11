@@ -1,7 +1,9 @@
 import $ from "jquery";
+import actions from "actions";
+import globals from "globals";
 import React from "react";
 import ReactDOM from "react-dom";
-import actions from "actions";
+import NotificationController from "controllers/NotificationController";
 import SplashScreen from "components/SplashScreen";
 import { setCookie } from "utilities/cookieHelpers";
 import PasswordLoginForm from "./PasswordLoginForm";
@@ -24,12 +26,12 @@ export default React.createClass({
     attemptOAuthLogin: function() {
         window.location = '/login';
     },
-    attemptPasswordLogin: function(username, password, onLoginError) {
+    attemptPasswordLogin: function(username, password, projectName, provider, onLoginError) {
         actions.LoginActions.attemptLogin(
-            username, password,
+            username, password, projectName, provider,
             this.onLoginSuccess, onLoginError);
     },
-    onLoginSuccess: function(username, token) {
+    onLoginSuccess: function(username, token, project_name, provider) {
         //1. set window.access_token
         window.access_token = token;
         setCookie("auth_token", token);
@@ -45,6 +47,29 @@ export default React.createClass({
         $.ajaxSetup({
             headers: authHeaders
         });
+        //FIXME: POST to Atmo with the latest token *BEFORE* you move on!
+        var data = {username, token, project_name, provider: provider.get('uuid')};
+        var update_token_url = globals.API_V2_ROOT + "/token_update";
+        var self = this;
+        $.ajax(update_token_url, {
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType: "application/json",
+            success: self.renderAuthenticatedApplication,
+            error: function(response) {
+                var errorMessage,
+                    response_error = response.responseJSON.detail;
+                if (response.status >= 500) {
+                    errorMessage = `Your login failed due to an unexpected error in the Atmosphere Auth Server. If you continue to see this message please email <a href='mailto:${globals.SUPPORT_EMAIL}'>${globals.SUPPORT_EMAIL}</a>.`;
+                } else {
+                    errorMessage = "There was an error saving new user token: " + response_error;
+                }
+                NotificationController.error("An error occured", errorMessage);
+            }
+        });
+    },
+    renderAuthenticatedApplication: function(response) {
         $("#main").addClass("splash-screen");
 
         var SplashScreenComponent = React.createFactory(SplashScreen);
@@ -68,5 +93,4 @@ export default React.createClass({
            </div>
         );
     }
-
 });

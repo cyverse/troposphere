@@ -69,6 +69,11 @@ DISABLE_PUBLIC_AUTH={{ DISABLE_PUBLIC_AUTH }}
 {% else %}
 DISABLE_PUBLIC_AUTH= False
 {% endif %}
+{% if KEYSTONE_TOKEN_LOGIN is defined %}
+KEYSTONE_TOKEN_LOGIN={{ KEYSTONE_TOKEN_LOGIN }}
+{% else %}
+KEYSTONE_TOKEN_LOGIN= False
+{% endif %}
 
 # The location from where static files are aggregated
 # ./manage.py collectstatic moves files from STATICFILES_DIRS to STATIC_ROOT
