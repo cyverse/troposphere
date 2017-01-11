@@ -330,6 +330,7 @@ export default React.createClass({
         var name = this.state.versionName,
             created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
             ended,
+            versionImageId,
             advancedOptions,
             optionsButtonText = (this.state.showOptions) ? "Hide Advanced Options" : "Advanced Options",
             membershipsList = stores.MembershipStore.getAll(),
@@ -338,6 +339,8 @@ export default React.createClass({
             scriptsList = stores.ScriptStore.getAll(),
             activeScriptsList = stores.ImageVersionScriptStore.getScriptsFor(this.props.version),
             versionMembers = stores.ImageVersionMembershipStore.getMembershipsFor(this.props.version);
+
+        versionImageId = this.state.versionImage ? this.state.versionImage.id : null;
 
         if (this.state.versionEndDate
             && this.state.versionEndDate._isAMomentObject
@@ -391,7 +394,7 @@ export default React.createClass({
         }
         applicationView = (
             <div className="application-select-container">
-                <ImageSelect imageId={this.state.versionImage.id} onChange={this.onImageSelected} />
+                <ImageSelect imageId={versionImageId} onChange={this.onImageSelected} />
             </div>
         );
         //FUTURE_keyTODO: Pull this functionality out if you use it anywhere else..
