@@ -14,7 +14,7 @@ import NewResourceButton from './NewResourceButton.react';
 import RefreshButton from './RefreshButton.react';
 
 export default React.createClass({
-    displayName: 'SecondaryProjectNavigation',
+    displayName: 'ProjectResourcesHeader',
 
     propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
@@ -44,10 +44,13 @@ export default React.createClass({
                 >
                     <Wrapper>
                         <SubHeader
-                            quickOptions={[ 
                                 <RefreshButton />, 
-                                <DeleteProjectButton project={ project } />,
-                                <NewResourceButton project={ project } />,
+                                <DeleteProjectButton 
+                                    project={ project } 
+                                />,
+                                <NewResourceButton 
+                                    project={ project } 
+                                />,
                             ]}
                             onBack={ this.onBack }
                         />

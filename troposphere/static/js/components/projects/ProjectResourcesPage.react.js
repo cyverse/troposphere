@@ -38,8 +38,8 @@ export default React.createClass({
         switch (this.state.currentListView) {
             case 0: return this.renderInstances();
             case 1: return this.renderVolumes();
-            case 3: return this.renderLinks();
-            case 2: return this.renderImages();
+            case 2: return this.renderLinks();
+            case 3: return this.renderImages();
         }
     },
 
