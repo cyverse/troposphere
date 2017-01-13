@@ -20,6 +20,7 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             method: window.login_auth_type || "token-login",
+            login_from: "application",
         };
     },
     // High level logic
@@ -75,6 +76,10 @@ export default React.createClass({
         });
     },
     renderAuthenticatedApplication: function(response) {
+        if(this.props.login_from != "application") {
+            //Post Refresh will render an authenticated application
+            location.reload();
+        }
         $("#main").addClass("splash-screen");
 
         var SplashScreenComponent = React.createFactory(SplashScreen);
@@ -92,7 +97,7 @@ export default React.createClass({
     },
     render: function() {
         return (
-           <div id="main" className="login-screen-master container" style={{"marginTop": "24px"}}>
+           <div id="main" className="login-screen-master" style={{"marginTop": "24px"}}>
                    <h2 className="t-headline">Login to Atmosphere:</h2>
                    {this.renderLoginMethod()}
            </div>

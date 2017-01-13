@@ -15,7 +15,6 @@ export default React.createClass({
             method: window.login_auth_type,
         };
     },
-
     render: function() {
         var buttons = (
         <button key={'Okay'}
@@ -29,16 +28,13 @@ export default React.createClass({
         return (
         <div className="modal fade">
             <div className="modal-dialog">
-                <div className="modal-content badge-modal-content">
+                <div className="modal-content login-modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
                         <h1 className="t-title">Login to Atmosphere</h1>
                     </div>
                     <div className="modal-body">
-                        <LoginScreen />
-                    </div>
-                    <div className="modal-footer">
-                        {buttons}
+                        <LoginScreen login_from="public_site" />
                     </div>
                 </div>
             </div>
