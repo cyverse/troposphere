@@ -1,12 +1,14 @@
 import React from 'react';
-import stores from 'stores';
 import Router from 'react-router';
 
+import { ProjectInstanceStore, ProjectImageStore, ProjectVolumeStore } from 'stores';
 import { Section, Tabs, InstanceCard, MediaCardGroup } from 'cyverse-ui';
 import { ConsoleIcon, ReplayIcon, PauseIcon } from 'cyverse-ui/icons';
 
 import Wrapper from 'components/common/ui/Wrapper.react';
 import InstanceList from './InstanceList.react';
+import VolumeList from './VolumeList.react';
+import ImageList from 'components/images/list/list/ImageCardList.react';
 
 export default React.createClass({
     displayName: "ProjectResourcesPage",
@@ -19,13 +21,19 @@ export default React.createClass({
     },
 
     componentDidMount() {
-        stores
-            .ProjectInstanceStore
-            .addChangeListener(this.updateState);
+        ProjectInstanceStore.addChangeListener(this.updateState);
+        ProjectImageStore.addChangeListener(this.updateState);
+        ProjectVolumeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        ProjectInstanceStore.removeChangeListener();
+        ProjectImageStore.removeChangeListener();
+        ProjectVolumeStore.removeChangeListener();
     },
     
     updateState() {
-        this.updateState({});
+        if (this.isMounted()) this.forceUpdate();
     },
 
     onTabClick(e) {
@@ -44,24 +52,24 @@ export default React.createClass({
     },
 
     renderInstances() {
-        let instances = stores
-            .ProjectInstanceStore
+        let instances = ProjectInstanceStore
             .getInstancesFor(this.props.project) || null;
 
-        if (!instances) return
+        if (!instances) return;
 
         return (
-            <InstanceList 
-                instances = { instances } 
-            />
+            <InstanceList instances = { instances }/>
         )
     },  
 
     renderVolumes() {
+        let volumes = ProjectVolumeStore
+            .getVolumesFor(this.props.project) || null;
+
+        if (!volumes ) return;
+
         return (
-            <div>
-                Volumes!
-            </div>
+            <VolumeList volumes = { volumes }/>
         )
     },
 
@@ -74,10 +82,12 @@ export default React.createClass({
     },
 
     renderImages() {
+        let images = ProjectImageStore
+            .getImagesFor(this.props.project);
+
+        if (!images) return;
         return (
-            <div>
-                Imagess!
-            </div>
+            <ImageList images={ images }/>
         )
     },
 

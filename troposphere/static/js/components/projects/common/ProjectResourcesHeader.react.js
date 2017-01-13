@@ -44,13 +44,11 @@ export default React.createClass({
                 >
                     <Wrapper>
                         <SubHeader
+                            name="Project"
+                            quickOptions={[ 
                                 <RefreshButton />, 
-                                <DeleteProjectButton 
-                                    project={ project } 
-                                />,
-                                <NewResourceButton 
-                                    project={ project } 
-                                />,
+                                <DeleteProjectButton project={ project } />,
+                                <NewResourceButton project={ project } />,
                             ]}
                             onBack={ this.onBack }
                         />
