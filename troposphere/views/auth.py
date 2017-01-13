@@ -1,12 +1,15 @@
 import logging
+import json
 from uuid import uuid4
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from caslib import OAuthClient as CAS_OAuthClient
 
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 
@@ -47,32 +50,45 @@ def _mock_login(request):
 
 
 def _post_login(request):
-    user = authenticate(username=request.POST.get('username'),
-                        password=request.POST.get('password'))
+    if len(request.POST) == 0:
+        data = json.loads(request.body)
+    else:
+        data = request.POST
+
+    auth_kwargs = {'username': data.get('username'), 'password': data.get('password'), 'request':request}
+    if 'auth_url' in data:
+        auth_kwargs['auth_url'] = data['auth_url']
+    if 'project_name' in data:
+        auth_kwargs['project_name'] = data['project_name']
+    user = authenticate(**auth_kwargs)
     # A traditional POST login will likely NOT create a 'Token', so lets do that now.
     if user:
-        new_token = generate_token(user)
-        _apply_token_to_session(request, new_token.token)
+        new_token = generate_token(user, request.session.pop('token_key',''))
+        _apply_token_to_session(request, new_token.key)
     auth_login(request, user)
+    request.session['access_token'] = new_token.key
+    request.session['username'] = user.username
+    to_json = json.dumps({"username":user.username, "token":new_token.key})
+    return HttpResponse(to_json, content_type="application/json")
 
 
 def _apply_token_to_session(request, token):
     request.session['access_token'] = token
 
 
+@csrf_exempt
 def login(request):
     all_backends = settings.AUTHENTICATION_BACKENDS
     # pro-active session cleaning
     request.session.clear_expired()
-
-    if "django_cyverse_auth.authBackends.MockLoginBackend" in all_backends:
+    if request.META['REQUEST_METHOD'] == 'POST':
+        return _post_login(request)
+    elif "django_cyverse_auth.authBackends.MockLoginBackend" in all_backends:
         return _mock_login(request)
     elif 'django_cyverse_auth.authBackends.GlobusOAuthLoginBackend' in all_backends:
         return _globus_login(request)
     elif 'django_cyverse_auth.authBackends.OAuthLoginBackend' in all_backends:
         return _oauth_login(request)
-    elif request.META['REQUEST_METHOD'] is 'POST':
-        return _post_login(request)
     #Uh - Oh.
     return redirect('application')
 

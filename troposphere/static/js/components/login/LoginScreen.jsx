@@ -34,6 +34,7 @@ export default React.createClass({
     },
     onLoginSuccess: function(username, token, project_name, provider) {
         //1. set window.access_token
+        debugger;
         window.access_token = token;
         setCookie("auth_token", token);
 
