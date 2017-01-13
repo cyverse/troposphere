@@ -9,6 +9,7 @@ export default {
         data["username"] = username;
         data["password"] = password;
         data["project_name"] = projectName;
+        data["auth_url"] = provider != null ? provider.get('auth_url') : '';
         var loginUrl = globals.API_V2_ROOT.replace("/api/v2","/auth");
 
         $.ajax(loginUrl, {
