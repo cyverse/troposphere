@@ -22,6 +22,10 @@ export default React.createClass({
     updateState: function() {
         let providerList = stores.ProviderStore.getAll();
         let provider = this.state.provider;
+        let showNewProvider = false;
+        if(providerList == []) {
+            showNewProvider = true;
+        }
         if(provider == null && providerList && providerList.length != 0) {
             provider = providerList.first();
         }
@@ -30,7 +34,7 @@ export default React.createClass({
         let projectName = this.state.projectName;
 
         this.setState({
-            provider, providerList,
+            provider, providerList, showNewProvider,
             username, password, projectName});
     },
 
@@ -40,7 +44,8 @@ export default React.createClass({
             password: "",
             project_name: "",
             provider: null,
-            providerList: stores.ProviderStore.getAll()
+            providerList: stores.ProviderStore.getAll(),
+            showNewProvider: false
         };
     },
     onProjectNameChange: function(e) {
@@ -89,6 +94,9 @@ export default React.createClass({
         var hasUsername = !!this.state.username && this.state.username.length > 0;
         var hasPassword = !!this.state.password && this.state.password.length > 0;
         var hasProjectName = !!this.state.projectName && this.state.projectName.length > 0;
+        if(this.state.showNewProvider) {
+            hasProjectName = true;
+        }
         return hasUsername && hasPassword && hasProjectName;
     },
     onProviderChange: function(provider) {

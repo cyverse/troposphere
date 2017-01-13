@@ -48,7 +48,11 @@ export default React.createClass({
             headers: authHeaders
         });
         //FIXME: POST to Atmo with the latest token *BEFORE* you move on!
-        var data = {username, token, project_name, provider: provider.get('uuid')};
+        let provider_uuid
+        if(provider != null) {
+            provider_uuid = provider.get('uuid')
+        }
+        var data = {username, token, project_name, provider: provider_uuid};
         var update_token_url = globals.API_V2_ROOT + "/token_update";
         var self = this;
         $.ajax(update_token_url, {
@@ -63,9 +67,10 @@ export default React.createClass({
                 if (response.status >= 500) {
                     errorMessage = `Your login failed due to an unexpected error in the Atmosphere Auth Server. If you continue to see this message please email <a href='mailto:${globals.SUPPORT_EMAIL}'>${globals.SUPPORT_EMAIL}</a>.`;
                 } else {
-                    errorMessage = "There was an error saving new user token: " + response_error;
+                    errorMessage = `There was an error saving new user token: ${response_error}`;
                 }
                 NotificationController.error("An error occured", errorMessage);
+                self.renderAuthenticatedApplication();
             }
         });
     },
