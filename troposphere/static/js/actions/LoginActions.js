@@ -23,9 +23,16 @@ export default {
                 }
             },
             error: function(response) {
-                var response_errors = response.responseJSON.errors;
+                var response_message = ""
+                try {
+                    var response_errors = response.responseJSON.errors;
+                    response_message = response_errors[0].message;
+                } catch {
+                    console.log(response.responseText);
+                    response_message = "500 - Internal server error";
+                }
                 if(onFailure != null) {
-                    onFailure(response_errors[0].message);
+                    onFailure(response_message);
                 }
 
             }
