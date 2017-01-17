@@ -48,7 +48,7 @@ export default React.createClass({
             });
         } else {
             this.setState({
-                licenseType: "Full Text"
+                licenseType: "Raw Text"
             });
         }
     },
@@ -84,8 +84,8 @@ export default React.createClass({
             </div>
             );
         } else {
-            //"Full Text"
-            return (<EditDescriptionView title={"Full Text"} value={this.state.licenseText} onChange={this.onLicenseTextChange} />)
+            //"Raw Text"
+            return (<EditDescriptionView title={"Raw Text"} value={this.state.licenseText} onChange={this.onLicenseTextChange} />)
         }
     },
     renderLicenseInputRadio: function() {
@@ -108,8 +108,8 @@ export default React.createClass({
                     <input type="radio"
                         name="inlineLicenseOptions"
                         id="licenseTypeText"
-                        value="Full Text"
-                        onChange={this.onLicenseInputTypeChange} /> Full Text
+                        value="Raw Text"
+                        onChange={this.onLicenseInputTypeChange} /> Raw Text
                 </label>);
         } else {
             urlRadio = (
@@ -126,8 +126,8 @@ export default React.createClass({
                         type="radio"
                         name="inlineLicenseOptions"
                         id="LicenseTypeText"
-                        value="Full Text"
-                        onChange={this.onLicenseInputTypeChange} /> Full Text
+                        value="Raw Text"
+                        onChange={this.onLicenseInputTypeChange} /> Raw Text
                 </label>);
         }
 
