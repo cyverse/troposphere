@@ -5,6 +5,8 @@ import Name from "../components/Name";
 import CreateUpdateFlag from "../components/CreateUpdateFlag";
 import Description from "../components/Description";
 import Tags from "../components/Tags";
+import TagCollection from "collections/TagCollection";
+import Tag from "models/Tag";
 import actions from "actions";
 import stores from "stores";
 
@@ -49,13 +51,11 @@ export default React.createClass({
 
     updateState: function() {
         let instance = this.props.instance;
-        let parent_image_id = instance.get("image").id;
-        let parentImage = stores.ImageStore.get(parent_image_id);
-
-        let imageTags = this.state.imageTags;
-        if (parentImage && !imageTags) {
-            imageTags = stores.TagStore.getImageTags(parentImage);
-        }
+        let parent_image_tags = instance.get("image").tags;
+        let toTagList = parent_image_tags.map(function (api_tag) {
+            return new Tag(api_tag, {parse: true});
+        });
+        let imageTags = new TagCollection(toTagList);
 
         this.setState({
             imageTags
