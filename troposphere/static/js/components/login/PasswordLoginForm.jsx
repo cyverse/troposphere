@@ -44,6 +44,7 @@ export default React.createClass({
             password: "",
             project_name: "",
             provider: null,
+            allowLogin: true,
             providerList: stores.ProviderStore.getAll(),
             showNewProvider: false
         };
@@ -69,6 +70,9 @@ export default React.createClass({
     },
 
     attemptLogin: function() {
+        this.setState({
+            allowLogin: false,
+        });
         this.props.attemptLogin(
             this.state.username,
             this.state.password,
@@ -79,7 +83,8 @@ export default React.createClass({
 
     onLoginError: function(error_message) {
         this.setState({
-            error_message: error_message
+            error_message: error_message,
+            allowLogin: true
         });
     },
 
@@ -97,7 +102,7 @@ export default React.createClass({
         if(this.state.showNewProvider) {
             hasProjectName = true;
         }
-        return hasUsername && hasPassword && hasProjectName;
+        return hasUsername && hasPassword && hasProjectName && this.state.allowLogin == true;
     },
     onProviderChange: function(provider) {
         this.setState({provider:provider});
