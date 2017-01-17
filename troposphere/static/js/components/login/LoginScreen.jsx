@@ -34,7 +34,6 @@ export default React.createClass({
     },
     onLoginSuccess: function(username, token, project_name, provider) {
         //1. set window.access_token
-        debugger;
         window.access_token = token;
         setCookie("auth_token", token);
 
@@ -80,11 +79,12 @@ export default React.createClass({
         if(this.props.login_from != "application") {
             //Post Refresh will render an authenticated application
             location.reload();
-        }
-        $("#main").addClass("splash-screen");
+        } else {
+            $("#main").addClass("splash-screen");
 
-        var SplashScreenComponent = React.createFactory(SplashScreen);
-        ReactDOM.render(SplashScreenComponent(), document.getElementById("application"));
+            var SplashScreenComponent = React.createFactory(SplashScreen);
+            ReactDOM.render(SplashScreenComponent(), document.getElementById("application"));
+        }
     },
     // Rendering
     renderLoginMethod: function() {

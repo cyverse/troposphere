@@ -14,7 +14,9 @@ export default React.createClass({
         return (
             <div>
                 <LoginHeader />
-                <LoginScreen />
+                <div className="container">
+                    <LoginScreen />
+                </div>
                 <Footer text={globals.SITE_FOOTER}
                         link={globals.SITE_FOOTER_LINK}
                 />
