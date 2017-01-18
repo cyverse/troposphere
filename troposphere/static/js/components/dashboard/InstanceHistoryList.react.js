@@ -2,7 +2,7 @@ import React from "react";
 import Router from "react-router";
 import CryptoJS from "crypto-js";
 import Gravatar from "components/common/Gravatar.react";
-import RefreshComponent from "components/common/ui/RefreshComponent.react";
+import RefreshButton from "components/common/ui/RefreshButton.react";
 import moment from "moment";
 import stores from "stores";
 
@@ -55,10 +55,10 @@ export default React.createClass({
         stores.InstanceHistoryStore.lastUpdated = Date.now();
     },
 
-    renderRefreshButton: function() {
+    renderRefreshButton: function() {                           
 
         return (
-        <span className="pull-right refresh-button"><RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {1000 * 60} /></span>
+        <span className="pull-right refresh-button"><RefreshButton onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {1000 * 60} /></span>
         );
 
     },
