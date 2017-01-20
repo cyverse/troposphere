@@ -75,7 +75,7 @@ def _post_login(request):
     auth_login(request, user)
     issuer_backend = request.session.get('_auth_user_backend', '').split('.')[-1]
     user_profile = _get_user_profile(user)
-    new_token = create_user_and_token(user_profile, request.session.pop('token_key',None), issuer="OpenstackLoginBackend")
+    new_token = create_user_and_token(user_profile, request.session.pop('token_key',None))
     _apply_token_to_session(request, new_token.key)
     request.session['access_token'] = new_token.key
     request.session['username'] = user.username

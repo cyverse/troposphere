@@ -49,8 +49,7 @@
     var access_token = "{{ access_token }}";
 {% endif %}
 
-    var login_auth_type = "{{ login_auth_type }}";
-    var login_auth_provider = "{{ login_auth_provider }}";
+    var login_auth_allowed = {{ login_auth_allowed|safe }};
 
 {% if emulator and emulator_token %}
     var emulator = "{{ emulator }}";

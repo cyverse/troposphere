@@ -18,7 +18,7 @@ export default React.createClass({
                     <button type="button"
                         className="btn btn-primary"
                         onClick={this.props.attemptLogin} >
-                        {"Click to Login with " + window.login_auth_provider}
+                        {"Click to Login with " + this.props.provider}
                     </button>
                 </div>
             </form>

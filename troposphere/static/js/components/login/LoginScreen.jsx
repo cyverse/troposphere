@@ -2,11 +2,14 @@ import $ from "jquery";
 import actions from "actions";
 import globals from "globals";
 import React from "react";
+import Backbone from "backbone";
 import ReactDOM from "react-dom";
 import NotificationController from "controllers/NotificationController";
 import SplashScreen from "components/SplashScreen";
+import SelectMenu from "components/common/ui/SelectMenu";
 import { setCookie } from "utilities/cookieHelpers";
 import PasswordLoginForm from "./PasswordLoginForm";
+import OpenstackLoginForm from "./OpenstackLoginForm";
 import OAuthLoginForm from "./OAuthLoginForm";
 
 export default React.createClass({
@@ -19,20 +22,30 @@ export default React.createClass({
 
     getDefaultProps: function() {
         return {
-            method: window.login_auth_type || "token-login",
             login_from: "application",
+        };
+    },
+    getInitialState: function() {
+        //Default with no window variables: only allows access to /login
+        let loginProvider,
+            loginsAllowed = window.login_auth_allowed || [{"method": "oauth-login"}];
+        let identityProviders = new Backbone.Collection(loginsAllowed);
+        loginProvider = identityProviders.first()
+        return {
+            loginProvider: loginProvider,
+            identityProviders: identityProviders
         };
     },
     // High level logic
     attemptOAuthLogin: function() {
         window.location = '/login';
     },
-    attemptPasswordLogin: function(username, password, projectName, provider, onLoginError) {
-        actions.LoginActions.attemptLogin(
-            username, password, projectName, provider,
-            this.onLoginSuccess, onLoginError);
+    attemptPasswordLogin: function(username, password, onPasswordFailure) {
+        actions.LoginActions.attemptPasswordLogin(
+            username, password,
+            this.onPasswordLogin, onPasswordFailure);
     },
-    onLoginSuccess: function(username, token, project_name, provider) {
+    onPasswordLogin: function(username, token) {
         //1. set window.access_token
         window.access_token = token;
         setCookie("auth_token", token);
@@ -48,12 +61,36 @@ export default React.createClass({
         $.ajaxSetup({
             headers: authHeaders
         });
-        //FIXME: POST to Atmo with the latest token *BEFORE* you move on!
+        this.renderAuthenticatedApplication();
+    },
+    attemptOpenstackLogin: function(username, password, projectName, provider, onLoginError) {
+        actions.LoginActions.attemptOpenstackLogin(
+            username, password, projectName, provider,
+            this.onOpenstackLogin, onLoginError);
+    },
+    onOpenstackLogin: function(username, token, project_name, provider) {
+        //1. set window.access_token
+        window.access_token = token;
+        setCookie("auth_token", token);
+
+        //2. re-init SplashScreen on 'application'
+
+        let authHeaders = {
+            "Content-Type": "application/json",
+            "Authorization" : "Token " + window.access_token
+        }
+        // Make sure the Authorization header is added to every AJAX request
+        $.ajaxSetup({
+            headers: authHeaders
+        });
         let provider_uuid
         if(provider != null) {
             provider_uuid = provider.get('uuid')
         }
         var data = {username, token, project_name, provider: provider_uuid};
+        this.postTokenUpdate(data)
+    },
+    postTokenUpdate: function(data) {
         var update_token_url = globals.API_V2_ROOT + "/token_update";
         var self = this;
         $.ajax(update_token_url, {
@@ -71,11 +108,10 @@ export default React.createClass({
                     errorMessage = `There was an error saving new user token: ${response_error}`;
                 }
                 NotificationController.error("An error occured", errorMessage);
-                //self.renderAuthenticatedApplication();
             }
         });
     },
-    renderAuthenticatedApplication: function(response) {
+    renderAuthenticatedApplication: function() {
         if(this.props.login_from != "application") {
             //Post Refresh will render an authenticated application
             location.reload();
@@ -88,18 +124,32 @@ export default React.createClass({
     },
     // Rendering
     renderLoginMethod: function() {
-        if (this.props.method == "oauth-login") {
-            return (<OAuthLoginForm 
-                attemptLogin={this.attemptOAuthLogin}/>);
-        } else {
+        let method = this.state.loginProvider.get('method');
+        if (method == "password-login") {
             return (<PasswordLoginForm
                 attemptLogin={this.attemptPasswordLogin}/>);
+        } else if (method == "openstack-login") {
+            return (<OpenstackLoginForm
+                attemptLogin={this.attemptOpenstackLogin}/>);
+        } else if (method == "oauth-login") {
+            return (<OAuthLoginForm
+                provider={this.state.loginProvider.get('provider')}
+                attemptLogin={this.attemptOAuthLogin}/>);
         }
     },
+    onIdentityProviderChange: function(idp) {
+        this.setState({loginProvider:idp});
+    },
+
     render: function() {
         return (
            <div id="main" className="login-screen-master" style={{"marginTop": "24px"}}>
-                   <h2 className="t-headline">Login to Atmosphere:</h2>
+                   <h2 className="t-headline">Select Login Method:</h2>
+                    <SelectMenu id="login-screen-select"
+                                current={ this.state.loginProvider }
+                                optionName={ idp => idp.get('method') }
+                                list={ this.state.identityProviders }
+                                onSelect={ this.onIdentityProviderChange } />
                    {this.renderLoginMethod()}
            </div>
         );

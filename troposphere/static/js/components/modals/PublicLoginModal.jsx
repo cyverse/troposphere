@@ -9,12 +9,6 @@ export default React.createClass({
 
     mixins: [BootstrapModalMixin],
 
-    //TODO: Should this be 'getDefaultProps'?
-    getInitialState: function() {
-        return {
-            method: window.login_auth_type,
-        };
-    },
     render: function() {
         var buttons = (
         <button key={'Okay'}
