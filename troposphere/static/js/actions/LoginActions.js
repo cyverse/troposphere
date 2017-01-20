@@ -8,26 +8,30 @@ export default {
         /**
          * When the API has authorized you, allow the UI to authorize you
          */
-        let token = response.token,
+        let auth_token = response.token,
             username = response.username;
-        let tropoLoginUrl = globals.API_V2_ROOT.replace("/api/v2","/login");
+        //Inject the atmosphere auth-token here
+        data.token = response.token;
+
+        let tropoLoginUrl = globals.TROPO_API_ROOT.replace("/tropo-api","/login");
         $.ajax(tropoLoginUrl, {
                 type: "POST",
                 data: JSON.stringify(data),
                 dataType: "json",
                 contentType: "application/json",
                 success: function(response) {
+                    // THIS token is only registered inside Troposphere. It is *NOT* the token that atmosphere will have on record.
                     let token = response.token,
                         username = response.username;
 
                     if(onSuccess != null) {
-                        onSuccess(username, token, projectName, provider);
+                        onSuccess(username, auth_token, projectName, provider);
                     }
                 },
                 error: function(response) {
-                    var response_errors = response.responseJSON.errors;
+                    var response_error = (response.responseJSON != null) ? response.responseJSON.errors[0].message : response.responseText;
                     if(onFailure != null) {
-                        onFailure(response_errors[0].message);
+                        onFailure(response_error);
                     }
                 }
             });

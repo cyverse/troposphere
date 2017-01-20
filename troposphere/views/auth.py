@@ -13,7 +13,9 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 
-from django_cyverse_auth.authBackends import get_or_create_user, generate_token
+from rest_framework import status
+
+from django_cyverse_auth.authBackends import get_or_create_user, create_user_and_token
 from django_cyverse_auth.views import globus_login_redirect, globus_logout_redirect
 
 logger = logging.getLogger(__name__)
@@ -29,7 +31,8 @@ def _mock_login(request):
     auth_login(request, user)
     last_token = user.auth_tokens.last()
     if not last_token:
-        last_token = generate_token(user)
+        user_profile = _get_user_profile(user)
+        auth_token = create_user_and_token(user_profile, last_token, issuer="MockLoginBackend")
     _apply_token_to_session(request, last_token.key)
 
     if request.session.get('redirect_to'):
@@ -48,6 +51,9 @@ def _mock_login(request):
         return redirect(redirect_url)
     return redirect('application')
 
+def _get_user_profile(user):
+    user_profile = {"username": user.username, "firstName": user.first_name, "lastName": user.last_name, "email": user.email}
+    return user_profile
 
 def _post_login(request):
     if len(request.POST) == 0:
@@ -56,16 +62,21 @@ def _post_login(request):
         data = request.POST
 
     auth_kwargs = {'username': data.get('username'), 'password': data.get('password'), 'request':request}
+    if 'token' in data:
+        auth_kwargs['token'] = data['token']
     if 'auth_url' in data:
         auth_kwargs['auth_url'] = data['auth_url']
     if 'project_name' in data:
         auth_kwargs['project_name'] = data['project_name']
     user = authenticate(**auth_kwargs)
     # A traditional POST login will likely NOT create a 'Token', so lets do that now.
-    if user:
-        new_token = generate_token(user, request.session.pop('token_key',''))
-        _apply_token_to_session(request, new_token.key)
+    if not user:
+            return invalid_auth("Username/Password combination was invalid")
     auth_login(request, user)
+    issuer_backend = request.session.get('_auth_user_backend', '').split('.')[-1]
+    user_profile = _get_user_profile(user)
+    new_token = create_user_and_token(user_profile, request.session.pop('token_key',None), issuer="OpenstackLoginBackend")
+    _apply_token_to_session(request, new_token.key)
     request.session['access_token'] = new_token.key
     request.session['username'] = user.username
     to_json = json.dumps({"username":user.username, "token":new_token.key})
@@ -186,3 +197,24 @@ def cas_oauth_service(request):
     response = redirect('application')
 
     return response
+
+
+def invalid_auth(message):
+    return failure_response(
+        status.HTTP_400_BAD_REQUEST,
+        "Authentication request refused -- %s" % message)
+
+
+def failure_response(status, message):
+    """
+    Return a djangorestframework Response object given an error
+    status and message.
+    """
+    logger.info("status: %s message: %s" % (status, message))
+    json_obj = {"errors":
+            [{'code': status, 'message': message}]
+        }
+    to_json = json.dumps(json_obj)
+    return HttpResponse(to_json,
+                    status=status,
+                    content_type='application/json')

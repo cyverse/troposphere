@@ -71,7 +71,7 @@ export default React.createClass({
                     errorMessage = `There was an error saving new user token: ${response_error}`;
                 }
                 NotificationController.error("An error occured", errorMessage);
-                self.renderAuthenticatedApplication();
+                //self.renderAuthenticatedApplication();
             }
         });
     },
