@@ -33,7 +33,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'webpack_loader', # resolved JS asset + hash for template rendering
-    'iplantauth',
+    'django_cyverse_auth',
     'api',
     'troposphere',
 )
@@ -162,7 +162,7 @@ REST_FRAMEWORK = {
     # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'iplantauth.authBackends.OAuthTokenLoginBackend'
+        'django_cyverse_auth.authBackends.OAuthTokenLoginBackend'
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100,
@@ -178,7 +178,7 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'iplantauth.authBackends.OAuthLoginBackend'
+    'django_cyverse_auth.authBackends.OAuthLoginBackend'
 )
 
 # This Method will generate SECRET_KEY and write it to file..

@@ -120,14 +120,14 @@ AUTHENTICATION_BACKENDS = (
     # MOCK - If enabled, Use MockLoginBackend first for single-user access.
     # Helpful for debug/development. Be sure to set Atmosphere to MockLoginBackend.
     {% if AUTH_ENABLE_MOCK -%}
-    'iplantauth.authBackends.MockLoginBackend',
+    'django_cyverse_auth.authBackends.MockLoginBackend',
     {% else -%}
-    # 'iplantauth.authBackends.MockLoginBackend',
+    # 'django_cyverse_auth.authBackends.MockLoginBackend',
     {% endif -%}
     #
     # AuthToken - Allows staff emulation via API
     # by using existing tokens as simple authentication.
-    'iplantauth.authBackends.AuthTokenLoginBackend',
+    'django_cyverse_auth.authBackends.AuthTokenLoginBackend',
     #
     # ModelBackend - Allow traditional username/password. Helpful when using areas
     # of the application that do not work with SSO backends (Globus, OAuth)
@@ -142,10 +142,10 @@ AUTHENTICATION_BACKENDS = (
     # and then authorize a user, (Usually, based on OAuth or some other token exchange)
     {% if AUTH_ENABLE_GLOBUS -%}
     # Globus OAuth
-    'iplantauth.authBackends.GlobusOAuthLoginBackend',
+    'django_cyverse_auth.authBackends.GlobusOAuthLoginBackend',
     {% elif AUTH_ENABLE_CAS or AUTH_ENABLE_OAUTH -%}
     # CAS OAuth implementation of SSO
-    'iplantauth.authBackends.OAuthLoginBackend',
+    'django_cyverse_auth.authBackends.OAuthLoginBackend',
     {% elif AUTH_ENABLE_MOCK -%}
     # Hello developer, you have
     # SSO Disabled but are using Mock configuration.
@@ -158,7 +158,7 @@ AUTHENTICATION_BACKENDS = (
     {% if AUTH_ENABLE_LDAP -%}
     #
     # LDAP - Allow access via LDAP username/password
-    'iplantauth.authBackends.LDAPLoginBackend',
+    'django_cyverse_auth.authBackends.LDAPLoginBackend',
     {% endif -%}
     )
 {% endif -%}
@@ -211,14 +211,14 @@ INSTALLED_APPS += (
 ALWAYS_AUTH_USER = "{{ MOCK_USER }}"
 # Use MockLoginBackend first!
 AUTHENTICATION_BACKENDS += (
-    'iplantauth.authBackends.MockLoginBackend',
+    'django_cyverse_auth.authBackends.MockLoginBackend',
 )
 {% else %}
 # MOCK - Uncomment these lines to allow one-user-only access. Useful for debug/development
 # ALWAYS_AUTH_USER = "test_user"
 # # Use MockLoginBackend first!
 # AUTHENTICATION_BACKENDS += (
-#     'iplantauth.authBackends.MockLoginBackend',
+#     'django_cyverse_auth.authBackends.MockLoginBackend',
 # )
 # Configure authentication plugin
 {% endif %}
