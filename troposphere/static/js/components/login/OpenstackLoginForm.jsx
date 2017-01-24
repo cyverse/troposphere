@@ -1,4 +1,5 @@
 import React from "react";
+import Utils from "actions/Utils";
 import stores from "stores";
 import SelectMenu from "components/common/ui/SelectMenu";
 
@@ -81,9 +82,10 @@ export default React.createClass({
             this.onLoginError)
     },
 
-    onLoginError: function(error_message) {
+    onLoginError: function(response) {
+        let error_obj = Utils.displayError({response});
         this.setState({
-            error_message: error_message,
+            error_message: error_obj.message,
             allowLogin: true
         });
     },

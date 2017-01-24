@@ -1,6 +1,7 @@
 import $ from "jquery";
 import globals from "globals";
 import { findCookie } from "utilities/cookieHelpers";
+import Utils from "./Utils";
 
 export default {
 
@@ -30,9 +31,8 @@ export default {
                     }
                 },
                 error: function(response) {
-                    var response_error = (response.responseJSON != null) ? response.responseJSON.errors[0].message : response.responseText;
                     if(onFailure != null) {
-                        onFailure(response_error);
+                        onFailure(response);
                     }
                 }
             });
@@ -59,11 +59,9 @@ export default {
                 self.passwordAuthSuccess(response, data, onSuccess, onFailure)
             },
             error: function(response) {
-                var response_errors = response.responseJSON.errors;
                 if(onFailure != null) {
-                    onFailure(response_errors[0].message);
+                    onFailure(response);
                 }
-
             }
         });
 
@@ -94,9 +92,8 @@ export default {
                     }
                 },
                 error: function(response) {
-                    var response_error = (response.responseJSON != null) ? response.responseJSON.errors[0].message : response.responseText;
                     if(onFailure != null) {
-                        onFailure(response_error);
+                        onFailure(response);
                     }
                 }
             });
@@ -123,9 +120,8 @@ export default {
                 self.openstackAuthSuccess(response, data, onSuccess, projectName, provider)
             },
             error: function(response) {
-                var response_errors = response.responseJSON.errors;
                 if(onFailure != null) {
-                    onFailure(response_errors[0].message);
+                    onFailure(response);
                 }
             }
         });

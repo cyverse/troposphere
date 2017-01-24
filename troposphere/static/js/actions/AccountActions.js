@@ -1,6 +1,5 @@
 import Utils from "./Utils";
 import NotificationController from "controllers/NotificationController";
-
 // Constants
 import AccountConstants from "constants/AccountConstants";
 
@@ -37,21 +36,10 @@ export default {
             }
 
         }).fail(function(response) {
-            var error_obj = response.responseJSON;
-            var error_msg = response.responseText;
-            if(error_obj) {
-                error_msg = "";
-                let error_type;
-                for (error_type in error_obj) {
-                    let value = error_obj[error_type];
-                    if(Array && Array.isArray(value)) {
-                        value = value[0];
-                    }
-                    error_msg += error_type + ":" + value
-                }
-            }
-            var message = "Error creating Account " + account.get("atmo_user") + " - API Response:" + error_msg;
-            NotificationController.error(null, message);
+            Utils.displayError({
+                response: response,
+                title: "Account Update Error"
+            });
             Utils.dispatch(AccountConstants.REMOVE_ACCOUNT, {
                 account: account
             });

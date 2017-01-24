@@ -1,4 +1,5 @@
 import React from "react";
+import Utils from "actions/Utils";
 
 export default React.createClass({
     displayName: "PasswordLoginForm",
@@ -38,9 +39,10 @@ export default React.createClass({
             this.onLoginError)
     },
 
-    onLoginError: function(error_message) {
+    onLoginError: function(response) {
+        let error_obj = Utils.displayError({response});
         this.setState({
-            error_message: error_message
+            error_message: error_obj.message
         });
     },
 

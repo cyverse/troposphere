@@ -39,22 +39,49 @@ export default {
     displayError: function(options) {
         var response = options.response,
             title = options.title;
-
         try {
-            var error,
-                error_json = response.responseJSON;
-            if ("errors" in error_json) {
-                error = error_json.errors[0];
-            } else {
+            let error, raw_error,
+                error_json = (response.responseJSON != null) ? response.responseJSON : null,
+                error_msg = response.responseText;
+            if(error_json != null) {
+                if ("errors" in error_json) {
+                    raw_error = error_json.errors[0];
+                    if('code' in raw_error && 'message' in raw_error) {
+                        //Properly formed error
+                        error = raw_error;
+                    } else {
+                    //Safety -- if syntax changes
+                    error = {
+                        "code": response.status,
+                        "message": "Encountered the following errors:" + JSON.stringify(raw_error)
+                    };
+                    }
+                } else {
+                    //Safety -- if 'errors' isn't available
+                    error = {
+                        "code": response.status,
+                        "message": "Encountered the following errors:" + JSON.stringify(error_json)
+                    };
+                }
+            } else if(error_msg != null) {
+                //Safety -- when no JSON is given in the response
                 error = {
                     "code": response.status,
-                    "message": "Encountered the following errors:" + JSON.stringify(error_json)
-                };
+                    "message": error_msg
+                }
+            } else {
+                //Safety -- when response contains no body
+                error = {
+                    "code": 0,
+                    "message": "API Error - Connection Refused"
+                }
             }
+
             NotificationController.error(
                 title,
                 error.code + ": " + error.message
             );
+            return error;
         } catch (err) {
             NotificationController.error(
                 title,
