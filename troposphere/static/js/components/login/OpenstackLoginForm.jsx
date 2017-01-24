@@ -101,15 +101,29 @@ export default React.createClass({
         var hasUsername = !!this.state.username && this.state.username.length > 0;
         var hasPassword = !!this.state.password && this.state.password.length > 0;
         var hasProjectName = !!this.state.projectName && this.state.projectName.length > 0;
+        var canLogin = this.state.allowLogin == true;
         if(this.state.showNewProvider) {
             hasProjectName = true;
         }
-        return hasUsername && hasPassword && hasProjectName && this.state.allowLogin == true;
+        return hasUsername && hasPassword && hasProjectName && canLogin;
     },
     onProviderChange: function(provider) {
         this.setState({provider:provider});
     },
-
+    renderLoginOrLoading: function() {
+        if(this.state.allowLogin == false) {
+            return (<span className="loading-tiny-inline"></span>);
+        } else {
+            return (
+                <button type="button"
+                    className="btn btn-primary"
+                    onClick={this.attemptLogin}
+                    disabled={!this.isSubmittable()}>
+                    {"Click to Login with Openstack"}
+                </button>
+            );
+        }
+    },
     render: function() {
         let groupClasses = this.state.error_message != null ? "form-group has-error" : "form-group";
         let usernameClasses = groupClasses,
@@ -175,12 +189,7 @@ export default React.createClass({
                 </div>
                 <div className="login-screen-footer modal-footer">
                     <span className="help-block">{errorMessage}</span>
-                    <button type="button"
-                        className="btn btn-primary"
-                        onClick={this.attemptLogin}
-                        disabled={!this.isSubmittable()}>
-                        Login to Atmosphere
-                    </button>
+                    {this.renderLoginOrLoading()}
                 </div>
             </form>
         );

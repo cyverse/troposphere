@@ -19,7 +19,7 @@
 }
 
 // created to show an instance is loading in the list view
-tr div.loading-tiny-inline {
+tr div.loading-tiny-inline, span.loading-tiny-inline {
   @extend .loading;
   height: 25px;
   width: 25px;

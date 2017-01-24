@@ -16,7 +16,8 @@ export default React.createClass({
     getInitialState: function() {
         return {
             username: "",
-            password: ""
+            password: "",
+            allowLogin: true
         };
     },
     onUsernameChange: function(e) {
@@ -33,6 +34,9 @@ export default React.createClass({
     },
 
     attemptLogin: function() {
+        this.setState({
+            allowLogin: false,
+        });
         this.props.attemptLogin(
             this.state.username,
             this.state.password,
@@ -42,7 +46,8 @@ export default React.createClass({
     onLoginError: function(response) {
         let error_obj = Utils.displayError({response});
         this.setState({
-            error_message: error_obj.message
+            error_message: error_obj.message,
+            allowLogin: true
         });
     },
 
@@ -56,9 +61,24 @@ export default React.createClass({
     isSubmittable: function() {
         var hasUsername = !!this.state.username && this.state.username.length > 0;
         var hasPassword = !!this.state.password && this.state.password.length > 0;
-        return hasUsername && hasPassword;
+        var canLogin = this.state.allowLogin == true;
+        return canLogin && hasUsername && hasPassword;
     },
 
+    renderLoginOrLoading: function() {
+        if(this.state.allowLogin == false) {
+            return (<span className="loading-tiny-inline"></span>);
+        } else {
+            return (
+                <button type="button"
+                    className="btn btn-primary"
+                    onClick={this.attemptLogin}
+                    disabled={!this.isSubmittable()}>
+                    {"Click to Login with Atmosphere"}
+                </button>
+            );
+        }
+    },
     render: function() {
         let groupClasses = this.state.error_message != null ? "form-group has-error" : "form-group";
         let usernameClasses = groupClasses,
@@ -95,15 +115,10 @@ export default React.createClass({
                         onChange={this.onPasswordChange}
                         onKeyPress={this.onEnterPressed}
                         />
-                    <span className="help-block">{errorMessage}</span>
                 </div>
                 <div className="login-screen-footer modal-footer">
-                    <button type="button"
-                        className="btn btn-primary"
-                        onClick={this.attemptLogin}
-                        disabled={!this.isSubmittable()}>
-                        Login to Atmosphere
-                    </button>
+                    <span className="help-block">{errorMessage}</span>
+                    {this.renderLoginOrLoading()}
                 </div>
             </form>
         );
