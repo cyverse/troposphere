@@ -5,39 +5,6 @@ import Utils from "./Utils";
 
 export default {
 
-    openstackAuthSuccess: function(response, data, onSuccess, projectName, provider) {
-        /**
-         * When the API has authorized you, you will have an auth-token
-         * use this auth-token to 'authorize' use of GUI
-         */
-        let auth_token = response.token,
-            username = response.username;
-        //Inject the atmosphere auth-token here
-        data.token = response.token;
-
-        let tropoLoginUrl = globals.TROPO_API_ROOT.replace("/tropo-api","/login");
-        $.ajax(tropoLoginUrl, {
-                type: "POST",
-                data: JSON.stringify(data),
-                dataType: "json",
-                contentType: "application/json",
-                success: function(response) {
-                    // THIS token is only registered inside Troposphere. It is *NOT* the token that atmosphere will have on record.
-                    let token = response.token,
-                        username = response.username;
-
-                    if(onSuccess != null) {
-                        onSuccess(username, auth_token, projectName, provider);
-                    }
-                },
-                error: function(response) {
-                    if(onFailure != null) {
-                        onFailure(response);
-                    }
-                }
-            });
-        return;
-    },
     attemptPasswordLogin: function(username, password, onSuccess, onFailure) {
         var data = {};
 
@@ -126,6 +93,39 @@ export default {
             }
         });
 
+    },
+    openstackAuthSuccess: function(response, data, onSuccess, projectName, provider) {
+        /**
+         * When the API has authorized you, you will have an auth-token
+         * use this auth-token to 'authorize' use of GUI
+         */
+        let auth_token = response.token,
+            username = response.username;
+        //Inject the atmosphere auth-token here
+        data.token = response.token;
+
+        let tropoLoginUrl = globals.TROPO_API_ROOT.replace("/tropo-api","/login");
+        $.ajax(tropoLoginUrl, {
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    // THIS token is only registered inside Troposphere. It is *NOT* the token that atmosphere will have on record.
+                    let token = response.token,
+                        username = response.username;
+
+                    if(onSuccess != null) {
+                        onSuccess(username, auth_token, projectName, provider);
+                    }
+                },
+                error: function(response) {
+                    if(onFailure != null) {
+                        onFailure(response);
+                    }
+                }
+            });
+        return;
     }
 };
 
