@@ -1,6 +1,5 @@
 import $ from "jquery";
 import globals from "globals";
-import { findCookie } from "utilities/cookieHelpers";
 import Utils from "./Utils";
 
 export default {
@@ -69,8 +68,6 @@ export default {
     attemptOpenstackLogin: function(username, password, projectName, provider, onSuccess, onFailure) {
         var data = {};
 
-        // var CSRFToken = findCookie("tropo_csrftoken");
-        // data["csrfmiddlewaretoken"] = CSRFToken;
         // Prepare POST data
         data["username"] = username;
         data["password"] = password;
