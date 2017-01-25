@@ -33,7 +33,7 @@ export default React.createClass({
     },
 
     componentWillUnmount: function() {
-        stores.InstanceHistoryStore.removeChangeListener(this.updateState);
+        stores.InstanceHistoryStore.removeChangeListener(this.onNewData);
     },
 
     onLoadMoreInstanceHistory: function() {
