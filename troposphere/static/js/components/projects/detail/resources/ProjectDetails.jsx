@@ -129,6 +129,7 @@ export default React.createClass({
                 onReportSelectedResources={this.onReportSelectedResources}
                 onRemoveSelectedResources={this.onRemoveSelectedResources}
                 previewedResource={previewedResource}
+                selectedResources={selectedResources}
                 multipleSelected={selectedResources && selectedResources.length > 1}
                 onUnselect={this.onResourceDeselected}
                 project={project} />

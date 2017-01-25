@@ -17,6 +17,7 @@ export default React.createClass({
         onReportSelectedResources: React.PropTypes.func.isRequired,
         onRemoveSelectedResources: React.PropTypes.func.isRequired,
         previewedResource: React.PropTypes.instanceOf(Backbone.Model),
+        selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
@@ -43,6 +44,17 @@ export default React.createClass({
         //   isVisible={true}
         // />
 
+        let {
+            isVisible,
+            onMoveSelectedResources,
+            onRemoveSelectedResources,
+            onUnselect,
+            previewedResource,
+            selectedResources,
+            multipleSelected,
+            project
+        } = this.props;
+
         return (
         <div className="clearfix">
             <div className="button-bar col-md-4">
@@ -50,19 +62,20 @@ export default React.createClass({
                 <RequestResourcesButton />
                 <Button icon="folder-open"
                     tooltip="Move selected resources"
-                    onClick={this.props.onMoveSelectedResources}
-                    isVisible={this.props.isVisible} />
+                    onClick={onMoveSelectedResources}
+                    isVisible={isVisible} />
                 <Button icon="export"
                     tooltip="Remove selected resources (admin only)"
-                    onClick={this.props.onRemoveSelectedResources}
+                    onClick={onRemoveSelectedResources}
                     style={{ "backgroundColor": "bisque" }}
-                    isVisible={context.profile.get("is_superuser") && this.props.isVisible} />
+                    isVisible={context.profile.get("is_superuser") && isVisible} />
             </div>
             <div style={{ padding: "10px 0" }} className="col-md-3 u-md-pull-right">
-                <ResourceActionButtons onUnselect={this.props.onUnselect}
-                    previewedResource={this.props.previewedResource}
-                    multipleSelected={this.props.multipleSelected}
-                    project={this.props.project} />
+                <ResourceActionButtons onUnselect={onUnselect}
+                                       selectedResources={selectedResources}
+                                       previewedResource={previewedResource}
+                                       multipleSelected={multipleSelected}
+                                       project={project} />
             </div>
         </div>
         );
