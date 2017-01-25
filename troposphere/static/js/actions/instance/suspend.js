@@ -10,6 +10,8 @@ import Utils from "../Utils";
 
 /**
  * Defines the `suspend` steps for a single instance
+ *
+ * Only intended to handle "models/Instance" objects
  */
 function handleOne(instance) {
     // if we've been passed a model via "selected resources" that
@@ -74,7 +76,9 @@ export default {
         // NOTE - we're passing a collection now ...
         let resources = params.resources;
 
-        // in case "resources" is not a collection, make one & add it
+        // in case "resources" is not a collection, but is
+        // an Instance passed as `resources`, make a collection
+        // and add the "models/Instance" to it
         if (resources instanceof Instance) {
             let instance = resources;
             resources = new Backbone.Collection(instance);
