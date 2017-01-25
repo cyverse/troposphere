@@ -74,14 +74,13 @@ export default {
         // NOTE - we're passing a collection now ...
         let resources = params.resources;
 
-        // in cases it is not a collection, make one & add it
+        // in case "resources" is not a collection, make one & add it
         if (resources instanceof Instance) {
             let instance = resources;
             resources = new Backbone.Collection(instance);
         }
 
         resources.map(handleOne);
-
     }
 
 };
