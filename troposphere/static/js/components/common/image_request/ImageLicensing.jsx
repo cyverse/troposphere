@@ -40,7 +40,7 @@ export default React.createClass({
                     URL (Hyperlink)
                 </option>
                 <option value="text">
-                    Full Text
+                    Raw Text
                 </option>
             </select>
             <label htmlFor="text" className="control-label">
