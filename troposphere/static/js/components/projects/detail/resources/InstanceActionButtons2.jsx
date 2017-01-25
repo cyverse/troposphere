@@ -1,6 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
-// TODO remove after evaluation
+// NOTE raven-js included during evaluation
+// - may be removed after ATMO-981 resolved
 import Raven from "raven-js";
 
 import Button from "./Button";
@@ -44,7 +45,7 @@ export default React.createClass({
 
     onStop: function() {
         try {
-            modals.InstanceModals.stop(this.props.instance);
+            modals.InstanceModals.stop(this.props.selectedResources);
         } catch (ex) { captureMsg(ex); }
     },
 
