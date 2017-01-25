@@ -33,7 +33,7 @@ export default React.createClass({
 
     onStart: function() {
         try {
-            modals.InstanceModals.start(this.props.instance);
+            modals.InstanceModals.start(this.props.selectedResources);
         } catch (ex) { captureMsg(ex); }
     },
 
