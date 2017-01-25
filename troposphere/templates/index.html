@@ -116,6 +116,13 @@
     var WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}";
 {% endif %}
 
+{% if BULK_RESOURCE_ACTIONS %}
+    var BULK_RESOURCE_ACTIONS = true;
+{% else %}
+    var BULK_RESOURCE_ACTIONS = false;
+{% endif %}
+
+
 {% if show_public_site %}
     var show_public_site = true;
 {%  else %}
