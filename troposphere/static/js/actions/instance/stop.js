@@ -74,7 +74,9 @@ export default {
         // passing in a collection of resources
         let resources = params.resources;
 
-        // in case "resource" is not a collection, make one & add it
+        // in case "resources" is not a collection, but is
+        // an Instance passed as `resources`, make a collection
+        // and add the "models/Instance" to it
         if (resources instanceof Instance) {
             let instance = resources;
             resources = new Backbone.Collection(instance);
