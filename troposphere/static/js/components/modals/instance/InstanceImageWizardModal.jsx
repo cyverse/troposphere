@@ -308,7 +308,7 @@ export default React.createClass({
                         {this.renderCloseButton()}
                         <h1 className="t-title">{"Image Request - " + this.state.title}</h1>
                     </div>
-                    <div className="modal-section">
+                    <div className="modal-section" style={{padding: "15px 15px 0px 15px"}}>
                         {this.renderBreadCrumbTrail()}
                     </div>
                     <div className="modal-container-body">
