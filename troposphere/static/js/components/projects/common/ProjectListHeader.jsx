@@ -1,5 +1,7 @@
-import React from "react";
+import React from 'react';
+import { Title } from 'cyverse-ui';
 
+import Wrapper from 'components/common/ui/Wrapper';
 
 export default React.createClass({
     displayName: "ProjectListHeader",
@@ -9,18 +11,34 @@ export default React.createClass({
         children: React.PropTypes.element
     },
 
-    render: function() {
+    render() {
+        let styles = this.styles();
+
         return (
-            <div className="container">
-                <div style={{ paddingTop: "50px" }} className="project-name clearfix">
-                    <div className="pull-left">
-                        <h1 className="t-display-1" >{this.props.title}</h1>
-                    </div>
-                    <div className="pull-right">
+            <Wrapper mb={ 4 }>
+                <div style={ styles.wrapper }>
+                    <Title 
+                        h1
+                        display1
+                    >
+                        {this.props.title}
+                    </Title>
+                    <div>
                         {this.props.children}
                     </div>
                 </div>
-            </div>
+            </Wrapper>
         );
+    },
+
+    styles() {
+        let computedStyles = {};
+
+        computedStyles.wrapper = {
+            display: "flex",
+            justifyContent: "space-between",
+        };
+
+        return computedStyles
     }
 });

@@ -158,7 +158,18 @@
 {% if USER_PORTAL %}
     var user_portal = {{USER_PORTAL | safe}};
 {% endif %}
+
     </script>
+
+
+    <!--
+
+        Theme import
+        WIP: theme.js is replacing theme.css. That file will need to be
+        removed.
+
+    -->
+    <script src="{{ THEME_URL }}/theme.js"></script>
 
 {% if DYNAMIC_ASSET_LOADING %}
     <!-- Application dependencies -->
@@ -170,8 +181,10 @@
     {% else %}
     {% render_bundle 'app' 'js' %}
     {% endif %}
+
     <!-- Google Analytics -->
     {% render_bundle 'analytics' 'js' %}
+
 {% else %}
     <script src="{{ BASE_URL }}/assets/bundles/manifest.js"></script>
     <script src="{{ BASE_URL }}/assets/bundles/vendor.js"></script>
