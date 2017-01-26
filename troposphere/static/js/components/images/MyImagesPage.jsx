@@ -25,7 +25,7 @@ export default React.createClass({
             return (
             <p>
                 {"You have not created any images. To learn how to create an image, please refer to the "}
-                <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>
+                <a href={imagingDocsUrl.get("href")} target="_blank">documentation on imaging</a>
                 {"."}
             </p>
             );
@@ -35,7 +35,7 @@ export default React.createClass({
         <div>
             <p style={{ marginBottom: "16px" }}>
                 {"Looking for more information about the imaging process? Check out the "}
-                <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>.
+                <a href={imagingDocsUrl.get("href")} target="_blank">documentation on imaging</a>.
             </p>
             <ImageCardList images={images} />
         </div>

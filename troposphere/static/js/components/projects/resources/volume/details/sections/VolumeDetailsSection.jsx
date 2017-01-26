@@ -6,6 +6,9 @@ import Status from "./details/Status";
 import Size from "./details/Size";
 import Identity from "./details/Identity";
 
+import { copyElement } from "utilities/clipboardFunctions";
+
+
 export default React.createClass({
     displayName: "VolumeDetailsSection",
 
@@ -13,8 +16,13 @@ export default React.createClass({
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    render: function() {
-        var volume = this.props.volume;
+    onClick(e) {
+        e.preventDefault();
+        copyElement(e.target, { acknowledge: true });
+    },
+
+    render() {
+        let volume = this.props.volume;
 
         return (
         <div className="resource-details-section section">
@@ -24,7 +32,7 @@ export default React.createClass({
                 <Size volume={volume} />
                 <Identity volume={volume} />
                 <Id volume={volume} />
-                <ResourceDetail label="Identifier">
+                <ResourceDetail label="Identifier" onClick={this.onClick}>
                     {volume.get("uuid")}
                 </ResourceDetail>
             </ul>

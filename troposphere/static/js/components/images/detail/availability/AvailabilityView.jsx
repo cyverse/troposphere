@@ -3,12 +3,20 @@ import Backbone from "backbone";
 import stores from "stores";
 import Code from "components/common/ui/Code";
 
+import { copyElement } from "utilities/clipboardFunctions";
+
+
 export default React.createClass({
     displayName: "AvailabilityView",
 
     propTypes: {
         version: React.PropTypes
             .instanceOf( Backbone.Model ).isRequired
+    },
+
+    onClick(e) {
+        e.preventDefault();
+        copyElement(e.target, { acknowledge: true });
     },
 
     renderProviderMachine( provider ) {
@@ -27,8 +35,8 @@ export default React.createClass({
         let optMachineID;
         if (!isSummary) {
             optMachineID = (
-                <Code mb="10px" >
-                    { machineID }
+                <Code mb="10px">
+                    <div onClick={ this.onClick }>{ machineID }</div>
                 </Code>
             );
         }
@@ -36,8 +44,7 @@ export default React.createClass({
         let key = `${providerName}-${machineID}`;
         return (
             <div key={ key }>
-                { providerName }
-                { optMachineID }
+                { providerName }<br/>{ optMachineID }
             </div>
         )
     },

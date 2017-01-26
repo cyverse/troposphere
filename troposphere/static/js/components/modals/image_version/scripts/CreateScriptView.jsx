@@ -48,7 +48,7 @@ export default React.createClass({
             });
         } else {
             this.setState({
-                scriptType: "Full Text"
+                scriptType: "Raw Text"
             });
         }
     },
@@ -84,8 +84,8 @@ export default React.createClass({
             </div>
             );
         } else {
-            //"Full Text"
-            return (<EditDescriptionView title={"Full Text"} value={this.state.scriptText} onChange={this.onScriptTextChange} />)
+            //"Raw Text"
+            return (<EditDescriptionView title={"Raw Text"} value={this.state.scriptText} onChange={this.onScriptTextChange} />)
         }
     },
     renderScriptInputRadio: function() {
@@ -108,8 +108,8 @@ export default React.createClass({
                     <input type="radio"
                         name="inlineScriptOptions"
                         id="scriptTypeText"
-                        value="Full Text"
-                        onChange={this.onScriptInputTypeChange} /> Full Text
+                        value="Raw Text"
+                        onChange={this.onScriptInputTypeChange} /> Raw Text
                 </label>);
         } else {
             urlRadio = (
@@ -126,8 +126,8 @@ export default React.createClass({
                         type="radio"
                         name="inlineScriptOptions"
                         id="scriptTypeText"
-                        value="Full Text"
-                        onChange={this.onScriptInputTypeChange} /> Full Text
+                        value="Raw Text"
+                        onChange={this.onScriptInputTypeChange} /> Raw Text
                 </label>);
         }
 

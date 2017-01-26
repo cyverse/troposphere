@@ -32,7 +32,7 @@ const computeStyles = ({ mb }) => {
         paddingRight: "3px",
         paddingLeft: "4px",
         border: "solid 1px #d6d4d4",
-        display: "table",
+        display: "inline-block",
         background: "#efefef",
         borderRadius: "2px",
     };

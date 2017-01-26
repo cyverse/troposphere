@@ -79,7 +79,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     else:
         sentry_dict = {
             "dsn": "https://27643f06676048be96ad6df686c17da3@app.getsentry.com/73366",
-            "release":"205096b5fde3a47303ad8d1fef9ff8052cbbd7d4",
+            "release":"0ec17fad757f44cbdda8ceace19139fd",
         }
 
     auth_backends = settings.AUTHENTICATION_BACKENDS
