@@ -1,6 +1,5 @@
 import $ from "jquery";
 import globals from "globals";
-import Utils from "./Utils";
 
 export default {
 
@@ -19,8 +18,7 @@ export default {
             dataType: "json",
             contentType: "application/json",
             success: function(response) {
-                let token = response.token,
-                    username = response.username,
+                let username = response.username,
                     data = {'username': username, 'password': password};
                 self.passwordAuthSuccess(response, data, onSuccess, onFailure)
             },
@@ -37,8 +35,8 @@ export default {
          * When the API has authorized you, you will have an auth-token
          * use this auth-token to 'authorize' use of GUI
          */
-        let auth_token = response.token,
-            username = response.username;
+        let auth_token = response.token;
+            //username = response.username;
         //Inject the atmosphere auth-token here
         data.token = response.token;
 
@@ -50,8 +48,8 @@ export default {
                 contentType: "application/json",
                 success: function(response) {
                     // THIS token is only registered inside Troposphere. It is *NOT* the token that atmosphere will have on record.
-                    let token = response.token,
-                        username = response.username;
+                    //let token = response.token,
+                    let username = response.username;
 
                     if(onSuccess != null) {
                         onSuccess(username, auth_token);
@@ -81,7 +79,7 @@ export default {
             dataType: "json",
             contentType: "application/json",
             success: function(response) {
-                self.openstackAuthSuccess(response, data, onSuccess, projectName, provider)
+                self.openstackAuthSuccess(response, data, onSuccess, onFailure, projectName, provider)
             },
             error: function(response) {
                 if(onFailure != null) {
@@ -91,13 +89,12 @@ export default {
         });
 
     },
-    openstackAuthSuccess: function(response, data, onSuccess, projectName, provider) {
+    openstackAuthSuccess: function(response, data, onSuccess, onFailure, projectName, provider) {
         /**
          * When the API has authorized you, you will have an auth-token
          * use this auth-token to 'authorize' use of GUI
          */
-        let auth_token = response.token,
-            username = response.username;
+        let auth_token = response.token;
         //Inject the atmosphere auth-token here
         data.token = response.token;
 
@@ -109,8 +106,8 @@ export default {
                 contentType: "application/json",
                 success: function(response) {
                     // THIS token is only registered inside Troposphere. It is *NOT* the token that atmosphere will have on record.
-                    let token = response.token,
-                        username = response.username;
+                    // let token = response.token;
+                    let username = response.username;
 
                     if(onSuccess != null) {
                         onSuccess(username, auth_token, projectName, provider);

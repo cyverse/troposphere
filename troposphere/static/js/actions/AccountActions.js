@@ -1,5 +1,4 @@
 import Utils from "./Utils";
-import NotificationController from "controllers/NotificationController";
 // Constants
 import AccountConstants from "constants/AccountConstants";
 
@@ -26,7 +25,6 @@ export default {
         });
 
         account.save().done(function() {
-            //NotificationController.success(null, "Account " + account.get('name') + " created.");
             //FIXME: need to 'trigger' an IdentityStore - clear_cache and reload
             Utils.dispatch(AccountConstants.UPDATE_ACCOUNT, {
                 account: account
