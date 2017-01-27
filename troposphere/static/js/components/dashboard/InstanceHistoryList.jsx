@@ -163,7 +163,7 @@ export default React.createClass({
                                         <strong className="name">{name}</strong>
                                     </Router.Link>
                                     <div>
-                                        Launched from
+                                        {`Launched from `}
                                         {imageLink}
                                     </div>
                                     <div>

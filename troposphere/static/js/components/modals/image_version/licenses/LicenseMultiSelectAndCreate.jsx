@@ -134,7 +134,7 @@ export default React.createClass({
         <div className="license-multi-select-and-create">
             <h4 className="t-body-2">{this.props.titleText}</h4>
             <div className="help-block">
-                All licensed software should be documented here. Any user who wishes to use an image with license restrictions will be required to view and agree the license prior
+                All licensed software should be documented here. Any user who wishes to use an image with license restrictions will be required to view and agree to the license prior
                 to launching.
             </div>
             <div className="form-group">

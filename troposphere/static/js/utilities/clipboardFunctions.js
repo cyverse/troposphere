@@ -1,5 +1,56 @@
+import toastr from "toastr";
+import Raven from "raven-js";
 
-// TODO import Raven and log messages
+/**
+ * NOTE:
+ * internalizing the usage here until another approach
+ * to providing notification/acknowledgement (instead
+ * of using the *standard*  NotificationController
+ * component).
+ */
+function acknowledge(msg, title) {
+    let toastrDefaults = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "260",
+        "hideDuration": "1000",
+        "timeOut": "1125",
+        "extendedTimeOut": "650",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    toastr.info(msg, title, toastrDefaults);
+}
+
+
+/**
+ * Report exception via Sentry error client (Raven)
+ *
+ * @param ex - Exception to report to Sentry backend
+ *
+ * We want to ensure that we can gain some knowledge into the usage of
+ * this feature and the availability of the Clipboard API in the wild.
+ *
+ * It is highly likely that it is available, but we would like to know
+ * where it is *not* available to assist in helping those community
+ * members on a newer browerser
+ */
+function reportException(ex) {
+    // take Mulder's advice - trustno1
+    if (Raven && Raven.isSetup()) {
+        if (Raven.captureException) {
+            Raven.captureException(ex);
+        }
+    }
+}
 
 
 const hasClipboardAPI = () => {
@@ -8,7 +59,7 @@ const hasClipboardAPI = () => {
     try {
         result = document.queryCommandSupported &&
                  document.queryCommandSupported('copy');
-    } catch (e) { }
+    } catch (e) { reportException(e); }
     return result;
 };
 
@@ -21,7 +72,7 @@ const hasClipboardAPI = () => {
  *
  * @param element - DOM node to copy
  */
-const copyElement = (element) => {
+const copyElement = (element, options) => {
     let copied = false;
     if (hasClipboardAPI()) {
         let range = document.createRange(),
@@ -33,7 +84,8 @@ const copyElement = (element) => {
             // by the "addRange" call below
             selection.removeAllRanges();
 
-            // done for "none" text area or text field elements
+            // done for "non"-textarea or textfield elements
+            // - text DOM elements will have a `select()` method
             range.selectNode(element);
             selection.addRange(range);
 
@@ -41,11 +93,16 @@ const copyElement = (element) => {
             // an error to catch - we could slim it down
             // to just this call
             copied = document.execCommand('copy');
-
+            if (copied && options) {
+                if (options.acknowledge) {
+                    acknowledge("Text has been copied to the clipboard",
+                                "Copied ... ");
+                }
+            }
             // clean up selections ...
             selection.removeAllRanges();
         } catch (e) {
-
+            reportException(e);
         }
     }
 

@@ -82,9 +82,18 @@ export default React.createClass({
                 </li>
                 );
 
-            var className = "section-link";
+            let className = "section-link",
+                linkLabelMarkup;
+
+            linkLabelMarkup = (
+                <span>
+                    <Glyphicon name={link.icon}/>{` ${link.label}`}
+                </span>
+            );
+
             if (link.isDangerLink)
                 className += " danger";
+
             // todo: This isn't implemented well at all.  We should be disabling these
             // buttons if there isn't a valid href for the link, or (perhaps) not even
             // showing the buttons at all...but I think it's better communication to
@@ -96,7 +105,9 @@ export default React.createClass({
                     style.cursor = "not-allowed";
                 return (
                 <li key={link.label} className={className + " link"} style={style}>
-                    <a href={link.href} target="_blank"><span><Glyphicon name={link.icon}/>{link.label}</span></a>
+                    <a href={link.href} target="_blank">
+                        {linkLabelMarkup}
+                    </a>
                 </li>
                 );
             }
@@ -108,7 +119,9 @@ export default React.createClass({
             // to log requests to Google Analytics
             if (link.href) return (
                 <li key={link.label} className={className + " link"}>
-                    <a href={link.href}><span><Glyphicon name={link.icon}/>{link.label}</span></a>
+                    <a href={link.href}>
+                        {linkLabelMarkup}
+                    </a>
                 </li>
                 );
 
@@ -116,7 +129,7 @@ export default React.createClass({
             // confirmation before continuing
             return (
             <li key={link.label} className={className} onClick={link.onClick}>
-                <span><Glyphicon name={link.icon}/>{link.label}</span>
+                {linkLabelMarkup}
             </li>
             );
         });
