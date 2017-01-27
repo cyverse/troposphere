@@ -2,12 +2,21 @@ import React from "react";
 import Backbone from "backbone";
 import Showdown from "showdown";
 import globals from "globals";
+import stores from "stores";
 
 export default React.createClass({
     displayName: "ViewDetails",
 
     propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
+
+    componentDidMount: function() {
+        stores.GroupStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.GroupStore.removeChangeListener(this.updateState);
     },
 
     // ------
@@ -52,6 +61,53 @@ export default React.createClass({
         )
     },
 
+    renderUsersText: function(group_users) {
+        let group_users_text = group_users.map(function(user) {
+            return user.username;
+        });
+        return group_users_text.join(", ");
+    },
+    renderLeaders: function(project) {
+        var group_id = project.get("owner").id,
+            group = stores.GroupStore.get(group_id);
+        if(group == null) {
+            return (
+            <div className="project-info-segment row">
+                <h4 className="t-body-2 col-md-3">Leaders</h4>
+                <div className="loading" />
+            </div>
+            );
+        }
+        return (
+        <div className="project-info-segment row">
+            <h4 className="t-body-2 col-md-3">Leaders</h4>
+            <div className="col-md-9">
+                {this.renderUsersText(group.get("leaders"))}
+            </div>
+        </div>
+        );
+    },
+    renderMembers: function(project) {
+        var group_id = project.get("owner").id,
+            group = stores.GroupStore.get(group_id);
+        if(group == null) {
+            return (
+            <div className="project-info-segment row">
+                <h4 className="t-body-2 col-md-3">Members</h4>
+                <div className="loading" />
+            </div>
+            );
+        }
+        return (
+        <div className="project-info-segment row">
+            <h4 className="t-body-2 col-md-3">Members</h4>
+            <div className="col-md-9">
+                {this.renderUsersText(group.get("users"))}
+            </div>
+        </div>
+        );
+    },
+
     render: function() {
         var project = this.props.project;
 
@@ -60,6 +116,8 @@ export default React.createClass({
             {this.renderName(project)}
             {this.renderDateCreated(project)}
             {this.renderDescription(project)}
+            {this.renderMembers(project)}
+            {this.renderLeaders(project)}
         </div>
         );
     }

@@ -2,6 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import Glyphicon from "components/common/Glyphicon";
 import modals from "modals";
+import context from "context";
 
 import featureFlags from "utilities/featureFlags";
 import { findCookie } from "utilities/cookieHelpers";
@@ -93,7 +94,7 @@ export default React.createClass({
         form[0].submit();
     },
 
-    render: function() {
+    getLinksArray: function() {
         var webShellUrl = this.props.instance.shell_url(),
             webDesktopCapable = !!(this.props.instance && this.props.instance.get("web_desktop")),
             status = this.props.instance.get("state").get("status"),
@@ -101,7 +102,6 @@ export default React.createClass({
             ip_address = this.props.instance.get("ip_address"),
             webLinksDisabled = !ip_address || ip_address === "0.0.0.0",
             inFinalState = this.props.instance.get("state").isInFinalState();
-
         // todo: Add back and implement reboot and resize once it's understood how to
         // I'm hiding from the display for now so as not to show users functionality
         // that doesn't exist.
@@ -118,7 +118,25 @@ export default React.createClass({
         //{label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
         //{label: 'Resize', icon: 'resize-full', onClick: this.onResize},
         ];
+        let instance_owner = this.props.instance.get('user'),
+            project_leaders = this.props.project.get('leaders'),
+            current_user = context.profile.get('username');
 
+        let is_leader = project_leaders.find(function(project) { return project.username == current_user });
+        let is_leader_or_owner = (current_user == instance_owner.username || is_leader != null);
+
+        if (!is_leader_or_owner) {
+            linksArray = [
+            {
+                label: "Actions",
+                icon: null
+            },
+            {
+                label: "Shared Instance - No Actions Available",
+                icon: null
+            }];
+            return linksArray;
+        }
         if (status !== "suspended") {
             linksArray.push({
                 label: "Image",
@@ -226,6 +244,11 @@ export default React.createClass({
             });
         }
 
+        return linksArray;
+    },
+
+    render: function() {
+        var linksArray = this.getLinksArray();
         var links = linksArray.map(function(link) {
             // Links without icons are generally section headings
             if (!link.icon) return (

@@ -40,6 +40,12 @@ export default Backbone.Model.extend({
         });
     },
 
+    getCredentialValue: function(key_name) {
+        let credentials = this.get('credentials');
+        let filtered = credentials.filter(function(cred) { return cred.key == key_name; });
+        return filtered.length != 0 ? filtered[0].clean_value : "";
+    },
+
     getCpusUsed: function(instances, sizes) {
         var identityId = this.id;
 

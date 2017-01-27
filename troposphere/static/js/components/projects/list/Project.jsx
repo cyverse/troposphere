@@ -1,6 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
+import context from "context";
 import Router from "react-router";
 import moment from "moment";
 import ProjectResource from "./ProjectResource";
@@ -12,10 +13,33 @@ export default React.createClass({
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         className: React.PropTypes.string,
     },
+    getLeaderNames: function(project) {
+        if(!project) {
+            return "";
+        }
+        let leader_list = project.get('leaders'),
+            username_list = leader_list.map(function(g) {return g.username});
+
+        return username_list.join(", ");
+    },
+    getMemberNames: function(project) {
+        if(!project) {
+            return "";
+        }
+        let user_list = project.get('users'),
+            username_list = user_list.map(function(g) {return g.username});
+
+        return username_list.join(", ");
+    },
 
     render: function() {
         let project = this.props.project,
             description,
+            projectType,
+            projectUsernameList,
+            projectLeaderList,
+            projectMeta,
+            projectOwner,
             projectCreationDate,
             projectExternalLinks,
             projectInstances,
@@ -30,6 +54,11 @@ export default React.createClass({
         // only attempt to fetching project metadata for persisted projects
         if (project && project.id && !project.isNew()) {
             description = project.get('description');
+            projectOwner = project.get('owner').name;
+            projectUsernameList = this.getMemberNames(project);
+            projectLeaderList = this.getLeaderNames(project);
+            projectType = (projectOwner == context.profile.get('username')) ? "Private Project" : "Shared Project";
+            //projectMeta = projectType + "\nLeaders: "+projectLeaderList+"\nMembers: "+projectUsernameList;
             projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY hh:mm a");
             projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
             projectInstances = stores.ProjectInstanceStore.getInstancesFor(project);
@@ -62,8 +91,17 @@ export default React.createClass({
                             <h2 className="t-title">{project.get("name")}</h2>
                             <hr/>
                             <time className="t-caption" style={{ display: "block" }}>
-                                {"Created " + projectCreationDate}
+                                {"Created on " + projectCreationDate}
                             </time>
+                            <p className="t-caption" style={{ display: "block" }}>
+                               {"Type: "+projectType}
+                            </p>
+                            <p className="t-caption" style={{ display: "block" }}>
+                               {"Leaders: "+projectLeaderList}
+                            </p>
+                            <p className="t-caption" style={{ display: "block" }}>
+                               {"Users: "+projectUsernameList}
+                            </p>
                             <p className="description" style={{ minHeight: "200px" }}>
                                 {description}
                             </p>

@@ -60,7 +60,7 @@ export default React.createClass({
                 Size
             </th>
             <th className="sm-header">
-                Provider
+                Identity
             </th>
         </SelectableTable>
         )

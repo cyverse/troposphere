@@ -1,9 +1,14 @@
 import React from "react";
 import Backbone from "backbone";
+import _ from "underscore";
+
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import ProjectSelect from "components/common/project/ProjectSelect";
-import ResourceListItem from "components/modals/migrate_resources/ResourceListItem";
+import GroupProjectSelection from "components/modals/migrate_resources/GroupProjectSelection";
+import Instance from "models/Instance";
+import Volume from "models/Volume";
 import stores from "stores";
+
 
 export default React.createClass({
     displayName: "NullProjectMigrateResourceModal",
@@ -14,12 +19,34 @@ export default React.createClass({
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
-    isSubmittable: function() {
-        var hasLoaded = this.state.projectId !== -999;
-        var hasName = !!this.state.projectName;
-        var hasTargetProject = (!!this.state.projectId && this.state.projectId !== -1);
+    onProjectCreated(project) {
+        //Throw out the groupProjectsMap and re-build from the groups and projects store.
+        let state = this.getState();
+        state.groupProjectsMap = {};
+        this.setState(state);
+    },
+    pairResourceWithProject(resource, project) {
+        let { resourceProjectMap } = this.state;
+        //FIXME: This will fail if id == id, this should be UUIDs! set 'get_uuid()' for each resource-model and call that, instead.
+        resourceProjectMap[resource.id] = {
+            resource,
+            project,
+        }
+        this.setState({
+            resourceProjectMap
+        });
+    },
 
-        return hasLoaded || hasName || hasTargetProject;
+    isSubmittable: function() {
+        // Flatten it to:
+        // [ { project, resource } ]
+        let { resourceProjectMap } = this.state;
+        let flattened = _.values(resourceProjectMap);
+        var hasValidProjectMapping = flattened.some(function(project_resource) {
+            return project_resource.project != null;
+        });
+
+        return hasValidProjectMapping;
     },
 
     //
@@ -28,10 +55,20 @@ export default React.createClass({
     //
 
     getInitialState: function() {
+
+        let resourceProjectMap = {};
+
+        this.props.resources.forEach(resource => {
+            resourceProjectMap[resource.id] = {
+                project: null,
+                resource
+            }
+        });
         var initialState = {
-            projectName: "",
             projects: stores.ProjectStore.getAll(),
-            projectId: -999
+            groups: stores.GroupStore.getAll(),
+            groupProjectsMap: null,
+            resourceProjectMap,
         };
 
         return initialState;
@@ -39,15 +76,23 @@ export default React.createClass({
 
     getState: function() {
         var state = {
-            projectName: this.state.projectName,
             projects: stores.ProjectStore.getAll(),
-            projectId: this.state.projectId
+            groups: stores.GroupStore.getAll(),
+            groupProjectsMap: this.state.groupProjectsMap,
         };
-
-        if (state.projects && state.projects.length > 0) {
-            state.projectId = state.projects.first().id;
-        } else if (state.projects != null) {
-            state.projectId = -1
+        if(!state.groupProjectsMap && state.groups && state.projects) {
+            //Create a group-projects map
+            state.groupProjectsMap = {};
+            state.groups.forEach(function(group) {
+                let group_project_list = state.projects.cfilter(
+                    function(project) {
+                        if(project.get('owner').uuid == group.get('uuid')) {
+                            return true;
+                        }
+                        return false;
+                    });
+                state.groupProjectsMap[group.id] = group_project_list;
+            });
         }
 
         return state;
@@ -63,15 +108,13 @@ export default React.createClass({
 
     componentDidMount: function() {
         stores.ProjectStore.addChangeListener(this.updateState);
-        // Prime the "state" pump
-        // - this is isn't called then projectId is still -999
-        //   when a user simplified _clicks_ *move* given the
-        //   project shown in the drop-down
+        stores.GroupStore.addChangeListener(this.updateState);
         this.updateState();
     },
 
     componentWillUnmount: function() {
         stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.GroupStore.removeChangeListener(this.updateState);
     },
 
     //
@@ -83,21 +126,19 @@ export default React.createClass({
         this.hide();
     },
 
-    confirm: function() {
+    onConfirm() {
         this.hide();
-        if (this.state.projectId == -1) {
-            //Create new project using name input
-            this.props.onConfirm({
-                projectName: this.state.projectName
-            });
-        } else {
-            //Move to existing, selected project
-            this.props.onConfirm({
-                projectId: this.state.projectId,
-                projects: this.state.projects
-            });
-        }
+        // instanceProjectMap takes the form of:
+        // {
+        //     instanceId: { project, instance }
+        // }
+        let { resourceProjectMap } = this.state;
 
+        // Flatten it to:
+        // [ { project, resource } ]
+        let flattened = _.values(resourceProjectMap);
+
+        this.props.onConfirm(flattened);
     },
 
     //
@@ -105,61 +146,10 @@ export default React.createClass({
     // ----------------------
     //
 
-    onProjectNameChange: function(e) {
-        this.setState({
-            projectName: e.target.value
-        });
-    },
-
-    onProjectChange: function(e) {
-        var int_str = e.target.value;
-        this.setState({
-            projectId: parseInt(int_str)
-        });
-    },
-
     //
     // Render
     // ------
     //
-
-    renderResource: function(resource) {
-        return (
-        <ResourceListItem key={resource.id} resource={resource} />
-        );
-    },
-
-    renderProjectSelectionForm: function() {
-        if (this.state.projects.length > 0) {
-            return (
-            <div className="form-group">
-                <ProjectSelect projectId={this.state.projectId}
-                    projects={this.state.projects}
-                    onChange={this.onProjectChange}
-                    showCreate={true} />
-            </div>
-            );
-        }
-    },
-
-    renderProjectCreationForm: function() {
-        // Only render this if the user has requested to create a new project from the dropdown
-        // The "new project" option has an id of -1
-        if (this.state.projectId === -1) {
-            return (
-            <div className="form-group">
-                <label>
-                    Project Name
-                </label>
-                <input type="text"
-                    className="form-control"
-                    value={this.state.projectName}
-                    onChange={this.onProjectNameChange}
-                    placeholder="Enter project name..." />
-            </div>
-            )
-        }
-    },
 
     renderExplanationText: function() {
         var explanationText = "";
@@ -177,7 +167,7 @@ export default React.createClass({
     },
 
     renderBody: function() {
-        if (this.state.projects == null) {
+        if (this.state.projects == null || this.state.groups == null) {
 
             return (
             <div className="loading"></div>
@@ -189,21 +179,29 @@ export default React.createClass({
                 <p>
                     {"Looks like you have some resources that aren't in a project!"}
                 </p>
-                <ul>
-                    {this.props.resources.map(this.renderResource)}
-                </ul>
                 <p>
                     {this.renderExplanationText()}
                 </p>
             </div>
-            {this.renderProjectSelectionForm()}
-            {this.renderProjectCreationForm()}
+            {this.state.groups.map(this.renderGroupProjectSelection)}
         </div>
         );
     },
 
+    renderGroupProjectSelection: function(group) {
+        let projects = this.state.groupProjectsMap[group.id];
+        if(! projects) {
+            return (<div key={group.id} className="loading"/>);
+        }
+        return (<GroupProjectSelection
+                key={group.id}
+                group={group}
+                resources={this.props.resources}
+                onProjectSelected={this.pairResourceWithProject}
+                onProjectCreated={this.onProjectCreated}
+                projects={projects} />);
+    },
     render: function() {
-        stores.ProjectStore.getAll();
         return (
         <div className="modal fade">
             <div className="modal-dialog">
@@ -217,7 +215,7 @@ export default React.createClass({
                     <div className="modal-footer">
                         <button type="button"
                             className="btn btn-primary"
-                            onClick={this.confirm}
+                            onClick={this.onConfirm}
                             disabled={!this.isSubmittable()}>
                             Move resources into project
                         </button>

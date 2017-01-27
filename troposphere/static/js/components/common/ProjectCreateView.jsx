@@ -1,4 +1,7 @@
 import React from "react";
+import stores from "stores";
+import context from "context";
+import SelectMenu from "components/common/ui/SelectMenu";
 import { trackAction } from "../../utilities/userActivity";
 
 export default React.createClass({
@@ -8,8 +11,12 @@ export default React.createClass({
         return {
             projectName: "",
             projectDescription: "",
+            groupOwner: null,
             showValidation: false
         };
+    },
+    updateState: function() {
+        this.setState({});
     },
 
     validateName: function () {
@@ -26,6 +33,22 @@ export default React.createClass({
         if (name.length > maxCharLen) {
             hasError = true;
             message = `Must be less than ${maxCharLen} characters long`;
+        }
+
+        return {
+            hasError,
+            message
+        }
+    },
+
+    validateOwner: function () {
+        let owner = this.state.groupOwner;
+        let hasError = false;
+        let message = "";
+
+        if (owner === "" || owner === null) {
+            hasError = true;
+            message = "This field is required";
         }
 
         return {
@@ -51,11 +74,10 @@ export default React.createClass({
     },
 
     isSubmittable: function () {
-        if (!this.validateName().hasError && !this.validateDescription().hasError) {
-            return true;
+        if (this.validateName().hasError || this.validateDescription().hasError || this.validateOwner().hasError ) {
+            return false;
         }
-
-        return false;
+        return true;
     },
 
     cancel: function() {
@@ -65,7 +87,8 @@ export default React.createClass({
     confirm: function() {
         if (this.isSubmittable()) {
             this.props.onConfirm(this.state.projectName.trim(),
-                                 this.state.projectDescription.trim());
+                                 this.state.projectDescription.trim(),
+                                 this.state.groupOwner);
         }
         trackAction("created-project", {});
         this.setState({
@@ -95,13 +118,43 @@ export default React.createClass({
         });
     },
 
+    componentDidMount: function() {
+        stores.GroupStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.GroupStore.removeChangeListener(this.updateState);
+    },
+
+    getMemberNames: function(group) {
+        if(!group) {
+            return "";
+        }
+        let user_list = group.get('users'),
+            username_list = user_list.map(function(g) {return g.username});
+
+        return username_list.join(", ");
+    },
     renderBody: function() {
         let projectName = this.state.projectName;
         let nameClassNames = "form-group";
         let nameErrorMessage = null;
         let descriptionClassNames = "form-group";
         let descriptionErrorMessage = null;
+        let groupClassNames = "form-group";
+        let groupErrorMessage = null;
 
+        let groupList = stores.GroupStore.getAll();
+        if(!groupList) {
+            return (<div className="loading"></div>);
+        }
+        let projectType;
+        if (!this.state.groupOwner) {
+            projectType = "Select a Group"
+        } else {
+            let projectUsernameList = this.getMemberNames(this.state.groupOwner);
+            projectType = (this.state.groupOwner && this.state.groupOwner.get('name') == context.profile.get('username')) ? "Private Project" : "Shared Project with Users: " + projectUsernameList;
+        }
         if (this.state.showValidation) {
             nameClassNames = this.validateName().hasError ?
                 "form-group has-error" : null;
@@ -109,6 +162,10 @@ export default React.createClass({
             descriptionClassNames = this.validateDescription().hasError ?
                 "form-group has-error" : null;
             descriptionErrorMessage = this.validateDescription().message;
+            let validateOwner = this.validateOwner();
+            groupErrorMessage = validateOwner.message;
+            groupClassNames = validateOwner.hasError ?
+                "form-group has-error" : null;
         }
 
         return (
@@ -135,8 +192,28 @@ export default React.createClass({
                     onChange={this.onDescriptionChange} />
                 <span className="help-block">{descriptionErrorMessage}</span>
             </div>
+            <div className={groupClassNames}>
+                <label htmlFor="groupOwner">
+                    Group Owner
+                </label>
+                <SelectMenu current={this.state.groupOwner}
+                    hintText={"Select a Group Owner"}
+                    list={groupList}
+                    optionName={g => g.get("name")}
+                    onSelect={this.onGroupChange} />
+                <p className="t-caption" style={{ display: "block" }}>
+                   {projectType}
+                </p>
+                <span className="help-block">{groupErrorMessage}</span>
+            </div>
         </div>
         );
+    },
+
+    onGroupChange: function(group) {
+        this.setState({
+            groupOwner: group,
+        });
     },
 
     render: function() {

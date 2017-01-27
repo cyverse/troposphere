@@ -4,7 +4,21 @@ import ProjectCollection from "collections/ProjectCollection";
 import ProjectConstants from "constants/ProjectConstants";
 
 let ProjectStore = BaseStore.extend({
-    collection: ProjectCollection
+    collection: ProjectCollection,
+
+    getProjectsForIdentity: function(identityObj) {
+        if (identityObj == null) {
+            return this.fetchModels();
+        }
+        let identity_key = "?identity_uuid="+identityObj.uuid,
+            query_params = {"identity_uuid" : identityObj.uuid};
+        if (!this.queryModels[identity_key]) {
+            return this.fetchWhere(query_params);
+        } else {
+            return this.queryModels[identity_key];
+        }
+    },
+
 });
 
 let store = new ProjectStore();

@@ -4,7 +4,7 @@ import stores from "stores";
 import PercentGraph from "components/common/ui/PercentageGraph";
 
 export default React.createClass({
-    displayName: "ProviderSummaryLinePlot",
+    displayName: "AllocationSourcePlot",
 
     propTypes: {
     },

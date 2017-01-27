@@ -4,7 +4,33 @@ import IdentityCollection from "collections/IdentityCollection";
 import AccountConstants from "constants/AccountConstants";
 
 let IdentityStore = BaseStore.extend({
-    collection: IdentityCollection
+    collection: IdentityCollection,
+
+    getIdentitiesForProject: function(project) {
+        if (project == null) {
+            return this.fetchModels();
+        }
+        let project_key = "?project_id="+project.id,
+            query_params = {"project_id" : project.id};
+        if (!this.queryModels[project_key]) {
+            return this.fetchWhere(query_params);
+        } else {
+            return this.queryModels[project_key];
+        }
+    },
+
+    getIdentitiesForProvider: function(provider) {
+        if (!this.models) {
+            this.fetchModels();
+        } else {
+            let identities = this.models;
+            let versionIdentities = identities.cfilter(ident => {
+                return ident.get('provider').id == provider.id;
+            });
+            return versionIdentities;
+        }
+    },
+
 });
 
 let store = new IdentityStore();
