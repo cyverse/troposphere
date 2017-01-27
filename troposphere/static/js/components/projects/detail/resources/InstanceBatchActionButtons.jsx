@@ -144,9 +144,6 @@ export default React.createClass({
             }
         }
 
-        // TODO use featureFlag `BULK_RESOURCE_ACTIONS`
-
-
         /* if (!this.props.multipleSelected) {
          *     // Include "Delete" if only one resource
          *     // is currently selected - regardless of
