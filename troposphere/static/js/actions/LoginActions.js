@@ -27,7 +27,7 @@ export default {
                 try {
                     var response_errors = response.responseJSON.errors;
                     response_message = response_errors[0].message;
-                } catch {
+                } catch (e) {
                     console.log(response.responseText);
                     response_message = "500 - Internal server error";
                 }
