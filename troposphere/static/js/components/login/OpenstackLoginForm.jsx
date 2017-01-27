@@ -144,7 +144,6 @@ export default React.createClass({
                         className="form-control"
                         id="username"
                         value={this.state.username}
-                        ref="usernameInput"
                         onChange={this.onUsernameChange}
                         onKeyPress={this.onEnterPressed}
                         />
@@ -158,7 +157,6 @@ export default React.createClass({
                         className="form-control"
                         id="password"
                         value={this.state.password}
-                        ref="passwordInput"
                         onChange={this.onPasswordChange}
                         onKeyPress={this.onEnterPressed}
                         />
@@ -172,7 +170,6 @@ export default React.createClass({
                         className="form-control"
                         id="projectName"
                         value={this.state.projectName}
-                        ref="projectNameInput"
                         onChange={this.onProjectNameChange}
                         onKeyPress={this.onEnterPressed}
                         />
