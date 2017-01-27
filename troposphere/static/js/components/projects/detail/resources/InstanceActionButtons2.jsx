@@ -49,15 +49,17 @@ export default React.createClass({
         } catch (ex) { captureMsg(ex); }
     },
 
-    onReboot: function() {
-        try {
-            modals.InstanceModals.reboot(this.props.instance);
-        } catch (ex) { captureMsg(ex); }
-    },
-
     onResume: function() {
         try {
             modals.InstanceModals.resume(this.props.selectedResources);
+        } catch (ex) { captureMsg(ex); }
+    },
+
+    onReboot: function() {
+        // NOTE: -- @lenards
+        // Intentionally *not* supporting bulk/batch actions
+        try {
+            modals.InstanceModals.reboot(this.props.instance);
         } catch (ex) { captureMsg(ex); }
     },
 
