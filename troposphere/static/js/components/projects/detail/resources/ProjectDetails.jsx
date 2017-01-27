@@ -132,6 +132,7 @@ export default React.createClass({
                 selectedResources={selectedResources}
                 multipleSelected={selectedResources && selectedResources.length > 1}
                 onUnselect={this.onResourceDeselected}
+                onUnselectAll={this.deselectAllResources}
                 project={project} />
             <div className="resource-list clearfix">
                 <div className="scrollable-content" style={{ borderTop: "solid 1px #E1E1E1" }}>

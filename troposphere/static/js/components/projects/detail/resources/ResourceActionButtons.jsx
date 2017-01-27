@@ -28,15 +28,17 @@ import features from "utilities/featureFlags";
 function selectInstanceActionButtons(props) {
     let {
         onUnselect,
+        onUnselectAll,
         multipleSelected,
         selectedResources,
         previewedResource,
         project } = props;
 
-    if (features.BULK_RESOURCE_ACTIONS) {
+    if (features.BATCH_RESOURCE_ACTIONS) {
         return (
             <InstanceBatchActionButtons
                 onUnselect={onUnselect}
+                onUnselectAll={onUnselectAll}
                 multipleSelected={multipleSelected}
                 selectedResources={selectedResources}
                 instance={previewedResource}
@@ -62,6 +64,8 @@ export default React.createClass({
         multipleSelected: React.PropTypes.bool.isRequired,
         previewedResource: React.PropTypes.instanceOf(Backbone.Model),
         selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
+        onUnselect: React.PropTypes.func.isRequired,
+        onUnselectAll: React.PropTypes.func,
         project: React.PropTypes.instanceOf(Backbone.Model),
         volume: React.PropTypes.instanceOf(Backbone.Model),
     },

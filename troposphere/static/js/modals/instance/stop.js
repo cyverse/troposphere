@@ -11,9 +11,12 @@ export default {
      * @param resources - collection of resources to act on
      */
     stop: function(resources) {
-        let props = { resources };
+
+        let resourcesCopy = resources.clone(),
+            props = { resources: resourcesCopy };
+
         ModalHelpers.renderModal(InstanceStopModal, props, function() {
-            actions.InstanceActions.stop({ resources });
+            actions.InstanceActions.stop({ resources: resourcesCopy });
         })
     }
 };
