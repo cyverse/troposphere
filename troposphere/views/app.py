@@ -130,7 +130,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         settings.WEB_DESKTOP_INCLUDE_LINK
 
     # Tentative ATMO-981 Feature Flag
-    template_params['BULK_RESOURCE_ACTIONS'] = True
+    template_params['BATCH_RESOURCE_ACTIONS'] = \
+        settings.BATCH_RESOURCE_ACTIONS
 
     if metadata:
         template_params['DISPLAY_STATUS_PAGE'] = \
