@@ -14,13 +14,13 @@ export default React.createClass({
     render: function() {
         return (
             <form>
-                <div >
-                    <button type="button"
-                        className="btn btn-primary"
-                        onClick={this.props.attemptLogin} >
-                        {"Click to Login with " + window.login_auth_provider}
-                    </button>
-                </div>
+              <div className="login-screen-footer modal-footer">
+                  <button type="button"
+                      className="btn btn-primary"
+                      onClick={this.props.attemptLogin} >
+                      {"Click to Login with " + this.props.provider}
+                  </button>
+              </div>
             </form>
         );
     }

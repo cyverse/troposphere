@@ -64,10 +64,19 @@ THEME_NAME="{{ THEME_NAME }}"
 THEME_NAME= "troposphere_theme"
 {% endif %}
 
+# DISABLE_PUBLIC_AUTH - If true, require logged in users to visit Atmosphere (By prompting with a login page on first load).
+# If False, show a public image catalog to users with a link in the TR corner that will provide login access.
 {% if DISABLE_PUBLIC_AUTH is defined %}
 DISABLE_PUBLIC_AUTH={{ DISABLE_PUBLIC_AUTH }}
 {% else %}
 DISABLE_PUBLIC_AUTH= False
+{% endif %}
+# USE_LOGIN_SELECTION - If true, provide the ability for the user to select their login method of choice
+# If false, use the 'default' experience, redirecting to /login and letting the OAuth provider of choice sort it out.
+{% if USE_LOGIN_SELECTION is defined %}
+USE_LOGIN_SELECTION={{ USE_LOGIN_SELECTION }}
+{% else %}
+USE_LOGIN_SELECTION= False
 {% endif %}
 
 # The location from where static files are aggregated
@@ -166,6 +175,9 @@ AUTHENTICATION_BACKENDS = (
     # LDAP - Allow access via LDAP username/password
     'django_cyverse_auth.authBackends.LDAPLoginBackend',
     {% endif -%}
+    {% if AUTH_ENABLE_OPENSTACK -%}
+    'django_cyverse_auth.authBackends.OpenstackLoginBackend',
+    {% endif -%}
     )
 {% endif -%}
 #CAS
@@ -238,6 +250,11 @@ AUTHENTICATION = {
     #LDAP
     "LDAP_SERVER": '{{ LDAP_SERVER }}',
     "LDAP_SERVER_DN": '{{ LDAP_SERVER_DN }}',
+
+    #KEYSTONE -- Required for OpenstackLoginBackend
+    "KEYSTONE_SERVER": '{{ KEYSTONE_SERVER }}',
+    "KEYSTONE_DOMAIN_NAME": '{{ KEYSTONE_DOMAIN_NAME}}',
+
     #CAS
     "CAS_SERVER": '{{ CAS_SERVER }}',
     "CAS_AUTH_PREFIX": '{{ CAS_AUTH_PREFIX }}',

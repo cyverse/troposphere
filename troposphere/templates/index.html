@@ -49,8 +49,12 @@
     var access_token = "{{ access_token }}";
 {% endif %}
 
-    var login_auth_type = "{{ login_auth_type }}";
-    var login_auth_provider = "{{ login_auth_provider }}";
+    var login_auth_allowed = {{ login_auth_allowed|safe }};
+{% if use_login_selection %}
+    var use_login_selection = true;
+{% else %}
+    var use_login_selection = false;
+{% endif %}
 
 {% if emulator and emulator_token %}
     var emulator = "{{ emulator }}";
@@ -81,6 +85,10 @@
 
 {% if BADGE_HOST %}
     var BADGE_HOST = "{{ BADGE_HOST }}";
+{% endif %}
+
+{% if ORG_NAME %}
+    var ORG_NAME = "{{ ORG_NAME }}";
 {% endif %}
 
 {% if SITE_TITLE %}

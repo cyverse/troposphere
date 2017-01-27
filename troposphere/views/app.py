@@ -84,25 +84,40 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
 
     auth_backends = settings.AUTHENTICATION_BACKENDS
     oauth_backends = [
-        'iplantauth.authBackends.OAuthLoginBackend',
-        'iplantauth.authBackends.GlobusOAuthLoginBackend'
+        'django_cyverse_auth.authBackends.OAuthLoginBackend',
+        'django_cyverse_auth.authBackends.GlobusOAuthLoginBackend'
     ]
-    auth_type = None
+    openstack_backends = [
+        'django_cyverse_auth.authBackends.OpenstackLoginBackend',
+    ]
+    password_backends = [
+        'django_cyverse_auth.authBackends.AuthTokenLoginBackend',
+    ]
+    login_auth_allowed = []
+    login_auth_preferred = None
     for backend in auth_backends:
-        if backend == oauth_backends[0]:
-            auth_type = "oauth-login"
+        login_auth_type = None
+        auth_provider = None
+        if backend in password_backends:
+            login_auth_type = "password-login"
+            auth_provider = "Atmosphere"
+        elif backend in openstack_backends:
+            login_auth_type = "openstack-login"
+            auth_provider = "Openstack"
+        elif backend == oauth_backends[0]:
+            login_auth_type = "oauth-login"
             auth_provider = "CAS"
         elif backend == oauth_backends[1]:
-            auth_type = "oauth-login"
+            login_auth_type = "oauth-login"
             auth_provider = "Globus"
-    if not auth_type:
-        auth_type = "token-login"
-        auth_provider = "Atmosphere"
-
+        if login_auth_type:
+            login_auth_allowed.append({'method': login_auth_type, 'provider': auth_provider})
+    use_login_selection = getattr(settings, "USE_LOGIN_SELECTION", False)
     template_params = {
         'access_token': request.session.get('access_token'),
-        'login_auth_type': auth_type,
-        'login_auth_provider': auth_provider,
+        'use_login_selection': use_login_selection,
+        'login_auth_allowed': login_auth_allowed,
+        'org_name': settings.ORG_NAME,
         'emulator_token': request.session.get('emulator_token'),
         'emulator': request.session.get('emulator'),
         'records': maintenance_records,

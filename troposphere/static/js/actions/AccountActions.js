@@ -1,6 +1,4 @@
 import Utils from "./Utils";
-import NotificationController from "controllers/NotificationController";
-
 // Constants
 import AccountConstants from "constants/AccountConstants";
 
@@ -27,7 +25,6 @@ export default {
         });
 
         account.save().done(function() {
-            //NotificationController.success(null, "Account " + account.get('name') + " created.");
             //FIXME: need to 'trigger' an IdentityStore - clear_cache and reload
             Utils.dispatch(AccountConstants.UPDATE_ACCOUNT, {
                 account: account
@@ -37,9 +34,10 @@ export default {
             }
 
         }).fail(function(response) {
-            var err_response = response.responseJSON || response.responseText;
-            var message = "Error creating Account " + account.get("atmo_user") + ":" + err_response;
-            NotificationController.error(null, message);
+            Utils.displayError({
+                response: response,
+                title: "Account Update Error"
+            });
             Utils.dispatch(AccountConstants.REMOVE_ACCOUNT, {
                 account: account
             });

@@ -1,16 +1,21 @@
 import logging
+import json
 from uuid import uuid4
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from caslib import OAuthClient as CAS_OAuthClient
 
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 
-from django_cyverse_auth.authBackends import get_or_create_user, generate_token
+from rest_framework import status
+
+from django_cyverse_auth.authBackends import get_or_create_user, create_user_and_token
 from django_cyverse_auth.views import globus_login_redirect, globus_logout_redirect
 
 logger = logging.getLogger(__name__)
@@ -26,7 +31,8 @@ def _mock_login(request):
     auth_login(request, user)
     last_token = user.auth_tokens.last()
     if not last_token:
-        last_token = generate_token(user)
+        user_profile = _get_user_profile(user)
+        auth_token = create_user_and_token(user_profile, last_token, issuer="MockLoginBackend")
     _apply_token_to_session(request, last_token.key)
 
     if request.session.get('redirect_to'):
@@ -45,34 +51,55 @@ def _mock_login(request):
         return redirect(redirect_url)
     return redirect('application')
 
+def _get_user_profile(user):
+    user_profile = {"username": user.username, "firstName": user.first_name, "lastName": user.last_name, "email": user.email}
+    return user_profile
 
 def _post_login(request):
-    user = authenticate(username=request.POST.get('username'),
-                        password=request.POST.get('password'))
+    if len(request.POST) == 0:
+        data = json.loads(request.body)
+    else:
+        data = request.POST
+
+    auth_kwargs = {'username': data.get('username'), 'password': data.get('password'), 'request':request}
+    if 'token' in data:
+        auth_kwargs['token'] = data['token']
+    if 'auth_url' in data:
+        auth_kwargs['auth_url'] = data['auth_url']
+    if 'project_name' in data:
+        auth_kwargs['project_name'] = data['project_name']
+    user = authenticate(**auth_kwargs)
     # A traditional POST login will likely NOT create a 'Token', so lets do that now.
-    if user:
-        new_token = generate_token(user)
-        _apply_token_to_session(request, new_token.token)
+    if not user:
+            return invalid_auth("Username/Password combination was invalid")
     auth_login(request, user)
+    issuer_backend = request.session.get('_auth_user_backend', '').split('.')[-1]
+    user_profile = _get_user_profile(user)
+    new_token = create_user_and_token(user_profile, request.session.pop('token_key',None))
+    _apply_token_to_session(request, new_token.key)
+    request.session['access_token'] = new_token.key
+    request.session['username'] = user.username
+    to_json = json.dumps({"username":user.username, "token":new_token.key})
+    return HttpResponse(to_json, content_type="application/json")
 
 
 def _apply_token_to_session(request, token):
     request.session['access_token'] = token
 
 
+@csrf_exempt
 def login(request):
     all_backends = settings.AUTHENTICATION_BACKENDS
     # pro-active session cleaning
     request.session.clear_expired()
-
-    if "django_cyverse_auth.authBackends.MockLoginBackend" in all_backends:
+    if request.META['REQUEST_METHOD'] == 'POST':
+        return _post_login(request)
+    elif "django_cyverse_auth.authBackends.MockLoginBackend" in all_backends:
         return _mock_login(request)
     elif 'django_cyverse_auth.authBackends.GlobusOAuthLoginBackend' in all_backends:
         return _globus_login(request)
     elif 'django_cyverse_auth.authBackends.OAuthLoginBackend' in all_backends:
         return _oauth_login(request)
-    elif request.META['REQUEST_METHOD'] is 'POST':
-        return _post_login(request)
     #Uh - Oh.
     return redirect('application')
 
@@ -170,3 +197,24 @@ def cas_oauth_service(request):
     response = redirect('application')
 
     return response
+
+
+def invalid_auth(message):
+    return failure_response(
+        status.HTTP_400_BAD_REQUEST,
+        "Authentication request refused -- %s" % message)
+
+
+def failure_response(status, message):
+    """
+    Return a djangorestframework Response object given an error
+    status and message.
+    """
+    logger.info("status: %s message: %s" % (status, message))
+    json_obj = {"errors":
+            [{'code': status, 'message': message}]
+        }
+    to_json = json.dumps(json_obj)
+    return HttpResponse(to_json,
+                    status=status,
+                    content_type='application/json')
