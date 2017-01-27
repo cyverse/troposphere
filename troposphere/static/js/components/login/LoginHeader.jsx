@@ -10,14 +10,30 @@ import globals from 'globals';
 import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 
-
+//TODO: I dont know where this component is used -- modified to ensure consistency
 let LoginLink = React.createClass({
+    onLogin: function(e) {
+        e.preventDefault();
+        modals.PublicModals.showPublicLoginModal();
+    },
+    renderLink: function() {
+        if(window.use_login_selection) {
+            return (
+                <a id="login_link" href="#" onClick={this.onLogin}>Login</a>
+            );
+        } else {
+            return (
+                <a id="login_link" href="/login">Login</a>
+            );
+        }
+
+    },
     render: function() {
         let redirect_path = window.location.pathname;
 
         return (
         <li className="dropdown">
-            <a id="login_link" href={"#"}>Login</a>
+            {this.renderLink()}
         </li>
         );
     }

@@ -71,11 +71,12 @@ DISABLE_PUBLIC_AUTH={{ DISABLE_PUBLIC_AUTH }}
 {% else %}
 DISABLE_PUBLIC_AUTH= False
 {% endif %}
-# KEYSTONE_TOKEN_LOGIN - If true, accept *ONLY* keystone username/password/project name in the LoginScreen, expecting to be returned a KeystoneToken that will be used for authorization of the user (Rather than storing a password)
-{% if KEYSTONE_TOKEN_LOGIN is defined %}
-KEYSTONE_TOKEN_LOGIN={{ KEYSTONE_TOKEN_LOGIN }}
+# USE_LOGIN_SELECTION - If true, provide the ability for the user to select their login method of choice
+# If false, use the 'default' experience, redirecting to /login and letting the OAuth provider of choice sort it out.
+{% if USE_LOGIN_SELECTION is defined %}
+USE_LOGIN_SELECTION={{ USE_LOGIN_SELECTION }}
 {% else %}
-KEYSTONE_TOKEN_LOGIN= False
+USE_LOGIN_SELECTION= False
 {% endif %}
 
 # The location from where static files are aggregated

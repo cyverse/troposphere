@@ -142,8 +142,15 @@ export default React.createClass({
     },
 
     render: function() {
+        let mainClassnames = ""
+        if (this.props.login_from == "application") {
+            mainClassnames = "login-screen-master container"
+        } else {
+            //Renders inside a modal
+            mainClassnames = "login-screen-master"
+        }
         return (
-           <div id="main" className="login-screen-master" style={{"marginTop": "24px"}}>
+           <div id="main" className={mainClassnames} style={{"marginTop": "24px"}}>
                    <h2 className="t-headline">Select Login Method:</h2>
                     <SelectMenu id="login-screen-select"
                                 current={ this.state.loginProvider }

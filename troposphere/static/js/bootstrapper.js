@@ -170,6 +170,7 @@ export default {
             if (window.access_token) {
                 ReactDOM.render(SplashScreenComponent(), document.getElementById("application"));
             } else {
+                //Show login component when user is not already-logged in.
                 ReactDOM.render(LoginMasterComponent(), document.getElementById("application"));
             }
         });

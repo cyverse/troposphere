@@ -112,10 +112,12 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             auth_provider = "Globus"
         if login_auth_type:
             login_auth_allowed.append({'method': login_auth_type, 'provider': auth_provider})
-
+    use_login_selection = getattr(settings, "USE_LOGIN_SELECTION", False)
     template_params = {
         'access_token': request.session.get('access_token'),
+        'use_login_selection': use_login_selection,
         'login_auth_allowed': login_auth_allowed,
+        'org_name': settings.ORG_NAME,
         'emulator_token': request.session.get('emulator_token'),
         'emulator': request.session.get('emulator'),
         'records': maintenance_records,

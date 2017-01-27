@@ -73,13 +73,24 @@ let LoginLink = React.createClass({
         e.preventDefault();
         modals.PublicModals.showPublicLoginModal();
     },
+    renderLink: function() {
+        if(window.use_login_selection) {
+            return (
+                <a id="login_link" href="#" onClick={this.onLogin}>Login</a>
+            );
+        } else {
+            return (
+                <a id="login_link" href="/login">Login</a>
+            );
+        }
 
+    },
     render: function() {
         let redirect_path = window.location.pathname;
 
         return (
         <li className="dropdown">
-            <a id="login_link" href="#" onClick={this.onLogin}>Login</a>
+            {this.renderLink()}
         </li>
         );
     }
