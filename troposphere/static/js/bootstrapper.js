@@ -117,6 +117,7 @@ modals.ExternalLinkModals = require("modals/ExternalLinkModals");
 modals.HelpModals = require("modals/HelpModals");
 modals.InstanceModals = require("modals/InstanceModals");
 modals.InstanceVolumeModals = require("modals/InstanceVolumeModals");
+modals.PublicModals = require("modals/PublicModals");
 modals.ProjectModals = require("modals/ProjectModals");
 modals.ProviderModals = require("modals/ProviderModals");
 modals.TagModals = require("modals/TagModals");
