@@ -76,14 +76,14 @@ export default React.createClass({
     },
 
     render: function() {
-        let { instance, selectedResources } = this.props,
+        let { instance,
+              selectedResources,
+              multipleSelected } = this.props,
             status = instance.get("state").get("status"),
             linksArray = [],
             style = {
                 marginRight: "10px"
             };
-
-        //debugger;
 
         if (selectedResources) {
             if (status === "active") {
@@ -103,14 +103,22 @@ export default React.createClass({
                         onClick={this.onStop}
                         isVisible={true} />
                 );
-                linksArray.push(
-                    <Button style={style}
-                        key="Reboot"
-                        icon="repeat"
-                        tooltip="Reboot the selected instance"
-                        onClick={this.onReboot}
-                        isVisible={true} />
-                );
+                // NOTE: we are not going to make rebooting
+                // multiple instances *possible*, but this
+                // was an artifical decision made by me,
+                // @lenards, after discussing it with
+                // @steve-gregory - this could be done if
+                // there is any value in that bulk action
+                if (!multipleSelected) {
+                    linksArray.push(
+                        <Button style={style}
+                                key="Reboot"
+                                icon="repeat"
+                                tooltip="Reboot the selected instance"
+                                onClick={this.onReboot}
+                                isVisible={true} />
+                    );
+                }
             } else if (status === "suspended") {
                 linksArray.push(
                     <Button style={style}
