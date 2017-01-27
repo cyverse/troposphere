@@ -9,8 +9,7 @@ import Volume from "models/Volume";
 import ImageActionButtons from "./ImageActionButtons";
 import ExternalLinkActionButtons from "./ExternalLinkActionButtons";
 import InstanceActionButtons from "./InstanceActionButtons";
-// FIXME: part of work on ATMO-981
-import InstanceActionButtons2 from "./InstanceActionButtons2";
+import InstanceBatchActionButtons from "./InstanceBatchActionButtons";
 import VolumeActionButtons from "./VolumeActionButtons";
 
 import features from "utilities/featureFlags";
@@ -36,7 +35,7 @@ function selectInstanceActionButtons(props) {
 
     if (features.BULK_RESOURCE_ACTIONS) {
         return (
-            <InstanceActionButtons2
+            <InstanceBatchActionButtons
                 onUnselect={onUnselect}
                 multipleSelected={multipleSelected}
                 selectedResources={selectedResources}
