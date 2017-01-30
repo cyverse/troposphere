@@ -96,9 +96,7 @@ const appRoutes = (
         <Route path="resources" component={RequestHistory} />
         <Route path="images" component={MyImageRequestsPage} />
     </Route>
-    <Route name="instances">
-        <Route path=":id" component={NewInstanceDetail} />
-    </Route>
+    <Route path="instances/:id" component={NewInstanceDetail} />
     <IndexRoute component={DashboardPage} />
     <IndexRedirect to="dashboard" />
 </Route>
