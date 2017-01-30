@@ -17,4 +17,4 @@ uWSGI==2.0.13
 newrelic==2.64.0.48
 
 # Ours
-django-cyverse-auth==1.0.8
+django-cyverse-auth
