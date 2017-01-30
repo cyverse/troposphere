@@ -19,22 +19,6 @@ let launch_instance = globals.THEME_URL + "/images/icon_launchnewinstance.png",
 export default React.createClass({
     displayName: "DashboardPage",
 
-    getState: function() {
-        return {};
-    },
-
-    updateState: function() {
-        if (this.isMounted()) this.setState(this.getState());
-    },
-
-    componentDidMount: function() {
-        stores.SizeStore.addChangeListener(this.updateState);
-    },
-
-    componentWillUnmount: function() {
-        stores.SizeStore.removeChangeListener(this.updateState);
-    },
-
     renderRequestMoreResources: function(e) {
         e.preventDefault();
         modals.HelpModals.requestMoreResources();
@@ -43,8 +27,35 @@ export default React.createClass({
         });
     },
 
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+        stores.SizeStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.MaintenanceMessageStore.addChangeListener(this.updateState);
+        stores.ImageStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.SizeStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
+        stores.ImageStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+    },
+
     render: function() {
-        // yes, yes - *let* the fun begin!
         let providers = stores.ProviderStore.getAll(),
             identities = stores.IdentityStore.getAll(),
             projects = stores.ProjectStore.getAll(),
@@ -57,15 +68,18 @@ export default React.createClass({
                 "page_size": 250
             });
 
-        // TODO - bring over Connor's elegant 'any' check to make this not so UGLY
-        if (providers == null
-            || identities == null
-            || projects == null
-            || maintenanceMessages == null
-            || images == null
-            || instances == null
-            || volumes == null
-            || sizes == null) {
+        // Test that all resources are truthy
+        let resourcesLoaded =
+            [ providers
+            , identities
+            , projects
+            , maintenanceMessages
+            , images
+            , instances
+            , volumes
+            , sizes].every(obj => obj)
+
+        if (!resourcesLoaded) {
             return <div className="loading"></div>;
         }
 
