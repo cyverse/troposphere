@@ -7,6 +7,18 @@ import stores from "stores";
 export default React.createClass({
     displayName: "ProjectDetailsMaster",
 
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+        stores.ProjectStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.ProjectStore.removeChangeListener(this.updateState);
+    },
+
     render: function() {
         var project = stores.ProjectStore.get(Number(this.props.params.projectId));
 
