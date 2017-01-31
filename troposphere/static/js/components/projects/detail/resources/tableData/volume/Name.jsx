@@ -5,7 +5,7 @@ import { Link } from "react-router";
 export default React.createClass({
 
     contextTypes: {
-        params: React.PropTypes.object
+        projectId: React.PropTypes.number
     },
 
     propTypes: {
@@ -14,7 +14,7 @@ export default React.createClass({
 
     render: function() {
         let volume = this.props.volume,
-            projectId = this.context.params.projectId;
+            projectId = this.context.projectId;
 
         if (!volume.id) {
             return (

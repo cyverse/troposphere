@@ -6,7 +6,7 @@ import { Link } from "react-router";
 export default React.createClass({
 
     contextTypes: {
-        params: React.PropTypes.object
+        projectId: React.PropTypes.number
     },
 
     propTypes: {
@@ -16,7 +16,7 @@ export default React.createClass({
     render: function() {
         let external_link = this.props.external_link,
             linkId = external_link.id,
-            projectId = this.context.params.projectId;
+            projectId = this.context.projectId;
 
         if (!linkId) {
             return (

@@ -11,7 +11,7 @@ export default React.createClass({
     displayName: "InstanceDetailsPage",
 
     contextTypes: {
-        params: React.PropTypes.object
+        projectId: React.PropTypes.number
     },
 
     componentDidMount() {
@@ -39,8 +39,9 @@ export default React.createClass({
     },
 
     render() {
-        let project = stores.ProjectStore.get(Number(this.context.params.projectId));
-        let instance = stores.InstanceStore.get(Number(this.context.params.instanceId));
+        let projectId = this.context.projectId;
+        let project = stores.ProjectStore.get(projectId);
+        let instance = stores.InstanceStore.get(projectId);
         let helpLinks = stores.HelpLinkStore.getAll();
         let allocationSources = stores.AllocationSourceStore.getAll();
 
