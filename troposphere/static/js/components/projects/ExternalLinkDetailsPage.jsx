@@ -10,12 +10,13 @@ export default React.createClass({
     displayName: "ExternalLinkDetailsPage",
 
     contextTypes: {
-        params: React.PropTypes.object
+        projectId: React.PropTypes.number
     },
 
     render: function() {
-        let project = stores.ProjectStore.get(Number(this.context.params.projectId)),
-            linkId = this.context.params.linkId,
+        let projectId = this.context.projectId,
+            project = stores.ProjectStore.get(projectId),
+            linkId = this.props.params.linkId,
             link = stores.ExternalLinkStore.get(linkId);
 
         if (!project || !link) return <div className="loading"></div>;

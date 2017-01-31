@@ -7,6 +7,14 @@ import stores from "stores";
 export default React.createClass({
     displayName: "ProjectDetailsMaster",
 
+    getChildContext() {
+        return { projectId: Number(this.props.params.projectId) };
+    },
+
+   childContextTypes: {
+        projectId: React.PropTypes.number
+    },
+
     updateState: function() {
         this.forceUpdate();
     },

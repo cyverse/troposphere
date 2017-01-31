@@ -6,7 +6,7 @@ export default React.createClass({
     displayName: "Name",
 
     contextTypes: {
-        params: React.PropTypes.object
+        projectId: React.PropTypes.number
     },
 
     propTypes: {
@@ -16,7 +16,7 @@ export default React.createClass({
     render: function() {
         let instance = this.props.instance,
             name = instance.get("name").trim() || "[no instance name]",
-            projectId = this.context.params.projectId;
+            projectId = this.context.projectId;
 
         if (instance && !instance.get("id")) {
             return (
