@@ -182,8 +182,13 @@ export default React.createClass({
             title = "";
 
         let images;
-        let searchParams = query ? { search: query } : {};
-        images = stores.ImageStore.fetchWhere(searchParams);
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                search: query
+            });
+        } else {
+            images = stores.ImageStore.getAll();
+        }
 
         if (!images || this.awaitingTimeout()) {
             return <div className="loading"></div>;
@@ -191,11 +196,11 @@ export default React.createClass({
 
         if (!images.meta || !images.meta.count) {
             title = "Showing " + images.length + " images";
+        } else if (query) {
+            title = "Showing "+ images.length + " results for '" + query + "'";
         } else {
             title = "Showing " + images.length + " of " + images.meta.count + " images";
         }
-        if (query)
-            title += " for '" + query + "'";
 
         return (
         <div>
