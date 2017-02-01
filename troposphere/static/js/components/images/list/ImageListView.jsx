@@ -127,7 +127,10 @@ export default React.createClass({
 
         // If a query is present, bail
         if (!images || !tags || this.state.query) return;
-
+        images.comparator = function(img) {
+            return img.get('end_date').isValid() ? 1 : -1;
+        };
+        images.sort();
             return (
                 <ImageCardList key="featured"         
                     title="Featured Images"
@@ -140,6 +143,10 @@ export default React.createClass({
         var tags = this.props.tags;
 
         if (images && tags) {
+            images.comparator = function(img) {
+                return img.get('end_date').isValid() ? 1 : -1;
+            };
+            images.sort();
             return (
                 <ImageCardList key="all"
                     title="All Images"
