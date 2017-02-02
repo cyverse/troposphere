@@ -247,7 +247,8 @@ let Header = React.createClass({
 
             return (
             <li key={link.name} data-toggle={toggleMenu.toggle} data-target={toggleMenu.target}>
-                <Link to={link.linksTo}>
+                <Link to={link.linksTo}
+                      activeClassName="active">
                     <i className={"glyphicon glyphicon-" + link.icon}></i>
                     {link.name}
                 </Link>

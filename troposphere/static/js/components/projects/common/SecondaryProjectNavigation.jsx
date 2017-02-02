@@ -38,7 +38,8 @@ export default React.createClass({
         let { projectId } = params;
         return (
         <li key={name}>
-            <Link to={`projects/${projectId}/${linksTo}`}>
+            <Link to={`projects/${projectId}/${linksTo}`}
+                  activeClassName="active">
                 <Glyphicon name={icon} />
                 <span>{name}</span>
             </Link>
