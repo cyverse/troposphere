@@ -22,7 +22,11 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 // toastr, for showing toast notifications
 @import "~toastr/toastr";
 
-// Bootstrap hack to keep Modal footer at bottom on min-height modals
+//
+// Bootstrap hacks
+//
+
+// Keep Modal footer at bottom on min-height modals
 #modal {
   .modal-footer {
     position: absolute;
@@ -35,6 +39,24 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
     min-height: 500px;
   }
 }
+
+// This is not ideal, trying to find a better solution.
+// The problem is that bootstrap thinks we want a max-height 
+// and that 340px is the magic value.
+
+.navbar-fixed-top .navbar-collapse {
+    max-height: 900px !important;
+}
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #c3e9f3;
+        &:hover {
+            color: white
+        }
+    }
+}
+
 //
 // Application specific styles
 // ---------------------------
