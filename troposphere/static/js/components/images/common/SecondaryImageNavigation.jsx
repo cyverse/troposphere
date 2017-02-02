@@ -30,7 +30,8 @@ export default React.createClass({
 
         return (
         <li key={name}>
-            <Link to={`/images/${linksTo}`}>
+            <Link to={`/images/${linksTo}`}
+                  activeClassName="active">
                 <Glyphicon name={icon} />
                 <span>{name}</span>
             </Link>

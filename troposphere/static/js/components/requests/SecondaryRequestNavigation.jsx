@@ -11,7 +11,8 @@ export default React.createClass({
 
         return (
         <li key={name}>
-            <Link to={`my-requests/${linksTo}`}>
+            <Link to={`my-requests/${linksTo}`}
+                  activeClassName="active">
                 <Glyphicon name={icon} />
                 <span>{name}</span>
             </Link>

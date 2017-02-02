@@ -13,7 +13,8 @@ export default React.createClass({
         // with a defaultProps of "admin"
         return (
         <li key={name}>
-            <Link to={`admin/${linksTo}`}>
+            <Link to={`admin/${linksTo}`}
+                  activeClassName="active">
                 <Glyphicon name={icon} />
                 <span>{name}</span>
             </Link>
