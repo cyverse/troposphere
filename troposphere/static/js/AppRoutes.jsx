@@ -66,7 +66,7 @@ const appRoutes = (
         <IndexRoute component={ProjectListPage} />
     </Route>
     <Route path="images" component={ImagesMaster}>
-        <IndexRoute component={ImageListPage} />
+        <IndexRedirect to="search" />
         <Route path="search" component={ImageListPage} />
         <Route path="favorites" component={FavoritedImagesPage} />
         <Route path="authored" component={MyImagesPage} />
