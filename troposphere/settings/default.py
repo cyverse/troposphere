@@ -112,6 +112,13 @@ SESSION_COOKIE_AGE = (2 * 24 * 60 * 60)
 # default an emulated session to # of seconds in 3 hours
 EMULATED_SESSION_COOKIE_AGE = (3 * 60 * 60)
 
+# Associated with user interface functionality in the the ProjectDetails.jsx component
+#
+# JIRA Context: ATMO-981
+#
+# TODO: defined in an overridable way in `local.py.j2`
+BATCH_RESOURCE_ACTIONS = True
+
 # Logging
 LOGGING_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'logs')
 LOGGING = {
