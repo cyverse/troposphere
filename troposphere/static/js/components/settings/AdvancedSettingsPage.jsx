@@ -22,11 +22,16 @@ export default React.createClass({
             showMore: !this.state.showMore
         });
     },
+    renderClientCredentials: function() {
+        //return (
+        //    <ClientCredentials/>
+        //);
+    },
 
     renderMore: function() {
         return (
         <div style={{ marginLeft: "30px" }}>
-            <ClientCredentials/>
+            {/* this.renderClientCredentials() -- Make this a feature before removing the comments*/}
             <SSHConfiguration/>
             <button onClick={this.showToggle}>
                 Show Less

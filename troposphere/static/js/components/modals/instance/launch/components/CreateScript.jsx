@@ -134,7 +134,7 @@ export default React.createClass({
             return (
             <div className={classNames}>
                 <label>
-                    Full Text
+                    Raw Text
                 </label>
                 <textarea className="form-control"
                     placeholder="#!/bin/bash"
@@ -196,7 +196,7 @@ export default React.createClass({
                                 name="optionsRadios"
                                 value="Raw Text"
                                 defaultChecked={this.state.type === "Raw Text"}
-                                onClick={this.onChangeType} /> Full Text
+                                onClick={this.onChangeType} /> Raw Text
                         </label>
                     </div>
                 </div>
