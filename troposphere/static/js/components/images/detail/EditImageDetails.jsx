@@ -116,7 +116,7 @@ export default React.createClass({
                 <EditTagsView 
                     image={image}
                     tags={allTags}
-                    value={imageTags}
+                    imageTags={imageTags}
                     onTagAdded={this.onTagAdded}
                     onTagRemoved={this.onTagRemoved} 
                 />
