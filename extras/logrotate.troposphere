@@ -1,10 +1,10 @@
-/opt/dev/troposphere/logs/troposphere.log {
-    su www-data www-data
-    daily
-    rotate 10
-    missingok
-    compress
-    delaycompress
-    notifempty
-    copytruncate
-}
+su www-data www-data
+daily
+rotate 10
+missingok
+compress
+delaycompress
+notifempty
+copytruncate
+dateext
+/opt/dev/troposphere/logs/troposphere.log {}
