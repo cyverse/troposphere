@@ -140,6 +140,7 @@ export default React.createClass({
 
         return (
         <div style={ styles.content }>
+            { this.renderEndDated() }
             { this.renderChangeLog() }
             <div style={ styles.availability }>
                 { providerAvailability }
@@ -166,12 +167,41 @@ export default React.createClass({
 
         return (
         <div style={ styles.content }>
+            { this.renderEndDated() }
             { this.renderChangeLog() }
             <div style={ styles.availability } >
                 { providerAvailability }
             </div>
         </div>
         );
+    },
+
+    renderEndDated() {
+        let endDate = this.props.version.get('end_date');
+        let isEndDated = endDate && endDate.isValid();
+        if(!isEndDated) {
+            let image = this.props.version.get('image'),
+                end_date = moment(image.end_date);
+            isEndDated = end_date && end_date.isValid();
+        }
+        let style = {
+            position: "absolute",
+            top: "3px",
+            left: "0",
+            background: "#F55A5A",
+            display: "inline-block",
+            padding: "3px 5px",
+            color: "white",
+            fontSize: "10px",
+        };
+
+        if (isEndDated) {
+            return (
+                <div style={ style }>
+                    End Dated
+                </div>
+            );
+        }
     },
 
     render() {
