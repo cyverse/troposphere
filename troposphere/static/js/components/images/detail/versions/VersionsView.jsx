@@ -1,8 +1,10 @@
 import React from "react";
 import Backbone from "backbone";
+
+import VersionList from "./VersionList";
+
 import context from "context";
 import stores from "stores";
-import VersionList from "./VersionList";
 
 
 export default React.createClass({
@@ -11,22 +13,27 @@ export default React.createClass({
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
+
     render: function() {
-        var image = this.props.image,
+        let image = this.props.image,
             versions = stores.ImageStore.getVersions(image.id),
-            showAvailableOn = context.hasLoggedInUser();
+            showAvailableOn = context.hasLoggedInUser(),
+            versionElements = null;
 
         if (!versions) {
             return (<div className="loading" />);
         }
-        return (
-        <div className="image-versions image-info-segment row">
-            <h4 className="t-title">Versions</h4>
-            <VersionList image={image}
-                versions={versions}
-                editable={true}
-                showAvailability={showAvailableOn} />
-        </div>
-        );
+
+        if (versions.length > 0) {
+            versionElements = (
+            <div className="image-versions image-info-segment row">
+                <h4 className="t-title">Versions</h4>
+                <VersionList image={image}
+                             versions={versions}
+                             editable={true}
+                             showAvailability={showAvailableOn} />
+            </div>);
+        }
+        return (versionElements);
     }
 });
