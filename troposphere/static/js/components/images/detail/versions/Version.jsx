@@ -1,14 +1,18 @@
 import React from "react";
 import Backbone from "backbone";
+import CryptoJS from "crypto-js";
+
 import Gravatar from "components/common/Gravatar";
+import Ribbon from "components/common/Ribbon";
 import MediaCard from "components/common/ui/MediaCard";
 import AvailabilityView from "../availability/AvailabilityView";
-import CryptoJS from "crypto-js";
+
 import stores from "stores";
 import context from "context";
 import globals from "globals";
 import moment from "moment";
 import showdown from "showdown";
+
 
 export default React.createClass({
     displayName: "Version",
@@ -177,29 +181,11 @@ export default React.createClass({
     },
 
     renderEndDated() {
-        let endDate = this.props.version.get('end_date');
-        let isEndDated = endDate && endDate.isValid();
-        if(!isEndDated) {
-            let image = this.props.version.get('image'),
-                end_date = moment(image.end_date);
-            isEndDated = end_date && end_date.isValid();
-        }
-        let style = {
-            position: "absolute",
-            top: "3px",
-            left: "0",
-            background: "#F55A5A",
-            display: "inline-block",
-            padding: "3px 5px",
-            color: "white",
-            fontSize: "10px",
-        };
+        let { version } = this.props;
 
-        if (isEndDated) {
+        if (version.isEndDated()) {
             return (
-                <div style={ style }>
-                    End Dated
-                </div>
+                <Ribbon text={"End Dated"} />
             );
         }
     },
