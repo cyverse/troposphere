@@ -18,7 +18,7 @@ export default React.createClass({
         var el = ReactDOM.findDOMNode(this);
         var $el = $(el).find(".tooltip-wrapper");
         $el.tooltip({
-            title: "NEW! You can now add an Image to your project to make launching instances even easier!",
+            title: "You can add an Image to a project to make launching instances easier!",
             placement: "left"
         });
     },
