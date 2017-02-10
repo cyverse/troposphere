@@ -142,7 +142,7 @@ export default React.createClass({
                 });
                 linksArray.push({
                     label: "Reboot",
-                    icon: "repeat",
+                    icon: "off",
                     onClick: this.onReboot
                 });
                 linksArray.push({
@@ -158,7 +158,7 @@ export default React.createClass({
                 });
                 linksArray.push({
                     label: "Reboot",
-                    icon: "repeat",
+                    icon: "off",
                     onClick: this.onReboot
                 });
             } else if (status === "shutoff") {
@@ -185,7 +185,7 @@ export default React.createClass({
             || activity === "running_boot_script")) {
             linksArray.push({
                 label: "Reboot",
-                icon: "repeat",
+                icon: "off",
                 onClick: this.onReboot
             });
             linksArray.push({
