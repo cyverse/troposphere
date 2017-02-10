@@ -51,6 +51,15 @@ var ProjectImageStore = BaseStore.extend({
         }
     },
 
+    getImagesCountFor: function(project) {
+        if (!project.id) return 0;
+        if (!_modelsFor[project.id]) {
+            return this.fetchModelsFor(project.id);
+        }
+
+        return _modelsFor[project.id].length;
+    },
+
     getImagesFor: function(project) {
         var allImages = stores.ImageStore.getForProject(project.id);
         if (!project.id) return;
