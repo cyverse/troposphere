@@ -64,7 +64,7 @@ var ProjectImageStore = BaseStore.extend({
         if (!project.id) return;
         if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
 
-        let images = this.models.map( (pi) => {
+        let images = _modelsFor[project.id].map( (pi) => {
             return new Image(pi.get("image"), {parse: true});
         });
 
