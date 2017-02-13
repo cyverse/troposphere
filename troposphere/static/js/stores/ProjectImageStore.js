@@ -51,22 +51,25 @@ var ProjectImageStore = BaseStore.extend({
         }
     },
 
+    getImagesCountFor: function(project) {
+        if (!project.id) return 0;
+        if (!_modelsFor[project.id]) {
+            return this.fetchModelsFor(project.id);
+        }
+
+        return _modelsFor[project.id].length;
+    },
+
     getImagesFor: function(project) {
-        var allImages = stores.ImageStore.getForProject(project.id);
         if (!project.id) return;
         if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
-        if (!allImages) return;
 
-        var images = this.models.filter(function(project_image) {
-            // filter out irrelevant project images (not in target project)
-            return project_image.get("project").id === project.id;
-        }).filter(function(project_image) {
-            // filter out the images that don't exist (not in local cache)
-            return allImages.get(project_image.get("image").id);
-        }).map(function(project_image) {
-            // return the actual images
-            return allImages.get(project_image.get("image").id);
+        let images = this.models.filter( (pi) => {
+            return pi.get("project").id === project.id;
+        }).map( (pi) => {
+            return new Image(pi.get("image"), {parse: true});
         });
+
         return new ImageCollection(images);
     },
 

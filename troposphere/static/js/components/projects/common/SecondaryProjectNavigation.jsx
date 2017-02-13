@@ -18,7 +18,7 @@ export default React.createClass({
 
         var project = this.props.project,
             projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
-            projectImages = stores.ProjectImageStore.getImagesFor(project),
+            projectImages = stores.ProjectImageStore.getImagesCountFor(project),
             projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
             projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
 
