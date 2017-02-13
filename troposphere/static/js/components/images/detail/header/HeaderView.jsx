@@ -15,6 +15,7 @@ export default React.createClass({
     },
 
     componentDidMount: function() {
+        // FIXME: use the Tooltip component
         var el = ReactDOM.findDOMNode(this);
         var $el = $(el).find(".tooltip-wrapper");
         $el.tooltip({
@@ -32,7 +33,7 @@ export default React.createClass({
     },
 
     showAddProjectModal: function(e) {
-        e.preventDefault(); // Do i need this?
+        e.preventDefault();
         modals.ProjectModals.addImage(this.props.image);
     },
 
@@ -42,27 +43,29 @@ export default React.createClass({
     },
 
     render: function() {
-        let profile = stores.ProfileStore.get();
-        let buttonGroup;
+        let profile = stores.ProfileStore.get(),
+            { image } = this.props,
+            buttonGroup;
 
         if (profile.id) {
             buttonGroup = (
                 <div>
                     <span style={{ marginRight: "20px" }}>
-                        <Bookmark width="25px" image={ this.props.image }/>
+                        <Bookmark width="25px" image={ image }/>
                     </span>
                     <span
                         className="tooltip-wrapper"
-                        style={{ marginRight: "20px" }}
-                    >
-                        <button className="btn btn-default" onClick={this.showAddProjectModal}>
+                        style={{ marginRight: "20px" }}>
+                        <button className="btn btn-default"
+                                disabled={ image.isEndDated() }
+                                onClick={ this.showAddProjectModal }>
                             <i className="glyphicon glyphicon-plus"></i> Add to Project
                         </button>
                     </span>
                     <button
                         className="btn btn-primary launch-button"
-                        onClick={ this.showLaunchModal }
-                    >
+                        disabled={ image.isEndDated() }
+                        onClick={ this.showLaunchModal }>
                         Launch
                     </button>
                 </div>
@@ -72,23 +75,21 @@ export default React.createClass({
         return (
             <div
                 style={ this.style().header }
-                className="image-header"
-            >
+                className="image-header">
                 <div style={ this.style().titleGroup }>
                     <svg
                         style={ this.style().backButton }
-                        onClick={this.onReturnToPreviousPage}
+                        onClick={ this.onReturnToPreviousPage }
                         fill="#000000"
                         height="24"
                         viewBox="0 0 24 24"
                         width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
+                        xmlns="http://www.w3.org/2000/svg">
                         <path d="M0 0h24v24H0z" fill="none"/>
                         <path d="M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"/>
                     </svg>
                     <h1 className="t-headline">
-                        {this.props.image.get("name")}
+                        {image.get("name")}
                     </h1>
                 </div>
                 { buttonGroup }
