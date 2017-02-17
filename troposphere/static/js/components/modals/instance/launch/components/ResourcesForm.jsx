@@ -28,7 +28,9 @@ export default React.createClass({
     },
 
     renderAllocationSourceMenu() {
-        let { allocationSource, allocationSourceList, onAllocationSourceChange, } = this.props;
+        let { allocationSource,
+              allocationSourceList,
+              onAllocationSourceChange } = this.props;
 
         return (
         <div className="form-group">
@@ -56,7 +58,12 @@ export default React.createClass({
     },
 
     render: function() {
-        let { provider, providerList, onProviderChange, providerSize, providerSizeList, onSizeChange, } = this.props;
+        let { provider,
+              providerList,
+              onProviderChange,
+              providerSize,
+              providerSizeList,
+              onSizeChange } = this.props;
 
         return (
         <form>
