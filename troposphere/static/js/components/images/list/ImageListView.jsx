@@ -127,7 +127,10 @@ export default React.createClass({
 
         // If a query is present, bail
         if (!images || !tags || this.state.query) return;
-
+        images.comparator = function(img) {
+            return img.get('end_date').isValid() ? 1 : -1;
+        };
+        images.sort();
             return (
                 <ImageCardList key="featured"         
                     title="Featured Images"
@@ -140,6 +143,10 @@ export default React.createClass({
         var tags = this.props.tags;
 
         if (images && tags) {
+            images.comparator = function(img) {
+                return img.get('end_date').isValid() ? 1 : -1;
+            };
+            images.sort();
             return (
                 <ImageCardList key="all"
                     title="All Images"
@@ -174,8 +181,13 @@ export default React.createClass({
             title = "";
 
         let images;
-        let searchParams = query ? { search: query } : {};
-        images = stores.ImageStore.fetchWhere(searchParams);
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                search: query
+            });
+        } else {
+            images = stores.ImageStore.getAll();
+        }
 
         if (!images || this.awaitingTimeout()) {
             return <div className="loading"></div>;
@@ -183,11 +195,11 @@ export default React.createClass({
 
         if (!images.meta || !images.meta.count) {
             title = "Showing " + images.length + " images";
+        } else if (query) {
+            title = "Showing "+ images.length + " results for '" + query + "'";
         } else {
             title = "Showing " + images.length + " of " + images.meta.count + " images";
         }
-        if (query)
-            title += " for '" + query + "'";
 
         return (
         <div>
