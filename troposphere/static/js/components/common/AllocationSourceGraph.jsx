@@ -13,14 +13,14 @@ export default React.createClass({
 
     // This is what we show if the instance will exceed our resources.
     resourceExceded: function(total, limit) {
-        if (total > limit) {
+        if (total >= limit) {
             return (
             <div style={{ color: "red", marginTop: "-20px" }}>
                 {`You do not have enough ${messages.unitName} (${messages.unitAbbrev}).`}
                 <br/>
                 <a className="btn btn-xs btn-default"
                    style={{ margin: "5px 0 20px" }}
-                   onClick={() => console.warn("...")}>
+                   onClick={this.props.onRequestResources}>
                     {messages.requestMoreFromLaunchLabel()}
                 </a>
             </div>
