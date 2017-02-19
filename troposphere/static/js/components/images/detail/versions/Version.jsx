@@ -46,7 +46,9 @@ export default React.createClass({
         });
     },
 
-    onEditClicked() {
+    onEditClicked(e) {
+        e.stopPropagation();
+        e.preventDefault();
         return this.props.onEditClicked(this.props.version);
     },
 
@@ -163,7 +165,8 @@ export default React.createClass({
             providerAvailability = (
                 <AvailabilityView
                     isSummary={ !isOpen }
-                    version={ version } />
+                    version={ version }
+                />
             );
         } else {
             providerAvailability = "Please login to view available providers.";
