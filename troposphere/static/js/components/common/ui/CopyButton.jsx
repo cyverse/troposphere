@@ -166,6 +166,7 @@ export default React.createClass({
         };
         
         const feedback = {
+            fontSize: "12px",
             position: "absolute",
         }
 
