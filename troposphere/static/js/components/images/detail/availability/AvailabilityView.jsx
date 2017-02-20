@@ -2,6 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 import Code from "components/common/ui/Code";
+import CopyButton from "components/common/ui/CopyButton";
 import moment from "moment";
 
 import { copyElement } from "utilities/clipboardFunctions";
@@ -13,11 +14,6 @@ export default React.createClass({
     propTypes: {
         version: React.PropTypes
             .instanceOf( Backbone.Model ).isRequired
-    },
-
-    onClick(e) {
-        e.preventDefault();
-        copyElement(e.target, { acknowledge: true });
     },
 
     renderProviderMachine( provider ) {
@@ -36,9 +32,12 @@ export default React.createClass({
         let optMachineID;
         if (!isSummary) {
             optMachineID = (
-                <Code mb="10px">
-                    <div onClick={ this.onClick }>{ machineID }</div>
-                </Code>
+                <div>
+                    <Code mb="10px">
+                        { machineID }
+                    </Code>
+                    <CopyButton text={ machineID }/>
+                </div>
             );
         }
 
@@ -57,8 +56,9 @@ export default React.createClass({
         // No availability if the version *OR* parent-image are end-dated.
         if(!isEndDated) {
             let image = version.get('image'),
-                end_date = moment(image.end_date);
-            isEndDated = end_date && end_date.isValid();
+            end_date = moment(image.end_date);
+            isEndDated = end_date && end_date
+            .isValid();
         }
 
         if(isEndDated) {
