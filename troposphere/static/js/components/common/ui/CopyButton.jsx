@@ -165,7 +165,6 @@ export default React.createClass({
             marginLeft: "10px",
         };
         
-
         const feedback = {
             position: "absolute",
         }
