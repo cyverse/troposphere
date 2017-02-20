@@ -135,6 +135,7 @@ export default React.createClass({
             }
         };
 
+        if (!document.execCommand('copy')) return;
         return (
             <div
                 style={ style.button } 
