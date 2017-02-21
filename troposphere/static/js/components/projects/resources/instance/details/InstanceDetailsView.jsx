@@ -91,7 +91,8 @@ export default React.createClass({
                      : ""}
                 </div>
                 <div className="col-md-3">
-                    <InstanceActionsAndLinks project={project} instance={instance} />
+                    <InstanceActionsAndLinks project={project}
+                                             instance={instance} />
                 </div>
             </div>
         </div>
