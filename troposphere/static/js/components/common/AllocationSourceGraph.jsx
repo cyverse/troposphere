@@ -2,6 +2,8 @@ import React from "react";
 import Backbone from "backbone";
 
 import ProgressBar from "components/common/ui/ProgressBar";
+import messages from "messages/allocationMessages";
+
 
 export default React.createClass({
 
@@ -11,12 +13,16 @@ export default React.createClass({
 
     // This is what we show if the instance will exceed our resources.
     resourceExceded: function(total, limit) {
-        if (total > limit) {
+        if (total >= limit) {
             return (
             <div style={{ color: "red", marginTop: "-20px" }}>
-                You do not have enough resources.
+                {`You do not have enough ${messages.unitName} (${messages.unitAbbrev}).`}
                 <br/>
-                <a className="btn btn-xs btn-default" style={{ margin: "5px 0 20px" }} onClick={() => console.warn("Implement mee...")}>Request more Resources</a>
+                <a className="btn btn-xs btn-default"
+                   style={{ margin: "5px 0 20px" }}
+                   onClick={this.props.onRequestResources}>
+                    {messages.requestMoreFromLaunchLabel()}
+                </a>
             </div>
             )
         }
@@ -33,14 +39,15 @@ export default React.createClass({
         }
 
         // Calculate and set all of our graph information
-        // AU's Used
+        // SU's Used
         let consumed = allocationSource.get("compute_used");
         let total = allocationSource.get("compute_allowed");
         let name = allocationSource.get("name");
         let percent = Math.round(consumed / total * 100);
+        let units = messages.unitAbbrev;
 
         // Labels for bar graphs
-        let auLabel = `${percent}% of ${total} Allocation from ${name}`;
+        let auLabel = `${percent}% of ${total} ${units} from ${name}`;
 
         return (
         <div className="form-group">

@@ -68,7 +68,7 @@ export default React.createClass({
                 linksArray.push(
                     <Button style={style}
                         key="Reboot"
-                        icon="repeat"
+                        icon="off"
                         tooltip="Reboot the selected instance"
                         onClick={this.onReboot}
                         isVisible={true} />

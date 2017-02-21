@@ -13,6 +13,9 @@ import moment from "moment";
 import stores from "stores";
 
 
+import Ribbon from "components/common/Ribbon";
+
+
 export default React.createClass({
     displayName: "ImageListCard",
 
@@ -30,22 +33,9 @@ export default React.createClass({
     },
 
     renderEndDated() {
-        let style = {
-            position: "absolute",
-            top: "3px",
-            left: "0",
-            background: "#F55A5A",
-            display: "inline-block",
-            padding: "3px 5px",
-            color: "white",
-            fontSize: "10px",
-        };
-
         if (this.props.isEndDated) {
             return (
-                <div style={ style }>
-                    End Dated
-                </div>
+                <Ribbon text={ "End Dated" }/>
             );
         }
     },

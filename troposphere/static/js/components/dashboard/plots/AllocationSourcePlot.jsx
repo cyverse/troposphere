@@ -1,7 +1,9 @@
 import React from "react";
-import stores from "stores";
 
 import PercentGraph from "components/common/ui/PercentageGraph";
+import messages from "messages/allocationMessages";
+import stores from "stores";
+
 
 export default React.createClass({
     displayName: "ProviderSummaryLinePlot",
@@ -18,7 +20,7 @@ export default React.createClass({
                 Allocation: item.get("compute_allowed"),
             },
             appendMessages: {
-                Allocation: "AUs"
+                Allocation: messages.unitAbbrev
             },
             borderWidth: 0,
             dataLabels: {

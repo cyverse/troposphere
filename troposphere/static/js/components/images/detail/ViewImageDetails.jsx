@@ -1,12 +1,16 @@
 import React from "react";
 import Backbone from "backbone";
+
 import TagsView from "./tags/TagsView";
 import CreatedView from "./created/CreatedView";
 import RemovedView from "./removed/RemovedView";
 import AuthorView from "./author/AuthorView";
 import DescriptionView from "./description/DescriptionView";
-import stores from "stores";
 import Gravatar from "components/common/Gravatar";
+import Ribbon from "components/common/Ribbon";
+
+import stores from "stores";
+
 
 export default React.createClass({
     displayName: "ViewImageDetails",
@@ -39,11 +43,31 @@ export default React.createClass({
         }
     },
 
+    renderEndDated: function() {
+        let { image } = this.props;
+
+        if (image.isEndDated()) {
+            let ribbon = {
+                top: "-6px",
+                left: "-9px",
+                padding: "3px 7px",
+                fontSize: "11px",
+            };
+
+            return (
+            <Ribbon text={"End Dated"}
+                    styleOverride={ ribbon }/>
+            );
+        }
+    },
+
     render: function() {
-        let { image, tags } = this.props;
-        let type = stores.ProfileStore.get().get("icon_set");
+        let { image, tags } = this.props,
+            type = stores.ProfileStore.get().get("icon_set");
+
         let style = {
             wrapper: {
+                position: "relative",
                 display: "flex",
                 alignItems: "flex-start",
                 marginBottom: "80px",
@@ -63,10 +87,10 @@ export default React.createClass({
         return (
             <div style={ style.wrapper }>
                 <div style={ style.img }>
-                    <Gravatar 
-                        hash={image.get("uuid_hash")} 
-                        size={ 50 } type={type} 
-                    />
+                    <Gravatar
+                        hash={ image.get("uuid_hash") }
+                        size={ 50 } type={ type }/>
+                    { this.renderEndDated() }
                 </div>
                 <div>
                     <div style={ style.details }>
@@ -76,7 +100,7 @@ export default React.createClass({
                         <DescriptionView image={ image } />
                         <TagsView image={ image } tags={ tags } />
                     </div>
-                    {this.renderEditLink()}
+                    { this.renderEditLink() }
                 </div>
             </div>
         );
