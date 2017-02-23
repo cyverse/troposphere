@@ -9,6 +9,22 @@ export default React.createClass({
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
+    componentDidMount: function() {
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     //
     // Helper Functions
     //
