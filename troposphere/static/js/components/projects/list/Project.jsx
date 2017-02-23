@@ -15,6 +15,25 @@ export default React.createClass({
         className: React.PropTypes.string,
     },
 
+
+    componentDidMount: function() {
+        stores.ProjectExternalLinkStore.addChangeListener(this.updateState);
+        stores.ProjectInstanceStore.addChangeListener(this.updateState);
+        stores.ProjectImageStore.addChangeListener(this.updateState);
+        stores.ProjectVolumeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.ProjectExternalLinkStore.removeChangeListener(this.updateState);
+        stores.ProjectInstanceStore.removeChangeListener(this.updateState);
+        stores.ProjectImageStore.removeChangeListener(this.updateState);
+        stores.ProjectVolumeStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     render: function() {
         let project = this.props.project,
             description,
