@@ -1,7 +1,5 @@
 import React from "react";
 import Backbone from "backbone";
-import stores from "stores";
-
 export default React.createClass({
     displayName: "Provider",
 
@@ -10,13 +8,9 @@ export default React.createClass({
     },
 
     render: function() {
-        var volume = this.props.volume,
-            provider = stores.ProviderStore.get(volume.get("provider").id);
-
-        if (!provider) return <div className="loading-tiny-inline"></div>;
-
+        let volume = this.props.volume;
         return (
-        <span>{provider.get("name")}</span>
+        <span>{volume.get("provider").name}</span>
         );
     }
 });

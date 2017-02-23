@@ -11,6 +11,18 @@ export default React.createClass({
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
+    componentDidMount: function() {
+        stores.InstanceStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.InstanceStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     render: function() {
         var volume = this.props.volume,
             instances = stores.InstanceStore.getAll(),
