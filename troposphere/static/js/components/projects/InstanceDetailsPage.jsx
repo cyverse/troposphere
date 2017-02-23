@@ -10,10 +10,6 @@ import stores from "stores";
 export default React.createClass({
     displayName: "InstanceDetailsPage",
 
-    contextTypes: {
-        projectId: React.PropTypes.number
-    },
-
     componentDidMount() {
         stores.ProjectStore.addChangeListener(this.updateState);
         stores.InstanceStore.addChangeListener(this.updateState);
@@ -39,9 +35,9 @@ export default React.createClass({
     },
 
     render() {
-        let projectId = this.context.projectId;
+        let { projectId, instanceId } = this.props.params;
         let project = stores.ProjectStore.get(projectId);
-        let instance = stores.InstanceStore.get(projectId);
+        let instance = stores.InstanceStore.get(instanceId);
         let helpLinks = stores.HelpLinkStore.getAll();
         let allocationSources = stores.AllocationSourceStore.getAll();
 
