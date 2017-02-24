@@ -1,29 +1,15 @@
 import React from "react";
+
 import ResourceActions from "actions/ResourceActions";
-import stores from "stores";
+import subscribe from "utilities/subscribe";
 import RaisedButton from "material-ui/RaisedButton";
 
-export default React.createClass({
+const MyResourceRequestsPage = React.createClass({
     displayName: "MyResourceRequestsPage",
 
-    componentDidMount: function() {
-        stores.StatusStore.addChangeListener(this.updateState);
-        stores.ProfileStore.addChangeListener(this.updateState);
-        stores.ResourceRequestStore.addChangeListener(this.updateState);
-    },
-
-    componentWillUnmount: function() {
-        stores.StatusStore.removeChangeListener(this.updateState);
-        stores.ProfileStore.removeChangeListener(this.updateState);
-        stores.ResourceRequestStore.removeChangeListener(this.updateState);
-    },
-
-    updateState: function() {
-        this.forceUpdate();
-    },
-
     closeRequest: function(request) {
-        var closedStatus = stores.StatusStore.findWhere({
+        let { StatusStore } = this.props.subscriptions;
+        var closedStatus = StatusStore.findWhere({
             "name": "closed"
         }).models[0].id;
         ResourceActions.close({
@@ -33,14 +19,15 @@ export default React.createClass({
     },
 
     render: function() {
-        var username = stores.ProfileStore.get().id,
-            statusTypes = stores.StatusStore.getAll();
+        let { IdentityStore, ProfileStore, StatusStore, ResourceRequestStore } = this.props.subscriptions;
+        var username = ProfileStore.get().id,
+            statusTypes = StatusStore.getAll();
 
         if (username == null || !statusTypes) {
             return <div className="loading"></div>
         }
 
-        var requests = stores.ResourceRequestStore.findWhere({
+        var requests = ResourceRequestStore.findWhere({
             "created_by.username": username
         });
 
@@ -126,3 +113,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(MyResourceRequestsPage, ["ProfileStore", "StatusStore", "ResourceRequestStore"]);
