@@ -89,10 +89,10 @@ export default React.createClass({
         return (
         <div className="card" style={{ maxWidth: "600px" }} >
             <div style={{ marginBottom: "20px" }} >
-                <EditNameView 
-                    image={image} 
-                    value={this.state.name} 
-                    onChange={this.handleNameChange} 
+                <EditNameView
+                    image={image}
+                    value={this.state.name}
+                    onChange={this.handleNameChange}
                 />
                 <div>
                     <h4 className="t-body-2">
@@ -106,20 +106,20 @@ export default React.createClass({
                         />
                     </div>
                 </div>
-                <EditDescriptionView 
+                <EditDescriptionView
                     titleClassName="title"
                     formClassName="form-group"
                     title="Description"
                     image={image}
                     value={this.state.description}
-                    onChange={this.handleDescriptionChange} 
+                    onChange={this.handleDescriptionChange}
                 />
-                <EditTagsView 
+                <EditTagsView
                     image={image}
                     tags={allTags}
                     value={imageTags}
                     onTagAdded={this.onTagAdded}
-                    onTagRemoved={this.onTagRemoved} 
+                    onTagRemoved={this.onTagRemoved}
                 />
             </div>
             <div className="edit-link-row clearfix">
