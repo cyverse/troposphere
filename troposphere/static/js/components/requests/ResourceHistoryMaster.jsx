@@ -4,9 +4,24 @@ import ResourceActions from "actions/ResourceActions";
 
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "MyResourceRequestsPage",
+
+    componentDidMount: function() {
+        stores.StatusStore.addChangeListener(this.updateState);
+        stores.ProfileStore.addChangeListener(this.updateState);
+        stores.ResourceRequestStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.StatusStore.removeChangeListener(this.updateState);
+        stores.ProfileStore.removeChangeListener(this.updateState);
+        stores.ResourceRequestStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
 
     closeRequest: function(request) {
         var closedStatus = stores.StatusStore.findWhere({
