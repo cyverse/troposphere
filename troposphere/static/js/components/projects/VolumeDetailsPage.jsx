@@ -13,6 +13,22 @@ export default React.createClass({
         params: React.PropTypes.object
     },
 
+    componentDidMount: function() {
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
+        stores.HelpLinkStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
+        stores.HelpLinkStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     render() {
         let { params } = this.props,
             project = stores.ProjectStore.get(Number(params.projectId)),
