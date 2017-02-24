@@ -2,6 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 import Code from "components/common/ui/Code";
+import moment from "moment";
 
 import { copyElement } from "utilities/clipboardFunctions";
 
@@ -51,7 +52,35 @@ export default React.createClass({
 
     render() {
         let { version } = this.props;
+        let endDate = version.get('end_date'),
+            isEndDated = endDate && endDate.isValid();
+        // No availability if the version *OR* parent-image are end-dated.
+        if(!isEndDated) {
+            let image = version.get('image'),
+                end_date = moment(image.end_date);
+            isEndDated = end_date && end_date.isValid();
+        }
 
+        if(isEndDated) {
+            return this.renderEndDated();
+        } else {
+            return this.renderProviders();
+        }
+    },
+    renderEndDated() {
+        return (
+            <div>
+                <h4
+                    className="t-body-2"
+                    style={{ marginBottom: "5px" }}
+                >
+                    Not Available
+                </h4>
+            </div>
+        );
+    },
+    renderProviders() {
+        let { version } = this.props;
         // Get providers this version is available on
         let machines = stores.ProviderMachineStore
             .getMachinesForVersion(version);

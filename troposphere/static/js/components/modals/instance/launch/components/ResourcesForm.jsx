@@ -22,13 +22,16 @@ export default React.createClass({
     getProviderSizeName(providerSize) {
         let name = providerSize.get("name");
         let cpu = providerSize.get("cpu");
+        let disk = providerSize.get("disk");
         let memory = providerSize.get("mem");
 
-        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB)`;
+        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB, Disk: ${ disk } GB)`;
     },
 
     renderAllocationSourceMenu() {
-        let { allocationSource, allocationSourceList, onAllocationSourceChange, } = this.props;
+        let { allocationSource,
+              allocationSourceList,
+              onAllocationSourceChange } = this.props;
 
         return (
         <div className="form-group">
@@ -56,7 +59,12 @@ export default React.createClass({
     },
 
     render: function() {
-        let { provider, providerList, onProviderChange, providerSize, providerSizeList, onSizeChange, } = this.props;
+        let { provider,
+              providerList,
+              onProviderChange,
+              providerSize,
+              providerSizeList,
+              onSizeChange } = this.props;
 
         return (
         <form>

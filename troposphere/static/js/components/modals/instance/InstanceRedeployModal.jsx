@@ -33,7 +33,7 @@ export default React.createClass({
                 <Glyphicon name="warning-sign" />
                 {" "}
                 <strong>NOTE</strong>
-                {" Redeploying an instance will allow you to fix intances that show up as 'active - deploy_error'. If after executing a 'redeploy' you find that your VM returns to the deploy_error state, please contact support."}
+                {" Redeploying an instance will allow you to fix instances that show up as 'active - deploy_error'. If after executing a 'redeploy' you find that your VM returns to the deploy_error state, please contact support."}
             </p>
             <p>
                 {"Would you like to redeploy this instance?"}
