@@ -10,6 +10,20 @@ export default React.createClass({
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
+    componentDidMount: function() {
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     renderInstanceTableRow: function(instance, sizes) {
         var size = sizes.get(instance.get("size").id),
             numberOfCpus = Number(size.get("cpu")),
