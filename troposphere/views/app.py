@@ -74,8 +74,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         sentry_dict = None
     else:
         sentry_dict = {
-            "dsn": "https://27643f06676048be96ad6df686c17da3@app.getsentry.com/73366",
-            "release":"0ec17fad757f44cbdda8ceace19139fd",
+            "dsn": "https://27643f06676048be96ad6df686c17da3@sentry.io/73366",
+            "release":"0c34d0931986495f4b726f999ae27c83"
         }
 
     template_params = {
