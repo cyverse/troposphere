@@ -11,6 +11,18 @@ import Resources from "./Resources";
 export default React.createClass({
     displayName: "ProviderListView",
 
+    componentDidMount: function() {
+        stores.ProviderStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.ProviderStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     render: function() {
         // we are fetching the provider here (and not in getInitialState) because the component
         // doesn't get re-mounted when the url changes, so those functions won't run twice
