@@ -53,7 +53,7 @@ export default React.createClass({
         var labelEl = this.props.labelText ? (<label htmlFor="interactive-date-field">
                                                   {this.props.labelText}
                                               </label>) : null;
-        var btnStyle = {
+        var btnStyle = this.props.styleOverride || {
             lineHeight: "1.31" // I know this is quite heinous ...
         };
         var lastBtnStyle = {

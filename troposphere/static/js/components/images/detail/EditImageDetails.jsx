@@ -99,9 +99,10 @@ export default React.createClass({
                         Date to hide image from public view
                     </h4>
                     <div style={{ marginBottom: "15px" }} >
-                        <InteractiveDateField 
-                            value={this.state.endDate} 
-                            onChange={this.handleEndDateChange} 
+                        <InteractiveDateField
+                            styleOverride={{lineHeight: "1.47"}}
+                            value={this.state.endDate}
+                            onChange={this.handleEndDateChange}
                         />
                     </div>
                 </div>
