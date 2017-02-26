@@ -3,7 +3,7 @@ import bootstrapper from "public_site/bootstrapper";
 import Raven from "raven-js";
 
 
-if(!window.SENTRY_ENABLED) {
+if(window.SENTRY_ENABLED) {
     let sentryDSN = window.SENTRY_DSN;
     Raven.config(sentryDSN, {
         release: window.SENTRY_RELEASE,
