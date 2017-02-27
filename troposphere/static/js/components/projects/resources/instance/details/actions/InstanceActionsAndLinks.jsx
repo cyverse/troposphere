@@ -233,42 +233,37 @@ export default React.createClass({
         );
 
         var className = "section-link";
-        if (link.isDangerLink)
+        if (link.isDangerLink) {
             className += " danger";
+        }
 
-            let linkLabelMarkup = (
-                <span>
-                    <Glyphicon name={link.icon}/>{` ${link.label}`}
-                </span>
-            );
+        // todo: This isn't implemented well at all.  We should be disabling these
+        // buttons if there isn't a valid href for the link, or (perhaps) not even
+        // showing the buttons at all...but I think it's better communication to
+        // disable the buttons with a message explaining why on rollover.
+        //
+        if (link.openInNewWindow) {
+            let linkProps,
+                style = {};
+            if (!link.href && !link.onClick)
+                style.cursor = "not-allowed";
 
-            // todo: This isn't implemented well at all.  We should be disabling these
-            // buttons if there isn't a valid href for the link, or (perhaps) not even
-            // showing the buttons at all...but I think it's better communication to
-            // disable the buttons with a message explaining why on rollover.
-            //
-            if (link.openInNewWindow) {
-                let linkProps,
-                    style = {};
-                if (!link.href && !link.onClick)
-                    style.cursor = "not-allowed";
+            linkProps = {
+                key: link.label,
+                className: className + " link",
+                disabled: link.isDisabled
+            }
+            // conditionally include a click handler
+            if (link.onClick) {
+                linkProps.onClick = link.onClick
+            }
 
-                linkProps = {
-                    key: link.label,
-                    className: className + " link",
-                    disabled: link.isDisabled
-                }
-                // conditionally include a click handler
-                if (link.onClick) {
-                    linkProps.onClick = link.onClick
-                }
-
-                return (
-                <li {...linkProps}>
-                    <a href={link.href} target="_blank">
-                        {linkLabelMarkup}
-                    </a>
-                </li>
+            return (
+            <li {...linkProps}>
+                <a href={link.href} target="_blank">
+                    {linkLabelMarkup}
+                </a>
+            </li>
             );
         }
 
