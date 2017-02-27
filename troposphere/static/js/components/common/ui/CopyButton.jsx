@@ -1,4 +1,5 @@
 import React from 'react';
+import toastr from "toastr";
 import Raven from "raven-js";
 
 /**
@@ -13,7 +14,29 @@ import Raven from "raven-js";
  * where it is *not* available to assist in helping those community
  * members on a newer browerser
  */
+function alertFail(msg, title) {
+    let toastrDefaults = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "260",
+        "hideDuration": "1000",
+        "timeOut": "6000",
+        "extendedTimeOut": "650",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    toastr.warning(msg, title, toastrDefaults);
+}
 function reportException(ex) {
+    alertFail("Sorry your browser doesn't support this feature", "Can't Copy");
     // take Mulder's advice - trustno1
     if (Raven && Raven.isSetup()) {
         if (Raven.captureException) {
@@ -82,7 +105,7 @@ function copyTextToClipboard(text) {
         var msg = successful ? 'successful' : 'unsuccessful';
         console.log('Copying text was ' + msg);
     } catch (err) {
-        reportException(e);
+        reportException(err);
         console.log('Unable to copy');
     };
 
@@ -113,7 +136,6 @@ export default React.createClass({
                         this.setState({
                             feedbackState: "WAIT"   
                         })
-                        debugger
                     } , 300)
                 })}, 300)
             }
@@ -140,16 +162,15 @@ export default React.createClass({
                 style={ style.button } 
                 onClick = { this.onClick }
             > 
-                <div style={{ 
+                <div 
+                    style={{ 
                         ...style.feedback,
                         ...feedbackStyle() 
                     }}
                 >
                     Copied!
                 </div>
-                <i 
-                    className="glyphicon glyphicon-copy"
-                />
+                Copy
             </div>
         )
     },
@@ -159,9 +180,9 @@ export default React.createClass({
         const button = {
             position: "relative",
             display: "inline-block",
-            fontSize: "16px",
+            fontSize: "11px",
             cursor: "pointer",
-            color: "grey",
+            color: "#0971ab",
             marginLeft: "10px",
         };
         
@@ -180,7 +201,7 @@ export default React.createClass({
         const feedbackShown = {
             opacity: "1",
             top: "-20px",
-            transition: "opacity .3s ease, top .1s ease",
+            transition: "opacity .2s ease, top .15s ease",
         };
 
         const feedbackOut = {
