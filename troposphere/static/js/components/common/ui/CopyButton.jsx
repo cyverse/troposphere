@@ -103,10 +103,8 @@ function copyTextToClipboard(text) {
     try {
         var successful = document.execCommand('copy');
         var msg = successful ? 'successful' : 'unsuccessful';
-        console.log('Copying text was ' + msg);
     } catch (err) {
         reportException(err);
-        console.log('Unable to copy');
     };
 
     document.body.removeChild(textArea);
@@ -115,8 +113,29 @@ function copyTextToClipboard(text) {
 export default React.createClass({
     getInitialState() {
         return {
-            feedbackState: "WAIT"
+            feedbackState: "WAIT",
+            canCopy: false,
         }
+    },
+
+    componentDidMount() {
+        // Support for execCommand is good 
+        // http://caniuse.com/#search=document.execCommand
+
+        // The assumption is that if we have the execCommand method
+        // we also have "copy"
+
+        try {
+            var canCopy = document.execCommand;
+            this.setState({
+                canCopy,
+            });
+        } catch (err) {
+            reportException(err);
+            this.setState({
+                canCopy: false,
+            });
+        };
     },
 
     onClick() {
@@ -156,6 +175,8 @@ export default React.createClass({
                     return style.feedbackOut
             }
         };
+
+        if (!this.state.canCopy) return <span/>;
 
         return (
             <div
