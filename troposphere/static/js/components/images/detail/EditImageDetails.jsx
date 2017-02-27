@@ -89,36 +89,37 @@ export default React.createClass({
         return (
         <div className="card" style={{ maxWidth: "600px" }} >
             <div style={{ marginBottom: "20px" }} >
-                <EditNameView 
-                    image={image} 
-                    value={this.state.name} 
-                    onChange={this.handleNameChange} 
+                <EditNameView
+                    image={image}
+                    value={this.state.name}
+                    onChange={this.handleNameChange}
                 />
                 <div>
                     <h4 className="t-body-2">
                         Date to hide image from public view
                     </h4>
                     <div style={{ marginBottom: "15px" }} >
-                        <InteractiveDateField 
-                            value={this.state.endDate} 
-                            onChange={this.handleEndDateChange} 
+                        <InteractiveDateField
+                            styleOverride={{lineHeight: "1.47"}}
+                            value={this.state.endDate}
+                            onChange={this.handleEndDateChange}
                         />
                     </div>
                 </div>
-                <EditDescriptionView 
+                <EditDescriptionView
                     titleClassName="title"
                     formClassName="form-group"
                     title="Description"
                     image={image}
                     value={this.state.description}
-                    onChange={this.handleDescriptionChange} 
+                    onChange={this.handleDescriptionChange}
                 />
-                <EditTagsView 
+                <EditTagsView
                     image={image}
                     tags={allTags}
                     value={imageTags}
                     onTagAdded={this.onTagAdded}
-                    onTagRemoved={this.onTagRemoved} 
+                    onTagRemoved={this.onTagRemoved}
                 />
             </div>
             <div className="edit-link-row clearfix">
