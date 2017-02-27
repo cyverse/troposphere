@@ -237,6 +237,12 @@ export default React.createClass({
             className += " danger";
         }
 
+        let linkLabelMarkup = (
+            <span>
+                <Glyphicon name={link.icon}/>{` ${link.label}`}
+            </span>
+        );
+
         // todo: This isn't implemented well at all.  We should be disabling these
         // buttons if there isn't a valid href for the link, or (perhaps) not even
         // showing the buttons at all...but I think it's better communication to
