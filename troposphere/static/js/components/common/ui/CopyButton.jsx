@@ -32,7 +32,6 @@ function reportException(ex) {
 * I don't think there is a problem with performence or react as this 
 * appends an element outside #app and removes onClick.
 */
-
 function copyTextToClipboard(text) {
     var textArea = document.createElement("textarea");
 
@@ -114,6 +113,7 @@ export default React.createClass({
                         this.setState({
                             feedbackState: "WAIT"   
                         })
+                        debugger
                     } , 300)
                 })}, 300)
             }
@@ -135,7 +135,6 @@ export default React.createClass({
             }
         };
 
-        if (!document.execCommand('copy')) return;
         return (
             <div
                 style={ style.button } 
