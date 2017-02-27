@@ -55,11 +55,14 @@ _.extend(InstanceActionStore, Store, {
 Dispatcher.register(function(payload) {
     var action = payload.action;
 
+    // right now, we want to observer Instance Status changes,
+    // and dispatcher whenever that happens ...
+
     // Action to handle yet; However, we want to
     // signal when a change is emitted
     switch (action.actionType) {
         default:
-            return true;
+            break;
     }
 
     InstanceActionStore.emitChange();
