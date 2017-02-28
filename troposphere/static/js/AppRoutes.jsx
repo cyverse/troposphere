@@ -1,9 +1,12 @@
 import React from "react";
-import Router from "react-router";
+import { Router,
+         Route,
+         IndexRoute,
+         IndexRedirect,
+         browserHistory } from "react-router";
+
 import globals from "globals";
 
-let Route = Router.Route,
-    DefaultRoute = Router.DefaultRoute;
 
 import Master from "./components/Master";
 import BadgeMaster from "./components/badges/BadgeMaster";
@@ -41,61 +44,61 @@ import ImageRequest from "./components/admin/ImageRequest";
 import IdentityMembershipMaster from "./components/admin/IdentityMembershipMaster";
 
 const providersRoute = (
-<Route name="providers" handler={ProvidersMaster}>
-    <DefaultRoute handler={ProviderListSection} />
-    <Route name="provider" path=":id" handler={ProviderDetail} />
-    <Route name="all-providers" path="/" handler={ProviderListSection} />
+<Route path="providers" component={ProvidersMaster}>
+    <IndexRoute component={ProviderListSection} />
+    <Route path=":id" component={ProviderDetail} />
+    <Route path="all" component={ProviderListSection} />
 </Route>
 )
 
 const appRoutes = (
-<Route name="root" path="/application" handler={Master}>
-    <Route name="dashboard" handler={DashboardPage} />
-    <Route name="projects" handler={ProjectsMaster}>
-        <Route name="project" path=":projectId" handler={ProjectDetailsMaster}>
-            <Route name="project-details" path="details" handler={ProjectDetailsPage} />
-            <Route name="project-resources" path="resources" handler={ProjectResourcesPage} />
-            <Route name="project-instance-details" path="instances/:instanceId" handler={ProjectInstancePage} />
-            <Route name="project-volume-details" path="volumes/:volumeId" handler={ProjectVolumePage} />
-            <Route name="project-link-details" path="links/:linkId" handler={ProjectLinkPage} />
-            <DefaultRoute handler={ProjectDetailsPage} />
+<Route path="/" component={Master}>
+    <Route path="dashboard" component={DashboardPage} />
+    <Route path="projects" component={ProjectsMaster}>
+        <Route path=":projectId" component={ProjectDetailsMaster}>
+            <Route path="details" component={ProjectDetailsPage} />
+            <Route path="resources" component={ProjectResourcesPage} />
+            <Route path="instances/:instanceId" component={ProjectInstancePage} />
+            <Route path="volumes/:volumeId" component={ProjectVolumePage} />
+            <Route path="links/:linkId" component={ProjectLinkPage} />
+            <IndexRoute component={ProjectDetailsPage} />
         </Route>
-        <DefaultRoute handler={ProjectListPage} />
+        <IndexRoute component={ProjectListPage} />
     </Route>
-    <Route name="images" handler={ImagesMaster}>
-        <DefaultRoute name="search" handler={ImageListPage} />
-        <Route name="favorites" handler={FavoritedImagesPage} />
-        <Route name="authored" handler={MyImagesPage} />
-        <Route name="my-image-requests" handler={MyImageRequestsPage} />
-        <Route name="tags" handler={ImageTagsPage} />
-        <Route name="image-details" path=":imageId" handler={ImageDetailsPage} />
+    <Route path="images" component={ImagesMaster}>
+        <IndexRedirect to="search" />
+        <Route path="search" component={ImageListPage} />
+        <Route path="favorites" component={FavoritedImagesPage} />
+        <Route path="authored" component={MyImagesPage} />
+        <Route path="my-image-requests" component={MyImageRequestsPage} />
+        <Route path="tags" component={ImageTagsPage} />
+        <Route path=":imageId" component={ImageDetailsPage} />
     </Route>
     {globals.USE_ALLOCATION_SOURCES
      ? null
      : providersRoute}
-    <Route name="help" handler={HelpPage} />
-    <Route name="settings" handler={SettingsPage} />
-    <Route name="admin" handler={AdminMaster}>
-        <Route name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster} />
-        <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster} />
-        <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
-            <Route name="image-request-detail" path=":id" handler={ImageRequest} />
+    <Route path="help" component={HelpPage} />
+    <Route path="settings" component={SettingsPage} />
+    <Route path="admin" component={AdminMaster}>
+        <Route name="atmosphere-user-manager" path="users" component={AtmosphereUserMaster} />
+        <Route name="identity-membership-manager" path="identities" component={IdentityMembershipMaster} />
+        <Route name="image-request-manager" path="imaging-requests" component={ImageMaster}>
+            <Route name="image-request-detail" path=":id" component={ImageRequest} />
         </Route>
-        <DefaultRoute handler={AtmosphereUserMaster} />
+        <IndexRoute component={AtmosphereUserMaster} />
     </Route>
-    <Route name="badges" handler={BadgeMaster}>
-        <Route name="my-badges" path="my-badges" handler={MyBadges} />
-        <Route name="all-badges" path="all-badges" handler={AllBadges} />
-        <Route name="unearned-badges" path="unearned-badges" handler={UnearnedBadges} />
+    <Route path="badges" component={BadgeMaster}>
+        <Route path="my-badges" component={MyBadges} />
+        <Route path="all-badges" component={AllBadges} />
+        <Route path="unearned-badges" component={UnearnedBadges} />
     </Route>
-    <Route name="my-requests" handler={RequestMaster}>
-        <Route name="my-requests-resources" path="resources" handler={RequestHistory} />
-        <Route name="my-requests-images" path="images" handler={MyImageRequestsPage} />
+    <Route path="my-requests" component={RequestMaster}>
+        <Route path="resources" component={RequestHistory} />
+        <Route path="images" component={MyImageRequestsPage} />
     </Route>
-    <Route name="instances">
-        <Route name="new-instance-detail" path=":id" handler={NewInstanceDetail} />
-    </Route>
-    <DefaultRoute handler={DashboardPage} />
+    <Route path="instances/:id" component={NewInstanceDetail} />
+    <IndexRoute component={DashboardPage} />
+    <IndexRedirect to="dashboard" />
 </Route>
 );
 

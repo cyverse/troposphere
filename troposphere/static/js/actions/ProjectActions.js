@@ -1,6 +1,7 @@
+import { browserHistory } from "react-router";
+
 import Utils from "./Utils";
 import NotificationController from "controllers/NotificationController";
-import Router from "../Router";
 import actions from "actions";
 
 // Constants
@@ -24,7 +25,7 @@ import ProjectReportResourceModal from "components/modals/project/ProjectReportR
 export default {
 
     // ------------------------
-    // Standard CRUD Operations
+    // Exposed Operations
     // ------------------------
 
     create: function(params, onSuccess, onFailure) {
@@ -102,7 +103,7 @@ export default {
             });
         });
 
-        Router.getInstance().transitionTo("projects");
+        browserHistory.push("/projects");
     },
 
     // ----------------------

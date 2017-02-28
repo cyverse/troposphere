@@ -1,7 +1,9 @@
 import React from "react";
 import Backbone from "backbone";
-import Router from "react-router";
+import { Link } from "react-router";
+
 import Glyphicon from "components/common/Glyphicon";
+
 import modals from "modals";
 import stores from "stores";
 
@@ -22,7 +24,10 @@ export default React.createClass({
             projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
             projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
 
-        if (projectInstances.length > 0 || projectImages.length > 0 || projectExternalLinks.length > 0 || projectVolumes.length > 0) {
+        if (projectInstances.length > 0
+            || projectImages.length > 0
+            || projectExternalLinks.length > 0
+            || projectVolumes.length > 0) {
             modals.ProjectModals.explainProjectDeleteConditions();
         } else {
             modals.ProjectModals.destroy(project);
@@ -30,12 +35,14 @@ export default React.createClass({
     },
 
     renderRoute: function(name, linksTo, icon, params) {
+        let { projectId } = params;
         return (
         <li key={name}>
-            <Router.Link to={linksTo} params={params}>
+            <Link to={`projects/${projectId}/${linksTo}`}
+                  activeClassName="active">
                 <Glyphicon name={icon} />
                 <span>{name}</span>
-            </Router.Link>
+            </Link>
         </li>
         )
     },
@@ -48,10 +55,10 @@ export default React.createClass({
             <div className="secondary-nav">
                 <div className="container">
                     <ul className="secondary-nav-links">
-                        {this.renderRoute("Resources", "project-resources", "th", {
+                        {this.renderRoute("Resources", "resources", "th", {
                              projectId: project.id
                          })}
-                        {this.renderRoute("Details", "project-details", "list-alt", {
+                        {this.renderRoute("Details", "details", "list-alt", {
                              projectId: project.id
                          })}
                     </ul>

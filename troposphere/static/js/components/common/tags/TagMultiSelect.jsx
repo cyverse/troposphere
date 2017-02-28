@@ -93,7 +93,7 @@ export default React.createClass({
         }
     },
     onEnterKeyPressed: function(value) {
-        if (!this.state.showOptions) {
+        if (!this.state.showOptions || value.trim() == "") {
             return;
         }
         //IF options are showing and results are listed, pick the first one on Enter-pressed.

@@ -6,23 +6,56 @@ export default React.createClass({
     displayName: "ImageListPage",
 
     propTypes: {
+        location: React.PropTypes.object
+    },
 
-        // This prop type is provided by react-router
-        query: React.PropTypes.instanceOf(Object),
+    getInitialState() {
+        return {
+            tags: null,
+            helpLinks: null
+        };
     },
 
     queryFromProps() {
+        // TODO - rewrite this explanation to include child context
+        // ... etc.
+        //
         // The images route will be called with the following query
         //
         //     /application/images?q={tagname}
         //
         // We're just returning the string query from react-router
-        return this.props.query.q || "";
+        let location = this.props.location,
+            query = location.query;
+
+        return query ? query.q : "";
+    },
+
+    updateState() {
+        let tags = stores.TagStore.getAll(),
+            helpLinks = stores.HelpLinkStore.getAll();
+
+        this.setState({
+            tags,
+            helpLinks
+        });
+    },
+
+    componentDidMount() {
+        stores.TagStore.addChangeListener(this.updateState);
+        stores.HelpLinkStore.addChangeListener(this.updateState);
+
+        // Prime the data
+        this.updateState();
+    },
+
+    componentWillUnmount() {
+        stores.TagStore.removeChangeListener(this.updateState);
+        stores.HelpLinkStore.removeChangeListener(this.updateState);
     },
 
     render: function() {
-        var tags = stores.TagStore.getAll(),
-            helpLinks = stores.HelpLinkStore.getAll(),
+        let { tags, helpLinks } = this.state,
             query = this.queryFromProps();
 
         if (!tags || !helpLinks) {

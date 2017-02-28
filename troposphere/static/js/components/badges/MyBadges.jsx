@@ -1,14 +1,14 @@
 import React from "react";
-import Router from "react-router";
+
 import EarnedBadge from "./EarnedBadge";
+
 import stores from "stores";
 import globals from "globals";
 import modals from "modals";
 
+
 export default React.createClass({
     displayName: "MyBadges",
-
-    mixins: [Router.State],
 
     getInitialState: function() {
         var user = stores.ProfileStore.get();
@@ -33,8 +33,8 @@ export default React.createClass({
 
             assertions.push(assertionUrl);
         });
-    // FIXME: cannot find the object definition for `OpenBadges`
-    //OpenBadges.issue(assertions);
+        // FIXME: cannot find the object definition for `OpenBadges`
+        //OpenBadges.issue(assertions);
     },
 
     render: function() {

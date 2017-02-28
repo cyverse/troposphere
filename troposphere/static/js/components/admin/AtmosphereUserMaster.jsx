@@ -1,12 +1,14 @@
 import React from "react";
-import Router from "react-router";
-import stores from "stores";
+
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 import AtmosphereUser from "./AtmosphereUser";
 
+import stores from "stores";
+
+
 export default React.createClass({
     displayName: "AtmosphereUserMaster",
-    mixins: [Router.State, ComponentHandleInputWithDelay],
+    mixins: [ComponentHandleInputWithDelay],
 
     USERS_PAGE_SIZE: 20,
 
@@ -82,7 +84,7 @@ export default React.createClass({
             <tbody>
                 <tr className="admin-row">
                     <th style={{ border: "none" }}>
-                        <h4 
+                        <h4
                             style={{ margin: "0" }}
                             className="t-body-2"
                         >
@@ -90,8 +92,8 @@ export default React.createClass({
                         </h4>
                     </th>
                     <th style={{ border: "none" }}>
-                        <h4 
-                            style={{ margin: "0" }} 
+                        <h4
+                            style={{ margin: "0" }}
                             className="t-body-2"
                         >
                             E-Mail

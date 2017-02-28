@@ -1,13 +1,23 @@
+import { browserHistory } from "react-router";
 
+import Utils from "../Utils";
+
+//
+// Constants
+//
 import InstanceConstants from "constants/InstanceConstants";
 import ProjectInstanceConstants from "constants/ProjectInstanceConstants";
 import ProjectConstants from "constants/ProjectConstants";
+
+//
+// Models
+//
 import Instance from "models/Instance";
 import Project from "models/Project";
-import Router from "Router";
-import Utils from "../Utils";
 import ProjectInstance from "models/ProjectInstance";
+
 import globals from "globals";
+
 
 function launch(params) {
     if (!params.project)
@@ -127,9 +137,7 @@ function launch(params) {
     // Since this is triggered from the images page, navigate off
     // that page and back to the instance list so the user can see
     // their instance being created
-    Router.getInstance().transitionTo("project-resources", {
-        projectId: project.id
-    });
+    browserHistory.push(`/projects/${project.id}/resources`);
 }
 
 export default {
@@ -163,9 +171,7 @@ export default {
             // Since this is triggered from the images page, navigate off
             // that page and back to the instance list so the user can see
             // their instance being created
-            Router.getInstance().transitionTo("project-resources", {
-                projectId: project.id
-            });
+            browserHistory.push(`/projects/${project.id}/resources`);
         }).fail(function(response) {
             Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {
                 project: project

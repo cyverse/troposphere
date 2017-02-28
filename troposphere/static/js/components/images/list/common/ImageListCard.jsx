@@ -1,35 +1,30 @@
 import React from "react";
-import Router from "react-router";
-import RouterInstance from "Router";
+import { withRouter } from "react-router";
+import Showdown from "showdown";
+import Backbone from "backbone";
+import moment from "moment";
+
 import Gravatar from "components/common/Gravatar";
 import MediaCard from "components/common/ui/MediaCard";
-import Backbone from "backbone";
 import Bookmark from "components/images/common/Bookmark";
 import Tags from "components/images/detail/tags/Tags";
-import Showdown from "showdown";
 import context from "context";
 import globals from "globals";
-import moment from "moment";
 import stores from "stores";
-
-
 import Ribbon from "components/common/Ribbon";
 
 
-export default React.createClass({
+const ImageListCard = React.createClass({
     displayName: "ImageListCard",
-
-    mixins: [Router.State],
 
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     onCardClick() {
-        RouterInstance.getInstance()
-            .transitionTo("image-details",{
-                imageId: this.props.image.id
-            });
+        let imageId = this.props.image.id;
+
+        this.props.router.push(`images/${imageId}`);
     },
 
     renderEndDated() {
@@ -116,3 +111,5 @@ export default React.createClass({
         );
     }
 });
+
+export default withRouter(ImageListCard);

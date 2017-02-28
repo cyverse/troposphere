@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
 import ResourceDetail from "components/projects/common/ResourceDetail";
-import stores from "stores";
 
 export default React.createClass({
     displayName: "Identity",
@@ -11,14 +10,11 @@ export default React.createClass({
     },
 
     render: function() {
-        var volume = this.props.volume,
-            provider = stores.ProviderStore.get(volume.get("provider"));
-
-        if (!provider) return <div className="loading"></div>;
+        let volume = this.props.volume;
 
         return (
         <ResourceDetail label="Provider">
-            {provider.get("name")}
+            {volume.get("provider").name}
         </ResourceDetail>
         );
     }
