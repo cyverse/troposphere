@@ -32,6 +32,10 @@ _.extend(InstanceActionStore, Store, {
         }
     },
 
+    updateActionsFor(instance) {
+        return this.fetchFor(instance.get("uuid"));
+    },
+
     fetchFor(alias) {
         // alter to a "fetch every time" pattern
         if (!this.isFetching) {
