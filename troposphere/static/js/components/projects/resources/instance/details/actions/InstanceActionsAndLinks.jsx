@@ -4,15 +4,13 @@ import React from "react";
 import Backbone from "backbone";
 
 import Glyphicon from "components/common/Glyphicon";
-
-// FIXME
-import InstanceActionStore from "stores/InstanceActionStore";
 import InstanceActionNames from "constants/InstanceActionNames";
 
 import featureFlags from "utilities/featureFlags";
 import { findCookie } from "utilities/cookieHelpers";
 
 import modals from "modals";
+import stores from "stores";
 
 
 export default React.createClass({
@@ -87,7 +85,7 @@ export default React.createClass({
     },
 
     updateState: function() {
-        let actions = InstanceActionStore.getActionsFor(this.props.instance),
+        let actions = stores.InstanceActionStore.getActionsFor(this.props.instance),
             actionElements = this.state.actionElements;
 
         if (actions) {
@@ -99,12 +97,12 @@ export default React.createClass({
     },
 
     componentDidMount: function() {
-        InstanceActionStore.addChangeListener(this.updateState);
+        stores.InstanceActionStore.addChangeListener(this.updateState);
         this.updateState();
     },
 
     componentWillUnmount: function() {
-        InstanceActionStore.removeChangeListener(this.updateState);
+        stores.InstanceActionStore.removeChangeListener(this.updateState);
     },
 
     onStart: function() {
@@ -294,7 +292,7 @@ export default React.createClass({
     render: function() {
         let { actions, actionElements } = this.state;
 
-        InstanceActionStore.getActionsFor(this.props.instance);
+        stores.InstanceActionStore.getActionsFor(this.props.instance);
 
         if (!actions) {
             return (<div className="loading" />);
