@@ -1,6 +1,11 @@
 import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { cyverseTheme } from 'cyverse-ui/styles';
+import _ from 'lodash';
+
 import { Router,
          browserHistory } from "react-router";
 
@@ -88,16 +93,29 @@ export default React.createClass({
     startApplication: function() {
 
         $("body").removeClass("splash-screen");
+        console.log(cyverseTheme);
+        const mergeTheme = _.merge({},
+            cyverseTheme,
+            THEME,
+        );
 
-        // Start the application router
+        // Initialize Theme and start the application router
         //   - include the history (with an application basename)
         //   - on route change, update intercom so users get any
         //     messages sent to them
+        const App = (
+            <MuiThemeProvider muiTheme={getMuiTheme(mergeTheme)}>
+                <Router 
+                    history={withAppBasename(browserHistory)}
+                    onChange={() => window.Intercom("update")}
+                >
+                    {routes}
+                </Router>
+            </MuiThemeProvider>
+        );
+
         ReactDOM.render(
-            <Router history={withAppBasename(browserHistory)}
-                    onChange={() => window.Intercom("update")}>
-                {routes}
-            </Router>,
+            App,
             document.getElementById("application"));
     },
 

@@ -3,8 +3,12 @@ import _ from "underscore";
 import Backbone from "backbone";
 import React from "react";
 import ReactDOM from "react-dom";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+// Needed for MUI's onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+import injectTapEvent from 'react-tap-event-plugin';
+injectTapEvent();
+
 import SplashScreen from "components/SplashScreen";
 import LoginMaster from "components/login/LoginMaster";
 // Fixes aberrant lint violation found by TravisCI
@@ -175,13 +179,7 @@ export default {
             const Render = window.access_token ? 
                 SplashScreenComponent() : LoginMasterComponent();
 
-            const App = (
-                <MuiThemeProvider muiTheme={getMuiTheme(THEME)}>
-                    { Render }
-                </MuiThemeProvider>
-            );
-
-            ReactDOM.render(App, document.getElementById("application"));
+            ReactDOM.render(Render, document.getElementById("application"));
         });
     }
 }

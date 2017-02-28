@@ -1,8 +1,5 @@
 var THEME = {
-    palette: {
-        accent1Color: "green"
-    },
-    navBar: {
+    mainHeader: {
         background: "red",
         border: "blue"
     }

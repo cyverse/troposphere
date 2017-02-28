@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from 'material-ui/RaisedButton';
 
 import globals from "globals";
 import modals from "modals";
@@ -111,9 +112,25 @@ export default React.createClass({
                                 linksTo="settings" />
                         </div>
                     </div>
-                    <div className="resource-header clearfix">
-                        <h2 className="t-headline pull-left">Resources Used</h2>
-                        <a href="#" className="btn btn-sm btn-primary pull-left" onClick={this.renderRequestMoreResources}>Need more{String.fromCharCode(63)}</a>
+                    <div 
+                        className="resource-header clearfix"
+                        style={{
+                            display: "flex",
+                            alignItems: "center"
+                        }}
+                    >
+                        <h2 className="t-headline">
+                            Resources Used
+                        </h2>
+                        <RaisedButton
+                            style={{
+                                marginLeft: "20px",
+                                marginBottom: "10px",
+                            }}
+                            primary
+                            onTouchTap={this.renderRequestMoreResources}
+                            label={ `Need more ${String.fromCharCode(63)}` }
+                        />
                     </div>
                     <div className="row">
                         <div className="col-md-8">

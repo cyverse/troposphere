@@ -3,6 +3,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+// Needed for MUI's onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+import injectTapEvent from 'react-tap-event-plugin';
+injectTapEvent();
+
 import { Router,
          browserHistory } from "react-router";
 

@@ -48,6 +48,7 @@
     "react": "^15.*.*",
     "react-dom": "^15.*.*",
     "react-router": "^2.8.0",
+    "react-tap-event-plugin": "^2.0.1",
     "react-tooltip": "^3.0.10",
     "showdown": "^1.2.1",
     "tinycolor2": "^1.4.1",
