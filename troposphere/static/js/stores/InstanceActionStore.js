@@ -1,13 +1,9 @@
 import _ from "underscore";
-//import Backbone from "backbone";
 
 import Store from "stores/Store";
 import Dispatcher from "dispatchers/Dispatcher";
+import InstanceConstants from "constants/InstanceConstants";
 import InstanceActionCollection from "collections/InstanceActionCollection";
-//import InstanceAction from "models/InstanceAction";
-//import NotificationController from "controllers/NotificationController";
-
-//import globals from "globals";
 
 
 const InstanceActionStore = function(attributes, options) {
@@ -56,15 +52,26 @@ _.extend(InstanceActionStore, Store, {
 });
 
 
-Dispatcher.register(function(payload) {
-    var action = payload.action;
 
+Dispatcher.register(function(dispatch) {
+    let { actionType, payload } = dispatch.action;
+
+    // ---
     // right now, we want to observer Instance Status changes,
     // and dispatcher whenever that happens ...
-
-    // Action to handle yet; However, we want to
-    // signal when a change is emitted
-    switch (action.actionType) {
+    //
+    // In the case there has been an update - we want to do eager
+    // reload the actions available:
+    switch (actionType) {
+        case InstanceConstants.UPDATE_INSTANCE:
+            InstanceActionStore.updateActionsFor(payload.instance);
+            break;
+        case InstanceConstants.POLL_INSTANCE_WITH_DELAY:
+            InstanceActionStore.updateActionsFor(payload.instance);
+            break;
+        case InstanceConstants.POLL_INSTANCE:
+            InstanceActionStore.updateActionsFor(payload.instance);
+            break;
         default:
             break;
     }
