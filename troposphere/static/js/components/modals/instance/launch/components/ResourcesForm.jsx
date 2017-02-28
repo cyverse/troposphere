@@ -32,7 +32,7 @@ export default React.createClass({
         }
         let memory = providerSize.get("mem");
 
-        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB ${ diskStr })`;
+        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB, ${ diskStr })`;
     },
 
     renderAllocationSourceMenu() {
