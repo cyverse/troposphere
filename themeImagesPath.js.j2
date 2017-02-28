@@ -1,0 +1,9 @@
+var path = require('path');
+
+{%- if USE_THEME_IMAGES -%}
+var imagesDir = "themeImages";
+{%- else -%}
+var imagesDir = "themeImagesDefault";
+{%- endif %}
+
+module.exports = path.join(__dirname, "/troposphere/static/theme/" + imagesDir);

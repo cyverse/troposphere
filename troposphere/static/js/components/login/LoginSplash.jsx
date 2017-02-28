@@ -5,7 +5,7 @@ import React from "react";
 import Backbone from "backbone";
 import ReactDOM from "react-dom";
 import NotificationController from "controllers/NotificationController";
-
+import instanceLaunchImg from "themeImages/icon_launchnewinstance.png";
 export default React.createClass({
     displayName: "LoginSplash",
 
@@ -22,7 +22,7 @@ export default React.createClass({
                 <div className="row calls-to-action">
                   <div>
                     <a className="option" href="/login">
-                        <img src="/assets/theme/images/icon_launchnewinstance.png"/><br/>
+                        <img src={ instanceLaunchImg }/><br/>
                         <h2 className="t-title option__title">
                           {"Log in with your " + window.ORG_NAME + " Account"}
                         </h2><hr/>

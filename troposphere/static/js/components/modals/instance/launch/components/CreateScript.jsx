@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import actions from "actions";
 
 export default React.createClass({
@@ -205,12 +206,19 @@ export default React.createClass({
                 </div>
             </div>
             <div style={{ position: "absolute", bottom: "75px", right: "15px" }}>
-                <button className="btn btn-primary pull-right" onClick={this.onCreateScript} disabled={disable}>
-                    Save and Add Script
-                </button>
-                <button className="btn btn-default pull-right" style={{ marginRight: "10px" }} onClick={this.props.close}>
-                    Cancel Create Script
-                </button>
+                <RaisedButton
+                    primary
+                    className="pull-right"
+                    disabled={disable}
+                    onTouchTap={this.onCreateScript}
+                    label="Save and Add Script"
+                />
+                <RaisedButton
+                    className="pull-right"
+                    style={{ marginRight: "10px" }}
+                    onTouchTap={this.props.close}
+                    label="Cancel Create Script"
+                />
             </div>
         </div>
         )

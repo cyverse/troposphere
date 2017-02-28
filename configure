@@ -285,6 +285,11 @@ def _compare_variables_distribution():
         for section in variables_ini.keys():
             try:
                 d = Set(variables_dist[section])
+            except KeyError as e:
+                messages.append(('e',
+                    'Missing section in variables.ini.dist: [%s]. Please update variables.ini.dist to continue'
+                    % (e.message)))
+            try:
                 i = Set(variables_ini[section])
                 unused_dist_ns[section] = d.difference(i)
             except KeyError as e:
@@ -355,9 +360,14 @@ def _handle_preconditions(mapping):
             source = LOADER.get_source(ENV, file_location)
             ast = ENV.parse(LOADER.get_source(ENV, file_location))
             used_vars = meta.find_undeclared_variables(ast)
-
+            if not variables.get(section):
+                raise Exception(
+                    "Your variables.ini is missing the section"
+                    "[%s] which will cause a configuration FAILURE! Please add this"
+                    "section to your variables.ini before continuing."
+                    % (section,))
             defined_vars = Set(variables[section]).union(
-                                Set(variables[COMMON_KEY]))
+                            Set(variables[COMMON_KEY]))
             used_set = Set(used_vars)
 
             ud_vars = used_set.difference(defined_vars)

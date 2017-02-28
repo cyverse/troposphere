@@ -1,0 +1,41 @@
+{
+    "palette": {
+        {% if PRIMARY_ONE_COLOR -%}
+        "primary1Color": "{{ PRIMARY_ONE_COLOR }}",
+        {% endif %}
+
+        {%- if PRIMARY_TWO_COLOR -%}
+        "primary2Color": "{{ PRIMARY_TWO_COLOR }}",
+        {% endif %}
+ 
+        {%- if ACCENT_ONE_COLOR -%}
+        "accent1Color": "{{ ACCENT_ONE_COLOR }}",
+        {% endif %}
+        
+        {%- if DANGER_COLOR -%}
+        "danger": "{{ DANGER_COLOR }}",
+        {% endif %}
+        
+        {%- if SUCCESS_COLOR -%}
+        "success": "{{ SUCCESS_COLOR }}",
+        {% endif %}
+        
+        {%- if PICKER_HEADER_COLOR -%}
+        "pickerHeaderColor": "{{ PICKER_HEADER_COLOR }}"
+        {% endif -%}
+    },
+
+    "header": {
+        {% if HEADER_COLOR -%}
+        "headerColor": "{{ HEADER_COLOR }}",
+        {% endif %}
+
+        {%- if HEADER_BORDER_COLOR -%}
+        "headerBorderColor": "{{ HEADER_BORDER_COLOR }}",
+        {% endif %}
+
+        {%- if HEADER_LINK_COLOR -%}
+        "headerLinkColor": "{{ HEADER_LINK_COLOR }}"
+        {% endif -%}
+    }
+}
