@@ -23,9 +23,16 @@ export default React.createClass({
         let name = providerSize.get("name");
         let cpu = providerSize.get("cpu");
         let disk = providerSize.get("disk");
+        let diskStr = ""
+        if (disk == 0) {
+            disk = providerSize.get("root");
+        }
+        if (disk != 0) {
+            diskStr = `Disk: ${ disk } GB`
+        }
         let memory = providerSize.get("mem");
 
-        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB, Disk: ${ disk } GB)`;
+        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB ${ diskStr })`;
     },
 
     renderAllocationSourceMenu() {
