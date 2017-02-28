@@ -20,7 +20,12 @@ export default React.createClass({
         }
 
         return (
-        <span className="breadcrumb"><Router.Link to={breadcrumb.linksTo} params={breadcrumb.params || {}}> {breadcrumb.name} </Router.Link> <span>{" > "}</span></span>
+        <span className="breadcrumb">
+            <Router.Link to={breadcrumb.linksTo} params={breadcrumb.params || {}}>
+                {breadcrumb.name}
+            </Router.Link>
+            <span>{" > "}</span>
+        </span>
         );
     }
 });
