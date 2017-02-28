@@ -1,6 +1,8 @@
 import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Router,
          browserHistory } from "react-router";
 
@@ -54,9 +56,18 @@ function startApplication() {
     $(document).ready(function() {
         $("body").removeClass("splash-screen");
 
+        const App = (
+            <MuiThemeProvider muiTheme={getMuiTheme(THEME)}>
+                <Router history={withAppBasename(browserHistory)}>
+                    {routes}
+                </Router>
+            </MuiThemeProvider>
+        );
+
         // Start the application router
+        
         ReactDOM.render(
-            <Router history={withAppBasename(browserHistory)}>{routes}</Router>,
+            App,
             document.getElementById("application"));
     });
 }

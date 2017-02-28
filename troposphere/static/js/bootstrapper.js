@@ -3,6 +3,8 @@ import _ from "underscore";
 import Backbone from "backbone";
 import React from "react";
 import ReactDOM from "react-dom";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import SplashScreen from "components/SplashScreen";
 import LoginMaster from "components/login/LoginMaster";
 // Fixes aberrant lint violation found by TravisCI
@@ -168,12 +170,18 @@ export default {
         $(document).ready(function() {
             var SplashScreenComponent = React.createFactory(SplashScreen);
             var LoginMasterComponent = React.createFactory(LoginMaster);
-            if (window.access_token) {
-                ReactDOM.render(SplashScreenComponent(), document.getElementById("application"));
-            } else {
-                //Show login component when user is not already-logged in.
-                ReactDOM.render(LoginMasterComponent(), document.getElementById("application"));
-            }
+
+            //Show login component when user is not already-logged in.
+            const Render = window.access_token ? 
+                SplashScreenComponent() : LoginMasterComponent();
+
+            const App = (
+                <MuiThemeProvider muiTheme={getMuiTheme(THEME)}>
+                    { Render }
+                </MuiThemeProvider>
+            );
+
+            ReactDOM.render(App, document.getElementById("application"));
         });
     }
 }
