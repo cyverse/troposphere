@@ -105,34 +105,28 @@ export default React.createClass({
 
     componentWillUnmount: function() {
         InstanceActionStore.removeChangeListener(this.updateState);
-        InstanceActionStore.models = null;
     },
 
     onStart: function() {
         modals.InstanceModals.start(this.props.instance);
-        InstanceActionStore.models = null;
     },
 
     onSuspend: function() {
         modals.InstanceModals.suspend(this.props.instance);
-        InstanceActionStore.models = null;
     },
 
     onStop: function() {
         modals.InstanceModals.stop(this.props.instance);
-        InstanceActionStore.models = null;
     },
 
     onResume: function() {
         modals.InstanceModals.resume(this.props.instance);
-        InstanceActionStore.models = null;
     },
 
     onReport: function() {
         modals.InstanceModals.report({
             instance: this.props.instance
         });
-
     },
 
     onImageRequest: function() {
