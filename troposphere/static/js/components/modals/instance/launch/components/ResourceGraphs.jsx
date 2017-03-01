@@ -17,7 +17,10 @@ export default React.createClass({
             <div style={{ color: "red", marginTop: "-20px" }}>
                 You do not have enough resources.
                 <br/>
-                <a className="btn btn-xs btn-default" style={{ margin: "5px 0 20px" }} onClick={this.props.onRequestResources}>Request more Resources</a>
+                <a className="btn btn-xs btn-default"
+                   style={{ margin: "5px 0 20px" }}
+                   onClick={this.props.onRequestResources}>
+                    Request more Resources</a>
             </div>
             )
         }

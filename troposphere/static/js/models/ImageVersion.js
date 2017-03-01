@@ -13,4 +13,16 @@ export default Backbone.Model.extend({
 
         return attributes;
     },
+
+    isEndDated: function() {
+        let endDate = this.get("end_date"),
+            image = this.get("image"),
+            result = endDate && endDate.isValid();
+        if (!result) {
+            endDate = moment(image.end_date);
+            result = endDate && endDate.isValid();
+        }
+
+        return result;
+    }
 });

@@ -25,4 +25,8 @@ export default Backbone.Model.extend({
         delete attributes["isFavorited"];
         return attributes;
     },
+
+    isEndDated: function() {
+        return this.get("end_date") && this.get("end_date").isValid()
+    }
 });

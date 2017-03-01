@@ -142,7 +142,7 @@ export default React.createClass({
                 });
                 linksArray.push({
                     label: "Reboot",
-                    icon: "repeat",
+                    icon: "off",
                     onClick: this.onReboot
                 });
                 linksArray.push({
@@ -158,7 +158,7 @@ export default React.createClass({
                 });
                 linksArray.push({
                     label: "Reboot",
-                    icon: "repeat",
+                    icon: "off",
                     onClick: this.onReboot
                 });
             } else if (status === "shutoff") {
@@ -185,7 +185,7 @@ export default React.createClass({
             || activity === "running_boot_script")) {
             linksArray.push({
                 label: "Reboot",
-                icon: "repeat",
+                icon: "off",
                 onClick: this.onReboot
             });
             linksArray.push({
@@ -216,12 +216,13 @@ export default React.createClass({
 
         if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
             linksArray.push({
-                label: "Web Desktop",
+                label: "Open Web Desktop",
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
                     this,
                     ip_address,
                     this.props.instance),
+                openInNewWindow: true,
                 isDisabled: webLinksDisabled
             });
         }
@@ -250,15 +251,23 @@ export default React.createClass({
             // disable the buttons with a message explaining why on rollover.
             //
             if (link.openInNewWindow) {
-                var style = {};
-                if (!link.href)
+                let linkProps,
+                    style = {};
+                if (!link.href && !link.onClick)
                     style.cursor = "not-allowed";
 
+                linkProps = {
+                    key: link.label,
+                    className: className + " link",
+                    disabled: link.isDisabled
+                }
+                // conditionally include a click handler
+                if (link.onClick) {
+                    linkProps.onClick = link.onClick
+                }
+
                 return (
-                <li key={link.label}
-                    className={className + " link"}
-                    style={style}
-                    disabled={link.isDisabled}>
+                <li {...linkProps}>
                     <a href={link.href} target="_blank">
                         {linkLabelMarkup}
                     </a>

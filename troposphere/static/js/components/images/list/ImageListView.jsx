@@ -132,7 +132,7 @@ export default React.createClass({
         };
         images.sort();
             return (
-                <ImageCardList key="featured"         
+                <ImageCardList key="featured"
                     title="Featured Images"
                     images={images}
                     tags={tags} />

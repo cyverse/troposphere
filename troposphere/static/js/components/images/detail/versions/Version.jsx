@@ -1,14 +1,18 @@
 import React from "react";
 import Backbone from "backbone";
+import CryptoJS from "crypto-js";
+
 import Gravatar from "components/common/Gravatar";
+import Ribbon from "components/common/Ribbon";
 import MediaCard from "components/common/ui/MediaCard";
 import AvailabilityView from "../availability/AvailabilityView";
-import CryptoJS from "crypto-js";
+
 import stores from "stores";
 import context from "context";
 import globals from "globals";
 import moment from "moment";
 import showdown from "showdown";
+
 
 export default React.createClass({
     displayName: "Version",
@@ -42,7 +46,9 @@ export default React.createClass({
         });
     },
 
-    onEditClicked() {
+    onEditClicked(e) {
+        e.stopPropagation();
+        e.preventDefault();
         return this.props.onEditClicked(this.props.version);
     },
 
@@ -140,6 +146,7 @@ export default React.createClass({
 
         return (
         <div style={ styles.content }>
+            { this.renderEndDated() }
             { this.renderChangeLog() }
             <div style={ styles.availability }>
                 { providerAvailability }
@@ -158,7 +165,8 @@ export default React.createClass({
             providerAvailability = (
                 <AvailabilityView
                     isSummary={ !isOpen }
-                    version={ version } />
+                    version={ version }
+                />
             );
         } else {
             providerAvailability = "Please login to view available providers.";
@@ -166,12 +174,23 @@ export default React.createClass({
 
         return (
         <div style={ styles.content }>
+            { this.renderEndDated() }
             { this.renderChangeLog() }
             <div style={ styles.availability } >
                 { providerAvailability }
             </div>
         </div>
         );
+    },
+
+    renderEndDated() {
+        let { version } = this.props;
+
+        if (version.isEndDated()) {
+            return (
+                <Ribbon text={"End Dated"} />
+            );
+        }
     },
 
     render() {
