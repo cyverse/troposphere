@@ -3,14 +3,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { cyverseTheme } from 'cyverse-ui/styles';
 
 // Needed for MUI's onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 import injectTapEvent from 'react-tap-event-plugin';
 injectTapEvent();
 
-import { Router,
-         browserHistory } from "react-router";
+import {
+    Router,
+    browserHistory
+} from "react-router";
 
 import Profile from "models/Profile";
 
@@ -57,13 +60,17 @@ stores.MaintenanceMessageStore = {
     removeChangeListener: function() {}
 };
 
+const appTheme = _.merge({},
+    cyverseTheme,
+    THEME,
+);
 function startApplication() {
 
     $(document).ready(function() {
         $("body").removeClass("splash-screen");
 
         const App = (
-            <MuiThemeProvider muiTheme={getMuiTheme(THEME)}>
+            <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
                 <Router history={withAppBasename(browserHistory)}>
                     {routes}
                 </Router>

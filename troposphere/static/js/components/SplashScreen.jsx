@@ -17,6 +17,11 @@ import { withAppBasename } from "utilities/historyFunctions";
 
 import Raven from "raven-js";
 
+const appTheme = _.merge({},
+    cyverseTheme,
+    THEME,
+);
+
 export default React.createClass({
     displayName: "SplashScreen",
 
@@ -93,18 +98,13 @@ export default React.createClass({
     startApplication: function() {
 
         $("body").removeClass("splash-screen");
-        console.log(cyverseTheme);
-        const mergeTheme = _.merge({},
-            cyverseTheme,
-            THEME,
-        );
 
         // Initialize Theme and start the application router
         //   - include the history (with an application basename)
         //   - on route change, update intercom so users get any
         //     messages sent to them
         const App = (
-            <MuiThemeProvider muiTheme={getMuiTheme(mergeTheme)}>
+            <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
                 <Router 
                     history={withAppBasename(browserHistory)}
                     onChange={() => window.Intercom("update")}
