@@ -1,7 +1,6 @@
 import { hasLoggedInUser,
          hasExpiredPassword } from "utilities/profilePredicate";
 
-
 export default {
     hasMaintenanceNotice: function() {
         return !!window.maint_notice;

@@ -9,7 +9,6 @@ export default Backbone.Model.extend({
 
         attributes.id = response.username;
         attributes.userid = response.username;
-
         /**
          * FIXME: several values are missing from Profile
          *
