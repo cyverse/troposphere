@@ -27,7 +27,7 @@ export default React.createClass({
             return (<div className="loading"/>);
         }
         let metrics = image_metrics.get('metrics');
-        if(!metrics) {
+        if(!metrics || Object.keys(metrics).length <= 1) {
             return (
                 <div>
                     {"No metrics available for image" + image.get('name')}

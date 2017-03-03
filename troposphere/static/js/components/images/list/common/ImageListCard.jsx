@@ -77,11 +77,13 @@ export default React.createClass({
             if (metric) {
                 seriesData = this.getChartData(image, metric);
                 labels = this.getLabels(metric);
-                graphDiv = (<SparklineGraph
-                                seriesData={seriesData}
-                                categories={labels}
-                                title={""}
-                            />);
+                if (labels.length > 1) {
+                    graphDiv = (<SparklineGraph
+                                    seriesData={seriesData}
+                                    categories={labels}
+                                    title={""}
+                                />);
+                }
             }
         }
         let imageCreationDate = moment(image.get("start_date"))
