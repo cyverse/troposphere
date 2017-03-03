@@ -1,7 +1,8 @@
 import React from "react";
+import MenuItem from 'material-ui/MenuItem';
+import ButtonMenu from 'cyverse-ui/ButtonMenu';
 import Backbone from "backbone";
 import modals from "modals";
-
 
 export default React.createClass({
     displayName: "SubMenu",
@@ -10,47 +11,59 @@ export default React.createClass({
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    onCreateExternalLink: function(e) {
-        e.preventDefault();
+    onCreateExternalLink: function() {
         //TODO: Add initial_text if that makes sense.
         var initial_text = "";
         modals.ExternalLinkModals.createAndAddToProject(initial_text, this.props.project);
     },
 
-    onCreateVolume: function(e) {
-        e.preventDefault();
+    onCreateVolume: function() {
         modals.VolumeModals.createAndAddToProject({
             project: this.props.project
         });
     },
 
-    onCreateInstance: function(e) {
-        e.preventDefault();
+    onCreateInstance: function() {
         modals.InstanceModals.createAndAddToProject({
             project: this.props.project
         });
     },
-
+    
+    onItemSelect(e,el) {
+        e.preventDefault();
+        switch (el.props.primaryText) {
+            case "Instance": this.onCreateInstance();
+            break;
+            case "Volume": this.onCreateVolume();
+            break;
+            case "Link": this.onCreateExternalLink();
+            break;
+        }
+    },
+    
     render: function() {
         return (
-        <div className="sub-menu">
-            <div className="dropdown">
-                <button id="res-new-menu" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    New
-                </button>
-                <ul className="dropdown-menu">
-                    <li>
-                        <a id="res-create-instance" href="#" onClick={this.onCreateInstance}><i className={'glyphicon glyphicon-tasks'} /> Instance</a>
-                    </li>
-                    <li>
-                        <a id="res-create-volume" href="#" onClick={this.onCreateVolume}><i className={'glyphicon glyphicon-hdd'} /> Volume</a>
-                    </li>
-                    <li>
-                        <a id="res-create-link" href="#" onClick={this.onCreateExternalLink}><i className={'glyphicon glyphicon-globe'} /> Link</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+            <ButtonMenu
+                style={{ marginRight: "10px" }}
+                primary
+                buttonLabel="New"
+                onItemTouchTap={ this.onItemSelect }
+                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}        
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            >
+                <MenuItem
+                    id="res-create-instance"
+                    primaryText="Instance"
+                />
+                <MenuItem
+                    id="res-create-volume"
+                    primaryText="Volume"
+                />
+                <MenuItem
+                    id="res-create-link"
+                    primaryText="Link"
+                />
+            </ButtonMenu>
         );
     }
 });

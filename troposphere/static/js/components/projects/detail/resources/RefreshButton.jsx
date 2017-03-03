@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from 'material-ui/RaisedButton';
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import stores from "stores";
@@ -76,9 +77,12 @@ export default React.createClass({
             className += " refreshing";
 
         return (
-        <button className="btn btn-default" onClick={this.handleRefresh} disabled={this.state.isRefreshing}>
+        <RaisedButton 
+            onTouchTap={this.handleRefresh}
+            disabled={this.state.isRefreshing}
+        >
             <i className={className} />
-        </button>
+        </RaisedButton>
         );
     }
 
