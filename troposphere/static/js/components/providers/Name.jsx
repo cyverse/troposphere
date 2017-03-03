@@ -13,7 +13,7 @@ export default React.createClass({
     render: function() {
         let provider = this.props.provider;
         return (
-        <div style={{ paddingTop: "50px" }} className="row">
+        <div style={{ paddingTop: "50px", paddingBottom: "20px" }} className="row">
             <h1 className="t-display-1">{provider.get("name")}</h1>
             <Link className="btn btn-default" to="/providers">
                 <span className="glyphicon glyphicon-arrow-left"></span>
