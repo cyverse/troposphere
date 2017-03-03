@@ -16,12 +16,26 @@
     "unsafe-perm": true
   },
   "scripts": {
+    "build": "webpack --progress --colors"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-sass": "^2.1.0"
+    "babel-core": "^6.2.1",
+    "babel-eslint": "^6.0.4",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-stage-2": "^6.5.0",
+    "clean-webpack-plugin": "^0.1.9",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.23.0",
+    "extract-text-webpack-plugin": "^2.0.0",
+    "file-loader": "^0.8.5",
+    "image-webpack-loader": "^3.2.0",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.2.1",
+    "webpack-validator": "^2.2.0"
   }
 }
