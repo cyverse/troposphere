@@ -34,16 +34,19 @@ export default React.createClass({
         var imageTags = stores.TagStore.getImageTags(image);
 
         return (
-        <div className="image-tags">
-            <h4 className="t-body-2">Tags</h4>
-            <div className="content">
-                <EditTagsView tags={this.props.tags}
-                    activeTags={imageTags}
-                    onTagAdded={this.props.onTagAdded}
-                    onTagRemoved={this.props.onTagRemoved}
-                    onCreateNewTag={this.onCreateNewTag} />
+            <div className="image-tags">
+                <h4 className="t-body-2">
+                    Tags
+                </h4>
+                <div className="content">
+                    <EditTagsView tags={this.props.tags}
+                        activeTags={imageTags}
+                        onTagAdded={this.props.onTagAdded}
+                        onTagRemoved={this.props.onTagRemoved}
+                        onCreateNewTag={this.onCreateNewTag}
+                    />
+                </div>
             </div>
-        </div>
         );
     }
 });

@@ -1,4 +1,5 @@
 import React from "react";
+import FlatButton from "material-ui/FlatButton";
 import Backbone from "backbone";
 import TagMultiSelect from "components/common/tags/TagMultiSelect";
 
@@ -53,21 +54,22 @@ export default React.createClass({
         }
 
         return (
-        <div className="resource-tags">
-            <TagMultiSelect models={tags}
-                activeModels={this.props.activeTags}
-                onModelAdded={this.props.onTagAdded}
-                onModelRemoved={this.props.onTagRemoved}
-                onCreateNewTag={this.props.onCreateNewTag}
-                onEnterKeyPressed={this.onEnterKeyPressed}
-                onQueryChange={this.onQueryChange}
-                placeholderText="Search by tag name..." />
-            <a className="btn btn-primary new-tag"
-                href="#"
-                onClick={this.onCreateNewEmptyTag}>
-                + Create New tag
-            </a>
-        </div>
+            <div className="resource-tags">
+                <FlatButton
+                    primary
+                    onTouchTap={this.onCreateNewEmptyTag}
+                    label="+ New tag"
+                />
+                <TagMultiSelect models={tags}
+                    activeModels={this.props.activeTags}
+                    onModelAdded={this.props.onTagAdded}
+                    onModelRemoved={this.props.onTagRemoved}
+                    onCreateNewTag={this.props.onCreateNewTag}
+                    onEnterKeyPressed={this.onEnterKeyPressed}
+                    onQueryChange={this.onQueryChange}
+                    placeholderText="Search by tag name..."
+                />
+            </div>
         );
     }
 });

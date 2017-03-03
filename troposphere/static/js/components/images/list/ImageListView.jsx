@@ -1,5 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
+import RaisedButton from "material-ui/RaisedButton";
 import stores from "stores";
 import ImageCardList from "./list/ImageCardList";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
@@ -174,11 +175,12 @@ export default React.createClass({
 
         if (images.meta && images.meta.next) {
             return (
-            <button style={{ "margin": "auto", "display": "block" }}
-                    className="btn btn-default"
-                    onClick={this.onLoadMoreImages}>
-                Show more images...
-            </button>
+                <div style={{ display: "table", margin: "auto" }}>
+                    <RaisedButton
+                        onTouchTap={this.onLoadMoreImages}
+                        label="Show more images..."
+                    />
+                </div>
             )
         }
     },
