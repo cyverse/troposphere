@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import RaisedButton from 'material-ui/RaisedButton';
 import $ from "jquery";
 
 
@@ -43,9 +44,12 @@ export default React.createClass({
         var style = this.props.style || {};
         if (this.props.isVisible) {
             return (
-            <button className="btn btn-default" style={style} onClick={this.onClick}>
+            <RaisedButton
+                style={{ ...this.props.style, marginLeft: "20px" }}
+                onTouchTap={this.onClick}
+            >
                 <i className={"glyphicon glyphicon-" + this.props.icon} />
-            </button>
+            </RaisedButton>
             );
         }
         return null;

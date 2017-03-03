@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import ProjectSelect from "components/common/project/ProjectSelect";
@@ -215,12 +216,12 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button"
-                            className="btn btn-primary"
-                            onClick={this.confirm}
-                            disabled={!this.isSubmittable()}>
-                            Move resources into project
-                        </button>
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            disabled={!this.isSubmittable()}
+                            label="Move resources into project"
+                        />
                     </div>
                 </div>
             </div>

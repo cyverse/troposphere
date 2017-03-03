@@ -1,5 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
+import RaisedButton from "material-ui/RaisedButton";
 import EditTagsView from "./tags/EditTagsView";
 import EditNameView from "./name/EditNameView";
 import EditDescriptionView from "./description/EditDescriptionView";
@@ -124,8 +125,18 @@ export default React.createClass({
             </div>
             <div className="edit-link-row clearfix">
                 <hr/>
-                <a className="btn btn-primary pull-right" onClick={this.handleSave}>Save</a>
-                <a className="btn btn-default pull-right" style={{ marginRight: "20px" }} onClick={this.props.onCancel}>Cancel</a>
+                <div style={{ float: "right" }}>
+                    <RaisedButton
+                        style={{ marginRight: "20px" }}
+                        onTouchTap={this.props.onCancel}
+                        label="Cancel"
+                    />
+                    <RaisedButton
+                        primary
+                        onTouchTap={this.handleSave}
+                        label="Save"
+                    />
+                </div>
             </div>
         </div>
         );

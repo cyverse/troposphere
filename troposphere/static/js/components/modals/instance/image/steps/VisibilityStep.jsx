@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import Visibility from "../components/Visibility";
 import Users from "../components/Users";
@@ -102,18 +103,19 @@ export default React.createClass({
                 <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>
                     <span className="glyphicon glyphicon-chevron-left"></span> Back
                 </button>
-                <button type="button"
-                    className="btn btn-info next-button"
-                    onClick={this.onNext}
-                    disabled={!this.isSubmittable()}>
-                    Advanced Options
-                </button>
-                <button type="button"
-                    className="btn btn-primary submit-button"
-                    onClick={this.onSubmit}
-                    disabled={!this.isSubmittable()}>
-                    Submit
-                </button>
+                <RaisedButton
+                    secondary
+                    style={{ marginRight: "10px" }}
+                    onTouchTap={this.onNext}
+                    disabled={!this.isSubmittable()}
+                    label="Advanced Options"
+                />
+                <RaisedButton
+                    primary
+                    onTouchTap={this.onSubmit}
+                    disabled={!this.isSubmittable()}
+                    label="Submit"
+                />
             </div>
         </div>
         );

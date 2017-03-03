@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
 export default React.createClass({
@@ -29,8 +30,8 @@ export default React.createClass({
         <div role="form">
             <div className="form-group">
                 <p className="alert alert-info">
-                    <i className="glyphicon glyphicon-info-sign" />
-                    <strong>Uh-oh!</strong>
+                    <i className="glyphicon glyphicon-info-sign" /> 
+                    <strong> Uh-oh! </strong>
                     {"It looks like you're trying to delete this project. However, we don't currently support " +
                      "deleting projects that have resources in them."}
                 </p>
@@ -57,9 +58,11 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                            OK
-                        </button>
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            label="OK"
+                        />
                     </div>
                 </div>
             </div>

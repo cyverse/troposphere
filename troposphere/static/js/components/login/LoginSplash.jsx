@@ -17,7 +17,7 @@ export default React.createClass({
     render: function() {
         return (
           <div id="dashboard-view">
-           <div className="login-screen-master container" style={{"paddingTop": "30px"}}>
+           <div className="login-screen-master container" style={{"paddingTop": "50px"}}>
                 <h2 className="t-headline">{"Login to " + window.SITE_TITLE} </h2>
                 <div className="row calls-to-action">
                   <div>
