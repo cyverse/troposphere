@@ -125,10 +125,11 @@ export default React.createClass({
         var images = stores.ImageStore.fetchWhere({
                 tags__name: "Featured"
             }),
+            metrics = stores.ImageMetricsStore.getAll(),
             tags = this.props.tags;
 
         // If a query is present, bail
-        if (!images || !tags || this.state.query) return;
+        if (!images || !metrics || !tags || this.state.query) return;
         images.comparator = function(img) {
                 return img.get('end_date').isValid() ? 1 : -1;
         };
@@ -138,11 +139,12 @@ export default React.createClass({
                 <ImageCardList key="featured"
                     title="Featured Images"
                     images={images}
+                    metrics={metrics}
                     tags={tags} />
             );
     },
 
-    renderImages: function(images) {
+    renderImages: function(images, metrics) {
         var tags = this.props.tags;
 
         if (images && tags) {
@@ -154,6 +156,7 @@ export default React.createClass({
                 <ImageCardList key="all"
                     title="All Images"
                     images={images}
+                    metrics={metrics}
                     tags={tags} />
             );
         }
@@ -194,7 +197,7 @@ export default React.createClass({
         let metrics = stores.ImageMetricsStore.getAll();
         //TODO: At a later point in time, add 'summarized' metrics sparklines
 
-        if (!images || this.awaitingTimeout()) {
+        if (!images || !metrics || this.awaitingTimeout()) {
             return <div className="loading"></div>;
         }
 
@@ -212,7 +215,7 @@ export default React.createClass({
                 {title}
             </div>
             {this.renderFeaturedImages()}
-            {this.renderImages(images)}
+            {this.renderImages(images, metrics)}
             {this.renderLoadMoreButton(images)}
         </div>
         );

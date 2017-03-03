@@ -2,12 +2,14 @@ import React from "react";
 import Backbone from "backbone";
 import ImageListCard from "../common/ImageListCard";
 import { filterEndDate } from "utilities/filterCollection";
+import stores from "stores";
 
 
 export default React.createClass({
 
     propTypes: {
         title: React.PropTypes.string,
+        metrics: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
@@ -22,9 +24,11 @@ export default React.createClass({
 
     renderCard: function(image) {
         let isEndDated = !filterEndDate(image);
+        let imageMetric = stores.ImageMetricsStore.get(image.id);
+
         return (
         <li key={image.id}>
-            <ImageListCard image={image} isEndDated={isEndDated} />
+            <ImageListCard image={image} metric={imageMetric} isEndDated={isEndDated} />
         </li>
         );
     },

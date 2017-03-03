@@ -6,6 +6,7 @@ import MediaCard from "components/common/ui/MediaCard";
 import Backbone from "backbone";
 import Bookmark from "components/images/common/Bookmark";
 import Tags from "components/images/detail/tags/Tags";
+import SparklineGraph from "components/images/detail/stats/SparklineGraph";
 import Showdown from "showdown";
 import context from "context";
 import globals from "globals";
@@ -22,7 +23,8 @@ export default React.createClass({
     mixins: [Router.State],
 
     propTypes: {
-        image: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        metric: React.PropTypes.instanceOf(Backbone.Model),
     },
 
     onCardClick() {
@@ -39,14 +41,49 @@ export default React.createClass({
             );
         }
     },
+    getLabels(metric) {
+        let labels = Object.keys(metric);
+        return labels;
+    },
+    getChartData(image, metric) {
+        let labels = this.getLabels(metric);
+        let metric_values = Object.values(metric);
+        let percentAreaData = metric_values.map(function(mv) {
+            let percent = 100*mv.active/mv.total;
+            let index = metric_values.indexOf(mv);
+            return [index+1, percent];
+        });
+        var seriesData = [{
+            type: 'area',
+            name: "Success Percentage",
+            data: percentAreaData,
+            borderWidth: 0,
+            animation: true
+        }];
 
+        return seriesData;
+    },
     render() {
         let image = this.props.image;
+        let imageMetric = this.props.metric;
         let hasLoggedInUser = context.hasLoggedInUser();
         let type = stores.ProfileStore.get().get("icon_set");
         let imageTags = stores.TagStore.getImageTags(image);
             imageTags = imageTags ? imageTags.first(10) : null;
-
+        let metric, labels, seriesData;
+        let graphDiv = (<div style={{ "width": "135px", "height" : "15px"}}> {"No Metrics Available"} </div>);
+        if(imageMetric != null) {
+            metric = imageMetric.get('metrics');
+            if (metric) {
+                seriesData = this.getChartData(image, metric);
+                labels = this.getLabels(metric);
+                graphDiv = (<SparklineGraph
+                                seriesData={seriesData}
+                                categories={labels}
+                                title={""}
+                            />);
+            }
+        }
         let imageCreationDate = moment(image.get("start_date"))
                 .tz(globals.TZ_REGION)
                 .format("MMM Do YY hh:mm ");
@@ -110,6 +147,7 @@ export default React.createClass({
                         { bookmark }
                         <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
                         <Tags activeTags={imageTags}/>
+                        { graphDiv }
                     </span>
                 }
             />
