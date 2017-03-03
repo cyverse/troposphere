@@ -67,10 +67,12 @@ export default React.createClass({
 
     componentDidMount: function() {
         stores.ImageStore.addChangeListener(this.updateState);
+        stores.ImageMetricsStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
         stores.ImageStore.removeChangeListener(this.updateState);
+        stores.ImageMetricsStore.removeChangeListener(this.updateState);
     },
 
     onLoadMoreImages: function() {
@@ -189,6 +191,8 @@ export default React.createClass({
         } else {
             images = stores.ImageStore.getAll();
         }
+        let metrics = stores.ImageMetricsStore.getAll();
+        //TODO: At a later point in time, add 'summarized' metrics sparklines
 
         if (!images || this.awaitingTimeout()) {
             return <div className="loading"></div>;
