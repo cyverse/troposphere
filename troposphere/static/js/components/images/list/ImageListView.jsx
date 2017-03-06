@@ -195,11 +195,12 @@ export default React.createClass({
             images = stores.ImageStore.getAll();
         }
         let metrics = stores.ImageMetricsStore.getAll();
-        //TODO: At a later point in time, add 'summarized' metrics sparklines
 
         if (!images || !metrics || this.awaitingTimeout()) {
             return <div className="loading"></div>;
         }
+        let weeklyMetrics = stores.ImageMetricsStore.fetchWhere({'interval':"weekly"});
+        let dailyMetrics = stores.ImageMetricsStore.fetchWhere({'interval':"daily"});
 
         if (!images.meta || !images.meta.count) {
             title = "Showing " + images.length + " images";

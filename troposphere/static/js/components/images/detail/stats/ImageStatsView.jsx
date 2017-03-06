@@ -10,6 +10,11 @@ export default React.createClass({
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
+    getInitialState() {
+        return {
+            activeChart: "Monthly",
+         }
+    },
     getChartData: function(labels, data) {
         var seriesData = [{
             name: "Success Percentage",
@@ -21,12 +26,60 @@ export default React.createClass({
         return seriesData;
     },
     renderChart: function(image) {
-
-        let image_metrics = stores.ImageMetricsStore.get(image.id);
+        if(this.state.activeChart == "Monthly") {
+            return this.renderMonthlyChart(image);
+        } else if(this.state.activeChart == "Weekly") {
+            return this.renderWeeklyChart(image);
+        } else if(this.state.activeChart == "Daily") {
+            return this.renderDailyChart(image);
+        } else {
+            return this.renderMonthlyChart(image);
+        }
+    },
+    renderDailyChart: function(image) {
+        let image_metrics = stores.ImageMetricsStore.fetchWhere(
+            {
+                'interval': 'daily',
+                'page_size': 1000,
+            }
+        );
         if(!image_metrics) {
             return (<div className="loading"/>);
         }
-        let metrics = image_metrics.get('metrics');
+        debugger;
+        let image_metric = image_metrics.get(image.id)
+        if(!image_metric) {
+            return (<div className="loading"/>);
+        }
+        let metrics = image_metric.get('metrics');
+        return this.renderMetricsChart(image, metrics);
+    },
+    renderWeeklyChart: function(image) {
+        let image_metrics = stores.ImageMetricsStore.fetchWhere(
+            {
+                'interval': 'weekly',
+                'page_size': 1000,
+            }
+        );
+        if(!image_metrics) {
+            return (<div className="loading"/>);
+        }
+        let image_metric = image_metrics.get(image.id)
+        if(!image_metric) {
+            return (<div className="loading"/>);
+        }
+        let metrics = image_metric.get('metrics');
+        return this.renderMetricsChart(image, metrics);
+    },
+    renderMonthlyChart: function(image) {
+        let image_metric = stores.ImageMetricsStore.get(image.id);
+        if(!image_metric) {
+            return (<div className="loading"/>);
+        }
+        let metrics = image_metric.get('metrics');
+        return this.renderMetricsChart(image, metrics);
+    },
+    renderMetricsChart: function(image, metrics) {
         if(!metrics || Object.keys(metrics).length <= 1) {
             return (
                 <div>
@@ -34,12 +87,6 @@ export default React.createClass({
                 </div>
             );
         }
-        //let labels = [];
-        //for(var date_label in metrics) {
-        //    //Current format '%X %x' -- 18:11:22 02/20/17
-        //    //
-        //    labels.push(date_label);
-        //}
         let labels = Object.keys(metrics);
         let metrics_values = Object.values(metrics);
         let percentData = metrics_values.map(function(mv) { return 100*mv.active/mv.total });
@@ -71,12 +118,32 @@ export default React.createClass({
         stores.ImageMetricsStore.removeChangeListener(this.updateState);
     },
 
+    renderChartSelector: function(image) {
+        return (<div id="controls" className="metrics breadcrumb">
+                    {this.renderChartSelections(image)}
+                </div>);
+    },
+    onChartSelected: function(e) {
+        let selectedText = e.target.innerHTML;
+        this.setState({activeChart: selectedText});
+        console.log("New active chart: "+selectedText);
+        return;
+    },
+    renderChartSelections: function() {
+        let options = ["Daily", "Weekly", "Monthly"];
+        let self = this;
+        return options.map(function(opt) {
+            let classes = (self.state.activeChart == opt) ? "active metrics" : "";
+            return (<li id={"image-metrics-select-"+opt} key={"image-metrics-select-"+opt} className={classes} onClick={self.onChartSelected}><a>{opt}</a></li>);
+            });
+    },
     render: function() {
         var image = this.props.image;
 
         return (
-        <div className="image-versions image-info-segment row">
+        <div id="ImageMetrics" className="image-versions image-info-segment row">
             <h4 className="t-title">Image Statistics:</h4>
+            {this.renderChartSelector(image)}
             {this.renderChart(image)}
         </div>
         );
