@@ -10,11 +10,6 @@ export default React.createClass({
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    onClick(e) {
-        e.preventDefault();
-        copyElement(e.target, { acknowledge: true });
-    },
-
     render() {
         const uuid = this.props.instance.get("uuid");
         return (
