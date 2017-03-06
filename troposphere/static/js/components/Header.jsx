@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import Backbone from 'backbone';
 import toastr from 'toastr';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 
 import MaintenanceMessageBanner from './MaintenanceMessageBanner';
 import context from 'context';
@@ -258,29 +257,7 @@ let Header = React.createClass({
         });
     },
 
-    getStyles() {
-        const { 
-            muiTheme: {
-                mainHeader: {
-                    background: navBackground,
-                    border: navBorder,
-                }
-            } 
-        } = this.props;
-
-        const navBar = {
-            background: navBackground,
-            border: `solid 4px ${navBorder}`,
-        }
-
-        return {
-            navBar,
-        }
-    },
-
     render: function() {
-        const styles = this.getStyles();
-
         let profile = this.props.profile;
         let loggedIn = hasLoggedInUser(profile);
 
@@ -293,7 +270,7 @@ let Header = React.createClass({
             : <Link to="images" className="navbar-brand" />;
 
         return (
-        <div style={ styles.navBar } className="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div className="navbar navbar-default navbar-fixed-top" role="navigation">
             <MaintenanceMessageBanner maintenanceMessages={this.props.maintenanceMessages} />
             <div className="container">
                 <div className="navbar-header">
@@ -323,4 +300,4 @@ let Header = React.createClass({
     }
 });
 
-export default muiThemeable()(Header);
+export default Header;

@@ -15,9 +15,9 @@ module.exports = {
     output: {
         filename: "theme.js",
         path: PATHS.dist,
-        // export itself to a global var
+        // export itself to a global assignment
         libraryTarget: "assign",
-        // name of the global var: "Foo"
+        // name of the global THEME"
         library: "THEME"
     },
     module: {

@@ -1,11 +1,6 @@
 import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
-import jss from 'jss'
-import preset from 'jss-preset-default'
-
-// One time setup with default plugins and settings.
-jss.setup(preset())
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
