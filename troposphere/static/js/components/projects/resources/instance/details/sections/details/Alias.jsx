@@ -1,9 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 import ResourceDetail from "components/projects/common/ResourceDetail";
-
-import { copyElement } from "utilities/clipboardFunctions";
-
+import CopyButton from "components/common/ui/CopyButton";
 
 export default React.createClass({
     displayName: "Alias",
@@ -18,9 +16,11 @@ export default React.createClass({
     },
 
     render() {
+        const uuid = this.props.instance.get("uuid");
         return (
-        <ResourceDetail label="Alias" onClick={this.onClick}>
-            {this.props.instance.get("uuid")}
+        <ResourceDetail label="Alias">
+            { uuid }
+            <CopyButton text={ uuid }/>
         </ResourceDetail>
         );
     }

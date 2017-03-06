@@ -5,9 +5,6 @@ import Code from "components/common/ui/Code";
 import CopyButton from "components/common/ui/CopyButton";
 import moment from "moment";
 
-import { copyElement } from "utilities/clipboardFunctions";
-
-
 export default React.createClass({
     displayName: "AvailabilityView",
 
