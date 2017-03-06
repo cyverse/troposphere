@@ -1,5 +1,5 @@
 import React from 'react';
-import toastr from "toastr";
+import { alertFail } from "utilities/toastrHelpers";
 import Raven from "raven-js";
 
 /**
@@ -14,27 +14,6 @@ import Raven from "raven-js";
  * where it is *not* available to assist in helping those community
  * members on a newer browerser
  */
-function alertFail(msg, title) {
-    let toastrDefaults = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "positionClass": "toast-bottom-right",
-        "preventDuplicates": true,
-        "onclick": null,
-        "showDuration": "260",
-        "hideDuration": "1000",
-        "timeOut": "6000",
-        "extendedTimeOut": "650",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
-
-    toastr.warning(msg, title, toastrDefaults);
-}
 function reportException(ex) {
     alertFail("Sorry your browser doesn't support this feature", "Can't Copy");
     // take Mulder's advice - trustno1
@@ -124,7 +103,6 @@ export default React.createClass({
 
         // The assumption is that if we have the execCommand method
         // we also have "copy"
-
         try {
             var canCopy = document.execCommand;
             this.setState({
