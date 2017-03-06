@@ -1,15 +1,26 @@
 import theme from 'cyverse-ui/styles/cyverseTheme';
+import _ from 'lodash';
 
 const { 
     palette: {
         primary1Color,
-        accent1Color
+        accent1Color,
+        alternateTextColor,
     }
 } = theme;
 
-const THEME = {
-    mainHeader: {
-        background: primary1Color,
-        border: "blue"
+
+
+const THEME = _.merge({},
+    theme,
+    {
+        mainHeader: {
+            background: primary1Color,
+            border: accent1Color,
+            linkColor: alternateTextColor,
+        }
     }
-};
+);
+
+module.exports = THEME
+

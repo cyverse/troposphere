@@ -18,7 +18,9 @@
   "scripts": {
     "build": "webpack --progress --colors"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
   "devDependencies": {
     "babel-core": "^6.2.1",
     "babel-eslint": "^6.0.4",

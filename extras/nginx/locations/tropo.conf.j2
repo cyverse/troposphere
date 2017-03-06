@@ -7,7 +7,7 @@ location /assets/bundles {
 }
 
 location /assets/theme {
-    alias {{ THEME_PATH }}/{{ THEME_NAME }};
+    alias {{ THEME_PATH }}/{{ THEME_NAME }}/dist;
 }
 
 location ~^/(application|maintenance|login|globus_login|oauth2.0/callbackAuthorize|logout|forbidden|version|cf2|tropo-admin|tropo-api|web_shell|web_desktop|allocations) {

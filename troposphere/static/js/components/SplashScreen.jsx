@@ -1,6 +1,12 @@
 import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
+import jss from 'jss'
+import preset from 'jss-preset-default'
+
+// One time setup with default plugins and settings.
+jss.setup(preset())
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyverseTheme } from 'cyverse-ui/styles';
@@ -16,11 +22,6 @@ import routes from "../AppRoutes";
 import { withAppBasename } from "utilities/historyFunctions";
 
 import Raven from "raven-js";
-
-const appTheme = _.merge({},
-    cyverseTheme,
-    THEME,
-);
 
 export default React.createClass({
     displayName: "SplashScreen",
@@ -104,7 +105,7 @@ export default React.createClass({
         //   - on route change, update intercom so users get any
         //     messages sent to them
         const App = (
-            <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
+            <MuiThemeProvider muiTheme={getMuiTheme(THEME)}>
                 <Router 
                     history={withAppBasename(browserHistory)}
                     onChange={() => window.Intercom("update")}
