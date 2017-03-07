@@ -121,9 +121,11 @@ export default React.createClass({
         stores.ImageMetricsStore.addChangeListener(this.updateState);
 
         let all_metrics = stores.ImageMetricsStore.getAll();
-        if (this.state.summaryData == null && all_metrics != null) {
-            this.setState({summaryData: this.getSummaryData(all_metrics)});
+        let summaryData = this.state.summaryData;
+        if (summaryData == null && all_metrics != null) {
+            summaryData = this.getSummaryData(all_metrics);
         }
+        this.setState({metricsData:all_metrics, summaryData});
     },
 
     componentWillUnmount: function() {
@@ -137,7 +139,30 @@ export default React.createClass({
     },
     onChartSelected: function(e) {
         let selectedText = e.target.innerHTML;
-        this.setState({activeChart: selectedText});
+        let all_metrics;
+        if (selectedText == "Monthly") {
+            all_metrics = stores.ImageMetricsStore.getAll();
+        } else if(selectedText == "Daily") {
+            all_metrics = stores.ImageMetricsStore.fetchWhere({
+                'page_size': 1000,
+                'interval': 'daily',
+            });
+        } else if(selectedText == "Weekly") {
+            all_metrics = stores.ImageMetricsStore.fetchWhere({
+                'page_size': 1000,
+                'interval': 'weekly',
+            });
+        }
+        var summaryData = this.state.summaryData;
+        if (all_metrics != null) {
+            summaryData = this.getSummaryData(all_metrics);
+        }
+        this.setState({
+            activeChart: selectedText,
+            metricsData: all_metrics,
+            summaryData,
+        });
+
         return;
     },
     renderChartSelections: function() {
