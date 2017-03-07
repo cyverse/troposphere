@@ -20,7 +20,7 @@ export default React.createClass({
             name: "Success Percentage",
             data: data,
             borderWidth: 0,
-            animation: true
+            animation: false
         }];
 
         return seriesData;
@@ -39,8 +39,8 @@ export default React.createClass({
     renderDailyChart: function(image) {
         let image_metrics = stores.ImageMetricsStore.fetchWhere(
             {
-                'interval': 'daily',
                 'page_size': 1000,
+                'interval': 'daily',
             }
         );
         if(!image_metrics) {
@@ -57,8 +57,8 @@ export default React.createClass({
     renderWeeklyChart: function(image) {
         let image_metrics = stores.ImageMetricsStore.fetchWhere(
             {
-                'interval': 'weekly',
                 'page_size': 1000,
+                'interval': 'weekly',
             }
         );
         if(!image_metrics) {
@@ -80,10 +80,10 @@ export default React.createClass({
         return this.renderMetricsChart(image, metrics);
     },
     renderMetricsChart: function(image, metrics) {
-        if(!metrics || Object.keys(metrics).length <= 1) {
+        if(!metrics || Object.keys(metrics).length <= 0) {
             return (
                 <div>
-                    {"No metrics available for image" + image.get('name')}
+                    {"No metrics available for image " + image.get('name')}
                 </div>
             );
         }
@@ -138,8 +138,11 @@ export default React.createClass({
             });
     },
     render: function() {
-        var image = this.props.image;
-
+        var image = this.props.image,
+            staff_user = stores.ProfileStore.get().get("is_staff");
+        if (!staff_user) {
+            return;
+        }
         return (
         <div id="ImageMetrics" className="image-versions image-info-segment row">
             <h4 className="t-title">Image Statistics:</h4>

@@ -58,7 +58,7 @@ export default React.createClass({
             name: "Success Percentage",
             data: percentAreaData,
             borderWidth: 0,
-            animation: true
+            animation: false
         }];
 
         return seriesData;
@@ -67,6 +67,10 @@ export default React.createClass({
         let image = this.props.image;
         let imageMetric = this.props.metric;
         let hasLoggedInUser = context.hasLoggedInUser();
+        let staff_user = stores.ProfileStore.get().get("is_staff");
+        if(!staff_user) {
+            return (<div style={{"width":"135px", "height": "15px"}}></div>);
+        }
         let type = stores.ProfileStore.get().get("icon_set");
         let imageTags = stores.TagStore.getImageTags(image);
             imageTags = imageTags ? imageTags.first(10) : null;
@@ -77,7 +81,7 @@ export default React.createClass({
             if (metric) {
                 seriesData = this.getChartData(image, metric);
                 labels = this.getLabels(metric);
-                if (labels.length > 1) {
+                if (labels.length > 0) {
                     graphDiv = (<SparklineGraph
                                     seriesData={seriesData}
                                     categories={labels}

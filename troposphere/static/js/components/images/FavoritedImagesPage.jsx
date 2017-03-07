@@ -20,7 +20,10 @@ export default React.createClass({
         }
 
         return (
-        <ImageCardList images={images} />
+        <ImageCardList
+            images={images}
+            metrics={metrics}
+        />
         );
     },
 

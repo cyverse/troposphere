@@ -199,8 +199,14 @@ export default React.createClass({
         if (!images || !metrics || this.awaitingTimeout()) {
             return <div className="loading"></div>;
         }
-        let weeklyMetrics = stores.ImageMetricsStore.fetchWhere({'interval':"weekly"});
-        let dailyMetrics = stores.ImageMetricsStore.fetchWhere({'interval':"daily"});
+        let weeklyMetrics = stores.ImageMetricsStore.fetchWhere({
+            'page_size': 1000,
+            'interval':"weekly"
+        });
+        let dailyMetrics = stores.ImageMetricsStore.fetchWhere({
+            'page_size': 1000,
+            'interval':"daily"
+        });
 
         if (!images.meta || !images.meta.count) {
             title = "Showing " + images.length + " images";
