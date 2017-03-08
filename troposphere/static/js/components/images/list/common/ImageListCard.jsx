@@ -68,25 +68,25 @@ export default React.createClass({
         let imageMetric = this.props.metric;
         let hasLoggedInUser = context.hasLoggedInUser();
         let staff_user = stores.ProfileStore.get().get("is_staff");
-        if(!staff_user) {
-            return (<div style={{"width":"135px", "height": "15px"}}></div>);
-        }
+        let graphDiv = (<div style={{"width":"135px", "height": "15px"}}></div>);
         let type = stores.ProfileStore.get().get("icon_set");
         let imageTags = stores.TagStore.getImageTags(image);
             imageTags = imageTags ? imageTags.first(10) : null;
         let metric, labels, seriesData;
-        let graphDiv = (<div style={{ "width": "135px", "height" : "15px"}}> {"No Metrics Available"} </div>);
-        if(imageMetric != null) {
-            metric = imageMetric.get('metrics');
-            if (metric) {
-                seriesData = this.getChartData(image, metric);
-                labels = this.getLabels(metric);
-                if (labels.length > 0) {
-                    graphDiv = (<SparklineGraph
-                                    seriesData={seriesData}
-                                    categories={labels}
-                                    title={""}
-                                />);
+        if(staff_user) {
+            graphDiv = (<div style={{ "width": "135px", "height" : "15px"}}> {"No Metrics Available"} </div>);
+            if(imageMetric != null) {
+                metric = imageMetric.get('metrics');
+                if (metric) {
+                    seriesData = this.getChartData(image, metric);
+                    labels = this.getLabels(metric);
+                    if (labels.length > 0) {
+                        graphDiv = (<SparklineGraph
+                                        seriesData={seriesData}
+                                        categories={labels}
+                                        title={""}
+                                    />);
+                    }
                 }
             }
         }

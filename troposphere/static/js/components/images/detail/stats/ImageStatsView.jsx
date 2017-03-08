@@ -230,7 +230,7 @@ export default React.createClass({
             summary_data = {},
             staff_user = stores.ProfileStore.get().get("is_staff");
         if (!staff_user) {
-            return;
+            return null;
         }
         return (
         <div id="ImageMetrics" className="image-versions image-info-segment row">

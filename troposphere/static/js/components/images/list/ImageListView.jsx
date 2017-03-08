@@ -129,7 +129,7 @@ export default React.createClass({
             tags = this.props.tags;
 
         // If a query is present, bail
-        if (!images || !metrics || !tags || this.state.query) return;
+        if (!images || !tags || this.state.query) return;
         images.comparator = function(img) {
                 return img.get('end_date').isValid() ? 1 : -1;
         };

@@ -9,7 +9,6 @@ export default React.createClass({
 
     propTypes: {
         title: React.PropTypes.string,
-        metrics: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
