@@ -13,9 +13,9 @@ import CallToAction from "./CallToAction";
 import { trackAction } from "../../utilities/userActivity";
 
 // images
-let launch_instance = globals.THEME_URL + "/images/icon_launchnewinstance.png",
-    settings = globals.THEME_URL + "/images/icon_settings.png",
-    help = globals.THEME_URL + "/images/icon_gethelp.png";
+import launch_instance from "theme/images/icon_launchnewinstance.png";
+import settings from "theme/images/icon_settings.png";
+import help from "theme/images/icon_gethelp.png";
 
 export default React.createClass({
     displayName: "DashboardPage",

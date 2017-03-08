@@ -87,9 +87,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader',
-        include: [
-            path.join(__dirname, 'node_modules/moment-timezone')
-        ]
       },
       { test: /\.jsx?$/,
         loader: "babel-loader",
@@ -113,6 +110,7 @@ module.exports = {
     alias: {
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
+      theme: path.join(__dirname, "/troposphere/static/theme/"),
       highcharts: "highcharts-commonjs"
     },
     root: [

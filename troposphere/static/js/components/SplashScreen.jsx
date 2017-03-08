@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyverseTheme } from 'cyverse-ui/styles';
+import themeObj from 'theme/theme.json';
 import _ from 'lodash';
 
 import { Router,
@@ -100,7 +101,7 @@ export default React.createClass({
         //   - on route change, update intercom so users get any
         //     messages sent to them
         const App = (
-            <MuiThemeProvider muiTheme={getMuiTheme(THEME)}>
+            <MuiThemeProvider muiTheme={getMuiTheme(themeObj)}>
                 <Router 
                     history={withAppBasename(browserHistory)}
                     onChange={() => window.Intercom("update")}
@@ -112,7 +113,8 @@ export default React.createClass({
 
         ReactDOM.render(
             App,
-            document.getElementById("application"));
+            document.getElementById("application")
+        );
     },
 
     render: function() {

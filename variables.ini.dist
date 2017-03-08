@@ -4,6 +4,15 @@ ASSETS_PATH =
 THEME_PATH =
 THEME_NAME =
 
+[theme]
+PRIMARY_ONE_COLOR = 
+ACCENT_ONE_COLOR =
+SUCCESS_COLOR =
+DANGER_COLOR =
+HEADER_COLOR =
+HEADER_LINK_COLOR =
+IMAGES_PATH = 
+
 [nginx]
 ENABLE_HTTP2 = ; enable if http2 module available in nginx build
 BUNDLE_FILE =

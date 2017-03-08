@@ -1,13 +1,13 @@
 // Brand
-$brand-primary: tomato;
-$brand-secondary: gold;
+$brand-primary: {{ PRIMARY_ONE_COLOR }};
+$brand-secondary: {{ ACCENT_ONE_COLOR }};
 
 // Navbar
-$navbar-default-bg: tomato;
-$navbar-default-border: gold;
-$navbar-default-link-color: rgba(white, .7);
-$navbar-default-link-hover-color: white;
-$navbar-default-link-active-color: white;
+$navbar-default-bg: {{ HEADER_COLOR }};
+$navbar-default-border: {{ HEADER_BORDER_COLOR }};
+$navbar-default-link-color: rgba({{ HEADER_LINK_COLOR }}, .7);
+$navbar-default-link-hover-color: {{ HEADER_LINK_COLOR }};
+$navbar-default-link-active-color: {{ HEADER_LINK_COLOR }};
 $navbar-default-link-active-bg: darken($navbar-default-bg, 6.5%);
 
 // Navbar toggle
