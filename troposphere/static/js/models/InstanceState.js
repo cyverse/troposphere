@@ -79,6 +79,11 @@ var get_percent_complete = function(state, activity) {
             "reboot": {
                 "rebooting": 50
             },
+            "resize": {
+                "resizing" : 10,
+                "resizing_confirming": 50,
+                "resizing_verifying" : 80
+            },
             "shutoff": {
                 "powering-on": 50
             },

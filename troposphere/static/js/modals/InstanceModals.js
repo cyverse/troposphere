@@ -9,7 +9,7 @@ import IResumeModal from "./instance/resume";
 import IStartModal from "./instance/start";
 import IStopModal from "./instance/stop";
 import ISuspendModal from "./instance/suspend";
-
+import IResizeModal from "./instance/resize";
 
 export default {
     createAndAddToProject: ICreateModal.createAndAddToProject,
@@ -22,5 +22,6 @@ export default {
     resume: IResumeModal.resume,
     start: IStartModal.start,
     stop: IStopModal.stop,
-    suspend: ISuspendModal.suspend
+    suspend: ISuspendModal.suspend,
+    resize: IResizeModal.resize
 };

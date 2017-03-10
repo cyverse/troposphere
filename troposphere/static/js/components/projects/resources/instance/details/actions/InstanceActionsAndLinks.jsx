@@ -20,6 +20,10 @@ export default React.createClass({
         modals.InstanceModals.start(this.props.instance);
     },
 
+    onResize: function() {
+        modals.InstanceModals.resize(this.props.instance);
+    },
+
     onSuspend: function() {
         modals.InstanceModals.suspend(this.props.instance);
     },
@@ -139,6 +143,11 @@ export default React.createClass({
                     label: "Stop",
                     icon: "stop",
                     onClick: this.onStop
+                });
+                linksArray.push({
+                    label: "Resize",
+                    icon: "fire",
+                    onClick: this.onResize
                 });
                 linksArray.push({
                     label: "Reboot",

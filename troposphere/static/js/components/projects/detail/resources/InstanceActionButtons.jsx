@@ -16,6 +16,10 @@ export default React.createClass({
         modals.InstanceModals.start(this.props.instance);
     },
 
+    onResize: function() {
+        modals.InstanceModals.resize(this.props.instance);
+    },
+
     onSuspend: function() {
         modals.InstanceModals.suspend(this.props.instance);
     },
@@ -55,6 +59,14 @@ export default React.createClass({
                         icon="pause"
                         tooltip="Suspend"
                         onClick={this.onSuspend}
+                        isVisible={true} />
+                );
+                linksArray.push(
+                    <Button style={style}
+                        key="Resize"
+                        icon="repeat"
+                        tooltip-"Resize"
+                        onClick={this.onResize}
                         isVisible={true} />
                 );
                 linksArray.push(

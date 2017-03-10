@@ -10,6 +10,7 @@ import IDestroy from "./instance/destroy";
 import IUpdate from "./instance/update";
 import IReport from "./instance/report";
 import IRequest from "./instance/requestImage";
+import IResize from "./instance/resize";
 
 export default {
     resume: IResume.resume,
@@ -24,5 +25,6 @@ export default {
     destroy: IDestroy.destroy,
     update: IUpdate.update,
     report: IReport.report,
-    requestImage: IRequest.requestImage
+    requestImage: IRequest.requestImage,
+    resize: IResize.resize
 };
