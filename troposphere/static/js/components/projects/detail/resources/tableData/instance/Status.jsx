@@ -16,7 +16,7 @@ export default React.createClass({
         var activity = instanceState.get("activity");
         var lightStatus;
 
-        if (activity || status == "build") {
+        if (activity || status == "build" || status == "verify_resize") {
             lightStatus = "transition";
         } else if (status == "active") {
             lightStatus = "active";
