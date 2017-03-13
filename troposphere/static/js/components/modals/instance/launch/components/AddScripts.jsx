@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import SelectMenu from "components/common/ui/SelectMenu";
 import ScriptTags from "./ScriptTags";
 
@@ -34,7 +35,11 @@ export default React.createClass({
                     <div style={{ textAlign: "center", marginBottom: "20px" }}>
                         - OR -
                     </div>
-                    <a className="btn btn-default btn-block" onClick={this.props.onCreateScript}>Create a New Script</a>
+                    <RaisedButton
+                        fullWidth
+                        onTouchTap={this.props.onCreateScript}
+                        label="Create a New Script"
+                    />
                 </div>
                 <div className="col-md-6">
                     <label>
