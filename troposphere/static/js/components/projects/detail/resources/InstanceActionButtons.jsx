@@ -65,7 +65,7 @@ export default React.createClass({
                     <Button style={style}
                         key="Resize"
                         icon="repeat"
-                        tooltip-"Resize"
+                        tooltip="Resize"
                         onClick={this.onResize}
                         isVisible={true} />
                 );
