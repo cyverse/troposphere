@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 
 export default React.createClass({
     displayName: "ImageWizard-ReviewStep",
@@ -266,12 +267,12 @@ export default React.createClass({
                 <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.props.onPrevious}>
                     <span className="glyphicon glyphicon-chevron-left"></span> Back
                 </button>
-                <button type="button"
-                    className="btn btn-primary cancel-button"
-                    onClick={this.props.onNext}
-                    disabled={!this.isSubmittable()}>
-                    Request Image
-                </button>
+                <RaisedButton
+                    primary 
+                    onTouchTap={this.props.onNext}
+                    disabled={!this.isSubmittable()}
+                    label="Request Image"
+                />
             </div>
         </div>
         );

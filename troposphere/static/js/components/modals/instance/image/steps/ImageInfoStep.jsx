@@ -1,5 +1,6 @@
 import $ from "jquery";
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import Name from "../components/Name";
 import CreateUpdateFlag from "../components/CreateUpdateFlag";
@@ -183,12 +184,12 @@ export default React.createClass({
                 {this.renderBody(instance)}
             </div>
             <div className="modal-footer">
-                <button type="button"
-                    className="btn btn-primary cancel-button"
-                    onClick={this.onNext}
-                    disabled={!this.isSubmittable()}>
-                    Next
-                </button>
+                <RaisedButton
+                    primary
+                    onTouchTap={this.onNext}
+                    disabled={!this.isSubmittable()}
+                    label="Next"
+                />
             </div>
         </div>
         );
