@@ -3,7 +3,7 @@
         "local.py": ["local.py"],
         "nginx": ["nginx", "nginx-site", "nginx-tropo"],
         "uwsgi.ini": ["troposphere.uwsgi"],
-        "theme": ["theme.json", "variables.scss"]
+        "theme": ["theme.json", "variables.scss", "webpack.config.js"]
     },
     "CONFIG_FILES": {
         "local.py": ["troposphere/settings/local.py.j2",
@@ -24,6 +24,9 @@
         ],
         "variables.scss": [ "troposphere/static/css/app/variables.scss.j2",
             "troposphere/static/css/app/variables.scss"
+        ],
+        "webpack.config.js": [ "webpack.config.js.j2",
+            "webpack.config.js"
         ]
     }
 }
