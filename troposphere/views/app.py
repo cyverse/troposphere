@@ -74,7 +74,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         request.session['access_token'] = request.COOKIES['auth_token']
 
     #NOTE: Now that we've moved this section from .js to Django, sentry configuration _could_ become more dynamic:
-    if settings.DEBUG and getattr(settings, 'SENTRY_DSN'):
+    if settings.DEBUG and getattr(settings, 'SENTRY_DSN', None):
         sentry_dict = {
             "dsn": settings.SENTRY_DSN,
             "release":"0c34d0931986495f4b726f999ae27c83"  # NOTE: Release shouldn't be static -- point to git-ref?
