@@ -118,6 +118,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         'use_login_selection': use_login_selection,
         'login_auth_allowed': login_auth_allowed,
         'org_name': settings.ORG_NAME,
+        'show_instance_metrics': getattr(settings, "SHOW_INSTANCE_METRICS", False),
         'emulator_token': request.session.get('emulator_token'),
         'emulator': request.session.get('emulator'),
         'records': maintenance_records,
@@ -132,8 +133,6 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         template_params['disable_login'] = disabled_login
     else:
         template_params['disable_login'] = False
-        template_params['SHOW_INSTANCE_METRICS'] = \
-            getattr(settings, "SHOW_INSTANCE_METRICS", False)
         # Only include Intercom information when rendering the authenticated
         # version of the site.
         if hasattr(settings, "INTERCOM_APP_ID"):

@@ -67,10 +67,12 @@ export default React.createClass({
 
     componentDidMount: function() {
         stores.ImageStore.addChangeListener(this.updateState);
+        stores.ImageMetricsStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
         stores.ImageStore.removeChangeListener(this.updateState);
+        stores.ImageMetricsStore.removeChangeListener(this.updateState);
     },
 
     onLoadMoreImages: function() {
@@ -123,6 +125,7 @@ export default React.createClass({
         var images = stores.ImageStore.fetchWhere({
                 tags__name: "Featured"
             }),
+            metrics = stores.ImageMetricsStore.getAll(),
             tags = this.props.tags;
 
         // If a query is present, bail
@@ -136,11 +139,12 @@ export default React.createClass({
                 <ImageCardList key="featured"
                     title="Featured Images"
                     images={images}
+                    metrics={metrics}
                     tags={tags} />
             );
     },
 
-    renderImages: function(images) {
+    renderImages: function(images, metrics) {
         var tags = this.props.tags;
 
         if (images && tags) {
@@ -152,6 +156,7 @@ export default React.createClass({
                 <ImageCardList key="all"
                     title="All Images"
                     images={images}
+                    metrics={metrics}
                     tags={tags} />
             );
         }
@@ -189,10 +194,19 @@ export default React.createClass({
         } else {
             images = stores.ImageStore.getAll();
         }
+        let metrics = stores.ImageMetricsStore.getAll();
 
-        if (!images || this.awaitingTimeout()) {
+        if (!images || !metrics || this.awaitingTimeout()) {
             return <div className="loading"></div>;
         }
+        let weeklyMetrics = stores.ImageMetricsStore.fetchWhere({
+            'page_size': 1000,
+            'interval':"weekly"
+        });
+        let dailyMetrics = stores.ImageMetricsStore.fetchWhere({
+            'page_size': 1000,
+            'interval':"daily"
+        });
 
         if (!images.meta || !images.meta.count) {
             title = "Showing " + images.length + " images";
@@ -208,7 +222,7 @@ export default React.createClass({
                 {title}
             </div>
             {this.renderFeaturedImages()}
-            {this.renderImages(images)}
+            {this.renderImages(images, metrics)}
             {this.renderLoadMoreButton(images)}
         </div>
         );

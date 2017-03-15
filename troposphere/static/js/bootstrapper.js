@@ -40,6 +40,7 @@ stores.ClientCredentialStore = require("stores/ClientCredentialStore");
 stores.ExternalLinkStore = require("stores/ExternalLinkStore");
 stores.HelpLinkStore = require("stores/HelpLinkStore");
 stores.ImageStore = require("stores/ImageStore");
+stores.ImageMetricsStore = require("stores/ImageMetricsStore");
 stores.ImageVersionStore = require("stores/ImageVersionStore");
 stores.ImageVersionMembershipStore = require("stores/ImageVersionMembershipStore");
 stores.ImageVersionLicenseStore = require("stores/ImageVersionLicenseStore");
