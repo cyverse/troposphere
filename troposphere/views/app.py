@@ -74,13 +74,13 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         request.session['access_token'] = request.COOKIES['auth_token']
 
     #NOTE: Now that we've moved this section from .js to Django, sentry configuration _could_ become more dynamic:
-    if settings.DEBUG:
-        sentry_dict = None
-    else:
+    if settings.DEBUG and getattr(settings, 'SENTRY_DSN', None):
         sentry_dict = {
-            "dsn": "https://27643f06676048be96ad6df686c17da3@sentry.io/73366",
-            "release":"0c34d0931986495f4b726f999ae27c83"
+            "dsn": settings.SENTRY_DSN,
+            "release":"0c34d0931986495f4b726f999ae27c83"  # NOTE: Release shouldn't be static -- point to git-ref?
         }
+    else:
+        sentry_dict = None
 
     auth_backends = settings.AUTHENTICATION_BACKENDS
     oauth_backends = [
@@ -118,6 +118,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         'use_login_selection': use_login_selection,
         'login_auth_allowed': login_auth_allowed,
         'org_name': settings.ORG_NAME,
+        'show_instance_metrics': getattr(settings, "SHOW_INSTANCE_METRICS", False),
         'emulator_token': request.session.get('emulator_token'),
         'emulator': request.session.get('emulator'),
         'records': maintenance_records,
@@ -132,8 +133,6 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         template_params['disable_login'] = disabled_login
     else:
         template_params['disable_login'] = False
-        template_params['SHOW_INSTANCE_METRICS'] = \
-            getattr(settings, "SHOW_INSTANCE_METRICS", False)
         # Only include Intercom information when rendering the authenticated
         # version of the site.
         if hasattr(settings, "INTERCOM_APP_ID"):
