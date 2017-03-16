@@ -94,7 +94,7 @@ INTERCOM_COMPANY_NAME = "{{ INTERCOM_COMPANY_NAME }}"
 {% endif %}
 
 {%- if SENTRY_ENABLED %}
-SENTRY_DSN = {{ SENTRY_DSN }}
+SENTRY_DSN = "{{ SENTRY_DSN }}"
 {%- endif %}
 
 {% if SESSION_COOKIE_AGE is defined and not SESSION_COOKIE_AGE == "" %}
