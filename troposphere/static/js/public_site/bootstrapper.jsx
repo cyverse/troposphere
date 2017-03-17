@@ -18,6 +18,7 @@ import stores from "stores";
 
 stores.ProviderStore = require("stores/ProviderStore");
 stores.ImageStore = require("stores/ImageStore");
+stores.ImageMetricsStore = require("stores/ImageMetricsStore");
 stores.ImageBookmarkStore = require("stores/ImageBookmarkStore");
 stores.ImageVersionStore = require("stores/ImageVersionStore");
 stores.TagStore = require("stores/TagStore");
