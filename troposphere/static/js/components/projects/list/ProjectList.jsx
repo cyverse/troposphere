@@ -1,7 +1,7 @@
 import React from "react";
-import Project from "./Project";
 import Backbone from "backbone";
 
+import Project from "./Project";
 
 
 export default React.createClass({
@@ -10,9 +10,9 @@ export default React.createClass({
     propTypes: {
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         selectedProject: React.PropTypes.instanceOf(Backbone.Model),
-        useRouter: React.PropTypes.bool,
         onProjectClicked: React.PropTypes.func
     },
+
     projectClicked: function(project) {
         return this.props.onProjectClicked(project);
     },
@@ -30,7 +30,6 @@ export default React.createClass({
                     project={project}
                     projects={this.props.projects}
                     onClick={self.projectClicked}
-                    useRouter={this.props.useRouter}
                     className={className} />
                 );
             }.bind(this));

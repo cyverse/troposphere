@@ -109,7 +109,7 @@ export default {
                         model: request
                     })
                 })
-        )
+            )
             .catch(errorHandler);
     }
 };

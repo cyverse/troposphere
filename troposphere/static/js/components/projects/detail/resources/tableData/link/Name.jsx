@@ -1,29 +1,33 @@
 import React from "react";
 import Backbone from "backbone";
-import Router from "react-router";
+import { Link } from "react-router";
 
 
 export default React.createClass({
 
-    mixins: [Router.State],
+    contextTypes: {
+        projectId: React.PropTypes.number
+    },
 
     propTypes: {
         external_link: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function() {
-        var external_link = this.props.external_link;
+        let external_link = this.props.external_link,
+            linkId = external_link.id,
+            projectId = this.context.projectId;
 
-        if (!external_link.id) {
+        if (!linkId) {
             return (
             <span>{external_link.get("title")}</span>
             );
         }
 
         return (
-        <Router.Link to="project-link-details" params={{ projectId: this.getParams().projectId, linkId: external_link.id }}>
+        <Link to={`/projects/${projectId}/links/${linkId}`}>
             {external_link.get("title")}
-        </Router.Link>
+        </Link>
         );
     }
 });

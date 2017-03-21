@@ -16,6 +16,22 @@ export default React.createClass({
         return {};
     },
 
+    componentDidMount: function() {
+        stores.ProfileStore.addChangeListener(this.updateState);
+        stores.ImageRequestStore.addChangeListener(this.updateState);
+        stores.HelpLinkStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.ProfileStore.removeChangeListener(this.updateState);
+        stores.ImageRequestStore.removeChangeListener(this.updateState);
+        stores.HelpLinkStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     onEditImage: function(requestId) {
         modals.ImageModals.edit(stores.ImageRequestStore.get(requestId));
     },

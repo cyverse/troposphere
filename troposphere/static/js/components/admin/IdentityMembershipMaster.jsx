@@ -1,14 +1,16 @@
 import React from "react";
-import Router from "react-router";
-import stores from "stores";
-import modals from "modals";
 
 import IdentityMembership from "./IdentityMembership";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 
+import stores from "stores";
+import modals from "modals";
+
+
 export default React.createClass({
     displayName: "IdentityMembership",
-    mixins: [Router.State, ComponentHandleInputWithDelay],
+
+    mixins: [ComponentHandleInputWithDelay],
 
     getInitialState: function() {
         return {

@@ -1,21 +1,21 @@
 import React from "react";
-import Router from "react-router";
-import RouterInstance from "Router";
+import { withRouter } from "react-router";
+
 import Tag from "components/common/tags/Tag";
 
-export default React.createClass({
+
+const Tags = React.createClass({
     displayName: "Tags",
+
     propTypes: {
         activeTags: React.PropTypes.array,
     },
 
-    mixins: [Router.State],
-
     onTagClick(tag) {
-        RouterInstance.getInstance()
-            .transitionTo("search",null,{
-                q: tag.get('name')
-            });
+        this.props.router.push({
+            pathname: "images/search",
+            query: { q: tag.get('name') }
+        });
     },
 
     render: function() {
@@ -35,3 +35,5 @@ export default React.createClass({
         );
     }
 });
+
+export default withRouter(Tags);

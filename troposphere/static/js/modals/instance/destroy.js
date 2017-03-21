@@ -1,10 +1,16 @@
-import actions from "actions";
+import { browserHistory } from "react-router";
+
+// TODO - this is curious `stores` is not imported here
+// and store.VolumeStore used in the exposed operation
 import VolumeStore from "stores/VolumeStore";
+
 import ModalHelpers from "components/modals/ModalHelpers";
 
 import InstanceDeleteModal from "components/modals/instance/InstanceDeleteModal";
 import ExplainInstanceDeleteConditionsModal from "components/modals/instance/ExplainInstanceDeleteConditionsModal";
-import Router from "Router";
+
+import actions from "actions";
+
 
 export default {
     destroy: function(payload, options) {
@@ -28,9 +34,7 @@ export default {
             attachedVolumes.forEach((volume) => VolumeStore.pollUntilDetached(volume));
             actions.InstanceActions.destroy(payload, options);
             if (project) {
-                Router.getInstance().transitionTo("project-resources", {
-                    projectId: project.id
-                });
+                browserHistory.push(`/projects/${project.id}/resources`);
             }
         })
     },

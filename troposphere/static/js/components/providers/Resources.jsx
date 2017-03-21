@@ -14,6 +14,24 @@ export default React.createClass({
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
+    componentDidMount: function() {
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     render: function() {
         let provider = this.props.provider,
             identity = stores.IdentityStore.findOne({
