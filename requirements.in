@@ -14,6 +14,7 @@ requests[security]==2.11.1
 uWSGI==2.0.13
 
 # Application Insights
+raven
 newrelic==2.64.0.48
 
 # Ours
