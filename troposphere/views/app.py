@@ -139,7 +139,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         template_params['new_relic_browser_snippet'] = \
             settings.NEW_RELIC_BROWSER_SNIPPET
 
-    enable_sentry = hasattr(settings, 'SENTRY_DSN')
+    enable_sentry = getattr(settings, 'SENTRY_DSN',"") != ""
     server_prefix = urlparse(settings.SERVER_URL).netloc.split('.')[0]
     sentry_tags = {'server_name': server_prefix}
     if emulator:
