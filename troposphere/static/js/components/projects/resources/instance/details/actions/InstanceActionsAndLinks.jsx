@@ -146,7 +146,7 @@ export default React.createClass({
                 });
                 linksArray.push({
                     label: "Resize",
-                    icon: "fire",
+                    icon: "resize-full",
                     onClick: this.onResize
                 });
                 linksArray.push({

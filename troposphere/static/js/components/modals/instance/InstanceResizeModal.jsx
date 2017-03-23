@@ -42,7 +42,6 @@ export default React.createClass({
         let project = this.props.project ? this.props.project : null;
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
-        let projectList = stores.ProjectStore.getAll();
 
         return {
             provider: null,
