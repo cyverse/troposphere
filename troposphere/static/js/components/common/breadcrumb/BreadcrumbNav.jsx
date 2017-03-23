@@ -9,7 +9,9 @@ export default React.createClass({
         breadcrumbs: React.PropTypes.array.isRequired,
         //breadcrumb: React.PropTypes.object.isRequired,
         //step: React.PropTypes.number.isRequired,
-        onCrumbClick: React.PropTypes.func.isRequired
+        onCrumbClick: React.PropTypes.func.isRequired,
+        onMouseOn: React.PropTypes.func,
+        onMouseOff: React.PropTypes.func
     },
 
     renderCrumbs: function() {

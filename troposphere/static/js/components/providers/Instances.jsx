@@ -1,15 +1,27 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
-import Router from "react-router";
+
 
 export default React.createClass({
     displayName: "Instances",
 
-    mixins: [Router.State],
-
     propTypes: {
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
+
+    componentDidMount: function() {
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
     },
 
     renderInstanceTableRow: function(instance, sizes) {

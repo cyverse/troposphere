@@ -6,6 +6,24 @@ import stores from "stores";
 export default React.createClass({
     displayName: "MyImagesPage",
 
+    componentDidMount: function() {
+        stores.ProfileStore.addChangeListener(this.updateState);
+        stores.ImageStore.addChangeListener(this.updateState);
+        stores.TagStore.addChangeListener(this.updateState);
+        stores.HelpLinkStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.ProfileStore.removeChangeListener(this.updateState);
+        stores.ImageStore.removeChangeListener(this.updateState);
+        stores.TagStore.removeChangeListener(this.updateState);
+        stores.HelpLinkStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     renderBody: function() {
         var profile = stores.ProfileStore.get(),
             images = stores.ImageStore.fetchWhere({

@@ -16,6 +16,22 @@ export default React.createClass({
         return {};
     },
 
+    componentDidMount: function() {
+        stores.ProfileStore.addChangeListener(this.updateState);
+        stores.ImageRequestStore.addChangeListener(this.updateState);
+        stores.HelpLinkStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.ProfileStore.removeChangeListener(this.updateState);
+        stores.ImageRequestStore.removeChangeListener(this.updateState);
+        stores.HelpLinkStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
     onEditImage: function(requestId) {
         modals.ImageModals.edit(stores.ImageRequestStore.get(requestId));
     },
@@ -83,6 +99,9 @@ export default React.createClass({
             var trClass,
                 endDateText = "N/A";
             switch (request.get("status").name) {
+                case "completed":
+                    trClass = "success";
+                    break;
                 case "approved":
                     trClass = "success";
                     break;
@@ -104,7 +123,8 @@ export default React.createClass({
                 endDateText = moment(request.get("end_date")).format("MMM D, YYYY h:mm:ss a");
             }
 
-            var newMachineId = !!request.get("new_machine") ? request.get("new_machine").id : "N/A";
+            var newMachineId = !!request.get("new_machine") ? request.get("new_machine").uuid : "N/A";
+            var newMachineProvider = !!request.get("new_machine_provider") ? request.get("new_machine_provider").name : "Unknown";
 
             return <tr className={trClass}>
                        <td>
@@ -114,16 +134,14 @@ export default React.createClass({
                            {endDateText}
                        </td>
                        <td>
-                           #
-                           {request.get("instance").id} -
-                           {request.get("instance").name}
+                           {request.get("instance").uuid + " - " + request.get("instance").name}
                        </td>
                        <td>
                            {request.get("status").name}
                        </td>
                        {machineStateData}
                        <td>
-                           {newMachineId}
+                           {newMachineProvider + " - " + newMachineId}
                        </td>
                    </tr>
         }.bind(this));

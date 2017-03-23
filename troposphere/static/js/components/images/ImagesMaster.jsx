@@ -1,8 +1,7 @@
 import React from "react";
-import Router from "react-router";
+
 import SecondaryImageNavigation from "./common/SecondaryImageNavigation";
 
-let RouteHandler = Router.RouteHandler;
 
 export default React.createClass({
     displayName: "ImagesMaster",
@@ -11,7 +10,7 @@ export default React.createClass({
         return (
         <div>
             <SecondaryImageNavigation currentRoute="todo-remove-this" />
-            <RouteHandler/>
+            {this.props.children}
         </div>
         );
     }

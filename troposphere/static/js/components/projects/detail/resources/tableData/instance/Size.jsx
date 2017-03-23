@@ -1,6 +1,5 @@
 import React from "react";
 import Backbone from "backbone";
-import stores from "stores";
 
 export default React.createClass({
     displayName: "Size",
@@ -10,17 +9,11 @@ export default React.createClass({
     },
 
     render: function() {
-        var instance = this.props.instance,
-            size = stores.SizeStore.get(instance.get("size").id);
-
-        if (!size) {
-            return (
-            <div className="loading-tiny-inline"></div>
-            );
-        }
+        let instance = this.props.instance;
+        let size = instance.get('size');
 
         return (
-        <span style={{ textTransform: "capitalize" }}>{size.get("name")}</span>
+        <span style={{ textTransform: "capitalize" }}>{size.name}</span>
         );
     }
 });

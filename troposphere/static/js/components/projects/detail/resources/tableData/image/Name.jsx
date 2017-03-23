@@ -1,10 +1,10 @@
 import React from "react";
 import Backbone from "backbone";
-import Router from "react-router";
+import { Link } from "react-router";
 
 
 export default React.createClass({
-    mixins: [Router.State],
+    displayName: "Name",
 
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
@@ -20,9 +20,9 @@ export default React.createClass({
         }
 
         return (
-        <Router.Link to="image-details" params={{ imageId: image.id }}>
+        <Link to={`images/${image.id}`}>
             {image.get("name")}
-        </Router.Link>
+        </Link>
         );
     }
 });

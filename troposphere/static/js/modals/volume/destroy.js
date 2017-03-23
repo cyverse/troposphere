@@ -1,11 +1,12 @@
-import actions from "actions";
-import stores from "stores";
+import { browserHistory } from "react-router";
+
 import ModalHelpers from "components/modals/ModalHelpers";
 
 import VolumeDeleteModal from "components/modals/volume/VolumeDeleteModal";
 import ExplainVolumeDeleteConditionsModal from "components/modals/volume/ExplainVolumeDeleteConditionsModal";
 
-import Router from "Router";
+import actions from "actions";
+import stores from "stores";
 
 
 export default {
@@ -43,9 +44,8 @@ export default {
                 project: project,
                 volume: volume
             });
-            Router.getInstance().transitionTo("project-resources", {
-                projectId: project.id
-            });
+
+            browserHistory.push(`/projects/${project.id}/resources`);
         })
     }
 };

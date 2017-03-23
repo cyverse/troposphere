@@ -21,14 +21,14 @@ export default React.createClass({
         var breadcrumbs = [
             {
                 name: "Resources",
-                linksTo: "project-resources",
+                linksTo: `projects/${project.id}/resources`,
                 params: {
                     projectId: project.id
                 }
             },
             {
                 name: volume.get("name"),
-                linksTo: "project-volume-details",
+                linksTo: `projects/${project.id}/volumes/${volume.id}`,
                 params: {
                     projectId: project.id,
                     volumeId: volume.id

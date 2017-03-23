@@ -23,6 +23,26 @@ export default React.createClass({
         }
     },
 
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+       stores.ProjectImageStore.addChangeListener(this.updateState);
+       stores.ProjectVolumeStore.addChangeListener(this.updateState);
+       stores.ProjectInstanceStore.addChangeListener(this.updateState);
+       stores.ProjectExternalLinkStore.addChangeListener(this.updateState);
+       stores.VolumeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+       stores.ProjectImageStore.removeChangeListener(this.updateState);
+       stores.ProjectVolumeStore.removeChangeListener(this.updateState);
+       stores.ProjectInstanceStore.removeChangeListener(this.updateState);
+       stores.ProjectExternalLinkStore.removeChangeListener(this.updateState);
+       stores.VolumeStore.removeChangeListener(this.updateState);
+    },
+
     onResourceSelected: function(resource) {
         var selectedResources = this.state.selectedResources;
 

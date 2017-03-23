@@ -31,14 +31,17 @@ export default React.createClass({
                     </div>
                     <div style={{ minHeight: "300px" }} className="modal-body">
                         <p>
-                            The cryptographically secure password associated with
-                            the cloud providers for your accounts has expired.
-                            This will block further actions, like the launching
-                            new instances.
+                            The password associated with the cloud providers
+                            for your account has expired.  This will block
+                            further actions, like the launching of new
+                            instances.
                        </p>
                        <p>
-                           Please visit <a href={link}>{text}</a> to perform
-                           the necessary actions to resolve this problem.
+                           Please visit <a href={link}>{text}</a> and perform
+                           a password reset.
+                           <br/>
+                           If you have trouble reach out to <a
+                           href={`mailto:${globals.SUPPORT_EMAIL}`}>support</a>.
                        </p>
                     </div>
                     <div className="modal-footer">

@@ -1,14 +1,10 @@
 import React from "react";
-import Router from "react-router";
-import RouterInstance from "../../Router";
+import { withRouter } from "react-router";
+
 import stores from "stores";
 
 
-let RouteHandler = Router.RouteHandler;
-
-export default React.createClass({
-
-    mixins: [Router.State],
+const ImageMaster = React.createClass({
 
     getInitialState: function() {
         return {
@@ -48,7 +44,7 @@ export default React.createClass({
     },
 
     onResourceClick: function(request) {
-        RouterInstance.getInstance().transitionTo(
+        this.props.router.transitionTo(
             "image-request-detail", {
                 request: request,
                 id: request.id
@@ -103,8 +99,10 @@ export default React.createClass({
             <ul className="requests-list pull-left">
                 {imageRequestRows}
             </ul>
-            <RouteHandler />
+            {this.props.children}
         </div>
         );
     }
 });
+
+export default withRouter(ImageMaster);
