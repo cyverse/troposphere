@@ -95,6 +95,10 @@ INTERCOM_COMPANY_NAME = "{{ INTERCOM_COMPANY_NAME }}"
 
 {%- if SENTRY_ENABLED %}
 SENTRY_DSN = "{{ SENTRY_DSN }}"
+import raven
+INSTALLED_APPS += (
+    'raven.contrib.django.raven_compat',
+    )
 {%- endif %}
 
 {% if SESSION_COOKIE_AGE is defined and not SESSION_COOKIE_AGE == "" %}

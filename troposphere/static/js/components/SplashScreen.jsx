@@ -56,15 +56,6 @@ export default React.createClass({
                 });
             }
 
-            if (Raven && Raven.isSetup()){
-                Raven.setUserContext({
-                    id: profile.get("user"),
-                    name: profile.get("username"),
-                    email: profile.get("email"),
-                    username: profile.get("username")
-                });
-            }
-
             this.startApplication();
         }
     },
