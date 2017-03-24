@@ -131,6 +131,10 @@
     var WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}";
 {% endif %}
 
+{% if GUACAMOLE_ENABLED %}
+    var GUACAMOLE_ENABLED = "{{ GUACAMOLE_ENABLED }}";
+{% endif %}
+
 {% if show_public_site %}
     var show_public_site = true;
 {%  else %}
