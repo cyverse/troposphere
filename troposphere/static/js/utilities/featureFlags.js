@@ -33,4 +33,5 @@ export default {
     hasIntercomActive,
     shouldReportInstanceViaIntercom,
     shouldReportVolumeViaIntercom,
+    GUACAMOLE: !!window.GUACAMOLE_ENABLED || false
 }

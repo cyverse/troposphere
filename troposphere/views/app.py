@@ -172,6 +172,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['WEB_DESKTOP_INCLUDE_LINK'] = \
         settings.WEB_DESKTOP_INCLUDE_LINK
 
+    template_params['GUACAMOLE_ENABLED'] = \
+        settings.GUACAMOLE_ENABLED
+
     if metadata:
         template_params['DISPLAY_STATUS_PAGE'] = \
             metadata.display_status_page_link
