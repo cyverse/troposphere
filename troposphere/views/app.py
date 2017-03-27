@@ -3,6 +3,7 @@ import logging
 
 from datetime import timedelta
 from urllib import urlencode
+from urlparse import urlparse
 
 from django.conf import settings
 from django.http import HttpResponse
@@ -73,14 +74,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             and 'auth_token' in request.COOKIES:
         request.session['access_token'] = request.COOKIES['auth_token']
 
-    #NOTE: Now that we've moved this section from .js to Django, sentry configuration _could_ become more dynamic:
-    if settings.DEBUG and getattr(settings, 'SENTRY_DSN', None):
-        sentry_dict = {
-            "dsn": settings.SENTRY_DSN,
-            "release":"0c34d0931986495f4b726f999ae27c83"  # NOTE: Release shouldn't be static -- point to git-ref?
-        }
-    else:
-        sentry_dict = None
+    emulator = request.session.get('emulator')
 
     auth_backends = settings.AUTHENTICATION_BACKENDS
     oauth_backends = [
@@ -120,10 +114,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         'org_name': settings.ORG_NAME,
         'show_instance_metrics': getattr(settings, "SHOW_INSTANCE_METRICS", False),
         'emulator_token': request.session.get('emulator_token'),
-        'emulator': request.session.get('emulator'),
+        'emulator': emulator,
         'records': maintenance_records,
         'notice': notice,
-        'sentry': sentry_dict,
         'new_relic_enabled': enable_new_relic,
         'show_public_site': public
     }
@@ -146,6 +139,12 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         template_params['new_relic_browser_snippet'] = \
             settings.NEW_RELIC_BROWSER_SNIPPET
 
+    enable_sentry = getattr(settings, 'SENTRY_DSN',"") != ""
+    server_prefix = urlparse(settings.SERVER_URL).netloc.split('.')[0]
+    sentry_tags = {'server_name': server_prefix}
+    if emulator:
+        sentry_tags['emulator'] = str(emulator)
+
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
     template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
@@ -157,6 +156,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
+    template_params['SENTRY_ENABLED'] = enable_sentry
+    template_params['sentry_tags_dict'] = sentry_tags
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL

@@ -151,19 +151,20 @@
     var USE_ALLOCATION_SOURCES = false;
 {% endif %}
 
-{% if sentry %}
-    var SENTRY_ENABLED = true;
-    var SENTRY_RELEASE = "{{ sentry.release }}";
-    var SENTRY_DSN = "{{ sentry.dsn }}";
-{%  else %}
-    var SENTRY_ENABLED = false;
-{% endif %}
-
 {% if notice %}
     var maint_notice = {
          title: "{{notice.title}}",
          message: "{{notice.message}}"
     };
+{% endif %}
+
+{% if SENTRY_ENABLED == true %}
+{% load raven %}
+var SENTRY_ENABLED = true;
+var SENTRY_DSN = '{% sentry_public_dsn 'https' %}';
+var SENTRY_TAGS = {{ sentry_tags_dict|safe }};
+{% else %}
+var SENTRY_ENABLED = false;
 {% endif %}
 
 {% if USER_PORTAL %}
