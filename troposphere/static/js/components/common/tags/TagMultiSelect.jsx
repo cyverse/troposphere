@@ -44,19 +44,27 @@ export default React.createClass({
     },
 
     getNoResultsPhrase: function(query) {
-        return 'No tags found matching "' + query + '". Press enter to create a new tag.';
+        return (
+        <span style={{ whiteSpace: "pre" }}>
+            { `No tags found matching "${query}". Press enter to create a new tag.` }
+        </span>
+        );
     },
 
     getNoDataPhrase: function() {
-        return "No tags exist";
+        return "No tags exist.";
     },
 
     getAllResultsAddedPhrase: function() {
-        return "All tags have been added";
+        return "All tags have been added.";
     },
 
     getAllAddedMatchingQueryPhrase: function(query) {
-        return 'All tags matching "' + query + '" have been added'
+        return (
+        <span style={{ whiteSpace: "pre" }}>
+            { `All tags matching "${query}" have been added.` }
+        </span>
+        );
     },
 
     renderModel: function(tag) {
@@ -93,7 +101,7 @@ export default React.createClass({
         }
     },
     onEnterKeyPressed: function(value) {
-        if (!this.state.showOptions) {
+        if (!this.state.showOptions || value.trim() == "") {
             return;
         }
         //IF options are showing and results are listed, pick the first one on Enter-pressed.

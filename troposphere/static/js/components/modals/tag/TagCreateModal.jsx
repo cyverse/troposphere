@@ -3,132 +3,53 @@ import $ from "jquery";
 import stores from "stores";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
-// Example Usage from http://bl.ocks.org/insin/raw/8449696/
-// render: function(){
-// <div>
-//   ...custom components...
-//   <ExampleModal
-//      ref="modal"
-//      show={false}
-//      header="Example Modal"
-//      buttons={buttons}
-//      handleShow={this.handleLog.bind(this, 'Modal about to show', 'info')}
-//      handleShown={this.handleLog.bind(this, 'Modal showing', 'success')}
-//      handleHide={this.handleLog.bind(this, 'Modal about to hide', 'warning')}
-//      handleHidden={this.handleLog.bind(this, 'Modal hidden', 'danger')}
-//    >
-//      <p>I'm the content.</p>
-//      <p>That's about it, really.</p>
-//    </ExampleModal>
-// </div>
-//
-
-// To show the modal, call this.refs.modal.show() from the parent component:
-// handleShowModal: function() {
-//   this.refs.modal.show();
-// }
-
-function getState() {
-    return {
-        name: null,
-        description: null
-    }
-}
-
 export default React.createClass({
     displayName: "TagCreateModal",
 
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-        initialTagName: React.PropTypes.string
+        name: React.PropTypes.string
     },
 
-    isSubmittable: function() {
-        var hasName = !!this.state.name;
-        var hasDescription = !!this.state.description;
-        var tagExists = !!this.state.tagExists;
-        return hasName && hasDescription && !tagExists;
+    getInitialState: function() {
+        // state.name will only be props.name initially, this is intentional
+        // because we are using to it to set the initial default
+        return {
+            name: this.props.name || "",
+            description: ""
+        };
     },
 
     componentDidMount: function() {
-        if (this.state.name) {
-            let lower = this.state.name.toLowerCase();
-            let tags = stores.TagStore.getAll().filter(function(tag) {
-                return tag.get("name").toLowerCase() === lower;
-            });
-            if (tags.length > 0) {
-                this.setState({
-                    tagExists: true,
-                    existsText: "Tag " + this.state.name + " already exists"
-                });
-            } else {
-                this.setState({
-                    tagExists: false,
-                    existsText: ""
-                });
-            }
-        }
+        stores.TagStore.addChangeListener(this.updateState);
     },
 
-    //
-    // Mounting & State
-    // ----------------
-    //
-
-    getInitialState: function() {
-        return {
-            name: this.props.initialTagName,
-            description: null
-        }
+    componentWillUnmount() {
+        stores.TagStore.removeChangeListener(this.updateState);
     },
 
     updateState: function() {
-        if (this.isMounted()) this.setState(getState());
+        if (this.isMounted()) {
+            this.forceUpdate();
+        }
     },
 
-    //
-    // Internal Modal Callbacks
-    // ------------------------
-    //
-
-    cancel: function() {
+    onCancel: function() {
         this.hide();
     },
 
-    confirm: function() {
+    onConfirm: function() {
+        let { name, description } = this.state;
         this.hide();
-        this.props.onConfirm($.trim(this.state.name), this.state.description);
+        this.props.onConfirm(name.trim(), description.trim());
     },
-
-
-    //
-    // Custom Modal Callbacks
-    // ----------------------
-    //
 
     onNameChange: function(e) {
         var newName = e.target.value;
         this.setState({
             name: newName
         });
-        if (newName) {
-            let lower = $.trim(newName.toLowerCase());
-            let tags = stores.TagStore.getAll().filter(function(tag) {
-                return tag.get("name").toLowerCase() === lower;
-            });
-            if (tags.length > 0) {
-                this.setState({
-                    tagExists: true,
-                    existsText: 'Tag with name "' + newName + '" already exists'
-                });
-            } else {
-                this.setState({
-                    tagExists: false,
-                    existsText: ""
-                });
-            }
-        }
     },
 
     onDescriptionChange: function(e) {
@@ -138,50 +59,64 @@ export default React.createClass({
         });
     },
 
-    //
-    // Render
-    // ------
-    //
-
-    renderBody: function() {
-        var formattedExistsText = <p className="no-results text-danger">
-                                      {this.state.existsText}
-                                  </p>
+    renderFooterWarning: function() {
         return (
-        <div role="form">
-            <div className="form-group">
-                <label htmlFor="volumeName">
-                    Tag Name
-                </label>
-                <input type="text"
-                    className="form-control"
-                    value={this.state.name}
-                    onChange={this.onNameChange} />
-                {formattedExistsText}
-            </div>
-            <div className="form-group">
-                <label htmlFor="volumeSize">
-                    Tag Description
-                </label>
-                <textarea id="project-description"
-                    type="text"
-                    className="form-control"
-                    rows="7"
-                    value={this.state.description}
-                    onChange={this.onDescriptionChange} />
-            </div>
-        </div>
+        <p className="text-danger">
+            Tag can not be created. Please fix errors above.
+        </p>
+        );
+    },
+
+    renderInvalidNameWarning: function() {
+        return (
+        <p className="no-results text-danger">
+            The name must contain only letters, numbers, underscores, and
+            hyphens.
+        </p>
+        );
+    },
+
+    renderTagExistsWarning: function() {
+        let { name } = this.state;
+        return (
+        <p className="no-results text-danger">
+            {`Tag ${name} already exists.`}
+        </p>
         );
     },
 
     render: function() {
-        var footerExistsText;
+        let { name, description } = this.state;
+        let lower = name.toLowerCase();
+        let isInvalidName = /[^-_0-9a-z]/.test(lower);
+        let tagExistsAlready = stores.TagStore.getAll().some(function(tag) {
+            return tag.get("name").toLowerCase() == lower.trim() &&
+                   // When a user confirms the modal to add the tag, the modal
+                   // fades out. During that fade, the tag store gets updated
+                   // optimistically to include the new model. We don't want
+                   // to check if the tag exists against itself.
+                   !tag.isNew();
+        });
 
-        if (this.state.tagExists) {
-            footerExistsText = <p className="text-danger">
-                                   Tag can not be created. Please fix errors above.
-                               </p>;
+        let labelWarning = "";
+        if (tagExistsAlready) {
+            labelWarning = this.renderTagExistsWarning();
         }
+
+        if (isInvalidName) {
+            labelWarning = this.renderInvalidNameWarning();
+        }
+
+        let footerWarning = "";
+        if (tagExistsAlready || isInvalidName) {
+            footerWarning = this.renderFooterWarning();
+        }
+
+        let isSubmittable =
+            name && // True if length > 0
+            description && // True if length > 0
+            !tagExistsAlready &&
+            !isInvalidName;
 
         return (
         <div className="modal fade">
@@ -192,17 +127,39 @@ export default React.createClass({
                         <h1 className="title-1">Create Tag</h1>
                     </div>
                     <div className="modal-body">
-                        {this.renderBody()}
+                        <div role="form">
+                            <div className="form-group">
+                                <label>
+                                    Tag Name
+                                </label>
+                                <input type="text"
+                                    className="form-control"
+                                    value={name}
+                                    onChange={this.onNameChange} />
+                                {labelWarning}
+                            </div>
+                            <div className="form-group">
+                                <label>
+                                    Tag Description
+                                </label>
+                                <textarea id="project-description"
+                                    type="text"
+                                    className="form-control"
+                                    rows="7"
+                                    value={description}
+                                    onChange={this.onDescriptionChange} />
+                            </div>
+                        </div>
                     </div>
                     <div className="modal-footer">
-                        {footerExistsText}
-                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                        {footerWarning}
+                        <button type="button" className="btn btn-danger" onClick={this.onCancel}>
                             Cancel
                         </button>
                         <button type="button"
                             className="btn btn-primary"
-                            onClick={this.confirm}
-                            disabled={!this.isSubmittable()}>
+                            onClick={this.onConfirm}
+                            disabled={!isSubmittable}>
                             Create tag
                         </button>
                     </div>
@@ -211,5 +168,4 @@ export default React.createClass({
         </div>
         );
     }
-
 });
