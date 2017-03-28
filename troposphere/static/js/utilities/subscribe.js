@@ -62,6 +62,11 @@ export default function(component, storeNames) {
     storeNames.forEach(name => {
         if (stores[name]) {
             subscriptions[name] = stores[name];
+        } else {
+            // If this is thrown either:
+            //    The store needs to be added to the above stores object /OR/
+            //    The store name was a typo and needs to be fixed in the component
+            throw new Error(`The store: ${name} does not exist. It cannot be subscribed to.`);
         }
     });
 
