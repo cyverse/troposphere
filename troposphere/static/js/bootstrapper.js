@@ -40,6 +40,8 @@ browserBondo.conditionalFill();
 // Register which stores the image should use
 import stores from "stores";
 
+// NOTE: Any store added needs to be added to subscribe.js. This is temporary
+// and required so that the subscribe function will work for that store.
 stores.AllocationStore = require("stores/AllocationStore");
 stores.BadgeStore = require("stores/BadgeStore");
 stores.ClientCredentialStore = require("stores/ClientCredentialStore");
