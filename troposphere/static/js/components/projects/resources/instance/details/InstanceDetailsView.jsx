@@ -9,8 +9,6 @@ import InstanceDetailsSection from "./sections/InstanceDetailsSection";
 import InstanceMetricsSection from "./sections/InstanceMetricsSection";
 import AllocationSourceSection from "./sections/AllocationSourceSection";
 import InstanceActionsAndLinks from "./actions/InstanceActionsAndLinks";
-import EventActions from "actions/EventActions";
-import EventConstants from "constants/EventConstants";
 
 export default React.createClass({
     displayName: "InstanceDetailsView",
@@ -21,35 +19,9 @@ export default React.createClass({
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection),
     },
 
-    onSourceChange(allocationSource) {
-        let instance = this.props.instance;
-        EventActions.fire(
-            EventConstants.ALLOCATION_SOURCE_CHANGE,
-            {
-                instance,
-                allocationSource
-            }
-        );
-        // force update the associated allocation source prior to update
-        instance.set({
-            allocation_source: allocationSource
-        });
-        Utils.dispatch(
-            EventConstants.ALLOCATION_SOURCE_CHANGE,
-            {
-                instance,
-                allocationSource
-            }
-        );
-    },
-
     renderAllocationSourceSection() {
-        let props = {
-            onSourceChange: this.onSourceChange,
-            ...this.props
-        }
         return (
-        <AllocationSourceSection { ...props }/>
+        <AllocationSourceSection { ...this.props }/>
         );
     },
 

@@ -3,11 +3,11 @@ import Backbone from "backbone";
 
 import SelectMenu from "./SelectMenu2";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph";
+import actions from 'actions';
 
 export default React.createClass({
 
     propTypes: {
-        onSourceChange: React.PropTypes.func.isRequired,
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
     },
@@ -33,7 +33,7 @@ export default React.createClass({
             let allocSrc = instance.get("allocation_source");
             if (!(allocSrc instanceof Backbone.Model)) {
                 current = allocationSources.findWhere({
-                    name: allocSrc.name
+                    uuid: allocSrc.uuid
                 });
             } else {
                 // we've got a Backbone.Model
@@ -49,11 +49,15 @@ export default React.createClass({
         }
     },
 
-    onSourceChange: function(source) {
+    onSourceChange: function(allocationSource) {
+        let { instance } = this.props;
         this.setState({
-            current: source
+            current: allocationSource
         });
-        this.props.onSourceChange(source);
+        actions.InstanceActions.updateAllocationSource({
+            instance,
+            allocationSource
+        });
     },
 
     render() {
