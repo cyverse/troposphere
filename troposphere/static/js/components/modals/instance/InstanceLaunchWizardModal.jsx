@@ -506,8 +506,13 @@ export default React.createClass({
         return true;
     },
 
+    invalidName() {
+      let regex = /\.(\d)+$/gm;
+      return this.state.instanceName.match(regex);
+    },
+
     canLaunch: function() {
-        let requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
+        let requiredFields = ["instanceName", "project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
 
         // Check if we are using AllocationSource and add to requierd fields
         if (globals.USE_ALLOCATION_SOURCES) {
@@ -517,7 +522,11 @@ export default React.createClass({
         // All required fields are truthy
         let requiredExist = _.every(requiredFields, (prop) => Boolean(this.state[prop]))
 
-        return requiredExist && !this.exceedsResources();
+        return ( 
+            requiredExist 
+            && !this.exceedsResources()
+            && !this.invalidName()
+        )
     },
 
     //==================
