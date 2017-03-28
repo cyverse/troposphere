@@ -5,6 +5,7 @@ import modals from "modals";
 import AllocationSource from "models/AllocationSource";
 import SelectMenu from "components/common/ui/SelectMenu";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph";
+import actions from 'actions';
 
 export default React.createClass({
 
@@ -52,11 +53,15 @@ export default React.createClass({
         }
     },
 
-    onSourceChange: function(source) {
+    onSourceChange: function(allocationSource) {
+        let { instance } = this.props;
         this.setState({
-            current: source
+            current: allocationSource
         });
-        this.props.onSourceChange(source);
+        actions.InstanceActions.updateAllocationSource({
+            instance,
+            allocationSource
+        });
     },
 
     onRequestResources: function() {

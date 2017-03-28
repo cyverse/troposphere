@@ -6,9 +6,7 @@ import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
 import globals from "globals";
 import SelectMenu from "components/common/ui/SelectMenu";
-import Utils from "actions/Utils";
-import EventActions from "actions/EventActions";
-import EventConstants from "constants/EventConstants";
+import InstanceActions from "actions/InstanceActions";
 
 const DefaultModalView = React.createClass({
     displayName: "NoAllocationSourceDefaultModalView",
@@ -231,26 +229,7 @@ const ModalBackend = React.createClass({
     onConfirm(pairs) {
         // Pairs represent the pairing of an instance to an allocation source
         // pairs = [{ instance, allocationSource }, ...]
-        pairs.forEach(pair => {
-            let { instance, allocationSource } = pair;
-            EventActions.fire(
-                EventConstants.ALLOCATION_SOURCE_CHANGE,
-                {
-                    instance,
-                    allocationSource
-                }
-            );
-            instance.set({
-                allocation_source: allocationSource
-            });
-            Utils.dispatch(
-                EventConstants.ALLOCATION_SOURCE_CHANGE,
-                {
-                    instance,
-                    allocationSource
-                }
-            );
-        })
+        pairs.forEach(InstanceActions.updateAllocationSource);
 
         this.hide();
         this.props.onConfirm();
