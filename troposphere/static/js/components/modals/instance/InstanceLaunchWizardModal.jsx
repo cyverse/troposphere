@@ -432,7 +432,7 @@ export default React.createClass({
             };
 
             if (globals.USE_ALLOCATION_SOURCES) {
-                launchData.allocation_source_id = this.state.allocationSource.get("source_id");
+                launchData.allocation_source_uuid = this.state.allocationSource.get("uuid");
             }
 
             actions.InstanceActions.launch(launchData);

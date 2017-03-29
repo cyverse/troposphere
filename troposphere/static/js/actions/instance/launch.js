@@ -82,7 +82,7 @@ function launch(params) {
     }
 
     if (globals.USE_ALLOCATION_SOURCES) {
-        payload.allocation_source_id = params.allocation_source_id;
+        payload.allocation_source_uuid = params.allocation_source_uuid;
     }
 
     instance.createOnV1Endpoint(payload)

@@ -63,8 +63,8 @@ export default Backbone.Model.extend({
             throw new Error("Missing machine_alias");
 
         if (globals.USE_ALLOCATION_SOURCES) {
-            if (!options.allocation_source_id) {
-                throw new Error("Missing allocation_source_id");
+            if (!options.allocation_source_uuid) {
+                throw new Error("Missing allocation_source_uuid");
             }
         }
 
@@ -92,7 +92,7 @@ export default Backbone.Model.extend({
         }
 
         if (globals.USE_ALLOCATION_SOURCES) {
-            attrs.allocation_source_id = options.allocation_source_id;
+            attrs.allocation_source_uuid = options.allocation_source_uuid;
         }
 
         return Backbone.sync("create", this, {

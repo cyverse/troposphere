@@ -70,7 +70,7 @@ export default React.createClass({
             <div style={{ marginBottom: "20px" }}>
                 <SelectMenu current={current}
                     optionName={item => item.get("name")}
-                    findIndex={(el, idx, arr) => el.get("source_id") == current.get("source_id")}
+                    findIndex={(el, idx, arr) => el.get("uuid") == current.get("uuid")}
                     list={allocationSources}
                     onSelect={this.onSourceChange} />
             </div>
