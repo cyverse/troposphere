@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import themeObj from 'theme/theme.json';
+import appTheme from 'theme/appTheme';
 import _ from "underscore";
 
 function onCancel() {
@@ -22,7 +22,7 @@ export default {
 
         var modal = React.createElement(
             MuiThemeProvider,
-            { muiTheme: getMuiTheme( themeObj ) },
+            { muiTheme: getMuiTheme( appTheme ) },
             React.createElement(
                 ModalComponent,
                 props
