@@ -54,7 +54,6 @@
     "showdown": "^1.2.1",
     "tinycolor2": "^1.4.1",
     "toastr": "^2.1.0",
-    "troposphere-ui": "1.0.2",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
