@@ -42,7 +42,7 @@ def guacamole(request):
             # Change some parameters depending on SSH or VNC protocol
             # Note: passwd is hardcoded to 'display'. This doesn't seem ideal but it is
             #       done the same in web_desktop.py
-            port = '5901'
+            port = '5905'
             passwd = 'display'
             if protocol == 'ssh':
                 port = '22'
