@@ -41,7 +41,7 @@
     "history": "^2.1.2",
     "jquery": "^2.1.3",
     "jstz": "^1.0.7",
-    "material-ui": "^0.15.1",
+    "material-ui": "^0.17.1",
     "moment": "^2.10.6",
     "moment-timezone": "^0.5.1",
     "q": "^1.4.1",
