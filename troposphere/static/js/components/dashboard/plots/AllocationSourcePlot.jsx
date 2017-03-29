@@ -6,9 +6,18 @@ import stores from "stores";
 
 
 export default React.createClass({
-    displayName: "ProviderSummaryLinePlot",
+    displayName: "AllocationSourcePlot",
 
-    propTypes: {
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+        stores.AllocationSourceStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.AllocationSourceStore.addChangeListener(this.updateState);
     },
 
     seriesData: function(item) {
@@ -42,8 +51,8 @@ export default React.createClass({
     //
 
     render: function() {
-        let AllocationList = stores.AllocationSourceStore.getAll();
-        if (!AllocationList) return <div className="loading" />;
+        let allocations = stores.AllocationSourceStore.getAll();
+        if (!allocations) return <div className="loading" />;
 
         return (
         <div style={{ MarginBottom: "20px" }}>
