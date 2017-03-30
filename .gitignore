@@ -55,18 +55,18 @@ docs/_build/
 # vim
 *.swp
 *.bak
-themeImagesPath.js
-themeImagesPath.js.bak*
+
+node_modules
 troposphere.key
 troposphere/settings/local.py
 troposphere/settings/secret_key.py
 troposphere/assets
+
+# Theme
+themeImagesPath.js
 troposphere/static/css/app/variables.scss
-troposphere/static/css/app/variables.scss.bak*
 troposphere/static/theme/themeImages
 troposphere/static/theme/theme.json
-troposphere/static/theme/theme.json.bak*
-node_modules
 variables.ini
 
 # JetBrains IDEs
