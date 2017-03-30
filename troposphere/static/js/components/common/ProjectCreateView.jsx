@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import { trackAction } from "../../utilities/userActivity";
 
 export default React.createClass({
@@ -150,19 +151,19 @@ export default React.createClass({
         <div>
             {this.renderBody()}
             <div className="modal-footer">
-                <button id="cancelCreateProject"
-                    type="button"
-                    className="btn btn-default"
-                    onClick={this.props.cancel}>
-                    Cancel
-                </button>
-                <button id="submitCreateProject"
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.confirm}
-                    disabled={!isSubmittable}>
-                    Create
-                </button>
+                <RaisedButton
+                    id="cancelCreateProject"
+                    style={{ marginRight: "10px" }}
+                    onTouchTap={this.props.cancel}
+                    label="Cancel"
+                />
+                <RaisedButton
+                    primary
+                    id="submitCreateProject"
+                    onTouchTap={this.confirm}
+                    disabled={!isSubmittable}
+                    label="Create"
+                />
             </div>
         </div>
         );
