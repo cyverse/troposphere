@@ -15,10 +15,10 @@
 {% if DYNAMIC_ASSET_LOADING %}
     {% render_bundle 'app' 'css' %}
 {% else %}
-    <link rel="stylesheet" href="{{ BASE_URL }}/assets/bundles/app.css" rel="stylesheet" type="text/css">
+    <link href="{{ BASE_URL }}/assets/bundles/app.css" rel="stylesheet" type="text/css">
 {% endif %}
 
-    <link rel="stylesheet" href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
+    <link href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
 
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300' rel='stylesheet' type='text/css'>
@@ -48,6 +48,9 @@
 {% if access_token %}
     var access_token = "{{ access_token }}";
 {% endif %}
+
+    var login_auth_type = "{{ login_auth_type }}";
+    var login_auth_provider = "{{ login_auth_provider }}";
 
 {% if emulator and emulator_token %}
     var emulator = "{{ emulator }}";

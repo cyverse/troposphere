@@ -19,7 +19,6 @@ export default React.createClass({
     getInitialState: function() {
         return {
             query: this.props.query || "",
-            images: null,
             isLoadingMoreResults: false,
             nextUrl: null,
             viewType: "list",
@@ -43,9 +42,7 @@ export default React.createClass({
 
     updateState: function() {
         let query = this.state.query.trim();
-
         let images;
-
         if (query) {
             images = stores.ImageStore.fetchWhere({
                 search: query
@@ -53,6 +50,7 @@ export default React.createClass({
         } else {
             images = stores.ImageStore.getAll();
         }
+
         let isLoadingMoreResults = this.state.isLoadingMoreResults;
         let nextUrl = this.state.nextUrl;
         if (images && images.meta && images.meta.next !== this.state.nextUrl) {
@@ -61,7 +59,6 @@ export default React.createClass({
         }
 
         this.setState({
-            images,
             isLoadingMoreResults,
             nextUrl,
         });
@@ -70,9 +67,6 @@ export default React.createClass({
 
     componentDidMount: function() {
         stores.ImageStore.addChangeListener(this.updateState);
-
-        // Prime the data
-        this.updateState();
     },
 
     componentWillUnmount: function() {
@@ -93,7 +87,6 @@ export default React.createClass({
         }
 
         this.setState({
-            images,
             isLoadingMoreResults: true,
             nextUrl: images.meta.next
         });
@@ -181,13 +174,8 @@ export default React.createClass({
             title = "";
 
         let images;
-        if (query) {
-            images = stores.ImageStore.getWhere({
-                search: query
-            })
-        } else {
-            images = stores.ImageStore.getAll();
-        }
+        let searchParams = query ? { search: query } : {};
+        images = stores.ImageStore.fetchWhere(searchParams);
 
         if (!images || this.awaitingTimeout()) {
             return <div className="loading"></div>;

@@ -10,6 +10,7 @@ import globals from 'globals';
 
 import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
+import { deleteCookie } from "utilities/cookieHelpers";
 
 
 let Link = Router.Link;
@@ -68,12 +69,17 @@ const links = [
 ]);
 
 let LoginLink = React.createClass({
+    onLogin: function(e) {
+        e.preventDefault();
+        modals.PublicModals.showPublicLoginModal();
+    },
+
     render: function() {
         let redirect_path = window.location.pathname;
 
         return (
         <li className="dropdown">
-            <a id="login_link" href={"/login?redirect_to=" + redirect_path}>Login</a>
+            <a id="login_link" href="#" onClick={this.onLogin}>Login</a>
         </li>
         );
     }
@@ -88,6 +94,12 @@ let LogoutLink = React.createClass({
     onShowVersion: function(e) {
         e.preventDefault();
         modals.VersionModals.showVersion();
+    },
+
+    onLogout: function(e) {
+        e.preventDefault();
+        deleteCookie('auth_token');
+        window.location = '/logout?force=true&airport_ui=false';
     },
 
     render: function() {
@@ -136,7 +148,7 @@ let LogoutLink = React.createClass({
                 </li>
                 {statusPageEl}
                 <li>
-                    <a id="logout_link" href="/logout?force=true&airport_ui=false">Sign out</a>
+                    <a id="logout_link" href="#" onClick={this.onLogout}>Sign out</a>
                 </li>
             </ul>
         </li>

@@ -69,6 +69,10 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         notice = notice_t[1] if not notice_t[2] else None
     logger.info("maintenance notice tuple: {0}".format(notice_t))
 
+    if 'access_token' not in request.session \
+            and 'auth_token' in request.COOKIES:
+        request.session['access_token'] = request.COOKIES['auth_token']
+
     #NOTE: Now that we've moved this section from .js to Django, sentry configuration _could_ become more dynamic:
     if settings.DEBUG:
         sentry_dict = None
@@ -78,8 +82,27 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             "release":"205096b5fde3a47303ad8d1fef9ff8052cbbd7d4",
         }
 
+    auth_backends = settings.AUTHENTICATION_BACKENDS
+    oauth_backends = [
+        'iplantauth.authBackends.OAuthLoginBackend',
+        'iplantauth.authBackends.GlobusOAuthLoginBackend'
+    ]
+    auth_type = None
+    for backend in auth_backends:
+        if backend == oauth_backends[0]:
+            auth_type = "oauth-login"
+            auth_provider = "CAS"
+        elif backend == oauth_backends[1]:
+            auth_type = "oauth-login"
+            auth_provider = "Globus"
+    if not auth_type:
+        auth_type = "token-login"
+        auth_provider = "Atmosphere"
+
     template_params = {
         'access_token': request.session.get('access_token'),
+        'login_auth_type': auth_type,
+        'login_auth_provider': auth_provider,
         'emulator_token': request.session.get('emulator_token'),
         'emulator': request.session.get('emulator'),
         'records': maintenance_records,
@@ -89,6 +112,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         'show_public_site': public
     }
 
+    logger.info("Populated template: %s" % template_params)
     if public:
         template_params['disable_login'] = disabled_login
     else:
@@ -203,12 +227,15 @@ def _handle_authenticated_application_request(request, maintenance_records,
     else:
         logger.info("New Relic key missing from `template_params`")
 
-
     response = render_to_response(
         'index.html',
         template_params,
         context_instance=RequestContext(request)
     )
+
+    # Delete cookie after exchange
+    if 'auth_token' in request.COOKIES:
+        response.delete_cookie('auth_token')
 
     if 'maintenance_notice' not in request.COOKIES:
         response.set_cookie('maintenance_notice', 'true',
@@ -248,8 +275,11 @@ def application(request):
             % request.user.username)
         logger.warn('- routing user')
         return redirect('maintenance')
-
-    if request.user.is_authenticated() and has_valid_token(request.user):
+    if getattr(settings, "DISABLE_PUBLIC_AUTH", False):
+        return _handle_authenticated_application_request(request,
+            maintenance_records,
+            notice_info)
+    elif request.user.is_authenticated() and has_valid_token(request.user):
         return _handle_authenticated_application_request(request,
             maintenance_records,
             notice_info)

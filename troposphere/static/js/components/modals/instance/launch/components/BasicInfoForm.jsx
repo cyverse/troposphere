@@ -41,7 +41,7 @@ export default React.createClass({
         let errorMessage = null;
         let groupOwner, projectType;
         if (this.props.showValidationErr) {
-            errorMessage = instanceName == "" ? "This field is rquired" : null;
+            errorMessage = instanceName == "" ? "This field is required" : null;
             instanceNameClasses = instanceName == "" ? "form-group has-error" : "form-group";
         }
         let projectUsernameList = this.getMemberNames(project);

@@ -485,6 +485,8 @@ export default React.createClass({
         if (identityProvider && size && provider) {
             let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
+            /* eslint-disable no-unused-vars */
+
             // AU's Used
             let allocationConsumed,
                 allocationTotal;
@@ -507,9 +509,11 @@ export default React.createClass({
             let allocationMem = identityProvider.get("quota").memory;
             let memUsed = resourcesUsed.mem / 1024;
             let memWillTotal = memUsed + size.get("mem");
-            if (allocationConsumed >= allocationTotal) {
-                return true;
-            }
+            //NOTE: Forcibly removed to disable enforcement on the UI side - By Sgregory
+            // if (allocationConsumed >= allocationTotal) {
+            //     return true;
+            // }
+            /* eslint-enable no-unused-vars */
             if (cpuWillTotal > allocationCpu) {
                 return true;
             }
