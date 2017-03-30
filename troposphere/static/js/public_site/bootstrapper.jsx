@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import themeObj from 'theme/theme.json';
+import appTheme from 'theme/appTheme';
 
 // Needed for MUI's onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -66,7 +66,7 @@ function startApplication() {
         $("body").removeClass("splash-screen");
 
         const App = (
-            <MuiThemeProvider muiTheme={getMuiTheme(themeObj)}>
+            <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
                 <Router history={withAppBasename(browserHistory)}>
                     {routes}
                 </Router>
