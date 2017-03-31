@@ -5,6 +5,7 @@ import actions from "actions";
 import ViewImageDetails from "./ViewImageDetails";
 import EditImageDetails from "./EditImageDetails";
 import VersionsView from "./versions/VersionsView";
+import ImageStatsView from "./stats/ImageStatsView";
 import modals from "modals";
 import { trackAction } from "../../../utilities/userActivity";
 
@@ -54,6 +55,9 @@ export default React.createClass({
 
     render: function() {
         var view,
+            statisticsView = (
+            <ImageStatsView image={ this.props.image } />
+            ),
             versionView = (
             <VersionsView image={this.props.image} />
             );
@@ -87,6 +91,9 @@ export default React.createClass({
                     </div>
                     <div className="versionView">
                         {versionView}
+                    </div>
+                    <div className="statisticsView">
+                        {statisticsView}
                     </div>
                 </div>
             </div>

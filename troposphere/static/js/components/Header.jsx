@@ -1,19 +1,18 @@
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 import Backbone from 'backbone';
 import toastr from 'toastr';
 
-import modals from 'modals';
 import MaintenanceMessageBanner from './MaintenanceMessageBanner';
+import Glyphicon from 'components/common/Glyphicon';
 import context from 'context';
 import globals from 'globals';
+import modals from 'modals';
 
 import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 import { deleteCookie } from "utilities/cookieHelpers";
 
-
-let Link = Router.Link;
 
 const links = [
     {
@@ -37,7 +36,6 @@ const links = [
         icon: "floppy-disk",
         requiresLogin: false
     }
-
 // This is a little ugly, but we conditionally include an element in a
 // list
 ].concat(
@@ -113,6 +111,12 @@ let LogoutLink = React.createClass({
         window.location = '/logout?force=true&airport_ui=false';
     },
 
+    onExpiredPassword: function(e) {
+        e.preventDefault();
+        modals.ExpiredPasswordModals.show();
+        trackAction("shown-expired-password-info", {});
+    },
+
     render: function() {
         let statusPageEl;
         let username = this.props.username;
@@ -140,18 +144,47 @@ let LogoutLink = React.createClass({
             username = "AnonymousUser"
         }
 
+        let expiredBadge = null,
+            expiredMenuItem = null;
+
+        if (context.hasExpiredPassword()) {
+            let style = {
+                color: "red",
+                background: "white",
+                borderRadius: "50%",
+                marginRight: "3px"
+            };
+            expiredBadge = (
+                // Glyphicon is not attended to accept styles
+                // - so let's create exactly what we want
+                <i className={"glyphicon glyphicon-exclamation-sign"}
+                   style={style} />
+            );
+            expiredMenuItem = (
+                <li>
+                    <a id="expired_password_link"
+                       href="#" style={{color: "red"}}
+                       onClick={this.onExpiredPassword}>
+                        <Glyphicon name="exclamation-sign" />
+                        Expired Password</a>
+                </li>
+            );
+        }
 
         return (
         <li className="dropdown">
             <a className="dropdown-toggle" href="#" data-toggle="dropdown">
-                {username} <b className="caret"></b></a>
+                {expiredBadge}{username} <b className="caret"></b></a>
             <ul className="dropdown-menu">
+                {expiredMenuItem}
                 <li>
-                    <Link to="settings" onClick={trackSettings}> Settings
+                    <Link to="settings"
+                          onClick={trackSettings}> Settings
                     </Link>
                 </li>
                 <li>
-                    <Link to="my-requests-resources" onClick={trackRequests}> My requests
+                    <Link to="my-requests/resources"
+                          onClick={trackRequests}> My requests
                     </Link>
                 </li>
                 <li>
@@ -248,9 +281,10 @@ let Header = React.createClass({
 
             return (
             <li key={link.name} data-toggle={toggleMenu.toggle} data-target={toggleMenu.target}>
-                <Link to={link.linksTo}>
-                <i className={"glyphicon glyphicon-" + link.icon}></i>
-                {link.name}
+                <Link to={link.linksTo}
+                      activeClassName="active">
+                    <i className={"glyphicon glyphicon-" + link.icon}></i>
+                    {link.name}
                 </Link>
             </li>
             );

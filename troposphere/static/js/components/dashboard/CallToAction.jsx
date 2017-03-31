@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "react-router";
+import { Link } from "react-router";
 
 
 export default React.createClass({
@@ -14,7 +14,7 @@ export default React.createClass({
 
     render: function() {
         return (
-        <Router.Link to={this.props.linksTo} className="option">
+        <Link to={this.props.linksTo} className="option">
             <img src={this.props.image} />
             <br/>
             <h2 className="t-title option__title">{this.props.title}</h2>
@@ -22,7 +22,7 @@ export default React.createClass({
             <p className="option__description">
                 {this.props.description}
             </p>
-        </Router.Link>
+        </Link>
         );
     }
 });

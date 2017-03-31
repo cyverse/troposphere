@@ -93,6 +93,10 @@ INTERCOM_COMPANY_ID = "{{ INTERCOM_COMPANY_ID }}"
 INTERCOM_COMPANY_NAME = "{{ INTERCOM_COMPANY_NAME }}"
 {% endif %}
 
+{%- if SENTRY_ENABLED %}
+SENTRY_DSN = "{{ SENTRY_DSN }}"
+{%- endif %}
+
 {% if SESSION_COOKIE_AGE is defined and not SESSION_COOKIE_AGE == "" %}
 # expect integer; value is represented in seconds
 SESSION_COOKIE_AGE = {{ SESSION_COOKIE_AGE }}
@@ -114,6 +118,12 @@ WEB_DESKTOP = {
         'PROXY_URL': '{{ WEB_DESKTOP_PROXY_URL }}',
         'COOKIE_DOMAIN': '{{ WEB_DESKTOP_PROXY_DOMAIN }}'
     }
+}
+
+GUACAMOLE_ENABLED = {{ GUACAMOLE_ENABLED }}
+GUACAMOLE = {
+    'SECRET_KEY': '{{ GUACAMOLE_SECRET_KEY }}',
+    'SERVER_URL': '{{ GUACAMOLE_SERVER_URL }}'
 }
 
 # DATABASE

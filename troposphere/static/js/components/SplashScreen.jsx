@@ -1,10 +1,14 @@
 import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
+import { Router,
+         browserHistory } from "react-router";
+
 import context from "context";
 import stores from "stores";
-import Router from "../Router";
+
 import routes from "../AppRoutes";
+import { withAppBasename } from "utilities/historyFunctions";
 
 import Raven from "raven-js";
 
@@ -86,16 +90,15 @@ export default React.createClass({
         $("body").removeClass("splash-screen");
 
         // Start the application router
-        Router.getInstance(routes).run(function(Handler, state) {
-            // you might want to push the state of the router to a store for whatever reason
-            // RouterActions.routeChange({routerState: state});
-
-            // Update intercom so users get any messages sent to them
-            window.Intercom("update");
-
-            // whenever the url changes, this callback is called again
-            ReactDOM.render(<Handler/>, document.getElementById("application"));
-        });
+        //   - include the history (with an application basename)
+        //   - on route change, update intercom so users get any
+        //     messages sent to them
+        ReactDOM.render(
+            <Router history={withAppBasename(browserHistory)}
+                    onChange={() => window.Intercom("update")}>
+                {routes}
+            </Router>,
+            document.getElementById("application"));
     },
 
     render: function() {

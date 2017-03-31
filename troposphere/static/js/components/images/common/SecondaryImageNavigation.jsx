@@ -1,21 +1,40 @@
 import React from "react";
-import stores from "stores";
-import Router from "react-router";
+import { Link } from "react-router";
+
 import Glyphicon from "components/common/Glyphicon";
 import context from "context";
+import stores from "stores";
+
 
 export default React.createClass({
     displayName: "SecondaryImageNavigation",
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+        stores.ProfileStore.addChangeListener(this.updateState);
+        stores.ImageStore.addChangeListener(this.updateState);
+        stores.ImageBookmarkStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.ProfileStore.removeChangeListener(this.updateState);
+        stores.ImageStore.removeChangeListener(this.updateState);
+        stores.ImageBookmarkStore.removeChangeListener(this.updateState);
+    },
 
     renderRoute: function(name, linksTo, icon, requiresLogin) {
         if (requiresLogin && !context.hasLoggedInUser()) return null;
 
         return (
         <li key={name}>
-            <Router.Link to={linksTo}>
+            <Link to={`/images/${linksTo}`}
+                  activeClassName="active">
                 <Glyphicon name={icon} />
                 <span>{name}</span>
-            </Router.Link>
+            </Link>
         </li>
         )
     },

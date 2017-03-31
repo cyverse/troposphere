@@ -1,35 +1,32 @@
 import React from "react";
-import Router from "react-router";
-import RouterInstance from "Router";
+import { withRouter } from "react-router";
+import Backbone from "backbone";
+import moment from "moment";
+
 import Gravatar from "components/common/Gravatar";
 import MediaCard from "components/common/ui/MediaCard";
-import Backbone from "backbone";
 import Bookmark from "components/images/common/Bookmark";
 import Tags from "components/images/detail/tags/Tags";
+import SparklineGraph from "components/images/detail/stats/SparklineGraph";
 import Showdown from "showdown";
 import context from "context";
 import globals from "globals";
-import moment from "moment";
 import stores from "stores";
-
-
 import Ribbon from "components/common/Ribbon";
 
 
-export default React.createClass({
+const ImageListCard = React.createClass({
     displayName: "ImageListCard",
 
-    mixins: [Router.State],
-
     propTypes: {
-        image: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        metric: React.PropTypes.instanceOf(Backbone.Model),
     },
 
     onCardClick() {
-        RouterInstance.getInstance()
-            .transitionTo("image-details",{
-                imageId: this.props.image.id
-            });
+        let imageId = this.props.image.id;
+
+        this.props.router.push(`images/${imageId}`);
     },
 
     renderEndDated() {
@@ -39,14 +36,55 @@ export default React.createClass({
             );
         }
     },
+    getLabels(metric) {
+        let labels = Object.keys(metric);
+        return labels;
+    },
+    getChartData(image, metric) {
+        let labels = this.getLabels(metric);
+        let metric_values = Object.values(metric);
+        let percentAreaData = metric_values.map(function(mv) {
+            let percent = 100*mv.active/mv.total;
+            let index = metric_values.indexOf(mv);
+            return [index+1, percent];
+        });
+        var seriesData = [{
+            type: 'area',
+            name: "Success Percentage",
+            data: percentAreaData,
+            borderWidth: 0,
+            animation: false
+        }];
 
+        return seriesData;
+    },
     render() {
         let image = this.props.image;
+        let imageMetric = this.props.metric;
         let hasLoggedInUser = context.hasLoggedInUser();
+        let staff_user = stores.ProfileStore.get().get("is_staff");
+        let graphDiv = (<div style={{"width":"135px", "height": "15px"}}></div>);
         let type = stores.ProfileStore.get().get("icon_set");
         let imageTags = stores.TagStore.getImageTags(image);
             imageTags = imageTags ? imageTags.first(10) : null;
-
+        let metric, labels, seriesData;
+        if(staff_user) {
+            graphDiv = (<div style={{ "width": "135px", "height" : "15px"}}> {"No Metrics Available"} </div>);
+            if(imageMetric != null) {
+                metric = imageMetric.get('metrics');
+                if (metric) {
+                    seriesData = this.getChartData(image, metric);
+                    labels = this.getLabels(metric);
+                    if (labels.length > 0) {
+                        graphDiv = (<SparklineGraph
+                                        seriesData={seriesData}
+                                        categories={labels}
+                                        title={""}
+                                    />);
+                    }
+                }
+            }
+        }
         let imageCreationDate = moment(image.get("start_date"))
                 .tz(globals.TZ_REGION)
                 .format("MMM Do YY hh:mm ");
@@ -110,9 +148,12 @@ export default React.createClass({
                         { bookmark }
                         <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
                         <Tags activeTags={imageTags}/>
+                        { graphDiv }
                     </span>
                 }
             />
         );
     }
 });
+
+export default withRouter(ImageListCard);

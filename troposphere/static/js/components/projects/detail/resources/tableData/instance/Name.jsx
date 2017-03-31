@@ -1,19 +1,22 @@
 import React from "react";
 import Backbone from "backbone";
-import Router from "react-router";
+import { Link } from "react-router";
 
 export default React.createClass({
     displayName: "Name",
 
-    mixins: [Router.State],
+    contextTypes: {
+        projectId: React.PropTypes.number
+    },
 
     propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function() {
-        var instance = this.props.instance,
-            name = instance.get("name").trim() || "[no instance name]";
+        let instance = this.props.instance,
+            name = instance.get("name").trim() || "[no instance name]",
+            projectId = this.context.projectId;
 
         if (instance && !instance.get("id")) {
             return (
@@ -22,9 +25,9 @@ export default React.createClass({
         }
 
         return (
-        <Router.Link to="project-instance-details" params={{ projectId: this.getParams().projectId, instanceId: instance.id }}>
+        <Link to={`/projects/${projectId}/instances/${instance.id}`}>
             {name}
-        </Router.Link>
+        </Link>
         );
     }
 });

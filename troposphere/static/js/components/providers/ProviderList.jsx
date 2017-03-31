@@ -1,6 +1,8 @@
 import React from "react";
-import Router from "react-router";
+import { Link } from "react-router";
+
 import Stats from "./Stats";
+
 
 export default React.createClass({
     displayName: "ProvidersList",
@@ -12,7 +14,7 @@ export default React.createClass({
             return (
             <li key={provider.get("id")}>
                 <div className="media card">
-                    <Router.Link to="provider" params={{ id: provider.get("id") }}>
+                    <Link to={`providers/${provider.get("id")}`}>
                         <div className="media__content">
                             <h2 className="title-3">{provider.get("name")}</h2>
                             <p className="media__description">
@@ -21,7 +23,7 @@ export default React.createClass({
                             <hr/>
                             <Stats provider={provider} />
                         </div>
-                    </Router.Link>
+                    </Link>
                 </div>
             </li>
             );

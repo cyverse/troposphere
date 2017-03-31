@@ -1,11 +1,9 @@
 import React from "react";
-import Router, { RouteHandler } from "react-router";
-import RouterInstance from "../../Router";
+import { withRouter } from "react-router";
+
 import stores from "stores";
 
-export default React.createClass({
-
-    mixins: [Router.State],
+const ResourceMaster = React.createClass({
 
     getInitialState() {
         return {
@@ -51,7 +49,7 @@ export default React.createClass({
     },
 
     onResourceClick(request) {
-        RouterInstance.getInstance().transitionTo("resource-request-detail", {
+        this.props.router.transitionTo("resource-request-detail", {
             id: request.id
         });
     },
@@ -82,7 +80,7 @@ export default React.createClass({
         ) {
 
             // Navigate to a request at the top of the list
-            RouterInstance.getInstance().transitionTo("resource-request-detail", {
+            this.props.router.transitionTo("resource-request-detail", {
                 id: requests.at(0).id
             });
         }
@@ -104,8 +102,10 @@ export default React.createClass({
             <ul className="requests-list pull-left">
                 {this.renderResourceRequests()}
             </ul>
-            <RouteHandler />
+            {this.props.children}
         </div>
         );
     }
 });
+
+export default withRouter(ResourceMaster);

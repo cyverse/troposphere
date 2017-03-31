@@ -1,7 +1,8 @@
 import React from "react";
-import Router from "react-router";
+
 import stores from "stores";
 import globals from "globals";
+
 import InstanceDetailsSection from "components/projects/resources/instance/details/sections/InstanceDetailsSection";
 import PastInstanceDetailsSection from "components/projects/resources/instance/details/sections/PastInstanceDetailsSection";
 import InstanceActionsAndLinks from "components/projects/resources/instance/details/actions/InstanceActionsAndLinks";
@@ -15,25 +16,11 @@ import InstanceHistorySection from "components/common/InstanceHistorySection";
 var InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 
-    mixins: [Router.State],
-
-    getInitialState: function() {
-        return {
-            instance: stores.InstanceStore.get(this.getParams().id),
-            instanceHistory: stores.InstanceHistoryStore.fetchWhere({
-                "instance": this.getParams().id
-            })
-        }
+    propTypes: {
+        params: React.PropTypes.object
     },
 
-    onNewData: function() {
-        this.setState({
-            instance: stores.InstanceStore.get(this.getParams().id),
-            instanceHistory: stores.InstanceHistoryStore.fetchWhere({
-                "instance": this.getParams().id
-            })
-        });
-    },
+    onNewData: function() { this.forceUpdate(); },
 
     componentDidMount: function() {
         stores.InstanceStore.addChangeListener(this.onNewData);
@@ -47,8 +34,8 @@ var InstanceDetail = React.createClass({
         stores.ProviderStore.removeChangeListener(this.onNewData);
     },
 
-    renderInactiveInstance: function() {
-        var instanceHistory = this.state.instanceHistory.models[0],
+    renderInactiveInstance: function(history) {
+        var instanceHistory = history.first(),
             instanceObj = new Instance(instanceHistory.get("instance")),
             instanceStateObj = new InstanceState({
                 "status_raw": "deleted"
@@ -56,8 +43,7 @@ var InstanceDetail = React.createClass({
             image = instanceHistory.get("image"),
             size = instanceHistory.get("size"),
             dateStart = new Date(instanceHistory.get("start_date")),
-            // If the instance is given an end date in the delete action, use the end date
-            dateEnd = (this.state.instance && this.state.instance.get("end_date")) || new Date(instanceHistory.get("end_date"));
+            dateEnd = new Date(instanceHistory.get("end_date"));
 
         // Construct a proper instance from the instance history information
         instanceObj.set("image", image);
@@ -86,8 +72,7 @@ var InstanceDetail = React.createClass({
         );
     },
 
-    renderActiveInstance: function() {
-        var instance = this.state.instance;
+    renderActiveInstance: function(instance) {
         var metrics = globals.SHOW_INSTANCE_METRICS
             ? <InstanceMetricsSection instance={instance} />
             : "";
@@ -113,12 +98,22 @@ var InstanceDetail = React.createClass({
     },
 
     render: function() {
-        if (!this.state.instanceHistory) {
+        let { params } = this.props;
+        let instances = stores.InstanceStore.getAll();
+        let instance = instances && instances.get(params.id);
+        let history = stores.InstanceHistoryStore.fetchWhere({
+            "instance": params.id
+        })
+        if (!history || !instances) {
             return <div className="loading" />
         }
 
-        return this.state.instance && !this.state.instance.get("end_date") ? this.renderActiveInstance() : this.renderInactiveInstance();
+        // If we got back active instances, but the instance isn't a member
+        if (!instance) {
+            return this.renderInactiveInstance(history);
+        }
 
+        return this.renderActiveInstance(instance);
     },
 
 });

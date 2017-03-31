@@ -1,9 +1,11 @@
 import React from "react";
 import Backbone from "backbone";
-import stores from "stores";
-import Router from "react-router";
+import { Link } from "react-router";
 import moment from "moment";
+
 import ProjectResource from "./ProjectResource";
+import stores from "stores";
+
 
 export default React.createClass({
     displayName: "Project",
@@ -11,6 +13,25 @@ export default React.createClass({
     propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         className: React.PropTypes.string,
+    },
+
+
+    componentDidMount: function() {
+        stores.ProjectExternalLinkStore.addChangeListener(this.updateState);
+        stores.ProjectInstanceStore.addChangeListener(this.updateState);
+        stores.ProjectImageStore.addChangeListener(this.updateState);
+        stores.ProjectVolumeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.ProjectExternalLinkStore.removeChangeListener(this.updateState);
+        stores.ProjectInstanceStore.removeChangeListener(this.updateState);
+        stores.ProjectImageStore.removeChangeListener(this.updateState);
+        stores.ProjectVolumeStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.forceUpdate();
     },
 
     render: function() {
@@ -56,7 +77,7 @@ export default React.createClass({
         return (
         <li className={"col-md-4" + this.props.className} style={{ padding: "15px" }}>
             <div className="media card">
-                <Router.Link to="project-resources" params={{ projectId: project.id }} style={{ color: "inherit" }}>
+                <Link to={`projects/${project.id}/resources`} style={{ color: "inherit" }}>
                     <div style={{ "position": "relative" }}>
                         <div className="media__content">
                             <h2 className="t-title">{project.get("name")}</h2>
@@ -77,7 +98,7 @@ export default React.createClass({
                             </ul>
                         </div>
                     </div>
-                </Router.Link>
+                </Link>
             </div>
         </li>
         );

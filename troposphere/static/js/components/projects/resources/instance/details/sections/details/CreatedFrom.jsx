@@ -1,8 +1,11 @@
 import React from "react";
 import Backbone from "backbone";
-import ResourceDetail from "components/projects/common/ResourceDetail";
-import Router from "react-router";
+import { Link } from "react-router";
+
 import stores from "stores";
+
+import ResourceDetail from "components/projects/common/ResourceDetail";
+
 
 export default React.createClass({
     displayName: "CreatedFrom",
@@ -23,9 +26,9 @@ export default React.createClass({
 
         return (
         <ResourceDetail label="Based on">
-            <Router.Link to="image-details" params={{ imageId: image.id }}>
+            <Link to={`images/${image.id}`}>
                 {image.get("name")}
-            </Router.Link>
+            </Link>
         </ResourceDetail>
         );
     }

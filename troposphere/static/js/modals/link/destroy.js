@@ -1,8 +1,9 @@
-import actions from "actions";
-import ModalHelpers from "components/modals/ModalHelpers";
+import { browserHistory } from "react-router";
 
+import ModalHelpers from "components/modals/ModalHelpers";
 import ExternalLinkDeleteModal from "components/modals/link/ExternalLinkDeleteModal";
-import Router from "Router";
+
+import actions from "actions";
 
 
 export default {
@@ -24,9 +25,7 @@ export default {
                 project: project,
                 external_link: external_link
             });
-            Router.getInstance().transitionTo("project-resources", {
-                projectId: project.id
-            });
+            browserHistory.push(`/projects/${project.id}/resources`);
         })
     }
 };
