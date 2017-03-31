@@ -29,9 +29,9 @@ export const AllocationSourceChange = Event.extend({
         if (!payload) {
             throw "Missing payload";
         }
-        let { allocation_source_id, instance_id } = payload;
-        if (allocation_source_id == undefined || instance_id == undefined) {
-            throw "Invalid attrs.payload -- Expected keys: 'instance_id' and 'allocation_source_id'";
+        let { allocation_source_name, instance_id } = payload;
+        if (allocation_source_name == undefined || instance_id == undefined) {
+            throw "Invalid attrs.payload -- Expected keys: 'instance_id' and 'allocation_source_name'";
         }
     }
 });
