@@ -303,7 +303,7 @@ export default React.createClass({
         }
 
         if (featureFlags.GUACAMOLE) {
-          linksArray.push({
+          links.push({
               label: "Open Guacamole Shell",
               icon: "text-background",
               onClick: this.onGuacShell.bind(
@@ -315,7 +315,7 @@ export default React.createClass({
           });
 
           if (webDesktopCapable) {
-            linksArray.push({
+            links.push({
               label: "Open Guacamole Desktop",
               icon: "sound-dolby",
               onClick: this.onGuacDesktop.bind(
