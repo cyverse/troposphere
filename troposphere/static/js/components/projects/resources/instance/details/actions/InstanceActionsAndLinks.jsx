@@ -268,7 +268,7 @@ export default React.createClass({
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
                     this,
-                    ip_address,
+                    ipAddress,
                     this.props.instance),
                 openInNewWindow: true,
                 isDisabled: webLinksDisabled
@@ -281,7 +281,7 @@ export default React.createClass({
               icon: "text-background",
               onClick: this.onGuacShell.bind(
                   this,
-                  ip_address,
+                  ipAddress,
                   this.props.instance),
               openInNewWindow: true,
               isDisabled: webLinksDisabled
@@ -293,7 +293,7 @@ export default React.createClass({
               icon: "sound-dolby",
               onClick: this.onGuacDesktop.bind(
                 this,
-                ip_address,
+                ipAddress,
                 this.props.instance),
                 openInNewWindow: true,
                 isDisabled: webLinksDisabled
