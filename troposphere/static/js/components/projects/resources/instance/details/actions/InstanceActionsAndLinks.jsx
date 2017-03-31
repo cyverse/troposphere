@@ -312,7 +312,7 @@ export default React.createClass({
                   ipAddress,
                   this.props.instance),
               openInNewWindow: true,
-              isDisabled: webLinksDisabled
+              isDisabled: disableWebLinks
           });
 
           if (webDesktopCapable) {
@@ -324,7 +324,7 @@ export default React.createClass({
                 ipAddress,
                 this.props.instance),
                 openInNewWindow: true,
-                isDisabled: webLinksDisabled
+                isDisabled: disableWebLinks
             });
           }
         }
