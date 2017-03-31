@@ -2,6 +2,9 @@
 var path = require('path');
 var webpack = require('webpack');
 
+// Theme Images
+var themeImagesPath = require('./themeImagesPath');
+
 // for PostCSS
 var precss = require('precss');
 var autoprefixer = require('autoprefixer')
@@ -11,20 +14,33 @@ var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var BundleTracker = require('webpack-bundle-tracker');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var PATHS = {
     output: path.join(__dirname, "/troposphere/assets/bundles"),
     context: path.join(__dirname, "/troposphere/static/js"),
-    style: path.join(__dirname, "/troposphere/static/css")
+    style: path.join(__dirname, "/troposphere/static/css"),
+    theme: path.join(__dirname, "/troposphere/static/theme"),
+    themeImages: themeImagesPath,
 }
-
 var plugins = [
     new BundleTracker({filename: './webpack-stats.json'}),
     new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor', 'manifest'],
         minChunks: Infinity
     }),
-    new Clean([PATHS.output])
+    new Clean([PATHS.output]),
+    new CopyWebpackPlugin([
+        {
+            from: PATHS.themeImages,
+            to: "./theme/images",
+        },
+        {
+            from: PATHS.theme + "/login.css",
+            to: "./theme/login.css",
+        },
+
+    ])
 ];
 
 var outputCfg = {}
@@ -87,9 +103,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader',
-        include: [
-            path.join(__dirname, 'node_modules/moment-timezone')
-        ]
       },
       { test: /\.jsx?$/,
         loader: "babel-loader",
@@ -111,9 +124,11 @@ module.exports = {
   resolve: {
     fallback: [path.join(__dirname, "/node_modules")],
     alias: {
+      highcharts: "highcharts-commonjs",
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
-      highcharts: "highcharts-commonjs"
+      theme: path.join(__dirname, "/troposphere/static/theme/"),
+      themeImages: PATHS.themeImages,
     },
     root: [
       PATHS.context,

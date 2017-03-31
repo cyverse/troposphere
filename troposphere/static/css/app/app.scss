@@ -8,6 +8,8 @@
 // We need to let bootstrap know the path to our glyphicons
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 
+@import "variables";
+
 //$link-color: $brand-primary;
 //$tag-color: $brand-primary;
 
@@ -61,7 +63,6 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 // Application specific styles
 // ---------------------------
 //
-@import "variables";
 @import "utilities";
 @import "layout";
 @import "typography";

@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import RaisedButton from "material-ui/RaisedButton"
 import Backbone from "backbone";
 import $ from "jquery";
 import stores from "stores";
@@ -105,11 +106,16 @@ export default React.createClass({
                     <span
                         className="tooltip-wrapper"
                         style={{ marginRight: "20px" }}>
-                        <button className="btn btn-default"
-                                disabled={ image.isEndDated() }
-                                onClick={ this.showAddProjectModal }>
-                            <i className="glyphicon glyphicon-plus"></i> Add to Project
-                        </button>
+                        <RaisedButton
+                            disabled={ image.isEndDated() }
+                            onTouchTap={ this.showAddProjectModal }
+                            label={
+                                <span>
+                                    <i className="glyphicon glyphicon-plus"></i> 
+                                    { " Add to Project" }
+                                </span>
+                            }
+                        />
                     </span>
                     {launchButton}
                 </div>

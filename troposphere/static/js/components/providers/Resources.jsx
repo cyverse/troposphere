@@ -56,7 +56,6 @@ export default React.createClass({
 
         return (
         <div className="row provider-info-section">
-            <h4 className="t-title">Resources</h4>
             <div className="provider">
                 <div className="row">
                     <div className="col-md-8">

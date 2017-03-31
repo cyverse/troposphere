@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from 'material-ui/RaisedButton';
 import Backbone from "backbone";
 import modals from "modals";
 import context from "context";
@@ -27,9 +28,12 @@ export default React.createClass({
         var feedbackButton = null;
         if (this.props.profile) {
             feedbackButton = (
-                <button className="btn btn-primary" onClick={this.onFeedback}>
-                    {"Feedback & Support"}
-                </button>
+                <RaisedButton
+                    primary
+                    style={{ marginLeft: "20px" }}
+                    onTouchTap={this.onFeedback}
+                    label="Feedback & Support"
+                />
             );
         }
 

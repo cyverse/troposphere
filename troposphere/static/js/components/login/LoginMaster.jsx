@@ -1,5 +1,8 @@
 import $ from "jquery";
 import React from "react";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import appTheme from 'theme/appTheme';
 import globals from "globals";
 import LoginScreen from "./LoginScreen";
 import LoginSplash from "./LoginSplash";
@@ -20,13 +23,16 @@ export default React.createClass({
         $("body").removeClass("splash-screen");
 
         return (
-            <div>
-                <LoginHeader />
-                {this.renderMain()}
-                <Footer text={globals.SITE_FOOTER}
+            <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
+                <div style={{ paddingTop: "50px" }}>
+                    <LoginHeader />
+                    {this.renderMain()}
+                    <Footer 
+                        text={globals.SITE_FOOTER}
                         link={globals.SITE_FOOTER_LINK}
-                />
-            </div>
+                    />
+                </div>
+            </MuiThemeProvider>
         );
     }
 

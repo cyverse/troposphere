@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
 
@@ -33,9 +34,11 @@ export default React.createClass({
                         {content}
                     </div>
                     <div className="modal-footer">
-                        <button className="btn btn-primary" onClick={this.confirm}>
-                            OK
-                        </button>
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            label="OK"
+                        />
                     </div>
                 </div>
             </div>

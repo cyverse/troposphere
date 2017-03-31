@@ -41,7 +41,6 @@ def maintenance(request):
 
     template_params = {}
 
-    template_params["THEME_URL"] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER

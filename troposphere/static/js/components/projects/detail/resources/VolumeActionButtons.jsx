@@ -66,7 +66,7 @@ export default React.createClass({
         );
 
         return (
-        <div className="clearfix u-md-pull-right">
+        <div>
             {linksArray}
         </div>
         );

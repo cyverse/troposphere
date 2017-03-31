@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import { trackAction } from "../../utilities/userActivity";
 
@@ -86,7 +87,7 @@ export default React.createClass({
     render: function() {
         var buttonArray = [
             {
-                type: "danger",
+                type: null,
                 text: "Cancel",
                 handler: this.cancel
             },
@@ -107,13 +108,14 @@ export default React.createClass({
                 isDisabled = true;
 
             return (
-            <button key={button.text}
-                type="button"
-                className={"btn btn-" + button.type}
-                onClick={button.handler}
-                disabled={isDisabled}>
-                {button.text}
-            </button>
+            <RaisedButton
+                style={{ marginLeft: "10px" }}
+                primary={ !!button.type }
+                key={button.text}
+                onTouchTap={button.handler}
+                disabled={isDisabled}
+                label={button.text}
+            />
             );
         }.bind(this));
 

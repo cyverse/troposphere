@@ -153,7 +153,6 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['USE_MOCK_DATA'] = getattr(settings, "USE_MOCK_DATA", False)
     template_params['USE_ALLOCATION_SOURCES'] = getattr(settings,
             "USE_ALLOCATION_SOURCES", False)
-    template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
     template_params['SENTRY_ENABLED'] = enable_sentry
@@ -312,7 +311,6 @@ def forbidden(request):
     metadata = get_site_metadata()
     template_params = {}
 
-    template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
