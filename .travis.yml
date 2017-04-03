@@ -1,7 +1,22 @@
+sudo: required
+dist: trusty
 language: node_js
 node_js:
   - "4.6"
   - "4.4"
+python:
+  - "2.7"
+before_install:
+  - "python -V"
+  - "pip -V"
+install:
+  - "pip install -r requirements.txt"
+  - "pip install -r dev_requirements.txt"
+  - "npm install"
 script:
+  - "cp variables.ini.dist variables.ini"
+  - "./configure --config-one theme:themeImagesPath.js"
+  - "./configure --config-one theme:theme.json"
+  - "./configure --config-one theme:variables.scss"
   - "npm run build"
   - "npm run travis-lint"
