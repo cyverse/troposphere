@@ -62,7 +62,8 @@ def guacamole(request):
                               + '&guac.protocol=' + protocol
                               + '&signature=' + signature
                               + '&guac.hostname=' + ip_address
-                              + '&id=' + conn_id)
+                              + '&id=' + conn_id
+                              + '&guac.enable-sftp=true')
 
             # Send request to Guacamole backend and record the result
             response = requests.post(guac_server + '/api/tokens', data=request_string)
