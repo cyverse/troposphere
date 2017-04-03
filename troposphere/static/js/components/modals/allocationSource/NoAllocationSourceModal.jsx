@@ -148,8 +148,16 @@ const DefaultModalView = React.createClass({
 
         return (
         <div role="form">
+            <p className="alert alert-info">
+                Allocation Sources are a new feature in atmosphere!
+            </p>
             <p>
-                It looks like you have instances without an Allocation Source. When an instance is active it will use up allocation from its Allocation Source.
+                Allocation Sources are a <b>replacement</b> for existing allocation.
+            </p>
+            <p>
+                It looks like you have instances without an Allocation Source.
+                When an instance is active it will use up allocation from its
+                Allocation Source.
             </p>
             <p>
                 Review that these are okay.
