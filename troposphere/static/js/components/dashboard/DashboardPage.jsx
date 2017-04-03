@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from 'material-ui/RaisedButton';
 
 import globals from "globals";
 import modals from "modals";
@@ -12,9 +13,9 @@ import CallToAction from "./CallToAction";
 import { trackAction } from "../../utilities/userActivity";
 
 // images
-let launch_instance = globals.THEME_URL + "/images/icon_launchnewinstance.png",
-    settings = globals.THEME_URL + "/images/icon_settings.png",
-    help = globals.THEME_URL + "/images/icon_gethelp.png";
+import launch_instance from "themeImages/icon_launchnewinstance.png";
+import settings from "themeImages/icon_settings.png";
+import help from "themeImages/icon_gethelp.png";
 
 export default React.createClass({
     displayName: "DashboardPage",
@@ -111,9 +112,25 @@ export default React.createClass({
                                 linksTo="settings" />
                         </div>
                     </div>
-                    <div className="resource-header clearfix">
-                        <h2 className="t-headline pull-left">Resources Used</h2>
-                        <a href="#" className="btn btn-sm btn-primary pull-left" onClick={this.renderRequestMoreResources}>Need more{String.fromCharCode(63)}</a>
+                    <div 
+                        className="resource-header clearfix"
+                        style={{
+                            display: "flex",
+                            alignItems: "center"
+                        }}
+                    >
+                        <h2 className="t-headline">
+                            Resources Used
+                        </h2>
+                        <RaisedButton
+                            style={{
+                                marginLeft: "20px",
+                                marginBottom: "10px",
+                            }}
+                            primary
+                            onTouchTap={this.renderRequestMoreResources}
+                            label={ `Need more ${String.fromCharCode(63)}` }
+                        />
                     </div>
                     <div className="row">
                         <div className="col-md-8">

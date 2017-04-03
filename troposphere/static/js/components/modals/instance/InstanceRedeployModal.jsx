@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import Glyphicon from "components/common/Glyphicon";
 
@@ -56,12 +57,16 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                            Cancel
-                        </button>
-                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                            Yes, Redeploy Instance
-                        </button>
+                        <RaisedButton
+                            style={{ marginRight: "10xp" }}
+                            onTouchTap={this.cancel}
+                            label="Cancel"
+                        />
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            label="Yes, Redeploy Instance"
+                        />
                     </div>
                 </div>
             </div>

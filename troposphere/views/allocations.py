@@ -16,7 +16,6 @@ def allocations(request):
     # populate with values `site_metadata` in the future
     template_params = {}
 
-    template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
 
     if hasattr(settings, "BASE_URL"):

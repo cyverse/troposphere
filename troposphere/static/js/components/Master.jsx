@@ -11,6 +11,10 @@ import modernizrTest from "components/modals/unsupported/modernizrTest";
 import NullProject from "models/NullProject";
 import noAllocationSource from "modals/allocationSource/noAllocationSource";
 
+import Raven from "raven-js";
+
+import Router from "react-router";
+import { RouteHandler } from "react-router";
 
 export default React.createClass({
     displayName: "Master",
@@ -50,6 +54,15 @@ export default React.createClass({
 
         // The code below is only relevant to logged in users
         if (!context.hasLoggedInUser()) return;
+
+        if (Raven && window.SENTRY_DSN){
+            if (! Raven.isSetup()) {
+                Raven.config(
+                    window.SENTRY_DSN
+                ).install();
+            }
+            this.loadRavenData();
+        }
 
         // IMPORTANT! We get one shot at this. If the instances and volumes aren't
         // fetched before this component is mounted we miss our opportunity to migrate
@@ -93,6 +106,17 @@ export default React.createClass({
                 ? actions.NullProjectActions.migrateResourcesIntoProject(nullProject)
                 : actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
         })
+    },
+
+    loadRavenData: function() {
+        let profile = context.profile;
+        let userContext = {
+            id: profile.get('user'),
+            email: profile.get('email'),
+            username: profile.get('username'),
+        }
+        Raven.setUserContext(userContext);
+        Raven.setTagsContext(SENTRY_TAGS);
     },
 
     componentWillUnmount: function() {

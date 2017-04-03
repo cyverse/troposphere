@@ -56,11 +56,17 @@ docs/_build/
 *.swp
 *.bak
 
+node_modules
 troposphere.key
 troposphere/settings/local.py
 troposphere/settings/secret_key.py
 troposphere/assets
-node_modules
+
+# Theme
+themeImagesPath.js
+troposphere/static/css/app/variables.scss
+troposphere/static/theme/themeImages
+troposphere/static/theme/theme.json
 variables.ini
 
 # JetBrains IDEs

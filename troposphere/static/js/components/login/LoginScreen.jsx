@@ -149,15 +149,20 @@ export default React.createClass({
             //Renders inside a modal
             mainClassnames = "login-screen-master"
         }
+        const provider = this.state.loginProvider.get('provider');
+
         return (
-           <div id="main" className={mainClassnames} style={{"marginTop": "24px"}}>
-                   <h2 className="t-headline">Select Login Method:</h2>
+           <div id="main" className={mainClassnames}>
+                <div className="form-group">
+                    <label>Login Method</label>
                     <SelectMenu id="login-screen-select"
-                                current={ this.state.loginProvider }
-                                optionName={ idp => idp.get('method') }
-                                list={ this.state.identityProviders }
-                                onSelect={ this.onIdentityProviderChange } />
-                   {this.renderLoginMethod()}
+                        current={ this.state.loginProvider }
+                        optionName={ idp => idp.get('method') }
+                        list={ this.state.identityProviders }
+                        onSelect={ this.onIdentityProviderChange }
+                    />
+                </div>
+                {this.renderLoginMethod()}
            </div>
         );
     }

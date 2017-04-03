@@ -13,9 +13,6 @@ export default React.createClass({
     render: function() {
         return (
         <div className="container">
-            <div className="td-sub-menu">
-                <SubMenu project={this.props.project} />
-            </div>
             <div className="td-project-content">
                 {this.props.children}
             </div>

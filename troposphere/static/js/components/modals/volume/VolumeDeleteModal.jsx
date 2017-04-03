@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
@@ -56,18 +57,24 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <strong>Delete Volume</strong>
+                        <h1 className="t-title">
+                            Delete Volume
+                        </h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                            Cancel
-                        </button>
-                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                            Yes, delete this volume
-                        </button>
+                        <RaisedButton
+                            style={{ marginRight: "10px" }}
+                            onTouchTap={this.cancel}
+                            label="Cancel"
+                        />
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            label="Yes, delete this volume"
+                        />
                     </div>
                 </div>
             </div>

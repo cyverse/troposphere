@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
@@ -59,15 +60,17 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-default" onClick={this.cancel}>
-                            Cancel
-                        </button>
-                        <button type="button"
-                            className="btn btn-primary"
-                            onClick={this.confirm}
-                            disabled={!this.isSubmittable()}>
-                            Yes, delete the project
-                        </button>
+                        <RaisedButton
+                            style={{ marginRight: "10px" }}
+                            onTouchTap={this.cancel}
+                            label="Cancel"
+                        />
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            disabled={!this.isSubmittable()}
+                            label="Yes, delete the project"
+                        />
                     </div>
                 </div>
             </div>

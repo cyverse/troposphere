@@ -58,12 +58,6 @@ MAINTENANCE_EXEMPT_USERNAMES = {{ MAINTENANCE_EXEMPT_USERNAMES }}
 MAINTENANCE_EXEMPT_USERNAMES = []
 {% endif %}
 
-{% if THEME_NAME is defined and not THEME_NAME == "default" %}
-THEME_NAME="{{ THEME_NAME }}"
-{% else %}
-THEME_NAME= "troposphere_theme"
-{% endif %}
-
 # DISABLE_PUBLIC_AUTH - If true, require logged in users to visit Atmosphere (By prompting with a login page on first load).
 # If False, show a public image catalog to users with a link in the TR corner that will provide login access.
 {% if DISABLE_PUBLIC_AUTH is defined %}
@@ -81,9 +75,7 @@ USE_LOGIN_SELECTION= False
 
 # The location from where static files are aggregated
 # ./manage.py collectstatic moves files from STATICFILES_DIRS to STATIC_ROOT
-STATICFILES_DIRS = [
-    ("theme", "{{ THEME_PATH }}/{{ THEME_NAME }}"),
-]
+STATICFILES_DIRS = []
 
 ORG_NAME= "{{ ORG_NAME }}"
 

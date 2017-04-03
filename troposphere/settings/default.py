@@ -32,6 +32,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'rest_framework',
     'rest_framework.authtoken',
+    'raven.contrib.django.raven_compat',
     'webpack_loader', # resolved JS asset + hash for template rendering
     'django_cyverse_auth',
     'api',

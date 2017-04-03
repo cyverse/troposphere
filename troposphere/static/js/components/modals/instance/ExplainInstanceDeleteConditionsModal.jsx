@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import Glyphicon from "components/common/Glyphicon";
 import VolumeCollection from "collections/VolumeCollection";
@@ -65,9 +66,11 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-primary" onClick={this.hide}>
-                            Okay
-                        </button>
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.hide}
+                            label="Okay"
+                        />
                     </div>
                 </div>
             </div>

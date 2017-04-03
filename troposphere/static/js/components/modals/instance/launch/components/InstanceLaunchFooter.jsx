@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from 'material-ui/RaisedButton';
 
 export default React.createClass({
     propTypes: {
@@ -46,18 +47,19 @@ export default React.createClass({
                 {this.advancedIcon()}
                 {" Advanced Options"}
             </a>
-            <button disabled={disable}
-                type="button"
-                className="btn btn-primary pull-right"
-                onClick={this.props.onSubmitLaunch}>
-                Launch Instance
-            </button>
-            <button type="button"
-                className="btn btn-default pull-right"
+            <RaisedButton
+                primary
+                disabled={disable}
+                className="pull-right"
+                onTouchTap={this.props.onSubmitLaunch}
+                label="Launch Instance"
+            />
+            <RaisedButton
+                className="pull-right"
                 style={{ marginRight: "10px" }}
-                onClick={this.props.onCancel}>
-                Cancel
-            </button>
+                onClick={this.props.onCancel}
+                label="Cancel"
+            />
         </div>
         )
     }

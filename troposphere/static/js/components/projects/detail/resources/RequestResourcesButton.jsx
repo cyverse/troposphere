@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from 'material-ui/RaisedButton';
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import modals from "modals";
@@ -39,9 +40,12 @@ export default React.createClass({
     render: function() {
         var className = "glyphicon glyphicon-circle-arrow-up";
         return (
-        <button className="btn btn-default" onClick={this.handleClick}>
+        <RaisedButton
+            style={{ marginLeft: "10px" }}
+            onTouchTap={ this.handleClick }
+        >
             <i className={className} />
-        </button>
+        </RaisedButton>
         );
     }
 });

@@ -1,20 +1,13 @@
 import React from "react";
 import Backbone from "backbone";
 import ResourceDetail from "components/projects/common/ResourceDetail";
-
-import { copyElement } from "utilities/clipboardFunctions";
-
+import CopyButton from "components/common/ui/CopyButton";
 
 export default React.createClass({
     displayName: "IpAddress",
 
     propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-    },
-
-    onClick(e) {
-        e.preventDefault();
-        copyElement(e.target, { acknowledge: true });
     },
 
     render() {
@@ -26,8 +19,9 @@ export default React.createClass({
         }
 
         return (
-        <ResourceDetail label="IP Address" onClick={this.onClick}>
+        <ResourceDetail label="IP Address">
             {address}
+            <CopyButton text={ address }/>
         </ResourceDetail>
         );
     }

@@ -1,5 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
+import RaisedButton from "material-ui/RaisedButton"
 
 export default React.createClass({
     displayName: "EditDetails",
@@ -76,12 +77,19 @@ export default React.createClass({
                 <textarea type="text" defaultValue={this.state.description} onKeyUp={this.handleDescriptionChange} />
             </div>
             <div className="buttons">
-                <button className="btn btn-default cancel-button" onClick={this.handleCancel}>
-                    Cancel
-                </button>
-                <button className="btn btn-primary save-button" onClick={this.handleSave} disabled={!this.isSubmittable()}>
-                    Save
-                </button>
+                <RaisedButton
+                    style={{ marginRight: "10px" }}
+                    className="cancel-button"
+                    onTouchTap={this.handleCancel}
+                    label="Cancel"
+                />
+                <RaisedButton
+                    primary
+                    className="save-button"
+                    onTouchTap={this.handleSave}
+                    disabled={!this.isSubmittable()}
+                    label="Save"
+                />
             </div>
         </div>
         );
