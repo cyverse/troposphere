@@ -47,9 +47,9 @@ export default React.createClass({
             );
         } else {
             footerContent = (<div className="container">
-                <div className="footer-content"
+                <span className="footer-content"
                     dangerouslySetInnerHTML={{ __html:footerHTML }}>
-                </div>
+                </span>
                 {feedbackButton}
             </div>
             );
