@@ -1,6 +1,5 @@
 import React from "react";
 import Backbone from "backbone";
-import stores from "stores";
 import context from "context";
 import { Link } from "react-router";
 import moment from "moment";
