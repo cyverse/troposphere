@@ -9,11 +9,14 @@ import ProjectSelect from "../instance_launch/ProjectSelect";
 function getState(currentProject, currentState) {
     var state = {
         projects: stores.ProjectStore.getAll(),
+        owner: currentProject.get('owner'),
         projectId: null
     };
     // Use selected project or default to the null one
     if (state.projects) {
-        state.projects = state.projects.clone();
+        state.projects = state.projects.cfilter(function (project) {
+            return project.get('owner').name == state.owner.name;
+        });
         state.projects.remove(currentProject);
 
         // todo: Account for the scenario when the only project is the current one
@@ -133,10 +136,10 @@ export default React.createClass({
                 <div role="form">
                     <div className="form-group">
                         <p>
-                            Looks like you only have one project.
+                            Looks like you only have one project owned by { this.state.owner.name }.
                         </p>
                         <p>
-                            In order to move resources between projects, you will first need to create a second project.
+                            In order to move resources between projects, you will first need to create a second project owned by { this.state.owner.name }.
                         </p>
                     </div>
                 </div>

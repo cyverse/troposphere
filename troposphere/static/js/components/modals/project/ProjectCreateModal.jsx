@@ -11,9 +11,9 @@ export default React.createClass({
         this.hide();
     },
 
-    confirm: function(name, description) {
+    confirm: function(name, description, groupOwner) {
         this.hide();
-        this.props.onConfirm(name, description);
+        this.props.onConfirm(name, description, groupOwner);
     },
 
     render: function() {

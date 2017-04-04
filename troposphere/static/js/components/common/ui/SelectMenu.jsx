@@ -27,8 +27,17 @@ export default React.createClass({
             React.PropTypes.instanceOf(Backbone.Collection),
             React.PropTypes.array
         ]),
+        hintText: React.PropTypes.string,
+        className: React.PropTypes.string,
         current: React.PropTypes.object,
         placeholder: React.PropTypes.string,
+    },
+
+    getDefaultProps: function() {
+        return {
+            hintText: "",
+            className: "form-control"
+        }
     },
 
     getInitialState() {
@@ -110,7 +119,7 @@ export default React.createClass({
             // placeholder option, it can be blank or have some placeholder
             // text
             if (current == null) {
-                options.push(this.renderPlaceholderOption(placeholder || ""))
+                options.push(this.renderPlaceholderOption(placeholder || this.props.hintText))
             }
 
             // Append options from the list
@@ -130,7 +139,7 @@ export default React.createClass({
         }
 
         return (
-        <select value={index} className="form-control" onChange={this.onSelect}>
+        <select value={index} className={this.props.className} onChange={this.onSelect}>
             {options}
         </select>
         );
