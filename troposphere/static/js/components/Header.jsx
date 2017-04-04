@@ -35,20 +35,7 @@ const links = [
         href: "/application/images",
         icon: "floppy-disk",
         requiresLogin: false
-    }
-// This is a little ugly, but we conditionally include an element in a
-// list
-].concat(
-    globals.USE_ALLOCATION_SOURCES
-        ? []
-        : [{
-            name: "Providers",
-            linksTo: "providers",
-            href: "/application/providers",
-            icon: "cloud",
-            requiresLogin: true
-        }]
-).concat([
+    },
     {
         name: "Help",
         linksTo: "help",
@@ -64,7 +51,7 @@ const links = [
         requiresLogin: true,
         requiresStaff: true
     }
-]);
+];
 
 let LoginLink = React.createClass({
     onLogin: function(e) {

@@ -18,9 +18,6 @@ import DashboardPage from "./components/dashboard/DashboardPage";
 import ProjectListPage from "./components/projects/ProjectListPage";
 import ImageListPage from "./components/images/ImageListPage";
 import ImageDetailsPage from "./components/images/ImageDetailsPage";
-import ProvidersMaster from "./components/providers/ProvidersMaster";
-import ProviderListSection from "./components/providers/ProviderListSection";
-import ProviderDetail from "./components/providers/ProviderDetail";
 import HelpPage from "./components/help/HelpPage";
 import ProjectsMaster from "./components/projects/ProjectsMaster";
 import ProjectDetailsMaster from "./components/projects/detail/ProjectDetailsMaster";
@@ -42,14 +39,6 @@ import ImageMaster from "./components/admin/ImageMaster";
 import ImageRequest from "./components/admin/ImageRequest";
 import IdentityMembershipMaster from "./components/admin/IdentityMembershipMaster";
 import NotFoundPage from "./components/NotFoundPage";
-
-const providersRoute = (
-<Route path="providers" component={ProvidersMaster}>
-    <IndexRoute component={ProviderListSection} />
-    <Route path=":id" component={ProviderDetail} />
-    <Route path="all" component={ProviderListSection} />
-</Route>
-)
 
 function AppRoutes(props) {
     const { profile } = props;
@@ -81,9 +70,6 @@ function AppRoutes(props) {
                 <Route path="tags" component={ImageTagsPage} />
                 <Route path=":imageId" component={ImageDetailsPage} />
             </Route>
-            {globals.USE_ALLOCATION_SOURCES
-             ? null
-             : providersRoute}
             <Route path="help" component={HelpPage} />
             <Route path="settings" component={SettingsPage} />
             <Route
@@ -114,6 +100,5 @@ function AppRoutes(props) {
         </Route>
     )
 };
-
 
 export default AppRoutes;
