@@ -6,7 +6,7 @@ import stores from "stores";
 
 
 export default React.createClass({
-    displayName: "ProviderSummaryLinePlot",
+    displayName: "AllocationSourcePlot",
 
     propTypes: {
     },
