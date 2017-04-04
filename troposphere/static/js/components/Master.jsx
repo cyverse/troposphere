@@ -77,18 +77,13 @@ export default React.createClass({
         let instances = stores.InstanceStore.getAll();
 
         new Promise((resolve, reject) => {
-            if (globals.USE_ALLOCATION_SOURCES) {
-                // Filter instances without AS
-                let missing = instances.cfilter(i => !i.get("allocation_source"));
+            // Filter instances without AS
+            let missing = instances.cfilter(i => !i.get("allocation_source"));
 
-                if (missing.length > 0) {
-                    noAllocationSource.showModal(missing, resolve);
-                } else {
-                    // give the other promises a shot at handling things
-                    resolve();
-                }
+            if (missing.length > 0) {
+                noAllocationSource.showModal(missing, resolve);
             } else {
-                // Continue on to the next promise
+                // give the other promises a shot at handling things
                 resolve();
             }
         }).then(
