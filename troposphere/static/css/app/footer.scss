@@ -6,6 +6,9 @@
   border-top: 1px solid #dddddd;
   text-align: center;
   line-height: 48px;
+  @media (max-width: 990px) {
+    position: relative;
+  }
 
   button {
     margin-left: 20px;
