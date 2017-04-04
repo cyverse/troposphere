@@ -175,6 +175,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             metadata.status_page_link
         template_params['SITE_FOOTER_LINK'] = \
             metadata.site_footer_link
+        template_params['SITE_FOOTER_HTML'] = \
+            metadata.site_footer
         template_params['USER_PORTAL'] = \
             metadata.get_user_portal_as_json()
 
@@ -317,6 +319,8 @@ def forbidden(request):
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
     template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
+    template_params['SITE_FOOTER_HTML'] = \
+        metadata.site_footer
     template_params['USER_PORTAL_LINK'] = metadata.user_portal_link
     template_params['USER_PORTAL_LINK_TEXT'] = metadata.user_portal_link_text
     template_params['ACCOUNT_INSTRUCTIONS_LINK'] = \
