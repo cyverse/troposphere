@@ -99,6 +99,10 @@
     var SITE_FOOTER_LINK = "{{ SITE_FOOTER_LINK }}";
 {% endif %}
 
+{% if SITE_FOOTER_HTML %}
+    var SITE_FOOTER_HTML = "{{ SITE_FOOTER_HTML|escapejs }}";
+{% endif %}
+
 {% if UI_VERSION %}
     var UI_VERSION = "{{ UI_VERSION }}";
 {% endif %}
@@ -158,7 +162,7 @@
     };
 {% endif %}
 
-{% if SENTRY_ENABLED == true %}
+{% if SENTRY_ENABLED %}
 {% load raven %}
 var SENTRY_ENABLED = true;
 var SENTRY_DSN = '{% sentry_public_dsn 'https' %}';
