@@ -19,12 +19,6 @@ export default React.createClass({
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection),
     },
 
-    renderAllocationSourceSection() {
-        return (
-        <AllocationSourceSection { ...this.props }/>
-        );
-    },
-
     render() {
         let { instance, project } = this.props;
 
@@ -53,9 +47,7 @@ export default React.createClass({
                 <div className="col-md-9">
                     <InstanceInfoSection instance={instance} />
                     <hr/>
-                    {globals.USE_ALLOCATION_SOURCES
-                     ? this.renderAllocationSourceSection()
-                     : null}
+                    <AllocationSourceSection { ...this.props }/>
                     <InstanceDetailsSection instance={instance} />
                     <hr/>
                     {globals.SHOW_INSTANCE_METRICS
