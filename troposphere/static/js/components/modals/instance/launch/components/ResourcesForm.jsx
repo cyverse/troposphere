@@ -62,9 +62,7 @@ export default React.createClass({
 
         return (
         <form>
-            {globals.USE_ALLOCATION_SOURCES
-             ? this.renderAllocationSourceMenu()
-             : null}
+            {this.renderAllocationSourceMenu()}
             <div className="form-group">
                 <label htmlFor="provider">
                     Provider

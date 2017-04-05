@@ -61,18 +61,11 @@ export default Backbone.Model.extend({
             throw new Error("Missing size_alias");
         if (!options.machine_alias)
             throw new Error("Missing machine_alias");
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            if (!options.allocation_source_uuid) {
-                throw new Error("Missing allocation_source_uuid");
-            }
-        }
+        if (!options.allocation_source_uuid)
+            throw new Error("Missing allocation_source_uuid");
 
         var providerId = this.get("provider").uuid,
             identityId = this.get("identity").uuid,
-            name = options.name,
-            size = options.size_alias,
-            machine = options.machine_alias,
             scriptIDs = (options.scripts) ? options.scripts.map(function(script) {
                 return script.id;
             }) : [];
@@ -85,14 +78,11 @@ export default Backbone.Model.extend({
         );
 
         let attrs = {
-            name: name,
-            machine_alias: machine,
-            size_alias: size,
-            scripts: scriptIDs
-        }
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            attrs.allocation_source_uuid = options.allocation_source_uuid;
+            name: options.name,
+            machine_alias: options.machine_alias,
+            size_alias: options.size_alias,
+            scripts: scriptIDs,
+            allocation_source_uuid: options.allocation_source_uuid
         }
 
         return Backbone.sync("create", this, {

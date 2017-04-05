@@ -173,10 +173,7 @@ export default React.createClass({
         stores.ProjectStore.addChangeListener(this.updateState);
         stores.ImageVersionStore.addChangeListener(this.updateState);
         stores.ScriptStore.addChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.addChangeListener(this.updateState);
-        }
+        stores.AllocationSourceStore.addChangeListener(this.updateState);
 
         // NOTE: This is not nice. This enforces that every time a component
         // mounts updateState gets called. Otherwise, if a component mounts
@@ -191,10 +188,7 @@ export default React.createClass({
         stores.ProjectStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.removeChangeListener(this.updateState);
-        }
+        stores.AllocationSourceStore.removeChangeListener(this.updateState);
     },
 
     viewImageSelect: function() {
@@ -428,12 +422,9 @@ export default React.createClass({
                 identity: this.state.identityProvider,
                 size: this.state.providerSize,
                 version: this.state.imageVersion,
-                scripts: this.state.attachedScripts
+                scripts: this.state.attachedScripts,
+                allocation_source_uuid: this.state.allocationSource.get("uuid")
             };
-
-            if (globals.USE_ALLOCATION_SOURCES) {
-                launchData.allocation_source_uuid = this.state.allocationSource.get("uuid");
-            }
 
             actions.InstanceActions.launch(launchData);
             this.hide();
@@ -459,28 +450,15 @@ export default React.createClass({
     // Returns true if instance launch will exceed the user's allotted
     // resources.
     exceedsResources: function() {
-        let provider = this.state.provider;
-        let identityProvider = this.state.identityProvider;
+        let { allocationSource, provider, identityProvider } = this.state
         let size = this.state.providerSize;
 
         if (identityProvider && size && provider) {
             let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
-            /* eslint-disable no-unused-vars */
-
             // AU's Used
-            let allocationConsumed,
-                allocationTotal;
-
-            // If we are not using AllocationSource set to provider
-            if (globals.USE_ALLOCATION_SOURCES) {
-                let allocationSource = this.state.allocationSource;
-                allocationConsumed = allocationSource.get("compute_used");
-                allocationTotal = allocationSource.get("compute_allowed");
-            } else {
-                allocationConsumed = identityProvider.get("usage").current;
-                allocationTotal = identityProvider.get("usage").threshold;
-            }
+            let allocationConsumed = allocationSource.get("compute_used");
+            let allocationTotal = allocationSource.get("compute_allowed");
 
             // CPU's have used + will use
             let allocationCpu = identityProvider.get("quota").cpu;
@@ -490,11 +468,12 @@ export default React.createClass({
             let allocationMem = identityProvider.get("quota").memory;
             let memUsed = resourcesUsed.mem / 1024;
             let memWillTotal = memUsed + size.get("mem");
-            //NOTE: Forcibly removed to disable enforcement on the UI side - By Sgregory
-            // if (allocationConsumed >= allocationTotal) {
-            //     return true;
-            // }
-            /* eslint-enable no-unused-vars */
+
+            // Note: if they are equal prior to launch then the instant that
+            // the instance was running, it would exceed its allocation
+            if (allocationConsumed >= allocationTotal) {
+                return true;
+            }
             if (cpuWillTotal > allocationCpu) {
                 return true;
             }
@@ -512,12 +491,14 @@ export default React.createClass({
     },
 
     canLaunch: function() {
-        let requiredFields = ["instanceName", "project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
-
-        // Check if we are using AllocationSource and add to requierd fields
-        if (globals.USE_ALLOCATION_SOURCES) {
-            requiredFields.push("allocationSource");
-        }
+        let requiredFields = [
+            "instanceName",
+            "project",
+            "identityProvider",
+            "providerSize",
+            "imageVersion",
+            "attachedScripts",
+            "allocationSource" ];
 
         // All required fields are truthy
         let requiredExist = _.every(requiredFields, (prop) => Boolean(this.state[prop]))
@@ -617,10 +598,7 @@ export default React.createClass({
             });
         }
 
-        let allocationSourceList;
-        if (globals.USE_ALLOCATION_SOURCES) {
-            allocationSourceList = stores.AllocationSourceStore.getAll();
-        }
+        let allocationSourceList = stores.AllocationSourceStore.getAll();
 
         return (
         <BasicLaunchStep { ...{ showValidationErr: this.state.showValidationErr, attachedScripts: this.state.attachedScripts, backIsDisabled: this.props.initialView=="BASIC_VIEW"
