@@ -153,6 +153,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['USE_MOCK_DATA'] = getattr(settings, "USE_MOCK_DATA", False)
     template_params['USE_ALLOCATION_SOURCES'] = getattr(settings,
             "USE_ALLOCATION_SOURCES", False)
+    template_params['ALLOCATION_UNIT_NAME'] = getattr(settings, "ALLOCATION_UNIT_NAME", None)
+    template_params['ALLOCATION_UNIT_ABBREV'] = getattr(settings, "ALLOCATION_UNIT_ABBREV", None)
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
     template_params['SENTRY_ENABLED'] = enable_sentry
