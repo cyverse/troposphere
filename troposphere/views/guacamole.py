@@ -62,8 +62,13 @@ def guacamole(request):
                               + '&guac.protocol=' + protocol
                               + '&signature=' + signature
                               + '&guac.hostname=' + ip_address
-                              + '&id=' + conn_id
-                              + '&guac.enable-sftp=true')
+                              + '&id=' + conn_id)
+
+            # SFTP is only enabled for SSH because when using SSH, the user enters their password,
+            # while for a VNC connection, the user doesn't. On VNC connections this causes a connection
+            # error because Guacamole cannot login to SFTP.
+            if protocol == 'ssh':
+                request_string += '&guac.enable-sftp=true'
 
             # Send request to Guacamole backend and record the result
             response = requests.post(guac_server + '/api/tokens', data=request_string)
