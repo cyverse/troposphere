@@ -1,22 +1,22 @@
 ## [Whimsical-Wyvern](https://github.com/cyverse/troposphere/milestone/12?closed=1) (as of 3/21/2017)
 Features:
-    - Provided a framework that allows support for custom messages within Troposphere UI
-    - Staff users will now see basic image metrics in the image catalog
+  - Provided a framework that allows support for custom messages within Troposphere UI
+  - Staff users will now see basic image metrics in the image catalog
 Enhancements:
-    - Provide support for Resource Requests using both 'varieties' of allocation and quota
+  - Provide support for Resource Requests using both 'varieties' of allocation and quota
 Internal:
-    - Sentry.io is now configurable via Clank
+  - Sentry.io is now configurable via Clank
 
 
 ## [Voracious-Velociraptor](https://github.com/cyverse/troposphere/milestone/11?closed=1) (as of 2/14/2017)
 Features:
-    - Provided a framework that allows support for custom messages within Troposphere UI
+  - Provided a framework that allows support for custom messages within Troposphere UI
 Enhancements:
-    - Provide support for Resource Requests using both 'varieties' of allocation and quota
+  - Provide support for Resource Requests using both 'varieties' of allocation and quota
 Bugfixes:
-    - Image Details now clearly show end-dated indication
-    - end-dated images will no longer show in the Instance Launch modal
-    - Small changes to make Troposphere more mobile-friendly
+  - Image Details now clearly show end-dated indication
+  - end-dated images will no longer show in the Instance Launch modal
+  - Small changes to make Troposphere more mobile-friendly
 
 ## [Undulating-Umbrellabird](https://github.com/cyverse/troposphere/pulls?q=is%3Amerged+is%3Apr+milestone%3A%22Undulating-Umbrellabird+%22) (as of 1/4/2017)
 

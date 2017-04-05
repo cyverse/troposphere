@@ -2,6 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import ResourceDetail from "components/projects/common/ResourceDetail";
 import stores from "stores";
+import Size from "models/Size"
 
 
 export default React.createClass({
@@ -12,13 +13,11 @@ export default React.createClass({
     },
 
     render: function() {
-        var instance = this.props.instance,
-            size = stores.SizeStore.get(instance.get("size").id);
+        let instance = this.props.instance;
+        let size = instance.get('size');
 
-        if (!size) {
-            return (
-            <div className="loading-tiny-inline"></div>
-            );
+        if (!(size instanceof Size)) {
+            size = new Size(size);
         }
 
         return (

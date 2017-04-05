@@ -105,12 +105,10 @@ export default {
     },
 
     filterSearchResults: function() {
-        var node = ReactDOM.findDOMNode(this);
-        var $node = $(node);
-        var search_field = $node.find("input");
-        var query = search_field.val();
+        let input = this.refs.searchField;
+        let query = input.value.trim();
         this.setState({
-            query: query
+            query
         });
         this.props.onQueryChange(query);
     },
@@ -121,13 +119,12 @@ export default {
     },
 
     clearSearchField: function() {
-        var query = "",
-            input = this.refs.searchField;
-
+        let query = "";
+        let input = this.refs.searchField;
         input.value = query;
         input.focus();
         this.setState({
-            query: query
+            query
         });
         this.props.onQueryChange(query);
     },

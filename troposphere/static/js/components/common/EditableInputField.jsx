@@ -31,12 +31,27 @@ export default React.createClass({
         }
     },
 
+    onChange: function(e) {
+        this.props.onChange(e.target.value); 
+    },
+
     render: function() {
+        const { text, errorMessage } = this.props
+        const errStyle = errorMessage ? { borderColor: "#df0000" }: null;
         return (
-        <input type="text"
-            defaultValue={this.props.text}
-            onBlur={this.onDoneEditing}
-            onKeyPress={this.onEnterKey} />
+        <div>
+            <input 
+                style={ errStyle }
+                type="text"
+                defaultValue={ text }
+                onBlur={ this.onDoneEditing }
+                onChange={ this.onChange }
+                onKeyPress={ this.onEnterKey }
+            />
+            <div style={{ color: "#df0000" }}>
+                { errorMessage }
+            </div>
+        </div>
         );
     }
 

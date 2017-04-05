@@ -6,7 +6,6 @@ import EditableInputField from "components/common/EditableInputField";
 import actions from "actions";
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "InstanceInfoSection",
 
@@ -16,10 +15,13 @@ export default React.createClass({
 
     getInitialState: function() {
         var instance = this.props.instance;
+        const name = instance.get("name");
 
         return {
-            name: instance.get("name"),
+            name,
+            editedName: name,
             isEditing: false,
+            hasError: false,
             isEditingTags: false
         };
     },
@@ -30,14 +32,23 @@ export default React.createClass({
         });
     },
 
+    isValid: function(text) {
+        let regex = /\.(\d)+$/gm;
+        return !Boolean(text.match(regex));
+    },
+
     onDoneEditing: function(text) {
-        this.setState({
-            name: text,
-            isEditing: false
-        });
-        actions.InstanceActions.update(this.props.instance, {
-            name: text
-        });
+        const isValid = this.isValid(text);
+
+        if (isValid) {
+            actions.InstanceActions.update(this.props.instance, {
+                name: text
+            });
+            this.setState({
+                isEditing: false,
+                name: text,
+            });
+        }
     },
 
     onDebugInfo: function(e) {
@@ -66,16 +77,30 @@ export default React.createClass({
         /* eslint-enable no-console */
     },
 
+    onChange: function(editedName) {
+        this.setState({
+            editedName
+        });
+    },
+
     render: function() {
         var instance = this.props.instance,
             instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
             type = stores.ProfileStore.get().get("icon_set"),
             iconSize = 113,
             nameContent;
-
+        let errorMessage = this.isValid(this.state.editedName) ?
+            "" : 'Invalid format, names can not end in a period followed by numbers. For example: "Name.2222"';
         if (this.state.isEditing) {
             nameContent = (
-                <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditing} />
+                <div>
+                    <EditableInputField
+                        errorMessage={errorMessage}
+                        text={this.state.name}
+                        onChange={ this.onChange }
+                        onDoneEditing={this.onDoneEditing}
+                    />
+                </div>
             );
         } else {
             nameContent = (
