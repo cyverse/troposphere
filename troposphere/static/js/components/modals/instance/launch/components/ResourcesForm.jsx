@@ -3,7 +3,6 @@ import Backbone from "backbone";
 
 import globals from "globals";
 import ResourceGraphs from "../components/ResourceGraphs";
-import ProviderAllocationGraph from "../components/ProviderAllocationGraph";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph";
 import SelectMenu from "components/common/ui/SelectMenu";
 
@@ -53,18 +52,6 @@ export default React.createClass({
         );
     },
 
-    renderAllocationSourceGraph() {
-        return (
-        <AllocationSourceGraph { ...this.props } />
-        );
-    },
-
-    renderProviderGraph() {
-        return (
-        <ProviderAllocationGraph { ...this.props } />
-        );
-    },
-
     render: function() {
         let { provider,
               providerList,
@@ -98,9 +85,7 @@ export default React.createClass({
                     onSelect={onSizeChange} />
             </div>
             <div className="form-group">
-                {globals.USE_ALLOCATION_SOURCES
-                 ? this.renderAllocationSourceGraph()
-                 : this.renderProviderGraph()}
+                <AllocationSourceGraph { ...this.props } />
                 <ResourceGraphs { ...this.props } />
             </div>
         </form>

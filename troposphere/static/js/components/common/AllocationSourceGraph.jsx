@@ -2,8 +2,8 @@ import React from "react";
 import Backbone from "backbone";
 
 import ProgressBar from "components/common/ui/ProgressBar";
-import messages from "messages/allocationMessages";
 import modals from "modals";
+import globals from "globals";
 
 
 export default React.createClass({
@@ -21,12 +21,12 @@ export default React.createClass({
         if (total >= limit) {
             return (
             <div style={{ color: "red", marginTop: "-20px" }}>
-                {`You do not have enough ${messages.unitName} (${messages.unitAbbrev}).`}
+                {`You do not have enough ${globals.ALLOCATION_UNIT_NAME}s (${globals.ALLOCATION_UNIT_ABBREV}s).`}
                 <br/>
                 <a className="btn btn-xs btn-default"
                    style={{ margin: "5px 0 20px" }}
                    onClick={this.onRequestResources}>
-                    {messages.requestMoreFromLaunchLabel()}
+                   { `Request additional ${globals.ALLOCATION_UNIT_NAME}s` }
                 </a>
             </div>
             )
@@ -49,10 +49,10 @@ export default React.createClass({
         let total = allocationSource.get("compute_allowed");
         let name = allocationSource.get("name");
         let percent = Math.round(consumed / total * 100);
-        let units = messages.unitAbbrev;
+        let unit = globals.ALLOCATION_UNIT_ABBREV;
 
         // Labels for bar graphs
-        let auLabel = `${percent}% of ${total} ${units} from ${name}`;
+        let auLabel = `${percent}% of ${total} ${unit}s from ${name}`;
 
         return (
         <div className="form-group">

@@ -1,8 +1,8 @@
 import React from "react";
 
 import PercentGraph from "components/common/ui/PercentageGraph";
-import messages from "messages/allocationMessages";
 import stores from "stores";
+import globals from "globals";
 
 
 export default React.createClass({
@@ -29,7 +29,7 @@ export default React.createClass({
                 Allocation: item.get("compute_allowed"),
             },
             appendMessages: {
-                Allocation: messages.unitAbbrev
+                Allocation: globals.ALLOCATION_UNIT_ABBREV + 's'
             },
             borderWidth: 0,
             dataLabels: {
