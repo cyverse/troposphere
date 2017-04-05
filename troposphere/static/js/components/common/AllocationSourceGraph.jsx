@@ -3,12 +3,17 @@ import Backbone from "backbone";
 
 import ProgressBar from "components/common/ui/ProgressBar";
 import messages from "messages/allocationMessages";
+import modals from "modals";
 
 
 export default React.createClass({
 
     propTypes: {
         allocationSource: React.PropTypes.instanceOf(Backbone.Model),
+    },
+
+    onRequestResources() {
+        modals.HelpModals.requestMoreResources(this);
     },
 
     // This is what we show if the instance will exceed our resources.
@@ -20,7 +25,7 @@ export default React.createClass({
                 <br/>
                 <a className="btn btn-xs btn-default"
                    style={{ margin: "5px 0 20px" }}
-                   onClick={this.props.onRequestResources}>
+                   onClick={this.onRequestResources}>
                     {messages.requestMoreFromLaunchLabel()}
                 </a>
             </div>
