@@ -323,8 +323,8 @@ export default React.createClass({
                 this,
                 ipAddress,
                 this.props.instance),
-                openInNewWindow: true,
-                isDisabled: disableWebLinks
+              openInNewWindow: true,
+              isDisabled: disableWebLinks
             });
           }
         }
