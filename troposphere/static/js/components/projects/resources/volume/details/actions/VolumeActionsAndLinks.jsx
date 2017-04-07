@@ -3,6 +3,8 @@ import Backbone from "backbone";
 import Glyphicon from "components/common/Glyphicon";
 import modals from "modals";
 
+import featureFlags from "utilities/featureFlags";
+
 export default React.createClass({
     displayName: "VolumeActionsAndLinks",
 
@@ -29,9 +31,13 @@ export default React.createClass({
     },
 
     handleReport: function() {
-        modals.VolumeModals.report({
-            volume: this.props.volume
-        });
+        if (!featureFlags.hasIntercomActive()) {
+            modals.VolumeModals.report({
+                volume: this.props.volume
+            });
+        } else {
+            window.Intercom('showNewMessage');
+        }
     },
 
     render: function() {
