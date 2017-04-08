@@ -8,6 +8,9 @@ import routes from "../AppRoutes";
 
 import Raven from "raven-js";
 
+import featureFlags from "utilities/featureFlags";
+
+
 export default React.createClass({
     displayName: "SplashScreen",
 
@@ -41,7 +44,7 @@ export default React.createClass({
             // it to Intercom.
             isEmulatedUser = !!window.emulator_token;
 
-            if (!isEmulatedUser) {
+            if (!isEmulatedUser && featureFlags.hasIntercomActive()) {
                 window.Intercom("boot", {
                     app_id: window.intercom_app_id,
                     name: profile.get("username"),
@@ -81,8 +84,10 @@ export default React.createClass({
             // you might want to push the state of the router to a store for whatever reason
             // RouterActions.routeChange({routerState: state});
 
-            // Update intercom so users get any messages sent to them
-            window.Intercom("update");
+            if (featureFlags.hasIntercomActive()) {
+                // Update intercom so users get any messages sent to them
+                window.Intercom("update");
+            }
 
             // whenever the url changes, this callback is called again
             ReactDOM.render(<Handler/>, document.getElementById("application"));
