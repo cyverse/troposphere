@@ -33,9 +33,16 @@ export default React.createClass({
     },
 
     onReport: function() {
-        modals.InstanceModals.report({
-            instance: this.props.instance
-        });
+        if (!featureFlags.hasIntercomActive()) {
+            modals.InstanceModals.report({
+                instance: this.props.instance
+            });
+        } else {
+            window.Intercom('trackEvent',
+                            'reported-instance',
+                            {'created_at': Date.now()});
+            window.Intercom('showNewMessage');
+        }
     },
 
     onImageRequest: function() {
