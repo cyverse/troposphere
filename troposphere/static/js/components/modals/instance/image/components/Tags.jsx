@@ -2,6 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 import actions from "actions";
+import RaisedButton from "material-ui/RaisedButton";
 import TagMultiSelect from "components/common/tags/TagMultiSelect";
 
 
@@ -117,26 +118,44 @@ export default React.createClass({
 
     renderTagCreateForm() {
         return (
-        <div className="form-group">
-            <label htmlFor="tag-create" className="control-label">
+        <div className="form-group clearfix">
+            <h3
+                className="t-title"
+                style={{
+                    marginBottom: "20px"
+                }}
+            >
                 Create new tag
-            </label>
-            <form>
-                <span>Name:</span>
-                <input className="form-control"
-                    type="text"
-                    onChange={this.onNewTagNameChange}
-                    value={this.state.newTagName} />
-                <br />
-                <span>Description:</span>
-                <textarea className="form-control"
-                    type="text"
-                    onChange={this.onNewTagDescriptionChange}
-                    value={this.state.newTagDescription} />
+            </h3>
+            <form className="clearfix">
+                <div className="form-group">
+                    <label htmlFor="newTagName">Name</label>
+                    <input
+                        id="newTagName"
+                        className="form-control"
+                        type="text"
+                        onChange={this.onNewTagNameChange}
+                        value={this.state.newTagName}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="newTagDescription">Description</label>
+                    <textarea
+                        id="newTagDescription"
+                        className="form-control"
+                        type="text"
+                        onChange={this.onNewTagDescriptionChange}
+                        value={this.state.newTagDescription}
+                    />
+                </div>
             </form>
-            <button disabled={!this.isSubmittable()} onClick={this.createTagAndAddToImage} className="btn btn-primary btn-sm pull-right">
-                Create and add
-            </button>
+            <RaisedButton
+                primary
+                disabled={!this.isSubmittable()}
+                onTouchTap={this.createTagAndAddToImage}
+                className="pull-right"
+                label="Create and add"
+            />
         </div>
         );
     },
