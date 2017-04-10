@@ -25,26 +25,3 @@ def step_should_see_at_least(context):
     assert context.browser.is_text_present("All Images")
     results = context.browser.find_by_css('li > .MediaCard')
     assert len(results) > 1
-
-
-# @when(u'I click on "Tags" subheading')
-# def step_impl(context):
-#     raise NotImplementedError(u'STEP: When I click on "Tags"')
-
-# @when(u'search for tag "base"')
-# def step_impl(context):
-#     raise NotImplementedError(u'STEP: When search for tag "base"')
-
-# @then(u'a tag named "base" is present')
-# def step_impl(context):
-#     raise NotImplementedError(u'STEP: Then a tag named "base" is present')
-
-# @then(u'all results are related to "{term}"')
-# def step_should_see_term_in_fields(context):
-#     lst = context.browser.find_by_css('.app-card-list')
-#     # after a search, only 1 `.app-card-list` should exist
-#     assert len(lst) == 1, "It appears that more than results listing is present"
-#     elements = context.browser.find_by_css('.app-card-list > .MediaCard')
-#     for element in elements:
-
-#     raise NotImplementedError(u'STEP: Then all results are related to "base"')
