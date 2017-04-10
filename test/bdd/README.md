@@ -17,6 +17,8 @@ Ensure that you have the Selenium driver for Firefox installed:
 brew install geckodriver
 ```
 
+> For Linux users, there currently is _not_ a packaged version of `geckodriver`. The only option is to download a release from https://github.com/mozilla/geckodriver/releases and follow the installation instructions.
+
 Ensure you've activate a virtualenv with behave and associated modules:
 ```
 virualenv env
