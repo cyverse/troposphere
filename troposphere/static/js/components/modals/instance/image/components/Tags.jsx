@@ -2,8 +2,8 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 import actions from "actions";
-import RaisedButton from "material-ui/RaisedButton";
 import TagMultiSelect from "components/common/tags/TagMultiSelect";
+import TagCreateForm from "./TagCreateForm";
 
 
 export default React.createClass({
@@ -104,59 +104,31 @@ export default React.createClass({
         }
 
         return (
-        <TagMultiSelect models={filteredTags}
-            activeModels={filteredImageTags}
-            onCreateNewTag={this.onCreateNewTag}
-            onModelAdded={this.props.onTagAdded}
-            onModelRemoved={this.props.onTagRemoved}
-            onModelCreated={this.props.onTagCreated}
-            onQueryChange={this.onQueryChange}
-            width={"100%"}
-            placeholderText="Search by tag name..." />
+            <TagMultiSelect
+                models={filteredTags}
+                activeModels={filteredImageTags}
+                onCreateNewTag={this.onCreateNewTag}
+                onModelAdded={this.props.onTagAdded}
+                onModelRemoved={this.props.onTagRemoved}
+                onModelCreated={this.props.onTagCreated}
+                onQueryChange={this.onQueryChange}
+                width={"100%"}
+                placeholderText="Search by tag name..."
+            />
         );
     },
 
     renderTagCreateForm() {
         return (
-        <div className="form-group clearfix">
-            <h3
-                className="t-title"
-                style={{
-                    marginBottom: "20px"
-                }}
-            >
-                Create new tag
-            </h3>
-            <form className="clearfix">
-                <div className="form-group">
-                    <label htmlFor="newTagName">Name</label>
-                    <input
-                        id="newTagName"
-                        className="form-control"
-                        type="text"
-                        onChange={this.onNewTagNameChange}
-                        value={this.state.newTagName}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="newTagDescription">Description</label>
-                    <textarea
-                        id="newTagDescription"
-                        className="form-control"
-                        type="text"
-                        onChange={this.onNewTagDescriptionChange}
-                        value={this.state.newTagDescription}
-                    />
-                </div>
-            </form>
-            <RaisedButton
-                primary
-                disabled={!this.isSubmittable()}
-                onTouchTap={this.createTagAndAddToImage}
-                className="pull-right"
-                label="Create and add"
+            <TagCreateForm
+                isSubmittable={ this.isSubmittable }
+                createTagAndAddToImage={ this.createTagAndAddToImage }
+                newTagDescription={ this.state.newTagDescription }
+                newTagName={ this.state.newTagName }
+                onNewTagDescriptionChange={ this.onNewTagDescriptionChange }
+                onNewTagName={ this.onNewTagName }
+                onNewTagNameChange={ this.onNewTagNameChange }
             />
-        </div>
         );
     },
 
