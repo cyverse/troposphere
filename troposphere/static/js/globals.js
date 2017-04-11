@@ -25,6 +25,7 @@ export default {
     THEME_URL: window.THEME_URL || "",
     STATUS_PAGE_LINK: window.STATUS_PAGE_LINK || "",
     SITE_TITLE: window.SITE_TITLE || "Atmosphere",
+    SITE_FOOTER_HTML: window.SITE_FOOTER_HTML || "",
     SITE_FOOTER: window.SITE_FOOTER || "CyVerse",
     SITE_FOOTER_LINK: window.SITE_FOOTER_LINK || default_footer_link,
     UI_VERSION: window.UI_VERSION || "Unknown Unicolored-Jay",

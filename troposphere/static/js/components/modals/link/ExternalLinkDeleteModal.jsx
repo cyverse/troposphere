@@ -1,8 +1,9 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
-export default React.createClass({
+const DeleteLinkModal = React.createClass({
     displayName: "ExternalLinkDeleteModal",
 
     mixins: [BootstrapModalMixin],
@@ -45,7 +46,6 @@ export default React.createClass({
     },
 
     render: function() {
-
         return (
         <div className="modal fade">
             <div className="modal-dialog">
@@ -58,12 +58,16 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                            Cancel
-                        </button>
-                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                            Yes, delete this link
-                        </button>
+                        <RaisedButton
+                            style={{ marginRight: "10px" }}
+                            onTouchTap={this.cancel}
+                            label="Cancel"
+                        />
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            label="Yes, delete this link"
+                        />
                     </div>
                 </div>
             </div>
@@ -71,3 +75,5 @@ export default React.createClass({
         );
     }
 });
+
+export default DeleteLinkModal;

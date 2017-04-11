@@ -5,6 +5,7 @@ import chrome from "images/google_chrome_icon.png";
 import firefox from "images/firefox_icon.png";
 import safari from "images/safari_icon.png";
 import ModalHelpers from "components/modals/ModalHelpers";
+import RaisedButton from "material-ui/RaisedButton";
 
 
 const UnsupportedModal = React.createClass({
@@ -58,9 +59,11 @@ const UnsupportedModal = React.createClass({
                         {content}
                     </div>
                     <div className="modal-footer">
-                        <button className="btn btn-primary" onClick={this.confirm}>
-                            Try Anyway
-                        </button>
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            label="Try Anyway"
+                        />
                     </div>
                 </div>
             </div>

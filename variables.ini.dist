@@ -4,6 +4,19 @@ ASSETS_PATH =
 THEME_PATH =
 THEME_NAME =
 
+[theme]
+USE_THEME_IMAGES = False
+PRIMARY_ONE_COLOR = "#ed174b"
+PRIMARY_TWO_COLOR = "#46afc8"
+ACCENT_ONE_COLOR = "#46afc8"
+PICKER_HEADER_COLOR = "#46afc8"
+DANGER_COLOR = "amber"
+SUCCESS_COLOR = "green"
+HEADER_COLOR = "white"
+HEADER_BORDER_COLOR = "red"
+HEADER_LINK_COLOR = "blue"
+LINK_COLOR = "#46afc8"
+
 [nginx]
 ENABLE_HTTP2 = ; enable if http2 module available in nginx build
 BUNDLE_FILE =

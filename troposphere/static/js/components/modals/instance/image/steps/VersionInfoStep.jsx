@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import VersionName from "../components/VersionName";
 import VersionChanges from "../components/VersionChangeLog";
 import $ from "jquery";
@@ -89,12 +90,12 @@ export default React.createClass({
                 <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>
                     <span className="glyphicon glyphicon-chevron-left"></span> Back
                 </button>
-                <button type="button"
-                    className="btn btn-primary cancel-button"
-                    onClick={this.onNext}
-                    disabled={!this.isSubmittable()}>
-                    Next
-                </button>
+                <RaisedButton
+                    primary
+                    onTouchTap={this.onNext}
+                    disabled={!this.isSubmittable()}
+                    label="Next"
+                />
             </div>
         </div>
         );

@@ -50,7 +50,7 @@ export default {
             systemFiles = params.systemFiles || "[no files specified]",
             visibility = params.visibility,
             imageUsers = params.imageUsers,
-            userNames = imageUsers.map(function(user) {
+            userNameList = imageUsers.map(function(user) {
                 return user.get("username");
             }),
             tags = params.tags,
@@ -59,6 +59,7 @@ export default {
             }),
             scripts = params.scripts,
             licenses = params.licenses,
+            userNames = userNameList.join(", "),
             tagNames = tagNameList.join(", ");
 
         var requestData = {

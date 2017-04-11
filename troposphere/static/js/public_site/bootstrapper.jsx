@@ -1,8 +1,19 @@
 import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router,
-         browserHistory } from "react-router";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import appTheme from 'theme/appTheme';
+
+// Needed for MUI's onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+import injectTapEvent from 'react-tap-event-plugin';
+injectTapEvent();
+
+import {
+    Router,
+    browserHistory
+} from "react-router";
 
 import Profile from "models/Profile";
 
@@ -22,6 +33,7 @@ import stores from "stores";
 
 stores.ProviderStore = require("stores/ProviderStore");
 stores.ImageStore = require("stores/ImageStore");
+stores.ImageMetricsStore = require("stores/ImageMetricsStore");
 stores.ImageBookmarkStore = require("stores/ImageBookmarkStore");
 stores.ImageVersionStore = require("stores/ImageVersionStore");
 stores.TagStore = require("stores/TagStore");
@@ -54,9 +66,18 @@ function startApplication() {
     $(document).ready(function() {
         $("body").removeClass("splash-screen");
 
+        const App = (
+            <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
+                <Router history={withAppBasename(browserHistory)}>
+                    {routes}
+                </Router>
+            </MuiThemeProvider>
+        );
+
         // Start the application router
+        
         ReactDOM.render(
-            <Router history={withAppBasename(browserHistory)}>{routes}</Router>,
+            App,
             document.getElementById("application"));
     });
 }

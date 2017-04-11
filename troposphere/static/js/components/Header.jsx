@@ -8,11 +8,11 @@ import Glyphicon from 'components/common/Glyphicon';
 import context from 'context';
 import globals from 'globals';
 import modals from 'modals';
+import logoPath from 'themeImages/mini_logo.png';
 
 import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 import { deleteCookie } from "utilities/cookieHelpers";
-
 
 const links = [
     {
@@ -299,10 +299,8 @@ let Header = React.createClass({
             ? <LogoutLink username={profile.get("username")} />
             : <LoginLink/>;
 
-        let brandLink = loggedIn
-            ? <Link to="dashboard" className="navbar-brand" />
-            : <Link to="images" className="navbar-brand" />;
-
+        let homeTarget = loggedIn ? "dashboard" : "images";
+        
         return (
         <div className="navbar navbar-default navbar-fixed-top" role="navigation">
             <MaintenanceMessageBanner maintenanceMessages={this.props.maintenanceMessages} />
@@ -317,7 +315,20 @@ let Header = React.createClass({
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    {brandLink}
+                    <Link
+                        style={{
+                            maxWidth: "130px",
+                            maxHeight: "51px",
+                            marginRight: "50px",
+                            float: "left",
+                            padding: "9px 0"
+                        }}
+                        to={ homeTarget }>
+                        <img
+                            src={ logoPath }
+                            width="100%"
+                        />
+                    </Link>
                 </div>
                 <div className="navbar-collapse collapse">
                     <ul className="nav navbar-nav">

@@ -125,6 +125,9 @@ class SiteMetadata(SingletonModel):
         max_length=254,
         default=b"http://user.cyverse.org/",
         help_text="Hyperlink in footer to host installation organization or product page.")
+    site_footer = models.TextField(
+        default=b"", blank=True,
+        help_text="Full-text HTML replacement of footer to host installation organization or product page.")
 
     def get_user_portal_as_json(self):
         """

@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import actions from "actions";
 import EditScriptsView from "components/modals/image_version/scripts/EditScriptsView";
@@ -143,12 +144,12 @@ export default React.createClass({
                 <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>
                     <span className="glyphicon glyphicon-chevron-left"></span> Back
                 </button>
-                <button type="button"
-                    className="btn btn-primary cancel-button"
-                    onClick={this.onNext}
-                    disabled={!this.isSubmittable()}>
-                    Next
-                </button>
+                <RaisedButton type="button"
+                    primary
+                    onTouchTap={this.onNext}
+                    disabled={!this.isSubmittable()}
+                    label="Next"
+                />
             </div>
         </div>
         );

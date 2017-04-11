@@ -1,13 +1,19 @@
 import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import appTheme from 'theme/appTheme';
+import _ from 'lodash';
+
 import { Router,
          browserHistory } from "react-router";
 
 import context from "context";
 import stores from "stores";
 
-import routes from "../AppRoutes";
+import Routes from "../AppRoutes";
 import { withAppBasename } from "utilities/historyFunctions";
 
 import Raven from "raven-js";
@@ -60,15 +66,6 @@ export default React.createClass({
                 });
             }
 
-            if (Raven && Raven.isSetup()){
-                Raven.setUserContext({
-                    id: profile.get("user"),
-                    name: profile.get("username"),
-                    email: profile.get("email"),
-                    username: profile.get("username")
-                });
-            }
-
             this.startApplication();
         }
     },
@@ -86,19 +83,29 @@ export default React.createClass({
     },
 
     startApplication: function() {
+        const ProfileStore = stores.ProfileStore.get();
 
         $("body").removeClass("splash-screen");
 
-        // Start the application router
+        // Initialize Theme and start the application router
         //   - include the history (with an application basename)
         //   - on route change, update intercom so users get any
         //     messages sent to them
+        const App = (
+            <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
+                <Router 
+                    history={withAppBasename(browserHistory)}
+                    onChange={() => window.Intercom("update")}
+                >
+                    { Routes({ profile: ProfileStore }) }
+                </Router>
+            </MuiThemeProvider>
+        );
+
         ReactDOM.render(
-            <Router history={withAppBasename(browserHistory)}
-                    onChange={() => window.Intercom("update")}>
-                {routes}
-            </Router>,
-            document.getElementById("application"));
+            App,
+            document.getElementById("application")
+        );
     },
 
     render: function() {

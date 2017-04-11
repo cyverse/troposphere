@@ -2,6 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import context from "context";
 import Button from "./Button";
+import SubMenu from "./SubMenu";
 import RefreshButton from "./RefreshButton";
 import RequestResourcesButton from "./RequestResourcesButton";
 import ResourceActionButtons from "./ResourceActionButtons";
@@ -44,10 +45,30 @@ export default React.createClass({
         // />
 
         return (
-        <div className="clearfix">
-            <div className="button-bar col-md-4">
+        <div 
+            style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "flex-start",
+                justifyContent: "space-between",
+            }}
+        >
+            <div 
+                style={{
+                    marginBottom: "10px",
+                }}
+            >
+                <SubMenu { ...this.props }/>
                 <RefreshButton/>
                 <RequestResourcesButton />
+            </div>
+            <div 
+                style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    flex: "1"
+                }}
+            >
                 <Button icon="folder-open"
                     tooltip="Move selected resources"
                     onClick={this.props.onMoveSelectedResources}
@@ -57,8 +78,6 @@ export default React.createClass({
                     onClick={this.props.onRemoveSelectedResources}
                     style={{ "backgroundColor": "bisque" }}
                     isVisible={context.profile.get("is_superuser") && this.props.isVisible} />
-            </div>
-            <div style={{ padding: "10px 0" }} className="col-md-3 u-md-pull-right">
                 <ResourceActionButtons onUnselect={this.props.onUnselect}
                     previewedResource={this.props.previewedResource}
                     multipleSelected={this.props.multipleSelected}

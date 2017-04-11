@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
 export default React.createClass({
@@ -52,12 +53,16 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                            Cancel
-                        </button>
-                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                            Yes, stop this instance
-                        </button>
+                        <RaisedButton
+                            style={{ marginRight: "10px" }}
+                            onTouchTap={this.cancel}
+                            label="Cancel"
+                        />
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            label="Yes, stop this instance"
+                        />
                     </div>
                 </div>
             </div>

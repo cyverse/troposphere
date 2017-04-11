@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ SITE_TITLE }}</title>
-    <link rel="shortcut icon" href="{{THEME_URL}}/images/favicon.ico" />
+    <link rel="shortcut icon" href="{{ BASE_URL }}/assets/bundles/theme/images/favicon.ico" />
 
     <!--CSS-->
 {% if DYNAMIC_ASSET_LOADING %}
@@ -18,10 +18,8 @@
     <link href="{{ BASE_URL }}/assets/bundles/app.css" rel="stylesheet" type="text/css">
 {% endif %}
 
-    <link href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
-
     <!-- Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
     <!--[if IE]>
     <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -69,8 +67,6 @@
 
     var BASE_URL = "{{ BASE_URL }}";
 
-    var THEME_URL = "{{ THEME_URL }}";
-
 {% if API_ROOT %}
     var API_ROOT = "{{ API_ROOT }}";
 {% endif %}
@@ -101,6 +97,10 @@
 
 {% if SITE_FOOTER_LINK %}
     var SITE_FOOTER_LINK = "{{ SITE_FOOTER_LINK }}";
+{% endif %}
+
+{% if SITE_FOOTER_HTML %}
+    var SITE_FOOTER_HTML = "{{ SITE_FOOTER_HTML|escapejs }}";
 {% endif %}
 
 {% if UI_VERSION %}
@@ -151,19 +151,20 @@
     var USE_ALLOCATION_SOURCES = false;
 {% endif %}
 
-{% if sentry %}
-    var SENTRY_ENABLED = true;
-    var SENTRY_RELEASE = "{{ sentry.release }}";
-    var SENTRY_DSN = "{{ sentry.dsn }}";
-{%  else %}
-    var SENTRY_ENABLED = false;
-{% endif %}
-
 {% if notice %}
     var maint_notice = {
          title: "{{notice.title}}",
          message: "{{notice.message}}"
     };
+{% endif %}
+
+{% if SENTRY_ENABLED %}
+{% load raven %}
+var SENTRY_ENABLED = true;
+var SENTRY_DSN = '{% sentry_public_dsn 'https' %}';
+var SENTRY_TAGS = {{ sentry_tags_dict|safe }};
+{% else %}
+var SENTRY_ENABLED = false;
 {% endif %}
 
 {% if USER_PORTAL %}
