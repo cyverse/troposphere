@@ -54,6 +54,7 @@ stores.ImageVersionScriptStore = require("stores/ImageVersionScriptStore");
 stores.IdentityStore = require("stores/IdentityStore");
 stores.ImageBookmarkStore = require("stores/ImageBookmarkStore");
 stores.InstanceHistoryStore = require("stores/InstanceHistoryStore");
+stores.InstanceActionStore = require("stores/InstanceActionStore");
 stores.ImageRequestStore = require("stores/ImageRequestStore");
 stores.InstanceStore = require("stores/InstanceStore");
 stores.InstanceTagStore = require("stores/InstanceTagStore");

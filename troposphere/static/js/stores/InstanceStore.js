@@ -55,7 +55,15 @@ var InstanceStore = BaseStore.extend({
     // Polling functions
     // -----------------
 
+    /**
+     * Poll handler, last chance to signal updates for resource
+     */
     isInFinalState: function(instance) {
+
+        Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
+            instance: instance
+        });
+
         if (instance.get("state").get("status") == "active" &&
             instance.get("ip_address").charAt(0) == "0") {
             return false;
