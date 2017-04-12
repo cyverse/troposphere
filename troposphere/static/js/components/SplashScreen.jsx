@@ -13,7 +13,7 @@ import { Router,
 import context from "context";
 import stores from "stores";
 
-import routes from "../AppRoutes";
+import Routes from "../AppRoutes";
 import { withAppBasename } from "utilities/historyFunctions";
 
 import Raven from "raven-js";
@@ -83,6 +83,7 @@ export default React.createClass({
     },
 
     startApplication: function() {
+        const ProfileStore = stores.ProfileStore.get();
 
         $("body").removeClass("splash-screen");
 
@@ -96,7 +97,7 @@ export default React.createClass({
                     history={withAppBasename(browserHistory)}
                     onChange={() => window.Intercom("update")}
                 >
-                    {routes}
+                    { Routes({ profile: ProfileStore }) }
                 </Router>
             </MuiThemeProvider>
         );

@@ -81,6 +81,12 @@ export default {
     onEnter: function(e) {
         if (e.which !== ENTER_KEY) return;
 
+        // Stops the enter event from bubbling out to other elements.
+        // If we want to say move focus to the another field on enter, a line break (\n)
+        // would be passed to that field causing the line break to be added before the cursor.
+        e.preventDefault();
+        e.stopPropagation();
+
         var value = e.target.value;
 
         if (this.onEnterKeyPressed) {
