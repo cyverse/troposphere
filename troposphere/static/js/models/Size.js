@@ -5,11 +5,11 @@ import moment from "moment";
 export default Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/sizes",
 
-    initialize: function(attributes, option) {
-        return Object.assign({}, attributes, {
-            mem: attributes.mem / 1024,
-            start_date : moment(attributes.start_date),
-            end_date : moment(attributes.end_date)
+    parse: function (response) {
+        return Object.assign({}, response, {
+            mem: response.mem / 1024,
+            start_date: moment(response.start_date),
+            end_date: moment(response.end_date)
         });
     },
 
