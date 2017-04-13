@@ -165,6 +165,12 @@
     var USE_ALLOCATION_SOURCES = false;
 {% endif %}
 
+{% if EXTERNAL_ALLOCATION %}
+    var EXTERNAL_ALLOCATION = true;
+{%  else %}
+    var EXTERNAL_ALLOCATION = false;
+{% endif %}
+
 {% if notice %}
     var maint_notice = {
          title: "{{notice.title}}",
