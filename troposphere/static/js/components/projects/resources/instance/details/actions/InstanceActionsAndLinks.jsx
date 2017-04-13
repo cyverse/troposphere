@@ -41,7 +41,8 @@ export default React.createClass({
             window.Intercom('trackEvent',
                             'reported-instance',
                             {'created_at': Date.now()});
-            window.Intercom('showNewMessage');
+            window.Intercom('showNewMessage',
+                            'I am having issues with an instance. ');
         }
     },
 

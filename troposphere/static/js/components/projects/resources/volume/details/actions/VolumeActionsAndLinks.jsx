@@ -36,7 +36,11 @@ export default React.createClass({
                 volume: this.props.volume
             });
         } else {
-            window.Intercom('showNewMessage');
+            window.Intercom('trackEvent',
+                            'reported-volume',
+                            {'created_at': Date.now()});
+            window.Intercom('showNewMessage',
+                            'I am having issues with a volume. ');
         }
     },
 
