@@ -18,6 +18,9 @@ import { withAppBasename } from "utilities/historyFunctions";
 
 import Raven from "raven-js";
 
+import featureFlags from "utilities/featureFlags";
+
+
 export default React.createClass({
     displayName: "SplashScreen",
 
@@ -51,7 +54,7 @@ export default React.createClass({
             // it to Intercom.
             isEmulatedUser = !!window.emulator_token;
 
-            if (!isEmulatedUser) {
+            if (!isEmulatedUser && featureFlags.hasIntercomActive()) {
                 window.Intercom("boot", {
                     app_id: window.intercom_app_id,
                     name: profile.get("username"),
