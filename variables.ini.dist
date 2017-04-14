@@ -67,7 +67,6 @@ KEYSTONE_SERVER = ; "https://my-openstack.cloud.org:5000"
 KEYSTONE_DOMAIN_NAME = ; "default"
 MOCK_USER =
 USE_MOCK_DATA = ; True to use fake api when possible
-USE_ALLOCATION_SOURCES = ; True for jetstream
 EXTERNAL_ALLOCATION = ; True if a site has an external process for managing
                       ; allocation
                       ; True for Jetstream, False for CyVerse
