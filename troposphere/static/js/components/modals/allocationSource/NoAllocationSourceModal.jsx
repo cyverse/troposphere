@@ -227,11 +227,7 @@ const ModalBackend = React.createClass({
 
     componentDidMount() {
         stores.ProjectStore.addChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.addChangeListener(this.updateState);
-        }
-
+        stores.AllocationSourceStore.addChangeListener(this.updateState);
         this.updateState();
     },
 
@@ -246,11 +242,7 @@ const ModalBackend = React.createClass({
 
     componentWillUnmount() {
         stores.ProjectStore.removeChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.removeChangeListener(this.updateState);
-        }
-
+        stores.AllocationSourceStore.removeChangeListener(this.updateState);
     },
 
     updateState() {
