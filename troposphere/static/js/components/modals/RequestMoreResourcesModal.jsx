@@ -15,7 +15,8 @@ export default React.createClass({
         return {
             identity: identities ? identities.first().id : null,
             resources: "",
-            reason: ""
+            reason: "",
+            showAllocationHelp: false
         };
     },
 
@@ -129,7 +130,8 @@ export default React.createClass({
     },
 
     renderBody: function() {
-        var identities = stores.IdentityStore.getAll(),
+        let { showAllocationHelp } = this.state;
+        let identities = stores.IdentityStore.getAll(),
             instances = stores.InstanceStore.getAll(),
             username = stores.ProfileStore.get().get("username"),
             requests = stores.ResourceRequestStore.findResourceRequestsWhere({
@@ -154,11 +156,10 @@ export default React.createClass({
             </div>
             <div className="form-group">
                 <label htmlFor="project-name">
-                    {"What resources would you like to request?"}
+                    {"What resources would you like to request?"}&nbsp;
+                    <a onClick={() => this.setState({showAllocationHelp: true})}>help</a>
                 </label>
-                {globals.USE_ALLOCATION_SOURCE
-                 ? this.renderAllocationSourceText()
-                 : ""}
+                { showAllocationHelp ? <AllocationHelp /> : null }
                 <textarea type="text"
                     className="form-control"
                     rows="7"
@@ -211,6 +212,28 @@ export default React.createClass({
                     </div>
                 </div>
             </div>
+        </div>
+        );
+    }
+});
+
+let AllocationHelp = React.createClass({
+    render() {
+        return (
+        <div style={{ marginLeft: "15px" }}>
+            <p>
+                There are two types of resources: quota and allocation.
+            </p>
+            <p>
+                Quota are resources like the number of volumes that can be
+                created, the total number of CPUs, or total RAM, etc.
+            </p>
+            <p>
+                Allocation is the measure of available compute time. Each CPU
+                on an active instance consumes time in your allocation.
+                Allocation Sources store this allocation. Each instance has an
+                Allocation Source from which it draws allocation.
+            </p>
         </div>
         );
     }

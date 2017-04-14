@@ -107,7 +107,7 @@ export default React.createClass({
                                 linksTo="settings" />
                         </div>
                     </div>
-                    <div 
+                    <div
                         className="resource-header clearfix"
                         style={{
                             display: "flex",
