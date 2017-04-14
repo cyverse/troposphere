@@ -1,7 +1,6 @@
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import AUCalculator from "components/common/AUCalculator";
 import stores from "stores";
 import globals from "globals";
 
@@ -117,10 +116,6 @@ export default React.createClass({
         )
     },
 
-    renderAUCalculator: function() {
-        return (<AUCalculator identity={this.state.identity} />);
-    },
-
     renderIdentity: function(identity) {
         return (
         <option key={identity.id} value={identity.id}>
@@ -167,9 +162,6 @@ export default React.createClass({
                     value={this.state.resources}
                     onChange={this.handleResourcesChange} />
             </div>
-            {globals.USE_ALLOCATION_SOURCE
-             ? this.renderAUCalculator()
-             : ""}
             <div className="form-group">
                 <label htmlFor="project-description">
                     {"How will you use the additional resources?"}
