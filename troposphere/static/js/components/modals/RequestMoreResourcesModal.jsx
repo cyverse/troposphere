@@ -158,7 +158,9 @@ export default React.createClass({
                 <textarea type="text"
                     className="form-control"
                     rows="7"
-                    placeholder="E.g 4 CPUs and 8GB memory, running 4 cores for 1 week, an additional 500 AU, etc."
+                    placeholder={"E.g:\n" +
+                                 "    - 4 CPUs and 8GB memory, running 4 cores for 1 week\n" +
+                                 "    - An additional 500 hours on my 'datascience' allocation source"}
                     value={this.state.resources}
                     onChange={this.handleResourcesChange} />
             </div>
