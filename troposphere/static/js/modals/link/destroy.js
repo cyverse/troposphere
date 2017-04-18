@@ -1,4 +1,4 @@
-import { browserHistory } from "react-router";
+import { appBrowserHistory } from "utilities/historyFunctions";
 
 import ModalHelpers from "components/modals/ModalHelpers";
 import ExternalLinkDeleteModal from "components/modals/link/ExternalLinkDeleteModal";
@@ -25,7 +25,7 @@ export default {
                 project: project,
                 external_link: external_link
             });
-            browserHistory.push(`/projects/${project.id}/resources`);
+            appBrowserHistory.push(`/projects/${project.id}/resources`);
         })
     }
 };

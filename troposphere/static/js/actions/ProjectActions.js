@@ -1,4 +1,4 @@
-import { browserHistory } from "react-router";
+import { appBrowserHistory } from "utilities/historyFunctions";
 
 import Utils from "./Utils";
 import NotificationController from "controllers/NotificationController";
@@ -103,7 +103,7 @@ export default {
             });
         });
 
-        browserHistory.push("/projects");
+        appBrowserHistory.push("/projects");
     },
 
     // ----------------------

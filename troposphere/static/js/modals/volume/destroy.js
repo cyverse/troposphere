@@ -1,4 +1,4 @@
-import { browserHistory } from "react-router";
+import { appBrowserHistory } from "utilities/historyFunctions";
 
 import ModalHelpers from "components/modals/ModalHelpers";
 
@@ -45,7 +45,7 @@ export default {
                 volume: volume
             });
 
-            browserHistory.push(`/projects/${project.id}/resources`);
+            appBrowserHistory.push(`/projects/${project.id}/resources`);
         })
     }
 };
