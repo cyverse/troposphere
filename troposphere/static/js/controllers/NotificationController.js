@@ -24,7 +24,7 @@ var noFadeDefaults = {
 export default {
     success: function(title, message, options = {}) {
         let settings = _.defaults(options, defaults);
-        toastr.success(message, settings);
+        toastr.success(message, title, settings);
     },
     info: function(title, message, options = {}) {
         let settings = _.defaults(options, defaults);
