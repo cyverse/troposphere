@@ -214,7 +214,7 @@ export default React.createClass({
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
                     this,
-                    ip_address,
+                    ipAddress,
                     this.props.instance),
                 openInNewWindow: true,
                 isDisabled: webLinksDisabled
