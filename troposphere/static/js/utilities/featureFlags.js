@@ -4,6 +4,6 @@ export default {
     GUACAMOLE: !!window.GUACAMOLE_ENABLED || false
 
     hasIntercomActive() {
-      return window.intercom_app_id && window.Intercom;
+        return window.intercom_app_id && window.Intercom;
     }
 }
