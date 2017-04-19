@@ -24,18 +24,18 @@ var noFadeDefaults = {
 export default {
     success: function(title, message, options = {}) {
         let settings = _.defaults(options, defaults);
-        toastr.success(title, message, settings);
+        toastr.success(message, title, settings);
     },
     info: function(title, message, options = {}) {
         let settings = _.defaults(options, defaults);
-        toastr.info(title, message, settings);
+        toastr.info(message, title, settings);
     },
     warning: function(title, message, options = {}) {
         let settings = _.defaults(options, noFadeDefaults);
-        toastr.warning(title, message, settings);
+        toastr.warning(message, title, settings);
     },
     error: function(title, message, options = {}) {
         let settings = _.defaults(options, noFadeDefaults);
-        toastr.error(title, message, settings);
+        toastr.error(message, title, settings);
     }
 };
