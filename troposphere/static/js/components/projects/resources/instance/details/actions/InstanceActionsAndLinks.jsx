@@ -209,7 +209,7 @@ export default React.createClass({
         ];
 
         if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
-            linksArray.push({
+            links.push({
                 label: "Open Web Desktop",
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
