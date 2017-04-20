@@ -9,6 +9,9 @@ import modals from "modals";
 import stores from "stores";
 import actions from "actions";
 
+import { trackAction } from 'utilities/userActivity';
+
+
 export default React.createClass({
     displayName: "ProjectDetails",
 
@@ -92,6 +95,10 @@ export default React.createClass({
         anyAttached = this.state.selectedResources.some(function(selected) {
             return attachedResources.includes(selected.get("uuid"));
         });
+
+        // clicking & moving are treated as distinct actions to see how many
+        // actions are _completed_: clicked + moved
+        trackAction('clicked-move-selected-resources');
 
         if (anyAttached) {
             modals.ProjectModals.cantMoveAttached();
