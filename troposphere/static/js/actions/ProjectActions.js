@@ -21,6 +21,8 @@ import Project from "models/Project";
 import ModalHelpers from "components/modals/ModalHelpers";
 import ProjectReportResourceModal from "components/modals/project/ProjectReportResourceModal";
 
+import { trackAction } from 'utilities/userActivity';
+
 
 export default {
 
@@ -121,7 +123,9 @@ export default {
         var that = this,
             newProject = params.newProject,
             resources = params.resources,
-            currentProject = params.currentProject;
+            currentProject = params.currentProject,
+            resourcesCount = resources && resources.size
+                           ? resources.size() : 0;
 
         resources.map(function(resource) {
             that.addResourceToProject(resource, newProject, {
@@ -132,6 +136,12 @@ export default {
             });
         });
         Utils.dispatch(ProjectConstants.EMIT_CHANGE);
+
+        // NOTE: this _completed_ the move selected resources action;
+        // interested in how many use this project-related action
+        trackAction('moved-project-resources', {
+            'number-of-resources': resourcesCount
+        });
     },
 
     // ----------------------------
