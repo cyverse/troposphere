@@ -64,6 +64,24 @@ export default React.createClass({
                 onClick: this.onReboot
             },
             {
+                key: "Confirm Resize",
+                label: "Confirm Resize",
+                icon: "resize-full",
+                onClick: this.onConfirmResize
+            },
+            {
+                key: "Revert Resize",
+                label: "Revert Resize",
+                icon: "resize-full",
+                onClick: this.onRevertResize
+            },
+            {
+                key: "Resize",
+                label: "Resize",
+                icon: "resize-full",
+                onClick: this.onResize
+            },
+            {
                 key: "Redeploy",
                 label: "Redeploy",
                 icon: "repeat",
@@ -109,8 +127,16 @@ export default React.createClass({
         modals.InstanceModals.start(this.props.instance);
     },
 
+    onConfirmResize: function() {
+        modals.InstanceModals.resize(this.props.instance, 'confirm');
+    },
+
+    onRevertResize: function() {
+        modals.InstanceModals.resize(this.props.instance, 'revert');
+    },
+
     onResize: function() {
-        modals.InstanceModals.resize(this.props.instance);
+        modals.InstanceModals.resize(this.props.instance, 'resize');
     },
 
     onSuspend: function() {
@@ -206,15 +232,15 @@ export default React.createClass({
         ];
 
         if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
-            linksArray.push({
+            links.push({
                 label: "Open Web Desktop",
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
                     this,
-                    ip_address,
+                    ipAddress,
                     this.props.instance),
                 openInNewWindow: true,
-                isDisabled: webLinksDisabled
+                isDisabled: disableWebLinks
             });
         }
 

@@ -51,6 +51,7 @@ export default React.createClass({
             style = {
                 marginRight: "10px"
             };
+        debugger;
         if (!this.props.multipleSelected && instance.get("state").isInFinalState()) {
             if (status === "active") {
                 linksArray.push(

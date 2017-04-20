@@ -77,15 +77,24 @@ var get_percent_complete = function(state, activity) {
             "reboot": {
                 "rebooting": 50
             },
+            "revert_resize": {
+                "": 35,
+                "resize_reverting": 75,
+            },
             "verify_resize": {
-                "": 75,
+                "": 80,
+                "confirm_resize": 95,
             },
             "resize": {
                 "" : 25,
                 "resizing" : 25,
-                "resize_finish" : 50,
-                "resizing_confirming": 65,
-                "resizing_verifying" : 75
+                "resize_migrate" : 35,
+                "resize_migrating": 35,
+                "resize_migrated": 35,
+                "revert_resize": 35,
+                "confirm_resize": 35,
+                "resize_confirming": 35,
+                "resize_finish" : 75,
             },
             "shutoff": {
                 "powering-on": 50

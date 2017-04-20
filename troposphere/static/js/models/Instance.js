@@ -142,15 +142,19 @@ export default Backbone.Model.extend({
             "active - suspending",
             "active - resizing",
             "resize - resize_prep",
+            "resize - resize_migrate",
             "resize - resize_migrating",
             "resize - resize_migrated",
+            "resize - resize_prep",
             "resize - resize_finish",
+            "resize - revert_resize",
+            "resize - confirm_resize",
             "verify_resize",
             "active - networking",
             "active - deploying",
             "active - initializing",
-            "hard_reboot - rebooting_hard",
-            "revert_resize - resize_reverting"
+            "active - confirm_resize",
+            "hard_reboot - rebooting_hard"
         ];
         return _.contains(states, this.get("status"));
     },

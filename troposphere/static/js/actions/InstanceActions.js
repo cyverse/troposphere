@@ -26,5 +26,7 @@ export default {
     update: IUpdate.update,
     report: IReport.report,
     requestImage: IRequest.requestImage,
-    resize: IResize.resize
+    resize: IResize.resize,
+    confirmResize: IResize.confirmResize,
+    revertResize: IResize.revertResize
 };
