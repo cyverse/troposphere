@@ -1,5 +1,6 @@
 import Backbone from "backbone";
-import { browserHistory } from "react-router";
+
+import { appBrowserHistory } from "utilities/historyFunctions";
 
 import NotificationController from "controllers/NotificationController";
 import Utils from "./Utils";
@@ -66,7 +67,7 @@ export default {
             this._migrateResourceIntoProject(resource, project);
         }.bind(this));
 
-        browserHistory.push(`/projects/${project.id}/resources`);
+        appBrowserHistory.push(`/projects/${project.id}/resources`);
     },
 
 
