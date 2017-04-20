@@ -3,11 +3,12 @@ import stores from "stores";
 import globals from "globals";
 
 
-let resources = [{
-    title: "User Manual",
-    link_key: "default",
-    description: "Complete documentation for using Atmosphere"
-},
+let resources = [
+    {
+        title: "User Manual",
+        link_key: "default",
+        description: "Complete documentation for using Atmosphere"
+    },
     {
         title: "User Forums",
         link_key: "forums",
@@ -27,6 +28,18 @@ let resources = [{
 
 export default React.createClass({
     displayName: "HelpPage",
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+       stores.HelpLinkStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+       stores.HelpLinkStore.removeChangeListener(this.updateState);
+    },
 
     render: function() {
         var helpLinks = stores.HelpLinkStore.getAll();
