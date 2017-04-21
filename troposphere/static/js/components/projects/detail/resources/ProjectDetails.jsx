@@ -35,6 +35,7 @@ export default React.createClass({
        stores.ProjectVolumeStore.addChangeListener(this.updateState);
        stores.ProjectInstanceStore.addChangeListener(this.updateState);
        stores.ProjectExternalLinkStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
        stores.VolumeStore.addChangeListener(this.updateState);
     },
 
@@ -43,6 +44,7 @@ export default React.createClass({
        stores.ProjectVolumeStore.removeChangeListener(this.updateState);
        stores.ProjectInstanceStore.removeChangeListener(this.updateState);
        stores.ProjectExternalLinkStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
        stores.VolumeStore.removeChangeListener(this.updateState);
     },
 
