@@ -20,7 +20,11 @@ export default React.createClass({
             );
         }
 
-        link = (<Link to={breadcrumb.linksTo}> {breadcrumb.name} </Link>);
+        link = (
+            <Link to={breadcrumb.linksTo}>
+                {breadcrumb.name}
+            </Link>
+        );
 
         return (
         <span className="breadcrumb">
