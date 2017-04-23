@@ -46,6 +46,12 @@ export default React.createClass({
                 onClick: this.onSuspend
             },
             {
+                key: InstanceActionNames.SHELVE,
+                label: "Shelve",
+                icon: "log-in",
+                onClick: this.onShelve
+            },
+            {
                 key: InstanceActionNames.STOP,
                 label: "Stop",
                 icon: "stop",
@@ -56,6 +62,12 @@ export default React.createClass({
                 label: "Resume",
                 icon: "play",
                 onClick: this.onResume
+            },
+            {
+                key: InstanceActionNames.UNSHELVE,
+                label: "Unshelve",
+                icon: "log-out",
+                onClick: this.onUnshelve
             },
             {
                 key: InstanceActionNames.REBOOT,
@@ -164,6 +176,13 @@ export default React.createClass({
         modals.InstanceModals.reboot(this.props.instance);
     },
 
+    onShelve: function() {
+        modals.InstanceModals.shelve(this.props.instance);
+    },
+
+    onUnshelve: function() {
+        modals.InstanceModals.unshelve(this.props.instance);
+    },
 
     onWebDesktop: function(ipAddr, instance) {
         // TODO:
