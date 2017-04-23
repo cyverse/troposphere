@@ -132,7 +132,7 @@ export default React.createClass({
     render: function() {
         return (
         <div className="resource-master">
-            <div id="user-container">
+            <div id="user-container" style={{marginBottom: "20px"}}>
                 <input type="text"
                     className="form-control search-input"
                     placeholder="Search for a specific user by username"
