@@ -45,7 +45,7 @@ export default React.createClass({
         if (this.props.isVisible) {
             return (
             <RaisedButton
-                style={{ ...this.props.style, marginLeft: "20px" }}
+                style={{ ...this.props.style, marginLeft: "10px" }}
                 onTouchTap={this.onClick}
             >
                 <i className={"glyphicon glyphicon-" + this.props.icon} />

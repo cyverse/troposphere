@@ -31,19 +31,21 @@ export default React.createClass({
     },
 
     componentDidMount: function() {
-       stores.ProjectImageStore.addChangeListener(this.updateState);
-       stores.ProjectVolumeStore.addChangeListener(this.updateState);
-       stores.ProjectInstanceStore.addChangeListener(this.updateState);
-       stores.ProjectExternalLinkStore.addChangeListener(this.updateState);
+        stores.ProjectImageStore.addChangeListener(this.updateState);
+        stores.ProjectVolumeStore.addChangeListener(this.updateState);
+        stores.ProjectInstanceStore.addChangeListener(this.updateState);
+        stores.ProjectExternalLinkStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
        stores.VolumeStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
-       stores.ProjectImageStore.removeChangeListener(this.updateState);
-       stores.ProjectVolumeStore.removeChangeListener(this.updateState);
-       stores.ProjectInstanceStore.removeChangeListener(this.updateState);
-       stores.ProjectExternalLinkStore.removeChangeListener(this.updateState);
-       stores.VolumeStore.removeChangeListener(this.updateState);
+        stores.ProjectImageStore.removeChangeListener(this.updateState);
+        stores.ProjectVolumeStore.removeChangeListener(this.updateState);
+        stores.ProjectInstanceStore.removeChangeListener(this.updateState);
+        stores.ProjectExternalLinkStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
     },
 
     onResourceSelected: function(resource) {
