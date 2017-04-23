@@ -28,16 +28,11 @@ export default React.createClass({
         });
     },
 
-    onClick() {
-        let $el = $(ReactDOM.findDOMNode(this));
-        $el.tooltip("hide");
-    },
-
     render() {
         let { username } = this.props;
 
         return (
-        <a href={`emulate/${username}`} onClick={this.onClick()}>
+        <a href={`emulate/${username}`}>
             <Glyphicon name="sunglasses" />
         </a>
         );
