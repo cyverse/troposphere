@@ -16,6 +16,9 @@ export default Backbone.Model.extend({
     },
 
     parse: function(attributes) {
+        if (attributes.name == null || attributes.name == "") {
+            attributes.name = "<Unnamed Instance>";
+        }
         attributes.start_date = new Date(attributes.start_date);
         attributes.state = new InstanceState({
             status_raw: attributes.status,
