@@ -62,6 +62,10 @@ export default React.createClass({
             }
         }
 
+        if (instanceName && instanceName.includes('.')) {
+            instanceName = instanceName.replace(/\./g, '_');
+        }
+
         return {
             // State for general operation (switching views, etc)
             view,
