@@ -3,6 +3,7 @@ import BaseStore from "stores/BaseStore";
 import InstanceCollection from "collections/InstanceCollection";
 import Utils from "actions/Utils";
 import InstanceConstants from "constants/InstanceConstants";
+import ProjectInstanceConstants from "constants/ProjectInstanceConstants";
 import InstanceState from "models/InstanceState";
 import EventConstants from "constants/EventConstants";
 
@@ -77,7 +78,14 @@ var InstanceStore = BaseStore.extend({
         this.pollWhile(instance, function(model, response) {
             // If 404 then remove the model
             if (response.status == "404") {
-                this.remove(model);
+                Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {
+                    instance: model
+                });
+                // This is a hack. Some components only listen to the
+                // ProjectInstanceStore. We need them to react when an
+                // instance is deleted, so we prompt the addChangeListeners of
+                // each of those components here.
+                Utils.dispatch(ProjectInstanceConstants.EMIT_CHANGE);
 
                 return false;
             }
