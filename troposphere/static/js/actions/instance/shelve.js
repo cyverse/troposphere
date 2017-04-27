@@ -28,7 +28,7 @@ const shelve = (params) => {
 
         actionRequest.save(null, {
             attrs: {
-                action: "shelving"
+                action: "shelve"
             }
         }).done(function() {
             instance.set({
