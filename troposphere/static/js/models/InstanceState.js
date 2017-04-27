@@ -31,6 +31,17 @@ var InstanceState = Backbone.Model.extend({
         return status === "active" && (activity === "deploy_error" || activity === "user_deploy_error");
     },
 
+    isInactive: function() {
+        let status = this.get("status");
+
+        return (
+            status === "suspended" ||
+            status == "shutoff" ||
+            status == "shelved" ||
+            status == "shelved_offloaded"
+        );
+    },
+
     getPercentComplete: function() {
         var status = this.get("status");
         var activity = this.get("activity");
