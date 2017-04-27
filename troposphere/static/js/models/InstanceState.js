@@ -12,6 +12,7 @@ var InstanceState = Backbone.Model.extend({
             "error",
             "active - deploy_error",
             "active - user_deploy_error",
+            "shelved_offloaded",
             "suspended",
             "shutoff"
         ];
@@ -68,9 +69,12 @@ var get_percent_complete = function(state, activity) {
                 "image_uploading": 50,
                 "deleting": 50,
                 "suspending": 50,
+                "shelving": 50,
                 "initializing": 50,
                 "networking": 60,
                 "deploying": 70,
+                "shelving_image_pending_upload": 65,
+                "shelving_image_uploading": 88,
                 "running_boot_script": 90
             },
             "hard_reboot": {
@@ -84,6 +88,12 @@ var get_percent_complete = function(state, activity) {
             },
             "suspended": {
                 "resuming": 50
+            },
+            "shelved": {
+                "unshelving": 60
+            },
+            "shelved_offloaded": {
+                "spawning": 50
             },
             "error": {}
         };
