@@ -20,8 +20,10 @@ export default React.createClass({
             lightStatus = "transition";
         } else if (status == "active") {
             lightStatus = "active";
-        } else if (status == "suspended" || status == "shutoff") {
-            lightStatus = "inactive";
+        } else if (instanceState.isInactive()) {
+            // default of <StatusLight/> is gray,
+            // so let's signal inactivity as gray
+            lightStatus = "";
         } else if (status == "deleted") {
             lightStatus = "deleted";
         } else {
