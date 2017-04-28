@@ -72,7 +72,7 @@ export default React.createClass({
             {
                 key: InstanceActionNames.REBOOT,
                 label: "Reboot",
-                icon: "repeat",
+                icon: "off",
                 onClick: this.onReboot
             },
             {
