@@ -13,7 +13,7 @@ cffi==1.9.1               # via cryptography
 contextlib2==0.5.4        # via raven
 cryptography==1.7.2       # via pyopenssl
 debtcollector==1.11.0     # via oslo.config, oslo.utils, python-keystoneclient
-django-cyverse-auth==1.0.9
+django-cyverse-auth==1.0.14
 django-sslserver==0.18
 django-webpack-loader==0.3.0
 django==1.9.4
