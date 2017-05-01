@@ -134,6 +134,13 @@ export default React.createClass({
     },
 
     onReport: function() {
+        modals.InstanceModals.report({
+            instance: this.props.instance
+        });
+
+/*
+        // This needs to be flagged to handle the case where
+        // Intercom platform is used, but Respond is *not*
         if (!featureFlags.hasIntercomActive()) {
             modals.InstanceModals.report({
                 instance: this.props.instance
@@ -145,6 +152,7 @@ export default React.createClass({
             window.Intercom('showNewMessage',
                             'I am having issues with an instance. ');
         }
+ */
     },
 
     onImageRequest: function() {
