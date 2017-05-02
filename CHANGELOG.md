@@ -1,3 +1,17 @@
+## [Xylotomous-Xenops](https://github.com/cyverse/troposphere/milestone/13?closed=1) (as of 4/25/2017)
+Features:
+  - Integrated in-app, live chat to answer question & help resolve issues
+  - All actions available on an instance are now driven by the API
+
+Enhancements:
+  - Improved readability of error notifications received
+  - Started including new user interface elements (part of mini-release effort, forthcoming)
+  
+Bugfixes:
+  - Corrected the "actions" shown for instance in "Active - Networking"
+  - Corrected issue with adding tags to Images
+  - Corrected problem where "Web Desktop" link shown for suspended instances
+
 ## [Whimsical-Wyvern](https://github.com/cyverse/troposphere/milestone/12?closed=1) (as of 3/21/2017)
 Features:
   - Provided a framework that allows support for custom messages within Troposphere UI

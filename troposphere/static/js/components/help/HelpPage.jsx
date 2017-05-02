@@ -18,11 +18,6 @@ let resources = [
         title: "FAQs",
         link_key: "faq",
         description: "Atmosphere's most frequently asked questions"
-    },
-    {
-        title: "VNC Viewer Tutorial",
-        link_key: "vnc-viewer",
-        description: "Instructions for downloading and using VNC Viewer"
     }
 ];
 

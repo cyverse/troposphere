@@ -62,6 +62,10 @@ export default React.createClass({
             }
         }
 
+        if (instanceName && instanceName.includes('.')) {
+            instanceName = instanceName.replace(/\./g, '_');
+        }
+
         return {
             // State for general operation (switching views, etc)
             view,
@@ -233,6 +237,11 @@ export default React.createClass({
 
     onSelectImage: function(image) {
         let instanceName = image.get("name");
+
+        if (instanceName && instanceName.includes('.')) {
+            instanceName = instanceName.replace(/\./g, '_');
+        }
+
         let imageVersionList = stores.ImageVersionStore.fetchWhere({
             image_id: image.id
         });
@@ -522,8 +531,8 @@ export default React.createClass({
         // All required fields are truthy
         let requiredExist = _.every(requiredFields, (prop) => Boolean(this.state[prop]))
 
-        return ( 
-            requiredExist 
+        return (
+            requiredExist
             && !this.exceedsResources()
             && !this.invalidName()
         )
