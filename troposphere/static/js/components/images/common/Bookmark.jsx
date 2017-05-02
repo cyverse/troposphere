@@ -1,10 +1,11 @@
 import React from "react";
 import actions from "actions";
 import stores from "stores";
+import subscribe from 'utilities/subscribe';
 import filled_star from "images/filled-star-icon.png";
 import empty_star from "images/empty-star-icon.png";
 
-export default React.createClass({
+const Bookmark = React.createClass({
     displayName: "CommonBookmark",
 
     toggleFavorite: function(e) {
@@ -43,3 +44,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe( Bookmark, ["ImageBookmarkStore"]);
