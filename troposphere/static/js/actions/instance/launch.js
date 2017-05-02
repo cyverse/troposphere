@@ -16,8 +16,6 @@ import Instance from "models/Instance";
 import Project from "models/Project";
 import ProjectInstance from "models/ProjectInstance";
 
-import globals from "globals";
-
 
 function launch(params) {
     if (!params.project)
@@ -89,10 +87,7 @@ function launch(params) {
         size_alias: size.get("alias"),
         machine_alias: machine.uuid,
         scripts: scripts,
-    }
-
-    if (globals.USE_ALLOCATION_SOURCES) {
-        payload.allocation_source_uuid = params.allocation_source_uuid;
+        allocation_source_uuid: params.allocation_source_uuid
     }
 
     instance.createOnV1Endpoint(payload)

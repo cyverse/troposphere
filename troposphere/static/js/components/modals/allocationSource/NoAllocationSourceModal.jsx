@@ -7,8 +7,7 @@ import stores from "stores";
 import globals from "globals";
 import SelectMenu from "components/common/ui/SelectMenu";
 import Utils from "actions/Utils";
-import EventActions from "actions/EventActions";
-import EventConstants from "constants/EventConstants";
+import InstanceActions from "actions/InstanceActions";
 
 const DefaultModalView = React.createClass({
     displayName: "NoAllocationSourceDefaultModalView",
@@ -149,8 +148,16 @@ const DefaultModalView = React.createClass({
 
         return (
         <div role="form">
+            <p className="alert alert-info">
+                Allocation Sources are a new feature in atmosphere!
+            </p>
             <p>
-                It looks like you have instances without an Allocation Source. When an instance is active it will use up allocation from its Allocation Source.
+                Allocation Sources are a <b>replacement</b> for existing allocation.
+            </p>
+            <p>
+                It looks like you have instances without an Allocation Source.
+                When an instance is active it will use up allocation from its
+                Allocation Source.
             </p>
             <p>
                 Review that these are okay.
@@ -220,37 +227,14 @@ const ModalBackend = React.createClass({
 
     componentDidMount() {
         stores.ProjectStore.addChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.addChangeListener(this.updateState);
-        }
-
+        stores.AllocationSourceStore.addChangeListener(this.updateState);
         this.updateState();
     },
 
     onConfirm(pairs) {
         // Pairs represent the pairing of an instance to an allocation source
         // pairs = [{ instance, allocationSource }, ...]
-        pairs.forEach(pair => {
-            let { instance, allocationSource } = pair;
-            EventActions.fire(
-                EventConstants.ALLOCATION_SOURCE_CHANGE,
-                {
-                    instance,
-                    allocationSource
-                }
-            );
-            instance.set({
-                allocation_source: allocationSource
-            });
-            Utils.dispatch(
-                EventConstants.ALLOCATION_SOURCE_CHANGE,
-                {
-                    instance,
-                    allocationSource
-                }
-            );
-        })
+        pairs.forEach(InstanceActions.updateAllocationSource);
 
         this.hide();
         this.props.onConfirm();
@@ -258,11 +242,7 @@ const ModalBackend = React.createClass({
 
     componentWillUnmount() {
         stores.ProjectStore.removeChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.removeChangeListener(this.updateState);
-        }
-
+        stores.AllocationSourceStore.removeChangeListener(this.updateState);
     },
 
     updateState() {

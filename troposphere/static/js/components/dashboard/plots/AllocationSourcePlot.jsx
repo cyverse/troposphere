@@ -1,14 +1,23 @@
 import React from "react";
 
 import PercentGraph from "components/common/ui/PercentageGraph";
-import messages from "messages/allocationMessages";
 import stores from "stores";
+import globals from "globals";
 
 
 export default React.createClass({
-    displayName: "ProviderSummaryLinePlot",
+    displayName: "AllocationSourcePlot",
 
-    propTypes: {
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+        stores.AllocationSourceStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.AllocationSourceStore.addChangeListener(this.updateState);
     },
 
     seriesData: function(item) {
@@ -20,7 +29,7 @@ export default React.createClass({
                 Allocation: item.get("compute_allowed"),
             },
             appendMessages: {
-                Allocation: messages.unitAbbrev
+                Allocation: globals.ALLOCATION_UNIT_ABBREV + 's'
             },
             borderWidth: 0,
             dataLabels: {
@@ -42,8 +51,8 @@ export default React.createClass({
     //
 
     render: function() {
-        let AllocationList = stores.AllocationSourceStore.getAll();
-        if (!AllocationList) return <div className="loading" />;
+        let allocations = stores.AllocationSourceStore.getAll();
+        if (!allocations) return <div className="loading" />;
 
         return (
         <div style={{ MarginBottom: "20px" }}>

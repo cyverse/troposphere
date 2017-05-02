@@ -9,8 +9,6 @@ import InstanceDetailsSection from "./sections/InstanceDetailsSection";
 import InstanceMetricsSection from "./sections/InstanceMetricsSection";
 import AllocationSourceSection from "./sections/AllocationSourceSection";
 import InstanceActionsAndLinks from "./actions/InstanceActionsAndLinks";
-import EventActions from "actions/EventActions";
-import EventConstants from "constants/EventConstants";
 
 export default React.createClass({
     displayName: "InstanceDetailsView",
@@ -19,38 +17,6 @@ export default React.createClass({
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection),
-    },
-
-    onSourceChange(allocationSource) {
-        let instance = this.props.instance;
-        EventActions.fire(
-            EventConstants.ALLOCATION_SOURCE_CHANGE,
-            {
-                instance,
-                allocationSource
-            }
-        );
-        // force update the associated allocation source prior to update
-        instance.set({
-            allocation_source: allocationSource
-        });
-        Utils.dispatch(
-            EventConstants.ALLOCATION_SOURCE_CHANGE,
-            {
-                instance,
-                allocationSource
-            }
-        );
-    },
-
-    renderAllocationSourceSection() {
-        let props = {
-            onSourceChange: this.onSourceChange,
-            ...this.props
-        }
-        return (
-        <AllocationSourceSection { ...props }/>
-        );
     },
 
     render() {
@@ -81,9 +47,7 @@ export default React.createClass({
                 <div className="col-md-9">
                     <InstanceInfoSection instance={instance} />
                     <hr/>
-                    {globals.USE_ALLOCATION_SOURCES
-                     ? this.renderAllocationSourceSection()
-                     : null}
+                    <AllocationSourceSection { ...this.props }/>
                     <InstanceDetailsSection instance={instance} />
                     <hr/>
                     {globals.SHOW_INSTANCE_METRICS

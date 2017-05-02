@@ -3,11 +3,11 @@ import Backbone from "backbone";
 
 import SelectMenu from "./SelectMenu2";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph";
+import actions from 'actions';
 
 export default React.createClass({
 
     propTypes: {
-        onSourceChange: React.PropTypes.func.isRequired,
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
     },
@@ -29,17 +29,19 @@ export default React.createClass({
         // doesn't exist!                v
         let { current } = this.state || {};
 
-        if (!current) {
-            // TODO: re-review this post-q-q-js
+        if (instance.get("allocation_source")) {
             let allocSrc = instance.get("allocation_source");
             if (!(allocSrc instanceof Backbone.Model)) {
                 current = allocationSources.findWhere({
-                    name: allocSrc.name
+                    uuid: allocSrc.uuid
                 });
             } else {
                 // we've got a Backbone.Model
                 current = allocSrc;
             }
+        } else {
+            // User has old instances w/o allocation_sources, they should be
+            // seeing a dialogue to prompt for choosing an allocationSource
         }
 
         return {
@@ -47,21 +49,27 @@ export default React.createClass({
         }
     },
 
-    onSourceChange: function(source) {
+    onSourceChange: function(allocationSource) {
+        let { instance } = this.props;
         this.setState({
-            current: source
+            current: allocationSource
         });
-        this.props.onSourceChange(source);
+        actions.InstanceActions.updateAllocationSource({
+            instance,
+            allocationSource
+        });
     },
 
     render() {
         let { allocationSources, instance } = this.props;
-        let current = this.state.current;
-        // temp - could make this a `|| default` maybe
+        let { current } = this.state;
+
         if (instance.get("allocation_source")) {
             let src = instance.get("allocation_source");
             current = src instanceof Backbone.Model ? src
                 : new Backbone.Model(instance.get("allocation_source"));
+        } else {
+            return (<div className="loading"></div>);
         }
 
         return (

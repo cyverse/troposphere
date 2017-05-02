@@ -1,7 +1,6 @@
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import AUCalculator from "components/common/AUCalculator";
 import stores from "stores";
 import globals from "globals";
 
@@ -15,7 +14,8 @@ export default React.createClass({
         return {
             identity: identities ? identities.first().id : null,
             resources: "",
-            reason: ""
+            reason: "",
+            showAllocationHelp: false
         };
     },
 
@@ -116,10 +116,6 @@ export default React.createClass({
         )
     },
 
-    renderAUCalculator: function() {
-        return (<AUCalculator identity={this.state.identity} />);
-    },
-
     renderIdentity: function(identity) {
         return (
         <option key={identity.id} value={identity.id}>
@@ -129,7 +125,8 @@ export default React.createClass({
     },
 
     renderBody: function() {
-        var identities = stores.IdentityStore.getAll(),
+        let { showAllocationHelp } = this.state;
+        let identities = stores.IdentityStore.getAll(),
             instances = stores.InstanceStore.getAll(),
             username = stores.ProfileStore.get().get("username"),
             requests = stores.ResourceRequestStore.findResourceRequestsWhere({
@@ -154,21 +151,19 @@ export default React.createClass({
             </div>
             <div className="form-group">
                 <label htmlFor="project-name">
-                    {"What resources would you like to request?"}
+                    {"What resources would you like to request?"}&nbsp;
+                    <a onClick={() => this.setState({showAllocationHelp: true})}>help</a>
                 </label>
-                {globals.USE_ALLOCATION_SOURCE
-                 ? this.renderAllocationSourceText()
-                 : ""}
+                { showAllocationHelp ? <AllocationHelp /> : null }
                 <textarea type="text"
                     className="form-control"
                     rows="7"
-                    placeholder="E.g 4 CPUs and 8GB memory, running 4 cores for 1 week, an additional 500 AU, etc."
+                    placeholder={"E.g:\n" +
+                                 "    - 4 CPUs and 8GB memory, running 4 cores for 1 week\n" +
+                                 "    - An additional 500 hours on my 'datascience' allocation source"}
                     value={this.state.resources}
                     onChange={this.handleResourcesChange} />
             </div>
-            {globals.USE_ALLOCATION_SOURCE
-             ? this.renderAUCalculator()
-             : ""}
             <div className="form-group">
                 <label htmlFor="project-description">
                     {"How will you use the additional resources?"}
@@ -211,6 +206,28 @@ export default React.createClass({
                     </div>
                 </div>
             </div>
+        </div>
+        );
+    }
+});
+
+let AllocationHelp = React.createClass({
+    render() {
+        return (
+        <div style={{ marginLeft: "15px" }}>
+            <p>
+                There are two types of resources: quota and allocation.
+            </p>
+            <p>
+                Quota are resources like the number of volumes that can be
+                created, the total number of CPUs, or total RAM, etc.
+            </p>
+            <p>
+                Allocation is the measure of available compute time. Each CPU
+                on an active instance consumes time in your allocation.
+                Allocation Sources store this allocation. Each instance has an
+                Allocation Source from which it draws allocation.
+            </p>
         </div>
         );
     }

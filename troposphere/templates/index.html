@@ -46,6 +46,9 @@
 
 
     <script type="text/javascript">
+
+var ALLOCATION_UNIT_NAME = "{{ ALLOCATION_UNIT_NAME }}"
+var ALLOCATION_UNIT_ABBREV = "{{ ALLOCATION_UNIT_ABBREV }}"
 {% if access_token %}
     var access_token = "{{ access_token }}";
 {% endif %}
@@ -148,10 +151,10 @@
     var USE_MOCK_DATA = false;
 {% endif %}
 
-{% if USE_ALLOCATION_SOURCES %}
-    var USE_ALLOCATION_SOURCES = true;
+{% if EXTERNAL_ALLOCATION %}
+    var EXTERNAL_ALLOCATION = true;
 {%  else %}
-    var USE_ALLOCATION_SOURCES = false;
+    var EXTERNAL_ALLOCATION = false;
 {% endif %}
 
 {% if notice %}

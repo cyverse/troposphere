@@ -7,7 +7,7 @@ import RequestMoreQuotaOrAllocationModal from "components/modals/RequestMoreQuot
 
 // Based on the allocation strategy being used, we want to select
 // the matching request-more-requests modal to be rendered
-let RequestModal = globals.USE_ALLOCATION_SOURCES ?
+let RequestModal = globals.EXTERNAL_ALLOCATION ?
                    RequestMoreQuotaOrAllocationModal :
                    RequestMoreResourcesModal;
 
