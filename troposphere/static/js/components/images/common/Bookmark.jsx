@@ -7,6 +7,18 @@ import empty_star from "images/empty-star-icon.png";
 export default React.createClass({
     displayName: "CommonBookmark",
 
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+       stores.ImageBookmarkStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+       stores.ImageBookmarkStore.removeChangeListener(this.updateState);
+    },
+
     toggleFavorite: function(e) {
         e.stopPropagation();
         e.preventDefault();
