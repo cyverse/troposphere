@@ -92,10 +92,10 @@ function AppRoutes(props) {
                     AdminMaster, NotFoundPage
                 )}
             >
-                <Route name="atmosphere-user-manager" path="users" component={AtmosphereUserMaster} />
-                <Route name="identity-membership-manager" path="identities" component={IdentityMembershipMaster} />
-                <Route name="image-request-manager" path="imaging-requests" component={ImageMaster}>
-                    <Route name="image-request-detail" path=":id" component={ImageRequest} />
+                <Route path="users" component={AtmosphereUserMaster} />
+                <Route path="identities" component={IdentityMembershipMaster} />
+                <Route path="imaging-requests" component={ImageMaster}>
+                    <Route path=":id" component={ImageRequest} />
                 </Route>
                 <IndexRoute component={AtmosphereUserMaster} />
             </Route>
