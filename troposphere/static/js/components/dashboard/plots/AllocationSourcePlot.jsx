@@ -11,6 +11,18 @@ export default React.createClass({
     propTypes: {
     },
 
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+       stores.AllocationSourceStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+       stores.AllocationSourceStore.removeChangeListener(this.updateState);
+    },
+
     seriesData: function(item) {
         let percentage = item.get("compute_used") / item.get("compute_allowed") * 100;
         return {
