@@ -2,6 +2,7 @@
 Features:
   - Integrated in-app, live chat to answer question & help resolve issues
   - All actions available on an instance are now driven by the API
+  - Within capable cloud providers, instances can be shelved & unshelved
 
 Enhancements:
   - Improved readability of error notifications received
