@@ -27,6 +27,30 @@ export default React.createClass({
     },
 
     updateState: function() {
+        let project = this.props.project;
+        let externalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
+        let instances = stores.ProjectInstanceStore.getInstancesFor(project);
+        let volumes = stores.ProjectVolumeStore.getVolumesFor(project);
+        let images = stores.ProjectImageStore.getImagesFor(project);
+        let selectedResources = this.state.selectedResources;
+
+
+        if (instances && volumes && images &&  externalLinks) {
+
+            // Take into account that selected resources may be out of date, that
+            // it may contain resources that no longer exist in the endpoints
+            let selectedThatStillExist = selectedResources.cfilter(r => {
+                return  instances.contains(r) ||
+                        volumes.contains(r) ||
+                        images.contains(r) ||
+                        externalLinks.contains(r);
+            });
+
+            this.setState({
+                selectedResources: selectedThatStillExist
+            });
+        }
+
         this.forceUpdate();
     },
 
