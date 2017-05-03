@@ -13,6 +13,16 @@ export default Backbone.Model.extend({
         });
     },
 
+    hasResources: function() {
+        let resources = [this.get("cpu"), this.get("mem")];
+
+        if (this.get("disk")) {
+            resources.push(this.get("disk"));
+        }
+
+        return resources.every((r) => r > 0);
+    },
+
     formattedDetails: function() {
         var parts = [
             this.get("cpu") + " CPUs",
@@ -24,7 +34,8 @@ export default Backbone.Model.extend({
         if (this.get("root")) {
             parts.push(this.get("root") + " GB root");
         }
+        let details = this.hasResources() ? `(${parts.join(", ")})` : "";
 
-        return this.get("name") + " (" + parts.join(", ") + ")";
+        return `${this.get("name")} ${details}`;
     }
 });

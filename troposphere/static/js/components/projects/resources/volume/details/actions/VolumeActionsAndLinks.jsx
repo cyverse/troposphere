@@ -31,6 +31,13 @@ export default React.createClass({
     },
 
     handleReport: function() {
+        modals.VolumeModals.report({
+            volume: this.props.volume
+        });
+
+/*
+        // This needs to be flagged to handle the case where
+        // Intercom platform is used, but Respond is *not*
         if (!featureFlags.hasIntercomActive()) {
             modals.VolumeModals.report({
                 volume: this.props.volume
@@ -42,6 +49,7 @@ export default React.createClass({
             window.Intercom('showNewMessage',
                             'I am having issues with a volume. ');
         }
+ */
     },
 
     render: function() {

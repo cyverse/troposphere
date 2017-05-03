@@ -20,6 +20,9 @@ export default Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/volumes",
 
     parse: function(attributes) {
+        if (attributes.name == null || attributes.name == "") {
+            attributes.name = "<Unnamed Volume>";
+        }
         if (attributes.start_date) {
             attributes.start_date = new Date(attributes.start_date);
         }

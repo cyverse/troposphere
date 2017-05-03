@@ -87,15 +87,16 @@ export default React.createClass({
         }
 
         return (
-        <div className="sub-menu" 
-            style={{ 
+        <div className="sub-menu"
+            style={{
                 display: "inline-block",
                 marginRight: "10px"
-            }}    
+            }}
         >
             <div className="dropdown">
                 <button id="res-new-menu"
                         className="btn btn-primary dropdown-toggle"
+                        style={{ height: "36px" }}
                         data-toggle="dropdown">
                     New
                 </button>

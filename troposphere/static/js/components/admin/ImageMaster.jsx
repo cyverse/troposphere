@@ -44,11 +44,9 @@ const ImageMaster = React.createClass({
     },
 
     onResourceClick: function(request) {
-        this.props.router.transitionTo(
-            "image-request-detail", {
-                request: request,
-                id: request.id
-            });
+        let requestId = request.id;
+
+        this.props.router.push(`admin/imaging-requests/${requestId}`);
     },
 
     renderRefreshButton: function() {
