@@ -47,8 +47,8 @@ const Bookmark = React.createClass({
         let img = isFavorited ? filled_star : empty_star;
 
         return (
-        <span 
-            style={{ cursor: "pointer" }} 
+        <span
+            style={{ cursor: "pointer" }}
             onClick={this.toggleFavorite}
         >
             <img width={ this.props.width } src={ img }/>
