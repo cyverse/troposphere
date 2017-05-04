@@ -16,6 +16,9 @@ export default Backbone.Model.extend({
     },
 
     parse: function(attributes) {
+        if (attributes.name == null || attributes.name == "") {
+            attributes.name = "<Unnamed Instance>";
+        }
         attributes.start_date = new Date(attributes.start_date);
         attributes.state = new InstanceState({
             status_raw: attributes.status,
@@ -146,6 +149,9 @@ export default Backbone.Model.extend({
             "active - networking",
             "active - deploying",
             "active - initializing",
+            "active - shelving",
+            "active - shelving_image_pending_upload",
+            "active - shelving_image_uploading",
             "hard_reboot - rebooting_hard",
             "revert_resize - resize_reverting"
         ];
@@ -159,7 +165,13 @@ export default Backbone.Model.extend({
     },
 
     is_inactive: function() {
-        var states = ["suspended", "shutoff", "shutoff - powering-on"];
+        var states = [
+            "suspended",
+            "shutoff",
+            "shutoff - powering-on",
+            "shelved",
+            "shelved_offloaded"
+        ];
         return _.contains(states, this.get("status"));
     },
 

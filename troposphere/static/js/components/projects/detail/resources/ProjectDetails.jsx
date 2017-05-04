@@ -9,6 +9,9 @@ import modals from "modals";
 import stores from "stores";
 import actions from "actions";
 
+import { trackAction } from 'utilities/userActivity';
+
+
 export default React.createClass({
     displayName: "ProjectDetails",
 
@@ -24,23 +27,49 @@ export default React.createClass({
     },
 
     updateState: function() {
+        let project = this.props.project;
+        let externalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
+        let instances = stores.ProjectInstanceStore.getInstancesFor(project);
+        let volumes = stores.ProjectVolumeStore.getVolumesFor(project);
+        let images = stores.ProjectImageStore.getImagesFor(project);
+        let selectedResources = this.state.selectedResources;
+
+
+        if (instances && volumes && images &&  externalLinks) {
+
+            // Take into account that selected resources may be out of date, that
+            // it may contain resources that no longer exist in the endpoints
+            let selectedThatStillExist = selectedResources.cfilter(r => {
+                return  instances.contains(r) ||
+                        volumes.contains(r) ||
+                        images.contains(r) ||
+                        externalLinks.contains(r);
+            });
+
+            this.setState({
+                selectedResources: selectedThatStillExist
+            });
+        }
+
         this.forceUpdate();
     },
 
     componentDidMount: function() {
-       stores.ProjectImageStore.addChangeListener(this.updateState);
-       stores.ProjectVolumeStore.addChangeListener(this.updateState);
-       stores.ProjectInstanceStore.addChangeListener(this.updateState);
-       stores.ProjectExternalLinkStore.addChangeListener(this.updateState);
+        stores.ProjectImageStore.addChangeListener(this.updateState);
+        stores.ProjectVolumeStore.addChangeListener(this.updateState);
+        stores.ProjectInstanceStore.addChangeListener(this.updateState);
+        stores.ProjectExternalLinkStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
        stores.VolumeStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
-       stores.ProjectImageStore.removeChangeListener(this.updateState);
-       stores.ProjectVolumeStore.removeChangeListener(this.updateState);
-       stores.ProjectInstanceStore.removeChangeListener(this.updateState);
-       stores.ProjectExternalLinkStore.removeChangeListener(this.updateState);
-       stores.VolumeStore.removeChangeListener(this.updateState);
+        stores.ProjectImageStore.removeChangeListener(this.updateState);
+        stores.ProjectVolumeStore.removeChangeListener(this.updateState);
+        stores.ProjectInstanceStore.removeChangeListener(this.updateState);
+        stores.ProjectExternalLinkStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
     },
 
     onResourceSelected: function(resource) {
@@ -92,6 +121,10 @@ export default React.createClass({
         anyAttached = this.state.selectedResources.some(function(selected) {
             return attachedResources.includes(selected.get("uuid"));
         });
+
+        // clicking & moving are treated as distinct actions to see how many
+        // actions are _completed_: clicked + moved
+        trackAction('clicked-move-selected-resources');
 
         if (anyAttached) {
             modals.ProjectModals.cantMoveAttached();

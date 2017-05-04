@@ -119,6 +119,8 @@ export default React.createClass({
                     Project Name
                 </label>
                 <input type="text"
+                    name="project-name"
+                    id="project-name"
                     className="form-control"
                     value={projectName}
                     onChange={this.onNameChange}
@@ -130,6 +132,8 @@ export default React.createClass({
                     Description
                 </label>
                 <textarea type="text"
+                    name="project-description"
+                    id="project-description"
                     className="form-control"
                     rows="7"
                     value={this.state.projectDescription}

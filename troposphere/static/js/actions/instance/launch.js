@@ -1,4 +1,4 @@
-import { browserHistory } from "react-router";
+import { appBrowserHistory } from "utilities/historyFunctions";
 
 import Utils from "../Utils";
 
@@ -137,7 +137,7 @@ function launch(params) {
     // Since this is triggered from the images page, navigate off
     // that page and back to the instance list so the user can see
     // their instance being created
-    browserHistory.push(`/projects/${project.id}/resources`);
+    appBrowserHistory.push(`/projects/${project.id}/resources`);
 }
 
 export default {
@@ -171,7 +171,7 @@ export default {
             // Since this is triggered from the images page, navigate off
             // that page and back to the instance list so the user can see
             // their instance being created
-            browserHistory.push(`/projects/${project.id}/resources`);
+            appBrowserHistory.push(`/projects/${project.id}/resources`);
         }).fail(function(response) {
             Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {
                 project: project

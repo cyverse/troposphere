@@ -80,7 +80,7 @@ export default React.createClass({
         }
 
         return (
-        <table className="table table-hover" style={{ marginTop: "20px" }}>
+        <table className="table table-hover">
             <tbody>
                 <tr className="admin-row">
                     <th style={{ border: "none" }}>
@@ -132,7 +132,7 @@ export default React.createClass({
     render: function() {
         return (
         <div className="resource-master">
-            <div id="user-container">
+            <div id="user-container" style={{marginBottom: "20px"}}>
                 <input type="text"
                     className="form-control search-input"
                     placeholder="Search for a specific user by username"
@@ -140,7 +140,7 @@ export default React.createClass({
                     value={this.state.query}
                     ref="textField" />
             </div>
-            <h3 className="t-body-2">Atmosphere Users</h3>
+            <h3 className="t-title">Atmosphere Users</h3>
             {this.renderTable()}
         </div>
         );

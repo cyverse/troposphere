@@ -1,11 +1,24 @@
 import React from "react";
 import actions from "actions";
 import stores from "stores";
+import subscribe from 'utilities/subscribe';
 import filled_star from "images/filled-star-icon.png";
 import empty_star from "images/empty-star-icon.png";
 
-export default React.createClass({
+const Bookmark = React.createClass({
     displayName: "CommonBookmark",
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+       stores.ImageBookmarkStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+       stores.ImageBookmarkStore.removeChangeListener(this.updateState);
+    },
 
     toggleFavorite: function(e) {
         e.stopPropagation();
@@ -34,8 +47,8 @@ export default React.createClass({
         let img = isFavorited ? filled_star : empty_star;
 
         return (
-        <span 
-            style={{ cursor: "pointer" }} 
+        <span
+            style={{ cursor: "pointer" }}
             onClick={this.toggleFavorite}
         >
             <img width={ this.props.width } src={ img }/>
@@ -43,3 +56,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe( Bookmark, ["ImageBookmarkStore"]);

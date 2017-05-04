@@ -4,7 +4,7 @@ import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import Glyphicon from "components/common/Glyphicon";
 
 export default React.createClass({
-    displayName: "InstanceRedeployModal",
+    displayName: "InstanceShelveModal",
 
     mixins: [BootstrapModalMixin],
 
@@ -33,25 +33,28 @@ export default React.createClass({
             <p className="alert alert-warning">
                 <Glyphicon name="warning-sign" />
                 {" "}
-                <strong>NOTE</strong>
-                {" Redeploying an instance will allow you to fix instances that show up as 'active - deploy_error'. If after executing a 'redeploy' you find that your VM returns to the deploy_error state, please contact support."}
+                <strong>WARNING</strong>
+                {" Shelving an instance will freeze its state, and the IP address be removed from the instance."}
             </p>
             <p>
-                {"Would you like to redeploy this instance?"}
+                {'Shelving will safely preserve the state of your instance for later use. And, it frees up resources for other users . In fact, it is the best way to reduce resource usage when compared with other actions, like "suspend" and "stop".'}
+                {'Your time allocation no longer counts against you in the shelved mode.'}
+            </p>
+            <p>
+                {'Your resource usage charts will only reflect the freed resources once the instance\'s state is "shelved."'}
             </p>
         </div>
         );
     },
 
     render: function() {
-
         return (
         <div className="modal fade">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h1 className="t-title">Redeploy Instance</h1>
+                        <h1 className="t-title">Shelve Instance</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}
@@ -65,7 +68,7 @@ export default React.createClass({
                         <RaisedButton
                             primary
                             onTouchTap={this.confirm}
-                            label="Yes, Redeploy Instance"
+                            label="Yes, shelve this instance"
                         />
                     </div>
                 </div>

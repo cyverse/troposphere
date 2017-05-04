@@ -11,6 +11,10 @@ import IUpdate from "./instance/update";
 import IReport from "./instance/report";
 import IRequest from "./instance/requestImage";
 
+import { shelve } from "./instance/shelve";
+import { unshelve } from "./instance/unshelve";
+
+
 export default {
     resume: IResume.resume,
     suspend: ISuspend.suspend,
@@ -24,5 +28,7 @@ export default {
     destroy: IDestroy.destroy,
     update: IUpdate.update,
     report: IReport.report,
-    requestImage: IRequest.requestImage
+    requestImage: IRequest.requestImage,
+    shelve,
+    unshelve
 };
