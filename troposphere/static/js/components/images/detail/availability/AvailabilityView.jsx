@@ -60,15 +60,8 @@ export default React.createClass({
     },
 
     render() {
-        let { version } = this.props;
-        let endDate = version.get('end_date'),
-            isEndDated = endDate && endDate.isValid();
-        // No availability if the version *OR* parent-image are end-dated.
-        if (!isEndDated) {
-            let image = version.get('image');
-            let end_date = moment(image.end_date);
-            isEndDated = end_date && end_date.isValid();
-        }
+        let { version } = this.props,
+            isEndDated = version.isEndDated();
 
         if (isEndDated) {
             return this.renderEndDated();
