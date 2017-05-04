@@ -211,66 +211,8 @@ export default React.createClass({
         form[0].submit();
     },
 
-    onGuacDesktop: function(ipAddr, instance) {
-        // TODO:
-        //      move this into a utilties file
-        var CSRFToken = findCookie("tropo_csrftoken");
-
-        // build a form to POST to web_desktop
-        var form = $("<form>")
-            .attr("method", "POST")
-            .attr("action", "/guacamole")
-            .attr("target", "_blank");
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "ipAddress")
-            .attr("value", ipAddr));
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "protocol")
-            .attr("value", "vnc"));
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "csrfmiddlewaretoken")
-            .attr("style", "display: none;")
-            .attr("value", CSRFToken));
-
-        $("body").append(form);
-        form[0].submit();
-    },
-
-    onGuacShell: function(ipAddr, instance) {
-        // TODO:
-        //      move this into a utilties file
-        var CSRFToken = findCookie("tropo_csrftoken");
-
-        // build a form to POST to web_desktop
-        var form = $("<form>")
-            .attr("method", "POST")
-            .attr("action", "/guacamole")
-            .attr("target", "_blank");
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "ipAddress")
-            .attr("value", ipAddr));
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "protocol")
-            .attr("value", "ssh"));
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "csrfmiddlewaretoken")
-            .attr("style", "display: none;")
-            .attr("value", CSRFToken));
-
-        $("body").append(form);
-        form[0].submit();
+    onGuac: function(ip, instance, proto) {
+        $.post("/guacamole", "ipAddress=" + ip + "&protocol=" + proto + "&csrfmiddlewaretoken=" + findCookie("tropo_csrftoken"));
     },
 
     getIntegrationLinks() {
@@ -307,10 +249,11 @@ export default React.createClass({
           links.push({
               label: "Open New Web Shell (beta)",
               icon: "text-background",
-              onClick: this.onGuacShell.bind(
+              onClick: this.onGuac.bind(
                   this,
                   ipAddress,
-                  this.props.instance),
+                  this.props.instance,
+                  "ssh"),
               openInNewWindow: true,
               isDisabled: disableWebLinks
           });
@@ -322,7 +265,8 @@ export default React.createClass({
               onClick: this.onGuacDesktop.bind(
                 this,
                 ipAddress,
-                this.props.instance),
+                this.props.instance,
+                "vnc"),
               openInNewWindow: true,
               isDisabled: disableWebLinks
             });
