@@ -254,7 +254,7 @@ export default React.createClass({
 
         if (featureFlags.GUACAMOLE) {
           links.push({
-              label: "Open New Web Shell (beta)",
+              label: "Open Guacamole Shell",
               icon: "text-background",
               onClick: this.onGuac.bind(
                   this,
@@ -267,7 +267,7 @@ export default React.createClass({
 
           if (webDesktopCapable) {
             links.push({
-              label: "Open New Web Desktop (beta)",
+              label: "Open Guacamole Desktop",
               icon: "sound-dolby",
               onClick: this.onGuacDesktop.bind(
                 this,
