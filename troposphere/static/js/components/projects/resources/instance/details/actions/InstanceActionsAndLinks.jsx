@@ -222,31 +222,18 @@ export default React.createClass({
         // TODO:
         //      move this into a utilties file
         var CSRFToken = findCookie("tropo_csrftoken");
+        $.post({
+            url: '/guacamole',
 
-        // build a form to POST to web_desktop
-        var form = $("<form>")
-            .attr("method", "POST")
-            .attr("action", "/guacamole")
-            .attr("target", "_blank");
+            // We have to force this encoding (even though it's the default).
+            // It's being overriden by $.ajaxSetup({ headers }), we specify
+            // there that Content-Type should always be application/json and
+            // that has precedence.
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "ipAddress")
-            .attr("value", ipAddr));
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "protocol")
-            .attr("value", proto));
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "csrfmiddlewaretoken")
-            .attr("style", "display: none;")
-            .attr("value", CSRFToken));
-
-        $("body").append(form);
-        form[0].submit();
+            headers: { "X-CSRFToken": CSRFToken },
+            data: { ipAddress: ipAddr, protocol: proto }
+        });
     },
 
     getIntegrationLinks() {
