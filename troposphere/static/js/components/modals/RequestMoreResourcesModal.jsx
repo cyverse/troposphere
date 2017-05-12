@@ -10,30 +10,33 @@ export default React.createClass({
 
     mixins: [BootstrapModalMixin],
 
+    propTypes: {
+        identity: React.PropTypes.number,
+    },
+
     getInitialState: function() {
-        var identities = stores.IdentityStore.getAll();
+        let identities = stores.IdentityStore.getAll();
+        let defaultIdentity;
+        if (identities) {
+            defaultIdentity = identities.first().id;
+        }
+
         return {
-            identity: identities ? identities.first().id : null,
+            identity: this.props.identity || defaultIdentity,
             resources: "",
             reason: ""
         };
     },
 
-    getState: function() {
-        var identities = stores.IdentityStore.getAll(),
-            identityId = null;
-
-        if (identities) {
-            identityId = this.state.identity ? this.state.identity : identities.first().id;
-        }
-
-        return {
-            identity: identityId
-        }
-    },
-
     updateState: function() {
-        if (this.isMounted()) this.setState(this.getState());
+        let { identity } = this.state;
+        let identities = stores.IdentityStore.getAll();
+
+        if (!identity && identities) {
+            this.setState({ identity: identities.first().id })
+        }
+
+        this.forceUpdate()
     },
 
     componentDidMount: function() {
@@ -43,6 +46,7 @@ export default React.createClass({
 
     componentWillUnmount: function() {
         stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.ResourceRequestStore.removeChangeListener(this.updateState);
     },
 
     isSubmittable: function() {
@@ -130,17 +134,16 @@ export default React.createClass({
 
     renderBody: function() {
         var identities = stores.IdentityStore.getAll(),
-            instances = stores.InstanceStore.getAll(),
-            username = stores.ProfileStore.get().get("username"),
-            requests = stores.ResourceRequestStore.findResourceRequestsWhere({
-                "created_by.username": username
-            });
+            selectedIdentity = this.state.identity,
+            requests = stores.ResourceRequestStore.getAll();
 
-        if (username == null || requests == null) {
-            return <div className="loading"></div>;
+        let isLoading =
+            [identities, selectedIdentity, requests]
+            .some(item => !item) // Check if some are falsy
+
+        if (isLoading) {
+            return <div className="loading" />;
         }
-
-        if (!identities || !instances) return <div className="loading" />;
 
         return (
         <div role="form">
@@ -148,7 +151,7 @@ export default React.createClass({
                 <label htmlFor="project-identity">
                     {"What cloud would you like resources for?"}
                 </label>
-                <select className="form-control" onChange={this.handleIdentityChange}>
+                <select value={selectedIdentity} className="form-control" onChange={this.handleIdentityChange}>
                     {identities.map(this.renderIdentity)}
                 </select>
             </div>

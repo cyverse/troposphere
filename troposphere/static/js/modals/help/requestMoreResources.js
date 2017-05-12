@@ -13,8 +13,8 @@ let RequestModal = globals.USE_ALLOCATION_SOURCES ?
 
 export default {
 
-    requestMoreResources: function() {
-        ModalHelpers.renderModal(RequestModal, null, function(identity, quota, reason) {
+    requestMoreResources: function(props) {
+        ModalHelpers.renderModal(RequestModal, props, function(identity, quota, reason) {
             actions.HelpActions.requestMoreResources({
                 identity,
                 quota,
