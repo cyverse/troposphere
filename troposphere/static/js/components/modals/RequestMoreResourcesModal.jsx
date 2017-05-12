@@ -12,6 +12,7 @@ export default React.createClass({
 
     propTypes: {
         identity: React.PropTypes.number,
+        onConfirm: React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
@@ -55,11 +56,6 @@ export default React.createClass({
         return hasResources && hasReason;
     },
 
-    //
-    // Internal Modal Callbacks
-    // ------------------------
-    //
-
     cancel: function() {
         this.hide();
     },
@@ -69,14 +65,6 @@ export default React.createClass({
         this.props.onConfirm(this.state.identity, this.state.resources, this.state.reason);
     },
 
-    //
-    // Custom Modal Callbacks
-    // ----------------------
-    //
-
-    // todo: I don't think there's a reason to update state unless
-    // there's a risk of the component being re-rendered by the parent.
-    // Should probably verify this behavior, but for now, we play it safe.
     handleIdentityChange: function(e) {
         this.setState({
             identity: Number(e.target.value)
@@ -95,10 +83,6 @@ export default React.createClass({
         });
     },
 
-    //
-    // Render
-    // ------
-    //
     renderAllocationSourceText: function() {
         return (
         <div>
@@ -135,6 +119,12 @@ export default React.createClass({
     renderBody: function() {
         var identities = stores.IdentityStore.getAll(),
             selectedIdentity = this.state.identity,
+
+            // Hack: We have to call this method to populate the request
+            // store. When this modal is submitted (see the call to onConfirm
+            // above), a single resource request gets posted. When the
+            // callback succeeds, the new request is added to the store. If
+            // the store is not populated (models is null), then adding fails.
             requests = stores.ResourceRequestStore.getAll();
 
         let isLoading =
