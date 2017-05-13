@@ -76,7 +76,7 @@ def guacamole(request):
 
             if response.status_code == 403:
                 logger.warn("Guacamole did not accept the authentication.\nResponse content:\n%s" % (json.loads(response.content)))
-                return HttpResponse("<h1>Error 403</h1><br/>Guacamole server did not accept authentication.")
+                return HttpResponse("<h1>Error 403</h1><br/>Guacamole server did not accept authentication.", status=403)
 
             token = json.loads(response.content)['authToken']
             return HttpResponseRedirect(guac_server + '/#/client/' + base64_conn_id + '?token=' + token)
