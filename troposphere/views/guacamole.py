@@ -9,7 +9,7 @@ import logging
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, UnreadablePostError
 
 logger = logging.getLogger(__name__)
 
