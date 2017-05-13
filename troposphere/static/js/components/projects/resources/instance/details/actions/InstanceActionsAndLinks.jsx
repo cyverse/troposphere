@@ -218,9 +218,7 @@ export default React.createClass({
         form[0].submit();
     },
 
-    onGuacConn: function(ipAddr, instance, proto) {
-        // TODO:
-        //      move this into a utilties file
+    onGuacConn: function(ipAddr, proto) {
         var CSRFToken = findCookie("tropo_csrftoken");
         $.post({
             url: '/guacamole',
@@ -270,11 +268,7 @@ export default React.createClass({
           links.push({
               label: "Open New Web Shell (beta)",
               icon: "text-background",
-              onClick: this.onGuacConn.bind(
-                  this,
-                  ipAddress,
-                  this.props.instance,
-                  "ssh"),
+              onClick: this.onGuacConn.bind(this, ipAddress, "ssh"),
               openInNewWindow: true,
               isDisabled: disableWebLinks
           });
@@ -283,11 +277,7 @@ export default React.createClass({
             links.push({
               label: "Open New Web Desktop (beta)",
               icon: "sound-dolby",
-              onClick: this.onGuacConn.bind(
-                this,
-                ipAddress,
-                this.props.instance,
-                "vnc"),
+              onClick: this.onGuacConn.bind(this, ipAddress, "vnc"),
               openInNewWindow: true,
               isDisabled: disableWebLinks
             });
