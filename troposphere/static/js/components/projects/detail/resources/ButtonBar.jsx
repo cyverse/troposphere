@@ -72,13 +72,7 @@ export default React.createClass({
                     isVisible={context.profile.get("is_superuser") && this.props.isVisible} />
 
             </div>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    flex: "1"
-                }}
-            >
+            <div>
                 <ResourceActionButtons onUnselect={this.props.onUnselect}
                     previewedResource={this.props.previewedResource}
                     multipleSelected={this.props.multipleSelected}
