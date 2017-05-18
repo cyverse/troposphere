@@ -3,7 +3,7 @@ import Backbone from "backbone";
 
 import Tooltip from "react-tooltip";
 
-const deployError = "Often performing a 'hard reboot' will get an instance out of 'deploy_error'";
+const deployError = "Performing a 'hard reboot' will sometimes fix a 'deploy_error' on an instance";
 
 
 var Activity = React.createClass({
@@ -40,6 +40,7 @@ var Activity = React.createClass({
                 { opacity } = this.state,
                 marginLeft = "10px",
                 color = "darkorange";
+
             attention = (
                 <span>
                     <span onMouseOver={this.onMouseOver}
@@ -49,7 +50,10 @@ var Activity = React.createClass({
                           className="glyphicon glyphicon-info-sign"
                           data-for={rand}
                           aria-hidden="true" />
-                    <Tooltip id={rand} place="top" effect="solid" />
+                    <Tooltip id={rand}
+                             place="top"
+                             effect="solid"
+                             delayHide={2250} />
                 </span>
             );
         }
