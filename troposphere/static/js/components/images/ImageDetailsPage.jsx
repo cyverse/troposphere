@@ -40,7 +40,9 @@ export default React.createClass({
 
         if (!image || !tags) return <div className="loading"/>;
 
-        if (image.status === 404) return <NotFoundPage/>;
+        if (image.status === 404) return (
+            <NotFoundPage resource="image"/>
+        );
 
         // If the user isn't logged in, display the public view, otherwise
         // wait for providers and instances to be fetched
