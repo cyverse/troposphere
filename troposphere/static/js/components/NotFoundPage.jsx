@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 import { capitalize } from 'utilities/str';
 
@@ -8,6 +10,10 @@ import stores from "stores";
 
 export default React.createClass({
     displayName: "NotFoundPage",
+
+    proptypes: {
+        resource: PropTypes.string,
+    },
 
     render: function() {
         const { resource = "page" } = this.props;
@@ -40,5 +46,4 @@ export default React.createClass({
         </div>
         );
     }
-
 })
