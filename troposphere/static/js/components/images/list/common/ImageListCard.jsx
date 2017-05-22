@@ -24,9 +24,10 @@ const ImageListCard = React.createClass({
     },
 
     onCardClick() {
-        let imageId = this.props.image.id;
+        let image = this.props.image;
 
-        this.props.router.push(`images/${imageId}`);
+        this.props.onCardClick(image);
+        //this.props.router.push(`images/${imageId}`);
     },
 
     renderEndDated() {
@@ -59,11 +60,10 @@ const ImageListCard = React.createClass({
         return seriesData;
     },
     render() {
-        let image = this.props.image;
-        let imageMetric = this.props.metric;
+        const { image, isOpen, imageMetric } = this.props;
         let hasLoggedInUser = context.hasLoggedInUser();
         let staff_user = stores.ProfileStore.get().get("is_staff");
-        let graphDiv = (<div style={{"width":"135px", "height": "15px"}}></div>);
+        let graphDiv = null;
         let type = stores.ProfileStore.get().get("icon_set");
         let imageTags = stores.TagStore.getImageTags(image);
             imageTags = imageTags ? imageTags.first(10) : null;
@@ -76,42 +76,17 @@ const ImageListCard = React.createClass({
                     seriesData = this.getChartData(image, metric);
                     labels = this.getLabels(metric);
                     if (labels.length > 0) {
-                        graphDiv = (<SparklineGraph
-                                        seriesData={seriesData}
-                                        categories={labels}
-                                        title={""}
-                                    />);
+                        graphDiv = (
+                            <SparklineGraph
+                                seriesData={seriesData}
+                                categories={labels}
+                                title={""}
+                            />
+                        );
                     }
                 }
             }
         }
-        let imageCreationDate = moment(image.get("start_date"))
-                .tz(globals.TZ_REGION)
-                .format("MMM Do YY hh:mm ");
-
-        let converter = new Showdown.Converter();
-
-        let description = image.get("description");
-        if (!description) {
-            description = "No Description Provided."
-        } else if ( description.length > 90 ) {
-            description = description.substring(0,90) + " ..."
-        }
-
-        let name = image.get('name');
-        if (name.length > 30) {
-            name = name.substring(0,30) + " ..."
-        }
-
-        let descriptionHtml = converter.makeHtml( description );
-        let iconSize = 40;
-        let icon;
-
-        // always use the Gravatar icons
-        icon = (
-            <Gravatar hash={image.get("uuid_hash")} size={iconSize} type={type} />
-        );
-
         // Hide bookmarking on the public page
         var bookmark;
         if (hasLoggedInUser) {
@@ -127,11 +102,47 @@ const ImageListCard = React.createClass({
                 </span>
             );
         }
+        let imageCreationDate = moment(image.get("start_date"))
+                .tz(globals.TZ_REGION)
+                .format("MMM Do YY hh:mm ");
+
+        let converter = new Showdown.Converter();
+
+        let description = image.get("description");
+        if (!description) {
+            description = "No Description Provided."
+        } else if ( description.length > 90 && !isOpen) {
+            description = description.substring(0,90) + " ..."
+        }
+        let descriptionHtml = converter.makeHtml( description );
+        let cardDescription = (
+            <span>
+                { this.renderEndDated() }
+                { bookmark }
+                <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+                <Tags activeTags={imageTags}/>
+                { graphDiv }
+            </span>
+        );
+        let name = image.get('name');
+        if (name.length > 30) {
+            name = name.substring(0,30) + " ..."
+        }
+
+        let iconSize = 40;
+        let icon;
+
+        // always use the Gravatar icons
+        icon = (
+            <Gravatar hash={image.get("uuid_hash")} size={iconSize} type={type} />
+        );
+
 
         return (
             <MediaCard
                 avatar={ icon }
                 title={ name }
+                isOpen={ isOpen }
                 onCardClick={ this.onCardClick }
                 subheading={
                     <span>
@@ -142,15 +153,8 @@ const ImageListCard = React.createClass({
                         <strong> { image.get("created_by").username }</strong>
                     </span>
                 }
-                summary={
-                    <span>
-                        { this.renderEndDated() }
-                        { bookmark }
-                        <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-                        <Tags activeTags={imageTags}/>
-                        { graphDiv }
-                    </span>
-                }
+                summary={ cardDescription }
+                detail={ cardDescription }
             />
         );
     }

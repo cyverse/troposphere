@@ -1,15 +1,19 @@
 import React from "react";
 import Backbone from "backbone";
+import { withRouter } from "react-router";
 import ImageListCard from "../common/ImageListCard";
 import { filterEndDate } from "utilities/filterCollection";
 import stores from "stores";
 
-
-export default React.createClass({
+const ImageCardList = React.createClass({
 
     propTypes: {
         title: React.PropTypes.string,
         images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+    },
+
+    onCardClick(image) {
+        this.props.router.push(`images/${image.id}`);
     },
 
     renderTitle: function() {
@@ -27,7 +31,12 @@ export default React.createClass({
 
         return (
         <li key={image.id}>
-            <ImageListCard image={image} metric={imageMetric} isEndDated={isEndDated} />
+            <ImageListCard
+                image={image}
+                metric={imageMetric}
+                isEndDated={isEndDated}
+                onCardClick={ this.onCardClick }
+            />
         </li>
         );
     },
@@ -47,3 +56,4 @@ export default React.createClass({
     }
 });
 
+export default withRouter(ImageCardList);
