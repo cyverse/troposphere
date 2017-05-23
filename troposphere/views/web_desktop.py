@@ -13,15 +13,6 @@ from itsdangerous import Signer, URLSafeTimedSerializer
 
 logger = logging.getLogger(__name__)
 
-SIGNED_SERIALIZER = URLSafeTimedSerializer(
-    settings.WEB_DESKTOP['signing']['SECRET_KEY'],
-    salt=settings.WEB_DESKTOP['signing']['SALT'])
-
-SIGNER = Signer(
-    settings.WEB_DESKTOP['fingerprint']['SECRET_KEY'],
-    salt=settings.WEB_DESKTOP['fingerprint']['SALT'])
-
-
 def _should_redirect():
     return settings.WEB_DESKTOP['redirect']['ENABLED']
 
@@ -35,34 +26,40 @@ def web_desktop(request):
     if request.user.is_authenticated():
         logger.info("user is authenticated, well done.")
         sig = None
+        # Steve Psuedo-code
+        # 1. Send a request to the API on behalf of the user and instance ID
+        # 2. API will return a token
+        # 3. GUI will put together the "password" and "url" and return the value.
+        if 'instanceId' in request.POST:
+            instance_id = request.POST['instance_id']
+            return None
+        # if 'ipAddress' in request.POST:
+        #     ip_address = request.POST['ipAddress']
+        #     client_ip = request.META['REMOTE_ADDR']
 
-        if 'ipAddress' in request.POST:
-            ip_address = request.POST['ipAddress']
-            client_ip = request.META['REMOTE_ADDR']
+        #     logger.info("ip_address: %s" % ip_address)
+        #     logger.info("client_ip: %s" % client_ip)
 
-            logger.info("ip_address: %s" % ip_address)
-            logger.info("client_ip: %s" % client_ip)
+        #     client_ip_fingerprint = SIGNER.get_signature(client_ip)
+        #     browser_fingerprint = SIGNER.get_signature(''.join([
+        #         request.META['HTTP_USER_AGENT'],
+        #         request.META['HTTP_ACCEPT_LANGUAGE']]))
 
-            client_ip_fingerprint = SIGNER.get_signature(client_ip)
-            browser_fingerprint = SIGNER.get_signature(''.join([
-                request.META['HTTP_USER_AGENT'],
-                request.META['HTTP_ACCEPT_LANGUAGE']]))
+        #     sig = SIGNED_SERIALIZER.dumps([ip_address,
+        #         client_ip_fingerprint,
+        #         browser_fingerprint])
 
-            sig = SIGNED_SERIALIZER.dumps([ip_address,
-                client_ip_fingerprint,
-                browser_fingerprint])
+        #     url = '%s?token=%s&password=display' % (
+        #         settings.WEB_DESKTOP['redirect']['PROXY_URL'],
+        #         sig)
 
-            url = '%s?token=%s&password=display' % (
-                settings.WEB_DESKTOP['redirect']['PROXY_URL'],
-                sig)
+        #     response = HttpResponseRedirect(url)
+        #     response.set_cookie('original_referer', request.META['HTTP_REFERER'],
+        #         domain=settings.WEB_DESKTOP['redirect']['COOKIE_DOMAIN'])
 
-            response = HttpResponseRedirect(url)
-            response.set_cookie('original_referer', request.META['HTTP_REFERER'],
-                domain=settings.WEB_DESKTOP['redirect']['COOKIE_DOMAIN'])
+        #     logger.info("redirect response: %s" % (response))
 
-            logger.info("redirect response: %s" % (response))
-
-            return response
+        #     return response
         else:
             raise UnreadablePostError
 
