@@ -1,5 +1,6 @@
 import json
 import logging
+import requests
 import time
 
 from django.conf import settings
@@ -10,11 +11,14 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 
 from itsdangerous import Signer, URLSafeTimedSerializer
+from rest_framework import status
+from troposphere.views.exceptions import failure_response
 
 logger = logging.getLogger(__name__)
 
 def _should_redirect():
     return settings.WEB_DESKTOP['redirect']['ENABLED']
+
 
 def web_desktop(request):
     """
@@ -22,46 +26,37 @@ def web_desktop(request):
     """
     template_params = {}
 
-    logger.info("POST body: %s" % request.POST)
     if request.user.is_authenticated():
-        logger.info("user is authenticated, well done.")
+        # logger.debug("user %s is authenticated, well done." % request.user)
         sig = None
-        # Steve Psuedo-code
-        # 1. Send a request to the API on behalf of the user and instance ID
-        # 2. API will return a token
-        # 3. GUI will put together the "password" and "url" and return the value.
         if 'instanceId' in request.POST:
-            instance_id = request.POST['instance_id']
-            return None
-        # if 'ipAddress' in request.POST:
-        #     ip_address = request.POST['ipAddress']
-        #     client_ip = request.META['REMOTE_ADDR']
+            instance_id = request.POST['instanceId']
+            auth_token = request.session.get('access_token')
+            access_token_route = settings.API_V2_ROOT+"/web_tokens/%s" % instance_id
+            headers = {
+                'Authorization': "Token %s" % auth_token,
+                'Accept': 'application/json',
+            }
+            response = requests.get(access_token_route, headers=headers)
+            data = response.json()
+            web_access_token = data.get('token')
+            proxy_password = 'display'
+            url = '%s?token=%s&password=%s' % (
+                settings.WEB_DESKTOP['redirect']['PROXY_URL'],
+                web_access_token, proxy_password)
 
-        #     logger.info("ip_address: %s" % ip_address)
-        #     logger.info("client_ip: %s" % client_ip)
+            response = HttpResponseRedirect(url)
+            response.set_cookie('original_referer', request.META['HTTP_REFERER'],
+                domain=settings.WEB_DESKTOP['redirect']['COOKIE_DOMAIN'])
 
-        #     client_ip_fingerprint = SIGNER.get_signature(client_ip)
-        #     browser_fingerprint = SIGNER.get_signature(''.join([
-        #         request.META['HTTP_USER_AGENT'],
-        #         request.META['HTTP_ACCEPT_LANGUAGE']]))
+            logger.info("redirect response: %s" % (response))
 
-        #     sig = SIGNED_SERIALIZER.dumps([ip_address,
-        #         client_ip_fingerprint,
-        #         browser_fingerprint])
-
-        #     url = '%s?token=%s&password=display' % (
-        #         settings.WEB_DESKTOP['redirect']['PROXY_URL'],
-        #         sig)
-
-        #     response = HttpResponseRedirect(url)
-        #     response.set_cookie('original_referer', request.META['HTTP_REFERER'],
-        #         domain=settings.WEB_DESKTOP['redirect']['COOKIE_DOMAIN'])
-
-        #     logger.info("redirect response: %s" % (response))
-
-        #     return response
+            return response
         else:
-            raise UnreadablePostError
+            logger.info("Failed request - POST body: %s" % request.POST)
+            return failure_response(
+                status.HTTP_400_BAD_REQUEST,
+                "POST does not contain the required data")
 
     else:
         logger.info("not authenticated: \nrequest:\n %s" % request)
