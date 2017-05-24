@@ -186,7 +186,7 @@ export default React.createClass({
         modals.InstanceModals.unshelve(this.props.instance);
     },
 
-    onWebDesktop: function(ipAddr, instance) {
+    onWebDesktop: function(instance) {
         // TODO:
         //      move this into a utilities file
         var CSRFToken = findCookie("tropo_csrftoken");
@@ -199,8 +199,8 @@ export default React.createClass({
 
         form.append($("<input>")
             .attr("type", "hidden")
-            .attr("name", "ipAddress")
-            .attr("value", ipAddr));
+            .attr("name", "instanceId")
+            .attr("value", instance.get('uuid')));
 
         form.append($("<input>")
             .attr("type", "hidden")
@@ -235,7 +235,6 @@ export default React.createClass({
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
                     this,
-                    ipAddress,
                     this.props.instance),
                 openInNewWindow: true,
                 isDisabled: disableWebLinks
