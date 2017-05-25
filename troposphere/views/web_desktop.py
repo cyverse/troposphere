@@ -37,7 +37,8 @@ def web_desktop(request):
                 'Authorization': "Token %s" % auth_token,
                 'Accept': 'application/json',
             }
-            response = requests.get(access_token_route, headers=headers)
+            #FIXME: Remove verify=False in the future
+            response = requests.get(access_token_route, headers=headers, verify=False)
             data = response.json()
             web_access_token = data.get('token')
             proxy_password = 'display'
