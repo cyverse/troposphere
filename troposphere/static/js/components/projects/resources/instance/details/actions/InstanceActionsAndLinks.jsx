@@ -8,6 +8,7 @@ import InstanceActionNames from "constants/InstanceActionNames";
 
 import featureFlags from "utilities/featureFlags";
 import { findCookie } from "utilities/cookieHelpers";
+import { trackAction, showNewMessage } from 'utilities/userActivity';
 
 import modals from "modals";
 import stores from "stores";
@@ -136,16 +137,14 @@ export default React.createClass({
     onReport: function() {
         // This needs to be flagged to handle the case where
         // Intercom platform is used, but Respond is *not*
-        if (!featureFlags.hasIntercomActive()) {
+        if (featureFlags.shouldReportInstanceViaIntercom()) {
+            trackAction('reported-instance',
+                       {'created_at': Date.now()});
+            showNewMessage('I am having issues with an instance. ');
+        } else {
             modals.InstanceModals.report({
                 instance: this.props.instance
             });
-        } else {
-            window.Intercom('trackEvent',
-                            'reported-instance',
-                            {'created_at': Date.now()});
-            window.Intercom('showNewMessage',
-                            'I am having issues with an instance. ');
         }
     },
 

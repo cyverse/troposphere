@@ -4,6 +4,7 @@ import Glyphicon from "components/common/Glyphicon";
 import modals from "modals";
 
 import featureFlags from "utilities/featureFlags";
+import { trackAction, showNewMessage } from 'utilities/userActivity';
 
 export default React.createClass({
     displayName: "VolumeActionsAndLinks",
@@ -33,16 +34,14 @@ export default React.createClass({
     handleReport: function() {
         // This needs to be flagged to handle the case where
         // Intercom platform is used, but Respond is *not*
-        if (!featureFlags.hasIntercomActive()) {
+        if (featureFlags.shouldReportVolumeViaIntercom()) {
+            trackAction('reported-volume',
+                       {'created_at': Date.now()});
+            showNewMessage('I am having issues with a volume. ');
+        } else {
             modals.VolumeModals.report({
                 volume: this.props.volume
             });
-        } else {
-            window.Intercom('trackEvent',
-                            'reported-volume',
-                            {'created_at': Date.now()});
-            window.Intercom('showNewMessage',
-                            'I am having issues with a volume. ');
         }
     },
 
