@@ -39,4 +39,20 @@ const trackAction = (actionName, details) => {
     }
 }
 
-export { trackAction };
+/**
+ * Shows new Intercom conversation with `placeholderText` appearing in the
+ * _message_ text field of the Intercom widget.
+ */
+const showNewMessage = (placeholderText) => {
+    try {
+        if (window.intercom_app_id && window.Intercom) {
+            window.Intercom("showNewMessage", placeholderText);
+        }
+    } catch (e) {
+        // optionally - can call out to Raven
+        // ... this operation is not a critical path, so swallowing the error
+        //     for now is not as objectionable as it normally would be
+    }
+}
+
+export { trackAction, showNewMessage };

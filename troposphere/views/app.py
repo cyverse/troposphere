@@ -134,6 +134,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
                 settings.INTERCOM_COMPANY_ID
             template_params['intercom_company_name'] = \
                 settings.INTERCOM_COMPANY_NAME
+            template_params['intercom_options'] = \
+                json.dumps(settings.INTERCOM_OPTIONS)
 
     if enable_new_relic:
         template_params['new_relic_browser_snippet'] = \
