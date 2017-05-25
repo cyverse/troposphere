@@ -157,6 +157,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
     template_params['SENTRY_ENABLED'] = enable_sentry
     template_params['sentry_tags_dict'] = sentry_tags
+    template_params['collect_analytics'] = getattr(settings,
+            "COLLECT_ANALYTICS", False)
+
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
