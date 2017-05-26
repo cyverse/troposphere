@@ -101,13 +101,22 @@ function launch(params) {
             instance.set("uuid", attrs.alias);
 
             // Get the instance from the cloud, ignore our local copy
-            instance.fetch().done(function() {
+            instance.fetch().then(function() {
                 // NOTE: we have to set this here, because our instance above never gets saved
                 instance.set("projects", [project.id]);
 
                 Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
                     instance: instance
                 });
+                Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
+                    instance: instance
+                });
+            }, function() {
+                /**
+                 * this can have the same function signature as a `fail`
+                 *
+                 * the arguments would be: (jqXHR, textStatus, errorThrown)
+                 */
                 Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
                     instance: instance
                 });
