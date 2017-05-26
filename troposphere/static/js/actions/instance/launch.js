@@ -98,6 +98,7 @@ function launch(params) {
     instance.createOnV1Endpoint(payload)
         .done(function(attrs, status, response) {
             instance.set("id", attrs.id);
+            instance.set("uuid", attrs.alias);
 
             // Get the instance from the cloud, ignore our local copy
             instance.fetch().done(function() {
