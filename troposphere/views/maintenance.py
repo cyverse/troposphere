@@ -20,7 +20,8 @@ def get_maintenance(request):
     """
     records = MaintenanceRecord.active()
     disable_login = MaintenanceRecord.disable_login_access(request)
-    in_maintenance = records.count() > 0
+    in_maintenance = records.count() > 1
+    # FIXME: Avoid moving QuerySet -> list
     clean_records = list(map(replace_html, records))
     return (clean_records, disable_login, in_maintenance)
 

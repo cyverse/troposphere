@@ -268,7 +268,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
 def application_backdoor(request):
     maintenance_records, _, in_maintenance = get_maintenance(request)
     # This should only apply when in maintenance//login is disabled
-    if maintenance_records.count() == 0:
+    if len(maintenance_records) == 0:
         logger.info('No maintenance, Go to /application - do not collect $100')
         return redirect('application')
 
