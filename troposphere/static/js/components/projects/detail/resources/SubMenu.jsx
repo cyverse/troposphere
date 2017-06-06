@@ -5,7 +5,6 @@ import modals from "modals";
 
 import { trackAction } from 'utilities/userActivity';
 
-
 export default React.createClass({
     displayName: "SubMenu",
 
@@ -13,22 +12,19 @@ export default React.createClass({
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    onCreateExternalLink: function(e) {
-        e.preventDefault();
+    onCreateExternalLink: function() {
         //TODO: Add initial_text if that makes sense.
         var initial_text = "";
         modals.ExternalLinkModals.createAndAddToProject(initial_text, this.props.project);
     },
 
-    onCreateVolume: function(e) {
-        e.preventDefault();
+    onCreateVolume: function() {
         modals.VolumeModals.createAndAddToProject({
             project: this.props.project
         });
     },
 
-    onCreateInstance: function(e) {
-        e.preventDefault();
+    onCreateInstance: function() {
         modals.InstanceModals.createAndAddToProject({
             project: this.props.project
         });
@@ -91,7 +87,12 @@ export default React.createClass({
         }
 
         return (
-        <div className="sub-menu">
+        <div className="sub-menu" 
+            style={{ 
+                display: "inline-block",
+                marginRight: "10px"
+            }}    
+        >
             <div className="dropdown">
                 <button id="res-new-menu"
                         className="btn btn-primary dropdown-toggle"

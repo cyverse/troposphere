@@ -81,6 +81,12 @@ export default {
     onEnter: function(e) {
         if (e.which !== ENTER_KEY) return;
 
+        // Stops the enter event from bubbling out to other elements.
+        // If we want to say move focus to the another field on enter, a line break (\n)
+        // would be passed to that field causing the line break to be added before the cursor.
+        e.preventDefault();
+        e.stopPropagation();
+
         var value = e.target.value;
 
         if (this.onEnterKeyPressed) {
@@ -105,12 +111,10 @@ export default {
     },
 
     filterSearchResults: function() {
-        var node = ReactDOM.findDOMNode(this);
-        var $node = $(node);
-        var search_field = $node.find("input");
-        var query = search_field.val();
+        let input = this.refs.searchField;
+        let query = input.value.trim();
         this.setState({
-            query: query
+            query
         });
         this.props.onQueryChange(query);
     },
@@ -121,13 +125,12 @@ export default {
     },
 
     clearSearchField: function() {
-        var query = "",
-            input = this.refs.searchField;
-
+        let query = "";
+        let input = this.refs.searchField;
         input.value = query;
         input.focus();
         this.setState({
-            query: query
+            query
         });
         this.props.onQueryChange(query);
     },

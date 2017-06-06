@@ -1,8 +1,7 @@
 import React from "react";
-
 import ResourceActions from "actions/ResourceActions";
-
 import stores from "stores";
+import RaisedButton from "material-ui/RaisedButton";
 
 export default React.createClass({
     displayName: "MyResourceRequestsPage",
@@ -78,9 +77,14 @@ export default React.createClass({
             } else if (text === "denied") {
                 trClass = "denied";
             } else if (text === "pending") {
-                closeButton = <button type="button" className="btn btn-warning pull-right" onClick={close}>
-                                  Close
-                              </button>;
+                closeButton = (
+                    <RaisedButton
+                        primary
+                        className="pull-right"
+                        onTouchTap={close}
+                        label="Close"
+                    />
+                );
             }
 
             return (

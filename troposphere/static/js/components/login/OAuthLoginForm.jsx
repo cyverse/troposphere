@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 
 export default React.createClass({
     displayName: "OAuthLoginForm",
@@ -12,14 +13,15 @@ export default React.createClass({
         return {};
     },
     render: function() {
+        const { provider } = this.props;
         return (
             <form>
               <div className="login-screen-footer modal-footer">
-                  <button type="button"
-                      className="btn btn-primary"
-                      onClick={this.props.attemptLogin} >
-                      {"Click to Login with " + this.props.provider}
-                  </button>
+                  <RaisedButton
+                      primary
+                      onTouchTap={this.props.attemptLogin}
+                      label={ `Click to Login with ${provider}` }
+                  />
               </div>
             </form>
         );

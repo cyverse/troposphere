@@ -7,6 +7,7 @@ export default React.createClass({
 
     renderBody: function() {
         var images = stores.ImageBookmarkStore.getBookmarkedImages(),
+            metrics = stores.ImageMetricsStore.getAll(),
             tags = stores.TagStore.getAll();
 
         if (!images || !tags) return <div className="loading"></div>;

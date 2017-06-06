@@ -22,22 +22,53 @@ export default React.createClass({
         ReactDOM.findDOMNode(this.refs.nameInput).select();
     },
 
+    nameError() {
+        const { instanceName } = this.props;
+
+        function invalidName() {
+          let regex = /\.(\d)+$/gm;
+          return Boolean(instanceName.match(regex));
+        }
+
+        function missingName() {
+            return !Boolean(instanceName)
+        }
+
+        if (invalidName()) return "invalid";
+        if (missingName()) return "missing";
+    },
+
     render: function() {
-        let imageVersion = this.props.imageVersion;
-        let project = this.props.project;
-        let projectList = this.props.projectList;
-        let instanceName = this.props.instanceName;
-        let instanceNameClasses = "form-group";
+        const { 
+            imageVersion,
+            project,
+            projectList,
+            instanceName,
+            showValidationErr
+        } = this.props;
+        let hasErrorClass;
         let errorMessage = null;
 
-        if (this.props.showValidationErr) {
-            errorMessage = instanceName == "" ? "This field is required" : null;
-            instanceNameClasses = instanceName == "" ? "form-group has-error" : "form-group";
+        let invalidMessage = `Invalid format, names can not end in a period followed by numbers. For example: "Instance Name.2222"`;
+
+        let requiredMessage = "This field is required";
+
+        if (showValidationErr) {
+            switch (this.nameError()) {
+                case "invalid": 
+                    errorMessage = invalidMessage;
+                    hasErrorClass = "has-error";
+                    break;
+                case "missing":
+                    errorMessage = requiredMessage;
+                    hasErrorClass = "has-error";
+                    break;
+            }
         }
 
         return (
         <form>
-            <div className={instanceNameClasses}>
+            <div className={"form-group " + hasErrorClass }>
                 <label htmlFor="instanceName">
                     Instance Name
                 </label>

@@ -1,7 +1,9 @@
 import React from "react";
+import RaisedButton from 'material-ui/RaisedButton';
 import Backbone from "backbone";
 import modals from "modals";
 import context from "context";
+import globals from "globals";
 
 
 export default React.createClass({
@@ -22,25 +24,44 @@ export default React.createClass({
     },
 
     render: function() {
-        var year = new Date().getFullYear();
+        var footerContent,
+            year = new Date().getFullYear(),
+            footerHTML = globals.SITE_FOOTER_HTML;
 
         var feedbackButton = null;
         if (this.props.profile) {
             feedbackButton = (
-                <button className="btn btn-primary" onClick={this.onFeedback}>
-                    {"Feedback & Support"}
-                </button>
+                <RaisedButton
+                    primary
+                    style={{ marginLeft: "20px" }}
+                    onTouchTap={this.onFeedback}
+                    label="Feedback & Support"
+                />
             );
         }
 
-        return (
-        <footer className="footer">
+        if(!footerHTML) {
+            footerContent = (
             <div className="container">
                 <a href={this.props.link} target="_blank">
                     {"\u00a9" + year + " " + this.props.text}
                 </a>
                 {feedbackButton}
             </div>
+            );
+        } else {
+            footerContent = (<div className="container">
+                <span className="footer-content"
+                    dangerouslySetInnerHTML={{ __html:footerHTML }}>
+                </span>
+                {feedbackButton}
+            </div>
+            );
+        }
+
+        return (
+        <footer className="footer">
+            {footerContent}
         </footer>
         );
     }

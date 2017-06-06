@@ -1,0 +1,48 @@
+// Note: This file is generated from variables.scss.j2.
+// These colors vars are mostly for bootsrap theming.
+// The gaol is to replace bootstrap with MUI thus eleminating the need for
+// these color vars.
+
+// Theming will be handled in JS moving forward,
+// The hard coded default colors in variables.scss.j2 are not ideal,
+// Better is how appTheme.js overrides the imported cyverseTheme colors
+//
+
+// Brand
+$brand-primary: {{ PRIMARY_ONE_COLOR | default('#0971ab', True)}};
+$brand-secondary: {{ ACCENT_ONE_COLOR | default('#57cbea') }};
+
+// Navbar
+$navbar-default-bg: {{ HEADER_COLOR | default('#0971ab', True) }};
+$navbar-default-border: {{ HEADER_BORDER_COLOR | default('#57cbea', True) }};
+$navbar-default-link-color: rgba({{ HEADER_LINK_COLOR | default('white', True) }}, .7);
+$navbar-default-link-hover-color: {{ HEADER_LINK_COLOR | default('white', True) }};
+$navbar-default-link-active-color: {{ HEADER_LINK_COLOR | default('white', True) }};
+$navbar-default-link-active-bg: darken($navbar-default-bg, 6.5%);
+$navbar-default-brand-color: white;
+
+// Navbar toggle
+$navbar-default-toggle-hover-bg: $navbar-default-link-active-bg;
+$navbar-default-toggle-icon-bar-bg: #fff;
+$navbar-default-toggle-border-color: $navbar-default-link-active-bg;
+
+// Secondary Navbar
+$secondary-nav-border: $brand-primary;
+
+// UI Elements
+$link-color: {{ LINK_COLOR | default('#0971ab', True) }};
+
+// Grey color values
+$grey--xxdark: #52595E;
+$grey--xdark: #58646E;
+$grey--dark: #8C9296;
+$grey--darkmid: #D1D5D9;
+$grey--mid: #C9CED5;
+$grey--lightmid: #D8DDE2;
+$grey--light: #E5E7EA;
+$grey--xlight: #EFF1F2;
+$grey--xxlight: #F7F8F8;
+
+//Shadow Effects
+$shadow-1: 0 1px 5px rgba(43,59,93,.29);
+$shadow-1--inset: inset 0px 0px 6px 0px rgba(0,0,0,0.37);

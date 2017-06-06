@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from "react-router";
 import CryptoJS from "crypto-js";
 import Gravatar from "components/common/Gravatar";
@@ -82,8 +83,8 @@ export default React.createClass({
     renderLoadMoreHistoryButton: function() {
         // Load more instances from history
         var buttonStyle = {
+                display: "table",
                 margin: "auto",
-                display: "block"
             },
             loadingStyle = {
                 margin: "0px auto"
@@ -98,9 +99,12 @@ export default React.createClass({
                 );
             } else {
                 moreHistoryButton = (
-                    <button style={buttonStyle} className="btn btn-default" onClick={this.onLoadMoreInstanceHistory}>
-                        Show More History
-                    </button>
+                    <div style={buttonStyle}>
+                        <RaisedButton
+                            onTouchTap={this.onLoadMoreInstanceHistory}
+                            label="Show More History"
+                        />
+                    </div>
                 );
             }
         }

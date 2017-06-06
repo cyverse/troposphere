@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import Utils from "actions/Utils";
 
 export default React.createClass({
@@ -70,12 +71,12 @@ export default React.createClass({
             return (<span className="loading-tiny-inline"></span>);
         } else {
             return (
-                <button type="button"
-                    className="btn btn-primary"
-                    onClick={this.attemptLogin}
-                    disabled={!this.isSubmittable()}>
-                    {"Click to Login with Atmosphere"}
-                </button>
+                <RaisedButton
+                    primary
+                    onTouchTap={this.attemptLogin}
+                    disabled={!this.isSubmittable()}
+                    label="Click to Login with Atmosphere"
+                />
             );
         }
     },

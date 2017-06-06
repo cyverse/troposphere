@@ -1,5 +1,6 @@
 import _ from "underscore";
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import Glyphicon from "components/common/Glyphicon";
 import { trackAction } from "../../../utilities/userActivity";
@@ -168,15 +169,16 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                            Cancel
-                        </button>
-                        <button type="button"
-                            className="btn btn-primary"
-                            onClick={this.confirm}
-                            disabled={!this.isSubmittable()}>
-                            Report Volume
-                        </button>
+                        <RaisedButton
+                            style={{ marginRight: "10px" }}
+                            onTouchTap={this.cancel}
+                            label="Cancel"
+                        />
+                        <RaisedButton
+                            onTouchTap={this.confirm}
+                            disabled={!this.isSubmittable()}
+                            label="Report Volume"
+                        />
                     </div>
                 </div>
             </div>

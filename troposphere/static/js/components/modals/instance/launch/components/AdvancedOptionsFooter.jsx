@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from 'material-ui/RaisedButton';
 import Button from "components/common/ui/Button";
 
 export default React.createClass({
@@ -16,11 +17,12 @@ export default React.createClass({
 
         return (
         <div className="modal-footer">
-            <Button style={{ float: "right" }}
+            <RaisedButton
+                style={{ float: "right" }}
                 isDisabled={this.props.footerDisabled}
-                buttonType="default"
-                title="Continue to Launch"
-                onTouch={this.props.onSaveAdvanced} />
+                label="Continue to Launch"
+                onTouchTap={this.props.onSaveAdvanced}
+            />
             <Button style={{ float: "left" }}
                 isDisabled={clearOptionsIsDisabled}
                 buttonType="link"

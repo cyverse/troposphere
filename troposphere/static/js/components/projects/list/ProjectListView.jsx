@@ -1,5 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
+import RaisedButton from 'material-ui/RaisedButton';
 import ProjectList from "./ProjectList";
 import modals from "modals";
 import ProjectListHeader from "../common/ProjectListHeader";
@@ -20,9 +21,11 @@ export default React.createClass({
         return (
         <div>
             <ProjectListHeader title={this.props.projects.length + " Projects"}>
-                <button className="btn btn-primary" onClick={this.launchNewProjectModal}>
-                    Create New Project
-                </button>
+                <RaisedButton 
+                    primary
+                    onTouchTap={this.launchNewProjectModal}
+                    label="Create New Project"
+                />
             </ProjectListHeader>
             <div className="container">
                 <ProjectList projects={this.props.projects} />

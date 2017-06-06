@@ -6,7 +6,7 @@ import TagCreateModal from "components/modals/tag/TagCreateModal";
 export default {
     create: function(initialTagName) {
         var props = {
-            initialTagName: initialTagName
+            name: initialTagName
         };
 
         ModalHelpers.renderModal(TagCreateModal, props, function(name, description) {

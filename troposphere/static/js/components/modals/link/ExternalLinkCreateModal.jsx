@@ -1,4 +1,5 @@
 import React from "react";
+import RaisedButton from "material-ui/RaisedButton";
 import $ from "jquery";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import { trackAction } from "../../../utilities/userActivity";
@@ -266,15 +267,17 @@ export default React.createClass({
                     </div>
                     <div className="modal-footer">
                         {footerErrorText}
-                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                            Cancel
-                        </button>
-                        <button type="button"
-                            className="btn btn-primary"
-                            onClick={this.confirm}
-                            disabled={isDisabled}>
-                            Create Link
-                        </button>
+                        <RaisedButton
+                            style={{ marginRight: "10px" }}
+                            onTouchTap={this.cancel}
+                            label="Cancel"
+                        />
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.confirm}
+                            disabled={isDisabled}
+                            label="Create Link"
+                        />
                     </div>
                 </div>
             </div>
