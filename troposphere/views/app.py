@@ -134,6 +134,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
                 settings.INTERCOM_COMPANY_ID
             template_params['intercom_company_name'] = \
                 settings.INTERCOM_COMPANY_NAME
+            template_params['intercom_options'] = \
+                json.dumps(settings.INTERCOM_OPTIONS)
 
     if enable_new_relic:
         template_params['new_relic_browser_snippet'] = \
@@ -157,6 +159,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
     template_params['SENTRY_ENABLED'] = enable_sentry
     template_params['sentry_tags_dict'] = sentry_tags
+    template_params['collect_analytics'] = getattr(settings,
+            "COLLECT_ANALYTICS", False)
+
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
@@ -263,7 +268,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
 def application_backdoor(request):
     maintenance_records, _, in_maintenance = get_maintenance(request)
     # This should only apply when in maintenance//login is disabled
-    if maintenance_records.count() == 0:
+    if len(maintenance_records) == 0:
         logger.info('No maintenance, Go to /application - do not collect $100')
         return redirect('application')
 

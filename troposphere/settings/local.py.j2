@@ -83,11 +83,24 @@ ORG_NAME= "{{ ORG_NAME }}"
 INTERCOM_APP_ID = "{{ INTERCOM_APP_ID }}"
 INTERCOM_COMPANY_ID = "{{ INTERCOM_COMPANY_ID }}"
 INTERCOM_COMPANY_NAME = "{{ INTERCOM_COMPANY_NAME }}"
+
+INTERCOM_OPTIONS = {
+    'report': {
+        'instances': {{ INTERCOM_REPORT_INSTANCES if (INTERCOM_REPORT_INSTANCES is defined and not INTERCOM_REPORT_INSTANCES == "") else False }},
+        'volumes': {{ INTERCOM_REPORT_VOLUMES if (INTERCOM_REPORT_VOLUMES is defined and not INTERCOM_REPORT_VOLUMES == "") else  False }}
+    }
+}
 {% endif %}
 
 {%- if SENTRY_ENABLED %}
 SENTRY_DSN = "{{ SENTRY_DSN }}"
 {%- endif %}
+
+{% if COLLECT_ANALYTICS is defined %}
+COLLECT_ANALYTICS = {{ COLLECT_ANALYTICS }}
+{% else %}
+COLLECT_ANALYTICS = False
+{% endif %}
 
 {% if SESSION_COOKIE_AGE is defined and not SESSION_COOKIE_AGE == "" %}
 # expect integer; value is represented in seconds
@@ -97,14 +110,6 @@ SESSION_COOKIE_AGE = {{ SESSION_COOKIE_AGE }}
 WEB_DESKTOP_INCLUDE_LINK = {{ WEB_DESKTOP_INCLUDE_LINK }}
 
 WEB_DESKTOP = {
-    'signing': {
-        'SECRET_KEY': '{{ WEB_DESKTOP_SIGNING_SECRET_KEY }}',
-        'SALT': '{{ WEB_DESKTOP_SIGNING_SALT }}'
-    },
-    'fingerprint': {
-        'SECRET_KEY': '{{ WEB_DESKTOP_FP_SECRET_KEY }}',
-        'SALT': '{{ WEB_DESKTOP_FP_SALT }}'
-    },
     'redirect': {
         'ENABLED': WEB_DESKTOP_INCLUDE_LINK,
         'PROXY_URL': '{{ WEB_DESKTOP_PROXY_URL }}',
