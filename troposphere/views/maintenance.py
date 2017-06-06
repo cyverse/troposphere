@@ -4,15 +4,8 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 
 from api.models import MaintenanceRecord, MaintenanceNotice
-def replace_with_br(x):
-    return x.replace("\n", "<br/>")
 
-def replace_html(x):
-    message = replace_with_br(x.message)
-    return { 
-        'message': message,
-    }
-    
+
 def get_maintenance(request):
     """
     Returns a list of maintenance records along with a boolean to indicate
@@ -21,9 +14,8 @@ def get_maintenance(request):
     records = MaintenanceRecord.active()
     disable_login = MaintenanceRecord.disable_login_access(request)
     in_maintenance = records.count() >= 1
-    # FIXME: Avoid moving QuerySet -> list
-    clean_records = list(map(replace_html, records))
-    return (clean_records, disable_login, in_maintenance)
+
+    return (records, disable_login, in_maintenance)
 
 
 def get_notice(request):
