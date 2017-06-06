@@ -164,16 +164,24 @@ export default React.createClass({
         }
         return false;
     },
+
     render: function() {
         return (
         <div className="resource-master">
             <div id="create-container">
-                <button className="btn btn-primary" onClick={this.launchNewProviderModal}>
-                    Create New Provider
-                </button>
-                <button className="btn btn-primary" disabled={this.newIdentityDisabled()} onClick={this.launchNewAccountModal}>
-                    Create New Account
-                </button>
+                <div className="pull-right">
+                    <button className="btn btn-primary"
+                            style={{marginBottom: "10px"}}
+                            onClick={this.launchNewProviderModal}>
+                        Create New Provider
+                    </button>
+                    <button className="btn btn-primary"
+                            style={{marginBottom: "10px", marginLeft: "10px"}}
+                            disabled={this.newIdentityDisabled()}
+                            onClick={this.launchNewAccountModal}>
+                        Create New Account
+                    </button>
+                </div>
             </div>
             <div id="membership-container">
                 <input type="text"

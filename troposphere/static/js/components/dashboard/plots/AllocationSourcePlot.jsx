@@ -6,9 +6,21 @@ import stores from "stores";
 
 
 export default React.createClass({
-    displayName: "ProviderSummaryLinePlot",
+    displayName: "AllocationSourcePlot",
 
     propTypes: {
+    },
+
+    updateState: function() {
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+       stores.AllocationSourceStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+       stores.AllocationSourceStore.removeChangeListener(this.updateState);
     },
 
     seriesData: function(item) {

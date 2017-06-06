@@ -5,6 +5,7 @@ import Code from "components/common/ui/Code";
 import CopyButton from "components/common/ui/CopyButton";
 import moment from "moment";
 
+
 export default React.createClass({
     displayName: "AvailabilityView",
 
@@ -13,7 +14,19 @@ export default React.createClass({
             .instanceOf( Backbone.Model ).isRequired
     },
 
-    renderProviderMachine( provider ) {
+    updateState() {
+        this.forceUpdate();
+    },
+
+    componentDidMount() {
+       stores.ProviderMachineStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount() {
+       stores.ProviderMachineStore.removeChangeListener(this.updateState);
+    },
+
+    renderProviderMachine(provider) {
         let { isSummary } = this.props;
 
         // Hide 'end-dated' provider_machines
@@ -47,15 +60,8 @@ export default React.createClass({
     },
 
     render() {
-        let { version } = this.props;
-        let endDate = version.get('end_date'),
-            isEndDated = endDate && endDate.isValid();
-        // No availability if the version *OR* parent-image are end-dated.
-        if (!isEndDated) {
-            let image = version.get('image');
-            let end_date = moment(image.end_date);
-            isEndDated = end_date && end_date.isValid();
-        }
+        let { version } = this.props,
+            isEndDated = version.isEndDated();
 
         if (isEndDated) {
             return this.renderEndDated();
@@ -63,6 +69,7 @@ export default React.createClass({
             return this.renderProviders();
         }
     },
+
     renderEndDated() {
         return (
             <div>
@@ -75,6 +82,7 @@ export default React.createClass({
             </div>
         );
     },
+
     renderProviders() {
         let { version } = this.props;
         // Get providers this version is available on

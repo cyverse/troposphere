@@ -46,6 +46,12 @@ export default React.createClass({
                 onClick: this.onSuspend
             },
             {
+                key: InstanceActionNames.SHELVE,
+                label: "Shelve",
+                icon: "log-in",
+                onClick: this.onShelve
+            },
+            {
                 key: InstanceActionNames.STOP,
                 label: "Stop",
                 icon: "stop",
@@ -58,9 +64,15 @@ export default React.createClass({
                 onClick: this.onResume
             },
             {
+                key: InstanceActionNames.UNSHELVE,
+                label: "Unshelve",
+                icon: "log-out",
+                onClick: this.onUnshelve
+            },
+            {
                 key: InstanceActionNames.REBOOT,
                 label: "Reboot",
-                icon: "repeat",
+                icon: "off",
                 onClick: this.onReboot
             },
             {
@@ -126,9 +138,19 @@ export default React.createClass({
     },
 
     onReport: function() {
-        modals.InstanceModals.report({
-            instance: this.props.instance
-        });
+        // This needs to be flagged to handle the case where
+        // Intercom platform is used, but Respond is *not*
+        if (!featureFlags.hasIntercomActive()) {
+            modals.InstanceModals.report({
+                instance: this.props.instance
+            });
+        } else {
+            window.Intercom('trackEvent',
+                            'reported-instance',
+                            {'created_at': Date.now()});
+            window.Intercom('showNewMessage',
+                            'I am having issues with an instance. ');
+        }
     },
 
     onImageRequest: function() {
@@ -160,6 +182,13 @@ export default React.createClass({
         modals.InstanceModals.reboot(this.props.instance);
     },
 
+    onShelve: function() {
+        modals.InstanceModals.shelve(this.props.instance);
+    },
+
+    onUnshelve: function() {
+        modals.InstanceModals.unshelve(this.props.instance);
+    },
 
     onWebDesktop: function(ipAddr, instance) {
         // TODO:
@@ -300,15 +329,15 @@ export default React.createClass({
         ];
 
         if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
-            linksArray.push({
+            links.push({
                 label: "Open Web Desktop",
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
                     this,
-                    ip_address,
+                    ipAddress,
                     this.props.instance),
                 openInNewWindow: true,
-                isDisabled: webLinksDisabled
+                isDisabled: disableWebLinks
             });
         }
 

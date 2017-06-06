@@ -69,7 +69,7 @@ export default React.createClass({
                     {nameContent}
                 </div>
                 <div className="resource-launch-date">
-                    Launched on
+                    {`Created on `}
                     <Time date={volume.get("start_date")} />
                 </div>
             </div>

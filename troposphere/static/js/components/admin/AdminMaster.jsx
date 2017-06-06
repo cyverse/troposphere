@@ -8,7 +8,7 @@ export default React.createClass({
         return (
         <div>
             <SecondaryAdminNavigation/>
-            <div style={{ paddingTop: "30px" }} className="container admin">
+            <div className="container admin">
                 <span className="adminHeader">
                     <h1 className="t-display-1">Admin</h1>
                     {this.props.children}

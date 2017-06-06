@@ -1,33 +1,33 @@
 Troposphere
 ===========
-                                                        
+
 ## Development
 
-### Continuous development and quick feedback
+### Quick feedback
 
 The `webpack-dev-server` will serve new bundles to a browser when files
 change.
 
 It has the following features:
 
-- Changes result in a browser refresh (you know they are propagated)      
+- Changes result in a browser refresh (you know they are propagated)
 - The bundle is served from memory not disk
 - Small changes result in small compiles
 
-To run webpack dev server:
+Currently troposphere uses nginx to serve its assets. This makes it trivial to
+serve these assets from the dev server.
 
-Set the following variable in `variables.ini`:
-```bash
-[local.py]
-...
-BASE_URL = "https://<host name>:8080"
-...
+Update your nginx definition (at `/etc/nginx/locations/tropo.conf`)
+```nginx
+location /assets {
+    # This just needs to point to the dev server which runs on 8080
+    proxy_pass https://atmo.local.cloud:8080;
+}
 ```
 
-Finally run:
-
+Finally start the dev server:
 ```bash
-npm run server
+npm run serve -- --cert /path/to/cert --key /path/to/key
 ```
 
 ### Linting

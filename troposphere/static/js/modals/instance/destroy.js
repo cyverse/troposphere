@@ -1,4 +1,4 @@
-import { browserHistory } from "react-router";
+import { appBrowserHistory } from "utilities/historyFunctions";
 
 // TODO - this is curious `stores` is not imported here
 // and store.VolumeStore used in the exposed operation
@@ -34,7 +34,7 @@ export default {
             attachedVolumes.forEach((volume) => VolumeStore.pollUntilDetached(volume));
             actions.InstanceActions.destroy(payload, options);
             if (project) {
-                browserHistory.push(`/projects/${project.id}/resources`);
+                appBrowserHistory.push(`/projects/${project.id}/resources`);
             }
         })
     },

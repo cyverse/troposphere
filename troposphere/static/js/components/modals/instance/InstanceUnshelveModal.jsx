@@ -1,10 +1,9 @@
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import Glyphicon from "components/common/Glyphicon";
 
 export default React.createClass({
-    displayName: "InstanceRedeployModal",
+    displayName: "InstanceUnshelveModal",
 
     mixins: [BootstrapModalMixin],
 
@@ -30,14 +29,11 @@ export default React.createClass({
     renderBody: function() {
         return (
         <div>
-            <p className="alert alert-warning">
-                <Glyphicon name="warning-sign" />
-                {" "}
-                <strong>NOTE</strong>
-                {" Redeploying an instance will allow you to fix instances that show up as 'active - deploy_error'. If after executing a 'redeploy' you find that your VM returns to the deploy_error state, please contact support."}
+            <p>
+                {"Would you like to unshelve this instance?"}
             </p>
             <p>
-                {"Would you like to redeploy this instance?"}
+                Your instance's IP address will have change once it is available.
             </p>
         </div>
         );
@@ -51,21 +47,21 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h1 className="t-title">Redeploy Instance</h1>
+                        <h1 className="t-title">Unshelve Instance</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
                         <RaisedButton
-                            style={{ marginRight: "10px" }}
+                            style={{ marginRight: "10Px" }}
                             onTouchTap={this.cancel}
                             label="Cancel"
                         />
                         <RaisedButton
                             primary
                             onTouchTap={this.confirm}
-                            label="Yes, Redeploy Instance"
+                            label="Yes, unshelve this instance"
                         />
                     </div>
                 </div>
