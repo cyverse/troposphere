@@ -93,6 +93,7 @@ const ImageRequest = React.createClass({
         } else {
             scripts_list = "N/A";
         }
+
         if (request.get("new_version_licenses")) {
             var new_licenses_list = request.get("new_version_licenses");
             licenses_list = new_licenses_list.map(function(licenses) {
@@ -102,6 +103,7 @@ const ImageRequest = React.createClass({
         } else {
             licenses_list = "N/A";
         }
+
         if (request.get("new_version_membership")) {
             var new_membership_list = request.get("new_version_membership");
             membership_list = new_membership_list.map(function(membership) {
@@ -110,6 +112,7 @@ const ImageRequest = React.createClass({
         } else {
             membership_list = "N/A";
         }
+
         var allowImaging = false;
         var forked = false;
 
