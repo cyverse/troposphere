@@ -55,7 +55,8 @@ const ImageRequest = React.createClass({
     },
 
     render: function() {
-        let request = stores.ImageRequestStore.get(this.props.params.id),
+        let { ImageRequestStore } = this.props.subscriptions,
+            request = ImageRequestStore.get(this.props.params.id),
             machine = request.get("parent_machine"),
             new_machine = request.get("new_machine"),
             new_provider = request.get("new_machine_provider"),
