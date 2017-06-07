@@ -1,10 +1,11 @@
 import React from "react";
 
 import ImageRequestActions from "actions/ImageRequestActions";
-import stores from "stores";
+
+import subscribe from "utilities/subscribe";
 
 
-export default React.createClass({
+const ImageRequest = React.createClass({
     displayName: "ImageRequest",
 
     propTypes: {
@@ -267,3 +268,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(ImageRequest, ["ImageRequestStore", "StatusStore"]);
