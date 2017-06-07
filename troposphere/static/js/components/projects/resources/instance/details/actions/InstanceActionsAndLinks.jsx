@@ -212,6 +212,35 @@ export default React.createClass({
         form[0].submit();
     },
 
+    onGuacConn: function(instance, proto) {
+        var CSRFToken = findCookie("tropo_csrftoken");
+
+        // build a form to POST to guacamole
+        var form = $("<form>")
+            .attr("method", "POST")
+            .attr("action", "/guacamole")
+            .attr("target", "_blank");
+
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "protocol")
+            .attr("value", proto));
+
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "instanceId")
+            .attr("value", instance.get('uuid')));
+
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "csrfmiddlewaretoken")
+            .attr("style", "display: none;")
+            .attr("value", CSRFToken));
+
+        $("body").append(form);
+        form[0].submit();
+    },
+
     getIntegrationLinks() {
         let { instance } = this.props,
             webShellUrl = instance.shell_url(),
@@ -240,6 +269,26 @@ export default React.createClass({
                 openInNewWindow: true,
                 isDisabled: disableWebLinks
             });
+        }
+
+        if (featureFlags.GUACAMOLE) {
+          links.push({
+              label: "Open New Web Shell (beta)",
+              icon: "text-background",
+              onClick: this.onGuacConn.bind(this, this.props.instance, "ssh"),
+              openInNewWindow: true,
+              isDisabled: disableWebLinks
+          });
+
+          if (webDesktopCapable) {
+            links.push({
+              label: "Open New Web Desktop (beta)",
+              icon: "sound-dolby",
+              onClick: this.onGuacConn.bind(this, this.props.instance, "vnc"),
+              openInNewWindow: true,
+              isDisabled: disableWebLinks
+            });
+          }
         }
 
         return links;
