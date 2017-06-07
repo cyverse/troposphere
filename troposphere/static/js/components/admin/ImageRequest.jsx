@@ -20,9 +20,11 @@ const ImageRequest = React.createClass({
 
     handleResponseChange: function(event) {
         var response = event.target.value;
-        if (response) this.setState({
+        if (response) {
+            this.setState({
                 response: response
             });
+        }
     },
 
     submitUpdate: function(statusName) {
