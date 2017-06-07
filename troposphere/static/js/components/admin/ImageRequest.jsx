@@ -25,10 +25,12 @@ const ImageRequest = React.createClass({
             });
     },
 
-    approve: function() {
-        var request = stores.ImageRequestStore.get(this.props.params.id),
-            status = stores.StatusStore.findOne({
-                name: "approved"
+    submitUpdate: function(statusName) {
+        let { ImageRequestStore, StatusStore } = this.props.subscriptions;
+
+        var request = ImageRequestStore.get(this.props.params.id),
+            status = StatusStore.findOne({
+                name: statusName
             });
 
         ImageRequestActions.update({
@@ -36,32 +38,18 @@ const ImageRequest = React.createClass({
             response: this.state.response,
             status: status.id
         });
+    },
+
+    approve: function() {
+        this.submitUpdate("approved");
     },
 
     deny: function() {
-        var request = stores.ImageRequestStore.get(this.props.params.id),
-            status = stores.StatusStore.findOne({
-                name: "denied"
-            });
-
-        ImageRequestActions.update({
-            request: request,
-            response: this.state.response,
-            status: status.id
-        });
+        this.submitUpdate("denied");
     },
 
     resubmit: function() {
-        var request = stores.ImageRequestStore.get(this.props.params.id),
-            status = stores.StatusStore.findOne({
-                name: "pending"
-            });
-
-        ImageRequestActions.update({
-            request: request,
-            response: this.state.response,
-            status: status.id
-        });
+        this.submitUpdate("pending");
     },
 
     render: function() {
