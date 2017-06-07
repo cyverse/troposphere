@@ -211,20 +211,33 @@ export default React.createClass({
         form[0].submit();
     },
 
-    onGuacConn: function(ipAddr, proto) {
+    onGuacConn: function(instance, proto) {
         var CSRFToken = findCookie("tropo_csrftoken");
-        $.post({
-            url: '/guacamole',
 
-            // We have to force this encoding (even though it's the default).
-            // It's being overriden by $.ajaxSetup({ headers }), we specify
-            // there that Content-Type should always be application/json and
-            // that has precedence.
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        // build a form to POST to guacamole
+        var form = $("<form>")
+            .attr("method", "POST")
+            .attr("action", "/guacamole")
+            .attr("target", "_blank");
 
-            headers: { "X-CSRFToken": CSRFToken },
-            data: { ipAddress: ipAddr, protocol: proto }
-        });
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "protocol")
+            .attr("value", proto));
+
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "instanceId")
+            .attr("value", instance.get('uuid')));
+
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "csrfmiddlewaretoken")
+            .attr("style", "display: none;")
+            .attr("value", CSRFToken));
+
+        $("body").append(form);
+        form[0].submit();
     },
 
     getIntegrationLinks() {
@@ -261,7 +274,7 @@ export default React.createClass({
           links.push({
               label: "Open New Web Shell (beta)",
               icon: "text-background",
-              onClick: this.onGuacConn.bind(this, ipAddress, "ssh"),
+              onClick: this.onGuacConn.bind(this, this.props.instance, "ssh"),
               openInNewWindow: true,
               isDisabled: disableWebLinks
           });
@@ -270,7 +283,7 @@ export default React.createClass({
             links.push({
               label: "Open New Web Desktop (beta)",
               icon: "sound-dolby",
-              onClick: this.onGuacConn.bind(this, ipAddress, "vnc"),
+              onClick: this.onGuacConn.bind(this, this.props.instance, "vnc"),
               openInNewWindow: true,
               isDisabled: disableWebLinks
             });
