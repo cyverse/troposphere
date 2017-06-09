@@ -1,8 +1,100 @@
 import React from "react";
 
+import { ShowMoreEllipsis } from "cyverse-ui";
+import { marg } from "cyverse-ui/styles";
+
 import ImageRequestActions from "actions/ImageRequestActions";
 
 import subscribe from "utilities/subscribe";
+
+/**
+ * A consistently styled `<code/>` element
+ *
+ * This will likely be redefined within CyVerse-UI. When that
+ * happened, this can be replaced w/ the official version.
+ */
+const Code = (props) => {
+    // FIXME: don't hardcode these:
+    // - `style.color`
+    // -color in `style.borderLeft`
+    let lines = "",
+        text = props.text || "",
+        style = {
+            display: "block",
+            whiteSpace: "pre-wrap",
+            padding: "20px",
+            color: "rgba(0, 0, 0, 0.54)",
+            fontSize: "14px",
+            borderLeft: `solid rgba(0, 0, 0, 0.54) 5px`,
+            background: "rgba(0,0,0,0.03)",
+            ...marg(props)
+        };
+
+    text.split('\n').map((line) => {
+        lines += line;
+    });
+    return (
+        <code style={style}>
+            {lines}
+        </code>
+    );
+}
+
+/**
+ * Allow a region to be collapsed and expanded to avoid
+ * over-powering the containing context.
+ *
+ * This is a candidate for extract into a common Troposphere component,
+ * or for wider review and inclusion in CyVerse-UI. For now, it begins
+ * life as a "hopefully" useful component within Admin.
+ */
+const CollapsibleOutput = React.createClass({
+    propTypes: {
+        output: React.PropTypes.string
+    },
+
+    getInitialState() {
+        return {
+            open: false
+        };
+    },
+
+    onEllipsisClick() {
+        this.setState({
+            open: !this.state.open
+        });
+    },
+
+    render() {
+        let { open } = this.state,
+            { output } = this.props,
+            content = null,
+            partial = output
+                    ? output.substring(0, 32) : '***';
+
+        if (!open) {
+            content = (
+                <span onClick={this.onEllipsisClick}>
+                    {` ${partial} `}
+                    <ShowMoreEllipsis  />
+                </span>
+            );
+        } else {
+            content = (
+                <span onClick={this.onEllipsisClick}>
+                    <ShowMoreEllipsis  />
+                    <Code text={output} />
+                </span>
+            );
+        }
+
+        return (
+            <div style={{display: "inline-block"}}>
+                    {content}
+            </div>
+        );
+    }
+});
 
 
 const ImageRequest = React.createClass({
@@ -141,7 +233,7 @@ const ImageRequest = React.createClass({
                     { `Imaging status: ${allowImaging ? "Imaging allowed" : "Author only"}` }
                 </div>
                 <div>
-                    { `Request state: ${request.get("old_status")}` }
+                    { `Request state: ` }<CollapsibleOutput output={request.get("old_status")} />
                 </div>
                 <div>
                     { `Status: ${request.get("status").name}` }
