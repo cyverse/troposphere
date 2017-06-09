@@ -17,8 +17,7 @@ const Code = (props) => {
     // FIXME: don't hardcode these:
     // - `style.color`
     // -color in `style.borderLeft`
-    let lines = "",
-        text = props.text || "",
+    let text = props.text || "",
         style = {
             display: "block",
             whiteSpace: "pre-wrap",
@@ -30,13 +29,10 @@ const Code = (props) => {
             ...marg(props)
         };
 
-    text.split('\n').map((line) => {
-        lines += line;
-    });
     return (
-        <code style={style}>
-            {lines}
-        </code>
+        <pre style={style}>
+            {text}
+        </pre>
     );
 }
 
