@@ -1,22 +1,36 @@
-sudo: required
-dist: trusty
-language: node_js
-node_js:
-  - "4.6"
-  - "4.4"
-python:
-  - "2.7"
-before_install:
-  - "python -V"
-  - "pip -V"
-install:
-  - "pip install -r requirements.txt"
-  - "pip install -r dev_requirements.txt"
-  - "npm install"
-script:
-  - "cp variables.ini.dist variables.ini"
-  - "./configure --config-one theme:themeImagesPath.js"
-  - "./configure --config-one theme:theme.json"
-  - "./configure --config-one theme:variables.scss"
-  - "npm run build"
-  - "npm run travis-lint"
+---
+  sudo: required
+  dist: trusty
+  language: node_js
+  node_js:
+    - "4.6"
+
+  python:
+    - "2.7"
+
+  services:
+    - postgresql
+
+  addons:
+    postgresql: "9.6"
+
+  install:
+    - pip install -r requirements.txt -r dev_requirements.txt
+    - npm install
+
+  before_script:
+    - sudo pg_dropcluster --stop 9.2 main
+    - sudo pg_dropcluster --stop 9.3 main
+    - sudo pg_dropcluster --stop 9.4 main
+    - sudo pg_dropcluster --stop 9.5 main
+    - export DJANGO_SETTINGS_MODULE=troposphere.settings
+    - psql -c "CREATE USER troposphere_db_user WITH PASSWORD 'troposphere_db_pass' CREATEDB;" -U postgres
+    - psql -c "CREATE DATABASE troposphere_db WITH OWNER troposphere_db_user;" -U postgres
+    - cp ./variables.ini.dist ./variables.ini
+    - ./configure
+    - export DJANGO_SETTINGS_MODULE=troposphere.settings
+
+  script:
+    - ./manage.py  makemigrations --check
+    - npm run build
+    - npm run travis-lint
