@@ -1,0 +1,39 @@
+
+h1. Feature Name
+
+
+h2. Expand
+
+h3. Objective
+
+We can offer some background here, perhaps even the name of the advocate for this feature to ask more questions.
+
+* Who is this feature for?
+** _answer_
+* What problem are we solving?
+** _answer_
+* What will this product do?
+** _answer_
+
+h3. Actions
+What general, non-implementation specific actions will need to reach a desired outcome.
+
+
+h2. Explore
+
+h3. User Flow
+What steps does a user take to use the feature? We can talk to Julian about BDD syntax if that would be helpful. This requires more thought and will get better as we work through a new feature. I'm thinking each step can have a more detailed description under it or we can link to a breakdown below. These would include more background, case studies to reference and or a "napkin drawing".
+
+*Example:*
+
+* Jane clicks a button on the project resources page that opens a modal
+* Modal has fields representing all of the basic required information that are pre filled with sensible defaults
+* Etc, etc..
+
+h3. Core Components
+Doesn't have to be comprehensive but really anything that is helpful to understand the general intent. ie: Does this get it's own view/s? Are there form elements? A Modal, lists etc?  We can continue to fill this out as we go but there is most likely a preliminary assumption that would have been made when the feature was added to the round map that could be used to add some of this upfront.
+* Existing components
+* New components
+
+h3. Future Features
+Treating the above as an MVP where will this go? What else do we want this to be able to do in the future? For example the Instance Launch Modal has an advanced section with only one option. A future feature might be other advanced options and the sidebar to navigate them as the list grows.
