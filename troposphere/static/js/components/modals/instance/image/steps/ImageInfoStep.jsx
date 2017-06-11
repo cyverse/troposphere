@@ -134,6 +134,9 @@ export default React.createClass({
         );
     },
     renderBody: function(instance) {
+        let { helpLink } = this.props,
+            link = helpLink ? helpLink.get("href") : "#";
+
         return (
         <div>
             <div className="alert alert-danger">
@@ -141,7 +144,7 @@ export default React.createClass({
             </div>
             <p className="alert alert-info">
                 {"Please read the "}
-                <a href={this.props.helpLink.get("href")} target="_blank">wiki page about requesting an image of your instance</a>
+                <a href={link} target="_blank">wiki page about requesting an image of your instance</a>
                 {" before completing the form below."}
             </p>
             <p>
