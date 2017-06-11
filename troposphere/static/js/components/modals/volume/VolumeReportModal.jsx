@@ -113,15 +113,19 @@ export default React.createClass({
     },
 
     renderIntroduction: function(volume) {
+        let { helpLink, troubleshooting } = this.props,
+            linkVolume = helpLink ? helpLink.get("href") : "#",
+            linkTriage = troubleshooting ? troubleshooting.get("href") : "#";
+
         return (
         <p className="alert alert-info">
             <Glyphicon name="info-sign" />
             {" Is the volume "}
             <code>{volume.get("name")}</code>
             {" exhibiting unexpected behavior? First, it may help to read about "}
-            <a href={this.props.helpLink.get("href")}>using volumes</a>
+            <a href={linkVolume}>using volumes</a>
             {" and "}
-            <a href={this.props.troubleshooting.get("href")}>troubleshooting volumes</a>
+            <a href={linkTriage}>troubleshooting volumes</a>
             {"."}
         </p>
         );
