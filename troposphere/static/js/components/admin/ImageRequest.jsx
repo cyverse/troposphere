@@ -1,10 +1,11 @@
 import React from "react";
 
 import ImageRequestActions from "actions/ImageRequestActions";
-import stores from "stores";
+
+import subscribe from "utilities/subscribe";
 
 
-export default React.createClass({
+const ImageRequest = React.createClass({
     displayName: "ImageRequest",
 
     propTypes: {
@@ -19,52 +20,43 @@ export default React.createClass({
 
     handleResponseChange: function(event) {
         var response = event.target.value;
-        if (response) this.setState({
+        if (response) {
+            this.setState({
                 response: response
             });
+        }
+    },
+
+    submitUpdate: function(statusName) {
+        let { ImageRequestStore, StatusStore } = this.props.subscriptions;
+
+        var request = ImageRequestStore.get(this.props.params.id),
+            status = StatusStore.findOne({
+                name: statusName
+            });
+
+        ImageRequestActions.update({
+            request: request,
+            response: this.state.response,
+            status: status.id
+        });
     },
 
     approve: function() {
-        var request = stores.ImageRequestStore.get(this.props.params.id),
-            status = stores.StatusStore.findOne({
-                name: "approved"
-            });
-
-        ImageRequestActions.update({
-            request: request,
-            response: this.state.response,
-            status: status.id
-        });
+        this.submitUpdate("approved");
     },
 
     deny: function() {
-        var request = stores.ImageRequestStore.get(this.props.params.id),
-            status = stores.StatusStore.findOne({
-                name: "denied"
-            });
-
-        ImageRequestActions.update({
-            request: request,
-            response: this.state.response,
-            status: status.id
-        });
+        this.submitUpdate("denied");
     },
 
     resubmit: function() {
-        var request = stores.ImageRequestStore.get(this.props.params.id),
-            status = stores.StatusStore.findOne({
-                name: "pending"
-            });
-
-        ImageRequestActions.update({
-            request: request,
-            response: this.state.response,
-            status: status.id
-        });
+        this.submitUpdate("pending");
     },
 
     render: function() {
-        let request = stores.ImageRequestStore.get(this.props.params.id),
+        let { ImageRequestStore } = this.props.subscriptions,
+            request = ImageRequestStore.get(this.props.params.id),
             machine = request.get("parent_machine"),
             new_machine = request.get("new_machine"),
             new_provider = request.get("new_machine_provider"),
@@ -101,6 +93,7 @@ export default React.createClass({
         } else {
             scripts_list = "N/A";
         }
+
         if (request.get("new_version_licenses")) {
             var new_licenses_list = request.get("new_version_licenses");
             licenses_list = new_licenses_list.map(function(licenses) {
@@ -110,6 +103,7 @@ export default React.createClass({
         } else {
             licenses_list = "N/A";
         }
+
         if (request.get("new_version_membership")) {
             var new_membership_list = request.get("new_version_membership");
             membership_list = new_membership_list.map(function(membership) {
@@ -118,6 +112,7 @@ export default React.createClass({
         } else {
             membership_list = "N/A";
         }
+
         var allowImaging = false;
         var forked = false;
 
@@ -267,3 +262,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(ImageRequest, ["ImageRequestStore", "StatusStore"]);
