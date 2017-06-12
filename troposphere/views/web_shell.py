@@ -6,7 +6,6 @@ from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
-from django.template import RequestContext
 from troposphere.models import TroposphereUser
 
 logger = logging.getLogger(__name__)
@@ -65,7 +64,6 @@ def web_shell(request):
         response = render_to_response(
                 'web_shell.html',
                 template_params,
-                context_instance=RequestContext(request)
         )
     else:
         logger.info("not authenticated: \nrequest:\n %s" % request)

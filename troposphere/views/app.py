@@ -8,7 +8,6 @@ from urlparse import urlparse
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
-from django.template import RequestContext
 from django.utils import timezone
 
 from api.models import UserPreferences, MaintenanceRecord
@@ -214,7 +213,6 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     response = render_to_response(
         'index.html',
         template_params,
-        context_instance=RequestContext(request)
     )
 
     return response
@@ -251,7 +249,6 @@ def _handle_authenticated_application_request(request, maintenance_records,
     response = render_to_response(
         'index.html',
         template_params,
-        context_instance=RequestContext(request)
     )
 
     # Delete cookie after exchange
@@ -339,7 +336,6 @@ def forbidden(request):
     response = render_to_response(
         'no_user.html',
         template_params,
-        context_instance=RequestContext(request)
     )
     return response
 
