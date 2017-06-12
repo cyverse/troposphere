@@ -21,7 +21,7 @@ const UnsupportedModal = React.createClass({
     render: function() {
         var content = (
         <div>
-            <h4 classNames="t-body-2">This application uses features your browser does not support</h4>
+            <h4 className="t-body-2">This application uses features your browser does not support</h4>
             <p>
                 For the best user experience please update your browser. We recomend using a desktop or laptop with one of the following browsers.
             </p>
@@ -43,7 +43,7 @@ const UnsupportedModal = React.createClass({
                 </div>
             </div>
             <hr />
-            <h4 classNames="t-body-2">Features that may cause problems with your browser</h4>
+            <h4 className="t-body-2">Features that may cause problems with your browser</h4>
             <BreakingFeatureList />
         </div>
         );
@@ -53,7 +53,7 @@ const UnsupportedModal = React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h3 classNames="t-body-2">Unsupported Features</h3>
+                        <h3 className="t-body-2">Unsupported Features</h3>
                     </div>
                     <div className="modal-body">
                         {content}
