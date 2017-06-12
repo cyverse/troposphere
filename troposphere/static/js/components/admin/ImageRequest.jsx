@@ -1,10 +1,99 @@
 import React from "react";
 
+import { ShowMoreEllipsis } from "cyverse-ui";
+import { marg } from "cyverse-ui/styles";
+
 import ImageRequestActions from "actions/ImageRequestActions";
-import stores from "stores";
+
+import subscribe from "utilities/subscribe";
+
+/**
+ * A consistently styled `<code/>` element
+ *
+ * This will likely be redefined within CyVerse-UI. When that
+ * happened, this can be replaced w/ the official version.
+ */
+const Code = (props) => {
+    // FIXME: don't hardcode these:
+    // - `style.color`
+    // -color in `style.borderLeft`
+    let text = props.text || "",
+        style = {
+            display: "block",
+            whiteSpace: "pre-wrap",
+            padding: "20px",
+            color: "rgba(0, 0, 0, 0.54)",
+            fontSize: "14px",
+            borderLeft: `solid rgba(0, 0, 0, 0.54) 5px`,
+            background: "rgba(0,0,0,0.03)",
+            ...marg(props)
+        };
+
+    return (
+        <pre style={style}>
+            {text}
+        </pre>
+    );
+}
+
+/**
+ * Allow a region to be collapsed and expanded to avoid
+ * over-powering the containing context.
+ *
+ * This is a candidate for extract into a common Troposphere component,
+ * or for wider review and inclusion in CyVerse-UI. For now, it begins
+ * life as a "hopefully" useful component within Admin.
+ */
+const CollapsibleOutput = React.createClass({
+    propTypes: {
+        output: React.PropTypes.string
+    },
+
+    getInitialState() {
+        return {
+            open: false
+        };
+    },
+
+    onEllipsisClick() {
+        this.setState({
+            open: !this.state.open
+        });
+    },
+
+    render() {
+        let { open } = this.state,
+            { output } = this.props,
+            content = null,
+            partial = output
+                    ? output.substring(0, 32) : '***';
+
+        if (!open) {
+            content = (
+                <span onClick={this.onEllipsisClick}>
+                    {` ${partial} `}
+                    <ShowMoreEllipsis  />
+                </span>
+            );
+        } else {
+            content = (
+                <span onClick={this.onEllipsisClick}>
+                    <ShowMoreEllipsis  />
+                    <Code text={output} />
+                </span>
+            );
+        }
+
+        return (
+            <div style={{display: "inline-block"}}>
+                    {content}
+            </div>
+        );
+    }
+});
 
 
-export default React.createClass({
+const ImageRequest = React.createClass({
     displayName: "ImageRequest",
 
     propTypes: {
@@ -19,52 +108,43 @@ export default React.createClass({
 
     handleResponseChange: function(event) {
         var response = event.target.value;
-        if (response) this.setState({
+        if (response) {
+            this.setState({
                 response: response
             });
+        }
+    },
+
+    submitUpdate: function(statusName) {
+        let { ImageRequestStore, StatusStore } = this.props.subscriptions;
+
+        var request = ImageRequestStore.get(this.props.params.id),
+            status = StatusStore.findOne({
+                name: statusName
+            });
+
+        ImageRequestActions.update({
+            request: request,
+            response: this.state.response,
+            status: status.id
+        });
     },
 
     approve: function() {
-        var request = stores.ImageRequestStore.get(this.props.params.id),
-            status = stores.StatusStore.findOne({
-                name: "approved"
-            });
-
-        ImageRequestActions.update({
-            request: request,
-            response: this.state.response,
-            status: status.id
-        });
+        this.submitUpdate("approved");
     },
 
     deny: function() {
-        var request = stores.ImageRequestStore.get(this.props.params.id),
-            status = stores.StatusStore.findOne({
-                name: "denied"
-            });
-
-        ImageRequestActions.update({
-            request: request,
-            response: this.state.response,
-            status: status.id
-        });
+        this.submitUpdate("denied");
     },
 
     resubmit: function() {
-        var request = stores.ImageRequestStore.get(this.props.params.id),
-            status = stores.StatusStore.findOne({
-                name: "pending"
-            });
-
-        ImageRequestActions.update({
-            request: request,
-            response: this.state.response,
-            status: status.id
-        });
+        this.submitUpdate("pending");
     },
 
     render: function() {
-        let request = stores.ImageRequestStore.get(this.props.params.id),
+        let { ImageRequestStore } = this.props.subscriptions,
+            request = ImageRequestStore.get(this.props.params.id),
             machine = request.get("parent_machine"),
             new_machine = request.get("new_machine"),
             new_provider = request.get("new_machine_provider"),
@@ -101,6 +181,7 @@ export default React.createClass({
         } else {
             scripts_list = "N/A";
         }
+
         if (request.get("new_version_licenses")) {
             var new_licenses_list = request.get("new_version_licenses");
             licenses_list = new_licenses_list.map(function(licenses) {
@@ -110,6 +191,7 @@ export default React.createClass({
         } else {
             licenses_list = "N/A";
         }
+
         if (request.get("new_version_membership")) {
             var new_membership_list = request.get("new_version_membership");
             membership_list = new_membership_list.map(function(membership) {
@@ -118,6 +200,7 @@ export default React.createClass({
         } else {
             membership_list = "N/A";
         }
+
         var allowImaging = false;
         var forked = false;
 
@@ -146,7 +229,7 @@ export default React.createClass({
                     { `Imaging status: ${allowImaging ? "Imaging allowed" : "Author only"}` }
                 </div>
                 <div>
-                    { `Request state: ${request.get("old_status")}` }
+                    { `Request state: ` }<CollapsibleOutput output={request.get("old_status")} />
                 </div>
                 <div>
                     { `Status: ${request.get("status").name}` }
@@ -267,3 +350,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(ImageRequest, ["ImageRequestStore", "StatusStore"]);

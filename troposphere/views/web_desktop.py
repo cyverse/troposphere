@@ -8,7 +8,6 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http.request import UnreadablePostError
 from django.shortcuts import render, redirect, render_to_response
-from django.template import RequestContext
 
 from itsdangerous import Signer, URLSafeTimedSerializer
 from rest_framework import status
