@@ -11,10 +11,8 @@ import IUpdate from "./instance/update";
 import IReport from "./instance/report";
 import IRequest from "./instance/requestImage";
 import IResize from "./instance/resize";
-
 import { shelve } from "./instance/shelve";
 import { unshelve } from "./instance/unshelve";
-
 
 export default {
     resume: IResume.resume,
@@ -31,6 +29,9 @@ export default {
     report: IReport.report,
     requestImage: IRequest.requestImage,
     resize: IResize.resize
+    resize: IResize.resize,
+    confirmResize: IResize.confirmResize,
+    revertResize: IResize.revertResize
     shelve,
     unshelve
 };

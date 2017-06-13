@@ -1,7 +1,9 @@
 import React from "react";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
-import ResourcesForm from "components/modals/instance/launch/components/ResourcesForm";
+import ResourceGraphs from "components/modals/instance/launch/components/ResourceGraphs";
+import SelectMenu from "components/common/ui/SelectMenu";
+import Glyphicon from "components/common/Glyphicon";
 import globals from "globals";
 
 export default React.createClass({
@@ -22,6 +24,7 @@ export default React.createClass({
         this.hide();
         this.props.onConfirm(resize_size);
     },
+
     confirmResize: function() {
         this.hide();
         let size = this.state.providerSize;
@@ -33,23 +36,16 @@ export default React.createClass({
     //
 
     propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model),
+        instance: React.PropTypes.instanceOf(Backbone.Model),
+        size: React.PropTypes.instanceOf(Backbone.Model),
+        type: React.PropTypes.string.isRequired,
         onConfirm: React.PropTypes.func.isRequired,
     },
 
     getInitialState: function() {
-
-        let project = this.props.project ? this.props.project : null;
-        // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
-        // to create a new one
-
         return {
-            provider: null,
-            // State for launch
-            project,
             providerSize: null,
-            identityProvider: null,
-            allocationSource: null
+            provider: null
         }
     },
 
@@ -61,18 +57,6 @@ export default React.createClass({
     // set the project to the first returned from the cloud. It primes our
     // stores, so that render can just call get and eventually get data.
     updateState: function() {
-        let allocationSourceList = stores.AllocationSourceStore.getAll();
-
-
-        // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
-        // to create a new one
-        let projectList = stores.ProjectStore.getAll();
-
-        let project = this.state.project;
-        if (!project && projectList) {
-            project = projectList.first();
-        }
-
 
         let providerList;
         providerList = stores.ProviderStore.getAll();
@@ -80,18 +64,19 @@ export default React.createClass({
 
         let provider = this.state.provider;
         if (providerList) {
-            provider = provider || providerList.shuffle()[0];
+            let provider_id = this.props.instance.get('provider').id;
+            provider = stores.ProviderStore.get(provider_id);
         }
 
-        let identityProvider,
-            providerSizeList;
+        let providerSizeList;
+        let identityProvider = null;
         if (provider) {
-            identityProvider = stores.IdentityStore.findOne({
-                "provider.id": provider.id
-            });
-
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
+            });
+
+            identityProvider = stores.IdentityStore.findOne({
+                    "provider.id": provider.id
             });
         }
 
@@ -102,32 +87,20 @@ export default React.createClass({
                 providerSizeList.first();
         };
 
-        let allocationSource;
-        if (allocationSourceList) {
-            allocationSource = this.state.allocationSource || allocationSourceList.first();
-        }
-
         // NOTE: Only update state for things that need defaults. Data fetched
         // from the cloud is not part of the component's state that it
         // manages.
         this.setState({
-            project,
             provider,
-            providerSize,
             identityProvider,
-            allocationSource,
+            providerSize,
         });
     },
 
     componentDidMount: function() {
-        stores.IdentityStore.addChangeListener(this.updateState);
         stores.ProviderStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
         stores.SizeStore.addChangeListener(this.updateState);
-        stores.ProjectStore.addChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.addChangeListener(this.updateState);
-        }
 
         // NOTE: This is not nice. This enforces that every time a component
         // mounts updateState gets called. Otherwise, if a component mounts
@@ -136,57 +109,10 @@ export default React.createClass({
     },
 
     componentWillUnmount: function() {
-        stores.IdentityStore.removeChangeListener(this.updateState);
         stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
         stores.SizeStore.removeChangeListener(this.updateState);
-        stores.ProjectStore.removeChangeListener(this.updateState);
 
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.removeChangeListener(this.updateState);
-        }
-    },
-
-    onNameChange: function(e) {
-        this.setState({
-            instanceName: e.target.value
-        });
-    },
-
-    onNameBlur: function(e) {
-        let instanceName = this.state.instanceName.trim();
-        this.setState({
-            instanceName
-        });
-    },
-
-
-    onAllocationSourceChange: function(source) {
-        this.setState({
-            allocationSource: source,
-        });
-    },
-
-    onProviderChange: function(provider) {
-        let providerSizeList = stores.SizeStore.fetchWhere({
-            provider__id: provider.id
-        });
-
-        let providerSize;
-
-        let identityProvider = stores.IdentityStore.findOne({
-            "provider.id": provider.id
-        });
-
-        if (providerSizeList) {
-            providerSize = providerSizeList.first();
-        }
-        ;
-
-        this.setState({
-            provider,
-            providerSize,
-            identityProvider
-        });
     },
 
     onSizeChange: function(providerSize) {
@@ -202,43 +128,107 @@ export default React.createClass({
     //    console.log(size.attributes.alias);
     //    this.props.onConfirm(size.attributes.alias);
    // },
+    getProviderSizeName: function(providerSize) {
+        let name = providerSize.get("name");
+        let cpu = providerSize.get("cpu");
+        let disk = providerSize.get("disk");
+        let diskStr = ""
+        if (disk == 0) {
+            disk = providerSize.get("root");
+        }
+        if (disk != 0) {
+            diskStr = `Disk: ${ disk } GB`
+        }
+        let memory = providerSize.get("mem");
 
+        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB, ${ diskStr })`;
+    },
     renderBody: function() {
+        if(this.props.type == 'confirm') {
+            return this.renderConfirmResizeBody();
+        } else if (this.props.type == "revert") {
+            return this.renderRevertResizeBody();
+        } else {
+            return this.renderStartResizeBody();
+        }
+    },
+    renderOkText: function() {
+        if(this.props.type == "confirm") {
+            return "Confirm Resize"
+        } else if (this.props.type == "revert") {
+            return "Revert Resize"
+        } else {
+            return "Resize"
+        }
+    },
+    renderRevertResizeBody: function() {
+        return (
+        <div>
+            <p>
+                {"Would you like to revert this instance to its original size?"}
+            </p>
+        </div>);
+    },
+
+    renderConfirmResizeBody: function() {
+        return (
+        <div>
+            <p>
+                {"Would you like to confirm this instance to its original size?"}
+            </p>
+            <p>
+                {"NOTE: This operation cannot be undone! Be sure that your instance works as expected prior to confirming the resize."}
+            </p>
+        </div>);
+    },
+
+    renderStartResizeBody: function() {
         let provider = this.state.provider;
         let providerSize = this.state.providerSize;
-        let project = this.state.project;
-
-        let projectList = stores.ProjectStore.getAll() || null;
 
 
         let providerList;
         providerList = stores.ProviderStore.getAll();
 
 
-        let providerSizeList,
-            resourcesUsed;
+        let providerSizeList = null,
+            resourcesUsed = null;
         if (provider) {
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-        }
 
-        let allocationSourceList;
-        if (globals.USE_ALLOCATION_SOURCES) {
-            allocationSourceList = stores.AllocationSourceStore.getAll();
         }
-
 
         return (
-        <ResourcesForm {...{showValidationErr: this.state.showValidationErr, identityProvider: this.state.identityProvider, onCancel: this.hide, onAllocationSourceChange:
-            this.onAllocationSourceChange, onProviderChange: this.onProviderChange, onSizeChange: this.onSizeChange, allocationSource: this.state.allocationSource, allocationSourceList,
-            project, projectList, provider, providerList, providerSize, providerSizeList, resourcesUsed}} />
+        <form>
+            <div className="form-group">
+                <p className="alert alert-danger">
+                    <Glyphicon name="warning-sign" />
+                    {" "}
+                    <strong>WARNING</strong>
+                    {" Do not resize your instance to a smaller size, as this can cause unexpected instance failure!"}
+                </p>
+                <label htmlFor="instanceSize">
+                    Instance Size
+                </label>
+                <SelectMenu current={providerSize}
+                    optionName={this.getProviderSizeName}
+                    list={providerSizeList}
+                    onSelect={this.onSizeChange} />
+            </div>
+            <div className="form-group">
+                <ResourceGraphs
+                    resourcesUsed={resourcesUsed}
+                    identityProvider={this.state.identityProvider}
+                    providerSize={providerSize}
+                />
+            </div>
+        </form>
         );
-
     },
-
     render: function() {
         return (
         <div className="modal fade">
@@ -256,7 +246,7 @@ export default React.createClass({
                             Cancel
                         </button>
                         <button type="button" className="btn btn-primary" onClick={this.confirmResize}>
-                            Resize
+                            { this.renderOkText() }
                         </button>
                     </div>
                 </div>
