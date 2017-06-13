@@ -11,7 +11,7 @@ colorama==0.3.3
 coverage==3.7.1
 decorator==4.0.11         # via ipython, traitlets
 django-jenkins==0.19
-django==1.10
+django==1.11.2
 emoji==0.3.6
 enum34==1.1.6             # via parse-type, traitlets
 ipdb==0.10.2
