@@ -17,7 +17,7 @@ export default React.createClass({
         let size = instance.get('size');
 
         if (!(size instanceof Size)) {
-            size = new Size(size);
+            size = new Size(size, {parse: true});
         }
 
         return (

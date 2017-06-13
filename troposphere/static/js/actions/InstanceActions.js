@@ -12,6 +12,10 @@ import IReport from "./instance/report";
 import IRequest from "./instance/requestImage";
 import IResize from "./instance/resize";
 
+import { shelve } from "./instance/shelve";
+import { unshelve } from "./instance/unshelve";
+
+
 export default {
     resume: IResume.resume,
     suspend: ISuspend.suspend,
@@ -29,4 +33,6 @@ export default {
     resize: IResize.resize,
     confirmResize: IResize.confirmResize,
     revertResize: IResize.revertResize
+    shelve,
+    unshelve
 };

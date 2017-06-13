@@ -1,4 +1,4 @@
-import { browserHistory } from "react-router";
+import { appBrowserHistory } from "utilities/historyFunctions";
 
 import Utils from "../Utils";
 
@@ -98,15 +98,25 @@ function launch(params) {
     instance.createOnV1Endpoint(payload)
         .done(function(attrs, status, response) {
             instance.set("id", attrs.id);
+            instance.set("uuid", attrs.alias);
 
             // Get the instance from the cloud, ignore our local copy
-            instance.fetch().done(function() {
+            instance.fetch().then(function() {
                 // NOTE: we have to set this here, because our instance above never gets saved
                 instance.set("projects", [project.id]);
 
                 Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
                     instance: instance
                 });
+                Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
+                    instance: instance
+                });
+            }, function() {
+                /**
+                 * this can have the same function signature as a `fail`
+                 *
+                 * the arguments would be: (jqXHR, textStatus, errorThrown)
+                 */
                 Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
                     instance: instance
                 });
@@ -121,23 +131,23 @@ function launch(params) {
             });
 
         }).fail(function(response) {
-        // Remove instance from stores
-        Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {
-            instance: instance
-        });
-        Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {
-            projectInstance: projectInstance
-        });
-        Utils.displayError({
-            title: "Instance could not be launched",
-            response: response
-        });
+            // Remove instance from stores
+            Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {
+                instance: instance
+            });
+            Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {
+                projectInstance: projectInstance
+            });
+            Utils.displayError({
+                title: "Instance could not be launched",
+                response: response
+            });
     });
 
     // Since this is triggered from the images page, navigate off
     // that page and back to the instance list so the user can see
     // their instance being created
-    browserHistory.push(`/projects/${project.id}/resources`);
+    appBrowserHistory.push(`/projects/${project.id}/resources`);
 }
 
 export default {
@@ -171,7 +181,7 @@ export default {
             // Since this is triggered from the images page, navigate off
             // that page and back to the instance list so the user can see
             // their instance being created
-            browserHistory.push(`/projects/${project.id}/resources`);
+            appBrowserHistory.push(`/projects/${project.id}/resources`);
         }).fail(function(response) {
             Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {
                 project: project

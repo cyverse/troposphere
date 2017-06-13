@@ -17,6 +17,7 @@ from rest_framework import status
 
 from django_cyverse_auth.authBackends import get_or_create_user, create_user_and_token
 from django_cyverse_auth.views import globus_login_redirect, globus_logout_redirect
+from troposphere.views.exceptions import invalid_auth
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -197,24 +198,3 @@ def cas_oauth_service(request):
     response = redirect('application')
 
     return response
-
-
-def invalid_auth(message):
-    return failure_response(
-        status.HTTP_400_BAD_REQUEST,
-        "Authentication request refused -- %s" % message)
-
-
-def failure_response(status, message):
-    """
-    Return a djangorestframework Response object given an error
-    status and message.
-    """
-    logger.info("status: %s message: %s" % (status, message))
-    json_obj = {"errors":
-            [{'code': status, 'message': message}]
-        }
-    to_json = json.dumps(json_obj)
-    return HttpResponse(to_json,
-                    status=status,
-                    content_type='application/json')

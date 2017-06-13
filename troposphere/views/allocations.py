@@ -3,7 +3,6 @@ import logging
 
 from django.conf import settings
 from django.shortcuts import render, redirect, render_to_response
-from django.template import RequestContext
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +23,6 @@ def allocations(request):
     response = render_to_response(
         'allocations.html',
         template_params,
-        context_instance=RequestContext(request)
     )
 
     return response

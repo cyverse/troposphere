@@ -8,6 +8,7 @@ import InstanceActionNames from "constants/InstanceActionNames";
 
 import featureFlags from "utilities/featureFlags";
 import { findCookie } from "utilities/cookieHelpers";
+import { trackAction, showNewMessage } from 'utilities/userActivity';
 
 import modals from "modals";
 import stores from "stores";
@@ -46,6 +47,12 @@ export default React.createClass({
                 onClick: this.onSuspend
             },
             {
+                key: InstanceActionNames.SHELVE,
+                label: "Shelve",
+                icon: "log-in",
+                onClick: this.onShelve
+            },
+            {
                 key: InstanceActionNames.STOP,
                 label: "Stop",
                 icon: "stop",
@@ -58,9 +65,15 @@ export default React.createClass({
                 onClick: this.onResume
             },
             {
+                key: InstanceActionNames.UNSHELVE,
+                label: "Unshelve",
+                icon: "log-out",
+                onClick: this.onUnshelve
+            },
+            {
                 key: InstanceActionNames.REBOOT,
                 label: "Reboot",
-                icon: "repeat",
+                icon: "off",
                 onClick: this.onReboot
             },
             {
@@ -152,9 +165,17 @@ export default React.createClass({
     },
 
     onReport: function() {
-        modals.InstanceModals.report({
-            instance: this.props.instance
-        });
+        // This needs to be flagged to handle the case where
+        // Intercom platform is used, but Respond is *not*
+        if (featureFlags.shouldReportInstanceViaIntercom()) {
+            trackAction('reported-instance',
+                       {'created_at': Date.now()});
+            showNewMessage('I am having issues with an instance. ');
+        } else {
+            modals.InstanceModals.report({
+                instance: this.props.instance
+            });
+        }
     },
 
     onImageRequest: function() {
@@ -186,8 +207,15 @@ export default React.createClass({
         modals.InstanceModals.reboot(this.props.instance);
     },
 
+    onShelve: function() {
+        modals.InstanceModals.shelve(this.props.instance);
+    },
 
-    onWebDesktop: function(ipAddr, instance) {
+    onUnshelve: function() {
+        modals.InstanceModals.unshelve(this.props.instance);
+    },
+
+    onWebDesktop: function(instance) {
         // TODO:
         //      move this into a utilities file
         var CSRFToken = findCookie("tropo_csrftoken");
@@ -200,8 +228,8 @@ export default React.createClass({
 
         form.append($("<input>")
             .attr("type", "hidden")
-            .attr("name", "ipAddress")
-            .attr("value", ipAddr));
+            .attr("name", "instanceId")
+            .attr("value", instance.get('uuid')));
 
         form.append($("<input>")
             .attr("type", "hidden")

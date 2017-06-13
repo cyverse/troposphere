@@ -45,7 +45,7 @@ export default React.createClass({
         // />
 
         return (
-        <div 
+        <div
             style={{
                 display: "flex",
                 flexWrap: "wrap",
@@ -53,7 +53,7 @@ export default React.createClass({
                 justifyContent: "space-between",
             }}
         >
-            <div 
+            <div
                 style={{
                     marginBottom: "10px",
                 }}
@@ -61,14 +61,6 @@ export default React.createClass({
                 <SubMenu { ...this.props }/>
                 <RefreshButton/>
                 <RequestResourcesButton />
-            </div>
-            <div 
-                style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    flex: "1"
-                }}
-            >
                 <Button icon="folder-open"
                     tooltip="Move selected resources"
                     onClick={this.props.onMoveSelectedResources}
@@ -78,6 +70,9 @@ export default React.createClass({
                     onClick={this.props.onRemoveSelectedResources}
                     style={{ "backgroundColor": "bisque" }}
                     isVisible={context.profile.get("is_superuser") && this.props.isVisible} />
+
+            </div>
+            <div>
                 <ResourceActionButtons onUnselect={this.props.onUnselect}
                     previewedResource={this.props.previewedResource}
                     multipleSelected={this.props.multipleSelected}

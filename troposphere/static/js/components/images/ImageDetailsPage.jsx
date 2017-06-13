@@ -4,6 +4,7 @@ import context from "context";
 import stores from "stores";
 
 import ImageDetailsView from "./detail/ImageDetailsView";
+import NotFoundPage from "components/NotFoundPage";
 
 export default React.createClass({
     displayName: "ImageDetailsPage",
@@ -31,13 +32,17 @@ export default React.createClass({
     },
 
     renderBody: function() {
-        var image = stores.ImageStore.get(Number(this.props.params.imageId)),
+        var image = stores.ImageStore.getMaybe(Number(this.props.params.imageId)),
             tags = stores.TagStore.getAll(),
             hasLoggedInUser = context.hasLoggedInUser(),
             providers = hasLoggedInUser ? stores.ProviderStore.getAll() : null,
             identities = hasLoggedInUser ? stores.IdentityStore.getAll() : null;
 
-        if (!image || !tags) return <div className="loading"></div>;
+        if (!image || !tags) return <div className="loading"/>;
+
+        if (image.status === 404) return (
+            <NotFoundPage resource="image"/>
+        );
 
         // If the user isn't logged in, display the public view, otherwise
         // wait for providers and instances to be fetched

@@ -84,14 +84,16 @@ export default React.createClass({
     },
 
     allowAccessFilter(tag) {
-        return tag.get("allow_access");
+        // The 'allow_access' field determines if a user can see/use the tag.
+        // If the tag has not been persisted yet, but the user was allowed to
+        // make it, we assume they can see/use it.
+        return tag.isNew() || tag.get("allow_access");
     },
 
     renderTagSelect() {
         let imageTags = this.props.imageTags;
         let tags = this.state.tags;
         let query = this.state.query;
-
         let filteredImageTags = imageTags.cfilter(this.allowAccessFilter);
         let filteredTags = tags.cfilter(this.allowAccessFilter);
 

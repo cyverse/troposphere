@@ -7,16 +7,18 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import appTheme from 'theme/appTheme';
 import _ from 'lodash';
 
-import { Router,
-         browserHistory } from "react-router";
+import { Router } from "react-router";
 
 import context from "context";
 import stores from "stores";
 
 import Routes from "../AppRoutes";
-import { withAppBasename } from "utilities/historyFunctions";
+import { appBrowserHistory } from "utilities/historyFunctions";
 
 import Raven from "raven-js";
+
+import featureFlags from "utilities/featureFlags";
+
 
 export default React.createClass({
     displayName: "SplashScreen",
@@ -51,7 +53,7 @@ export default React.createClass({
             // it to Intercom.
             isEmulatedUser = !!window.emulator_token;
 
-            if (!isEmulatedUser) {
+            if (!isEmulatedUser && featureFlags.hasIntercomActive()) {
                 window.Intercom("boot", {
                     app_id: window.intercom_app_id,
                     name: profile.get("username"),
@@ -93,8 +95,8 @@ export default React.createClass({
         //     messages sent to them
         const App = (
             <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
-                <Router 
-                    history={withAppBasename(browserHistory)}
+                <Router
+                    history={appBrowserHistory}
                     onChange={() => window.Intercom("update")}
                 >
                     { Routes({ profile: ProfileStore }) }

@@ -10,15 +10,12 @@ import appTheme from 'theme/appTheme';
 import injectTapEvent from 'react-tap-event-plugin';
 injectTapEvent();
 
-import {
-    Router,
-    browserHistory
-} from "react-router";
+import { Router } from "react-router";
 
 import Profile from "models/Profile";
 
 import routes from "./AppRoutes";
-import { withAppBasename } from "utilities/historyFunctions";
+import { appBrowserHistory } from "utilities/historyFunctions";
 
 import browserBondo from "utilities/browserBondo";
 import modals from "modals";
@@ -68,14 +65,13 @@ function startApplication() {
 
         const App = (
             <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
-                <Router history={withAppBasename(browserHistory)}>
+                <Router history={appBrowserHistory}>
                     {routes}
                 </Router>
             </MuiThemeProvider>
         );
 
         // Start the application router
-        
         ReactDOM.render(
             App,
             document.getElementById("application"));

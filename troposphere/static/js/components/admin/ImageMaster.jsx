@@ -44,11 +44,9 @@ const ImageMaster = React.createClass({
     },
 
     onResourceClick: function(request) {
-        this.props.router.transitionTo(
-            "image-request-detail", {
-                request: request,
-                id: request.id
-            });
+        let requestId = request.id;
+
+        this.props.router.push(`admin/imaging-requests/${requestId}`);
     },
 
     renderRefreshButton: function() {
@@ -72,7 +70,8 @@ const ImageMaster = React.createClass({
 
             var errorStatus;
 
-            if (request.get("old_status").indexOf("ERROR") > -1 || request.get("old_status").indexOf("Traceback") > -1
+            if (request.get("old_status").indexOf("ERROR") > -1
+                || request.get("old_status").indexOf("Traceback") > -1
                 || request.get("old_status").indexOf("Exception") > -1) {
                 errorStatus = "(ERROR)";
             }

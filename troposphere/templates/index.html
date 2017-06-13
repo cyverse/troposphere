@@ -29,7 +29,10 @@
     {% include new_relic_browser_snippet %}
 {% endif %}
 
-    <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/tpwq3d9w';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+{% if intercom_app_id %}
+    {% include 'partials/intercom_snippet.html' %}
+{% endif %}
+
 </head>
 <body class="splash-screen">
 
@@ -63,6 +66,7 @@
     var intercom_app_id = "{{ intercom_app_id }}";
     var intercom_company_id = "{{ intercom_company_id }}";
     var intercom_company_name = "{{ intercom_company_name }}";
+    var intercom_options = {{ intercom_options | safe }};
 {% endif %}
 
     var BASE_URL = "{{ BASE_URL }}";
@@ -133,6 +137,12 @@
     var show_public_site = false;
 {% endif %}
 
+{% if collect_analytics %}
+    var collect_analytics = true;
+{% else %}
+    var collect_analytics = false;
+{% endif %}
+
 {% if show_instance_metrics %}
     var SHOW_INSTANCE_METRICS = true;
 {%  else %}
@@ -182,8 +192,10 @@ var SENTRY_ENABLED = false;
     {% else %}
     {% render_bundle 'app' 'js' %}
     {% endif %}
+    {% if collect_analytics %}
     <!-- Google Analytics -->
     {% render_bundle 'analytics' 'js' %}
+    {% endif %}
 {% else %}
     <script src="{{ BASE_URL }}/assets/bundles/manifest.js"></script>
     <script src="{{ BASE_URL }}/assets/bundles/vendor.js"></script>
@@ -192,8 +204,10 @@ var SENTRY_ENABLED = false;
     {% else %}
     <script src="{{ BASE_URL }}/assets/bundles/app.js"></script>
     {% endif %}
+    {% if collect_analytics %}
     <!-- Google Analytics -->
     <script src="{{ BASE_URL }}/assets/bundles/analytics.js"></script>
+    {% endif %}
 {% endif %}
 </body>
 </html>

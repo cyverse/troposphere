@@ -53,6 +53,7 @@ var ImageStore = BaseStore.extend({
         }.bind(this));
     },
 
+
     get: function(imageId) {
         if (!this.models) return this.fetchModels();
         var image = BaseStore.prototype.get.apply(this, arguments);
@@ -173,8 +174,41 @@ var ImageStore = BaseStore.extend({
             }
         });
         return providers;
-    }
+    },
 
+    // These methods bypass the null pattern returning a model with a status if 404.
+    // To be used if we know we might get a 404 on a request.
+    // For example if a user visits an image detail from a shared link,
+    // if a 404 is returned, we want to show more than a spinner.
+    nullModels: {},
+
+    fetchMaybeModel: function(modelId) {
+        if (!this.isFetchingModel[modelId]) {
+            this.isFetchingModel[modelId] = true;
+            var model = new this.collection.prototype.model({
+                id: modelId
+            });
+            model.fetch().done(function() {
+                this.isFetchingModel[modelId] = false;
+                this.models.add(model);
+                this.emitChange();
+            }.bind(this)).fail( err => {
+                if (err.status === 404) {
+                    model.status = 404;
+                    this.isFetchingModel[modelId] = false;
+                    this.nullModels[modelId] = model;
+                    this.emitChange();
+                }
+            });
+        }
+    },
+
+    getMaybe: function(imageId) {
+        if (!this.models) return this.fetchModels();
+        var image = BaseStore.prototype.get.apply(this, arguments) || this.nullModels[imageId];
+        if (!image) return this.fetchMaybeModel(imageId);
+        return image;
+    }
 });
 
 let store = new ImageStore();

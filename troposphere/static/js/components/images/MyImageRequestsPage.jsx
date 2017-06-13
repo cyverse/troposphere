@@ -1,6 +1,7 @@
 import React from "react";
 import modals from "modals";
 import moment from "moment";
+import CopyButton from "components/common/ui/CopyButton";
 import RefreshComponent from "components/projects/resources/instance/details/sections/metrics/RefreshComponent";
 import stores from "stores";
 
@@ -70,7 +71,7 @@ export default React.createClass({
         if (stores.ProfileStore.get().get("is_staff")) {
             machineStateColumn = (
                 <th>
-                    <h3 className="t-title">Machine State</h3>
+                    Machine State
                 </th>
             );
         }
@@ -95,21 +96,25 @@ export default React.createClass({
 
         var displayRequests = requests.map(function(request) {
 
+            let requestStatus = request.get("status").name;
             // set the color of the row based on the status of the request
             var trClass,
                 endDateText = "N/A";
-            switch (request.get("status").name) {
+            switch (requestStatus) {
                 case "completed":
-                    trClass = "success";
+                    trClass = "active";
                     break;
                 case "approved":
-                    trClass = "success";
+                    trClass = "active";
+                    break;
+                case "validating":
+                    trClass = "transition";
                     break;
                 case "denied":
-                    trClass = "warning"
+                    trClass = "error"
                     break;
                 default:
-                    trClass = "active"
+                    trClass = ""
                     break;
             }
 
@@ -126,24 +131,42 @@ export default React.createClass({
             var newMachineId = !!request.get("new_machine") ? request.get("new_machine").uuid : "N/A";
             var newMachineProvider = !!request.get("new_machine_provider") ? request.get("new_machine_provider").name : "Unknown";
 
-            return <tr className={trClass}>
-                       <td>
-                           {moment(request.get("start_date")).format("MMM D, YYYY h:mm:ss a")}
-                       </td>
-                       <td>
-                           {endDateText}
-                       </td>
-                       <td>
-                           {request.get("instance").uuid + " - " + request.get("instance").name}
-                       </td>
-                       <td>
-                           {request.get("status").name}
-                       </td>
-                       {machineStateData}
-                       <td>
-                           {newMachineProvider + " - " + newMachineId}
-                       </td>
-                   </tr>
+            const { name, uuid } = request.get("instance");
+            const requestDate = moment(request.get("start_date")).format("MMM D, YYYY h:mm:ss a");
+
+            return (
+                <tr className="card">
+                    <td>
+                       { name }
+                       <div className="u-noWrap">
+                           { uuid }
+                           <CopyButton text={ uuid }/>
+                       </div>
+                    </td>
+                    <td>
+                       { requestDate }
+                    </td>
+                    <td>
+                       { endDateText }
+                    </td>
+                    <td className="u-noWrap">
+                       <span
+                           className={`instance-status-light ${trClass}`}
+                       />
+                       { requestStatus }
+                    </td>
+                    { machineStateData }
+                    <td>
+                       { newMachineProvider }
+                       <div className="u-noWrap">
+                           { newMachineId }
+                           { ( newMachineId !== "N/A" ) ?
+                               <CopyButton text={ newMachineId }/> : null
+                           }
+                       </div>
+                    </td>
+               </tr>
+            );
         }.bind(this));
 
         return (
@@ -153,24 +176,24 @@ export default React.createClass({
                 <a href={imagingDocsLink.get("href")} target="_blank">documentation on imaging</a>.
             </p>
             {this.renderRefreshButton()}
-            <table className="table table-condensed image-requests">
+            <table className="image-requests cy-Table">
                 <tbody>
-                    <tr>
+                    <tr className="card">
                         <th>
-                            <h3 className="t-title">Date requested</h3>
+                            Base Instance
                         </th>
                         <th>
-                            <h3 className="t-title">Date completed</h3>
+                            Date Requested
                         </th>
                         <th>
-                            <h3 className="t-title">Base instance</h3>
+                            Date Completed
                         </th>
                         <th>
-                            <h3 className="t-title">Status</h3>
+                            Status
                         </th>
                         {machineStateColumn}
                         <th>
-                            <h3 className="t-title">New Machine ID</h3>
+                            New Machine ID
                         </th>
                     </tr>
                     {displayRequests}
@@ -178,5 +201,6 @@ export default React.createClass({
             </table>
         </div>
         );
-    }
+    },
+
 });
