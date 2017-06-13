@@ -15,7 +15,7 @@
     postgresql: "9.6"
 
   install:
-    - pip install -r requirements.txt -r dev_requirements.txt
+    - pip install -r dev_requirements.txt
     - npm install
 
   before_script:
