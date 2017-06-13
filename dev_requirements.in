@@ -3,7 +3,7 @@ behaving
 colorama
 coverage
 django-jenkins
-django==1.10
+django==1.11
 emoji
 ipython
 ipdb
