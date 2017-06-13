@@ -8,7 +8,6 @@ from urlparse import urlparse
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
-from django.template import RequestContext
 from django.utils import timezone
 
 from api.models import UserPreferences, MaintenanceRecord
@@ -134,6 +133,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
                 settings.INTERCOM_COMPANY_ID
             template_params['intercom_company_name'] = \
                 settings.INTERCOM_COMPANY_NAME
+            template_params['intercom_options'] = \
+                json.dumps(settings.INTERCOM_OPTIONS)
 
     if enable_new_relic:
         template_params['new_relic_browser_snippet'] = \
@@ -157,6 +158,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
     template_params['SENTRY_ENABLED'] = enable_sentry
     template_params['sentry_tags_dict'] = sentry_tags
+    template_params['collect_analytics'] = getattr(settings,
+            "COLLECT_ANALYTICS", False)
+
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
@@ -209,7 +213,6 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     response = render_to_response(
         'index.html',
         template_params,
-        context_instance=RequestContext(request)
     )
 
     return response
@@ -246,7 +249,6 @@ def _handle_authenticated_application_request(request, maintenance_records,
     response = render_to_response(
         'index.html',
         template_params,
-        context_instance=RequestContext(request)
     )
 
     # Delete cookie after exchange
@@ -263,7 +265,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
 def application_backdoor(request):
     maintenance_records, _, in_maintenance = get_maintenance(request)
     # This should only apply when in maintenance//login is disabled
-    if maintenance_records.count() == 0:
+    if len(maintenance_records) == 0:
         logger.info('No maintenance, Go to /application - do not collect $100')
         return redirect('application')
 
@@ -334,7 +336,6 @@ def forbidden(request):
     response = render_to_response(
         'no_user.html',
         template_params,
-        context_instance=RequestContext(request)
     )
     return response
 

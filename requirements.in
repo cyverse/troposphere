@@ -1,8 +1,8 @@
 # External/Third Party
 pycparser==2.14 # TEMPORARY
-django==1.9.4
+django==1.10
 django-sslserver==0.18
-djangorestframework==3.3.3
+djangorestframework==3.6
 django-webpack-loader==0.3.0
 itsdangerous==0.24
 Jinja2==2.8

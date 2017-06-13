@@ -97,7 +97,7 @@ function AppRoutes(props) {
                 <Route path="imaging-requests" component={ImageMaster}>
                     <Route path=":id" component={ImageRequest} />
                 </Route>
-                <IndexRoute component={AtmosphereUserMaster} />
+                <IndexRoute component={ImageMaster} />
             </Route>
             <Route path="badges" component={BadgeMaster}>
                 <Route path="my-badges" component={MyBadges} />

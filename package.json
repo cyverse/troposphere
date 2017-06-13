@@ -1,7 +1,7 @@
 {
   "name": "troposphere",
   "description": "Atmosphere Web Client",
-  "version": "0.16.0",
+  "version": "0.19.0",
   "author": "CyVerse, formerly iPlant Collaborative",
   "license": "BSD-3-Clause",
   "homepage": "https://github.com/cyverse/troposphere",
@@ -45,6 +45,7 @@
     "material-ui": "^0.17.1",
     "moment": "^2.10.6",
     "moment-timezone": "^0.5.1",
+    "prop-types": "^15.5.10",
     "q": "^1.4.1",
     "raven-js": "^3.13.0",
     "react": "^15.*.*",

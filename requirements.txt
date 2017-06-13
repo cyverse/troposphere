@@ -5,7 +5,6 @@
 #    pip-compile --output-file requirements.txt requirements.in
 #
 apache-libcloud==0.20.1   # via django-cyverse-auth
-appdirs==1.4.0            # via setuptools
 babel==2.3.4              # via oslo.i18n
 backports.ssl-match-hostname==3.5.0.1  # via apache-libcloud
 caslib.py==2.2.2          # via django-cyverse-auth
@@ -16,8 +15,8 @@ debtcollector==1.11.0     # via oslo.config, oslo.utils, python-keystoneclient
 django-cyverse-auth==1.0.14
 django-sslserver==0.18
 django-webpack-loader==0.3.0
-django==1.9.4
-djangorestframework==3.3.3
+django==1.11.2
+djangorestframework==3.6.3
 enum34==1.1.6             # via cryptography
 funcsigs==1.0.2           # via debtcollector, oslo.utils
 httplib2==0.9.2           # via oauth2client
@@ -25,7 +24,7 @@ idna==2.2                 # via cryptography
 ipaddress==1.0.18         # via cryptography
 iso8601==0.1.11           # via keystoneauth1, oslo.utils
 itsdangerous==0.24
-Jinja2==2.8
+jinja2==2.8
 jwt.py==0.1.0             # via django-cyverse-auth
 keystoneauth1==2.18.0     # via django-cyverse-auth, python-keystoneclient
 markupsafe==0.23          # via jinja2
@@ -40,17 +39,16 @@ oslo.config==3.22.0       # via python-keystoneclient
 oslo.i18n==3.12.0         # via oslo.config, oslo.utils, python-keystoneclient
 oslo.serialization==2.16.0  # via python-keystoneclient
 oslo.utils==3.22.0        # via oslo.serialization, python-keystoneclient
-packaging==16.8           # via setuptools
 pbr==1.10.0               # via debtcollector, keystoneauth1, oslo.i18n, oslo.serialization, oslo.utils, positional, python-keystoneclient, stevedore
 positional==1.1.1         # via keystoneauth1, python-keystoneclient
-psycopg2==2.5.2
+psycopg2==2.7.1
 pyasn1-modules==0.0.8     # via oauth2client
 pyasn1==0.1.9             # via cryptography, oauth2client, pyasn1-modules, requests, rsa
 pycparser==2.14
 pycrypto==2.6.1
-PyJWT==1.4.0
+pyjwt==1.4.0
 pyopenssl==16.2.0         # via ndg-httpsclient, requests
-pyparsing==2.1.10         # via oslo.utils, packaging
+pyparsing==2.1.10         # via oslo.utils
 python-dateutil==2.4
 python-keystoneclient==3.10.0  # via django-cyverse-auth
 python-ldap==2.4.29       # via django-cyverse-auth
@@ -59,11 +57,8 @@ raven==6.0.0
 requests[security]==2.11.1
 rfc3986==0.4.1            # via oslo.config
 rsa==3.4.2                # via oauth2client
-six==1.10.0               # via cryptography, debtcollector, keystoneauth1, oauth2client, oslo.config, oslo.i18n, oslo.serialization, oslo.utils, packaging, pyopenssl, python-dateutil, python-keystoneclient, setuptools, stevedore
+six==1.10.0               # via cryptography, debtcollector, keystoneauth1, oauth2client, oslo.config, oslo.i18n, oslo.serialization, oslo.utils, pyopenssl, python-dateutil, python-keystoneclient, stevedore
 stevedore==1.20.0         # via keystoneauth1, oslo.config, python-keystoneclient
 threepio==0.2             # via django-cyverse-auth
-uWSGI==2.0.13
+uwsgi==2.0.13
 wrapt==1.10.8             # via debtcollector, positional
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools                # via cryptography, django-sslserver, python-ldap

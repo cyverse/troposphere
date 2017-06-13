@@ -380,7 +380,9 @@ export default React.createClass({
 
     onRequestResources: function() {
         this.hide();
-        modals.HelpModals.requestMoreResources(this);
+        modals.HelpModals.requestMoreResources({
+            identity: this.state.identityProvider.id
+        });
     },
 
     onAddAttachedScript: function(value) {

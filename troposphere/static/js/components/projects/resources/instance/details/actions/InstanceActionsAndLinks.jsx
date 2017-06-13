@@ -8,6 +8,7 @@ import InstanceActionNames from "constants/InstanceActionNames";
 
 import featureFlags from "utilities/featureFlags";
 import { findCookie } from "utilities/cookieHelpers";
+import { trackAction, showNewMessage } from 'utilities/userActivity';
 
 import modals from "modals";
 import stores from "stores";
@@ -140,16 +141,14 @@ export default React.createClass({
     onReport: function() {
         // This needs to be flagged to handle the case where
         // Intercom platform is used, but Respond is *not*
-        if (!featureFlags.hasIntercomActive()) {
+        if (featureFlags.shouldReportInstanceViaIntercom()) {
+            trackAction('reported-instance',
+                       {'created_at': Date.now()});
+            showNewMessage('I am having issues with an instance. ');
+        } else {
             modals.InstanceModals.report({
                 instance: this.props.instance
             });
-        } else {
-            window.Intercom('trackEvent',
-                            'reported-instance',
-                            {'created_at': Date.now()});
-            window.Intercom('showNewMessage',
-                            'I am having issues with an instance. ');
         }
     },
 
@@ -190,7 +189,7 @@ export default React.createClass({
         modals.InstanceModals.unshelve(this.props.instance);
     },
 
-    onWebDesktop: function(ipAddr, instance) {
+    onWebDesktop: function(instance) {
         // TODO:
         //      move this into a utilities file
         var CSRFToken = findCookie("tropo_csrftoken");
@@ -203,8 +202,8 @@ export default React.createClass({
 
         form.append($("<input>")
             .attr("type", "hidden")
-            .attr("name", "ipAddress")
-            .attr("value", ipAddr));
+            .attr("name", "instanceId")
+            .attr("value", instance.get('uuid')));
 
         form.append($("<input>")
             .attr("type", "hidden")
@@ -334,7 +333,6 @@ export default React.createClass({
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
                     this,
-                    ipAddress,
                     this.props.instance),
                 openInNewWindow: true,
                 isDisabled: disableWebLinks

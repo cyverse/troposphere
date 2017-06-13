@@ -122,7 +122,12 @@ export default React.createClass({
         }
 
         return (
-        <div className="clearfix u-md-pull-right">
+        <div style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            flex: "1 1 10%",
+            flexWrap: "nowrap"
+        }}>
             {linksArray}
         </div>
         );
