@@ -15,7 +15,7 @@ export default React.createClass({
     render: function() {
         var content = (
         <div>
-            <h4 classNames="t-body-2">You are trying to move attached resources</h4>
+            <h4 className="t-body-2">You are trying to move attached resources</h4>
             <p>
                 An instance or volume cannot be moved while attached. To move these resources, please detach them by first selecting the attached volume and then selecting the detach
                 option on the top right.
