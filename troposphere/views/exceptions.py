@@ -1,6 +1,8 @@
 import json
 import logging
 
+from rest_framework import status
+
 logger = logging.getLogger(__name__)
 
 from django.http import HttpResponse
