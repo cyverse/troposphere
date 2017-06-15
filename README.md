@@ -1,6 +1,26 @@
 Troposphere
 ===========
 
+## Installation
+
+### Troposphere's backend
+
+Install the required python packages
+```
+pip install -r requirements.txt
+```
+
+A separate environment is provided for developers
+```
+pip install -r dev_requirements.txt
+```
+
+The `*requirements.txt` files are generated using
+[pip-tools](https://github.com/jazzband/pip-tools). See
+[REQUIREMENTS.md](REQUIREMENTS.md) for instructions on using pip-tools and
+upgrading packages in Troposphere.
+
+
 ## Development
 
 ### Quick feedback
