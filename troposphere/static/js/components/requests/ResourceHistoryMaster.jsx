@@ -8,6 +8,10 @@ import RaisedButton from "material-ui/RaisedButton";
 const MyResourceRequestsPage = React.createClass({
     displayName: "MyResourceRequestsPage",
 
+    props: {
+        subscriptions: React.PropTypes.object.isRequired
+    },
+
     closeRequest: function(request) {
         let { StatusStore } = this.props.subscriptions;
         var closedStatus = StatusStore.findWhere({
