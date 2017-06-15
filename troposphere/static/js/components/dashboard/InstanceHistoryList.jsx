@@ -122,6 +122,7 @@ export default React.createClass({
 
         instanceHistoryItems = instanceHistories.map(function(instance) {
             var name = instance.get("instance").name,
+                instanceId = instance.get("instance").id,
                 image = instance.get("image"),
                 provider = instance.get("provider");
 
@@ -131,7 +132,7 @@ export default React.createClass({
                 formattedEndDate = moment(endDate).format("MMM DD, YYYY hh:mm a"),
                 now = moment(),
                 timeSpan = now.diff(startDate, "days"),
-                instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
+                instanceHistoryHash = CryptoJS.MD5((instanceId || instance.cid).toString()).toString(),
                 iconSize = 63,
                 type = stores.ProfileStore.get().get("icon_set"),
                 imageName = image ? image.name : "[image no longer exists]",
