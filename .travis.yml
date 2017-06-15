@@ -15,7 +15,9 @@
     postgresql: "9.6"
 
   install:
-    - pip install -r requirements.txt -r dev_requirements.txt
+    - pip install -U pip
+    - pip install pip-tools # Necessary for ./travis/check_properly_generated_requirements.sh
+    - pip install -r dev_requirements.txt
     - npm install
 
   before_script:
@@ -31,6 +33,7 @@
     - export DJANGO_SETTINGS_MODULE=troposphere.settings
 
   script:
+    - ./travis/check_properly_generated_requirements.sh
     - ./manage.py  makemigrations --check
     - npm run build
     - npm run travis-lint

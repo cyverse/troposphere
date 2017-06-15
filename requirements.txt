@@ -5,60 +5,63 @@
 #    pip-compile --output-file requirements.txt requirements.in
 #
 apache-libcloud==0.20.1   # via django-cyverse-auth
+asn1crypto==0.22.0        # via cryptography
 babel==2.3.4              # via oslo.i18n
 backports.ssl-match-hostname==3.5.0.1  # via apache-libcloud
 caslib.py==2.2.2          # via django-cyverse-auth
-cffi==1.9.1               # via cryptography
-contextlib2==0.5.4        # via raven
-cryptography==1.7.2       # via pyopenssl
-debtcollector==1.11.0     # via oslo.config, oslo.utils, python-keystoneclient
-django-cyverse-auth==1.0.14
+cffi==1.10.0              # via cryptography
+contextlib2==0.5.5        # via raven
+cryptography==1.9         # via pyopenssl
+debtcollector==1.15.0     # via oslo.config, oslo.utils, python-keystoneclient
+django-cyverse-auth==1.0.15
 django-sslserver==0.18
 django-webpack-loader==0.3.0
-django==1.11.2
+django==1.11
 djangorestframework==3.6.3
 enum34==1.1.6             # via cryptography
 funcsigs==1.0.2           # via debtcollector, oslo.utils
-httplib2==0.9.2           # via oauth2client
-idna==2.2                 # via cryptography
+httplib2==0.10.3          # via oauth2client
+idna==2.5                 # via cryptography
 ipaddress==1.0.18         # via cryptography
 iso8601==0.1.11           # via keystoneauth1, oslo.utils
 itsdangerous==0.24
 jinja2==2.8
 jwt.py==0.1.0             # via django-cyverse-auth
-keystoneauth1==2.18.0     # via django-cyverse-auth, python-keystoneclient
-markupsafe==0.23          # via jinja2
-monotonic==1.2            # via oslo.utils
+keystoneauth1==2.21.0     # via django-cyverse-auth, python-keystoneclient
+markdown==2.6.8
+markupsafe==1.0           # via jinja2
+monotonic==1.3            # via oslo.utils
 msgpack-python==0.4.8     # via oslo.serialization
 ndg-httpsclient==0.4.2    # via requests
 netaddr==0.7.19           # via oslo.config, oslo.utils
-netifaces==0.10.5         # via oslo.utils
+netifaces==0.10.6         # via oslo.utils
 newrelic==2.64.0.48
-oauth2client==4.0.0       # via django-cyverse-auth
-oslo.config==3.22.0       # via python-keystoneclient
-oslo.i18n==3.12.0         # via oslo.config, oslo.utils, python-keystoneclient
-oslo.serialization==2.16.0  # via python-keystoneclient
-oslo.utils==3.22.0        # via oslo.serialization, python-keystoneclient
-pbr==1.10.0               # via debtcollector, keystoneauth1, oslo.i18n, oslo.serialization, oslo.utils, positional, python-keystoneclient, stevedore
+oauth2client==4.1.1       # via django-cyverse-auth
+oslo.config==4.5.0        # via python-keystoneclient
+oslo.i18n==3.15.3         # via oslo.config, oslo.utils, python-keystoneclient
+oslo.serialization==2.18.0  # via python-keystoneclient
+oslo.utils==3.26.0        # via oslo.serialization, python-keystoneclient
+pbr==3.0.1                # via debtcollector, keystoneauth1, oslo.i18n, oslo.serialization, oslo.utils, positional, python-keystoneclient, stevedore
 positional==1.1.1         # via keystoneauth1, python-keystoneclient
-psycopg2==2.7.1
-pyasn1-modules==0.0.8     # via oauth2client
-pyasn1==0.1.9             # via cryptography, oauth2client, pyasn1-modules, requests, rsa
+psycopg2==2.5.4
+pyasn1-modules==0.0.9     # via oauth2client
+pyasn1==0.2.3             # via oauth2client, pyasn1-modules, requests, rsa
 pycparser==2.14
 pycrypto==2.6.1
 pyjwt==1.4.0
-pyopenssl==16.2.0         # via ndg-httpsclient, requests
-pyparsing==2.1.10         # via oslo.utils
+pyopenssl==17.0.0         # via ndg-httpsclient, requests
+pyparsing==2.2.0          # via oslo.utils
 python-dateutil==2.4
-python-keystoneclient==3.10.0  # via django-cyverse-auth
-python-ldap==2.4.29       # via django-cyverse-auth
-pytz==2016.10             # via babel, oslo.serialization, oslo.utils
-raven==6.0.0
+python-keystoneclient==3.11.0  # via django-cyverse-auth
+python-ldap==2.4.39       # via django-cyverse-auth
+pytz==2017.2              # via babel, django, oslo.serialization, oslo.utils
+pyyaml==3.12              # via oslo.config
+raven==6.1.0
 requests[security]==2.11.1
-rfc3986==0.4.1            # via oslo.config
+rfc3986==1.0.0            # via oslo.config
 rsa==3.4.2                # via oauth2client
 six==1.10.0               # via cryptography, debtcollector, keystoneauth1, oauth2client, oslo.config, oslo.i18n, oslo.serialization, oslo.utils, pyopenssl, python-dateutil, python-keystoneclient, stevedore
-stevedore==1.20.0         # via keystoneauth1, oslo.config, python-keystoneclient
+stevedore==1.23.0         # via keystoneauth1, oslo.config, python-keystoneclient
 threepio==0.2             # via django-cyverse-auth
 uwsgi==2.0.13
-wrapt==1.10.8             # via debtcollector, positional
+wrapt==1.10.10            # via debtcollector, positional
