@@ -167,7 +167,7 @@ export default React.createClass({
                             <div>
                                 <Gravatar hash={instanceHistoryHash} size={iconSize} type={type} />
                                 <div className="instance-history-details">
-                                    <Link to={`instances/${instance.get("instance").id}`}>
+                                    <Link to={`instances/${instanceId}`}>
                                         <strong className="name">{name}</strong>
                                     </Link>
                                     <div>
