@@ -9,7 +9,7 @@ This guide answers the following questions:
 ## Installing proper dependencies
 
 ```
-# Activate your virtual env
+# Activate your virtualenv
 ...
 
 # Install pip-tools
@@ -48,7 +48,7 @@ included in the production environment.
 There is a nuance in how pip-compile generates the requirements.  When you
 pass specifications to pip-compile you might assume that it uses the specs to
 find the **latest** possible packages. It doesn't work that way. If it did,
-then every time compile was run, your depencies could change drastically.
+then every time compile was run, your dependencies could change drastically.
 While you want to be up-to-date, you don't want to have to track down issues
 because you installed many new versions simultaneously.
 
