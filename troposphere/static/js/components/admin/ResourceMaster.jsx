@@ -1,9 +1,15 @@
 import React from "react";
-import { withRouter } from "react-router";
 
+import { browserHistory } from "react-router";
+import ResourceRequestNav from "./ResourceRequest/ResourceRequestNav"
 import stores from "stores";
 
 const ResourceMaster = React.createClass({
+
+    propTypes: {
+        params: React.PropTypes.object.isRequired,
+        children: React.PropTypes.object
+    },
 
     getInitialState() {
         return {
@@ -17,23 +23,35 @@ const ResourceMaster = React.createClass({
 
     componentDidMount() {
         stores.ResourceRequestStore.addChangeListener(this.requestListener);
-        // FIXME: might be an *eager-fetch*, or might not be needed at all
         stores.ResourceRequestStore.findWhere({
             "status.name": "pending"
         });
     },
 
     requestListener() {
-        // This should be a get. But there is not a store method to match this
-        // functionality.
-        let requests = stores.ResourceRequestStore.findWhere({
-            "status.name": "pending"
+        this.setState({
+            refreshing: false
         });
-        if (requests) {
-            this.setState({
-                requests
-            });
+    },
+
+    renderRefreshButton() {
+        let { refreshing } = this.state;
+        let { refreshIcon } = this.style();
+        let controlsClass = "glyphicon glyphicon-refresh";
+
+        if (refreshing) {
+            controlsClass += " refreshing"
+            refreshIcon.color = "inherit";
         }
+
+        return (
+        <span className={controlsClass} style={refreshIcon} onClick={this.onRefresh} />
+        );
+    },
+
+    onSelect(request) {
+        // Navigate to a request at the top of the list
+        browserHistory.push(`/application/admin/resource-requests/${request.id}`);
     },
 
     onRefresh() {
@@ -41,71 +59,97 @@ const ResourceMaster = React.createClass({
             refreshing: true
         });
 
-        stores.ResourceRequestStore.fetchFirstPage(function() {
-            this.setState({
-                refreshing: false
-            });
-        }.bind(this));
+        stores.ResourceRequestStore.clearCache();
+        stores.ResourceRequestStore.getAll();
     },
 
-    onResourceClick(request) {
-        this.props.router.transitionTo("resource-request-detail", {
-            id: request.id
-        });
+    style() {
+        return {
+            refreshIcon: {
+                float: "right",
+                color: "lightgrey"
+            },
+            container: {
+                display: "flex"
+            }
+        }
     },
 
-    renderRefreshButton() {
-        var controlsClass = "glyphicon pull-right glyphicon-refresh" + (this.state.refreshing ? " refreshing" : "");
+    renderRequestNav(requests, selectedRequest) {
+        let navProps = {
+            selectedRequest,
+            requests,
+            onSelect: this.onSelect
+        };
+
         return (
-        <span className={controlsClass} onClick={this.onRefresh} />
+            <ResourceRequestNav {...navProps} />
         );
     },
 
-    renderResourceRequests() {
-        var requests = stores.ResourceRequestStore.findWhere({
-            "status.name": "pending"
-        });
+    renderRequestDetail(requests, selectedRequest) {
+        let children = this.props.children;
 
-        // Loading requests
-        if (!requests) {
-            return <div className="loading"></div>;
+        // If we don't have children then the user is at
+        // `/application/admin/resource-requests`
+        if (!children) {
+            return <p style={{ margin: "1em" }}>Please select a request.</p>;
         }
 
-        if (
-            // If the url is not pointing at a specific request
-            /resource-requests\/?$/.test(window.location)
+        // Pass props to the child route
+        return React.Children.map(children,
+                c => React.cloneElement(c, { requests, selectedRequest }));
+    },
 
-            // AND there are requests
-            && requests.length > 0
-        ) {
+    renderBody(requests) {
+        let { container } = this.style();
+        let params = this.props.params;
+        let requestId = params.id;
 
-            // Navigate to a request at the top of the list
-            this.props.router.transitionTo("resource-request-detail", {
-                id: requests.at(0).id
-            });
+        // No requests
+        if (requests.length == 0) {
+            return <p>There are no requests.</p>;
         }
 
-        return requests.map((r) => {
-            return (
-            <li key={r.id} onClick={this.onResourceClick.bind(this, r)}>
-                {r.get("created_by").username}
-            </li>
-            );
-        })
+        // Request doesn't exist
+        if (requestId && !requests.has(requestId)) {
+            return <p>The request does not exist.</p>;
+        }
+
+        // Choose a selected request
+        let selectedRequest = null;
+        if (requestId) {
+            selectedRequest = requests.get(params.id);
+        }
+
+        return (
+        <div style={container}>
+            { this.renderRequestNav(requests, selectedRequest) }
+            { this.renderRequestDetail(requests, selectedRequest) }
+        </div>
+        );
     },
 
     render() {
+        let requests = stores.ResourceRequestStore.findWhere({
+            "status.name": "pending"
+        });
+
+        let body = null;
+        if (!requests) {
+            body = <div className="loading" />;
+        } else {
+            body = this.renderBody(requests);
+        }
 
         return (
         <div className="resource-master">
             <h2 className="t-headline">Resource Requests {this.renderRefreshButton()}</h2>
-            <ul className="requests-list pull-left">
-                {this.renderResourceRequests()}
-            </ul>
-            {this.props.children}
+            <hr />
+            { body }
         </div>
         );
     }
 });
 
-export default withRouter(ResourceMaster);
+export default ResourceMaster;

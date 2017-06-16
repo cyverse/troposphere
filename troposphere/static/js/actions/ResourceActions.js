@@ -1,7 +1,7 @@
 import Utils from "./Utils";
 import ResourceConstants from "constants/ResourceRequestConstants";
 import QuotaConstants from "constants/QuotaConstants";
-import AllocationConstants from "constants/AllocationConstants";
+import IdentityConstants from "constants/AccountConstants";
 import NotificationController from "controllers/NotificationController";
 
 function errorHandler(response) {
@@ -26,29 +26,29 @@ export default {
     close(params) {
         let { request, status } = params;
 
-        return Promise.resolve(request.save({
-            status: status.id
-        }, {
-            patch: true
-        }).promise())
+        return Promise.resolve(request.save({ status: status.id }, { patch: true }))
             .then(() => {
                 Utils.dispatch(ResourceConstants.UPDATE, {
                     model: request
-                })
+                });
+                Utils.dispatch(ResourceConstants.REMOVE, {
+                    model: request
+                });
             })
-            .catch(errorHandler);
+            .catch(errorHandler)
     },
 
     deny(params) {
         let { request, response, status } = params;
 
         return Promise.resolve(
-            request.save({
-                admin_message: response,
-                status: status.id
-            }, {
-                patch: true
-            }).promise())
+                request.save({
+                    admin_message: response,
+                    status: status.id
+                }, {
+                    patch: true
+                })
+            )
             .then(() => {
                 Utils.dispatch(ResourceConstants.UPDATE, {
                     model: request
@@ -61,43 +61,33 @@ export default {
     },
 
     approve(params) {
-        let { request, response, quota, allocation, status } = params;
+        let {
+            allocationSources, identity, quota, response, request, status
+        } = params;
 
         let promises = [];
-        if (quota.isNew()) {
-            promises.push(quota.save().then(
-                () => Utils.dispatch(
-                    QuotaConstants.CREATE_QUOTA,
-                    {
-                        quota: quota
-                    },
-                    {
-                        silent: false
-                    }
-                )
-            ));
-        }
-
-        if (allocation.isNew()) {
-            promises.push(allocation.save().then(
-                () => Utils.dispatch(
-                    AllocationConstants.CREATE_ALLOCATION,
-                    {
-                        allocation: allocation
-                    },
-                    {
-                        silent: false
-                    }
-                )
+        promises.push(
+            Promise.all(allocationSources.map(
+                as => as.save(as.pick("compute_allowed"), { patch: true })
             ))
+        );
+
+        if (quota) {
+            promises.push(
+                quota.save()
+                    .then(() => {
+                        Utils.dispatch( QuotaConstants.CREATE_QUOTA, { quota });
+                        return identity.set("quota", quota.toJSON())
+                                       .save({ quota: { id: quota.id } }, { patch: true });
+                    })
+                    .then(() => Utils.dispatch( IdentityConstants.UPDATE_ACCOUNT))
+            );
         }
 
         return Promise.all(promises)
             .then(
                 () => request.save({
                     admin_message: response,
-                    quota: quota.id,
-                    allocation: allocation.id,
                     status: status.id
                 }, {
                     patch: true
@@ -109,7 +99,6 @@ export default {
                         model: request
                     })
                 })
-            )
-            .catch(errorHandler);
+            ).catch(errorHandler);
     }
 };
