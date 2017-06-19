@@ -1,32 +1,46 @@
 import React from 'react';
+import Glyphicon from 'components/common/Glyphicon';
 import Tooltip from 'react-tooltip';
+import _ from 'underscore';
 
 export default React.createClass({
+    propTypes: {
+        tip: React.PropTypes.string.isRequired
+    },
+
     getInitialState() {
         return {
-            opacity: "0.4",
+            mouseOver: false
         };
     },
-    onMouseOver() {
+    onMouseEnter() {
         this.setState({
-            opacity: "1"
+            mouseOver: true
         });
     },
-    onMouseOut() {
-        this.setState(this.getInitialState());
+    onMouseLeave() {
+        this.setState({
+            mouseOver: false
+        });
     },
     render() {
-        let opacity = this.props.tip ? this.state.opacity : "0";
+        let mouseOver = this.state.mouseOver;
+        let opacity = mouseOver ? 1 : 0.4;
         let rand = Math.random() + "";
+        let passThroughProps = _.pick(this.props, "style");
+
         return (
-        <span><span onMouseOver={this.onMouseOver}
-                  onMouseOut={this.onMouseOut}
+        <span { ...passThroughProps }>
+            <span onMouseEnter={this.onMouseEnter}
+                  onMouseLeave={this.onMouseLeave}
                   style={{ opacity }}
-                  data-tip={this.props.tip}
-                  data-for={rand}
-                  className="glyphicon glyphicon-question-sign"
-                  aria-hidden="true"></span>
-        <Tooltip id={rand} place="right" effect="solid" />
+                  aria-hidden="true">
+                <Glyphicon
+                    data-tip={this.props.tip}
+                    data-for={rand}
+                    name="question-sign" />
+            </span>
+            <Tooltip id={rand} place="top" effect="solid" />
         </span>
         );
     }
