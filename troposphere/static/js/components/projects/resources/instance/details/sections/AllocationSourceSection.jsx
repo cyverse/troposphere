@@ -13,7 +13,7 @@ export default React.createClass({
         disabled: React.PropTypes.bool.isRequired,
         onSourceChange: React.PropTypes.func.isRequired,
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     getInitialState() {
@@ -49,7 +49,7 @@ export default React.createClass({
         }
 
         return {
-            current,
+            current
         }
     },
 

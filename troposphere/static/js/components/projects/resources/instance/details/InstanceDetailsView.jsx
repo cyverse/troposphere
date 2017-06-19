@@ -15,7 +15,7 @@ export default React.createClass({
     propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        allocationSources: React.PropTypes.instanceOf(Backbone.Collection),
+        allocationSources: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
     renderAllocationSourceSection() {
