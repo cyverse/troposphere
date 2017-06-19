@@ -28,7 +28,7 @@ apt-get install google-chrome-unstable
 ```
 2. Ensure you've activate a virtualenv with behave and associated modules:
 ```
-virualenv env
+virtualenv env
 . env/bin/activate
 pip install -r dev_requirements.txt
 ```
