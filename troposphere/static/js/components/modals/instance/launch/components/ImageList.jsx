@@ -1,8 +1,6 @@
 import React from "react";
-import Image from "./Image";
+import Image from "components/images/list/common/ImageListCard";
 import Backbone from "backbone";
-
-
 
 export default React.createClass({
     displayName: "ImageList",
@@ -12,9 +10,27 @@ export default React.createClass({
         onClick: React.PropTypes.func
     },
 
+    getInitialState() {
+        return {
+            isOpen: null
+        }
+    },
+
+    onOpen(image) {
+        console.log("clicked")
+        const isOpen = this.state.isOpen === image ?
+            null : image; 
+        this.setState({ isOpen })
+    },
+
     renderImage: function(image) {
         return (
-        <Image key={image.id} image={image} onSelectImage={this.props.onSelectImage} />
+        <Image
+            key={image.id}
+            image={image}
+            isOpen={ this.state.isOpen === image }
+            onCardClick={ this.onOpen.bind(this, image) }
+            onSelectImage={this.props.onSelectImage} />
         )
     },
 
