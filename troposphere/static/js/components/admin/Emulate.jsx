@@ -18,7 +18,7 @@ export default React.createClass({
 
         return (
         <a href={`emulate/${username}`}>
-            <i className={"glyphicon glyphicon-sunglasses"}
+            <i className={"glyphicon glyphicon-user"}
                data-for={username}
                data-tip="Emulate"
                aria-hidden="true" />
