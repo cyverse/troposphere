@@ -3,6 +3,7 @@ import Backbone from "backbone";
 import moment from "moment";
 import actions from "actions";
 import ToggleButton from "components/common/ToggleButton";
+import Emulate from "./Emulate";
 
 
 export default React.createClass({
@@ -60,7 +61,7 @@ export default React.createClass({
             <td style={{ border: "none" }} 
                 className="user-name"
             >
-                {user.get("username")}
+                 <Emulate username={user.get("username")} /> {user.get("username")}
             </td>
             <td style={{ border: "none" }}
                 className="email"
