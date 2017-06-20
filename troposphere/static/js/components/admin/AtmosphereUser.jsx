@@ -61,7 +61,7 @@ export default React.createClass({
             <td style={{ border: "none" }} 
                 className="user-name"
             >
-                {user.get("username")} <Emulate username={user.get("username")} />
+                 <Emulate username={user.get("username")} /> {user.get("username")}
             </td>
             <td style={{ border: "none" }}
                 className="email"
