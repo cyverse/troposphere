@@ -120,18 +120,19 @@ export default React.createClass({
 
         if (!instanceHistories || !instances || !providers) return <div className="loading"></div>;
 
-        instanceHistoryItems = instanceHistories.map(function(instance) {
-            var name = instance.get("instance").name,
-                image = instance.get("image"),
-                provider = instance.get("provider");
+        instanceHistoryItems = instanceHistories.map(function(item) {
+            var name = item.get("instance").name,
+                instanceId = item.get("instance").id,
+                image = item.get("image"),
+                provider = item.get("provider");
 
-            var startDate = instance.get("instance").start_date,
-                endDate = instance.get("instance").end_date,
+            var startDate = item.get("instance").start_date,
+                endDate = item.get("instance").end_date,
                 formattedStartDate = moment(startDate).format("MMM DD, YYYY hh:mm a"),
                 formattedEndDate = moment(endDate).format("MMM DD, YYYY hh:mm a"),
                 now = moment(),
                 timeSpan = now.diff(startDate, "days"),
-                instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
+                instanceHistoryHash = CryptoJS.MD5((instanceId || item.cid).toString()).toString(),
                 iconSize = 63,
                 type = stores.ProfileStore.get().get("icon_set"),
                 imageName = image ? image.name : "[image no longer exists]",
@@ -159,14 +160,14 @@ export default React.createClass({
             }
 
             return (
-            <div key={instance.cid}>
+            <div key={item.cid}>
                 <div className="instance-history">
                     <ul>
                         <li>
                             <div>
                                 <Gravatar hash={instanceHistoryHash} size={iconSize} type={type} />
                                 <div className="instance-history-details">
-                                    <Link to={`instances/${instance.get("instance").id}`}>
+                                    <Link to={`instances/${instanceId}`}>
                                         <strong className="name">{name}</strong>
                                     </Link>
                                     <div>
