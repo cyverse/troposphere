@@ -32,7 +32,10 @@ export default React.createClass({
         if (!current) {
             // TODO: re-review this post-q-q-js
             let allocSrc = instance.get("allocation_source");
-            if (!(allocSrc instanceof Backbone.Model)) {
+            if (!allocSrc) {
+                // Do nothing if null
+                ;
+            } else if (!(allocSrc instanceof Backbone.Model)) {
                 current = allocationSources.findWhere({
                     name: allocSrc.name
                 });

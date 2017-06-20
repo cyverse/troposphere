@@ -1,9 +1,11 @@
 import actions from "actions";
 import ModalHelpers from "components/modals/ModalHelpers";
 
-import RequestMoreResourcesModal from "components/modals/RequestMoreResourcesModal";
+// FIXME:
+// imports will need to be configuration-driven in the future
+import RequestMoreResourcesModal from "components/modals/RequestMoreQuotaOrAllocationModal";
 
-// HOTFIX: show the NON-Jetstream modal ;__;
+// FIXME: show the Jetstream modal ;__;
 let RequestModal = RequestMoreResourcesModal;
 
 export default {
