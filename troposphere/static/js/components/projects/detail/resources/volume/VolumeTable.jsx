@@ -32,8 +32,9 @@ export default React.createClass({
             selectedResources = this.props.selectedResources;
 
         return volumes.map(function(volume) {
-            var isPreviewed = (previewedResource === volume),
-                isChecked = selectedResources.get(volume) ? true : false;
+            let uuid = volume.get("uuid"),
+                isPreviewed = (previewedResource === volume),
+                isChecked = selectedResources.findWhere({uuid}) ? true : false;
 
             return (
             <VolumeRow key={volume.id || volume.cid}
