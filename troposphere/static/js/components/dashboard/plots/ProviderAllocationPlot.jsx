@@ -17,10 +17,11 @@ export default React.createClass({
 
     getChartData: function() {
         var summaries = [];
-        this.props.identities.map(function(identity) {
-            var data = this.getDataForIdentity(identity);
-            if (data) summaries.push(data);
-        }.bind(this));
+        //FIXME: this chart will no longer show 'Usage per identity'. That referred to 'IDentity-specific allocation sources' which have since gone away.
+        // this.props.identities.map(function(identity) {
+        //     var data = this.getDataForIdentity(identity);
+        //     if (data) summaries.push(data);
+        // }.bind(this));
         return summaries;
     },
 
