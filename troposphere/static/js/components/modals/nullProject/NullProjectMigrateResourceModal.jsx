@@ -2,6 +2,7 @@ import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import _ from "underscore";
+import context from "context";
 
 import actions from "actions";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
@@ -118,7 +119,7 @@ const NullProjectMigrateResourceModal = React.createClass({
         let sharingText = "NEW: You can now share your cloud resources with other users based on your assigned groups " +
                 " use the 'Visibility' selection below and select a shared project to get started! All resources created before " +
                 " this update will only be available in your private project. To start sharing resources, create a shared project and add some new resources "
-        return (<p style={{fontWeight: 500}}>
+        return (<p className="alert alert-info" style={{fontWeight: 500}}>
             {sharingText}
         </p>);
     },
@@ -156,7 +157,6 @@ const NullProjectMigrateResourceModal = React.createClass({
             });
             return containsIdentity;
         });
-
         let resource_project = this.state.resourceProjectMap[resource.id];
         return (
         <ResourceSelectMenu key={resource.id}
@@ -164,19 +164,52 @@ const NullProjectMigrateResourceModal = React.createClass({
 	    projects={projects}
 	    project={resource_project.project}
 	    onProjectSelected={this.pairResourceWithProject}
+        optionName={p => this.resourceOptionName(p)}
 	    />
         );
     },
-    renderProjectSelection: function() {
-
-        if (!featureFlags.hasProjectSharing()) {
-            return this.renderResourceSelection();
-        } else {
-            return this.renderGroupResourceSelection();
+    resourceOptionName: function(project) {
+        let projectName = project.get('name');
+        if(!featureFlags.hasProjectSharing()) {
+            return projectName;
         }
+        let {GroupStore} = this.props.subscriptions;
+        let groupOwnerId = project.get('owner').id,
+            group = GroupStore.get(groupOwnerId),
+            current_user = context.profile.get('username'),
+            groupLeaders = group.get('leaders'),
+            groupUsers = group.get('users');
+
+        let isGroupLeader = groupLeaders.find(user=>user.username == current_user),
+            isGroupPrivate = groupUsers.length == 1;
+        if(isGroupPrivate) {
+            return projectName + " (Private)";
+        } else if(isGroupLeader) {
+            return projectName + " (Owner)";
+        } else {
+            return projectName + " (Shared)";
+        }
+
     },
+    //renderProjectSelection: function() {
+
+    //    if (!featureFlags.hasProjectSharing()) {
+    //        return this.renderResourceSelection();
+    //    } else {
+    //        return this.renderGroupResourceSelection();
+    //    }
+    //},
     renderGroupResourceSelection: function() {
-        /** To sort resources by group **/
+        /**
+         * Use this method when:
+         * - You are _explicitly_ separating IdentityMembership between groups. This will ensure users do not "place their resources in the wrong projects"
+         * What this method does:
+         * - Retrieve a list of identities for each group
+         * - Look at the given identity of a resource
+         *   - Determine which "group" should be allowed to place the resource.
+         * Where this method does not work:
+         * - When two or more groups share an IdentityMembership, this method will prevent someone from actually submitting the form.
+         **/
         let { ProjectStore, GroupStore, IdentityStore } = this.props.subscriptions;
         let groups = GroupStore.getAll();
         let identities_for_groups = {};
@@ -381,7 +414,7 @@ const NullProjectMigrateResourceModal = React.createClass({
                 </p>
                 {this.renderSharingText()}
             </div>
-            {this.renderProjectSelection()}
+            {this.renderResourceSelection()}
             {this.renderProjectCreationForm()}
         </div>
         );

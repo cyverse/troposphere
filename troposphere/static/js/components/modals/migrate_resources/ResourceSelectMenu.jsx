@@ -1,12 +1,11 @@
 import React from "react";
-import stores from "stores";
-import context from "context";
+import subscribe from "utilities/subscribe";
 import Backbone from "backbone";
 import Instance from "models/Instance";
 import Volume from "models/Volume";
 import SelectMenu from "components/common/ui/SelectMenu";
 
-export default React.createClass({
+const ResourceSelectMenu = React.createClass({
     displayName: "ResourceSelectMenu",
 
     propTypes: {
@@ -14,52 +13,30 @@ export default React.createClass({
         project: React.PropTypes.instanceOf(Backbone.Model),
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onProjectSelected: React.PropTypes.func.isRequired,
+        optionName: React.PropTypes.func,
     },
-    // getInitialState: function() {
-    //     let { resource } = this.props;
-    //     // let limitedProjects = stores.ProjectStore.getProjectsForIdentity(resource.get('identity'));
-
-    //     // return {
-    //     //     limitedProjects,
-    //     // };
-    // },
-    // updateState: function() {
-    //     let { resource } = this.props;
-    //     // let { limitedProjects } = this.state;
-
-    //     // limitedProjects = stores.ProjectStore.getProjectsForIdentity(resource.get('identity'));
-
-    //     // if (limitedProjects !== this.state.limitedProjects) {
-    //     //     this.setState({
-    //     //         limitedProjects
-    //     //     });
-    //     // }
-    // },
-    // componentDidMount: function() {
-    //     stores.ProjectStore.addChangeListener(this.updateState);
-
-    //     this.updateState();
-    // },
-    // componentWillUnmount: function() {
-    //     stores.ProjectStore.removeChangeListener(this.updateState);
-    // },
+    getInitialState: function() {
+        return {
+            limitedProjects: null
+        };
+    },
     renderSelectMenu() {
         let { projects } = this.props;
         let { resource, project } = this.props;
-        // let limitProjects= this.state.limitedProjects;
-        // if(!limitProjects) {
-        //     return (<div className="loading-tiny-inline" />);
-        // }
         let projectTip = (projects.length > 0) ? "Select a Project": "Create a Project";
+        let optionName = this.props.optionName;
+        if(!optionName) {
+            optionName = p => p.get("name");
+        }
         return (
             <span style={{ width: "40%" }}>
                 <SelectMenu
-                    className={""}
+                    className={"form-control"}
                     current={project}
                     list={projects}
                     placeholder={projectTip}
                     onSelect={p => this.onProjectSelected(p)}
-                    optionName={p => p.get("name")} />
+                    optionName={optionName} />
             </span>
         )
     },
@@ -89,3 +66,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(ResourceSelectMenu, ["ProjectStore"]);

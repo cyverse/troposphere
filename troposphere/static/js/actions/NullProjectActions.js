@@ -91,7 +91,7 @@ export default {
 
         // Move volumes into correct project
         volumes.each(function(volume) {
-            var volumeProjectId = volume.get("project").id,
+            var volumeProjectId = (volume.get("project")) ? volume.get("project").id : -1,
                 volumeProject = stores.ProjectStore.get(volumeProjectId),
                 instanceUUID = volume.get("attach_data").instance_id,
                 instance,

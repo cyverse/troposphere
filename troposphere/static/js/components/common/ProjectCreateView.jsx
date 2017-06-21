@@ -236,6 +236,7 @@ const ProjectCreateView = React.createClass({
         let groupErrorMessage = null;
 
         if (this.state.showValidation) {
+            let validateOwner = this.validateOwner();
             groupClassNames = validateOwner.hasError ?
                 "form-group has-error" : null;
             groupErrorMessage = validateOwner.message;
