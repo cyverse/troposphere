@@ -233,9 +233,9 @@ def handle_template_error(template_params, exception=None):
             json_data = json.loads(text)
     theme_images_suffix = json_data.get('images',{}).get('imagesDir')
     if theme_images_suffix:
-        theme_images_url = "assets"+theme_images_suffix
+        theme_images_url = "/assets"+theme_images_suffix
     else:
-        theme_images_url = "assets/theme/themeImagesDefault"
+        theme_images_url = "/assets/theme/themeImagesDefault"
     template_params['theme_images_url'] = theme_images_url
 
     if 'WebpackLoaderBadStatsError' in str(template_params['exception_type']):
