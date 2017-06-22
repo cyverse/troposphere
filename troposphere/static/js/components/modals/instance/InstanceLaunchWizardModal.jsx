@@ -628,6 +628,36 @@ export default React.createClass({
             });
         }
 
+        if (providerSizeList && imageVersion) {
+            let machines = imageVersion.get('machines'),
+                selectedMachine = machines.find(m => m.provider.id == provider.id),
+                limit_size = selectedMachine.size_gb;
+            providerSizeList.forEach(function(size) {
+                let disk_size = size.get('disk');
+                let is_disabled = true;
+                if (disk_size == 0 || limit_size == 0) {
+                    is_disabled = false;
+                } else {
+                    is_disabled = (limit_size > disk_size);
+                //console.log("limit_size "+limit_size+" > disk_size "+disk_size+" = " + is_disabled);
+                }
+                size.set({disabled: is_disabled});
+            });
+            let availableSizes = providerSizeList.cfilter(size=> size.get('disabled') == false),
+                is_available = availableSizes.find(size => (size.id == providerSize.id));
+            if (!is_available) {
+                let newProviderSize;
+                if(!availableSizes) {
+                    newProviderSize = null;
+                    //console.log("Size "+providerSize.get('name')+" no longer available, all other sizes are disabled!");
+                } else {
+                    newProviderSize = availableSizes.first();
+                    //console.log("Size "+providerSize.get('name')+" no longer available, auto-selecting next largest size: "+newProviderSize.get('name'));
+                }
+                providerSize = newProviderSize;
+            }
+        }
+
         let allocationSourceList;
         if (globals.USE_ALLOCATION_SOURCES) {
             allocationSourceList = stores.AllocationSourceStore.getAll();
