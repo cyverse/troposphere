@@ -37,7 +37,7 @@ function main {
 }
 
 function generate_requirements {
-    pip-compile --dry-run -o requirements.txt requirements.in 2>&-;
+    pip-compile --dry-run -o requirements.txt requirements.in 2>/dev/null;
 }
 
 function warn_bad_requirements {
@@ -51,7 +51,7 @@ function warn_bad_requirements {
 
 function generate_dev_requirements {
     pip-compile --dry-run -o dev_requirements.txt \
-        dev_requirements.in requirements.txt 2>&-;
+        dev_requirements.in requirements.txt 2>/dev/null;
 }
 
 function warn_bad_dev_requirements {
