@@ -1,7 +1,10 @@
+import $ from "jquery";
 import Utils from "./Utils";
+import context from "context";
+import globals from "globals";
 import ResourceConstants from "constants/ResourceRequestConstants";
 import QuotaConstants from "constants/QuotaConstants";
-import IdentityConstants from "constants/AccountConstants";
+import AccountConstants from "constants/AccountConstants";
 import NotificationController from "controllers/NotificationController";
 
 function errorHandler(response) {
@@ -77,10 +80,25 @@ export default {
                 quota.save()
                     .then(() => {
                         Utils.dispatch( QuotaConstants.CREATE_QUOTA, { quota });
-                        return identity.set("quota", quota.toJSON())
-                                       .save({ quota: { id: quota.id } }, { patch: true });
+                        let approval_user = context.profile.get("username");
+                        if (window.emulator) {
+                            approval_user = window.emulator;
+                        }
+                        let actionURL = globals.API_V2_ROOT + '/actions/resource_request_update_quota';
+                        let data = {
+                            'approved_by':approval_user,
+                            'identity':identity.get('uuid'),
+                            'quota':quota.id,
+                            'resource_request':request.id
+                        };
+                        $.ajax(actionURL, {
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "json",
+                            contentType: "application/json"
+                        });
                     })
-                    .then(() => Utils.dispatch( IdentityConstants.UPDATE_ACCOUNT))
+                    .then(() => Utils.dispatch( AccountConstants.UPDATE_ACCOUNT))
             );
         }
 
