@@ -4,7 +4,11 @@ import Dispatcher from "dispatchers/Dispatcher";
 import QuotaConstants from "constants/QuotaConstants";
 
 let QuotaStore = BaseStore.extend({
-    collection: QuotaCollection
+    collection: QuotaCollection,
+
+    queryParams: {
+        page_size: 1000
+    }
 });
 
 var store = new QuotaStore();
