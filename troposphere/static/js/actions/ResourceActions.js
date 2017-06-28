@@ -76,10 +76,13 @@ export default {
         );
 
         if (quota) {
+            var new_quota = (!quota.id) ? true : false;
             promises.push(
-                quota.save()
-                    .then(() => {
-                        Utils.dispatch( QuotaConstants.CREATE_QUOTA, { quota });
+               // Skip quota updates (put/patch disabled!)
+               Promise.resolve((!quota.id) ? quota.save() : null).then(() => {
+                        if(new_quota) {
+                            Utils.dispatch( QuotaConstants.CREATE_QUOTA, { quota });
+                        }
                         let approval_user = context.profile.get("username");
                         if (window.emulator) {
                             approval_user = window.emulator;

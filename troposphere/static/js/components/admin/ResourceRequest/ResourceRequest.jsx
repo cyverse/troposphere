@@ -42,6 +42,69 @@ export default React.createClass({
         // If new models come along trigger a re-render
         this.forceUpdate();
     },
+    findQuotaForValues(current_quota) {
+        /**
+         * current_quota: Javascript _Object_ that has quotaValues currently assigned
+         */
+        let all_quotas = stores.QuotaStore.getAll();
+        if (!all_quotas) {
+            return ;
+        }
+        var all_fields = this.getQuotaFields();
+        let quota_matched = all_quotas.find(function(quota) {
+            let matching_all_values = _.every(all_fields, (field, i) => {
+                let value = current_quota[field]
+                let quota_value = quota.get(field)
+                return (quota_value == value)
+            });
+            return matching_all_values;
+        });
+        return quota_matched;
+    },
+    quotaData: {
+        "cpu": {
+            label: "CPU:",
+            tip: "Total cpus across instances"
+        },
+        "memory": {
+            label: "Memory (GB):",
+            tip: "Total memory across instances"
+        },
+        "storage": {
+            label: "Storage (GB):",
+            tip: "Total disk space across instances"
+        },
+        "storage_count": {
+            label: "Volumes:",
+            tip: "Total number of volumes"
+        },
+        "snapshot_count": {
+            label: "Snapshots:",
+            tip: "Total number of instance snapshots"
+        },
+        "instance_count": {
+            label: "Instances:",
+            tip: "Total number of instances"
+        },
+        "port_count": {
+            label: "Fixed IPs:",
+            tip: ""
+        },
+        "floating_ip_count": {
+            label: "Floating IPs:",
+            tip: ""
+        },
+    },
+    getQuotaFields() {
+        // Returns:
+        // [
+        //     "cpu",
+        //     "instance_count",
+        //     "floating_ip_count"
+        //     ...
+        //  ]
+        return Object.keys(this.quotaData);
+    },
 
     onApprove(view) {
         let { selectedRequest: request } = this.props;
@@ -59,9 +122,14 @@ export default React.createClass({
             // Test if some of the attributes are not equal
             storeQuota.keys().some(attr => storeQuota.get(attr) !== quota[attr]);
 
-        let newQuota = null;
+        let updatedQuota = null;
         if (quotaChanged) {
-            newQuota = new Quota(_.omit(quota, "id"));
+            let quota_matched = this.findQuotaForValues(quota);
+            if(quota_matched) {
+                updatedQuota = quota_matched;
+            } else {
+                updatedQuota = new Quota(_.omit(quota, "id"));
+            }
         }
 
         let changedAllocations = allocationSources
@@ -84,7 +152,7 @@ export default React.createClass({
         ResourceActions.approve({
             allocationSources: changedAllocations,
             identity,
-            quota: newQuota,
+            quota: updatedQuota,
             status,
             request,
             response

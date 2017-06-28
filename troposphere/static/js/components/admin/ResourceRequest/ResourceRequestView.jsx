@@ -1,10 +1,13 @@
 import React from "react";
+import _ from "underscore";
+import subscribe from "utilities/subscribe";
 import AllocationSourcesView from "./AllocationSourcesView";
 import QuotaView from "./QuotaView";
+import GlyphiconTooltip from 'components/common/ui/GlyphiconTooltip';
 
 // This is the view for the admin Resource Requests panel. This view shouldn't
 // fetch or retrieve any data, just renders props.
-export default React.createClass({
+const ResourceRequestView = React.createClass({
 
     propTypes: {
         request: React.PropTypes.object.isRequired,
@@ -16,6 +19,50 @@ export default React.createClass({
 
     getInitialState() {
         return this.getStateFromProps(this.props);
+    },
+    quotaData: {
+        "cpu": {
+            label: "CPU:",
+            tip: "Total cpus across instances"
+        },
+        "memory": {
+            label: "Memory (GB):",
+            tip: "Total memory across instances"
+        },
+        "storage": {
+            label: "Storage (GB):",
+            tip: "Total disk space across instances"
+        },
+        "storage_count": {
+            label: "Volumes:",
+            tip: "Total number of volumes"
+        },
+        "snapshot_count": {
+            label: "Snapshots:",
+            tip: "Total number of instance snapshots"
+        },
+        "instance_count": {
+            label: "Instances:",
+            tip: "Total number of instances"
+        },
+        "port_count": {
+            label: "Fixed IPs:",
+            tip: ""
+        },
+        "floating_ip_count": {
+            label: "Floating IPs:",
+            tip: ""
+        },
+    },
+    getQuotaFields() {
+        // Returns:
+        // [
+        //     "cpu",
+        //     "instance_count",
+        //     "floating_ip_count"
+        //     ...
+        //  ]
+        return Object.keys(this.quotaData);
     },
 
     componentWillReceiveProps(newProps) {
@@ -68,11 +115,32 @@ export default React.createClass({
 
     onApprove() {
         let { response, quota, allocationSources } = this.state;
+
         this.props.onApprove({
             response, quota, allocationSources
         });
     },
 
+    findQuotaForValues(current_quota) {
+        /**
+         * current_quota: Javascript _Object_ that has quotaValues currently assigned
+         */
+        let { QuotaStore } = this.props.subscriptions;
+        let all_quotas = QuotaStore.getAll();
+        if (!all_quotas) {
+            return ;
+        }
+        var all_fields = this.getQuotaFields();
+        let quota_matched = all_quotas.find(function(quota) {
+            let matching_all_values = _.every(all_fields, (field, i) => {
+                let value = current_quota[field]
+                let quota_value = quota.get(field)
+                return (quota_value == value)
+            });
+            return matching_all_values;
+        });
+        return quota_matched;
+    },
     style() {
         return {
             horizontalRule: {
@@ -93,7 +161,19 @@ export default React.createClass({
             }
         }
     },
-
+    renderNewQuotaIcon() {
+        var current_quota = this.state["quota"];
+        let quota_matched = this.findQuotaForValues(current_quota);
+        if (quota_matched) {
+            return (
+                <GlyphiconTooltip glyphicon="ok-sign" tip="Use an existing quota" />
+            );
+        } else {
+            return (
+                <GlyphiconTooltip glyphicon="plus-sign" tip="Create a new quota" />
+            );
+        }
+    },
     render() {
         let {
             created_by: { username },
@@ -126,7 +206,9 @@ export default React.createClass({
                 <div style={section}>
                 <AllocationSourcesView { ...{ allocationSources, onAllocationChange }}/>
                 </div>
-                <h4 className="t-title">Quota:</h4>
+                <h4 className="t-title">
+                    Quota: { this.renderNewQuotaIcon() }
+                </h4>
                 <div style={section}>
                     <QuotaView { ...{ quota, onQuotaChange } }/>
                 </div>
@@ -161,3 +243,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(ResourceRequestView, ["QuotaStore"]);
