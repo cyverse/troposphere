@@ -6,8 +6,12 @@ export default React.createClass({
         tip: React.PropTypes.string.isRequired
     },
     render() {
+        let props = Object.assign({}, this.props, {
+            // Extend props with question-sign
+            glyphicon: "question-sign"
+        })
         return (
-            <GlyphiconTooltip tip={this.props.tip} glyphicon="question-sign" />
+            <GlyphiconTooltip {...props}/>
         );
     }
 });
