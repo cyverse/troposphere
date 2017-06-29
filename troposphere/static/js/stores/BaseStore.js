@@ -4,14 +4,6 @@ import Backbone from "backbone";
 
 let CHANGE_EVENT = "change";
 
-function buildQueryStringFromQueryParams(queryParams) {
-    var queryString = Object.keys(queryParams).sort().map(function(key, index) {
-        return key + "=" + queryParams[key];
-    }.bind(this)).join("&");
-    queryString = queryString ? "?" + queryString : queryString;
-    return queryString;
-}
-
 let Store = function(attributes, options) {
     // models: primary local cache, stores a collection of models
     this.models = null;
@@ -70,8 +62,16 @@ _.extend(Store.prototype, Backbone.Events, {
     emitChange: function() {
         this.trigger(CHANGE_EVENT);
     },
+    buildQueryStringFromQueryParams: function(queryParams) {
+        var queryString = Object.keys(queryParams).sort().map(function(key, index) {
+            return key + "=" + queryParams[key];
+        }.bind(this)).join("&");
+        queryString = queryString ? "?" + queryString : queryString;
+        return queryString;
+    },
+
     generateQueryString: function(query_params) {
-        return buildQueryStringFromQueryParams(query_params);
+        return this.buildQueryStringFromQueryParams(query_params);
     },
 
     // --------------
@@ -131,7 +131,7 @@ _.extend(Store.prototype, Backbone.Events, {
 
             // Build the query string if queryParameters have been provided
             if (this.queryParams) {
-                queryString = buildQueryStringFromQueryParams(this.queryParams);
+                queryString = this.buildQueryStringFromQueryParams(this.queryParams);
             }
 
             models.fetch({
@@ -207,14 +207,14 @@ _.extend(Store.prototype, Backbone.Events, {
     // same as fetchFirstPage, but with URL query params
     fetchFirstPageWhere: function(queryParams, options, cb) {
         if (options && options.clearQueryCache) {
-            var queryString = buildQueryStringFromQueryParams(queryParams);
+            var queryString = this.buildQueryStringFromQueryParams(queryParams);
             delete this.queryModels[queryString];
         }
 
         if (!this.isFetching) {
             this.isFetching = true;
             queryParams = queryParams || {};
-            var queryString = buildQueryStringFromQueryParams(queryParams);
+            var queryString = this.buildQueryStringFromQueryParams(queryParams);
             var models = new this.collection();
 
             models.fetch({
@@ -330,7 +330,7 @@ _.extend(Store.prototype, Backbone.Events, {
     getWhere: function(queryParams) {
         queryParams = queryParams || {};
         // Build the query string
-        var queryString = buildQueryStringFromQueryParams(queryParams);
+        var queryString = this.buildQueryStringFromQueryParams(queryParams);
 
         return this.queryModels[queryString];
     },
@@ -342,7 +342,7 @@ _.extend(Store.prototype, Backbone.Events, {
         queryParams = queryParams || {};
 
         // Build the query string
-        var queryString = buildQueryStringFromQueryParams(queryParams);
+        var queryString = this.buildQueryStringFromQueryParams(queryParams);
 
         if (this.queryModels[queryString]) return this.queryModels[queryString];
 
@@ -372,7 +372,7 @@ _.extend(Store.prototype, Backbone.Events, {
         queryParams = queryParams || {};
 
         // Build the query string
-        var queryString = buildQueryStringFromQueryParams(queryParams);
+        var queryString = this.buildQueryStringFromQueryParams(queryParams);
 
         if (this.queryModels[queryString]) return this.queryModels[queryString];
 
@@ -398,7 +398,7 @@ _.extend(Store.prototype, Backbone.Events, {
         queryParams = queryParams || {};
 
         // Build the query string
-        var queryString = buildQueryStringFromQueryParams(queryParams);
+        var queryString = this.buildQueryStringFromQueryParams(queryParams);
 
         var searchResults = this.queryModels[queryString],
             nextUrl = searchResults.meta.next;
