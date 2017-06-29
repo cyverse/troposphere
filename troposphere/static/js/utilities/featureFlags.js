@@ -29,7 +29,7 @@ const shouldReportVolumeViaIntercom = () => {
 };
 
 export default {
-    WEB_DESKTOP: !!window.WEB_DESKTOP_INCLUDE_LINK || false,
+    WEB_DESKTOP: !!window.WEB_DESKTOP_ENABLED || false,
     hasIntercomActive,
     shouldReportInstanceViaIntercom,
     shouldReportVolumeViaIntercom,
