@@ -1,4 +1,11 @@
 {
+    "images": {
+        {% if USE_THEME_IMAGES -%}
+        "imagesDir": "/theme/themeImages"
+        {%- else -%}
+        "imagesDir": "/theme/themeImagesDefault"
+        {%- endif %}
+    },
     "palette": {
         {% if PRIMARY_ONE_COLOR -%}
         "primary1Color": "{{ PRIMARY_ONE_COLOR }}",
