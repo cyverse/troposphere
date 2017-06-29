@@ -42,6 +42,8 @@ def guacamole(request):
             }
             #FIXME: Remove verify=False in the future
             response = requests.get(access_token_route, headers=headers, verify=False)
+            # Raise exceptions for HTTP errors
+            response.raise_for_status()
             data = response.json()
             web_access_token = data.get('token')
             url = data.get('token_url')
@@ -81,6 +83,8 @@ def web_desktop(request):
             }
             #FIXME: Remove verify=False in the future
             response = requests.get(access_token_route, headers=headers, verify=False)
+            # Raise exceptions for HTTP errors
+            response.raise_for_status()
             data = response.json()
             web_access_token = data.get('token')
             proxy_password = 'display'
