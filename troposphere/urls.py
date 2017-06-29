@@ -36,9 +36,6 @@ ui_urlpatterns = [
     url(r'^web_desktop$', views.web_desktop),
 ]
 
-if settings.GUACAMOLE_ENABLED:
-    ui_urlpatterns.append(url(r'^guacamole$', views.guacamole))
-
 # NOTE: Have to remove the leading slash on 'BASE_URL'
 base_url = settings.BASE_URL.lstrip("/")
 
