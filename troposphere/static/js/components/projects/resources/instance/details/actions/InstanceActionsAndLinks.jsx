@@ -185,9 +185,7 @@ export default React.createClass({
         modals.InstanceModals.unshelve(this.props.instance);
     },
 
-    onWebDesktop: function(instance) {
-        // TODO:
-        //      move this into a utilities file
+    onWebDesktop: function(instance, client, protocol) {
         var CSRFToken = findCookie("tropo_csrftoken");
 
         // build a form to POST to web_desktop
@@ -198,37 +196,18 @@ export default React.createClass({
 
         form.append($("<input>")
             .attr("type", "hidden")
-            .attr("name", "instanceId")
+            .attr("name", "instance_id")
             .attr("value", instance.get('uuid')));
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "csrfmiddlewaretoken")
-            .attr("style", "display: none;")
-            .attr("value", CSRFToken));
-
-        $("body").append(form);
-        form[0].submit();
-    },
-
-    onGuacConn: function(instance, proto) {
-        var CSRFToken = findCookie("tropo_csrftoken");
-
-        // build a form to POST to guacamole
-        var form = $("<form>")
-            .attr("method", "POST")
-            .attr("action", "/guacamole")
-            .attr("target", "_blank");
 
         form.append($("<input>")
             .attr("type", "hidden")
             .attr("name", "protocol")
-            .attr("value", proto));
+            .attr("value", protocol));
 
         form.append($("<input>")
             .attr("type", "hidden")
-            .attr("name", "instanceId")
-            .attr("value", instance.get('uuid')));
+            .attr("name", "client")
+            .attr("value", client));
 
         form.append($("<input>")
             .attr("type", "hidden")
@@ -261,10 +240,7 @@ export default React.createClass({
             links.push({
                 label: "Open Web Desktop",
                 icon: "sound-stereo",
-                onClick: this.onWebDesktop.bind(
-                    this,
-                    ipAddress,
-                    this.props.instance),
+                onClick: this.onWebDesktop.bind(this, this.props.instance, "web_desktop", "vnc"),
                 openInNewWindow: true,
                 isDisabled: disableWebLinks
             });
@@ -274,7 +250,7 @@ export default React.createClass({
           links.push({
               label: "Open New Web Shell (beta)",
               icon: "text-background",
-              onClick: this.onGuacConn.bind(this, this.props.instance, "ssh"),
+              onClick: this.onWebDesktop.bind(this, this.props.instance, "guacamole", "ssh"),
               openInNewWindow: true,
               isDisabled: disableWebLinks
           });
@@ -283,7 +259,7 @@ export default React.createClass({
             links.push({
               label: "Open New Web Desktop (beta)",
               icon: "sound-dolby",
-              onClick: this.onGuacConn.bind(this, this.props.instance, "vnc"),
+              onClick: this.onWebDesktop.bind(this, this.props.instance, "guacamole", "vnc"),
               openInNewWindow: true,
               isDisabled: disableWebLinks
             });
