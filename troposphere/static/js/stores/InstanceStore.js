@@ -11,7 +11,7 @@ var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
 
     queryParams: {
-        page_size: 100
+        page_size: 1000
     },
 
     initialize: function() {
@@ -42,9 +42,9 @@ var InstanceStore = BaseStore.extend({
                 let self = this;
                 if (this.pollingEnabled) {
                     this.models.each(function(instance) {
-                        let instance_status = instance.get('status'),
-                            instance_activity = instance.get('activity');
-                        if(instance_status == 'active' && instance_activity == '') {
+                        let instance_status = instance.get("status"),
+                            instance_activity = instance.get("activity");
+                        if( (instance_status == "active" || instance_status == "shutoff" || instance_status == "suspended") && instance_activity == "") {
                             return;
                         }
                         self.pollNowUntilBuildIsFinished(instance);
