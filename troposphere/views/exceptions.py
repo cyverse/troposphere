@@ -1,9 +1,11 @@
 import json
 import logging
 
+from django.http import HttpResponse
+from rest_framework import status
+
 logger = logging.getLogger(__name__)
 
-from django.http import HttpResponse
 
 def invalid_auth(message):
     return failure_response(
@@ -17,11 +19,10 @@ def failure_response(status, message):
     status and message.
     """
     logger.info("status: %s message: %s" % (status, message))
-    json_obj = {"errors":
-            [{'code': status, 'message': message}]
-        }
+    json_obj = {
+        "errors": [{'code': status, 'message': message}]
+    }
     to_json = json.dumps(json_obj)
     return HttpResponse(to_json,
-                    status=status,
-                    content_type='application/json')
-
+                        status=status,
+                        content_type='application/json')
