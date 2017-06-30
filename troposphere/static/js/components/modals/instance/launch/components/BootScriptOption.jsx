@@ -1,6 +1,6 @@
 import React from "react";
 import AddScripts from "./AddScripts";
-import CreateScript from "./CreateScript";
+import CreateScript from "components/common/boot_script/CreateScript";
 
 
 export default React.createClass({
