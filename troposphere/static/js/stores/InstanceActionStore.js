@@ -78,12 +78,6 @@ Dispatcher.register(function(dispatch) {
         case InstanceConstants.UPDATE_INSTANCE:
             InstanceActionStore.updateActionsFor(payload.instance);
             break;
-        case InstanceConstants.POLL_INSTANCE_WITH_DELAY:
-            InstanceActionStore.updateActionsFor(payload.instance);
-            break;
-        case InstanceConstants.POLL_INSTANCE:
-            InstanceActionStore.updateActionsFor(payload.instance);
-            break;
         default:
             break;
     }

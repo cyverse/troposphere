@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    Atmosphere | {{ ORG_NAME }}
+  </title>
+  <link rel="shortcut icon" href="{{theme_images_url}}/favicon.ico" />
+  <link rel="stylesheet" href="{{BASE_URL}}/assets/theme/login.css"/>
+{% if exception %}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"/>
+{% endif %}
+</head>
+<body>
+    <div id="wrapper" class="center">
+        <div id="imgcontainer">
+            <img src="{{theme_images_url}}/large_logo.png">
+        </div>
+        <div class="message-wrapper">
+{% if exception %}
+            <div id="toast-container" class="toast-top-full-width">
+                <div class="toast toast-error">
+                    <div class="toast-title"> Exception occurred during page load of application: </div>
+                    <div id="toast-msg-target" class="toast-message">{{ exception_message }}</div>
+                </div>
+            </div>
+{% endif %}
+
+
+
+
+            <h1>Troposphere is down for temporary maintenance.</h1>
+
+            <p>
+              If multiple attempts to refresh the page do not work, please email Support:<a href="mailto:{{SUPPORT_EMAIL}}">{{SUPPORT_EMAIL}}</a>.
+            </p>
+
+            <a class="submitButton" href="/application">
+                Reload
+            </a>
+        </div>
+    </div>
+</body>
+</html>

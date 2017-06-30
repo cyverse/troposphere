@@ -11,7 +11,7 @@ var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
 
     queryParams: {
-        page_size: 100
+        page_size: 1000
     },
 
     initialize: function() {
@@ -22,6 +22,38 @@ var InstanceStore = BaseStore.extend({
     // ----------------
     // Custom functions
     // ----------------
+
+    fetchModels: function() {
+        if (!this.models && !this.isFetching) {
+            this.isFetching = true;
+            var models = new this.collection();
+            var queryString = "";
+
+            // Build the query string if queryParameters have been provided
+            if (this.queryParams) {
+                queryString = this.buildQueryStringFromQueryParams(this.queryParams);
+            }
+
+            models.fetch({
+                url: _.result(models, "url") + queryString
+            }).done(function() {
+                this.isFetching = false;
+                this.models = models;
+                let self = this;
+                if (this.pollingEnabled) {
+                    this.models.each(function(instance) {
+                        let instance_status = instance.get("status"),
+                            instance_activity = instance.get("activity");
+                        if( (instance_status == "active" || instance_status == "shutoff" || instance_status == "suspended") && instance_activity == "") {
+                            return;
+                        }
+                        self.pollNowUntilBuildIsFinished(instance);
+                    });
+                }
+                this.emitChange();
+            }.bind(this));
+        }
+    },
 
     getInstancesNotInAProject: function(provider) {
         if (!this.models) return this.fetchModels();
