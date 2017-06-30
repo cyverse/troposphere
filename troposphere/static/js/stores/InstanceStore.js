@@ -9,6 +9,7 @@ import ProjectInstanceConstants from "constants/ProjectInstanceConstants";
 import InstanceState from "models/InstanceState";
 import EventConstants from "constants/EventConstants";
 
+
 var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
 
