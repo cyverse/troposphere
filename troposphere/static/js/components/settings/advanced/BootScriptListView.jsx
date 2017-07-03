@@ -135,14 +135,14 @@ const BootScriptListView = React.createClass({
                         when you launch an instance.
                     </p>
                 </div>
-                <div>
+                <div style={{maxWidth: "80%"}}>
                     <table className="clearfix table" style={{ tableLayout: "fixed" }}>
                         <thead>
                             <tr>
-                                <th style={{ width: "100px"}}>Name</th>
-                                <th style={{width: "50px"}}>Type</th>
-                                <th style={{width: "50px"}}>Boot Type</th>
-                                <th style={{ width: "60px"}}>Actions</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Boot Type</th>
+                                <th style={{ width: "60px"}}></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -152,6 +152,9 @@ const BootScriptListView = React.createClass({
                                     {this.renderCreateForm()}
                                     {this.renderEditForm()}
                                 </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
