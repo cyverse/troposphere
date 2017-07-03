@@ -1,5 +1,4 @@
 import ScriptConstants from "constants/ScriptConstants";
-import Script from "models/Script";
 import Utils from "../Utils";
 
 export default {
