@@ -11,20 +11,26 @@ export default {
         if (!newAttributes.text)
             throw new Error("Missing text");
 
-        script.set(newAttributes);
+        // Save attributes, before we optimistically update them
+        let prevAttibutes = Object.assign({}, script.attributes);
 
-        script.save(newAttributes, {patch: true}).done(function() {
-            // Nothing to do here
-        }).fail(function(response) {
-            Utils.displayError({
-                title: "Script could not be saved",
-                response: response
-            });
-        }).always(function() {
-            Utils.dispatch(ScriptConstants.UPDATE_SCRIPT, {
-                script: script
-            });
-        });
+        // Optimistic update
+        script.set(newAttributes);
+        Utils.dispatch(ScriptConstants.UPDATE_SCRIPT, { script });
+
+        script.save(newAttributes, {patch: true})
+            .fail(response => {
+                Utils.displayError({
+                    title: "Script could not be saved",
+                    response: response
+                });
+
+                // Restore attributes prior to `set()`
+                script.set(prevAttibutes);
+
+                // Emit the undo
+                Utils.dispatch(ScriptConstants.UPDATE_SCRIPT, { script });
+            })
         return script;
     }
 
