@@ -19,6 +19,7 @@ const BootScriptListView = React.createClass({
     },
 
     showEditForm: function(bootScript) {
+        console.log("New state: Edit script " + bootScript.get('title'));
         this.setState({showEditForm: true, editScript: bootScript});
     },
 
@@ -49,15 +50,17 @@ const BootScriptListView = React.createClass({
         // happens after the network request.
 
         // Optimistically delete the key
-        stores.ScriptStore.remove(bootScript);
+        let {ScriptStore} = this.props.subscriptions;
+
+        ScriptStore.remove(bootScript);
         bootScript.destroy({
             success: function() {
-                stores.ScriptStore.emitChange();
+                ScriptStore.emitChange();
             },
             error: function() {
                 // Re-add the key to store if delete failed
-                stores.ScriptStore.add(bootScript);
-                stores.ScriptStore.emitChange();
+                ScriptStore.add(bootScript);
+                ScriptStore.emitChange();
             }
         });
     },
@@ -83,7 +86,7 @@ const BootScriptListView = React.createClass({
                 {bootScript.get("type")}
             </td>
             <td style={td}>
-                {bootScript.get("bootType") || "always"}
+                {bootScript.get("strategy")}
             </td>
             <td>
                 <a onClick={this.editBootScript.bind(this, bootScript)}><i className="glyphicon glyphicon-pencil" /></a>{" "}
