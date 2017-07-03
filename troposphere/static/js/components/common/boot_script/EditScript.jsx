@@ -8,7 +8,7 @@ export default React.createClass({
         if(! script) {
             return ({
                 type: "URL",
-                bootType: "always",
+                strategy: "always",
                 title: "",
                 text: "",
                 validate: false
@@ -16,7 +16,7 @@ export default React.createClass({
         }
         return ({
             type: script.get('type'),
-            bootType: script.get('boot_type') || 'always',  //Temporary
+            strategy: script.get('strategy'),  //Temporary
             title: script.get('title'),
             text: script.get('text'),
             validate: false
@@ -35,10 +35,10 @@ export default React.createClass({
         }
     },
 
-    onChangeBootType: function(e) {
-        let bootType = e.target.value;
+    onChangeStrategy: function(e) {
+        let strategy = e.target.value;
         this.setState({
-            bootType
+            strategy
         })
     },
 
@@ -86,6 +86,7 @@ export default React.createClass({
         if (this.isSubmittable) {
             let script = actions.ScriptActions.update(this.props.script, {
                 type: this.state.type,
+                strategy: this.state.strategy,
                 title: this.state.title.trim(),
                 text: this.state.text.trim()
             });
@@ -236,8 +237,8 @@ export default React.createClass({
                             <input type="radio"
                                 name="optionsRadios-2"
                                 value="once"
-                                defaultChecked={this.state.boot_type === "once"}
-                                onClick={this.onChangeBootType} /> Run on launch only
+                                defaultChecked={this.state.strategy === "once"}
+                                onClick={this.onChangeStrategy} /> {"Run script on first boot"}
                         </label>
                     </div>
                     <div className="radio-inline">
@@ -245,8 +246,8 @@ export default React.createClass({
                             <input type="radio"
                                 name="optionsRadios-2"
                                 value="always"
-                                defaultChecked={this.state.type === "always"}
-                                onClick={this.onChangeBootType} /> Run every deployment
+                                defaultChecked={this.state.strategy === "always"}
+                                onClick={this.onChangeStrategy} /> {"Run script on each deployment"}
                         </label>
                     </div>
                 </div>
