@@ -3,8 +3,20 @@ import RaisedButton from "material-ui/RaisedButton";
 import actions from "actions";
 
 export default React.createClass({
-    getInitialState: function() {
-        let script = this.props.script;
+
+    propTypes: {
+        script: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        style: React.PropTypes.object,
+        close: React.PropTypes.func.isRequired,
+        onSave: React.PropTypes.func.isRequired
+    },
+
+    getInitialState() {
+        return this.getStateFromProps(this.props);
+    },
+
+    getStateFromProps(props) {
+        let script = props.script;
         if(! script) {
             return ({
                 type: "URL",
@@ -22,11 +34,9 @@ export default React.createClass({
             validate: false
         });
     },
-    propTypes: {
-        script: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        style: React.PropTypes.object,
-        close: React.PropTypes.func.isRequired,
-        onSave: React.PropTypes.func.isRequired
+
+    componentWillReceiveProps(props) {
+        this.setState(this.getStateFromProps(props));
     },
 
     getDefaultProps: function() {
