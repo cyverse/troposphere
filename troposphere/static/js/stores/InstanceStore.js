@@ -1,3 +1,5 @@
+import _ from "underscore";
+
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import InstanceCollection from "collections/InstanceCollection";
@@ -6,6 +8,7 @@ import InstanceConstants from "constants/InstanceConstants";
 import ProjectInstanceConstants from "constants/ProjectInstanceConstants";
 import InstanceState from "models/InstanceState";
 import EventConstants from "constants/EventConstants";
+
 
 var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
