@@ -7,11 +7,10 @@ master = true
 socket = /tmp/troposphere.sock
 thunder-lock = true
 enable-threads = true
-processes = 16
+processes = {{ NUM_PROCESSES }}
 uid = {{ UWSGI_USER }}
 gid = {{ UWSGI_GROUP }}
 {% if LOCAL_DEV %}chmod-socket = 776{% endif %}
 vacuum = true
 max-requests = 10000
 daemonize = {{ UWSGI_LOG_PATH }}
-
