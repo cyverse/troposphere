@@ -221,6 +221,10 @@ export default React.createClass({
         form[0].submit();
     },
 
+    onWebShell: function() {
+        trackAction('activated-web_shell-ssh');
+    },
+
     getIntegrationLinks() {
         let { instance } = this.props,
             webShellUrl = instance.shell_url(),
@@ -233,6 +237,7 @@ export default React.createClass({
                 label: "Open Web Shell",
                 icon: "console",
                 href: webShellUrl,
+                onClick: this.onWebShell,
                 openInNewWindow: true,
                 isDisabled: disableWebLinks
             }
