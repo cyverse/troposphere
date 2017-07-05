@@ -137,12 +137,12 @@ export default React.createClass({
                     </p>
                     {  this.renderMoreInfo() }
                 </div>
-                <div>
+                <div style={{maxWidth: "80%"}}>
                     <table className="clearfix table" style={{ tableLayout: "fixed" }}>
                         <thead>
                             <tr>
-                                <th style={{ width: "100px"}}>name</th>
-                                <th>public key</th>
+                                <th style={{ width: "100px"}}>Name</th>
+                                <th>Public Key</th>
                                 <th style={{ width: "30px"}}></th>
                             </tr>
                         </thead>
@@ -154,6 +154,8 @@ export default React.createClass({
                                         <i className="glyphicon glyphicon-plus" />
                                     </a>
                                 </td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
