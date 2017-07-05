@@ -188,6 +188,8 @@ export default React.createClass({
     onWebDesktop: function(instance, client, protocol) {
         var CSRFToken = findCookie("tropo_csrftoken");
 
+        trackAction(`activated-${client}-${protocol}`);
+
         // build a form to POST to web_desktop
         var form = $("<form>")
             .attr("method", "POST")
