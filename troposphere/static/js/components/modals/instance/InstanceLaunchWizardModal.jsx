@@ -138,11 +138,12 @@ export default React.createClass({
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
-
-            providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
-            });
         }
+
+        if (provider && imageVersion) {
+            providerSizeList = this.getSizeList(provider, imageVersion);
+        }
+
 
         let providerSize;
         if (providerSizeList) {
@@ -260,19 +261,18 @@ export default React.createClass({
         ;
 
         let provider,
-            providerSizeList,
             identityProvider;
         if (providerList) {
             provider = providerList.first();
-            providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
-            });
-
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
         }
-        ;
+
+        let providerSizeList;
+        if (provider && imageVersion) {
+            providerSizeList = this.getSizeList(provider, imageVersion);
+        }
 
         let providerSize;
         if (providerSizeList) {
@@ -315,19 +315,17 @@ export default React.createClass({
         let identityProvider;
         if (providerList) {
             provider = providerList.first();
-            providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
-            });
-
+        }
+        if (provider) {
+            providerSizeList = this.getSizeList(provider, imageVersion);
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
-
-            if (providerSizeList) {
-                providerSize = providerSizeList.first();
-            }
-            ;
         }
+
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        } // Else null?
 
         this.setState({
             imageVersion,
@@ -350,9 +348,7 @@ export default React.createClass({
     },
 
     onProviderChange: function(provider) {
-        let providerSizeList = stores.SizeStore.fetchWhere({
-            provider__id: provider.id
-        });
+        let providerSizeList = this.getSizeList(provider, this.state.imageVersion);
 
         let providerSize;
 
@@ -419,6 +415,19 @@ export default React.createClass({
             name: name,
             description
         });
+    },
+
+    getSizeList: function(provider, imageVersion) {
+        let providerSizeList,
+            machines = imageVersion.get('machines'),
+            selectedMachine = machines.find(m => m.provider.id == provider.id);
+        if(selectedMachine) {
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id,
+                provider_machine__id: selectedMachine.id
+            });
+        }
+        return providerSizeList;
     },
 
     //============================
@@ -623,27 +632,10 @@ export default React.createClass({
         if (provider) {
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
-            providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
-            });
         }
 
-        if (providerSizeList && imageVersion) {
-            let machines = imageVersion.get('machines'),
-                selectedMachine = machines.find(m => m.provider.id == provider.id),
-                limit_size = (selectedMachine) ? selectedMachine.size_gb : null;
-            if(limit_size) {
-                providerSizeList = providerSizeList.cfilter(function(size) {
-                    let disk_size = size.get('root'); // FIXME: should be 'disk'
-                    if (disk_size == 0 || limit_size == 0) {
-                        return size;
-                    } else if (disk_size >= limit_size) {
-                        return size;
-                    }
-                    console.log("limit_size "+limit_size+" > disk_size "+disk_size+" = True");
-                    return null;
-                });
-            }
+        if (provider && imageVersion) {
+            providerSizeList = this.getSizeList(provider, imageVersion);
         }
 
         let allocationSourceList;
