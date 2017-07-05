@@ -23,7 +23,6 @@ export default React.createClass({
         let name = providerSize.get("name");
         let cpu = providerSize.get("cpu");
         let disk = providerSize.get("disk");
-        let disabled = providerSize.get("disabled");
         let diskStr = ""
         if (disk == 0) {
             disk = providerSize.get("root");
@@ -32,9 +31,8 @@ export default React.createClass({
             diskStr = `Disk: ${ disk } GB`
         }
         let memory = providerSize.get("mem");
-        let disabledStr = (!disabled) ? "" : " (Disabled - select a larger size)";
 
-        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB, ${ diskStr })${disabledStr }`;
+        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB, ${ diskStr })`;
     },
 
     renderAllocationSourceMenu() {
@@ -66,19 +64,6 @@ export default React.createClass({
         <ProviderAllocationGraph { ...this.props } />
         );
     },
-    renderProviderSizeOption(providerSize, index) {
-        let props = {
-            label: this.getProviderSizeName(providerSize),
-            key: index,
-            value: index,
-            disabled: providerSize.get('disabled')
-        }
-        return (
-                <option {...props}>
-                    {props.label}
-                </option>
-        );
-    },
 
     render: function() {
         let { provider,
@@ -108,7 +93,7 @@ export default React.createClass({
                     Instance Size
                 </label>
                 <SelectMenu current={providerSize}
-                    renderListOption={this.renderProviderSizeOption}
+                    optionName={this.getProviderSizeName}
                     list={providerSizeList}
                     onSelect={onSizeChange} />
             </div>
