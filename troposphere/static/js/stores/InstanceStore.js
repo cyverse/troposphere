@@ -1,3 +1,5 @@
+import _ from "underscore";
+
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import InstanceCollection from "collections/InstanceCollection";
