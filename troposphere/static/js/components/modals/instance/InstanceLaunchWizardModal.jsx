@@ -631,7 +631,7 @@ export default React.createClass({
         if (providerSizeList && imageVersion) {
             let machines = imageVersion.get('machines'),
                 selectedMachine = machines.find(m => m.provider.id == provider.id),
-                let limit_size = (selectedMachine) ? selectedMachine.size_gb : null;
+                limit_size = (selectedMachine) ? selectedMachine.size_gb : null;
             if(limit_size) {
                 providerSizeList = providerSizeList.cfilter(function(size) {
                     let disk_size = size.get('root'); // FIXME: should be 'disk'
