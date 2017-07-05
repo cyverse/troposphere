@@ -77,6 +77,24 @@ export default React.createClass({
                 onClick: this.onReboot
             },
             {
+                key: "Confirm Resize",
+                label: "Confirm Resize",
+                icon: "resize-full",
+                onClick: this.onConfirmResize
+            },
+            {
+                key: "Revert Resize",
+                label: "Revert Resize",
+                icon: "resize-full",
+                onClick: this.onRevertResize
+            },
+            {
+                key: "Resize",
+                label: "Resize",
+                icon: "resize-full",
+                onClick: this.onResize
+            },
+            {
                 key: "Redeploy",
                 label: "Redeploy",
                 icon: "repeat",
@@ -120,6 +138,18 @@ export default React.createClass({
 
     onStart: function() {
         modals.InstanceModals.start(this.props.instance);
+    },
+
+    onConfirmResize: function() {
+        modals.InstanceModals.resize(this.props.instance, 'confirm');
+    },
+
+    onRevertResize: function() {
+        modals.InstanceModals.resize(this.props.instance, 'revert');
+    },
+
+    onResize: function() {
+        modals.InstanceModals.resize(this.props.instance, 'resize');
     },
 
     onSuspend: function() {
@@ -211,13 +241,106 @@ export default React.createClass({
         form[0].submit();
     },
 
+<<<<<<< HEAD
+    render: function() {
+        var webShellUrl = this.props.instance.shell_url(),
+            webDesktopCapable = !!(this.props.instance && this.props.instance.get("web_desktop")),
+            status = this.props.instance.get("state").get("status"),
+            activity = this.props.instance.get("state").get("activity"),
+            ip_address = this.props.instance.get("ip_address"),
+            webLinksDisabled = !ip_address || ip_address === "0.0.0.0",
+            inFinalState = this.props.instance.get("state").isInFinalState();
+
+        // todo: Add back and implement reboot and resize once it's understood how to
+        // I'm hiding from the display for now so as not to show users functionality
+        // that doesn't exist.
+        var linksArray = [
+            {
+                label: "Actions",
+                icon: null
+            },
+            {
+                label: "Report",
+                icon: "inbox",
+                onClick: this.onReport
+            }
+        //{label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
+        //{label: 'Resize', icon: 'resize-full', onClick: this.onResize},
+        ];
+
+<<<<<<< HEAD
+        if (status !== "suspended") {
+            linksArray.push({
+                label: "Image",
+                icon: "camera",
+                onClick: this.onImageRequest
+            });
+        }
+
+        // Add in the conditional links based on current machine state
+        if (inFinalState) {
+            if (status === "active") {
+                linksArray.push({
+                    label: "Suspend",
+                    icon: "pause",
+                    onClick: this.onSuspend
+                });
+                linksArray.push({
+                    label: "Stop",
+                    icon: "stop",
+                    onClick: this.onStop
+                });
+                linksArray.push({
+                    label: "Resize",
+                    icon: "resize-full",
+                    onClick: this.onResize
+                });
+                linksArray.push({
+                    label: "Reboot",
+                    icon: "off",
+                    onClick: this.onReboot
+                });
+                linksArray.push({
+                    label: "Redeploy",
+                    icon: "repeat",
+                    onClick: this.onRedeploy
+                });
+            } else if (status === "suspended") {
+                linksArray.push({
+                    label: "Resume",
+                    icon: "play",
+                    onClick: this.onResume
+                });
+                linksArray.push({
+                    label: "Reboot",
+                    icon: "off",
+                    onClick: this.onReboot
+                });
+            } else if (status === "shutoff") {
+                linksArray.push({
+                    label: "Start",
+                    icon: "play",
+                    onClick: this.onStart
+                });
+            }
+        }
+
+        if (activity === "deploying" || status === "deploying"
+            || activity === "user_deploy_error" || status === "user_deploy_error"
+            || activity === "deploy_error" || status === "deploy_error"
+            || activity === "initializing" || activity === "boot_script_error") {
+            linksArray.push({
+                label: "Redeploy",
+                icon: "repeat",
+                onClick: this.onRedeploy
+            });
+        }
     getIntegrationLinks() {
         let { instance } = this.props,
             webShellUrl = instance.shell_url(),
             webDesktopCapable = !!(instance && instance.get("web_desktop")),
             ipAddress = instance.get("ip_address"),
             disableWebLinks = !ipAddress || ipAddress === "0.0.0.0";
-
         let links = [
             {
                 label: "Open Web Shell",
@@ -234,6 +357,7 @@ export default React.createClass({
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
                     this,
+                    ipAddress,
                     this.props.instance),
                 openInNewWindow: true,
                 isDisabled: disableWebLinks

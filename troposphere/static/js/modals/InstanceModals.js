@@ -9,6 +9,7 @@ import IResumeModal from "./instance/resume";
 import IStartModal from "./instance/start";
 import IStopModal from "./instance/stop";
 import ISuspendModal from "./instance/suspend";
+import IResizeModal from "./instance/resize";
 import IShelveModal from "./instance/shelve";
 import IUnshelveModal from "./instance/unshelve";
 
@@ -24,6 +25,7 @@ export default {
     start: IStartModal.start,
     stop: IStopModal.stop,
     suspend: ISuspendModal.suspend,
+    resize: IResizeModal.resize
     shelve: IShelveModal.shelve,
     unshelve: IUnshelveModal.unshelve
 };

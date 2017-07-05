@@ -46,6 +46,7 @@ export default Backbone.Model.extend({
             var statusSplit = attrs.status.split(" - ");
             this.set("ip_address", attrs.ip_address);
             this.set("status", attrs.status);
+            this.set("size", attrs.size);
             this.set("state", new InstanceState({
                 status_raw: attrs.status,
                 status: statusSplit[0],
@@ -124,7 +125,7 @@ export default Backbone.Model.extend({
     },
 
     is_active: function() {
-        var states = ["active", "running", "verify_resize"];
+        var states = ["active", "running"];
         return _.contains(states, this.get("status"));
     },
 
@@ -142,13 +143,21 @@ export default Backbone.Model.extend({
             "pending",
             "suspended - resuming",
             "active - suspending",
+            "active - resizing",
             "resize - resize_prep",
+            "resize - resize_migrate",
             "resize - resize_migrating",
             "resize - resize_migrated",
+            "resize - resize_prep",
             "resize - resize_finish",
+            "resize - revert_resize",
+            "resize - confirm_resize",
+            "verify_resize",
             "active - networking",
             "active - deploying",
             "active - initializing",
+            "active - confirm_resize",
+            "hard_reboot - rebooting_hard"
             "active - shelving",
             "active - shelving_image_pending_upload",
             "active - shelving_image_uploading",

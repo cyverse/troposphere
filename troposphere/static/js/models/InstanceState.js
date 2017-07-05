@@ -45,10 +45,7 @@ var InstanceState = Backbone.Model.extend({
     getPercentComplete: function() {
         var status = this.get("status");
         var activity = this.get("activity");
-        var percentComplete = 100;
-        if (status && activity) {
-            percentComplete = get_percent_complete(status, activity);
-        }
+        var percentComplete = get_percent_complete(status, activity);
         return percentComplete;
     },
 
@@ -76,6 +73,7 @@ var get_percent_complete = function(state, activity) {
                 "deleting": 50,
             },
             "active": {
+                "resizing" : 25,
                 "powering-off": 50,
                 "image_uploading": 50,
                 "deleting": 50,
@@ -94,6 +92,25 @@ var get_percent_complete = function(state, activity) {
             "reboot": {
                 "rebooting": 50
             },
+            "revert_resize": {
+                "": 35,
+                "resize_reverting": 75,
+            },
+            "verify_resize": {
+                "": 80,
+                "confirm_resize": 95,
+            },
+            "resize": {
+                "" : 25,
+                "resizing" : 25,
+                "resize_migrate" : 35,
+                "resize_migrating": 35,
+                "resize_migrated": 35,
+                "revert_resize": 35,
+                "confirm_resize": 35,
+                "resize_confirming": 35,
+                "resize_finish" : 75,
+            },
             "shutoff": {
                 "powering-on": 50
             },
@@ -109,6 +126,9 @@ var get_percent_complete = function(state, activity) {
             "error": {}
         };
 
+    if (!state) {
+        state = "error";
+    }
     lookup = states[state];
 
     if (!lookup) {
