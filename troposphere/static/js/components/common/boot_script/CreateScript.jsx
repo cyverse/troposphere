@@ -76,7 +76,8 @@ export default React.createClass({
             let script = actions.ScriptActions.create({
                 type: this.state.type,
                 title: this.state.title.trim(),
-                text: this.state.text.trim()
+                text: this.state.text.trim(),
+                strategy: this.state.strategy.trim()
             });
             this.props.onCreate(script);
             this.props.close();
