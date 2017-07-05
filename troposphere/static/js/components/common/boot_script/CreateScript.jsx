@@ -12,6 +12,7 @@ export default React.createClass({
             validate: false
         })
     },
+
     propTypes: {
         style: React.PropTypes.object,
         close: React.PropTypes.func.isRequired,
