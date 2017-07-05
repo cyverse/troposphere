@@ -76,9 +76,12 @@ const BootScriptListView = React.createClass({
 
     renderBootScriptRow: function(bootScript) {
         let { td } = this.style();
-        //NOTE: Key warning in tr (created by BootScriptListView) onCreate..?
+
+        // Set a key that lexicograhically sorts first by title then by cid.
+        // Cannot sort by id, because recently created bootscript has no id
+        let key = bootScript.get("title") + bootScript.cid;
         return (
-        <tr key={bootScript.get("id")}>
+        <tr key={key}>
             <td style={td}>
                 {bootScript.get("title")}
             </td>
