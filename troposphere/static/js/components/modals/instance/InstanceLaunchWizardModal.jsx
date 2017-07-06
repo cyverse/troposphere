@@ -142,9 +142,9 @@ export default React.createClass({
             });
         }
 
-        if (providerSizeList && imageVersion) {
+        if (provider && providerSizeList && imageVersion) {
             providerSizeList =
-                this.filterSizeList(providerSizeList, imageVersion);
+                this.filterSizeList(provider, providerSizeList, imageVersion);
         }
 
         let providerSize = this.state.providerSize;
@@ -272,9 +272,9 @@ export default React.createClass({
             });
         }
 
-        if (providerSizeList && imageVersion) {
+        if (provider && providerSizeList && imageVersion) {
             providerSizeList =
-                this.filterSizeList(providerSizeList, imageVersion);
+                this.filterSizeList(provider, providerSizeList, imageVersion);
         }
 
         let providerSize;
@@ -327,9 +327,9 @@ export default React.createClass({
             });
         }
 
-        if (providerSizeList && imageVersion) {
+        if (provider && providerSizeList && imageVersion) {
             providerSizeList =
-                this.filterSizeList(providerSizeList, imageVersion);
+                this.filterSizeList(provider, providerSizeList, imageVersion);
         }
 
         let providerSize;
@@ -363,9 +363,9 @@ export default React.createClass({
         });
 
         let imageVersion = this.state.imageVersion;
-        if (providerSizeList && imageVersion) {
+        if (provider && providerSizeList && imageVersion) {
             providerSizeList =
-                this.filterSizeList(providerSizeList, imageVersion);
+                this.filterSizeList(provider, providerSizeList, imageVersion);
         }
 
         let providerSize;
@@ -433,13 +433,13 @@ export default React.createClass({
         });
     },
 
-    filterSizeList(sizes, imageVersion) {
+    filterSizeList(provider, sizes, imageVersion) {
         let selectedMachine =
             imageVersion.get('machines')
                         .find(m => m.provider.id == provider.id);
 
         // Return provider sizes that have enough disk space
-        return sizes.cfilter(size => size.get('disk') >= selectedMachine.size_gb)
+        return sizes.cfilter(size => size.get('disk') >= selectedMachine.size_gb);
     },
 
     //============================
@@ -649,9 +649,9 @@ export default React.createClass({
             });
         }
 
-        if (providerSizeList && imageVersion) {
+        if (provider && providerSizeList && imageVersion) {
             providerSizeList =
-                this.filterSizeList(providerSizeList, imageVersion);
+                this.filterSizeList(provider, providerSizeList, imageVersion);
         }
 
         let allocationSourceList;
