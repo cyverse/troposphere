@@ -185,10 +185,10 @@ export default React.createClass({
         modals.InstanceModals.unshelve(this.props.instance);
     },
 
-    onWebDesktop: function(instance) {
-        // TODO:
-        //      move this into a utilities file
+    onWebDesktop: function(instance, client, protocol) {
         var CSRFToken = findCookie("tropo_csrftoken");
+
+        trackAction(`activated-${client}-${protocol}`);
 
         // build a form to POST to web_desktop
         var form = $("<form>")
@@ -198,8 +198,18 @@ export default React.createClass({
 
         form.append($("<input>")
             .attr("type", "hidden")
-            .attr("name", "instanceId")
+            .attr("name", "instance_id")
             .attr("value", instance.get('uuid')));
+
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "protocol")
+            .attr("value", protocol));
+
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "client")
+            .attr("value", client));
 
         form.append($("<input>")
             .attr("type", "hidden")
@@ -232,12 +242,30 @@ export default React.createClass({
             links.push({
                 label: "Open Web Desktop",
                 icon: "sound-stereo",
-                onClick: this.onWebDesktop.bind(
-                    this,
-                    this.props.instance),
+                onClick: this.onWebDesktop.bind(this, this.props.instance, "web_desktop", "vnc"),
                 openInNewWindow: true,
                 isDisabled: disableWebLinks
             });
+        }
+
+        if (featureFlags.GUACAMOLE) {
+          links.push({
+              label: "Open New Web Shell (beta)",
+              icon: "text-background",
+              onClick: this.onWebDesktop.bind(this, this.props.instance, "guacamole", "ssh"),
+              openInNewWindow: true,
+              isDisabled: disableWebLinks
+          });
+
+          if (webDesktopCapable) {
+            links.push({
+              label: "Open New Web Desktop (beta)",
+              icon: "sound-dolby",
+              onClick: this.onWebDesktop.bind(this, this.props.instance, "guacamole", "vnc"),
+              openInNewWindow: true,
+              isDisabled: disableWebLinks
+            });
+          }
         }
 
         return links;

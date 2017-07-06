@@ -127,8 +127,12 @@
     var STATUS_PAGE_LINK = "{{ STATUS_PAGE_LINK }}";
 {% endif %}
 
-{% if WEB_DESKTOP_INCLUDE_LINK %}
-    var WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}";
+{% if WEB_DESKTOP_ENABLED %}
+    var WEB_DESKTOP_ENABLED = "{{ WEB_DESKTOP_ENABLED }}";
+{% endif %}
+
+{% if GUACAMOLE_ENABLED %}
+    var GUACAMOLE_ENABLED = "{{ GUACAMOLE_ENABLED }}";
 {% endif %}
 
 {% if show_public_site %}
