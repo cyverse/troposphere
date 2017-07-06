@@ -132,26 +132,25 @@ export default React.createClass({
             provider = provider || providerList.shuffle()[0];
         }
 
-        let identityProvider,
-            providerSizeList;
+        let identityProvider, providerSizeList;
         if (provider) {
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
         }
 
-        if (provider && imageVersion) {
-            providerSizeList = this.getSizeList(provider, imageVersion);
+        if (providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(providerSizeList, imageVersion);
         }
 
-
-        let providerSize;
+        let providerSize = this.state.providerSize;
         if (providerSizeList) {
-            providerSize = this.state.providerSize ?
-                this.state.providerSize :
-                providerSizeList.first();
+            providerSize = providerSize || providerSizeList.first();
         }
-        ;
 
         let allocationSource;
         if (allocationSourceList) {
@@ -252,33 +251,36 @@ export default React.createClass({
             imageVersionList = imageVersionList.cfilter(filterEndDate);
             imageVersion = imageVersionList.first();
         }
-        ;
 
         let providerList;
         if (imageVersion) {
             providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
-        ;
 
-        let provider,
-            identityProvider;
+        let provider;
         if (providerList) {
             provider = providerList.first();
+        }
+
+        let identityProvider, providerSizeList;
+        if (provider) {
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
         }
 
-        let providerSizeList;
-        if (provider && imageVersion) {
-            providerSizeList = this.getSizeList(provider, imageVersion);
+        if (providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(providerSizeList, imageVersion);
         }
 
         let providerSize;
         if (providerSizeList) {
             providerSize = providerSizeList.first();
         }
-        ;
 
         this.setState({
             image,
@@ -309,23 +311,31 @@ export default React.createClass({
 
     onVersionChange: function(imageVersion) {
         let providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
-        let providerSizeList;
-        let providerSize;
+
         let provider;
-        let identityProvider;
         if (providerList) {
             provider = providerList.first();
         }
+
+        let identityProvider, providerSizeList;
         if (provider) {
-            providerSizeList = this.getSizeList(provider, imageVersion);
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
         }
 
+        if (providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(providerSizeList, imageVersion);
+        }
+
+        let providerSize;
         if (providerSizeList) {
             providerSize = providerSizeList.first();
-        } // Else null?
+        }
 
         this.setState({
             imageVersion,
@@ -348,18 +358,24 @@ export default React.createClass({
     },
 
     onProviderChange: function(provider) {
-        let providerSizeList = this.getSizeList(provider, this.state.imageVersion);
+        let providerSizeList = stores.SizeStore.fetchWhere({
+            provider__id: provider.id
+        });
+
+        let imageVersion = this.state.imageVersion;
+        if (providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(providerSizeList, imageVersion);
+        }
 
         let providerSize;
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        }
 
         let identityProvider = stores.IdentityStore.findOne({
             "provider.id": provider.id
         });
-
-        if (providerSizeList) {
-            providerSize = providerSizeList.first();
-        }
-        ;
 
         this.setState({
             provider,
@@ -417,17 +433,13 @@ export default React.createClass({
         });
     },
 
-    getSizeList: function(provider, imageVersion) {
-        let providerSizeList,
-            machines = imageVersion.get('machines'),
-            selectedMachine = machines.find(m => m.provider.id == provider.id);
-        if(selectedMachine) {
-            providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id,
-                provider_machine__id: selectedMachine.id
-            });
-        }
-        return providerSizeList;
+    filterSizeList(sizes, imageVersion) {
+        let selectedMachine =
+            imageVersion.get('machines')
+                        .find(m => m.provider.id == provider.id);
+
+        // Return provider sizes that have enough disk space
+        return sizes.cfilter(size => size.get('disk') >= selectedMachine.size_gb)
     },
 
     //============================
@@ -632,10 +644,14 @@ export default React.createClass({
         if (provider) {
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
         }
 
-        if (provider && imageVersion) {
-            providerSizeList = this.getSizeList(provider, imageVersion);
+        if (providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(providerSizeList, imageVersion);
         }
 
         let allocationSourceList;
