@@ -438,8 +438,14 @@ export default React.createClass({
             imageVersion.get('machines')
                         .find(m => m.provider.id == provider.id);
 
+        let largeEnough = size =>
+            // Disk size of 0 specially treated in Openstack, the size will be
+            // the size of the image
+            size.get('disk') === 0 ||
+            size.get('disk') >= selectedMachine.size_gb;
+
         // Return provider sizes that have enough disk space
-        return sizes.cfilter(size => size.get('disk') >= selectedMachine.size_gb);
+        return sizes.cfilter(largeEnough);
     },
 
     //============================
