@@ -80,6 +80,10 @@ WEB_SH_ROUTE =
 LDAP_SERVER_DN =
 USE_LOGIN_SELECTION = False
 DATABASE_PORT = 5432
+EXTERNAL_ALLOCATION = False # True if a site has an external process for managing allocation
+                            # True for Jetstream, False for CyVerse
+ALLOCATION_UNIT_ABBREV = "AU" # "SU" for Jetstream
+ALLOCATION_UNIT_NAME = "allocation unit" # "service unit" for Jetstream
 DJANGO_JENKINS =
 SSLSERVER =
 SESSION_COOKIE_AGE =

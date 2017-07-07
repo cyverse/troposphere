@@ -165,6 +165,15 @@
     var USE_ALLOCATION_SOURCES = false;
 {% endif %}
 
+{% if EXTERNAL_ALLOCATION %}
+    var EXTERNAL_ALLOCATION = true;
+{%  else %}
+    var EXTERNAL_ALLOCATION = false;
+{% endif %}
+
+var ALLOCATION_UNIT_NAME = "{{ ALLOCATION_UNIT_NAME }}";
+var ALLOCATION_UNIT_ABBREV = "{{ ALLOCATION_UNIT_ABBREV }}";
+
 {% if notice %}
     var maint_notice = {
          title: "{{notice.title}}",

@@ -189,6 +189,13 @@ USE_MOCK_DATA = {{ USE_MOCK_DATA }}
 # display AllocationSources rather than Allocation
 USE_ALLOCATION_SOURCES = {{ USE_ALLOCATION_SOURCES }}
 
+#  whether a site has an external process for managing
+EXTERNAL_ALLOCATION = {{ EXTERNAL_ALLOCATION }}
+
+# Site operator specific units, see ./variables.ini.dist for description
+ALLOCATION_UNIT_NAME = "{{ ALLOCATION_UNIT_NAME }}"
+ALLOCATION_UNIT_ABBREV = "{{ ALLOCATION_UNIT_ABBREV }}"
+
 # atmosphere must include the metrics endpoint
 SHOW_INSTANCE_METRICS = {{ SHOW_INSTANCE_METRICS }}
 {% if BADGES_ENABLED %}
