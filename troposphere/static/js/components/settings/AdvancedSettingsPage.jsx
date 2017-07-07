@@ -1,7 +1,7 @@
 import React from "react";
 
 import SSHConfiguration from "components/settings/advanced/SSHConfiguration";
-import BootScriptListView from "components/settings/advanced/BootScriptListView";
+import ScriptListView from "components/settings/advanced/ScriptListView";
 import ClientCredentials from "components/settings/advanced/ClientCredentials";
 
 
@@ -23,9 +23,9 @@ export default React.createClass({
             showMore: !this.state.showMore
         });
     },
-    renderBootScripts: function() {
+    renderScripts: function() {
         return (
-            <BootScriptListView/>
+            <ScriptListView/>
         );
     },
 
@@ -40,7 +40,7 @@ export default React.createClass({
         return (
         <div style={{ marginLeft: "30px" }}>
             {/* this.renderClientCredentials() -- Make this a feature before removing the comments*/}
-            {this.renderBootScripts() }
+            {this.renderScripts() }
             <SSHConfiguration/>
             <button onClick={this.showToggle}>
                 Show Less

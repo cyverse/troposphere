@@ -1,6 +1,6 @@
 import React from "react";
 import ModalHelpers from "components/modals/ModalHelpers";
-import SSHKeyUpload from "components/modals/SSHKeyUpload";
+import SSHKeyUpload from "components/modals/ssh_key/SSHKeyUpload";
 import stores from "stores";
 
 import globals from "globals";
