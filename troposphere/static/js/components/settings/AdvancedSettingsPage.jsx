@@ -10,7 +10,7 @@ export default React.createClass({
 
     getInitialState: function() {
         return {
-            showMore: true,  //Temporary
+            showMore: false,
         };
     },
 
