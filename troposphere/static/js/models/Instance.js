@@ -76,8 +76,7 @@ export default Backbone.Model.extend({
             }
         }
 
-        var provider = this.get("provider").uuid,
-            identity = this.get("identity").uuid,
+        let identity = this.get("identity").uuid,
             name = options.name,
             size = options.size_alias,
             source = options.source_alias,
