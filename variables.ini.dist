@@ -55,6 +55,7 @@ BASE_URL =
 DYNAMIC_ASSET_LOADING = False # False for local dev - controls JS asset generations and loading (app.js vs app-[hash].js)
 ENABLE_WEBPACK_LOADER_CACHE = False # if local, set False otherwise True
 DISABLE_PUBLIC_AUTH = True
+ENABLE_PROJECT_SHARING = True ;
 AUTH_USE_OVERRIDE =
 AUTH_ENABLE_MOCK =
 AUTH_ENABLE_MODEL =

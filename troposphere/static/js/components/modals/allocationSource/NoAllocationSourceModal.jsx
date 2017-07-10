@@ -126,7 +126,7 @@ const DefaultModalView = React.createClass({
             renderedNullProject = [];
 
         let noProjects = orphans.filter(
-            o => o.get("projects") && o.get("projects").length == 0
+            o => o.get("project") == null
         );
 
         if (noProjects.length > 0) {

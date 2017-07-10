@@ -14,8 +14,9 @@
 import React from "react";
 import Backbone from "backbone";
 import _ from "underscore";
+import context from "context";
 import modals from "modals";
-import stores from "stores";
+import subscribe from "utilities/subscribe";
 import globals from "globals";
 import actions from "actions";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
@@ -34,8 +35,9 @@ import LicenseStep from "./launch/steps/LicenseStep";
 // onSubmitLaunch). Do not add state friviously. This component operates by
 // defining all the operations to update its state as functions which it
 // passes to the appropriate children.
-export default React.createClass({
+const InstanceLaunchWizardModal = React.createClass({
     mixins: [BootstrapModalMixin],
+
     displayName: "InstanceLaunchWizardModal",
 
     propTypes: {
@@ -46,16 +48,34 @@ export default React.createClass({
     },
 
     getInitialState: function() {
+        let { AllocationSourceStore, ProjectStore, ProviderStore, ImageVersionStore, SizeStore } = this.props.subscriptions;
+        this.props.addSubscriber(this.updateState);
 
         // We might have these
         let image = this.props.image ? this.props.image : null;
         let instanceName = image ? image.get("name") : null;
+        let allocationSource, imageVersion;
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
 
+        if (image) {
+            let imageVersionList = ImageVersionStore.fetchWhere({
+                image_id: image.id
+            });
+            if (imageVersionList && !imageVersion) {
+                imageVersionList = imageVersionList.cfilter(filterEndDate);
+                imageVersion = imageVersionList.first();
+            }
+        }
+        // We might get defaults on these, and need to start querying if we dont
+        let allocationSourceList = AllocationSourceStore.getAll();
+        if (allocationSourceList) {
+            allocationSource = allocationSourceList.first();
+        }
+
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
-        let projectList = stores.ProjectStore.getAll();
+        let projectList = ProjectStore.getAll();
         if (projectList) {
             if (view != "IMAGE_VIEW" && projectList.length === 0) {
                 view = "PROJECT_VIEW";
@@ -66,38 +86,35 @@ export default React.createClass({
             instanceName = instanceName.replace(/\./g, '_');
         }
 
+        if (!project && projectList) {
+            project = projectList.first();
+        }
+
         return {
             // State for general operation (switching views, etc)
             view,
             image,
-            provider: null,
             showValidationErr: false,
 
             // State for launch
             instanceName,
-            imageVersion: null,
+            imageVersion,
             project,
             providerSize: null,
             identityProvider: null,
             attachedScripts: [],
-            allocationSource: null
+            allocationSource
         }
     },
 
-    // Set the component's state based on cloud defaults.
-    //
-    // Whenever the wizard mounts it listens for changes from the stores,
-    // passing this function as a callback. Incrementally it calls stores to
-    // fetch data. It only sets state for defaults, i.e. if project is null,
-    // set the project to the first returned from the cloud. It primes our
-    // stores, so that render can just call get and eventually get data.
     updateState: function() {
-        let allocationSourceList = stores.AllocationSourceStore.getAll();
+        let { AllocationSourceStore, ProjectStore, ProviderStore, ImageVersionStore, SizeStore } = this.props.subscriptions;
+        let allocationSourceList = AllocationSourceStore.getAll();
         let view = this.props.initialView;
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
-        let projectList = stores.ProjectStore.getAll();
+        let projectList = ProjectStore.getAll();
         if (projectList) {
             if (view != "IMAGE_VIEW" && projectList.length === 0) {
                 this.viewProject();
@@ -111,7 +128,7 @@ export default React.createClass({
 
         let imageVersionList;
         if (this.state.image) {
-            imageVersionList = stores.ImageVersionStore.fetchWhere({
+            imageVersionList = ImageVersionStore.fetchWhere({
                 image_id: this.state.image.id
             });
         }
@@ -122,17 +139,20 @@ export default React.createClass({
             imageVersion = imageVersionList.first();
         }
 
-        let providerList;
+        let providerList, identityList;
         if (imageVersion) {
-            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
+            providerList = ProviderStore.getProvidersForVersion(imageVersion);
         }
 
         let provider = this.state.provider;
         if (providerList) {
+            identityList = this.getIdentitiesForProviderList(providerList);
             provider = provider || providerList.shuffle()[0];
         }
 
-        let identityProvider, providerSizeList;
+        //FIXME: providerSizeList should be based on the selected identity rather than the provider (minute detail for now)
+        let identityProvider,
+            providerSizeList;
         if (provider) {
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
@@ -140,6 +160,9 @@ export default React.createClass({
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
+        }
+        if (identityList) {
+            identityProvider = this.getIdentityFromList(identityList);
         }
 
         if (provider && providerSizeList && imageVersion) {
@@ -168,37 +191,6 @@ export default React.createClass({
             identityProvider,
             allocationSource,
         });
-    },
-
-    componentDidMount: function() {
-        stores.IdentityStore.addChangeListener(this.updateState);
-        stores.ProviderStore.addChangeListener(this.updateState);
-        stores.SizeStore.addChangeListener(this.updateState);
-        stores.ProjectStore.addChangeListener(this.updateState);
-        stores.ImageVersionStore.addChangeListener(this.updateState);
-        stores.ScriptStore.addChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.addChangeListener(this.updateState);
-        }
-
-        // NOTE: This is not nice. This enforces that every time a component
-        // mounts updateState gets called. Otherwise, if a component mounts
-        // after data has been fetched, then updateState never gets called.
-        this.updateState();
-    },
-
-    componentWillUnmount: function() {
-        stores.IdentityStore.removeChangeListener(this.updateState);
-        stores.ProviderStore.removeChangeListener(this.updateState);
-        stores.SizeStore.removeChangeListener(this.updateState);
-        stores.ProjectStore.removeChangeListener(this.updateState);
-        stores.ImageVersionStore.removeChangeListener(this.updateState);
-        stores.ScriptStore.removeChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.removeChangeListener(this.updateState);
-        }
     },
 
     viewImageSelect: function() {
@@ -242,7 +234,8 @@ export default React.createClass({
             instanceName = instanceName.replace(/\./g, '_');
         }
 
-        let imageVersionList = stores.ImageVersionStore.fetchWhere({
+        let { SizeStore, ProviderStore, ImageVersionStore } = this.props.subscriptions;
+        let imageVersionList = ImageVersionStore.fetchWhere({
             image_id: image.id
         });
 
@@ -254,24 +247,26 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
+            providerList = ProviderStore.getProvidersForVersion(imageVersion);
         }
 
-        let provider;
+        let provider,
+            identityList,
+            providerSizeList,
+            identityProvider;
         if (providerList) {
             provider = providerList.first();
         }
-
-        let identityProvider, providerSizeList;
-        if (provider) {
-            identityProvider = stores.IdentityStore.findOne({
-                "provider.id": provider.id
-            });
-            providerSizeList = stores.SizeStore.fetchWhere({
+        if(provider) {
+            providerSizeList = SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-        }
+            identityList = this.getIdentitiesForProviderList(providerList);
 
+        }
+        if (identityList) {
+            identityProvider = this.getIdentityFromList(identityList);
+        }
         if (provider && providerSizeList && imageVersion) {
             providerSizeList =
                 this.filterSizeList(provider, providerSizeList, imageVersion);
@@ -310,21 +305,22 @@ export default React.createClass({
     },
 
     onVersionChange: function(imageVersion) {
-        let providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
-
-        let provider;
+        let { ProviderStore, SizeStore } = this.props.subscriptions;
+        let providerList = ProviderStore.getProvidersForVersion(imageVersion);
+        let identityList,
+            providerSizeList;
+        let providerSize;
+        let identityProvider, provider;
         if (providerList) {
             provider = providerList.first();
         }
 
-        let identityProvider, providerSizeList;
         if (provider) {
-            identityProvider = stores.IdentityStore.findOne({
-                "provider.id": provider.id
-            });
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
+
+            identityList = this.getIdentitiesForProviderList(providerList);
         }
 
         if (provider && providerSizeList && imageVersion) {
@@ -332,11 +328,12 @@ export default React.createClass({
                 this.filterSizeList(provider, providerSizeList, imageVersion);
         }
 
-        let providerSize;
         if (providerSizeList) {
             providerSize = providerSizeList.first();
         }
-
+        if (identityList) {
+            identityProvider = this.getIdentityFromList(identityList);
+        }
         this.setState({
             imageVersion,
             provider,
@@ -345,9 +342,34 @@ export default React.createClass({
         });
     },
 
+    getIdentityFromList: function(identityList) {
+        let current = this.state.identityProvider,
+            current_id = (current == null) ? -1 : current.id,
+            identityProvider = identityList.find(function(identity) { return identity.id == current_id; });
+        if (! identityProvider) {
+            identityProvider = identityList.first();
+        }
+        return identityProvider;
+    },
+
     onProjectChange: function(project) {
+        let { ProviderStore } = this.props.subscriptions;
+        let identityProvider, provider,
+            providerList = ProviderStore.getProvidersForVersion(this.state.imageVersion),
+            identityList = this.getIdentitiesForProviderList(providerList);
+        if (identityList) {
+            identityProvider = this.getIdentityFromList(identityList);
+            provider = ProviderStore.findOne({
+                "id": identityProvider.get('provider').id
+            });
+        } else {
+            provider = null;
+            identityProvider = null;
+        }
         this.setState({
-            project
+            project,
+            provider,
+            identityProvider
         });
     },
 
@@ -357,8 +379,13 @@ export default React.createClass({
         });
     },
 
-    onProviderChange: function(provider) {
-        let providerSizeList = stores.SizeStore.fetchWhere({
+    onIdentityChange: function(identityProvider) {
+        let { ProviderStore, SizeStore } = this.props.subscriptions;
+        let provider = ProviderStore.findOne({
+            "id": identityProvider.get('provider').id
+        });
+
+        let providerSizeList = SizeStore.fetchWhere({
             provider__id: provider.id
         });
 
@@ -373,9 +400,10 @@ export default React.createClass({
             providerSize = providerSizeList.first();
         }
 
-        let identityProvider = stores.IdentityStore.findOne({
-            "provider.id": provider.id
-        });
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        }
+        ;
 
         this.setState({
             provider,
@@ -425,11 +453,12 @@ export default React.createClass({
         });
     },
 
-    onProjectCreateConfirm: function(name, description) {
+    onProjectCreateConfirm: function(name, description, groupOwner) {
         this.viewBasic();
         actions.ProjectActions.create({
             name: name,
-            description
+            description,
+            owner: groupOwner,
         });
     },
 
@@ -497,12 +526,13 @@ export default React.createClass({
     // Returns true if instance launch will exceed the user's allotted
     // resources.
     exceedsResources: function() {
+        let { InstanceStore } = this.props.subscriptions;
         let provider = this.state.provider;
         let identityProvider = this.state.identityProvider;
         let size = this.state.providerSize;
 
         if (identityProvider && size && provider) {
-            let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+            let resourcesUsed = InstanceStore.getTotalResources(provider.id);
 
             /* eslint-disable no-unused-vars */
 
@@ -613,9 +643,28 @@ export default React.createClass({
         );
     },
 
+    getIdentitiesForProviderList: function(providerList) {
+        let { IdentityStore } = this.props.subscriptions;
+        let provider_ids = providerList.map(function (provider) { return provider.get('id') }),
+            current_user = context.profile.get('username'),
+            group = this.state.project.get('owner'),
+            ownedIdentityList = IdentityStore.getIdentitiesForGroup(group, current_user);
+        if (!ownedIdentityList) {
+            return ownedIdentityList;
+        }
+        var filteredIdentities = ownedIdentityList.cfilter(function (ident) {
+            let provider_id = ident.get('provider').id;
+            if ( provider_ids.indexOf(provider_id) < 0) {
+                return false;
+            }
+            return true;
+        });
+        return filteredIdentities;
+    },
+
     renderProjectCreateStep: function() {
         return (
-        <ProjectCreateView cancel={this.hide} onConfirm={this.onProjectCreateConfirm} />
+            <ProjectCreateView cancel={this.hide} onConfirm={this.onProjectCreateConfirm} />
         );
     },
 
@@ -626,12 +675,13 @@ export default React.createClass({
         let project = this.state.project;
         let image = this.state.image;
         let imageVersion = this.state.imageVersion;
-
-        let projectList = stores.ProjectStore.getAll() || null;
+        let identityProvider = this.state.identityProvider;
+        let { InstanceStore, SizeStore, ImageVersionStore, ProjectStore, ProviderStore } = this.props.subscriptions;
+        let projectList = ProjectStore.getAll() || null;
 
         let imageVersionList;
         if (this.state.image) {
-            imageVersionList = stores.ImageVersionStore.fetchWhere({
+            imageVersionList = ImageVersionStore.fetchWhere({
                 image_id: this.state.image.id
             });
 
@@ -640,17 +690,24 @@ export default React.createClass({
             }
         }
 
-        let providerList;
+        let providerList, identityList;
         if (imageVersion) {
-            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
+            providerList = ProviderStore.getProvidersForVersion(imageVersion);
         }
 
+        if (providerList) {
+            identityList = this.getIdentitiesForProviderList(providerList);
+        }
+
+        if (identityList) {
+            identityProvider = this.getIdentityFromList(identityList);
+        }
         let providerSizeList,
             resourcesUsed;
         if (provider) {
-            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+            resourcesUsed = InstanceStore.getTotalResources(provider.id);
 
-            providerSizeList = stores.SizeStore.fetchWhere({
+            providerSizeList = SizeStore.fetchWhere({
                 provider__id: provider.id
             });
         }
@@ -662,21 +719,23 @@ export default React.createClass({
 
         let allocationSourceList;
         if (globals.USE_ALLOCATION_SOURCES) {
-            allocationSourceList = stores.AllocationSourceStore.getAll();
+            let { AllocationSourceStore } = this.props.subscriptions;
+            allocationSourceList = AllocationSourceStore.getAll();
         }
 
         return (
         <BasicLaunchStep { ...{ showValidationErr: this.state.showValidationErr, attachedScripts: this.state.attachedScripts, backIsDisabled: this.props.initialView=="BASIC_VIEW"
-            , launchIsDisabled: !this.canLaunch(), identityProvider: this.state.identityProvider, image, imageVersion, imageVersionList, instanceName: this.state.instanceName,
+            , launchIsDisabled: !this.canLaunch(), identity: identityProvider, identityProvider: identityProvider, image, imageVersion, imageVersionList, instanceName: this.state.instanceName,
             onBack: this.onBack, onCancel: this.hide, onNameChange: this.onNameChange, onNameBlur: this.onNameBlur, onProjectChange: this.onProjectChange, onAllocationSourceChange:
-            this.onAllocationSourceChange, onProviderChange: this.onProviderChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
-            this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
+            this.onAllocationSourceChange, onIdentityChange: this.onIdentityChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
+            this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, identityList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
             this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList, }} />
         )
     },
 
     renderAdvancedOptions: function() {
-        let bootScriptList = stores.ScriptStore.getAll();
+        let { ScriptStore } = this.props.subscriptions;
+        let bootScriptList = ScriptStore.getAll();
         return (
         <AdvancedLaunchStep bootScriptList={bootScriptList}
             attachedScripts={this.state.attachedScripts}
@@ -720,3 +779,9 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(
+    InstanceLaunchWizardModal,
+    [
+        "ProviderStore", "ProjectStore", "AllocationSourceStore", "IdentityStore",
+        "InstanceStore", "SizeStore", "ImageVersionStore", "ScriptStore"]);

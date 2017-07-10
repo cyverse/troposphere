@@ -3,6 +3,7 @@ import React from "react";
 import AllocationStore from "stores/AllocationStore";
 import BadgeStore from "stores/BadgeStore";
 import ClientCredentialStore from "stores/ClientCredentialStore";
+import GroupStore from "stores/GroupStore";
 import ExternalLinkStore from "stores/ExternalLinkStore";
 import HelpLinkStore from "stores/HelpLinkStore";
 import ImageStore from "stores/ImageStore";
@@ -47,7 +48,7 @@ import AllocationSourceStore from "stores/AllocationSourceStore";
 // late. This wrapper component wraps the module when it is defined and
 // stores.<STORE_NAME> isn't available then.
 let stores = {
-    AllocationStore, BadgeStore, ClientCredentialStore, ExternalLinkStore, HelpLinkStore, ImageStore, ImageVersionStore, ImageVersionMembershipStore, ImageVersionLicenseStore, ImageVersionScriptStore, IdentityStore, ImageBookmarkStore, InstanceHistoryStore, ImageRequestStore, InstanceStore, InstanceTagStore, LicenseStore, ScriptStore, MaintenanceMessageStore, MyBadgeStore, MembershipStore, ProfileStore, ProjectStore, ProjectExternalLinkStore, ProjectImageStore, ProjectInstanceStore, ProjectVolumeStore, ProviderMachineStore, ProviderStore, ResourceRequestStore, IdentityMembershipStore, StatusStore, SSHKeyStore, QuotaStore, SizeStore, TagStore, UserStore, VersionStore, VolumeStore, AllocationSourceStore,
+    AllocationStore, BadgeStore, ClientCredentialStore, GroupStore, ExternalLinkStore, HelpLinkStore, ImageStore, ImageVersionStore, ImageVersionMembershipStore, ImageVersionLicenseStore, ImageVersionScriptStore, IdentityStore, ImageBookmarkStore, InstanceHistoryStore, ImageRequestStore, InstanceStore, InstanceTagStore, LicenseStore, ScriptStore, MaintenanceMessageStore, MyBadgeStore, MembershipStore, ProfileStore, ProjectStore, ProjectExternalLinkStore, ProjectImageStore, ProjectInstanceStore, ProjectVolumeStore, ProviderMachineStore, ProviderStore, ResourceRequestStore, IdentityMembershipStore, StatusStore, SSHKeyStore, QuotaStore, SizeStore, TagStore, UserStore, VersionStore, VolumeStore, AllocationSourceStore,
 }
 
 // Add change listeners to the component for the following stores. The stores
@@ -87,6 +88,22 @@ export default function(component, storeNames) {
 
         updateState: function() {
             this.forceUpdate();
+            this.callSubscribeListeners();
+        },
+        getInitialState: function() {
+            return {
+                subscribeListeners: []
+            }
+        },
+        callSubscribeListeners: function() {
+            this.state.subscribeListeners.forEach(
+                cb => cb()
+            );
+
+        },
+        addSubscriber: function(callback) {
+            this.state.subscribeListeners.push(
+                    callback)
         },
 
         render: function() {
@@ -95,7 +112,7 @@ export default function(component, storeNames) {
             let newProps = Object.assign(
                     {},
                     this.props,
-                    { subscriptions });
+                    { subscriptions, addSubscriber:this.addSubscriber});
             return React.createElement(component, newProps);
         }
     });

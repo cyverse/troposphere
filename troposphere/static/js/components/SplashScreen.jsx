@@ -40,9 +40,10 @@ export default React.createClass({
         var profile = stores.ProfileStore.get(),
             instances = stores.InstanceStore.getAll(),
             volumes = stores.VolumeStore.getAll(),
+            projects = stores.ProjectStore.getAll(),
             isEmulatedUser;
 
-        if (profile && instances && volumes) {
+        if (profile && instances && volumes && projects) {
 
             // set user context
             context.profile = profile;
@@ -76,12 +77,14 @@ export default React.createClass({
         stores.ProfileStore.addChangeListener(this.updateState);
         stores.InstanceStore.addChangeListener(this.updateState);
         stores.VolumeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
         stores.ProfileStore.removeChangeListener(this.updateState);
         stores.InstanceStore.removeChangeListener(this.updateState);
         stores.VolumeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
     },
 
     startApplication: function() {

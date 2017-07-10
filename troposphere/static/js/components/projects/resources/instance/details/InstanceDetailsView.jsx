@@ -1,5 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
+import context from "context";
 
 import BreadcrumbBar from "components/projects/common/BreadcrumbBar";
 import globals from "globals";
@@ -44,8 +45,12 @@ export default React.createClass({
     },
 
     renderAllocationSourceSection() {
+        let instance_username = this.props.instance.get('user').username,
+            current_username = context.profile.get('username'),
+            disabled = (current_username != instance_username);
         let props = {
             onSourceChange: this.onSourceChange,
+            disabled: disabled,
             ...this.props
         }
         return (

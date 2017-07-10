@@ -1,14 +1,21 @@
+import featureFlags from "utilities/featureFlags";
+
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
+import subscribe from "utilities/subscribe";
+import context from "context";
+import SelectMenu from "components/common/ui/SelectMenu";
 import { trackAction } from "../../utilities/userActivity";
 
-export default React.createClass({
+const ProjectCreateView = React.createClass({
     displayName: "ProjectCreateView",
 
     getInitialState: function() {
+
         return {
             projectName: "",
             projectDescription: "",
+            groupOwner: null,
             showValidation: false
         };
     },
@@ -35,6 +42,22 @@ export default React.createClass({
         }
     },
 
+    validateOwner: function () {
+        let owner = this.state.groupOwner;
+        let hasError = false;
+        let message = "";
+
+        if (owner === "" || owner === null) {
+            hasError = true;
+            message = "This field is required";
+        }
+
+        return {
+            hasError,
+            message
+        }
+    },
+
     validateDescription: function () {
         let description = this.state.projectDescription;
         let hasError = false;
@@ -52,11 +75,10 @@ export default React.createClass({
     },
 
     isSubmittable: function () {
-        if (!this.validateName().hasError && !this.validateDescription().hasError) {
-            return true;
+        if (this.validateName().hasError || this.validateDescription().hasError || (featureFlags.hasProjectSharing() && this.validateOwner().hasError) ) {
+            return false;
         }
-
-        return false;
+        return true;
     },
 
     cancel: function() {
@@ -66,7 +88,8 @@ export default React.createClass({
     confirm: function() {
         if (this.isSubmittable()) {
             this.props.onConfirm(this.state.projectName.trim(),
-                                 this.state.projectDescription.trim());
+                                 this.state.projectDescription.trim(),
+                                 this.state.groupOwner);
         }
         trackAction("created-project", {});
         this.setState({
@@ -96,13 +119,51 @@ export default React.createClass({
         });
     },
 
+    mapGroupOptions: function(group) {
+        let name = group.get('name'),
+            groupUsers = group.get('users'),
+            isPrivate = (groupUsers.length == 1),
+            optionName;
+        if(isPrivate) {
+            optionName = name + " (Private)"
+        } else {
+            optionName = name + " (Shared)"
+        }
+        return optionName;
+    },
+    getMemberNames: function(group) {
+        if(!group) {
+            return "";
+        }
+        let user_list = group.get('users'),
+            username_list = user_list.map(function(g) {return g.username});
+
+        return username_list.join(", ");
+    },
     renderBody: function() {
         let projectName = this.state.projectName;
         let nameClassNames = "form-group";
         let nameErrorMessage = null;
         let descriptionClassNames = "form-group";
         let descriptionErrorMessage = null;
+        let groupClassNames = "form-group";
+        let groupErrorMessage = null;
 
+        let { GroupStore } = this.props.subscriptions;
+
+        let groupList = GroupStore.getAll();
+        if(!groupList) {
+            return (<div className="loading"></div>);
+        }
+        let projectType;
+        if (!this.state.groupOwner) {
+            projectType = "Select a Group";
+        } else if (this.state.groupOwner.get('users').length == 1) {
+            projectType = "Private Project";
+        } else {
+            let projectUsernameList = this.getMemberNames(this.state.groupOwner);
+            projectType = "Share this Project with Users: " + projectUsernameList;
+        }
         if (this.state.showValidation) {
             nameClassNames = this.validateName().hasError ?
                 "form-group has-error" : null;
@@ -110,6 +171,10 @@ export default React.createClass({
             descriptionClassNames = this.validateDescription().hasError ?
                 "form-group has-error" : null;
             descriptionErrorMessage = this.validateDescription().message;
+            let validateOwner = this.validateOwner();
+            groupErrorMessage = validateOwner.message;
+            groupClassNames = validateOwner.hasError ?
+                "form-group has-error" : null;
         }
 
         return (
@@ -140,8 +205,61 @@ export default React.createClass({
                     onChange={this.onDescriptionChange} />
                 <span className="help-block">{descriptionErrorMessage}</span>
             </div>
+            {this.renderProjectVisibility()}
         </div>
         );
+    },
+    renderProjectVisibility: function() {
+        if(! featureFlags.hasProjectSharing()) {
+            return;
+        }
+
+        let { GroupStore } = this.props.subscriptions;
+
+        let groupList = GroupStore.getAll();
+        if(!groupList) {
+            return (<div className="loading"></div>);
+        }
+        let projectType;
+        if(! featureFlags.hasProjectSharing()) {
+            projectType = "";
+        } else if (!this.state.groupOwner) {
+            projectType = "Select a Group";
+        } else if (this.state.groupOwner.get('users').length == 1) {
+            projectType = "Private Project";
+        } else {
+            let projectUsernameList = this.getMemberNames(this.state.groupOwner);
+            projectType = "Share this Project with Users: " + projectUsernameList;
+        }
+
+        let groupClassNames = "form-group";
+        let groupErrorMessage = null;
+
+        if (this.state.showValidation) {
+            groupClassNames = validateOwner.hasError ?
+                "form-group has-error" : null;
+            groupErrorMessage = validateOwner.message;
+        }
+
+        return (<div className={groupClassNames}>
+                <label htmlFor="groupOwner">
+                    Project Visibility
+                </label>
+                <SelectMenu current={this.state.groupOwner}
+                    hintText={"Select a Private/Shared Group"}
+                    list={groupList}
+                    optionName={g => this.mapGroupOptions(g)}
+                    onSelect={this.onGroupChange} />
+                <p className="t-caption" style={{ display: "block" }}>
+                   {projectType}
+                </p>
+                <span className="help-block">{groupErrorMessage}</span>
+            </div>);
+    },
+    onGroupChange: function(group) {
+        this.setState({
+            groupOwner: group,
+        });
     },
 
     render: function() {
@@ -173,3 +291,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(ProjectCreateView, ["GroupStore"]);

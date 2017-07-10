@@ -2,7 +2,7 @@ import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import Visibility from "../components/Visibility";
-import Users from "../components/Users";
+import Users from "components/common/Users";
 
 export default React.createClass({
     displayName: "ImageWizard-VisibilityStep",
@@ -77,9 +77,10 @@ export default React.createClass({
     },
 
     renderUserList: function() {
+        let helpLabel = "Please include users that should be able to launch this image.";
         if (this.state.visibility === "select") {
             return (
-            <Users imageUsers={this.state.imageUsers} onUserAdded={this.onAddUser} onUserRemoved={this.onRemoveUser} />
+            <Users users={this.state.imageUsers} onUserAdded={this.onAddUser} onUserRemoved={this.onRemoveUser} help={helpLabel} />
             )
         }
     },

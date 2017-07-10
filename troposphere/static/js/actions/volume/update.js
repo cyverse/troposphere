@@ -5,9 +5,10 @@ export default {
     update: function(volume, newAttributes) {
         if (!volume)
             throw new Error("Missing volume");
-        if (!newAttributes || !newAttributes.name)
-            throw new Error("Missing attributes.name");
+        if (!newAttributes || (!newAttributes.name && !newAttributes.project))
+            throw new Error("Expected name and/or project in attributes. received " + newAttributes)
 
+        let project = newAttributes.project || volume.get('project');
         volume.set(newAttributes);
 
         Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {
@@ -15,7 +16,8 @@ export default {
         });
 
         volume.save({
-            name: volume.get("name")
+            name: volume.get("name"),
+            project: project.id
         }, {
             patch: true,
             merge: true

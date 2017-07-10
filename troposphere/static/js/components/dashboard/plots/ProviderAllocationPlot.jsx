@@ -4,7 +4,7 @@ import Backbone from "backbone";
 import PercentageGraph from "components/common/ui/PercentageGraph";
 
 export default React.createClass({
-    displayName: "ProviderSummaryLinePlot",
+    displayName: "ProviderAllocationPlot",
 
     propTypes: {
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
@@ -33,7 +33,7 @@ export default React.createClass({
             allocationUsage = allocationUsageStats.percentUsed * 100;
 
         var seriesData = {
-            name: provider.get("name"),
+            name: identity.getName(),
             data: [allocationUsage],
             limits: {
                 Allocation: allocationUsageStats.maxAllocation

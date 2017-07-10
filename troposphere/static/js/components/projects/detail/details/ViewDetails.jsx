@@ -2,8 +2,10 @@ import React from "react";
 import Backbone from "backbone";
 import Showdown from "showdown";
 import globals from "globals";
+import subscribe from "utilities/subscribe";
+import featureFlags from "utilities/featureFlags";
 
-export default React.createClass({
+const ViewDetails = React.createClass({
     displayName: "ViewDetails",
 
     propTypes: {
@@ -52,6 +54,69 @@ export default React.createClass({
         )
     },
 
+    renderUsersText: function(group_users) {
+        let group_users_text = group_users.map(function(user) {
+            return user.username;
+        });
+        return group_users_text.join(", ");
+    },
+    renderLeaders: function(project) {
+        var group_id = project.get("owner").id,
+            group = stores.GroupStore.get(group_id);
+        if(group == null) {
+            return (
+            <div className="project-info-segment row">
+                <h4 className="t-body-2 col-md-3">Leaders</h4>
+                <div className="loading" />
+            </div>
+            );
+        }
+        return (
+        <div className="project-info-segment row">
+            <h4 className="t-body-2 col-md-3">Leaders</h4>
+            <div className="col-md-9">
+                {this.renderUsersText(group.get("leaders"))}
+            </div>
+        </div>
+        );
+    },
+    renderVisibility: function(project) {
+        if (!featureFlags.hasProjectSharing()) {
+            return;
+        }
+        let { GroupStore } = this.props.subscriptions,
+            group_id = project.get("owner").id,
+            group = GroupStore.get(group_id);
+
+        if(group == null) {
+            return (
+            <div className="project-info-segment row">
+                <h4 className="t-body-2 col-md-3">Visibility</h4>
+                <div className="loading" />
+            </div>
+            );
+        }
+
+        let leaders = group.get('leaders'),
+            users = group.get('users'),
+            usernames = this.renderUsersText(users),
+            isPrivate = (users.length == 1),
+            body = group.get('name');
+        if(isPrivate) {
+            body = body + " - Private";
+        } else {
+            body = body + " - Shared with " + usernames;
+        }
+        return (
+        <div className="project-info-segment row">
+            <h4 className="t-body-2 col-md-3">Visibility</h4>
+            <div className="col-md-9">
+                {body}
+            </div>
+        </div>
+        );
+    },
+
     render: function() {
         var project = this.props.project;
 
@@ -60,7 +125,10 @@ export default React.createClass({
             {this.renderName(project)}
             {this.renderDateCreated(project)}
             {this.renderDescription(project)}
+            {this.renderVisibility(project)}
         </div>
         );
     }
 });
+
+export default subscribe(ViewDetails, ["GroupStore"]);

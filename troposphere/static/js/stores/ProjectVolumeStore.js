@@ -59,7 +59,9 @@ let ProjectStore = BaseStore.extend({
 
         var volumes = this.models.filter(function(pv) {
             // filter out irrelevant project volumes (not in target project)
-            return pv.get("project").id === project.id;
+            let compare_project = pv.get("project");
+            return (compare_project &&
+                compare_project.id === project.id);
         }).filter(function(pv) {
             // filter out the volumes that don't exist (not in local cache)
             return allVolumes.get(pv.get("volume").id);
@@ -70,7 +72,9 @@ let ProjectStore = BaseStore.extend({
 
         var pendingVolumes = _pendingProjectVolumes.filter(function(pv) {
             // filter out irrelevant project volumes (not in target project)
-            return pv.get("project").id === project.id;
+            let compare_project = pv.get("project");
+            return (compare_project &&
+                compare_project.id === project.id);
         }).filter(function(pv) {
             // filter out the volumes that don't exist (not in local cache)
             return allVolumes.get(pv.get("volume"));

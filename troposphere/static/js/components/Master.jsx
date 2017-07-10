@@ -67,19 +67,20 @@ export default React.createClass({
         // IMPORTANT! We get one shot at this. If the instances and volumes aren't
         // fetched before this component is mounted we miss our opportunity to migrate
         // the users resources (so make sure they're fetched in the Splash Screen)
-        var orphans = stores.InstanceStore.getInstancesNotInAProject(),
+        var instances = stores.InstanceStore.getInstancesNotInAProject(),
             volumes = stores.VolumeStore.getVolumesNotInAProject(),
             nullProject = new NullProject({
-                instances: orphans,
+                instances: instances,
                 volumes: volumes
             });
-
-        let instances = stores.InstanceStore.getAll();
+        let all_instances = stores.InstanceStore.getAll();
 
         new Promise((resolve, reject) => {
             if (globals.USE_ALLOCATION_SOURCES) {
                 // Filter instances without AS
-                let missing = instances.cfilter(i => !i.get("allocation_source"));
+                let profile = context.profile,
+                    username =  profile.get('username');
+                let missing = all_instances.cfilter(i => !i.get("allocation_source") && i.get('user').username == username);
 
                 if (missing.length > 0) {
                     noAllocationSource.showModal(missing, resolve);

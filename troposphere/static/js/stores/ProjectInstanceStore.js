@@ -58,8 +58,11 @@ let ProjectInstanceStore = BaseStore.extend({
         if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
 
         // Filter instances belonging to the project
+        // FIXME: Verify that project ID/UUID are matching here.
         var instances = allInstances.filter(function(i) {
-            return _.contains(i.get("projects"), project.id);
+            let compare_project = i.get("project");
+            return (compare_project &&
+                compare_project.id == project.id);
         });
 
         return new InstanceCollection(instances);

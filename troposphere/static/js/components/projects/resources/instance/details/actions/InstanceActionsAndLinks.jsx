@@ -5,6 +5,7 @@ import Backbone from "backbone";
 
 import Glyphicon from "components/common/Glyphicon";
 import InstanceActionNames from "constants/InstanceActionNames";
+import context from "context";
 
 import featureFlags from "utilities/featureFlags";
 import { findCookie } from "utilities/cookieHelpers";
@@ -348,16 +349,8 @@ export default React.createClass({
             </li>
         );
     },
-
-    render: function() {
-        let { actions, actionElements } = this.state;
-
-        stores.InstanceActionStore.getActionsFor(this.props.instance);
-
-        if (!actions) {
-            return (<div className="loading" />);
-        }
-
+    getLinkElements: function() {
+        let { actionElements } = this.state;
         let linkElements = [
                 {
                     label: "Actions",
@@ -370,12 +363,38 @@ export default React.createClass({
                 }
             ];
 
+        let instance_owner = this.props.instance.get('user'),
+            project_leaders = this.props.project.get('leaders'),
+            current_username = context.profile.get('username');
+        let is_leader = project_leaders.find(function(project) { return project.username == current_username }),
+            is_leader_or_owner = (current_username == instance_owner.username || is_leader != null);
+
+
+        if (!is_leader_or_owner) {
+            actionElements = [
+            {
+                label: "Shared Instance - No Actions Available",
+                icon: null
+            }];
+        }
         linkElements = linkElements.concat(actionElements);
         linkElements.push({
             label: "Links",
             icon: null
         });
         linkElements = linkElements.concat(this.getIntegrationLinks());
+        return linkElements;
+    },
+    render: function() {
+        let linkElements;
+        let { actions } = this.state;
+
+        stores.InstanceActionStore.getActionsFor(this.props.instance);
+
+        if (!actions) {
+            return (<div className="loading" />);
+        }
+        linkElements = this.getLinkElements();
 
         return (
         <div className="resource-actions">

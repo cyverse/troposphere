@@ -20,6 +20,9 @@ export default Backbone.Model.extend({
             attributes.name = "<Unnamed Instance>";
         }
         attributes.start_date = new Date(attributes.start_date);
+        if(attributes.end_date != null && attributes.end_date != "") {
+            attributes.end_date = new Date(attributes.end_date);
+        }
         attributes.state = new InstanceState({
             status_raw: attributes.status,
             status: attributes.status.split(" - ")[0],
@@ -54,6 +57,52 @@ export default Backbone.Model.extend({
             cb(response);
         }.bind(this)).fail(function(response, status, errorThrown) {
             cb(response);
+        });
+    },
+
+    create: function(options, cb) {
+        if (!options.name)
+            throw new Error("Missing name");
+        if (!options.size_alias)
+            throw new Error("Missing size_alias");
+        if (!options.source_alias)
+            throw new Error("Missing source_alias");
+        if (!options.project)
+            throw new Error("Missing project");
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            if (!options.allocation_source_id) {
+                throw new Error("Missing allocation_source_id");
+            }
+        }
+
+        var provider = this.get("provider").uuid,
+            identity = this.get("identity").uuid,
+            name = options.name,
+            size = options.size_alias,
+            source = options.source_alias,
+            project = options.project.get('uuid'),
+            allocation_source_id = options.allocation_source_id,
+            scripts = (options.scripts) ? options.scripts.map(function(script) {
+                return script.uuid; //FIXME: Verify if this should be `.get('uuid')`
+            }) : [];
+
+        var url = (
+        globals.API_V2_ROOT + "/instances");
+
+        let attrs = {
+            source_alias: source,
+            size_alias: size,
+            allocation_source_id,
+            name,
+            scripts,
+            project,
+            identity,
+        }
+
+        return Backbone.sync("create", this, {
+            url,
+            attrs
         });
     },
 
