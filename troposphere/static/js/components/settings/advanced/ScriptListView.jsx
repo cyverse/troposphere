@@ -100,14 +100,14 @@ const ScriptListView = React.createClass({
                                 <th style={{ width: "100px"}}>Name</th>
                                 <th style={{width: "50px"}}>Type</th>
                                 <th style={{width: "50px"}}>Boot Type</th>
-                                <th style={{ width: "60px"}}>Actions</th>
+                                <th style={{ width: "50px"}}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             { boot_scripts ? boot_scripts.map(this.renderScriptRow) : [] }
                             <tr>
                                 <td>
-                                    <a onClick={ this.launchCreateScriptModal.bind(this) }>
+                                    <a onClick={ this.launchCreateScriptModal }>
                                         <i className="glyphicon glyphicon-plus" />
                                     </a>
                                 </td>

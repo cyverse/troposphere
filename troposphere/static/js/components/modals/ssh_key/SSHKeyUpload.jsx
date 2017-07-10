@@ -1,10 +1,24 @@
 import React from "react";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
+import actions from "actions";
 
 export default React.createClass({
 
+    propTypes: {
+        sshKey: React.PropTypes.instanceOf(Backbone.Model),
+        user: React.PropTypes.number.isRequired
+    },
+
     getInitialState: function() {
+        let { sshKey } = this.props;
+        if(sshKey) {
+            return {
+                keyName: sshKey.get("name"),
+                pubKey: sshKey.get("pub_key"),
+                errorMsg: ""
+            }
+        }
         return {
             keyName: "",
             pubKey: "",
@@ -86,19 +100,30 @@ export default React.createClass({
     },
 
     addPublicKey: function() {
-        stores.SSHKeyStore.models.create({
+        let attributes = {
             atmo_user: this.props.user,
             name: this.state.keyName,
             pub_key: this.state.pubKey,
-        }, {
-            success: function() {
-                stores.SSHKeyStore.emitChange();
-            },
-        });
+        };
+        stores.SSHKeyActions.create(attributes);
+    },
+
+    savePublicKey: function() {
+        let {sshKey} = this.props;
+        let newAttributes = {
+            name: this.state.keyName,
+            pub_key: this.state.pubKey,
+            atmo_user: this.props.user,
+        }
+        actions.SSHKeyActions.update(sshKey, newAttributes);
     },
 
     onSubmit: function() {
-        this.addPublicKey();
+        if( this.props.sshKey) {
+            this.savePublicKey();
+        } else {
+            this.addPublicKey();
+        }
         this.hide();
     },
 
@@ -113,7 +138,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h1 className="t-title">Add a public SSH key</h1>
+                        <h1 className="t-title">{(this.props.sshKey) ? "Update public SSH key": "Add a public SSH key"}</h1>
                     </div>
                     <div style={{ minHeight: "300px" }} className="modal-body">
                         <div className="form-group">
@@ -121,7 +146,7 @@ export default React.createClass({
                                 Key Name
                             </label>
                             <div>
-                                <input type="text" className="form-control" onChange={this.updateKeyName} />
+                                <input type="text" className="form-control" onChange={this.updateKeyName} value={this.state.keyName} />
                             </div>
                         </div>
                         <div>
@@ -132,7 +157,7 @@ export default React.createClass({
                                 <textarea placeholder="Begins with either ssh-rsa, ssh-dss, ..."
                                     style={{ minHeight: "200px" }}
                                     className="form-control"
-                                    onChange={this.updatePublicKey} />
+                                    onChange={this.updatePublicKey} value={this.state.pubKey} />
                                 {showKeyWarn ? <span className="help-block">{"* " + this.state.errorMsg}</span> : ""}
                             </div>
                         </div>

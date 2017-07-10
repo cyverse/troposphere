@@ -33,23 +33,6 @@ export default React.createClass({
         script: React.PropTypes.instanceOf(Backbone.Model),
     },
 
-    onSaveScript: function() {
-        if (!this.state.validate) {
-            this.setState({
-                validate: true
-            });
-        }
-        if (this.isSubmittable) {
-            let script = actions.ScriptActions.update(this.props.script, {
-                type: this.state.type,
-                strategy: this.state.strategy,
-                title: this.state.title.trim(),
-                text: this.state.text.trim()
-            });
-            // do action after save is completed?
-            this.hide();
-        }
-    },
     onChangeStrategy: function(strategy) {
         this.setState({
             strategy
@@ -88,23 +71,6 @@ export default React.createClass({
         this.setState({
             text
         });
-    },
-
-    onCreateScript: function() {
-        if (!this.state.validate) {
-            this.setState({
-                validate: true
-            });
-        }
-        if (this.isSubmittable) {
-            let script = actions.ScriptActions.create({
-                type: this.state.type,
-                title: this.state.title.trim(),
-                text: this.state.text.trim(),
-                strategy: this.state.strategy
-            });
-            this.hide();
-        }
     },
 
     // A utility function testing for whitespace or empty string at the beginning or end of string.
@@ -247,6 +213,51 @@ export default React.createClass({
             </div>
         )
     },
+
+    onCreateScript: function() {
+        if (!this.state.validate) {
+            this.setState({
+                validate: true
+            });
+        }
+        if (this.isSubmittable) {
+            let script = actions.ScriptActions.create({
+                type: this.state.type,
+                title: this.state.title.trim(),
+                text: this.state.text.trim(),
+                strategy: this.state.strategy
+            });
+            this.hide();
+        }
+    },
+
+    onSaveScript: function() {
+        if (!this.state.validate) {
+            this.setState({
+                validate: true
+            });
+        }
+        if (this.isSubmittable) {
+            let script = actions.ScriptActions.update(this.props.script, {
+                type: this.state.type,
+                strategy: this.state.strategy,
+                title: this.state.title.trim(),
+                text: this.state.text.trim()
+            });
+            // do action after save is completed?
+            this.hide();
+        }
+    },
+
+    onSubmit: function() {
+        if( this.props.script) {
+            this.onSaveScript();
+        } else {
+            this.onCreateScript();
+        }
+        this.hide();
+    },
+
     render: function() {
         // Only show the warning if the field has content
         let notSubmittable = !this.isSubmittable();
@@ -259,7 +270,7 @@ export default React.createClass({
                         {this.renderCloseButton()}
                         <h1 className="t-title">{(this.props.script) ? "Update Deployment Script" : "Add a new Deployment Script"}</h1>
                     </div>
-                    <div style={{ minHeight: "300px" }} className="modal-body">
+                    <div className="modal-body">
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
@@ -269,7 +280,7 @@ export default React.createClass({
                         <button type="button"
                             aria-invalid={notSubmittable}
                             className="btn btn-primary"
-                            onClick={(this.props.script) ? this.onSaveScript : this.onCreateScript}
+                            onClick={this.onSubmit}
                             disabled={notSubmittable}>
                             Confirm
                         </button>
