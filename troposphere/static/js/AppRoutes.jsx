@@ -83,7 +83,7 @@ function AppRoutes(props) {
                 <IndexRoute component={ProjectListPage} />
             </Route>
             {/* TODO: enable/disable based on:
-            if( featureFlags.showIdentityView()) {
+            if(featureFlags.showIdentityView()) {
                 <Route path="identities" component={IdentitiesMaster}>
                     <Route path=":identityId" component={IdentityDetailsMaster}>
                         <Route path="details" component={IdentityDetailsPage} />
