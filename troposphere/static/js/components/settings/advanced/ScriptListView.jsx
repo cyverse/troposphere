@@ -55,10 +55,12 @@ const ScriptListView = React.createClass({
 
     renderScriptRow: function(script) {
         let { td } = this.style();
-        //NOTE: Key warning in tr (created by ScriptListView) onCreate..?
-        //FIXME: Warning about bind() ...
+
+        // Set a key that lexicograhically sorts first by title then by cid.
+        // Cannot sort by id, because recently created bootscript has no id
+        let key = script.get("title") + script.cid;
         return (
-        <tr key={script.get("id")}>
+        <tr key={key}>
             <td style={td}>
                 {script.get("title")}
             </td>
@@ -93,13 +95,13 @@ const ScriptListView = React.createClass({
                         when you launch an instance.
                     </p>
                 </div>
-                <div>
+                <div style={{maxWidth: "80%"}}>
                     <table className="clearfix table" style={{ tableLayout: "fixed" }}>
                         <thead>
                             <tr>
-                                <th style={{ width: "100px"}}>Name</th>
-                                <th style={{width: "50px"}}>Type</th>
-                                <th style={{width: "50px"}}>Boot Type</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Boot Type</th>
                                 <th style={{ width: "60px"}}>Actions</th>
                             </tr>
                         </thead>
@@ -107,10 +109,13 @@ const ScriptListView = React.createClass({
                             { boot_scripts ? boot_scripts.map(this.renderScriptRow) : [] }
                             <tr>
                                 <td>
-                                    <a onClick={ this.launchCreateScriptModal.bind(this) }>
+                                    <a onClick={ this.launchCreateScriptModal }>
                                         <i className="glyphicon glyphicon-plus" />
                                     </a>
                                 </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
