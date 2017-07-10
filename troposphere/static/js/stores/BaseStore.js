@@ -423,7 +423,7 @@ _.extend(Store.prototype, Backbone.Events, {
     fetchOne: function(modelId, queryParams) {
         // Build the query string
         queryParams = queryParams || {};
-        var queryString = buildQueryStringFromQueryParams(queryParams);
+        var queryString = this.buildQueryStringFromQueryParams(queryParams);
         var queryKey = modelId + queryString;
         var model = null;
         if (this.queryModels[queryKey]) {
