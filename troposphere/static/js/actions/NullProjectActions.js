@@ -2,7 +2,6 @@ import Backbone from "backbone";
 
 import { appBrowserHistory } from "utilities/historyFunctions";
 
-import NotificationController from "controllers/NotificationController";
 import Utils from "./Utils";
 import actions from "actions";
 import context from "context";
@@ -13,10 +12,8 @@ import NullProjectInstanceConstants from "constants/NullProjectInstanceConstants
 import NullProjectVolumeConstants from "constants/NullProjectVolumeConstants";
 import ProjectInstanceConstants from "constants/ProjectInstanceConstants";
 import ProjectVolumeConstants from "constants/ProjectVolumeConstants";
-import ProjectConstants from "constants/ProjectConstants";
 
 // Models
-import Project from "models/Project";
 import Instance from "models/Instance";
 import Volume from "models/Volume";
 
