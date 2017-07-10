@@ -1,6 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 
+import modals from "modals";
 import SelectMenu from "./SelectMenu2";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph";
 
@@ -57,6 +58,12 @@ export default React.createClass({
         this.props.onSourceChange(source);
     },
 
+    onRequestResources: function() {
+        let instance = this.props.instance;
+        let identity = Number(instance.get('identity').id)
+        modals.HelpModals.requestMoreResources({ identity });
+    },
+
     render() {
         let { allocationSources, instance } = this.props;
         let current = this.state.current;
@@ -77,7 +84,7 @@ export default React.createClass({
                     list={allocationSources}
                     onSelect={this.onSourceChange} />
             </div>
-            <AllocationSourceGraph allocationSource={current} />
+            <AllocationSourceGraph onRequestResources={this.onRequestResources} allocationSource={current} />
         </div>
         );
     }

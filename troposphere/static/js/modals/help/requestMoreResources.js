@@ -1,12 +1,14 @@
 import actions from "actions";
+import globals from "globals";
 import ModalHelpers from "components/modals/ModalHelpers";
+import RequestMoreResourcesModal from "components/modals/RequestMoreResourcesModal";
+import RequestMoreQuotaOrAllocationModal from "components/modals/RequestMoreQuotaOrAllocationModal";
 
-// FIXME:
-// imports will need to be configuration-driven in the future
-import RequestMoreResourcesModal from "components/modals/RequestMoreQuotaOrAllocationModal";
-
-// FIXME: show the Jetstream modal ;__;
-let RequestModal = RequestMoreResourcesModal;
+// Based on the allocation strategy being used, we want to select
+// the matching request-more-requests modal to be rendered
+let RequestModal = globals.EXTERNAL_ALLOCATION
+                   ? RequestMoreQuotaOrAllocationModal
+                   : RequestMoreResourcesModal;
 
 export default {
 

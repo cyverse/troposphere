@@ -1,28 +1,12 @@
 import globals from "globals";
 
-const jetstreamAllocation = {
-    requestMoreFromLaunchLabel: function() {
-        return `Request additional ${this.unitName}`
-    },
-    unitName: "service units",
-    unitAbbrev: "SUs",
-    getAllocationConsumedLabel: function(percent, total) {
-        return `You have used ${percent}% of ${total} ${this.unitAbbrev}`;
-    }
-
-}
-
-const cyverseAllocation = {
+export default {
     requestMoreFromLaunchLabel: function() {
         return "Request more Resources"
     },
-    unitName: "allocation units",
-    unitAbbrev: "AUs",
+    unitName: `${globals.ALLOCATION_UNIT_NAME}s`,
+    unitAbbrev: `${globals.ALLOCATION_UNIT_ABBREV}s`,
     getAllocationConsumedLabel: function(percent, total) {
-        return `You have used ${percent}% of ${total} ${this.unitAbbrev} from this provider`;
+        return `You have used ${percent}% of ${total} ${this.unitAbbrev}`;
     }
-}
-
-let messages = globals.USE_ALLOCATION_SOURCES ? jetstreamAllocation : cyverseAllocation;
-
-export default messages;
+};

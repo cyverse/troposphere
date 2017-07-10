@@ -32,8 +32,9 @@ export default React.createClass({
             selectedResources = this.props.selectedResources;
 
         return images.map(function(image) {
-            var isPreviewed = (previewedResource === image),
-                isChecked = selectedResources.get(image) ? true : false;
+            let uuid = image.get("uuid"),
+                isPreviewed = (previewedResource === image),
+                isChecked = selectedResources.findWhere({uuid}) ? true : false;
 
             return (
             <ImageRow key={image.id || image.cid}

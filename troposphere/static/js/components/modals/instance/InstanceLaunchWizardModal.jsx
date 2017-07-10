@@ -132,25 +132,25 @@ export default React.createClass({
             provider = provider || providerList.shuffle()[0];
         }
 
-        let identityProvider,
-            providerSizeList;
+        let identityProvider, providerSizeList;
         if (provider) {
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
-
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
         }
 
-        let providerSize;
-        if (providerSizeList) {
-            providerSize = this.state.providerSize ?
-                this.state.providerSize :
-                providerSizeList.first();
+        if (provider && providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(provider, providerSizeList, imageVersion);
         }
-        ;
+
+        let providerSize = this.state.providerSize;
+        if (providerSizeList) {
+            providerSize = providerSize || providerSizeList.first();
+        }
 
         let allocationSource;
         if (allocationSourceList) {
@@ -251,34 +251,36 @@ export default React.createClass({
             imageVersionList = imageVersionList.cfilter(filterEndDate);
             imageVersion = imageVersionList.first();
         }
-        ;
 
         let providerList;
         if (imageVersion) {
             providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
-        ;
 
-        let provider,
-            providerSizeList,
-            identityProvider;
+        let provider;
         if (providerList) {
             provider = providerList.first();
-            providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
-            });
+        }
 
+        let identityProvider, providerSizeList;
+        if (provider) {
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
         }
-        ;
+
+        if (provider && providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(provider, providerSizeList, imageVersion);
+        }
 
         let providerSize;
         if (providerSizeList) {
             providerSize = providerSizeList.first();
         }
-        ;
 
         this.setState({
             image,
@@ -309,24 +311,30 @@ export default React.createClass({
 
     onVersionChange: function(imageVersion) {
         let providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
-        let providerSizeList;
-        let providerSize;
+
         let provider;
-        let identityProvider;
         if (providerList) {
             provider = providerList.first();
-            providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
-            });
+        }
 
+        let identityProvider, providerSizeList;
+        if (provider) {
             identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
+        }
 
-            if (providerSizeList) {
-                providerSize = providerSizeList.first();
-            }
-            ;
+        if (provider && providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(provider, providerSizeList, imageVersion);
+        }
+
+        let providerSize;
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
         }
 
         this.setState({
@@ -354,16 +362,20 @@ export default React.createClass({
             provider__id: provider.id
         });
 
+        let imageVersion = this.state.imageVersion;
+        if (provider && providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(provider, providerSizeList, imageVersion);
+        }
+
         let providerSize;
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        }
 
         let identityProvider = stores.IdentityStore.findOne({
             "provider.id": provider.id
         });
-
-        if (providerSizeList) {
-            providerSize = providerSizeList.first();
-        }
-        ;
 
         this.setState({
             provider,
@@ -419,6 +431,21 @@ export default React.createClass({
             name: name,
             description
         });
+    },
+
+    filterSizeList(provider, sizes, imageVersion) {
+        let selectedMachine =
+            imageVersion.get('machines')
+                        .find(m => m.provider.id == provider.id);
+
+        let largeEnough = size =>
+            // Disk size of 0 specially treated in Openstack, the size will be
+            // the size of the image
+            size.get('disk') === 0 ||
+            size.get('disk') >= selectedMachine.size_gb;
+
+        // Return provider sizes that have enough disk space
+        return sizes.cfilter(largeEnough);
     },
 
     //============================
@@ -626,6 +653,11 @@ export default React.createClass({
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
+        }
+
+        if (provider && providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(provider, providerSizeList, imageVersion);
         }
 
         let allocationSourceList;

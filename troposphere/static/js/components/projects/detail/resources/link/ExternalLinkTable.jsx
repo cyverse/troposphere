@@ -33,8 +33,9 @@ export default React.createClass({
             selectedResources = this.props.selectedResources;
 
         return external_links.map(function(external_link) {
-            var isPreviewed = (previewedResource === external_link),
-                isChecked = selectedResources.get(external_link) ? true : false;
+            let id = external_link.get("id"),
+                isPreviewed = (previewedResource === external_link),
+                isChecked = selectedResources.findWhere({id}) ? true : false;
 
             return (
             <ExternalLinkRow key={external_link.id || external_link.cid}
