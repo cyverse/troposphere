@@ -108,7 +108,7 @@ const InstanceLaunchWizardModal = React.createClass({
     },
 
     updateState: function() {
-        let { AllocationSourceStore, ProjectStore, ProviderStore, ImageVersionStore, SizeStore } = this.props.subscriptions;
+        let { AllocationSourceStore, ProjectStore, ProviderStore, IdentityStore, ImageVersionStore, SizeStore } = this.props.subscriptions;
         let allocationSourceList = AllocationSourceStore.getAll();
         let view = this.props.initialView;
 
@@ -154,10 +154,10 @@ const InstanceLaunchWizardModal = React.createClass({
         let identityProvider,
             providerSizeList;
         if (provider) {
-            identityProvider = stores.IdentityStore.findOne({
+            identityProvider = IdentityStore.findOne({
                 "provider.id": provider.id
             });
-            providerSizeList = stores.SizeStore.fetchWhere({
+            providerSizeList = SizeStore.fetchWhere({
                 provider__id: provider.id
             });
         }
@@ -316,7 +316,7 @@ const InstanceLaunchWizardModal = React.createClass({
         }
 
         if (provider) {
-            providerSizeList = stores.SizeStore.fetchWhere({
+            providerSizeList = SizeStore.fetchWhere({
                 provider__id: provider.id
             });
 
