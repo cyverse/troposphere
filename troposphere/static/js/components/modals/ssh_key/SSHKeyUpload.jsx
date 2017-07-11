@@ -30,14 +30,15 @@ export default React.createClass({
 
     updateKeyName: function(event) {
         this.setState({
-            "keyName": event.target.value.trim()
+            "keyName": event.target.value
         });
     },
 
     updatePublicKey: function(event) {
-        // Rule out most whitespace issues
-        let key = event.target.value.trim();
+        let rawKey = event.target.value;
 
+        // Trim the key prior to validation, because leading/trailing ws is ignored
+        let key = rawKey.trim();
         let parts = key.split(/\s+/g);
         let err = "";
 
@@ -52,7 +53,7 @@ export default React.createClass({
         }
 
         this.setState({
-            "pubKey": key,
+            "pubKey": rawKey,
             "errorMsg": err
         });
     },
@@ -87,11 +88,13 @@ export default React.createClass({
     },
 
     validateKey: function() {
-        let parts = this.state.pubKey.split(/\s+/g);
+        // Trim the key prior to validation, because leading/trailing ws is ignored
+        let key = this.state.pubKey.trim();
+        let parts = key.split(/\s+/g);
 
         return this.validateKeyType(parts[0]) &&
-        this.validateNumOfParts(this.state.pubKey) &&
-        this.validateOneLine(this.state.pubKey) &&
+        this.validateNumOfParts(key) &&
+        this.validateOneLine(key) &&
         this.validateKeyBodyBase64(parts[1]);
     },
 
@@ -102,17 +105,17 @@ export default React.createClass({
     addPublicKey: function() {
         let attributes = {
             atmo_user: this.props.user,
-            name: this.state.keyName,
-            pub_key: this.state.pubKey,
+            name: this.state.keyName.trim(),
+            pub_key: this.state.pubKey.trim(),
         };
-        stores.SSHKeyActions.create(attributes);
+        actions.SSHKeyActions.create(attributes);
     },
 
     savePublicKey: function() {
         let {sshKey} = this.props;
         let newAttributes = {
-            name: this.state.keyName,
-            pub_key: this.state.pubKey,
+            name: this.state.keyName.trim(),
+            pub_key: this.state.pubKey.trim(),
             atmo_user: this.props.user,
         }
         actions.SSHKeyActions.update(sshKey, newAttributes);
