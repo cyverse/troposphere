@@ -7,4 +7,4 @@
 
 export default {
     // add actions here
-};
+}

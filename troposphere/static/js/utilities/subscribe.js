@@ -116,4 +116,4 @@ export default function(component, storeNames) {
             return React.createElement(component, newProps);
         }
     });
-};
+}
