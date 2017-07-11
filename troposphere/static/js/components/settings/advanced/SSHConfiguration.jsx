@@ -109,8 +109,12 @@ const SSHConfiguration = React.createClass({
 
     renderSSHKeyRow: function(sshKey) {
         let { td } = this.style();
+
+        // Set a key that lexicograhically sorts first by title then by cid.
+        // Cannot sort by id, because recently created bootscript has no id
+        let key = sshKey.get("name") + sshKey.cid;
         return (
-        <tr key={sshKey.get("id")}>
+        <tr key={key}>
             <td style={td}>
                 {sshKey.get("name")}
             </td>
