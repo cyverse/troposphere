@@ -6,9 +6,29 @@ export default React.createClass({
     getInitialState: function() {
         return ({
             type: "URL",
+            strategy: "always",
             title: "",
             text: "",
             validate: false
+        })
+    },
+
+    propTypes: {
+        style: React.PropTypes.object,
+        close: React.PropTypes.func.isRequired,
+        onCreate: React.PropTypes.func.isRequired
+    },
+
+    getDefaultProps: function() {
+        return {
+            style: { position: "absolute", bottom: "75px", right: "15px" }
+        }
+    },
+
+    onChangeStrategy: function(e) {
+        let strategy = e.target.value;
+        this.setState({
+            strategy
         })
     },
 
@@ -57,9 +77,10 @@ export default React.createClass({
             let script = actions.ScriptActions.create({
                 type: this.state.type,
                 title: this.state.title.trim(),
-                text: this.state.text.trim()
+                text: this.state.text.trim(),
+                strategy: this.state.strategy.trim()
             });
-            this.props.onAddAttachedScript(script);
+            this.props.onCreate(script);
             this.props.close();
         }
     },
@@ -200,12 +221,31 @@ export default React.createClass({
                                 onClick={this.onChangeType} /> Raw Text
                         </label>
                     </div>
+                    <h4 className="t-body-2">Boot Script Type</h4>
+                    <div className="radio-inline">
+                        <label className="radio">
+                            <input type="radio"
+                                name="optionsRadios-2"
+                                value="once"
+                                defaultChecked={this.state.strategy === "once"}
+                                onClick={this.onChangeStrategy} /> {"Run script on first boot"}
+                        </label>
+                    </div>
+                    <div className="radio-inline">
+                        <label className="radio">
+                            <input type="radio"
+                                name="optionsRadios-2"
+                                value="always"
+                                defaultChecked={this.state.strategy === "always"}
+                                onClick={this.onChangeStrategy} /> {"Run script on each deployment"}
+                        </label>
+                    </div>
                 </div>
                 <div className="col-md-6">
                     {this.renderInputType()}
                 </div>
             </div>
-            <div style={{ position: "absolute", bottom: "75px", right: "15px" }}>
+            <div style={this.props.style}>
                 <RaisedButton
                     primary
                     className="pull-right"
