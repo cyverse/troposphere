@@ -7,7 +7,7 @@ import context from "context";
 import featureFlags from "utilities/featureFlags";
 
 // Constants
-import Badges from "Badges";
+//import Badges from "Badges"; // Badges functionality disable for now (2017-07-10)
 import ProjectConstants from "constants/ProjectConstants";
 import NullProjectInstanceConstants from "constants/NullProjectInstanceConstants";
 import NullProjectVolumeConstants from "constants/NullProjectVolumeConstants";
