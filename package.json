@@ -24,7 +24,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "stats": "webpack --profile --json > stats.json",
     "lint": "eslint troposphere/static/js",
-    "travis-lint": "eslint -c .eslintrc.travis --no-eslintrc troposphere/static/js",
+    "travis-lint": "eslint -c .eslintrc.travis --ext .js,.jsx --no-eslintrc troposphere/static/js",
     "lint-pre-commit": "eslint --stdin",
     "format-check": "esformatter -c .esformatter --diff $(git ls-files troposphere/static/js*js) || exit 0",
     "format": "esformatter -c .esformatter -i $(git ls-files troposphere/static/js*js)"
