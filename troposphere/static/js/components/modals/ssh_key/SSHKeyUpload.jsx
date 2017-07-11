@@ -1,6 +1,5 @@
 import React from "react";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import stores from "stores";
 import actions from "actions";
 
 export default React.createClass({
@@ -58,14 +57,6 @@ export default React.createClass({
         });
     },
 
-    componentDidMount: function() {
-        stores.SSHKeyStore.addChangeListener(this.updateState);
-    },
-
-    componentWillUnmount: function() {
-        stores.SSHKeyStore.removeChangeListener(this.getInitialState);
-    },
-
     validateKeyType: function(firstWord) {
         // Worth noting that `ssh-keygen -t dsa` creates a key beginning with `ssh-dss`
         return /^(ssh-dss|ecdsa-sha2-nistp256|ssh-ed25519|ssh-rsa)$/.test(firstWord);
@@ -108,12 +99,14 @@ export default React.createClass({
             pub_key: this.state.pubKey.trim(),
             atmo_user: this.props.user
         };
+        let { sshKey } = this.props;
 
-        if (this.props.sshKey) {
+        if (sshKey) {
             actions.SSHKeyActions.update(sshKey, attributes);
         } else {
             actions.SSHKeyActions.create(attributes);
         }
+
         this.hide();
     },
 
