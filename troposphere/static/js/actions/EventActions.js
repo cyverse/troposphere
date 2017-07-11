@@ -4,9 +4,9 @@ import Events from "events";
 
 export default {
     fire(name, payload) {
+        let { allocationSource, instance } = payload;
         switch (name) {
             case EventConstants.ALLOCATION_SOURCE_CHANGE:
-                let { allocationSource, instance } = payload
                 return new Events.AllocationSourceChange({
                     name,
                     entity_id: allocationSource.get("name"),
