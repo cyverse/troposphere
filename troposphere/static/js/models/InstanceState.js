@@ -73,7 +73,7 @@ var get_percent_complete = function(state, activity) {
                 "scheduling": 20,
                 "networking": 30,
                 "spawning": 40,
-                "deleting": 50,
+                "deleting": 50
             },
             "active": {
                 "powering-off": 50,

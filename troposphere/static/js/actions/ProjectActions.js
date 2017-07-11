@@ -45,7 +45,7 @@ export default {
         //FIXME: Sending owner as nested dict, likely we will want to send group ID/UUID
         var args = {
             name: name,
-            description: description,
+            description: description
         }
 
         if (featureFlags.hasProjectSharing()) {
@@ -175,12 +175,12 @@ export default {
         if (resource instanceof Instance) {
             resource.set("project", project);
             actions.InstanceActions.update(resource, {
-                project: project,
+                project: project
             }, options);
         } else if (resource instanceof Volume) {
             resource.set("project", project);
             actions.VolumeActions.update(resource, {
-                project: project,
+                project: project
             }, options);
         } else if (resource instanceof ExternalLink) {
             resource.set("projects", [project.id]);
@@ -202,11 +202,11 @@ export default {
     removeResourceFromProject: function(resource, project, options) {
         if (resource instanceof Instance) {
             actions.InstanceActions.update(resource, {
-                project: null,
+                project: null
             }, options);
         } else if (resource instanceof Volume) {
             actions.VolumeActions.update(resource, {
-                project: project,
+                project: project
             }, options);
         } else if (resource instanceof ExternalLink) {
             actions.ProjectExternalLinkActions.removeExternalLinkFromProject({

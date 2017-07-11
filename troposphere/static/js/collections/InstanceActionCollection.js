@@ -14,5 +14,5 @@ export default Backbone.Collection.extend({
 
     url: function() {
         return `${globals.API_V2_ROOT}/instances/${this.alias}/actions`;
-    },
+    }
 });

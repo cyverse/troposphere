@@ -12,5 +12,5 @@ export default Backbone.Model.extend({
     toJSON: function(options) {
         var attributes = _.clone(this.attributes);
         return attributes;
-    },
+    }
 });

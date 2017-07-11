@@ -23,7 +23,7 @@ export default {
             ModalComponent,
             props = {
                 instance,
-                attachedVolumes,
+                attachedVolumes
             };
 
         ModalComponent = attachedVolumes.length > 0
@@ -37,5 +37,5 @@ export default {
                 appBrowserHistory.push(`/projects/${project.id}/resources`);
             }
         })
-    },
+    }
 }

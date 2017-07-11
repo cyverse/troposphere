@@ -18,7 +18,7 @@ let ExternalLinkStore = BaseStore.extend({
         });
 
         return new ExternalLinkCollection(external_links);
-    },
+    }
 });
 
 var store = new ExternalLinkStore();

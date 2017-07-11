@@ -7,7 +7,7 @@ var ImageMetricsStore = BaseStore.extend({
 
     queryParams: {
         page_size: 1000
-    },
+    }
 });
 
 let store = new ImageMetricsStore();

@@ -63,7 +63,7 @@ function launch(params) {
         identity: {
             id: identity.id,
             uuid: identity.get("uuid")
-        },
+        }
     }, {
         parse: true
     });
@@ -89,7 +89,7 @@ function launch(params) {
         size_alias: size.get("alias"),
         source_alias: machine.uuid,
         scripts: scripts,
-        project: project,
+        project: project
     }
 
     if (globals.USE_ALLOCATION_SOURCES) {

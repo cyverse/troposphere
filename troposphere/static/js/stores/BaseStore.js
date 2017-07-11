@@ -509,7 +509,7 @@ _.extend(Store.prototype, Backbone.Events, {
             pollingDelay = this.pollingFrequency;
         }
         setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), pollingDelay);
-    },
+    }
 });
 
 Store.extend = Backbone.Model.extend;

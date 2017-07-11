@@ -9,5 +9,5 @@ export default Backbone.Model.extend({
 
     parse: function(attributes) {
         return attributes;
-    },
+    }
 });

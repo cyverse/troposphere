@@ -26,7 +26,7 @@ const api = {
             "url": "https://app.atmo.dev:8000/api/v2/allocation_sources/1.json",
             "user_burn_rate": 5.0,
             "user_burn_rate_updated": "2016-08-04T18:19:39.300550Z"
-        },
+        }
     ]
 };
 

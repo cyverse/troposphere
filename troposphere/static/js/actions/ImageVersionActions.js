@@ -14,7 +14,7 @@ export default {
 
         version.set(newAttributes);
         version.save(newAttributes, {
-            patch: true,
+            patch: true
         }).done(function() {
             // UPDATE_VERSION here if we do NOT want 'optimistic updating'
             // Othewise, do nothing..
@@ -37,7 +37,7 @@ export default {
             // to add a handler in the ImageVersionStore)
             //Utils.dispatch(ImageVersionConstants.POLL_IMAGE_VERSION, {version: version});
         });
-    },
+    }
 
 
 }

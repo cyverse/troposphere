@@ -10,5 +10,5 @@ export default {
     report: Report.report,
     poll: Poll.poll,
     createAndAddToProject: Create.createAndAddToProject,
-    destroy: Destroy.destroy,
+    destroy: Destroy.destroy
 };

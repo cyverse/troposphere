@@ -6,7 +6,7 @@ import Raven from "raven-js";
 if(window.SENTRY_ENABLED) {
     let sentryDSN = window.SENTRY_DSN;
     Raven.config(sentryDSN, {
-        release: window.SENTRY_RELEASE,
+        release: window.SENTRY_RELEASE
     }).install();
 }
 

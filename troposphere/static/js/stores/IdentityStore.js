@@ -63,7 +63,7 @@ let IdentityStore = BaseStore.extend({
             });
             return versionIdentities;
         }
-    },
+    }
 
 });
 

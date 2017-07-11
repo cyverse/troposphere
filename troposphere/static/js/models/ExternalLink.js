@@ -8,6 +8,6 @@ export default Backbone.Model.extend({
     parse: function(attributes) {
         attributes.description = attributes.description || "";
         return attributes;
-    },
+    }
 
 });

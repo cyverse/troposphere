@@ -15,7 +15,7 @@ export default Backbone.Collection.extend({
         };
 
         return response.results;
-    },
+    }
 
     //comparator: function(a, b) {
     //    return b.get("id") - a.get("id")

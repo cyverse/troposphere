@@ -50,7 +50,7 @@ export default {
             });
             Utils.dispatch(InstanceConstants.POLL_INSTANCE_WITH_DELAY, {
                 instance: instance,
-                delay: 15*1000,
+                delay: 15*1000
             });
         });
     }

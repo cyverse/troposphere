@@ -10,7 +10,7 @@ export default {
         ModalHelpers.renderModal(InstanceRebootModal, null, function(reboot_type) {
             actions.InstanceActions.reboot({
                 instance: instance,
-                reboot_type: reboot_type,
+                reboot_type: reboot_type
             });
         });
     }

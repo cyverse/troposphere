@@ -17,7 +17,7 @@ export default {
         props = _.extend(props || {}, {
             onConfirm: cb,
             onCancel: onCancel,
-            handleHidden: onCancel,
+            handleHidden: onCancel
         });
 
         var modal = React.createElement(

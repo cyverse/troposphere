@@ -55,7 +55,7 @@ let ResourceRequestStore = BaseStore.extend({
         });
 
         return models;
-    },
+    }
 
 });
 

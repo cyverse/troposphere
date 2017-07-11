@@ -8,5 +8,5 @@ export default Backbone.Collection.extend({
     url: globals.API_V2_ROOT + "/ssh_keys",
     parse: function(data) {
         return data.results;
-    },
+    }
 });
