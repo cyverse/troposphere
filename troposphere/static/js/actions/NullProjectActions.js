@@ -2,9 +2,9 @@ import Backbone from "backbone";
 
 import { appBrowserHistory } from "utilities/historyFunctions";
 
-import NotificationController from "controllers/NotificationController";
 import Utils from "./Utils";
 import actions from "actions";
+import context from "context";
 import stores from "stores";
 
 // Constants
@@ -12,10 +12,8 @@ import NullProjectInstanceConstants from "constants/NullProjectInstanceConstants
 import NullProjectVolumeConstants from "constants/NullProjectVolumeConstants";
 import ProjectInstanceConstants from "constants/ProjectInstanceConstants";
 import ProjectVolumeConstants from "constants/ProjectVolumeConstants";
-import ProjectConstants from "constants/ProjectConstants";
 
 // Models
-import Project from "models/Project";
 import Instance from "models/Instance";
 import Volume from "models/Volume";
 
@@ -90,7 +88,7 @@ export default {
 
         // Move volumes into correct project
         volumes.each(function(volume) {
-            var volumeProjectId = volume.get("projects")[0],
+            var volumeProjectId = (volume.get("project")) ? volume.get("project").id : -1,
                 volumeProject = stores.ProjectStore.get(volumeProjectId),
                 instanceUUID = volume.get("attach_data").instance_id,
                 instance,
@@ -107,9 +105,13 @@ export default {
                     return;
                 }
 
-                instanceProjectId = instance.get("projects")[0];
+                instanceProjectId = instance.get("project").id;
                 if (volumeProjectId !== instanceProjectId) {
                     project = stores.ProjectStore.get(instanceProjectId);
+                    if(volumeProject == null || project == null) {
+                        // Don't do anything if the projects haven't loaded from the store
+                        return;
+                    }
                     this._migrateResourceIntoRealProject(volume, volumeProject, project);
                     volumesInWrongProject.push({
                         volume: volume,
@@ -131,19 +133,30 @@ export default {
             ModalHelpers.renderModal(NullProjectMoveAttachedVolumesModal, props, function() {});
         }
     },
-
+    saveResourcesToProjects: function(project_resource_list) {
+        let that = this;
+        project_resource_list.forEach(function(project_resource) {
+            that._migrateResourceIntoProject(
+                project_resource.resource, project_resource.project);
+        });
+    },
     migrateResourcesIntoProject: function(nullProject) {
         var instances = nullProject.get("instances"),
             volumes = nullProject.get("volumes"),
             resources = new Backbone.Collection(),
             that = this;
+        let current_user = context.profile.get('username');
 
         instances.each(function(instance) {
-            resources.push(instance);
+            if(instance.get('user').username == current_user) {
+                resources.push(instance);
+            }
         });
 
         volumes.each(function(volume) {
-            resources.push(volume);
+            if(volume.get('user').username == current_user) {
+                resources.push(volume);
+            }
         });
 
         if (resources.length > 0) {
@@ -153,46 +166,9 @@ export default {
                 backdrop: "static"
             };
 
-            ModalHelpers.renderModal(NullProjectMigrateResourceModal, props, function(params) {
-                var resourcesClone = resources.models.slice(0);
-                var project;
-
-                if (params.projectName) {
-                    project = new Project({
-                        name: params.projectName,
-                        description: params.projectName,
-                        instances: [],
-                        volumes: []
-                    });
-
-                    Utils.dispatch(ProjectConstants.ADD_PROJECT, {
-                        project: project
-                    });
-
-                    project.save().done(function() {
-                        //NotificationController.success(null, "Project " + project.get('name') + " created.");
-                        Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {
-                            project: project
-                        });
-                        that._migrateResourcesIntoProject(resourcesClone, project);
-                        that.moveAttachedVolumesIntoCorrectProject();
-                    }).fail(function() {
-                        var message = "Error creating Project " + project.get("name") + ".";
-                        NotificationController.error(null, message);
-                        Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {
-                            project: project
-                        });
-                    });
-
-                } else if (params.projectId && params.projects) {
-                    project = params.projects.get(params.projectId);
-                    that._migrateResourcesIntoProject(resourcesClone, project);
-                    that.moveAttachedVolumesIntoCorrectProject();
-                } else {
-                    throw new Error("expected either projectName OR projectId and projects parameters")
-                }
-            })
-
+            ModalHelpers.renderModal(NullProjectMigrateResourceModal, props, function(project_resource_list) {
+                that.saveResourcesToProjects(project_resource_list);
+        });
         } else {
             that.moveAttachedVolumesIntoCorrectProject();
         }

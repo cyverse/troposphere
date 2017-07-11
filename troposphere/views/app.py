@@ -142,6 +142,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             settings.NEW_RELIC_BROWSER_SNIPPET
 
     enable_sentry = getattr(settings, 'SENTRY_DSN',"") != ""
+    enable_project_sharing = getattr(settings, 'ENABLE_PROJECT_SHARING',False)
     server_prefix = urlparse(settings.SERVER_URL).netloc.split('.')[0]
     sentry_tags = {'server_name': server_prefix}
     if emulator:
@@ -160,6 +161,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
     template_params['SENTRY_ENABLED'] = enable_sentry
+    template_params['PROJECT_SHARING'] = enable_project_sharing
     template_params['sentry_tags_dict'] = sentry_tags
     template_params['collect_analytics'] = getattr(settings,
             "COLLECT_ANALYTICS", False)

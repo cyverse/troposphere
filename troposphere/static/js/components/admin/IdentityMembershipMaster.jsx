@@ -16,7 +16,7 @@ export default React.createClass({
         return {
             query: "",
             selectedProviderId: -1,
-            memberships: null,
+            memberships: stores.IdentityMembershipStore.getAll(),
             allModels: null,
         };
     },
@@ -35,7 +35,7 @@ export default React.createClass({
         }
 
         this.setState({
-            memberships
+            memberships,
         });
     },
 
@@ -74,7 +74,9 @@ export default React.createClass({
     renderTable: function() {
         let memberships = this.state.memberships;
 
-        if (memberships == null) return <div className="loading"></div>;
+        if (memberships == null) {
+            return (<div className="loading"></div>);
+        }
 
         var identityMembershipRows = memberships.map(function(membership) {
             return (

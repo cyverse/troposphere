@@ -1,20 +1,27 @@
 import React from "react";
 import Backbone from "backbone";
-import stores from "stores";
+import subscribe from "utilities/subscribe";
 import ChosenDropdown from "components/common/tags/UserMultiSelect";
 
-export default React.createClass({
+const Users = React.createClass({
     displayName: "Users",
 
     propTypes: {
         onUserAdded: React.PropTypes.func.isRequired,
         onUserRemoved: React.PropTypes.func.isRequired,
-        imageUsers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        label: React.PropTypes.string,
+        help: React.PropTypes.string.isRequired,
+        users: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
     getInitialState: function() {
         return {
             query: ""
+        }
+    },
+    getDefaultProps() {
+        return {
+            label: "Users"
         }
     },
 
@@ -32,16 +39,17 @@ export default React.createClass({
     },
 
     render: function() {
-        var imageUsers = this.props.imageUsers,
+        var users = this.props.users,
             query = this.state.query,
-            users;
+            allUsers;
+        let { UserStore } = this.props.subscriptions;
 
         if (this.state.query) {
-            users = stores.UserStore.fetchWhere({
+            allUsers = UserStore.fetchWhere({
                 search: query
             });
         } else {
-            users = stores.UserStore.getAll();
+            allUsers = UserStore.getAll();
         }
 
         //if(!users) return <div className="loading"/>;
@@ -49,14 +57,14 @@ export default React.createClass({
         return (
         <div className="form-group">
             <label htmlFor="tags" className="control-label">
-                Users
+                {this.props.label}
             </label>
             <div className="tagger_container">
                 <div className="help-block">
-                    Please include users that should be able to launch this image.
+                    {this.props.help}
                 </div>
-                <ChosenDropdown models={users}
-                    activeModels={imageUsers}
+                <ChosenDropdown models={allUsers}
+                    activeModels={users}
                     onModelAdded={this.onUserAdded}
                     onModelRemoved={this.props.onUserRemoved}
                     width={"100%"}
@@ -67,3 +75,4 @@ export default React.createClass({
         );
     }
 });
+export default subscribe(Users, ["UserStore"]);

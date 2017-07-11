@@ -190,6 +190,10 @@ var SENTRY_TAGS = {{ sentry_tags_dict|safe }};
 var SENTRY_ENABLED = false;
 {% endif %}
 
+{% if PROJECT_SHARING %}
+var PROJECT_SHARING = true;
+{% endif %}
+
 {% if USER_PORTAL %}
     var user_portal = {{USER_PORTAL | safe}};
 {% endif %}

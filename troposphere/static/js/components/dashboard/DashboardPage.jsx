@@ -2,6 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton';
 
 import globals from "globals";
+import context from "context";
 import modals from "modals";
 import stores from "stores";
 import InstanceHistoryList from "./InstanceHistoryList";
@@ -58,7 +59,8 @@ export default React.createClass({
 
     render: function() {
         let providers = stores.ProviderStore.getAll(),
-            identities = stores.IdentityStore.getAll(),
+            current_user = context.profile.get('username'),
+            identities = stores.IdentityStore.ownedIdentities(current_user),
             projects = stores.ProjectStore.getAll(),
             maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
             images = stores.ImageStore.getAll(),

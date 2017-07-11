@@ -29,6 +29,7 @@ export default React.createClass({
                 <div className="container">
                     <ul className="secondary-nav-links">
                         {this.renderRoute("Manage Users", "users", "user")}
+                        {this.renderRoute("Manage Groups", "groups", "user")}
                         {this.renderRoute("Manage Accounts", "identities", "user")}
                         {this.renderRoute("Imaging Requests", "imaging-requests", "floppy-disk")}
                     </ul>

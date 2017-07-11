@@ -142,17 +142,21 @@ export default React.createClass({
     },
 
     render: function() {
-        let mainClassnames = ""
+        let mainClassnames = "",
+            customStyle = {};
         if (this.props.login_from == "application") {
             mainClassnames = "login-screen-master container"
         } else {
             //Renders inside a modal
             mainClassnames = "login-screen-master"
+            customStyle = {
+                minHeight: "0px"
+            }
         }
         const provider = this.state.loginProvider.get('provider');
 
         return (
-           <div id="main" className={mainClassnames}>
+           <div id="main-login-modal" className={mainClassnames} style={customStyle}>
                 <div className="form-group">
                     <label>Login Method</label>
                     <SelectMenu id="login-screen-select"

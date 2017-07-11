@@ -17,7 +17,7 @@
   },
   "scripts": {
     "dev": "webpack -d --progress --profile --colors --bail --",
-    "serve": "webpack-dev-server -d --inline --https --host 0.0.0.0 --content-base troposphere/assets",
+    "serve": "webpack-dev-server -d --inline --https --content-base troposphere/assets",
     "build": "webpack --progress --profile --colors --bail --",
     "watch": "webpack --progress --profile --colors --bail --watch -d --",
     "jenkins": "webpack --profile --colors --",

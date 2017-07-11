@@ -35,20 +35,19 @@ const links = [
         href: "/application/images",
         icon: "floppy-disk",
         requiresLogin: false
+    },
+    /* TODO: make this enabled/disabled based on `featureFlags.showIdentityView()`
+    {
+        name: "Identities",
+        linksTo: "identities",
+        href: "/application/identities",
+        icon: "cloud",
+        requiresLogin: true
     }
+    */
 // This is a little ugly, but we conditionally include an element in a
 // list
-].concat(
-    globals.USE_ALLOCATION_SOURCES
-        ? []
-        : [{
-            name: "Providers",
-            linksTo: "providers",
-            href: "/application/providers",
-            icon: "cloud",
-            requiresLogin: true
-        }]
-).concat([
+].concat([
     {
         name: "Help",
         linksTo: "help",

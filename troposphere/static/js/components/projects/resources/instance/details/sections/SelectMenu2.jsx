@@ -13,7 +13,13 @@ export default React.createClass({
             React.PropTypes.array
         ]),
         current: React.PropTypes.object,
+        disabled: React.PropTypes.bool,
         findIndex: React.PropTypes.func
+    },
+    getDefaultProps: function() {
+            return {
+                disabled: false
+            }
     },
 
     onSelect(e) {
@@ -58,21 +64,25 @@ export default React.createClass({
         }
 
         let value;
+        let needle;
         if (this.props.findIndex) {
-            value = list.findIndex(this.props.findIndex);
+            needle = this.props.findIndex;
+            value = list.findIndex(needle);
         } else {
-            value = list.indexOf(current);
+            needle = current;
+            value = list.indexOf(needle);
         }
 
-        if (value == -1) {
+        if (this.props.disabled == false && value == -1) {
             console.warn(
-                "The element to display doesn't exist in the list of available elements"
+                "SelectMenu2: The element to display ("+needle+") doesn't exist in the list of available elements"
             );
+            console.log(needle)
             console.trace();
         }
 
         return (
-        <select value={ value } className='form-control' onChange={ this.onSelect }>
+        <select disabled={this.props.disabled} value={ value } className='form-control' onChange={ this.onSelect }>
             { list.map(this.renderOption) }
         </select>
         );

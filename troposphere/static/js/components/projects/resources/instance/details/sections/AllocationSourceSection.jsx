@@ -8,6 +8,7 @@ import AllocationSourceGraph from "components/common/AllocationSourceGraph";
 export default React.createClass({
 
     propTypes: {
+        disabled: React.PropTypes.bool.isRequired,
         onSourceChange: React.PropTypes.func.isRequired,
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -79,6 +80,7 @@ export default React.createClass({
             <h2 className="t-title">Allocation Source</h2>
             <div style={{ marginBottom: "20px" }}>
                 <SelectMenu current={current}
+                    disabled={this.props.disabled}
                     optionName={item => item.get("name")}
                     findIndex={(el, idx, arr) => el.get("uuid") == current.get("uuid")}
                     list={allocationSources}

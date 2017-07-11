@@ -6,23 +6,23 @@ import Highcharts from "highcharts";
 import ResourceUseTooltip from "./tooltips/ResourceUseTooltip";
 
 /**
- * Finds a maximum within the data points for all providers
+ * Finds a maximum within the data points for all identitys
  *
  * If the maximum does not exceed the _soft_ limit, `ceiling`, return
  * the greatest value present.
  *
- * @param {object} seriesData - array of provider's series data [1]
+ * @param {object} seriesData - array of identity's series data [1]
  * @param {int} ceiling - y Axis soft limit
  *
  * [1] http://api.highcharts.com/highcharts#plotOptions.series
  */
 function findMaxDataPt(seriesData, ceiling) {
-    // series data has an array of data points *per* provider
+    // series data has an array of data points *per* identity
     // - we need to know the max value to set the Y Axis
     return Math.max(
         ceiling,
         Math.max(...seriesData.map(
-            (provider) => Math.max(...provider.data))
+            (identity) => Math.max(...identity.data))
         )
     );
 }

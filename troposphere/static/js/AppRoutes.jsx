@@ -15,7 +15,6 @@ import UnearnedBadges from "./components/badges/UnearnedBadges";
 import RequestHistory from "./components/requests/ResourceHistoryMaster";
 import RequestMaster from "./components/requests/RequestMaster";
 import DashboardPage from "./components/dashboard/DashboardPage";
-import ProjectListPage from "./components/projects/ProjectListPage";
 import ImageListPage from "./components/images/ImageListPage";
 import ImageDetailsPage from "./components/images/ImageDetailsPage";
 import ProvidersMaster from "./components/providers/ProvidersMaster";
@@ -23,6 +22,7 @@ import ProviderListSection from "./components/providers/ProviderListSection";
 import ProviderDetail from "./components/providers/ProviderDetail";
 import HelpPage from "./components/help/HelpPage";
 import ProjectsMaster from "./components/projects/ProjectsMaster";
+import ProjectListPage from "./components/projects/ProjectListPage";
 import ProjectDetailsMaster from "./components/projects/detail/ProjectDetailsMaster";
 import ProjectDetailsPage from "./components/projects/ProjectDetailsPage";
 import ProjectResourcesPage from "./components/projects/ProjectResourcesPage";
@@ -36,8 +36,18 @@ import SettingsPage from "./components/settings/SettingsPage";
 import ProjectInstancePage from "./components/projects/InstanceDetailsPage";
 import ProjectVolumePage from "./components/projects/VolumeDetailsPage";
 import ProjectLinkPage from "./components/projects/ExternalLinkDetailsPage";
+/* TODO: enable/disable based on:
+import IdentityInstancePage from "./components/identities/InstanceDetailsPage";
+import IdentityVolumePage from "./components/identities/VolumeDetailsPage";
+import IdentitiesMaster from "./components/identities/IdentitiesMaster";
+import IdentityListPage from "./components/identities/IdentityListPage";
+import IdentityDetailsMaster from "./components/identities/detail/IdentityDetailsMaster";
+import IdentityDetailsPage from "./components/identities/IdentityDetailsPage";
+import IdentityResourcesPage from "./components/identities/IdentityResourcesPage";
+*/
 import AdminMaster from "./components/admin/AdminMaster";
 import AtmosphereUserMaster from "./components/admin/AtmosphereUserMaster";
+import GroupMaster from "./components/admin/GroupMaster";
 import ImageMaster from "./components/admin/ImageMaster";
 import ImageRequest from "./components/admin/ImageRequest";
 import IdentityMembershipMaster from "./components/admin/IdentityMembershipMaster";
@@ -72,6 +82,20 @@ function AppRoutes(props) {
                 </Route>
                 <IndexRoute component={ProjectListPage} />
             </Route>
+            {/* TODO: enable/disable based on:
+            if(featureFlags.showIdentityView()) {
+                <Route path="identities" component={IdentitiesMaster}>
+                    <Route path=":identityId" component={IdentityDetailsMaster}>
+                        <Route path="details" component={IdentityDetailsPage} />
+                        <Route path="resources" component={IdentityResourcesPage} />
+                        <Route path="instances/:instanceId" component={IdentityInstancePage} />
+                        <Route path="volumes/:volumeId" component={IdentityVolumePage} />
+                        <IndexRoute component={IdentityDetailsPage} />
+                    </Route>
+                    <IndexRoute component={IdentityListPage} />
+                </Route>
+            }
+            */}
             <Route path="images" component={ImagesMaster}>
                 <IndexRedirect to="search" />
                 <Route path="search" component={ImageListPage} />
@@ -93,6 +117,7 @@ function AppRoutes(props) {
                 )}
             >
                 <Route path="users" component={AtmosphereUserMaster} />
+                <Route path="groups" component={GroupMaster} />
                 <Route path="identities" component={IdentityMembershipMaster} />
                 <Route path="imaging-requests" component={ImageMaster}>
                     <Route path=":id" component={ImageRequest} />

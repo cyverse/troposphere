@@ -59,7 +59,7 @@ function launch(params) {
             id: identity.get("provider").id,
             uuid: identity.get("provider").uuid
         },
-        projects: [project.id],
+        project: project.id,
         identity: {
             id: identity.id,
             uuid: identity.get("uuid")
@@ -87,27 +87,23 @@ function launch(params) {
     let payload = {
         name: instanceName,
         size_alias: size.get("alias"),
-        machine_alias: machine.uuid,
+        source_alias: machine.uuid,
         scripts: scripts,
+        project: project,
     }
 
     if (globals.USE_ALLOCATION_SOURCES) {
-        payload.allocation_source_uuid = params.allocation_source_uuid;
+        payload.allocation_source_id = params.allocation_source_uuid;
     }
 
-    instance.createOnV1Endpoint(payload)
+    // Create Instance (v2)
+    instance.create(payload)
         .done(function(attrs, status, response) {
             instance.set("id", attrs.id);
             instance.set("uuid", attrs.alias);
 
             // Get the instance from the cloud, ignore our local copy
             instance.fetch().then(function() {
-                // NOTE: we have to set this here, because our instance above never gets saved
-                instance.set("projects", [project.id]);
-
-                Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
-                    instance: instance
-                });
                 Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
                     instance: instance
                 });
@@ -122,13 +118,13 @@ function launch(params) {
                 });
             });
 
-            // Save projectInstance to db
-            projectInstance.save(null, {
-                attrs: {
-                    project: project.id,
-                    instance: instance.id
-                }
-            });
+            // // Save projectInstance to db
+            // projectInstance.save(null, {
+            //     attrs: {
+            //         project: project.id,
+            //         instance: instance.id
+            //     }
+            // });
 
         }).fail(function(response) {
             // Remove instance from stores

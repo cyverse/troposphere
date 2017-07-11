@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Backbone from "backbone";
+import context from "context";
+import featureFlags from "utilities/featureFlags";
 import SelectMenu from "components/common/ui/SelectMenu";
 
 export default React.createClass({
@@ -38,6 +40,16 @@ export default React.createClass({
         if (missingName()) return "missing";
     },
 
+    getMemberNames: function(project) {
+        if(project == null) {
+            return "";
+        }
+        let user_list = project.get('users'),
+            username_list = user_list.map(function(g) {return g.username});
+
+        return username_list.join(", ");
+    },
+
     render: function() {
         const { 
             imageVersion,
@@ -55,7 +67,7 @@ export default React.createClass({
 
         if (showValidationErr) {
             switch (this.nameError()) {
-                case "invalid": 
+                case "invalid":
                     errorMessage = invalidMessage;
                     hasErrorClass = "has-error";
                     break;
@@ -64,6 +76,17 @@ export default React.createClass({
                     hasErrorClass = "has-error";
                     break;
             }
+        }
+        let groupOwner, projectType;
+
+        let projectUsernameList = this.getMemberNames(project);
+        if(! featureFlags.hasProjectSharing()) {
+            projectType = "";
+        } else if (project != null) {
+            groupOwner = project.get('owner');
+            projectType = (groupOwner && groupOwner.name == context.profile.get('username')) ? "Private Project" : "Shared Project, Visible to Users: " + projectUsernameList;
+        } else {
+            projectType = "Select a project to continue.";
         }
 
         return (
@@ -99,8 +122,12 @@ export default React.createClass({
                     list={projectList}
                     optionName={item => item.get("name")}
                     onSelect={this.props.onProjectChange} />
+                <p className="t-caption" style={{ display: "block" }}>
+                   {projectType}
+                </p>
+
             </div>
         </form>
         );
-    },
+    }
 });

@@ -44,17 +44,23 @@ export default {
                 error_json = (response.responseJSON != null) ? response.responseJSON : null,
                 error_msg = response.responseText;
             if(error_json != null) {
-                if ("errors" in error_json) {
+                if ("detail" in error_json) {
+                    raw_error = error_json.detail;
+                    error = {
+                        "code": response.status,
+                        "message": "Encountered the following errors:" + JSON.stringify(raw_error)
+                    };
+                } else if ("errors" in error_json) {
                     raw_error = error_json.errors[0];
                     if('code' in raw_error && 'message' in raw_error) {
                         //Properly formed error
                         error = raw_error;
                     } else {
-                    //Safety -- if syntax changes
-                    error = {
-                        "code": response.status,
-                        "message": "Encountered the following errors:" + JSON.stringify(raw_error)
-                    };
+                        //Safety -- if syntax changes
+                        error = {
+                            "code": response.status,
+                            "message": "Encountered the following errors:" + JSON.stringify(raw_error)
+                        };
                     }
                 } else {
                     //Safety -- if 'errors' isn't available

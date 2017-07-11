@@ -418,6 +418,34 @@ _.extend(Store.prototype, Backbone.Events, {
         }
     },
 
+    // Fetch a single piece of data, using a known key/modelId
+    //  and allowing optional queryParams to be set.
+    fetchOne: function(modelId, queryParams) {
+        // Build the query string
+        queryParams = queryParams || {};
+        var queryString = this.buildQueryStringFromQueryParams(queryParams);
+        var queryKey = modelId + queryString;
+        var model = null;
+        if (this.queryModels[queryKey]) {
+            model = this.queryModels[queryKey];
+            return model;
+        } else if (!this.isFetchingQuery[queryKey]) {
+            this.isFetchingQuery[queryKey] = true;
+            this.isFetching = true;
+            var model = new this.collection.prototype.model({
+                id: modelId
+            });
+            model.fetch({
+               url: this.collection.prototype.url + "/" + modelId + queryString
+            }).done(function() {
+                this.isFetchingModel[queryKey] = false;
+                this.queryModels[queryKey] = model;
+                this.emitChange();
+            }.bind(this));
+        }
+        return null;
+    },
+
     // -----------------
     // Polling functions
     // -----------------

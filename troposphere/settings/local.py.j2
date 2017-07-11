@@ -215,6 +215,7 @@ BADGE_SYSTEM_NAME = "{{ BADGE_SYSTEM_NAME }}"
 # Badge secret used for badge authentication server
 BADGE_SECRET = "{{ BADGE_SECRET }}"
 {% endif %}
+ENABLE_PROJECT_SHARING = {{ ENABLE_PROJECT_SHARING | default(False) }}
 
 {% if DJANGO_JENKINS %}
 INSTALLED_APPS += (

@@ -1,3 +1,4 @@
+//import context from "context";
 
 let reportInstancesViaIntercom = false;
 let reportVolumesViaIntercom = false;
@@ -16,6 +17,19 @@ if(window.intercom_options && window.intercom_options['report']) {
     reportVolumesViaIntercom = reportOptions['volumes'] || false;
 }
 
+const hasProjectSharing = () => {
+    //FIXME: include ability to use context to determine if user is staff
+    //       - uncomment `import` statement
+    //let is_staff = context.profile.get('is_staff');
+
+    return window.PROJECT_SHARING || false;
+};
+
+const showIdentityView = () => {
+    //TODO: Provide a way for this to be enabled in a future feature.
+    return false;
+};
+
 const hasIntercomActive = () => {
         return window.intercom_app_id && window.Intercom;
 };
@@ -31,7 +45,9 @@ const shouldReportVolumeViaIntercom = () => {
 export default {
     WEB_DESKTOP: !!window.WEB_DESKTOP_ENABLED || false,
     hasIntercomActive,
+    showIdentityView,
     shouldReportInstanceViaIntercom,
     shouldReportVolumeViaIntercom,
-    GUACAMOLE: !!window.GUACAMOLE_ENABLED || false
+    GUACAMOLE: !!window.GUACAMOLE_ENABLED || false,
+    hasProjectSharing,
 }

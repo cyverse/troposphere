@@ -1,0 +1,159 @@
+import React from "react";
+import Backbone from "backbone";
+import Glyphicon from "components/common/Glyphicon";
+import modals from "modals";
+
+import featureFlags from "utilities/featureFlags";
+
+export default React.createClass({
+    displayName: "VolumeActionsAndLinks",
+
+    propTypes: {
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
+
+    onAttach: function() {
+        modals.InstanceVolumeModals.attach(this.props.volume, this.props.project);
+    },
+
+    onDetach: function() {
+        modals.InstanceVolumeModals.detach(this.props.volume);
+    },
+
+    onDelete: function() {
+        let { project, volume } = this.props;
+
+        modals.VolumeModals.destroy({
+            volume,
+            project
+        });
+    },
+
+    handleReport: function() {
+        // This needs to be flagged to handle the case where
+        // Intercom platform is used, but Respond is *not*
+        if (!featureFlags.hasIntercomActive()) {
+            modals.VolumeModals.report({
+                volume: this.props.volume
+            });
+        } else {
+            window.Intercom('trackEvent',
+                            'reported-volume',
+                            {'created_at': Date.now()});
+            window.Intercom('showNewMessage',
+                            'I am having issues with a volume. ');
+        }
+    },
+
+    render: function() {
+        var volume = this.props.volume,
+            status = volume.get("state").get("status");
+
+        var linksArray = [
+            {
+                label: "Actions",
+                icon: null
+            },
+            {
+                label: "Report",
+                icon: "inbox",
+                onClick: this.handleReport
+            }
+        ];
+
+        // Add in the conditional links based on current machine state
+        if (status === "available") {
+            linksArray.push({
+                label: "Attach",
+                icon: "save",
+                onClick: this.onAttach
+            });
+        } else if (status === "in-use") {
+            linksArray.push({
+                label: "Detach",
+                icon: "open",
+                onClick: this.onDetach
+            });
+        }
+
+        linksArray = linksArray.concat([
+            {
+                label: "Delete",
+                icon: "remove",
+                onClick: this.onDelete,
+                isDangerLink: true
+            }
+        ]);
+
+        var links = linksArray.map(function(link) {
+            // Links without icons are generally section headings
+            if (!link.icon) return (
+                <li key={link.label} className="section-label">
+                    {link.label}
+                </li>
+                );
+
+            let className = "section-link",
+                linkLabelMarkup;
+
+            linkLabelMarkup = (
+                <span>
+                    <Glyphicon name={link.icon}/>{` ${link.label}`}
+                </span>
+            );
+
+            if (link.isDangerLink)
+                className += " danger";
+
+            // todo: This isn't implemented well at all.  We should be disabling these
+            // buttons if there isn't a valid href for the link, or (perhaps) not even
+            // showing the buttons at all...but I think it's better communication to
+            // disable the buttons with a message explaining why on rollover.
+            //
+            if (link.openInNewWindow) {
+                var style = {};
+                if (!link.href)
+                    style.cursor = "not-allowed";
+                return (
+                <li key={link.label} className={className + " link"} style={style}>
+                    <a href={link.href} target="_blank">
+                        {linkLabelMarkup}
+                    </a>
+                </li>
+                );
+            }
+
+            // Some actions have hrefs, because they redirect to actual pages (and are
+            // not actions in need of confirmation).  While we *could* call
+            // Backbone.history.navigate from an onClick callback, we want all url
+            // changes to pass through our Backbone catcher in main.js that we can use
+            // to log requests to Google Analytics
+            if (link.href) return (
+                <li key={link.label} className={className + " link"}>
+                    <a href={link.href}>
+                        {linkLabelMarkup}
+                    </a>
+                </li>
+                );
+
+            // Links with onClick callbacks will typically trigger modals requiring
+            // confirmation before continuing
+            return (
+            <li key={link.label} className={className} onClick={link.onClick}>
+                {linkLabelMarkup}
+            </li>
+            );
+        });
+
+        return (
+        <div className="resource-actions">
+            <ul>
+                {links}
+            </ul>
+        </div>
+
+        );
+    }
+
+});

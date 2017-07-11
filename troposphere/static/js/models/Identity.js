@@ -1,4 +1,5 @@
 import Backbone from "backbone";
+import featureFlags from "utilities/featureFlags";
 
 function isRelevant(model, identityId) {
     // using double ~ to convert string to number
@@ -38,6 +39,26 @@ export default Backbone.Model.extend({
                 return false;
             }
         });
+    },
+
+    getName: function() {
+        let provider = this.get('provider');
+        if (!featureFlags.hasProjectSharing()) {
+                return provider.name;
+        }
+        return this.get("key") + " on " + provider.name;
+    },
+    toString: function() {
+        let verboseText = this.getCredentialValue('key')
+            + "/" + this.getCredentialValue('ex_project_name')
+            + " on " + this.get("provider").name;
+
+        return verboseText;
+    },
+    getCredentialValue: function(key_name) {
+        let credentials = this.get('credentials');
+        let filtered = credentials.filter(function(cred) { return cred.key == key_name; });
+        return filtered.length != 0 ? filtered[0].clean_value : "";
     },
 
     getCpusUsed: function(instances, sizes) {

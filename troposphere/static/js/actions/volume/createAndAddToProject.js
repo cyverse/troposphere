@@ -35,7 +35,7 @@ export default {
                 id: identity.id,
                 uuid: identity.get("uuid")
             },
-            projects: [project.id]
+            project: project.id
         }, {
             parse: true
         });
@@ -63,7 +63,7 @@ export default {
             volume.fetch().done(function() {
                 // todo: remove hack and start using ProjectVolume endpoint to discover
                 // which project an volume is in
-                volume.set("projects", [project.id]);
+                volume.set("project", project);
 
                 Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {
                     volume: volume

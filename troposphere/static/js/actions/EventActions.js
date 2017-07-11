@@ -9,7 +9,7 @@ export default {
                 let { allocationSource, instance } = payload
                 return new Events.AllocationSourceChange({
                     name,
-                    entity_id: instance.get("user").username,
+                    entity_id: allocationSource.get("name"),
                     payload: {
                         allocation_source_name: allocationSource.get("name"),
                         instance_id: instance.get("uuid")

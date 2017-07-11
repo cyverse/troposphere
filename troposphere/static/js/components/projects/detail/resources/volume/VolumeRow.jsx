@@ -4,7 +4,7 @@ import SelectableRow from "../SelectableRow";
 import Name from "../tableData/volume/Name";
 import Status from "../tableData/volume/Status";
 import Size from "../tableData/volume/Size";
-import Provider from "../tableData/volume/Provider";
+import Identity from "../tableData/common/Identity";
 import stores from "stores";
 import CryptoJS from "crypto-js";
 import Gravatar from "components/common/Gravatar";
@@ -44,8 +44,8 @@ export default React.createClass({
             <td className="sm-cell" data-label="Size">
                 <Size volume={volume} />
             </td>
-            <td className="sm-cell" data-label="Provider">
-                <Provider volume={volume} />
+            <td className="sm-cell" data-label="Identity">
+                <Identity project_resource={volume} />
             </td>
         </SelectableRow>
         );

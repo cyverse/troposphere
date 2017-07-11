@@ -1,0 +1,7 @@
+
+export default {
+    ADD_GROUP: "ADD_GROUP",
+    UPDATE_GROUP: "UPDATE_GROUP",
+    REMOVE_GROUP: "REMOVE_GROUP",
+    EMIT_CHANGE: "EMIT_CHANGE"
+};

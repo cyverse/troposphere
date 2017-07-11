@@ -40,6 +40,12 @@ let Project = Backbone.Model.extend({
         return hasNoInstances && hasNoVolumes;
     },
 
+    hasSharedResources: function(current_user) {
+        let hasSharedInstances = this.get('instances').some(function(instance) { return instance.user != current_user });
+        let hasSharedVolumes = this.get('volumes').some(function(volume) { return volume.user != current_user });
+        return hasSharedVolumes || hasSharedInstances;
+    },
+
     canBeDeleted: function() {
         return this.get("name") !== "Default";
     },

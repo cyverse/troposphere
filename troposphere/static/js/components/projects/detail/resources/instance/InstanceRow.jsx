@@ -6,7 +6,7 @@ import Status from "../tableData/instance/Status";
 import Activity from "../tableData/instance/Activity"
 import IpAddress from "../tableData/instance/IpAddress";
 import Size from "../tableData/instance/Size";
-import Provider from "../tableData/instance/Provider";
+import Identity from "../tableData/common/Identity";
 import CryptoJS from "crypto-js";
 import Gravatar from "components/common/Gravatar";
 import stores from "stores";
@@ -53,8 +53,8 @@ export default React.createClass({
             <td className="sm-cell" data-label="Size">
                 <Size instance={instance} />
             </td>
-            <td className="sm-cell" data-label="Provider">
-                <Provider instance={instance} />
+            <td className="sm-cell" data-label="Identity">
+                <Identity project_resource={instance} />
             </td>
         </SelectableRow>
         );

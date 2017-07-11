@@ -3,9 +3,11 @@ import { appBrowserHistory } from "utilities/historyFunctions";
 import Utils from "./Utils";
 import NotificationController from "controllers/NotificationController";
 import actions from "actions";
+import context from "context";
+import featureFlags from "utilities/featureFlags";
 
 // Constants
-import Badges from "Badges";
+//import Badges from "Badges"; // Badges functionality disable for now (2017-07-10)
 import ProjectConstants from "constants/ProjectConstants";
 import NullProjectInstanceConstants from "constants/NullProjectInstanceConstants";
 import NullProjectVolumeConstants from "constants/NullProjectVolumeConstants";
@@ -35,15 +37,27 @@ export default {
             throw new Error("Missing name");
         if (!params.description)
             throw new Error("Missing description");
-
+        if (featureFlags.hasProjectSharing() && !params.owner)
+            throw new Error("Missing group owner");
         var name = params.name,
             description = params.description;
 
-        var project = new Project({
+        //FIXME: Sending owner as nested dict, likely we will want to send group ID/UUID
+        var args = {
             name: name,
-            description: description
-        });
+            description: description,
+        }
 
+        if (featureFlags.hasProjectSharing()) {
+            //Project sharing, group is required
+            var owner = params.owner;
+            args.owner = owner.get('name');
+        } else {
+            //No project sharing, group == username
+            args.owner = context.profile.get('username');
+        }
+
+        var project = new Project(args);
 
         Utils.dispatch(ProjectConstants.ADD_PROJECT, {
             project: project
@@ -51,7 +65,11 @@ export default {
 
         project.save().done(function() {
             //NotificationController.success(null, "Project " + project.get('name') + " created.");
-            actions.BadgeActions.checkOrGrant(Badges.FIRST_PROJECT_BADGE);
+
+            //URGENT-FIXME: ProjectAction is not 'updating' the modal after creating a project from MigrateResource
+
+            //FIXME: Wrap this so it doesn't fail
+            //actions.BadgeActions.checkOrGrant(Badges.FIRST_PROJECT_BADGE);
             Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {
                 project: project
             });
@@ -78,9 +96,11 @@ export default {
         });
 
         project.save().done(function() {
-            //NotificationController.success(null, "Project name updated.");
-        }).fail(function() {
-            NotificationController.error(null, "Error updating Project " + project.get("name") + ".");
+            //NotificationController.success(null, "Project updated.");
+        }).fail(function(response) {
+            Utils.displayError({
+                title: "Project update failed",
+                response: response})
             Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {
                 project: project
             });
@@ -126,7 +146,6 @@ export default {
             currentProject = params.currentProject,
             resourcesCount = resources && resources.size
                            ? resources.size() : 0;
-
         resources.map(function(resource) {
             that.addResourceToProject(resource, newProject, {
                 silent: false
@@ -153,24 +172,24 @@ export default {
         // few places in the code that access instance/volume.get('projects')[0]
         // Instead we need to change those places to access a resources project
         // either through stores.ProjectInstanceStore or the route URL (getParams().projectId);
-        resource.set("projects", [project.id]);
-
         if (resource instanceof Instance) {
-            actions.ProjectInstanceActions.addInstanceToProject({
+            resource.set("project", project);
+            actions.InstanceActions.update(resource, {
                 project: project,
-                instance: resource
             }, options);
         } else if (resource instanceof Volume) {
-            actions.ProjectVolumeActions.addVolumeToProject({
+            resource.set("project", project);
+            actions.VolumeActions.update(resource, {
                 project: project,
-                volume: resource
             }, options);
         } else if (resource instanceof ExternalLink) {
+            resource.set("projects", [project.id]);
             actions.ProjectExternalLinkActions.addExternalLinkToProject({
                 project: project,
                 external_link: resource
             }, options);
         } else if (resource instanceof Image) {
+            resource.set("projects", [project.id]);
             actions.ProjectImageActions.addImageToProject({
                 project: project,
                 image: resource
@@ -182,14 +201,12 @@ export default {
 
     removeResourceFromProject: function(resource, project, options) {
         if (resource instanceof Instance) {
-            actions.ProjectInstanceActions.removeInstanceFromProject({
-                project: project,
-                instance: resource
+            actions.InstanceActions.update(resource, {
+                project: null,
             }, options);
         } else if (resource instanceof Volume) {
-            actions.ProjectVolumeActions.removeVolumeFromProject({
+            actions.VolumeActions.update(resource, {
                 project: project,
-                volume: resource
             }, options);
         } else if (resource instanceof ExternalLink) {
             actions.ProjectExternalLinkActions.removeExternalLinkFromProject({

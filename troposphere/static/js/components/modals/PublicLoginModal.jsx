@@ -27,7 +27,7 @@ export default React.createClass({
                         {this.renderCloseButton()}
                         <h1 className="t-title">Login to Atmosphere</h1>
                     </div>
-                    <div className="modal-body">
+                    <div className="modal-body" style={{paddingBottom: "0px", minHeight: "350px"}}>
                         <LoginScreen login_from="public_site" />
                     </div>
                 </div>

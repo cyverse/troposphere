@@ -29,6 +29,28 @@ tr div.loading-tiny-inline, span.loading-tiny-inline {
   width: 25px;
 }
 
+// created to show a loading icon inline of a div
+div.loading-tiny-inline-only {
+  @extend .loading;
+  height: 25px;
+  width: 25px;
+  margin: 0 !important;
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+}
+
+// created to show a loading icon inline of a list-item
+li div.loading-tiny-inline {
+  @extend .loading;
+  height: 25px;
+  width: 25px;
+  margin: 0 !important;
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+}
+
 // This has to be this specific to override the default Bootstrap styling
 .table > tbody > tr.loading-row > td {
   line-height: 32px;

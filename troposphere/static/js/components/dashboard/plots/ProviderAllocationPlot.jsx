@@ -4,7 +4,7 @@ import Backbone from "backbone";
 import PercentageGraph from "components/common/ui/PercentageGraph";
 
 export default React.createClass({
-    displayName: "ProviderSummaryLinePlot",
+    displayName: "ProviderAllocationPlot",
 
     propTypes: {
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
@@ -17,10 +17,11 @@ export default React.createClass({
 
     getChartData: function() {
         var summaries = [];
-        this.props.identities.map(function(identity) {
-            var data = this.getDataForIdentity(identity);
-            if (data) summaries.push(data);
-        }.bind(this));
+        //FIXME: this chart will no longer show 'Usage per identity'. That referred to 'IDentity-specific allocation sources' which have since gone away.
+        // this.props.identities.map(function(identity) {
+        //     var data = this.getDataForIdentity(identity);
+        //     if (data) summaries.push(data);
+        // }.bind(this));
         return summaries;
     },
 
@@ -33,7 +34,7 @@ export default React.createClass({
             allocationUsage = allocationUsageStats.percentUsed * 100;
 
         var seriesData = {
-            name: provider.get("name"),
+            name: identity.getName(),
             data: [allocationUsage],
             limits: {
                 Allocation: allocationUsageStats.maxAllocation

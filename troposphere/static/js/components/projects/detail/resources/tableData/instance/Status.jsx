@@ -11,16 +11,23 @@ export default React.createClass({
     },
 
     render: function() {
-        var instanceState = this.props.instance.get("state");
-        var status = instanceState.get("status");
-        var activity = instanceState.get("activity");
+        let instance = this.props.instance,
+            instanceState = instance.get("state"),
+            status = instanceState.get("status"),
+            activity = instanceState.get("activity");
+
+        if (instance.get('end_date')){
+            status = "deleted";
+            activity = "";
+        }
+
         var lightStatus;
 
         if (activity || status == "build") {
             lightStatus = "transition";
         } else if (status == "active") {
             lightStatus = "active";
-        } else if (instanceState.isInactive()) {
+        } else if (instanceState && instanceState.isInactive()) {
             // default of <StatusLight/> is gray,
             // so let's signal inactivity as gray
             lightStatus = "";
@@ -34,7 +41,7 @@ export default React.createClass({
             textTransform: "capitalize"
         };
 
-        if (instanceState.isDeployError()) {
+        if (!instanceState || instanceState.isDeployError()) {
             return (
             <span>
                 <div> <StatusLight status="error"/> <span style={style}>{status}</span> </div>
