@@ -149,7 +149,7 @@ const SSHConfiguration = React.createClass({
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Public Key</th>
+                                <th style={{ width: "80%" }}>Public Key</th>
                                 <th style={{ width: "60px"}}>Actions</th>
                             </tr>
                         </thead>
