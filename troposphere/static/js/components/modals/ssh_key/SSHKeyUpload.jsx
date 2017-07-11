@@ -102,30 +102,17 @@ export default React.createClass({
         return this.validateKey() && this.state.keyName.length > 0;
     },
 
-    addPublicKey: function() {
-        let attributes = {
-            atmo_user: this.props.user,
-            name: this.state.keyName.trim(),
-            pub_key: this.state.pubKey.trim(),
-        };
-        actions.SSHKeyActions.create(attributes);
-    },
-
-    savePublicKey: function() {
-        let {sshKey} = this.props;
-        let newAttributes = {
-            name: this.state.keyName.trim(),
-            pub_key: this.state.pubKey.trim(),
-            atmo_user: this.props.user,
-        }
-        actions.SSHKeyActions.update(sshKey, newAttributes);
-    },
-
     onSubmit: function() {
-        if( this.props.sshKey) {
-            this.savePublicKey();
+        let attributes = {
+            name: this.state.keyName.trim(),
+            pub_key: this.state.pubKey.trim(),
+            atmo_user: this.props.user
+        };
+
+        if (this.props.sshKey) {
+            actions.SSHKeyActions.update(sshKey, attributes);
         } else {
-            this.addPublicKey();
+            actions.SSHKeyActions.create(attributes);
         }
         this.hide();
     },
