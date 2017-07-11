@@ -10,37 +10,27 @@ export default {
             throw new Error("Missing SSHKey public key");
         if(!atmo_user)
             throw new Error("Missing SSHKey author");
-        var ssh_key = new SSHKey({
+        var sshKey = new SSHKey({
             name,
             pub_key,
             atmo_user
         });
-        // Add ssh_key optimistically
-        Utils.dispatch(SSHKeyConstants.ADD_SSH_KEY, {
-            ssh_key: ssh_key
-        }, {
-            silent: false
-        });
 
-        ssh_key.save().done(function() {
-            Utils.dispatch(SSHKeyConstants.UPDATE_SSH_KEY, {
-                ssh_key: ssh_key
-            }, {
-                silent: false
-            });
+        // Add sshKey optimistically
+        Utils.dispatch(SSHKeyConstants.ADD_SSH_KEY, { sshKey })
+
+        sshKey.save().done(function() {
+            Utils.dispatch(SSHKeyConstants.UPDATE_SSH_KEY, { sshKey });
         }).fail(function() {
-            Utils.dispatch(SSHKeyConstants.REMOVE_SSH_KEY, {
-                ssh_key: ssh_key
-            }, {
-                silent: false
-            });
+            Utils.dispatch(SSHKeyConstants.REMOVE_SSH_KEY, { sshKey });
         });
-        return ssh_key;
+        return sshKey;
     },
     update: function(sshKey, newAttributes) {
         let prevAttributes = Object.assign({}, sshKey.attributes);
 
         sshKey.set(newAttributes);
+        Utils.dispatch(SSHKeyConstants.UPDATE_SSH_KEY, { sshKey });
         sshKey.save(newAttributes, {patch: true})
             .done( () => {
                 Utils.dispatch(SSHKeyConstants.UPDATE_SSH_KEY, {sshKey});
