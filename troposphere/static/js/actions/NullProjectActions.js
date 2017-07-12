@@ -101,7 +101,11 @@ export default {
                 });
 
                 if (!instance) {
-                    console.warn("Instance with uuid: " + instanceUUID + " was not found.");
+                    /* eslint-disable no-console */
+                    console.warn("Instance with uuid: " +
+                                 instanceUUID +
+                                 " was not found.");
+                    /* eslint-enable no-console */
                     return;
                 }
 

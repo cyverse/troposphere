@@ -100,7 +100,9 @@ _.extend(Store.prototype, Backbone.Events, {
                 merge: true
             });
         } else {
+            /* eslint-disable no-console */
             console.error("Model doesn't exist: " + model.id || model.cid);
+            /* eslint-enable no-console */
         }
     },
 

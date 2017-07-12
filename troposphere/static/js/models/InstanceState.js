@@ -113,10 +113,14 @@ var get_percent_complete = function(state, activity) {
 
     if (!lookup) {
         lookup = {};
+        /* eslint-disable no-console */
         console.error("Unknown state (%s) representation passed", state);
+        /* eslint-enable no-console */
     }
     if (state === "error") {
+        /* eslint-disable no-console */
         console.log("Error state processed: activity = %s", activity);
+        /* eslint-enable no-console */
     }
 
     // Note: 100 is graphically similar to 0
