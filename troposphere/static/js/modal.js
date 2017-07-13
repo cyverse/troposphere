@@ -8,7 +8,7 @@ let ConfirmComponent = React.createClass({
     mixins: [ModalMixin],
     getDefaultProps: function() {
         return {
-            okButtonText: "OK",
+            okButtonText: "OK"
         //onCancel: function() {},
         };
     },

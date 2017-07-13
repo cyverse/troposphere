@@ -86,7 +86,9 @@ export default {
                 })
             },
             error: function(response) {
+                /* eslint-disable no-console */
                 console.log("failed", response);
+                /* eslint-enable no-console */
             }
         });
 

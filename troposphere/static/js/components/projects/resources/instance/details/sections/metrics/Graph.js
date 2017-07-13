@@ -67,7 +67,7 @@ Graph.prototype.fetch = function(onSuccess, onError) {
             res: this.resolution,
             from: this.from,
             until: this.until,
-            size: this.points,
+            size: this.points
         };
 
     if (this.transform == "derivative") {

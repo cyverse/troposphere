@@ -143,7 +143,7 @@ var InstanceStore = BaseStore.extend({
                     status_raw: status + " - deleting",
                     status: "active",
                     activity: "deleting"
-                }),
+                })
             });
 
             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
@@ -154,7 +154,7 @@ var InstanceStore = BaseStore.extend({
             return response.status == "200";
 
         }.bind(this));
-    },
+    }
 
 });
 

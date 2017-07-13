@@ -37,5 +37,5 @@ export const AllocationSourceChange = Event.extend({
 });
 
 export default {
-    AllocationSourceChange,
+    AllocationSourceChange
 }

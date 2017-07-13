@@ -45,5 +45,5 @@ let unsupported = function() {
 export default {
     unsupportedFeatures: unsupportedFeatures,
     breakingFeatures: breakingFeatures,
-    unsupported: unsupported,
+    unsupported: unsupported
 };

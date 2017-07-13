@@ -91,7 +91,7 @@ let VolumeStore = BaseStore.extend({
                 volume.set({
                     state: new VolumeState({
                         status_raw: "detaching"
-                    }),
+                    })
                 });
             }
             Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {
@@ -100,7 +100,7 @@ let VolumeStore = BaseStore.extend({
 
             return keepPolling;
         }.bind(this));
-    },
+    }
 
 });
 

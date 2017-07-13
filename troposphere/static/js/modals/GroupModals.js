@@ -4,5 +4,5 @@ import EditModal from "./group/edit";
 
 export default {
     create: CreateModal.create,
-    edit: EditModal.edit,
+    edit: EditModal.edit
 };

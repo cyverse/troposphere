@@ -11,13 +11,13 @@ let NetworkGraph = function(settings) {
             query: "*.*." + settings.uuid + ".rx",
             type: "rx",
             data: [],
-            transform: "derivative",
+            transform: "derivative"
         },
         lower: {
             query: "*.*." + settings.uuid + ".tx",
             type: "tx",
             data: [],
-            transform: "derivative",
+            transform: "derivative"
         }
     };
 
@@ -43,7 +43,7 @@ NetworkGraph.prototype.fetch = function(onSuccess, onError) {
             from: me.from,
             until: me.until,
             res: me.resolution,
-            size: me.points,
+            size: me.points
         };
 
         if (s.transform == "derivative")

@@ -17,7 +17,7 @@ let ProjectStore = BaseStore.extend({
         } else {
             return this.queryModels[identity_key];
         }
-    },
+    }
 
 });
 

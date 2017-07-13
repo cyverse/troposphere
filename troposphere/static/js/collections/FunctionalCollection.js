@@ -19,5 +19,5 @@ export default {
     cfilter: fix(new Backbone.Collection().filter),
     csome: fix(new Backbone.Collection().some),
     cwhere: fix(new Backbone.Collection().where),
-    csort: fix(new Backbone.Collection().sort),
+    csort: fix(new Backbone.Collection().sort)
 }

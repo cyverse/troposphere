@@ -6,7 +6,7 @@ export default {
         var end_date = params.end_date;
 
         var newAttributes = {
-            end_date: (end_date) ? end_date.format("YYYY-MM-DDThh:mm:ssZ") : null,
+            end_date: (end_date) ? end_date.format("YYYY-MM-DDThh:mm:ssZ") : null
         };
         if (params.is_active === false || params.is_active === true) {
             newAttributes.is_active = params.is_active

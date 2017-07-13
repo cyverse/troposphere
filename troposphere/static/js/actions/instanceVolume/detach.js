@@ -51,7 +51,7 @@ export default {
             });
             Utils.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {
                 volume: volume,
-                delay: 30*1000,
+                delay: 30*1000
             });
         }).fail(function(response) {
             Utils.displayError({

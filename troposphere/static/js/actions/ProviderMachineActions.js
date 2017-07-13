@@ -20,7 +20,7 @@ export default {
         Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, machine);
 
         machine.save(newAttributes, {
-            patch: true,
+            patch: true
         }).done(function() {
             stores.ProviderMachineStore.removeCache(machine);
             Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, machine);

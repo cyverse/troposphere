@@ -55,7 +55,7 @@ export default {
             });
             Utils.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {
                 volume: volume,
-                delay: 30*1000,
+                delay: 30*1000
             });
             if (globals.BADGES_ENABLED) {
                 actions.BadgeActions.checkOrGrant(Badges.ATTACH_VOLUME_BADGE);

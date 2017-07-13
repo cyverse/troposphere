@@ -8,7 +8,7 @@ var HelpLinkStore = BaseStore.extend({
 
     queryParams: {
         page_size: 100
-    },
+    }
 
 });
 

@@ -18,7 +18,7 @@ let ProviderStore = BaseStore.extend({
                 return versionProviders.includes(prov.id);
             });
         }
-    },
+    }
 
 });
 

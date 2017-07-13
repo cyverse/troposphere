@@ -10,7 +10,7 @@ export default {
     addImage: function(image) {
 
         var props = {
-            image: image,
+            image: image
         };
 
         ModalHelpers.renderModal(ProjectAddImageModal, props, function(project, image) {

@@ -96,7 +96,7 @@ export default Backbone.Model.extend({
             name,
             scripts,
             project,
-            identity,
+            identity
         }
 
         return Backbone.sync("create", this, {
@@ -232,5 +232,5 @@ export default Backbone.Model.extend({
         if (instanceUrl.slice(-1) !== "/")
             instanceUrl += "/";
         return instanceUrl + "action";
-    },
+    }
 });

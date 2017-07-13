@@ -47,7 +47,7 @@ const unshelve = (params) => {
         });
         Utils.dispatch(InstanceConstants.POLL_INSTANCE_WITH_DELAY, {
             instance: instance,
-            delay: 25*1000,
+            delay: 25*1000
         });
     });
 }

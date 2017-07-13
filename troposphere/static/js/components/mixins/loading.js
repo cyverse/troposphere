@@ -32,7 +32,9 @@ export default {
             });
         }.bind(this),
             function(msg) {
+                /* eslint-disable no-console */
                 console.error(msg);
+                /* eslint-enable no-console */
                 this.setState({
                     _loading: false,
                     _error: msg

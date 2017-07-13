@@ -153,7 +153,14 @@ var ImageStore = BaseStore.extend({
                     var providerId = machine.provider.id,
                         provider = stores.ProviderStore.get(machine.provider.id);
 
-                    if (!provider) console.warn("Machine " + machine.id + " listed on version " + version.id + " showing availability on non-existent provider " + providerId);
+                    if (!provider) {
+                        /* eslint-disable no-console */
+                        console.warn("Machine " + machine.id +
+                                     " listed on version " + version.id +
+                                     " showing availability on non-existent provider " +
+                                     providerId);
+                        /* eslint-enable no-console */
+                    }
 
                     return provider;
                 });
