@@ -1,9 +1,11 @@
 import React from "react";
 import Backbone from "backbone";
 import Showdown from "showdown";
+
 import globals from "globals";
 import subscribe from "utilities/subscribe";
 import featureFlags from "utilities/featureFlags";
+
 
 const ViewDetails = React.createClass({
     displayName: "ViewDetails",
@@ -61,8 +63,9 @@ const ViewDetails = React.createClass({
         return group_users_text.join(", ");
     },
     renderLeaders: function(project) {
+        let { GroupStore } = this.props.subscriptions;
         var group_id = project.get("owner").id,
-            group = stores.GroupStore.get(group_id);
+            group = GroupStore.get(group_id);
         if(group == null) {
             return (
             <div className="project-info-segment row">
