@@ -124,7 +124,8 @@ export default React.createClass({
     },
     // Rendering
     renderLoginMethod: function() {
-        let method = this.state.loginProvider.get('method');
+        let method = this.state.loginProvider.get('method'),
+            provider = this.state.loginProvider.get('provider');
         if (method == "password-login") {
             return (<PasswordLoginForm
                 attemptLogin={this.attemptPasswordLogin}/>);
@@ -133,7 +134,7 @@ export default React.createClass({
                 attemptLogin={this.attemptOpenstackLogin}/>);
         } else if (method == "oauth-login") {
             return (<OAuthLoginForm
-                provider={this.state.loginProvider.get('provider')}
+                provider={provider}
                 attemptLogin={this.attemptOAuthLogin}/>);
         }
     },
@@ -153,7 +154,6 @@ export default React.createClass({
                 minHeight: "0px"
             }
         }
-        const provider = this.state.loginProvider.get('provider');
 
         return (
            <div id="main-login-modal" className={mainClassnames} style={customStyle}>

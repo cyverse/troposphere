@@ -1,6 +1,5 @@
 import React from "react";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import globals from "globals";
 import LoginScreen from "components/login/LoginScreen.jsx";
 
 
@@ -10,15 +9,6 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     render: function() {
-        var buttons = (
-        <button key={'Okay'}
-            type="button"
-            className={'btn btn-primary'}
-            onClick={this.confirm}>
-            {'Okay'}
-        </button>
-        );
-
         return (
         <div className="modal fade">
             <div className="modal-dialog">

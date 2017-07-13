@@ -1,8 +1,8 @@
+import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
-import ReactDOMServer from "react-dom/server";
-import $ from "jquery";
 import Highcharts from "highcharts";
+
 
 export default React.createClass({
     displayName: "SparklineGraph",
@@ -18,7 +18,6 @@ export default React.createClass({
     //
 
     componentDidMount: function() {
-        var categories = this.props.categories;
         var seriesData = this.props.seriesData;
 
         //var max = findMaxDataPt(seriesData, 100);
@@ -33,9 +32,8 @@ export default React.createClass({
         var height = 15;
         var width = 135;
 
-        var plotLines = [],
-            plotBands = [];
-        var chart = new Highcharts.createChart(el, {
+        // Highcharts is using DOM mutate here to render this chart.
+        new Highcharts.createChart(el, {
             chart: {
                 backgroundColor: "transparent",
                 margin:[0, 0, 0, 0],
@@ -79,7 +77,6 @@ export default React.createClass({
                         }
                     },
                     marker:{
-                        //enabled:false,
                         radius:0,
                         states:{
                             hover:{
@@ -105,5 +102,3 @@ export default React.createClass({
         return ( <div/> );
     }
 });
-
-

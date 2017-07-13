@@ -1,6 +1,7 @@
 import React from 'react';
-import { alertFail } from "utilities/toastrHelpers";
 import Raven from "raven-js";
+
+import { alertFail } from "utilities/toastrHelpers";
 
 /**
  * Report exception via Sentry error client (Raven)
@@ -24,16 +25,16 @@ function reportException(ex) {
     }
 }
 
-/* 
-* This code was found here: http://stackoverflow.com/a/30810322.
-* We should test this but it seems like the most elegant solution 
-* as it is self contained and dosn't depend on external DOM element. 
-* This is better because it reduces the chances of user error. 
-* Just pass it the string you want to copy.
-* 
-* I don't think there is a problem with performence or react as this 
-* appends an element outside #app and removes onClick.
-*/
+/*
+ * This code was found here: http://stackoverflow.com/a/30810322.
+ * We should test this but it seems like the most elegant solution
+ * as it is self contained and dosn't depend on external DOM element.
+ * This is better because it reduces the chances of user error.
+ * Just pass it the string you want to copy.
+ *
+ * I don't think there is a problem with performence or react as this
+ * appends an element outside #app and removes onClick.
+ */
 function copyTextToClipboard(text) {
     var textArea = document.createElement("textarea");
 
@@ -80,8 +81,8 @@ function copyTextToClipboard(text) {
     textArea.select();
 
     try {
-        var successful = document.execCommand('copy');
-        var msg = successful ? 'successful' : 'unsuccessful';
+        // capture `execCommand` in a variable if offering feedback on failure
+        document.execCommand('copy');
     } catch (err) {
         reportException(err);
     };
@@ -98,7 +99,7 @@ export default React.createClass({
     },
 
     componentDidMount() {
-        // Support for execCommand is good 
+        // Support for execCommand is good
         // http://caniuse.com/#search=document.execCommand
 
         // The assumption is that if we have the execCommand method
@@ -123,15 +124,15 @@ export default React.createClass({
         this.setState({
             feedbackState: "FLOAT"
         }, () => {
-            setTimeout( 
-                () => { 
+            setTimeout(
+                () => {
                     this.setState({
                         feedbackState: "FADEOUT"
                 }, () => {
                     setTimeout(
-                    () => {    
+                    () => {
                         this.setState({
-                            feedbackState: "WAIT"   
+                            feedbackState: "WAIT"
                         })
                     } , 300)
                 })}, 300)
@@ -158,13 +159,13 @@ export default React.createClass({
 
         return (
             <div
-                style={ style.button } 
+                style={ style.button }
                 onClick = { this.onClick }
-            > 
-                <div 
-                    style={{ 
+            >
+                <div
+                    style={{
                         ...style.feedback,
-                        ...feedbackStyle() 
+                        ...feedbackStyle()
                     }}
                 >
                     Copied!
@@ -173,7 +174,7 @@ export default React.createClass({
             </div>
         )
     },
-    
+
     style() {
         // Base styles
         const button = {
@@ -184,7 +185,7 @@ export default React.createClass({
             color: "#0971ab",
             marginLeft: "10px",
         };
-        
+
         const feedback = {
             fontSize: "12px",
             position: "absolute",
@@ -208,7 +209,7 @@ export default React.createClass({
             top: "-20px",
             transition: "opacity .2s ease",
         };
-       
+
         return {
             button,
             feedback,

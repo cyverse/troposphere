@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
 import ResourceDetail from "components/projects/common/ResourceDetail";
-import stores from "stores";
 import Size from "models/Size"
 
 

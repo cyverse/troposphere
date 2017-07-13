@@ -26,8 +26,7 @@ export default React.createClass({
     },
 
     getDataForIdentity: function(identity) {
-        var provider = this.props.providers.get(identity.get("provider").id),
-            allocation = identity.get("usage");
+        var allocation = identity.get("usage");
 
         // Allocation Usage
         var allocationUsageStats = this.calculateAllocationUsage(allocation),

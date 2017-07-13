@@ -1,9 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import _ from "underscore";
 
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import ProjectSelect from "components/common/project/ProjectSelect";
 import ResourceSelectMenu from "components/modals/migrate_resources/ResourceSelectMenu";
 import stores from "stores";
 import actions from "actions";
@@ -82,11 +79,10 @@ export default React.createClass({
         let resource_project = this.state.resourceProjectMap[resource.id];
         return (
         <ResourceSelectMenu key={resource.id}
-	    resource={resource}
-	    projects={this.props.projects}
-	    project={resource_project.project}
-	    onProjectSelected={this.pairResourceWithProject}
-	    />
+                            resource={resource}
+                            projects={this.props.projects}
+                            project={resource_project.project}
+                            onProjectSelected={this.pairResourceWithProject} />
         );
     },
 

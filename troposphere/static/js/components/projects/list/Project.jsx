@@ -124,11 +124,8 @@ const Project = React.createClass({
             project = this.props.project,
             group = project.get('owner'),
             current_user = context.profile.get('username'),
-            ownedIdentityList = IdentityStore.getIdentitiesForGroup(group, current_user),
-            isPrivate = (group.name == current_user);
-        // if(isPrivate) {
-        //     return ;
-        // }
+            ownedIdentityList = IdentityStore.getIdentitiesForGroup(group, current_user);
+
         if (!ownedIdentityList) {
             return ;
         }
@@ -156,9 +153,6 @@ const Project = React.createClass({
     render: function() {
         let project = this.props.project,
             description,
-            projectType,
-            projectLeaderList,
-            projectMeta,
             projectCreationDate,
             projectExternalLinks,
             projectInstances,

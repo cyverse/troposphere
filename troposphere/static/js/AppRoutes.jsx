@@ -1,9 +1,7 @@
 import React from "react";
-import { Router,
-         Route,
+import { Route,
          IndexRoute,
-         IndexRedirect,
-         browserHistory } from "react-router";
+         IndexRedirect } from "react-router";
 
 import globals from "globals";
 

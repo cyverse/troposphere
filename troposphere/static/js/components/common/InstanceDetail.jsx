@@ -7,8 +7,6 @@ import InstanceDetailsSection from "components/projects/resources/instance/detai
 import PastInstanceDetailsSection from "components/projects/resources/instance/details/sections/PastInstanceDetailsSection";
 import InstanceActionsAndLinks from "components/projects/resources/instance/details/actions/InstanceActionsAndLinks";
 import InstanceMetricsSection from "components/projects/resources/instance/details/sections/InstanceMetricsSection";
-import Instance from "models/Instance";
-import InstanceState from "models/InstanceState";
 import InstanceInfoSection from "components/projects/resources/instance/details/sections/InstanceInfoSection";
 import InstanceHistorySection from "components/common/InstanceHistorySection";
 
@@ -29,9 +27,6 @@ const InstanceDetail = React.createClass({
             instance = instanceHistory.get('instance'),
             instanceObj = InstanceStore.fetchOne(instance.id, {
                 archived: true,
-            }),
-            instanceStateObj = new InstanceState({
-                "status_raw": "deleted"
             });
 
         if(!instanceObj) {
@@ -59,7 +54,7 @@ const InstanceDetail = React.createClass({
     },
 
     renderActiveInstance: function(instance) {
-        let { InstanceStore, ProjectStore } = this.props.subscriptions;
+        let { ProjectStore } = this.props.subscriptions;
         var metrics = globals.SHOW_INSTANCE_METRICS
             ? <InstanceMetricsSection instance={instance} />
             : "";

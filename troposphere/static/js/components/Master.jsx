@@ -13,8 +13,6 @@ import noAllocationSource from "modals/allocationSource/noAllocationSource";
 
 import Raven from "raven-js";
 
-import Router from "react-router";
-import { RouteHandler } from "react-router";
 
 export default React.createClass({
     displayName: "Master",
@@ -117,7 +115,7 @@ export default React.createClass({
             username: profile.get('username'),
         }
         Raven.setUserContext(userContext);
-        Raven.setTagsContext(SENTRY_TAGS);
+        Raven.setTagsContext(window.SENTRY_TAGS);
     },
 
     componentWillUnmount: function() {

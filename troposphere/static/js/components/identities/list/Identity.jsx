@@ -5,7 +5,6 @@ import moment from "moment";
 
 import IdentityResource from "./IdentityResource";
 import stores from "stores";
-import context from "context";
 
 
 export default React.createClass({
@@ -34,17 +33,11 @@ export default React.createClass({
         let identity = this.props.identity,
             provider,
             identityTitle,
-            identityUsernameList,
-            identityLeaderList,
-            identityMeta,
-            identityOwner,
             identityInstances,
             identityVolumes,
             identityCreationDate,
             numInstances = "-",
-            numVolumes = "-",
-            numImages = "-",
-            numExternalLinks = "-";
+            numVolumes = "-";
 
 
         // only attempt to fetching identity metadata for persisted identities

@@ -1,7 +1,6 @@
 import React from "react";
 
 import SSHConfiguration from "components/settings/advanced/SSHConfiguration";
-import ClientCredentials from "components/settings/advanced/ClientCredentials";
 
 
 export default React.createClass({

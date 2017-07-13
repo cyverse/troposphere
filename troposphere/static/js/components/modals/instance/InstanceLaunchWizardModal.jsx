@@ -46,7 +46,6 @@ export default React.createClass({
     },
 
     getInitialState: function() {
-
         // We might have these
         let image = this.props.image ? this.props.image : null;
         let instanceName = image ? image.get("name") : null;
@@ -92,8 +91,8 @@ export default React.createClass({
     // set the project to the first returned from the cloud. It primes our
     // stores, so that render can just call get and eventually get data.
     updateState: function() {
-        let allocationSourceList = stores.AllocationSourceStore.getAll();
-        let view = this.props.initialView;
+        let allocationSourceList = stores.AllocationSourceStore.getAll(),
+            view = this.props.initialView;
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one

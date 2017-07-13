@@ -46,7 +46,7 @@ export default React.createClass({
     },
 
     render: function() {
-        let { image, imageTags, tags } = this.props;
+        let { imageTags, tags } = this.props;
         let query = this.state.query;
 
         if (query && tags) {

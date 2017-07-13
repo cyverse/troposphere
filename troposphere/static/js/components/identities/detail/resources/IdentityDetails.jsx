@@ -8,8 +8,6 @@ import modals from "modals";
 import stores from "stores";
 import actions from "actions";
 
-import { trackAction } from 'utilities/userActivity';
-
 
 export default React.createClass({
     displayName: "IdentityDetails",

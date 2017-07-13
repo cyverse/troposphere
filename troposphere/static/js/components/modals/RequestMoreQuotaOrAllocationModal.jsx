@@ -197,11 +197,7 @@ export default React.createClass({
     },
 
     renderMoreQuota() {
-        let { identity } = this.state,
-            username = stores.ProfileStore.get().get("username"),
-            requests = stores.ResourceRequestStore.findResourceRequestsWhere({
-                "created_by.username": username
-            });
+        let { identity } = this.state;
 
         if (!identity) {
             stores.IdentityStore.getAll();

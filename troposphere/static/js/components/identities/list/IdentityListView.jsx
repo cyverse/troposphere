@@ -1,6 +1,5 @@
 import React from "react";
 import Backbone from "backbone";
-import RaisedButton from 'material-ui/RaisedButton';
 import IdentityList from "./IdentityList";
 import modals from "modals";
 import IdentityListHeader from "../common/IdentityListHeader";
