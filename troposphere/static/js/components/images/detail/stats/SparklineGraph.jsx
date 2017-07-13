@@ -32,8 +32,7 @@ export default React.createClass({
         var height = 15;
         var width = 135;
 
-        // FIXME - evaluate why this component doesn't use `chart` anywhere
-        // var chart = ...
+        // Highcharts is using DOM mutate here to render this chart.
         new Highcharts.createChart(el, {
             chart: {
                 backgroundColor: "transparent",
