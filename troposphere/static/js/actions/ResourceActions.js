@@ -1,3 +1,4 @@
+import Raven from "raven-js";
 import $ from "jquery";
 import Utils from "./Utils";
 import context from "context";
@@ -8,18 +9,24 @@ import AccountConstants from "constants/AccountConstants";
 import NotificationController from "controllers/NotificationController";
 
 function errorHandler(response) {
-    let title = "Submission contained errors"
-    let message = "Please contact atmosphere support: support@cyverse.org";
-
-    // Try to provide a better error message
-    if (response.status == 405 && response.responseJSON) {
-        message = response.responseJSON.detail || message;
+    // Note: this error handler supports jQuery style promises. When a jQuery
+    // promise is rejected/fails, it calls the error handler with a jqXHR, so
+    // here we are anticipating that response is a jqXHR
+    let errorDetail;
+    if (response.responseJSON) {
+        errorDetail = response.responseJSON.detail;
     }
 
     NotificationController.error(
-        message,
-        title
+        "Submission error",
+        errorDetail || "Please contact atmosphere support: support@cyverse.org"
     );
+
+    if (Raven.isSetup()) {
+        Raven.captureMessage(
+            "Resource Request submission failed", { response }
+        );
+    }
 
     // This allows other recipients of the promise to see the error
     throw response;
