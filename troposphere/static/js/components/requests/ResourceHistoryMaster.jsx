@@ -4,6 +4,7 @@ import ResourceActions from "actions/ResourceActions";
 import subscribe from "utilities/subscribe";
 import RaisedButton from "material-ui/RaisedButton";
 
+
 const MyResourceRequestsPage = React.createClass({
     displayName: "MyResourceRequestsPage",
 
@@ -19,7 +20,7 @@ const MyResourceRequestsPage = React.createClass({
     },
 
     render: function() {
-        let { IdentityStore, ProfileStore, StatusStore, ResourceRequestStore } = this.props.subscriptions;
+        let { ProfileStore, StatusStore, ResourceRequestStore } = this.props.subscriptions;
         var username = ProfileStore.get().id,
             statusTypes = StatusStore.getAll();
 

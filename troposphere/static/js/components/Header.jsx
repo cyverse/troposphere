@@ -83,8 +83,6 @@ let LoginLink = React.createClass({
 
     },
     render: function() {
-        let redirect_path = window.location.pathname;
-
         return (
         <li className="dropdown">
             {this.renderLink()}
@@ -299,7 +297,7 @@ let Header = React.createClass({
             : <LoginLink/>;
 
         let homeTarget = loggedIn ? "dashboard" : "images";
-        
+
         return (
         <div className="navbar navbar-default navbar-fixed-top" role="navigation">
             <MaintenanceMessageBanner maintenanceMessages={this.props.maintenanceMessages} />

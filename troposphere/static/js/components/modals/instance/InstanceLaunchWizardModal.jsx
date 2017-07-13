@@ -46,7 +46,6 @@ export default React.createClass({
     },
 
     getInitialState: function() {
-
         // We might have these
         let image = this.props.image ? this.props.image : null;
         let instanceName = image ? image.get("name") : null;

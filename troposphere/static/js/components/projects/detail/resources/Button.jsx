@@ -41,7 +41,6 @@ export default React.createClass({
     },
 
     render: function() {
-        var style = this.props.style || {};
         if (this.props.isVisible) {
             return (
             <RaisedButton

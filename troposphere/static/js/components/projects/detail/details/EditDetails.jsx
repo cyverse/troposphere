@@ -139,8 +139,6 @@ const EditDetails = React.createClass({
     render: function() {
         var project = this.props.project;
 
-        let { GroupStore } = this.props.subscriptions;
-
         return (
         <div className="edit-details">
             <div className="project-info-segment row" style={{ marginTop: "62px" }}>

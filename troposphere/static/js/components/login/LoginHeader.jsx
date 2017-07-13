@@ -1,14 +1,7 @@
 import React from 'react';
-import Router from 'react-router';
-import Backbone from 'backbone';
-import toastr from 'toastr';
 
 import modals from 'modals';
-import context from 'context';
-import globals from 'globals';
 
-import { trackAction } from 'utilities/userActivity';
-import { hasLoggedInUser } from 'utilities/profilePredicate';
 
 //TODO: I dont know where this component is used -- modified to ensure consistency
 let LoginLink = React.createClass({
@@ -29,8 +22,6 @@ let LoginLink = React.createClass({
 
     },
     render: function() {
-        let redirect_path = window.location.pathname;
-
         return (
         <li className="dropdown">
             {this.renderLink()}

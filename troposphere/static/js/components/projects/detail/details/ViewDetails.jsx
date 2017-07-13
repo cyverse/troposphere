@@ -97,8 +97,7 @@ const ViewDetails = React.createClass({
             );
         }
 
-        let leaders = group.get('leaders'),
-            users = group.get('users'),
+        let users = group.get('users'),
             usernames = this.renderUsersText(users),
             isPrivate = (users.length == 1),
             body = group.get('name');

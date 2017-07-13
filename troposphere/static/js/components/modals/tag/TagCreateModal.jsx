@@ -1,6 +1,6 @@
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
-import $ from "jquery";
+
 import stores from "stores";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 

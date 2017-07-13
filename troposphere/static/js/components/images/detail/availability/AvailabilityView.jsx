@@ -3,7 +3,6 @@ import Backbone from "backbone";
 import stores from "stores";
 import Code from "components/common/ui/Code";
 import CopyButton from "components/common/ui/CopyButton";
-import moment from "moment";
 
 
 export default React.createClass({

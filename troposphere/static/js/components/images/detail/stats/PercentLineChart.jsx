@@ -1,8 +1,8 @@
+import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
-import ReactDOMServer from "react-dom/server";
-import $ from "jquery";
 import Highcharts from "highcharts";
+
 
 export default React.createClass({
     displayName: "PercentageGraph",
@@ -76,4 +76,3 @@ export default React.createClass({
         return ( <div/> );
     }
 });
-

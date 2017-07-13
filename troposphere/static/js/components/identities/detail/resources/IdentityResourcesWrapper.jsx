@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-//FIXME: these imports shouldnt _require_ using ../../.. 
-import SubMenu from "../../../projects/detail/resources/SubMenu";
+
 
 export default React.createClass({
     displayName: "IdentityResourcesWrapper",

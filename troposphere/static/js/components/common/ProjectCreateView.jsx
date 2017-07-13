@@ -1,11 +1,12 @@
-import featureFlags from "utilities/featureFlags";
-
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
-import subscribe from "utilities/subscribe";
-import context from "context";
+
 import SelectMenu from "components/common/ui/SelectMenu";
+import subscribe from "utilities/subscribe";
+import featureFlags from "utilities/featureFlags";
+
 import { trackAction } from "../../utilities/userActivity";
+
 
 const ProjectCreateView = React.createClass({
     displayName: "ProjectCreateView",
@@ -75,7 +76,9 @@ const ProjectCreateView = React.createClass({
     },
 
     isSubmittable: function () {
-        if (this.validateName().hasError || this.validateDescription().hasError || (featureFlags.hasProjectSharing() && this.validateOwner().hasError) ) {
+        if (this.validateName().hasError ||
+            this.validateDescription().hasError ||
+            (featureFlags.hasProjectSharing() && this.validateOwner().hasError) ) {
             return false;
         }
         return true;
@@ -146,23 +149,12 @@ const ProjectCreateView = React.createClass({
         let nameErrorMessage = null;
         let descriptionClassNames = "form-group";
         let descriptionErrorMessage = null;
-        let groupClassNames = "form-group";
-        let groupErrorMessage = null;
 
         let { GroupStore } = this.props.subscriptions;
 
         let groupList = GroupStore.getAll();
         if(!groupList) {
             return (<div className="loading"></div>);
-        }
-        let projectType;
-        if (!this.state.groupOwner) {
-            projectType = "Select a Group";
-        } else if (this.state.groupOwner.get('users').length == 1) {
-            projectType = "Private Project";
-        } else {
-            let projectUsernameList = this.getMemberNames(this.state.groupOwner);
-            projectType = "Share this Project with Users: " + projectUsernameList;
         }
         if (this.state.showValidation) {
             nameClassNames = this.validateName().hasError ?
@@ -171,10 +163,6 @@ const ProjectCreateView = React.createClass({
             descriptionClassNames = this.validateDescription().hasError ?
                 "form-group has-error" : null;
             descriptionErrorMessage = this.validateDescription().message;
-            let validateOwner = this.validateOwner();
-            groupErrorMessage = validateOwner.message;
-            groupClassNames = validateOwner.hasError ?
-                "form-group has-error" : null;
         }
 
         return (

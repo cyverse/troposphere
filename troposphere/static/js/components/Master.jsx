@@ -13,8 +13,6 @@ import noAllocationSource from "modals/allocationSource/noAllocationSource";
 
 import Raven from "raven-js";
 
-import Router from "react-router";
-import { RouteHandler } from "react-router";
 
 export default React.createClass({
     displayName: "Master",

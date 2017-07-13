@@ -6,11 +6,8 @@ import context from "context";
 
 import actions from "actions";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import ProjectSelect from "components/common/project/ProjectSelect";
 import SelectMenu from "components/common/ui/SelectMenu";
 import ResourceSelectMenu from "components/modals/migrate_resources/ResourceSelectMenu";
-import Instance from "models/Instance";
-import Volume from "models/Volume";
 import subscribe from "utilities/subscribe";
 import featureFlags from "utilities/featureFlags";
 
@@ -143,7 +140,7 @@ const NullProjectMigrateResourceModal = React.createClass({
     },
 
     renderResourceProjectSelection: function(resource, identities_for_groups) {
-        let { ProjectStore, GroupStore, IdentityStore } = this.props.subscriptions;
+        let { ProjectStore } = this.props.subscriptions;
 
         let selectedIdentityUUID = resource.get('identity').uuid;
         let projects = ProjectStore.getAll().cfilter(p => {
@@ -202,15 +199,18 @@ const NullProjectMigrateResourceModal = React.createClass({
     renderGroupResourceSelection: function() {
         /**
          * Use this method when:
-         * - You are _explicitly_ separating IdentityMembership between groups. This will ensure users do not "place their resources in the wrong projects"
+         * - You are _explicitly_ separating IdentityMembership between groups. This
+         * will ensure users do not "place their resources in the wrong projects"
+         *
          * What this method does:
          * - Retrieve a list of identities for each group
          * - Look at the given identity of a resource
          *   - Determine which "group" should be allowed to place the resource.
          * Where this method does not work:
          * - When two or more groups share an IdentityMembership, this method will prevent someone from actually submitting the form.
-         **/
-        let { ProjectStore, GroupStore, IdentityStore } = this.props.subscriptions;
+         *
+         */
+        let { GroupStore, IdentityStore } = this.props.subscriptions;
         let groups = GroupStore.getAll();
         let identities_for_groups = {};
         let notReady = false;
@@ -301,7 +301,7 @@ const NullProjectMigrateResourceModal = React.createClass({
     },
     isCreateDisabled: function() {
         //Enabled for testing.
-        return false;
+        //return false;
 
         return (this.state.projectName.trim() == "");
     },

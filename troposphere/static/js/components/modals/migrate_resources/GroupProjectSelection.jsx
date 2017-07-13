@@ -1,9 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import _ from "underscore";
 
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import ProjectSelect from "components/common/project/ProjectSelect";
 import ResourceSelectMenu from "components/modals/migrate_resources/ResourceSelectMenu";
 import stores from "stores";
 import actions from "actions";

@@ -22,7 +22,7 @@ const ResourceSelectMenu = React.createClass({
     },
     renderSelectMenu() {
         let { projects } = this.props;
-        let { resource, project } = this.props;
+        let { project } = this.props;
         let projectTip = (projects.length > 0) ? "Select a Project": "Create a Project";
         let optionName = this.props.optionName;
         if(!optionName) {

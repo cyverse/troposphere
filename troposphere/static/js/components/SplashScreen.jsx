@@ -5,7 +5,6 @@ import ReactDOM from "react-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import appTheme from 'theme/appTheme';
-import _ from 'lodash';
 
 import { Router } from "react-router";
 
@@ -14,8 +13,6 @@ import stores from "stores";
 
 import Routes from "../AppRoutes";
 import { appBrowserHistory } from "utilities/historyFunctions";
-
-import Raven from "raven-js";
 
 import featureFlags from "utilities/featureFlags";
 

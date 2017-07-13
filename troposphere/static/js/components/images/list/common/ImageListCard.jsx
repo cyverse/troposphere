@@ -41,7 +41,6 @@ const ImageListCard = React.createClass({
         return labels;
     },
     getChartData(image, metric) {
-        let labels = this.getLabels(metric);
         let metric_values = Object.values(metric);
         let percentAreaData = metric_values.map(function(mv) {
             let percent = 100*mv.active/mv.total;

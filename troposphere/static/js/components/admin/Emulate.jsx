@@ -1,9 +1,5 @@
-import $ from "jquery";
 import React from "react";
-import ReactDOM from "react-dom";
 import Tooltip from "react-tooltip";
-
-import Glyphicon from 'components/common/Glyphicon';
 
 
 export default React.createClass({

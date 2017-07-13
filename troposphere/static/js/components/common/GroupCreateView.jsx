@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import Backbone from "backbone";
 import subscribe from "utilities/subscribe";
 import UserCollection from "collections/UserCollection";

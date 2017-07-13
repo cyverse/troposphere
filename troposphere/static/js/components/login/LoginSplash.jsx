@@ -1,11 +1,8 @@
-import $ from "jquery";
-import actions from "actions";
-import globals from "globals";
 import React from "react";
-import Backbone from "backbone";
-import ReactDOM from "react-dom";
-import NotificationController from "controllers/NotificationController";
+
 import instanceLaunchImg from "themeImages/icon_launchnewinstance.png";
+
+
 export default React.createClass({
     displayName: "LoginSplash",
 
@@ -26,7 +23,9 @@ export default React.createClass({
                         <h2 className="t-title option__title">
                           {"Log in with your " + window.ORG_NAME + " Account"}
                         </h2><hr/>
-                        <p className="option__description">{"Login to browse Atmosphere's list of available images and select one to launch a new instance."}</p>
+                        <p className="option__description">
+                            {"Login to browse Atmosphere's list of available images and select one to launch a new instance."}
+                        </p>
                     </a>
                   </div>
                 </div>

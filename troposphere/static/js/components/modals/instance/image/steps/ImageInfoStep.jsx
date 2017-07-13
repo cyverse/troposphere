@@ -2,12 +2,13 @@ import $ from "jquery";
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
+
 import Name from "../components/Name";
 import CreateUpdateFlag from "../components/CreateUpdateFlag";
 import Description from "../components/Description";
 import Tags from "../components/Tags";
 import TagCollection from "collections/TagCollection";
-import Tag from "models/Tag";
+
 import actions from "actions";
 import stores from "stores";
 

@@ -65,7 +65,6 @@ export default React.createClass({
         let { image, tags } = this.props,
             type = stores.ProfileStore.get().get("icon_set");
 
-        let metrics = stores.ImageMetricsStore.get(image.id);
         let style = {
             wrapper: {
                 position: "relative",
