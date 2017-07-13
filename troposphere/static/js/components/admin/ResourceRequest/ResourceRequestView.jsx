@@ -1,5 +1,4 @@
 import React from "react";
-import _ from "underscore";
 
 import AllocationSourcesView from "./AllocationSourcesView";
 import QuotaView from "./QuotaView";
@@ -19,50 +18,6 @@ export default React.createClass({
 
     getInitialState() {
         return this.getStateFromProps(this.props);
-    },
-    quotaData: {
-        "cpu": {
-            label: "CPU:",
-            tip: "Total cpus across instances"
-        },
-        "memory": {
-            label: "Memory (GB):",
-            tip: "Total memory across instances"
-        },
-        "storage": {
-            label: "Storage (GB):",
-            tip: "Total disk space across instances"
-        },
-        "storage_count": {
-            label: "Volumes:",
-            tip: "Total number of volumes"
-        },
-        "snapshot_count": {
-            label: "Snapshots:",
-            tip: "Total number of instance snapshots"
-        },
-        "instance_count": {
-            label: "Instances:",
-            tip: "Total number of instances"
-        },
-        "port_count": {
-            label: "Fixed IPs:",
-            tip: ""
-        },
-        "floating_ip_count": {
-            label: "Floating IPs:",
-            tip: ""
-        },
-    },
-    getQuotaFields() {
-        // Returns:
-        // [
-        //     "cpu",
-        //     "instance_count",
-        //     "floating_ip_count"
-        //     ...
-        //  ]
-        return Object.keys(this.quotaData);
     },
 
     componentWillReceiveProps(newProps) {
@@ -121,26 +76,6 @@ export default React.createClass({
         });
     },
 
-    findQuotaForValues(current_quota) {
-        /**
-         * current_quota: Javascript _Object_ that has quotaValues currently assigned
-         */
-        let { QuotaStore } = this.props.subscriptions;
-        let all_quotas = QuotaStore.getAll();
-        if (!all_quotas) {
-            return ;
-        }
-        var all_fields = this.getQuotaFields();
-        let quota_matched = all_quotas.find(function(quota) {
-            let matching_all_values = _.every(all_fields, (field, i) => {
-                let value = current_quota[field]
-                let quota_value = quota.get(field)
-                return (quota_value == value)
-            });
-            return matching_all_values;
-        });
-        return quota_matched;
-    },
     style() {
         return {
             horizontalRule: {
