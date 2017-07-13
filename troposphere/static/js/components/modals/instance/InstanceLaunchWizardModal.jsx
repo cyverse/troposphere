@@ -14,9 +14,8 @@
 import React from "react";
 import Backbone from "backbone";
 import _ from "underscore";
-import context from "context";
 import modals from "modals";
-import subscribe from "utilities/subscribe";
+import stores from "stores";
 import globals from "globals";
 import actions from "actions";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
@@ -35,9 +34,8 @@ import LicenseStep from "./launch/steps/LicenseStep";
 // onSubmitLaunch). Do not add state friviously. This component operates by
 // defining all the operations to update its state as functions which it
 // passes to the appropriate children.
-const InstanceLaunchWizardModal = React.createClass({
+export default React.createClass({
     mixins: [BootstrapModalMixin],
-
     displayName: "InstanceLaunchWizardModal",
 
     propTypes: {
@@ -48,34 +46,16 @@ const InstanceLaunchWizardModal = React.createClass({
     },
 
     getInitialState: function() {
-        let { AllocationSourceStore, ProjectStore, ProviderStore, ImageVersionStore, SizeStore } = this.props.subscriptions;
-        this.props.addSubscriber(this.updateState);
 
         // We might have these
         let image = this.props.image ? this.props.image : null;
         let instanceName = image ? image.get("name") : null;
-        let allocationSource, imageVersion;
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
 
-        if (image) {
-            let imageVersionList = ImageVersionStore.fetchWhere({
-                image_id: image.id
-            });
-            if (imageVersionList && !imageVersion) {
-                imageVersionList = imageVersionList.cfilter(filterEndDate);
-                imageVersion = imageVersionList.first();
-            }
-        }
-        // We might get defaults on these, and need to start querying if we dont
-        let allocationSourceList = AllocationSourceStore.getAll();
-        if (allocationSourceList) {
-            allocationSource = allocationSourceList.first();
-        }
-
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
-        let projectList = ProjectStore.getAll();
+        let projectList = stores.ProjectStore.getAll();
         if (projectList) {
             if (view != "IMAGE_VIEW" && projectList.length === 0) {
                 view = "PROJECT_VIEW";
@@ -86,35 +66,38 @@ const InstanceLaunchWizardModal = React.createClass({
             instanceName = instanceName.replace(/\./g, '_');
         }
 
-        if (!project && projectList) {
-            project = projectList.first();
-        }
-
         return {
             // State for general operation (switching views, etc)
             view,
             image,
+            provider: null,
             showValidationErr: false,
 
             // State for launch
             instanceName,
-            imageVersion,
+            imageVersion: null,
             project,
             providerSize: null,
             identityProvider: null,
             attachedScripts: [],
-            allocationSource
+            allocationSource: null
         }
     },
 
+    // Set the component's state based on cloud defaults.
+    //
+    // Whenever the wizard mounts it listens for changes from the stores,
+    // passing this function as a callback. Incrementally it calls stores to
+    // fetch data. It only sets state for defaults, i.e. if project is null,
+    // set the project to the first returned from the cloud. It primes our
+    // stores, so that render can just call get and eventually get data.
     updateState: function() {
-        let { AllocationSourceStore, ProjectStore, ProviderStore, IdentityStore, ImageVersionStore, SizeStore } = this.props.subscriptions;
-        let allocationSourceList = AllocationSourceStore.getAll();
+        let allocationSourceList = stores.AllocationSourceStore.getAll();
         let view = this.props.initialView;
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
-        let projectList = ProjectStore.getAll();
+        let projectList = stores.ProjectStore.getAll();
         if (projectList) {
             if (view != "IMAGE_VIEW" && projectList.length === 0) {
                 this.viewProject();
@@ -128,7 +111,7 @@ const InstanceLaunchWizardModal = React.createClass({
 
         let imageVersionList;
         if (this.state.image) {
-            imageVersionList = ImageVersionStore.fetchWhere({
+            imageVersionList = stores.ImageVersionStore.fetchWhere({
                 image_id: this.state.image.id
             });
         }
@@ -139,30 +122,24 @@ const InstanceLaunchWizardModal = React.createClass({
             imageVersion = imageVersionList.first();
         }
 
-        let providerList, identityList;
+        let providerList;
         if (imageVersion) {
-            providerList = ProviderStore.getProvidersForVersion(imageVersion);
+            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
 
         let provider = this.state.provider;
         if (providerList) {
-            identityList = this.getIdentitiesForProviderList(providerList);
             provider = provider || providerList.shuffle()[0];
         }
 
-        //FIXME: providerSizeList should be based on the selected identity rather than the provider (minute detail for now)
-        let identityProvider,
-            providerSizeList;
+        let identityProvider, providerSizeList;
         if (provider) {
-            identityProvider = IdentityStore.findOne({
+            identityProvider = stores.IdentityStore.findOne({
                 "provider.id": provider.id
             });
-            providerSizeList = SizeStore.fetchWhere({
+            providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-        }
-        if (identityList) {
-            identityProvider = this.getIdentityFromList(identityList);
         }
 
         if (provider && providerSizeList && imageVersion) {
@@ -189,8 +166,39 @@ const InstanceLaunchWizardModal = React.createClass({
             provider,
             providerSize,
             identityProvider,
-            allocationSource
+            allocationSource,
         });
+    },
+
+    componentDidMount: function() {
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.ImageVersionStore.addChangeListener(this.updateState);
+        stores.ScriptStore.addChangeListener(this.updateState);
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            stores.AllocationSourceStore.addChangeListener(this.updateState);
+        }
+
+        // NOTE: This is not nice. This enforces that every time a component
+        // mounts updateState gets called. Otherwise, if a component mounts
+        // after data has been fetched, then updateState never gets called.
+        this.updateState();
+    },
+
+    componentWillUnmount: function() {
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.ImageVersionStore.removeChangeListener(this.updateState);
+        stores.ScriptStore.removeChangeListener(this.updateState);
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            stores.AllocationSourceStore.removeChangeListener(this.updateState);
+        }
     },
 
     viewImageSelect: function() {
@@ -234,8 +242,7 @@ const InstanceLaunchWizardModal = React.createClass({
             instanceName = instanceName.replace(/\./g, '_');
         }
 
-        let { SizeStore, ProviderStore, ImageVersionStore } = this.props.subscriptions;
-        let imageVersionList = ImageVersionStore.fetchWhere({
+        let imageVersionList = stores.ImageVersionStore.fetchWhere({
             image_id: image.id
         });
 
@@ -247,26 +254,24 @@ const InstanceLaunchWizardModal = React.createClass({
 
         let providerList;
         if (imageVersion) {
-            providerList = ProviderStore.getProvidersForVersion(imageVersion);
+            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
 
-        let provider,
-            identityList,
-            providerSizeList,
-            identityProvider;
+        let provider;
         if (providerList) {
             provider = providerList.first();
         }
-        if(provider) {
-            providerSizeList = SizeStore.fetchWhere({
+
+        let identityProvider, providerSizeList;
+        if (provider) {
+            identityProvider = stores.IdentityStore.findOne({
+                "provider.id": provider.id
+            });
+            providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-            identityList = this.getIdentitiesForProviderList(providerList);
+        }
 
-        }
-        if (identityList) {
-            identityProvider = this.getIdentityFromList(identityList);
-        }
         if (provider && providerSizeList && imageVersion) {
             providerSizeList =
                 this.filterSizeList(provider, providerSizeList, imageVersion);
@@ -283,7 +288,7 @@ const InstanceLaunchWizardModal = React.createClass({
             provider,
             imageVersion,
             providerSize,
-            identityProvider
+            identityProvider,
         }, this.viewBasic);
     },
 
@@ -305,22 +310,21 @@ const InstanceLaunchWizardModal = React.createClass({
     },
 
     onVersionChange: function(imageVersion) {
-        let { ProviderStore, SizeStore } = this.props.subscriptions;
-        let providerList = ProviderStore.getProvidersForVersion(imageVersion);
-        let identityList,
-            providerSizeList;
-        let providerSize;
-        let identityProvider, provider;
+        let providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
+
+        let provider;
         if (providerList) {
             provider = providerList.first();
         }
 
+        let identityProvider, providerSizeList;
         if (provider) {
-            providerSizeList = SizeStore.fetchWhere({
+            identityProvider = stores.IdentityStore.findOne({
+                "provider.id": provider.id
+            });
+            providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-
-            identityList = this.getIdentitiesForProviderList(providerList);
         }
 
         if (provider && providerSizeList && imageVersion) {
@@ -328,12 +332,11 @@ const InstanceLaunchWizardModal = React.createClass({
                 this.filterSizeList(provider, providerSizeList, imageVersion);
         }
 
+        let providerSize;
         if (providerSizeList) {
             providerSize = providerSizeList.first();
         }
-        if (identityList) {
-            identityProvider = this.getIdentityFromList(identityList);
-        }
+
         this.setState({
             imageVersion,
             provider,
@@ -342,50 +345,20 @@ const InstanceLaunchWizardModal = React.createClass({
         });
     },
 
-    getIdentityFromList: function(identityList) {
-        let current = this.state.identityProvider,
-            current_id = (current == null) ? -1 : current.id,
-            identityProvider = identityList.find(function(identity) { return identity.id == current_id; });
-        if (! identityProvider) {
-            identityProvider = identityList.first();
-        }
-        return identityProvider;
-    },
-
     onProjectChange: function(project) {
-        let { ProviderStore } = this.props.subscriptions;
-        let identityProvider, provider,
-            providerList = ProviderStore.getProvidersForVersion(this.state.imageVersion),
-            identityList = this.getIdentitiesForProviderList(providerList);
-        if (identityList) {
-            identityProvider = this.getIdentityFromList(identityList);
-            provider = ProviderStore.findOne({
-                "id": identityProvider.get('provider').id
-            });
-        } else {
-            provider = null;
-            identityProvider = null;
-        }
         this.setState({
-            project,
-            provider,
-            identityProvider
+            project
         });
     },
 
     onAllocationSourceChange: function(source) {
         this.setState({
-            allocationSource: source
+            allocationSource: source,
         });
     },
 
-    onIdentityChange: function(identityProvider) {
-        let { ProviderStore, SizeStore } = this.props.subscriptions;
-        let provider = ProviderStore.findOne({
-            "id": identityProvider.get('provider').id
-        });
-
-        let providerSizeList = SizeStore.fetchWhere({
+    onProviderChange: function(provider) {
+        let providerSizeList = stores.SizeStore.fetchWhere({
             provider__id: provider.id
         });
 
@@ -400,10 +373,9 @@ const InstanceLaunchWizardModal = React.createClass({
             providerSize = providerSizeList.first();
         }
 
-        if (providerSizeList) {
-            providerSize = providerSizeList.first();
-        }
-        ;
+        let identityProvider = stores.IdentityStore.findOne({
+            "provider.id": provider.id
+        });
 
         this.setState({
             provider,
@@ -453,16 +425,15 @@ const InstanceLaunchWizardModal = React.createClass({
         });
     },
 
-    onProjectCreateConfirm: function(name, description, groupOwner) {
+    onProjectCreateConfirm: function(name, description) {
         this.viewBasic();
         actions.ProjectActions.create({
             name: name,
-            description,
-            owner: groupOwner,
+            description
         });
     },
 
-    filterSizeList(sizes, imageVersion) {
+    filterSizeList(provider, sizes, imageVersion) {
         let selectedMachine =
             imageVersion.get('machines')
                         .find(m => m.provider.id == provider.id);
@@ -526,13 +497,12 @@ const InstanceLaunchWizardModal = React.createClass({
     // Returns true if instance launch will exceed the user's allotted
     // resources.
     exceedsResources: function() {
-        let { InstanceStore } = this.props.subscriptions;
         let provider = this.state.provider;
         let identityProvider = this.state.identityProvider;
         let size = this.state.providerSize;
 
         if (identityProvider && size && provider) {
-            let resourcesUsed = InstanceStore.getTotalResources(provider.id);
+            let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
             /* eslint-disable no-unused-vars */
 
@@ -643,28 +613,9 @@ const InstanceLaunchWizardModal = React.createClass({
         );
     },
 
-    getIdentitiesForProviderList: function(providerList) {
-        let { IdentityStore } = this.props.subscriptions;
-        let provider_ids = providerList.map(function (provider) { return provider.get('id') }),
-            current_user = context.profile.get('username'),
-            group = this.state.project.get('owner'),
-            ownedIdentityList = IdentityStore.getIdentitiesForGroup(group, current_user);
-        if (!ownedIdentityList) {
-            return ownedIdentityList;
-        }
-        var filteredIdentities = ownedIdentityList.cfilter(function (ident) {
-            let provider_id = ident.get('provider').id;
-            if ( provider_ids.indexOf(provider_id) < 0) {
-                return false;
-            }
-            return true;
-        });
-        return filteredIdentities;
-    },
-
     renderProjectCreateStep: function() {
         return (
-            <ProjectCreateView cancel={this.hide} onConfirm={this.onProjectCreateConfirm} />
+        <ProjectCreateView cancel={this.hide} onConfirm={this.onProjectCreateConfirm} />
         );
     },
 
@@ -675,13 +626,12 @@ const InstanceLaunchWizardModal = React.createClass({
         let project = this.state.project;
         let image = this.state.image;
         let imageVersion = this.state.imageVersion;
-        let identityProvider = this.state.identityProvider;
-        let { InstanceStore, SizeStore, ImageVersionStore, ProjectStore, ProviderStore } = this.props.subscriptions;
-        let projectList = ProjectStore.getAll() || null;
+
+        let projectList = stores.ProjectStore.getAll() || null;
 
         let imageVersionList;
         if (this.state.image) {
-            imageVersionList = ImageVersionStore.fetchWhere({
+            imageVersionList = stores.ImageVersionStore.fetchWhere({
                 image_id: this.state.image.id
             });
 
@@ -690,24 +640,17 @@ const InstanceLaunchWizardModal = React.createClass({
             }
         }
 
-        let providerList, identityList;
+        let providerList;
         if (imageVersion) {
-            providerList = ProviderStore.getProvidersForVersion(imageVersion);
+            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
 
-        if (providerList) {
-            identityList = this.getIdentitiesForProviderList(providerList);
-        }
-
-        if (identityList) {
-            identityProvider = this.getIdentityFromList(identityList);
-        }
         let providerSizeList,
             resourcesUsed;
         if (provider) {
-            resourcesUsed = InstanceStore.getTotalResources(provider.id);
+            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
-            providerSizeList = SizeStore.fetchWhere({
+            providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
         }
@@ -719,23 +662,21 @@ const InstanceLaunchWizardModal = React.createClass({
 
         let allocationSourceList;
         if (globals.USE_ALLOCATION_SOURCES) {
-            let { AllocationSourceStore } = this.props.subscriptions;
-            allocationSourceList = AllocationSourceStore.getAll();
+            allocationSourceList = stores.AllocationSourceStore.getAll();
         }
 
         return (
         <BasicLaunchStep { ...{ showValidationErr: this.state.showValidationErr, attachedScripts: this.state.attachedScripts, backIsDisabled: this.props.initialView=="BASIC_VIEW"
-            , launchIsDisabled: !this.canLaunch(), identity: identityProvider, identityProvider: identityProvider, image, imageVersion, imageVersionList, instanceName: this.state.instanceName,
+            , launchIsDisabled: !this.canLaunch(), identityProvider: this.state.identityProvider, image, imageVersion, imageVersionList, instanceName: this.state.instanceName,
             onBack: this.onBack, onCancel: this.hide, onNameChange: this.onNameChange, onNameBlur: this.onNameBlur, onProjectChange: this.onProjectChange, onAllocationSourceChange:
             this.onAllocationSourceChange, onProviderChange: this.onProviderChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
             this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
-            this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList }} />
+            this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList, }} />
         )
     },
 
     renderAdvancedOptions: function() {
-        let { ScriptStore } = this.props.subscriptions;
-        let bootScriptList = ScriptStore.getAll();
+        let bootScriptList = stores.ScriptStore.getAll();
         return (
         <AdvancedLaunchStep bootScriptList={bootScriptList}
             attachedScripts={this.state.attachedScripts}
@@ -779,9 +720,3 @@ const InstanceLaunchWizardModal = React.createClass({
         );
     }
 });
-
-export default subscribe(
-    InstanceLaunchWizardModal,
-    [
-        "ProviderStore", "ProjectStore", "AllocationSourceStore", "IdentityStore",
-        "InstanceStore", "SizeStore", "ImageVersionStore", "ScriptStore"]);
