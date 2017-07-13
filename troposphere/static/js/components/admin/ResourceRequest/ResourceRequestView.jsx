@@ -1,13 +1,13 @@
 import React from "react";
 import _ from "underscore";
-import subscribe from "utilities/subscribe";
+
 import AllocationSourcesView from "./AllocationSourcesView";
 import QuotaView from "./QuotaView";
 import GlyphiconTooltip from 'components/common/ui/GlyphiconTooltip';
 
 // This is the view for the admin Resource Requests panel. This view shouldn't
 // fetch or retrieve any data, just renders props.
-const ResourceRequestView = React.createClass({
+export default React.createClass({
 
     propTypes: {
         request: React.PropTypes.object.isRequired,
@@ -243,5 +243,3 @@ const ResourceRequestView = React.createClass({
         );
     }
 });
-
-export default subscribe(ResourceRequestView, ["QuotaStore"]);
