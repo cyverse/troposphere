@@ -82,33 +82,39 @@ export default {
             ))
         );
 
+        // Truthy quota means the user's quota changed, have to handle new
+        // quota or existing quota
         if (quota) {
-            var new_quota = (!quota.id) ? true : false;
             promises.push(
-               // Skip quota updates (put/patch disabled!)
-               Promise.resolve((!quota.id) ? quota.save() : null).then(() => {
-                        if(new_quota) {
-                            Utils.dispatch( QuotaConstants.CREATE_QUOTA, { quota });
-                        }
-                        let approval_user = context.profile.get("username");
-                        if (window.emulator) {
-                            approval_user = window.emulator;
-                        }
+
+                // We only create (save) the quota if it didn't exist before
+                Promise.resolve(
+                        quota.isNew() &&
+                        quota.save()
+                             .then(Utils.dispatch(QuotaConstants.CREATE_QUOTA, { quota }))
+                    )
+
+                    // Submit an action to associate the quota with the request
+                    .then(() => {
+                        let username = context.profile.get("username");
                         let actionURL = globals.API_V2_ROOT + '/actions/resource_request_update_quota';
                         let data = {
-                            'approved_by':approval_user,
+                            'approved_by': username,
                             'identity':identity.get('uuid'),
                             'quota':quota.id,
                             'resource_request':request.id
                         };
-                        $.ajax(actionURL, {
+                        return $.ajax(actionURL, {
                             type: "POST",
                             data: JSON.stringify(data),
                             dataType: "json",
                             contentType: "application/json"
-                        });
+                        })
                     })
-                    .then(() => Utils.dispatch( AccountConstants.UPDATE_ACCOUNT))
+
+                    // Clear the cache, so that future requests to this
+                    // identity will see the new quota
+                    .then(() => Utils.dispatch(AccountConstants.UPDATE_ACCOUNT))
             );
         }
 
