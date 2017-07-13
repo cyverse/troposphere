@@ -3,22 +3,11 @@ LINT.md
 
 This is a document to aid in linting of the project.
 
-## Conventions
-
-`.eslintrc`
-  - Should make you happy when it fails
-  - Shouldn't get in the way
-  - Blacklist anything nit-picky
-
-`.eslintrc.travis`
-  - Should rarely error out
-
-## Running the linters
+## Running the linter
 
 Basic lint commands
 ```bash
 npm run lint
-npm run travis-lint
 ```
 
 ## Rules
@@ -65,18 +54,20 @@ npm i -g npm-run
 alias eslint=npm-run eslint
 ```
 
-Run the linter on current feature branch
+Run the linter only on files changed in a feature branch
 ```bash
 TRUNC=master
 FEATURE="$(git rev-parse --abbrev-ref HEAD)"
 FILES=$(git diff $TRUNC..$FEATURE --name-only | grep 'troposphere/static/js.*js$')
+
+# You'll probably want to pass options to eslint (see package.json "lint")
 eslint $FILES
 ```
 
 Run a subset of rules over the codebase
 ```
 RULES='{ "no-undef": 2 }'
-eslint --env es6 --env browser --env commonjs --parser "babel-eslint" --rule "$RULES" --no-eslintrc troposphere/static/js
+eslint --env es6 --ext .js,.jsx --env browser --env commonjs --parser "babel-eslint" --rule "$RULES" --no-eslintrc troposphere/static/js
 ```
 
 **Note:** `eslint` will **always** use the `.eslintrc` despite the use of the
