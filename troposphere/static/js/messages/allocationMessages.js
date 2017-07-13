@@ -9,4 +9,4 @@ export default {
     getAllocationConsumedLabel: function(percent, total) {
         return `You have used ${percent}% of ${total} ${this.unitAbbrev}`;
     }
-};
+}
