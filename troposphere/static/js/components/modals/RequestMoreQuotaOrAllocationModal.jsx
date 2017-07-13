@@ -197,8 +197,12 @@ export default React.createClass({
     },
 
     renderMoreQuota() {
-        let { identity } = this.state,
-            username = stores.ProfileStore.get().get("username");
+        let { identity } = this.state;
+        /* eslint-disable no-unused-vars */
+        // NOTE: this may be an eager be done this way for an "eager" fetch
+        // TODO: evaluate if this can be done in an idiomatic manner
+        let username = stores.ProfileStore.get().get("username");
+        /* eslint-enable no-unused-vars */
 
         if (!identity) {
             stores.IdentityStore.getAll();
