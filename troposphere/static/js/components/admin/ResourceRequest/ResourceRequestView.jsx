@@ -2,7 +2,6 @@ import React from "react";
 
 import AllocationSourcesView from "./AllocationSourcesView";
 import QuotaView from "./QuotaView";
-import GlyphiconTooltip from 'components/common/ui/GlyphiconTooltip';
 
 // This is the view for the admin Resource Requests panel. This view shouldn't
 // fetch or retrieve any data, just renders props.
@@ -96,19 +95,7 @@ export default React.createClass({
             }
         }
     },
-    renderNewQuotaIcon() {
-        var current_quota = this.state["quota"];
-        let quota_matched = this.findQuotaForValues(current_quota);
-        if (quota_matched) {
-            return (
-                <GlyphiconTooltip glyphicon="ok-sign" tip="Use an existing quota" />
-            );
-        } else {
-            return (
-                <GlyphiconTooltip glyphicon="plus-sign" tip="Create a new quota" />
-            );
-        }
-    },
+
     render() {
         let {
             created_by: { username },
@@ -141,9 +128,7 @@ export default React.createClass({
                 <div style={section}>
                 <AllocationSourcesView { ...{ allocationSources, onAllocationChange }}/>
                 </div>
-                <h4 className="t-title">
-                    Quota: { this.renderNewQuotaIcon() }
-                </h4>
+                <h4 className="t-title">Quota:</h4>
                 <div style={section}>
                     <QuotaView { ...{ quota, onQuotaChange } }/>
                 </div>
