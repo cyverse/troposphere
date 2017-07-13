@@ -79,11 +79,10 @@ export default React.createClass({
         let resource_project = this.state.resourceProjectMap[resource.id];
         return (
         <ResourceSelectMenu key={resource.id}
-	    resource={resource}
-	    projects={this.props.projects}
-	    project={resource_project.project}
-	    onProjectSelected={this.pairResourceWithProject}
-	    />
+                            resource={resource}
+                            projects={this.props.projects}
+                            project={resource_project.project}
+                            onProjectSelected={this.pairResourceWithProject} />
         );
     },
 

@@ -157,12 +157,11 @@ const NullProjectMigrateResourceModal = React.createClass({
         let resource_project = this.state.resourceProjectMap[resource.id];
         return (
         <ResourceSelectMenu key={resource.id}
-	    resource={resource}
-	    projects={projects}
-	    project={resource_project.project}
-	    onProjectSelected={this.pairResourceWithProject}
-        optionName={p => this.resourceOptionName(p)}
-	    />
+                            resource={resource}
+                            projects={projects}
+                            project={resource_project.project}
+                            onProjectSelected={this.pairResourceWithProject}
+                            optionName={p => this.resourceOptionName(p)} />
         );
     },
     resourceOptionName: function(project) {
