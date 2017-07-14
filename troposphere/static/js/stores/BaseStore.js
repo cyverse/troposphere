@@ -209,8 +209,8 @@ _.extend(Store.prototype, Backbone.Events, {
     // same as fetchFirstPage, but with URL query params
     fetchFirstPageWhere: function(queryParams, options, cb) {
         if (options && options.clearQueryCache) {
-            var queryString = this.buildQueryStringFromQueryParams(queryParams);
-            delete this.queryModels[queryString];
+            let clearQS = this.buildQueryStringFromQueryParams(queryParams);
+            delete this.queryModels[clearQS];
         }
 
         if (!this.isFetching) {
@@ -428,13 +428,14 @@ _.extend(Store.prototype, Backbone.Events, {
         var queryString = this.buildQueryStringFromQueryParams(queryParams);
         var queryKey = modelId + queryString;
         var model = null;
+
         if (this.queryModels[queryKey]) {
             model = this.queryModels[queryKey];
             return model;
         } else if (!this.isFetchingQuery[queryKey]) {
             this.isFetchingQuery[queryKey] = true;
             this.isFetching = true;
-            var model = new this.collection.prototype.model({
+            model = new this.collection.prototype.model({
                 id: modelId
             });
             model.fetch({
