@@ -50,7 +50,7 @@ export default React.createClass({
     },
 
     render: function() {
-        const { 
+        const {
             imageVersion,
             project,
             projectList,
