@@ -60,7 +60,8 @@ var AllocationEditableView = React.createClass({
 
     onInputChange(e) {
         let { id } = this.props.allocationSource;
-        this.props.onAllocationChange({ id, compute_allowed: e.target.value });
+        let compute_allowed = +e.target.value;
+        this.props.onAllocationChange({ id, compute_allowed });
     },
 
     renderAllocationInput(num) {
