@@ -30,11 +30,13 @@ export default React.createClass({
         stores.TagStore.removeChangeListener(this.updateState);
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateState: function() {
         if (this.isMounted()) {
             this.forceUpdate();
         }
     },
+    /* eslint-enable react/no-is-mounted */
 
     onCancel: function() {
         this.hide();

@@ -58,6 +58,7 @@ export default React.createClass({
         return state;
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateState: function() {
         // TODO / FIXME: this guard using `isMounted` needs
         // to be evaluated and removed
@@ -65,6 +66,7 @@ export default React.createClass({
         // https://facebook.github.io/react/blog/2015/12/16/ismounted-antipattern.html
         if (this.isMounted()) this.setState(this.getState());
     },
+    /* eslint-enable react/no-is-mounted */
 
     componentDidMount: function() {
         stores.GroupStore.addChangeListener(this.updateState);

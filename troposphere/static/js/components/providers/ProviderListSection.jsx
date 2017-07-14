@@ -15,9 +15,11 @@ export default React.createClass({
         return this.getState();
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateState: function() {
         if (this.isMounted()) this.setState(this.getState());
     },
+    /* eslint-enable react/no-is-mounted */
 
     componentDidMount: function() {
         stores.ProviderStore.addChangeListener(this.updateState);

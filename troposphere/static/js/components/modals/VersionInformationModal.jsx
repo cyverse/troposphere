@@ -22,9 +22,11 @@ export default React.createClass({
         };
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateState: function() {
         if (this.isMounted()) this.setState(this.getState.apply(this));
     },
+    /* eslint-enable react/no-is-mounted */
 
     componentDidMount: function() {
         stores.VersionStore.addChangeListener(this.updateState);

@@ -61,6 +61,7 @@ export default {
         this.closeDropdown();
     },
 
+    /* eslint-disable react/no-is-mounted */
     isOutsideClick: function(e) {
         if (!this.isMounted()) {
             return false;
@@ -77,6 +78,7 @@ export default {
         }
         return false;
     },
+    /* eslint-enable react/no-is-mounted */
 
     onEnter: function(e) {
         if (e.which !== ENTER_KEY) return;
@@ -267,4 +269,3 @@ export default {
     }
 
 };
-
