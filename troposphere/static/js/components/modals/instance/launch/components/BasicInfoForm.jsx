@@ -28,8 +28,7 @@ export default React.createClass({
         const { instanceName } = this.props;
 
         function invalidName() {
-          let regex = /\.(\d)+$/gm;
-          return Boolean(instanceName.match(regex));
+            return /\.(\d)+$/gm.test(instanceName);
         }
 
         function missingName() {
