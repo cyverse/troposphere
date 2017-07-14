@@ -6,6 +6,9 @@
     //     "eslint:recommended",
     //     "plugin:react/recommended",
     // ],
+    "extends": [
+        "eslint:recommended",
+    ],
 
     "ecmaFeatures": {
         "jsx": true
