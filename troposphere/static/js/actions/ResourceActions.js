@@ -9,12 +9,19 @@ import AccountConstants from "constants/AccountConstants";
 import NotificationController from "controllers/NotificationController";
 
 function errorHandler(response) {
+
     // Note: this error handler supports jQuery style promises. When a jQuery
     // promise is rejected/fails, it calls the error handler with a jqXHR, so
     // here we are anticipating that response is a jqXHR
+
     let errorDetail;
-    if (response.responseJSON) {
-        errorDetail = response.responseJSON.detail;
+    let json = response.responseJSON;
+    if (json && json.detail) {
+        // Returned by drf validaion exceptions
+        errorDetail = json.detail;
+    } else if (json && json.errors) {
+        // Returned by atmosphere api exceptions
+        errorDetail = json.errors[0].message;
     }
 
     NotificationController.error(
