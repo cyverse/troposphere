@@ -32,7 +32,7 @@ export default React.createClass({
         }
 
         function missingName() {
-            return !Boolean(instanceName)
+            return !instanceName;
         }
 
         if (invalidName()) return "invalid";
