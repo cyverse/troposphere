@@ -86,10 +86,19 @@ var AllocationEditableView = React.createClass({
         } = this.props;
         let { isEditing } = this.state;
 
-        // Note: Multiplying/rounding to get 2 decimal places
-        let percent = Math.round((consumed / compute_allowed * 100) * 100) / 100;
 
-        let total = compute_allowed;
+        let percent = 0;
+        let total = 0;
+        // Prevent division by 0
+        if (compute_allowed !== 0) {
+
+            // Note: Multiplying/rounding to get 2 decimal places
+            percent = Math.round((consumed / compute_allowed * 100) * 100) / 100;
+
+            total = compute_allowed;
+        }
+
+        // Render total as an input field
         if (isEditing) {
             total = this.renderAllocationInput(compute_allowed);
         }
