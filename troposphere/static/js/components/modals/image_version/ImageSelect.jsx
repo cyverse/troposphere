@@ -44,7 +44,7 @@ export default React.createClass({
 
         return (
         <div className="form-group">
-            <h4 className="t-body-2" htmlFor="Image" className="control-label">Change Image</h4>
+            <h4 className="t-body-2 control-label" htmlFor="Image">Change Image</h4>
             <div className="alert alert-danger">
                 <strong>Warning:</strong> Changing this value will move this version to a different image you own.
             </div>
