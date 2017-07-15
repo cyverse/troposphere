@@ -41,7 +41,7 @@ export default React.createClass({
     },
     renderForm: function() {
         return (
-        <form onsubmit={this.onFormSubmit}>
+        <form onSubmit={this.onFormSubmit}>
             {this.props.renderForm()}
         </form>);
     },
