@@ -1,145 +1,250 @@
-"use strict";
+/**
+ * Webpack config for the project
+ *
+ * This file tells webpack how to build your project, and includes instructions for both development and production
+ * environments. For an understanding of what each setting is for, see the official webpack documentation:
+ *
+ * https://webpack.js.org/configuration/
+ *
+ * If you're new to webpack, you may find this video series by Kent Dodds helpful for getting up to speed quickly:
+ * https://egghead.io/courses/using-webpack-for-production-javascript-applications
+ **/
+
+var pkg = require('./package.json');
 var path = require('path');
 var webpack = require('webpack');
+var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var { getIfUtils, removeEmpty } = require('webpack-config-utils');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+var BundleTracker = require('webpack-bundle-tracker');
 
 // Theme Images
 var themeImagesPath = require('./themeImagesPath');
 
-// for PostCSS
-var precss = require('precss');
-var autoprefixer = require('autoprefixer')
+module.exports = function(env) {
+  var ENV = env.webpack || env;
+  var PORT = env.port || 8080;
+  var { ifProduction, ifNotProduction } = getIfUtils(ENV);
 
-// Plugin imports:
-var Clean = require('clean-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CompressionPlugin = require('compression-webpack-plugin');
-var BundleTracker = require('webpack-bundle-tracker');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-
-var PATHS = {
+  var PATHS = {
     output: path.join(__dirname, "/troposphere/assets/bundles"),
-    context: path.join(__dirname, "/troposphere/static/js"),
-    style: path.join(__dirname, "/troposphere/static/css"),
-    theme: path.join(__dirname, "/troposphere/static/theme"),
+    context: path.join(__dirname, "/troposphere/static/js/"),
+    css: path.join(__dirname, "/troposphere/static/css/"),
+    images: path.join(__dirname, "/troposphere/static/images/"),
+    theme: path.join(__dirname, "/troposphere/static/theme/"),
     themeImages: themeImagesPath,
-}
-var plugins = [
-    new BundleTracker({filename: './webpack-stats.json'}),
-    new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor', 'manifest'],
-        minChunks: Infinity
+    public: ifProduction(
+        "/assets/bundles/",
+        "http://localhost:" + PORT + "/assets/bundles/"
+    )
+};
+
+  return {
+    devtool: ifProduction('source-map', 'eval'),
+    entry: removeEmpty({
+      vendor: Object.keys(pkg.dependencies),
+      app: "./main",
+      analytics: "./analytics",
+      public: ifProduction("./public_site/main", "./public_site/main")
     }),
-    new Clean([PATHS.output]),
-    new CopyWebpackPlugin([
-        {
-            from: PATHS.themeImages,
-            to: "./theme/images",
-        },
-        {
-            from: PATHS.theme + "/login.css",
-            to: "./theme/login.css",
-        },
-
-    ])
-];
-
-var outputCfg = {}
-
-var pkg = require('./package.json');
-
-if (process.env.NODE_ENV === "production") {
-  outputCfg = {
-    path: PATHS.output,
-    publicPath: "/assets/bundles/",
-    filename: "[name]-[chunkhash].js",
-    chunkFilename: '[chunkhash].js'
-  };
-
-  plugins.push(
-    new ExtractTextPlugin("[name]-[hash].css", { allChunks: true }),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify("production")
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    }),
-    new CompressionPlugin({
-            asset: "[path].gz[query]",
-            algorithm: "gzip",
-            test: /\.jsx?$|\.css$/,
-            threshold: 10240,
-            minRatio: 0.8
-    })
-  );
-} else {
-  plugins.push(
-    new ExtractTextPlugin("[name].css", { allChunks: true })
-  );
-
-  outputCfg = {
-    path: PATHS.output,
-    publicPath: "/assets/bundles/",
-    filename: "[name].js"
-  };
-}
-
-module.exports = {
-  entry: {
-    vendor: Object.keys(pkg.dependencies),
-    app: "./main",
-    analytics: "./analytics",
-    public: "./public_site/main"
-  },
-  context: PATHS.context,
-  output: outputCfg,
-  module: {
-    loaders: [
-      { test: /bootstrap-sass/, loader: "imports?jQuery=jquery" },
-      { test: /modernizr-latest\.js/,
-        loader: "imports?this=>window,html5=>window.html5!exports?window.Modernizr" },
-      {
-        test: /\.json$/,
-        loader: 'json-loader',
-      },
-      { test: /\.jsx?$/,
-        loader: "babel-loader",
-        query: { cacheDirectory: '/tmp/' },
-        exclude: /(node_modules|troposphere\/static\/js\/lib)/ },
-      { test: /\.(scss|sass)$/,
-        loader: ExtractTextPlugin.extract("style-loader",
-            "css-loader!postcss-loader!sass-loader"),
-        include: PATHS.style },
-      { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.woff2$/, loader: "url?limit=10000&mimetype=application/font-woff2" },
-      { test: /\.ttf$/  , loader: "file?mimetype=application/vnd.ms-fontobject" },
-      { test: /\.eot$/  , loader: "file?mimetype=application/x-font-ttf" },
-      { test: /\.svg$/  , loader: "file?mimetype=image/svg+xml" },
-      { test: /\.(jpe?g|png|gif|ico)$/, loader: "file?name=images/[name].[ext]" }
-    ]
-  },
-  plugins: plugins,
-  resolve: {
-    fallback: [path.join(__dirname, "/node_modules")],
-    alias: {
-      highcharts: "highcharts-commonjs",
-      css: path.join(__dirname, "/troposphere/static/css/"),
-      images: path.join(__dirname, "/troposphere/static/images/"),
-      theme: path.join(__dirname, "/troposphere/static/theme/"),
-      themeImages: PATHS.themeImages,
+    output: {
+      filename: ifProduction(
+        'bundle.[name].[chunkhash].js',
+        'bundle.[name].js'
+      ),
+      path: PATHS.output,
+      pathinfo: ifNotProduction(),
+      publicPath: PATHS.public
     },
-    root: [
-      PATHS.context,
-    ],
-    extensions: ["", ".js", ".jsx", ".scss", ".sass"]
-  },
-  resolveLoader: {
-      root: path.join(__dirname, 'node_modules')
-  },
-  // defined the PostCSS plugins to be used
-  postcss: function() {
-    return [precss, autoprefixer({ browsers: ['last 2 versions'] })]
-  }
+    context: PATHS.context,
+    resolve: {
+      alias: {
+        react: path.resolve(__dirname, 'node_modules/react'),
+        highcharts: "highcharts-commonjs",
+        css: PATHS.css,
+        images: PATHS.images,
+        theme: PATHS.theme,
+        themeImages: PATHS.themeImages
+      },
+      modules: [
+        PATHS.context,
+        "node_modules"
+      ],
+      extensions: [".js", ".jsx", ".scss", ".sass"]
+    },
+    module: {
+      rules: [
+        {
+          test: /bootstrap-sass/,
+          use: [
+            "imports-loader?jQuery=jquery"
+          ]
+        },
+        {
+          test: /modernizr-latest\.js/,
+          use: [
+            "imports-loader?this=>window,html5=>window.html5",
+            "exports-loader?window.Modernizr"
+          ]
+        },
+        {
+          test: /\.js$/,
+          use: 'babel-loader',
+          // exclude: /node_modules/
+          exclude: /(node_modules|troposphere\/static\/js\/lib)/
+        },
+        {
+          test: /\.jsx$/,
+          use: 'babel-loader',
+          // exclude: /node_modules/
+          exclude: /(node_modules|troposphere\/static\/js\/lib)/
+        },
+        {
+          test: /\.css/,
+          use: ifProduction(ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  importLoaders: 1
+                }
+              },
+              'postcss-loader'
+            ]
+          }), [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1
+              }
+            },
+            'postcss-loader'
+          ])
+        },
+        {
+          test: /\.less$/,
+          use: ifProduction(ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  importLoaders: 1
+                }
+              },
+              'postcss-loader',
+              'less-loader'
+            ]
+          }), [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1
+              }
+            },
+            'postcss-loader',
+            'less-loader'
+          ])
+        },
+        {
+          test: /\.scss$/,
+          use: ifProduction(ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  importLoaders: 1
+                }
+              },
+              'postcss-loader',
+              'sass-loader'
+            ]
+          }), [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1
+              }
+            },
+            'postcss-loader',
+            'sass-loader'
+          ])
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif|tif|tiff|bmp|svg)$/,
+          use: {
+            loader: 'url-loader',
+            options: {
+              // limit: 10000,
+              limit: 10,
+              name: ifProduction(
+                'assets/images/[name].[hash:8].[ext]',
+                'assets/images/[name].[ext]'
+              )
+            }
+          }
+        },
+        {
+          test: /\.(ttf|otf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
+          use: {
+            loader: 'file-loader',
+            options: {
+              name: ifProduction(
+                'assets/fonts/[name].[hash:8].[ext]',
+                'assets/fonts/[name].[ext]'
+              )
+            }
+          }
+        },
+        {
+          test: /\.json/,
+          use: 'json-loader'
+        }
+      ]
+    },
+    plugins: removeEmpty([
+      new BundleTracker({
+          filename: './webpack-stats.json'
+      }),
+      new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': JSON.stringify(ENV)
+        }
+      }),
+      new ProgressBarPlugin(),
+      new ExtractTextPlugin(ifProduction(
+        'styles.[name].[chunkhash].css',
+        'styles.[name].css'
+      )),
+      new webpack.optimize.CommonsChunkPlugin({
+        names: [
+          'vendor',
+          'manifest'
+        ],
+        minChunks: Infinity
+      }),
+      new CopyWebpackPlugin([
+        {
+          from: PATHS.themeImages,
+          to: "theme/images"
+        },
+        {
+          from: PATHS.theme + "/login.css",
+          to: "theme/login.css"
+        }
+      ])
+    ]),
+    devServer: {
+      port: PORT,
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    }
+  };
 };

@@ -1,5 +1,6 @@
 import "babel-polyfill";
 import bootstrapper from "public_site/bootstrapper";
+import "css/app/app.scss";
 import Raven from "raven-js";
 
 
