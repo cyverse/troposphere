@@ -8,6 +8,7 @@ import classNames from "classnames";
 
 let ENTER_KEY = 13;
 
+/* eslint-disable react/display-name */
 export default {
     getInitialState: function() {
         return {
@@ -269,3 +270,4 @@ export default {
     }
 
 };
+/* eslint-enable react/display-name */
