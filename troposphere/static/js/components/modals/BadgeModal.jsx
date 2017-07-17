@@ -9,6 +9,8 @@ function getState() {
 }
 
 export default React.createClass({
+    displayName: "BadgeModal",
+
     mixins: [BootstrapModalMixin],
 
     //

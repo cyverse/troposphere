@@ -2,6 +2,8 @@ import React from "react";
 
 
 export default React.createClass({
+    displayName: "EditMinimumRequirementsView",
+
     propTypes: {
         cpu: React.PropTypes.number.isRequired,
         mem: React.PropTypes.number.isRequired,

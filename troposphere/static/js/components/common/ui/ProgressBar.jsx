@@ -1,6 +1,8 @@
 import React from "react";
 
 export default React.createClass({
+    displayName: "ProgressBar",
+
     render: function() {
         let startValue = this.props.startValue;
         let afterValue = this.props.afterValue;

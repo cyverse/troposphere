@@ -1,6 +1,8 @@
 import React from "react";
 
 export default React.createClass({
+    displayName: "Tooltip",
+
     propTypes: {
         message: React.PropTypes.string.isRequired,
     },

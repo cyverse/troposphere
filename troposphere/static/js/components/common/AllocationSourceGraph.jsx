@@ -6,6 +6,7 @@ import messages from "messages/allocationMessages";
 
 
 export default React.createClass({
+    displayName: "AllocationSourceGraph",
 
     propTypes: {
         allocationSource: React.PropTypes.instanceOf(Backbone.Model),

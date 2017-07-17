@@ -2,6 +2,8 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton';
 
 export default React.createClass({
+    displayName: "InstanceLaunchFooter",
+
     propTypes: {
         backIsDisabled: React.PropTypes.bool.isRequired,
         launchIsDisabled: React.PropTypes.bool.isRequired,

@@ -1,6 +1,7 @@
 import React from "react";
 
 export default React.createClass({
+    displayName: "ScriptTags",
 
     onRemove: function(item) {
         this.props.onRemove(item)
