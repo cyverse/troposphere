@@ -235,7 +235,7 @@ const ProjectCreateView = React.createClass({
                     Project Visibility
                 </label>
                 <SelectMenu current={this.state.groupOwner}
-                    hintText={"Select a Private/Shared Group"}
+                    placeholder={"Select a Private/Shared Group"}
                     list={groupList}
                     optionName={g => this.mapGroupOptions(g)}
                     onSelect={this.onGroupChange} />

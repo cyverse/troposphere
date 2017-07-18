@@ -27,17 +27,8 @@ export default React.createClass({
             React.PropTypes.instanceOf(Backbone.Collection),
             React.PropTypes.array
         ]),
-        hintText: React.PropTypes.string,
-        className: React.PropTypes.string,
         current: React.PropTypes.object,
         placeholder: React.PropTypes.string,
-    },
-
-    getDefaultProps: function() {
-        return {
-            hintText: "",
-            className: "form-control"
-        }
     },
 
     getInitialState() {
@@ -119,7 +110,7 @@ export default React.createClass({
             // placeholder option, it can be blank or have some placeholder
             // text
             if (current == null) {
-                options.push(this.renderPlaceholderOption(placeholder || this.props.hintText))
+                options.push(this.renderPlaceholderOption(placeholder || ""))
             }
 
             // Append options from the list
@@ -135,12 +126,11 @@ export default React.createClass({
                 console.warn(
                     "SelectMenu: The element to display ("+current+") doesn't exist in the list of available elements"
                 );
-                console.log(current)
             }
         }
 
         return (
-        <select value={index} className={this.props.className} onChange={this.onSelect}>
+        <select value={index} className="form-control" onChange={this.onSelect}>
             {options}
         </select>
         );
