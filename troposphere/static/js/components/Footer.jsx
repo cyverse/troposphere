@@ -50,6 +50,7 @@ export default React.createClass({
             </div>
             );
         } else {
+            /* eslint-disable react/no-danger */
             footerContent = (<div className="container">
                 <span className="footer-content"
                     dangerouslySetInnerHTML={{ __html:footerHTML }}>
@@ -57,6 +58,7 @@ export default React.createClass({
                 {feedbackButton}
             </div>
             );
+            /* eslint-enable react/no-danger */
         }
 
         return (

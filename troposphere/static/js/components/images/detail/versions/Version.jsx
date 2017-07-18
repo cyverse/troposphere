@@ -122,13 +122,14 @@ export default React.createClass({
         let converter = new showdown.Converter();
         let changeLogHTML = converter.makeHtml(changeLog);
 
+        /* eslint-disable react/no-danger */
         return (
         <div style={ styles.description }
             dangerouslySetInnerHTML={{
                 __html: changeLogHTML
-            }}
-        />
-       );
+            }} />
+        );
+        /* eslint-enable react/no-danger */
     },
 
     renderSummary() {

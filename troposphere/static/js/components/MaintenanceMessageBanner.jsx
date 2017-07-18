@@ -13,12 +13,14 @@ export default React.createClass({
         var provider = stores.ProviderStore.get(message.get("provider")),
             providerName = provider ? provider.get("name") : "";
 
+        /* eslint-disable react/no-danger */
         return (
         <li key={message.id} className="message">
             <strong className="provider-name">{providerName}</strong>
             <span dangerouslySetInnerHTML={{ __html: message.get("message") }} />
         </li>
         );
+        /* eslint-enable react/no-danger */
     },
 
     render: function() {
