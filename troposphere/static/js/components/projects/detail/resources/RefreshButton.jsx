@@ -81,7 +81,7 @@ export default React.createClass({
             className += " refreshing";
 
         return (
-        <RaisedButton 
+        <RaisedButton
             onTouchTap={this.handleRefresh}
             disabled={this.state.isRefreshing}
         >

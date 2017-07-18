@@ -324,7 +324,7 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <RaisedButton 
+                        <RaisedButton
                             style={{ marginRight: "10px" }}
                             onTouchTap={this.cancel}
                             label="Cancel"
