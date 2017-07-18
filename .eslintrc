@@ -38,8 +38,8 @@
                 "args": "none"
             }
         ],
-        "no-console": 1,                      // 1=warn
-        "comma-dangle": 0,                    // 0=off
+        "no-console": "warn",
+        "comma-dangle": "off",
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error"
     }
