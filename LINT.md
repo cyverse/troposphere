@@ -14,6 +14,18 @@ npm run lint
 
 The configuration for eslint is to use the "recommended" set. You can review the recommended rules here: http://eslint.org/docs/rules/
 
+This section notes the variation(s) from the "eslint:recommended" rules.
+
+### General Rules
+
+#### no-unused-vars
+
+Its an error to have unused variables, but okay to have unused paramaters, so functions can demonstrate their interface even if its not currently used.
+
+```
+"no-unused-vars": ["error", {"args": "none"}]
+```
+
 ### React-specific Rules
 
 We do currently define two rules that are enforced via the React plugin for ESLint, `eslint-plugin-react`.
