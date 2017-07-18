@@ -22,8 +22,7 @@ export default React.createClass({
 
     propTypes: {
         onSelect: React.PropTypes.func.isRequired,
-        optionName: React.PropTypes.func,
-        renderListOption: React.PropTypes.func,
+        optionName: React.PropTypes.func.isRequired,
         list: React.PropTypes.oneOfType([
             React.PropTypes.instanceOf(Backbone.Collection),
             React.PropTypes.array
@@ -42,11 +41,6 @@ export default React.createClass({
     },
 
     getInitialState() {
-        if(
-            (!this.props.optionName && !this.props.renderListOption) ||
-            (this.props.optionName && this.props.renderListOption) ) {
-            console.warn("SelectMenu requires optionName _or_ renderListOption")
-        }
         return this.getStateFromProps(this.props);
     },
 
@@ -128,22 +122,13 @@ export default React.createClass({
                 options.push(this.renderPlaceholderOption(placeholder || this.props.hintText))
             }
 
-            let renderOptions = this.props.renderListOption;
-            let newOptions = [];
-            if(!renderOptions) {
-                /* Default Behavior:
-                * optionName(elem) -> name,
-                *        renderOption(name) -> option
-                */
-                newOptions = list.map(this.props.optionName).map(this.renderListOption);
-            } else {
-                /* Override Behavior:
-                * this.props.renderListOption(elem) -> option
-                */
-                newOptions = list.map(renderOptions);
-            }
             // Append options from the list
-            options = options.concat(newOptions);
+            options = options.concat(
+                // optionName(elem) -> name,
+                //        renderOption(name) -> option
+                list.map(this.props.optionName)
+                    .map(this.renderListOption)
+            )
 
             index = list.indexOf(current);
             if (current != null && index == -1) {
