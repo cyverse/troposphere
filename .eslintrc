@@ -27,6 +27,10 @@
             "error",
             "unix"
         ],
+        "no-unused-vars": [
+            "error",
+            {"args": "none"}
+        ],
         "no-console": "warn",
         "comma-dangle": "off",
         "react/jsx-uses-react": "error",
