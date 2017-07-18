@@ -24,9 +24,12 @@ export default React.createClass({
                 <p className="t-Caption">
                     {this.props.label}
                 </p>
-                <div className="ProgressBar-wrapper clearfix" style={{ background: "#efefef", marginBottom: "20px" }}>
-                    <div className="ProgressBar-startIndicator" style={{ transition: "all ease .3s", height: "10px", float: "left", width: startValue + "%", background: startColor }} />
-                    <div className="ProgressBar-afterIndicator" style={{ transition: "all ease .3s", height: "10px", float: "left", width: afterValue + "%", background: startColor, opacity: ".5" }} />
+                <div className="ProgressBar-wrapper clearfix"
+                     style={{ background: "#efefef", marginBottom: "20px" }}>
+                    <div className="ProgressBar-startIndicator"
+                         style={{ transition: "all ease .3s", height: "10px", float: "left", width: startValue + "%", background: startColor }} />
+                    <div className="ProgressBar-afterIndicator"
+                         style={{ transition: "all ease .3s", height: "10px", float: "left", width: afterValue + "%", background: startColor, opacity: ".5" }} />
                 </div>
             </div>
         </div>
