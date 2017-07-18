@@ -35,13 +35,20 @@ pip-compile -o requirements.txt requirements.in
 pip-compile -o dev_requirements.txt  dev_requirements.in requirements.txt
 ```
 
+Guide `pip-compile` to get the latest version of a package (explained in a later section)
+```
+# Force the latest version of a package
+pip-compile -P <package> ...
+
+```
+
 **NOTE:** If you forget how a requirements file is generated, the instructions
 are at the top of it.
 
-The second command deserves more explanation. The second specification passed
-to pip-compile is the generated file from the first pip-compile. This
-ensures that the development environment includes the exact versions
-included in the production environment.
+When we generate `dev_requirements.txt` we pass the generated
+`requirements.txt` as a specification just like a `.in` file. This ensures
+that the development environment includes the exact versions included in the
+production environment.
 
 ## Why isn't pip-compile upgrading to the absolute latest?!
 
@@ -87,6 +94,11 @@ To recover from `django` circa 1977.
 ```
 $ pip-compile -P django requirements.in
 ```
+
+**TLDR:**
+The `-P` flag signals to pip-compile that you want the latest possible
+package. Without that flag, pip-compile looks at what you compiled before and
+tries to reuse that version if it still satisfies the requirements.
 
 ## Why pip-tools
 Pip-tools solve a singular problem.
