@@ -28,12 +28,11 @@ export default React.createClass({
         const { instanceName } = this.props;
 
         function invalidName() {
-          let regex = /\.(\d)+$/gm;
-          return Boolean(instanceName.match(regex));
+            return /\.\d+$/gm.test(instanceName);
         }
 
         function missingName() {
-            return !Boolean(instanceName)
+            return !instanceName;
         }
 
         if (invalidName()) return "invalid";
@@ -51,7 +50,7 @@ export default React.createClass({
     },
 
     render: function() {
-        const { 
+        const {
             imageVersion,
             project,
             projectList,

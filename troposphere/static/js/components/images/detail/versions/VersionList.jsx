@@ -61,8 +61,10 @@ export default React.createClass({
         );
     },
     getVersions: function(versions) {
-        var versions = [],
-            partialLoad = false;
+        versions = versions || [];
+
+        var partialLoad = false;
+
         //Wait for it...
         if (!versions) {
             return null;

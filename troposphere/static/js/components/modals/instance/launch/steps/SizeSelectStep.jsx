@@ -221,7 +221,7 @@ export default React.createClass({
         return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
     },
 
-    renderNoSizesAvailable: function(minRequirements) {
+    renderNoSizesAvailable: function() {
         var minRequirements = (
         <div className="col-sm-9 control-label pull -left">
             Minimum requirements:

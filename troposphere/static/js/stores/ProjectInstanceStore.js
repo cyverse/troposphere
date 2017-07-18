@@ -69,10 +69,10 @@ let ProjectInstanceStore = BaseStore.extend({
 
     getInstancesForProjectOnProvider: function(project, provider) {
         // get instances in project
-        var instances = this.getInstancesFor(project);
+        let projectInstances = this.getInstancesFor(project);
 
         // filter out instances not on provider
-        var instances = instances.filter(function(i) {
+        let instances = projectInstances.filter(function(i) {
             return i.get("provider").id === provider.id;
         });
 

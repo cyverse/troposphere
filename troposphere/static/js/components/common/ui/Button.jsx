@@ -50,7 +50,6 @@ export default React.createClass({
         if (!tooltip || !this.state.showTooltip) {
             return
         }
-        ;
 
         return (
         <Tooltip message={tooltip} />

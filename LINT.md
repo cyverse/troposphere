@@ -11,16 +11,26 @@ npm run lint
 ```
 
 ## Rules
-Here are some of the less clear rules that we use.
 
-### no-unused-vars
-Its an error to have unused variables, but okay to have unused paramaters, so
-functions can demonstrate their interface even if its not currently used.
+The configuration for eslint is to use the "recommended" set. You can review the recommended rules here: http://eslint.org/docs/rules/
+
+This section notes the variation(s) from the "eslint:recommended" rules.
+
+### General Rules
+
+#### no-unused-vars
+
+Its an error to have unused variables, but okay to have unused paramaters, so functions can demonstrate their interface even if its not currently used.
+
 ```
-"no-unused-vars": [2, {"args": "none"}]
+"no-unused-vars": ["error", {"args": "none"}]
 ```
 
-### react/jsx-uses-vars
+### React-specific Rules
+
+We do currently define two rules that are enforced via the React plugin for ESLint, `eslint-plugin-react`.
+
+#### react/jsx-uses-vars
 This rule is necessary to allow variables in jsx.
 ```
 import ReactComponent from '...'
@@ -33,7 +43,7 @@ It's not so much a rule as a feature.
 "react/jsx-uses-vars": "error"
 ```
 
-### react/jsx-uses-react
+#### react/jsx-uses-react
 This rule is more nuanced, and caters to a specific instance: A file contains
 only jsx and a necessary React import. The file does not otherwise mention
 React, eslint thinks React is an unused var. This option stifles the unused var
@@ -41,6 +51,11 @@ error. Note: "jsx-uses-react" is only effective with "no-unused-vars"
 ```
 "react/jsx-uses-react": "error"
 ```
+
+#### Toward a "React" recommended
+
+We are currently working to adopt a recommended set of rules for the React plugin, as well.
+
 
 ## Documentation
 - [eslint](http://eslint.org/docs/rules/)
@@ -66,7 +81,7 @@ eslint $FILES
 
 Run a subset of rules over the codebase
 ```
-RULES='{ "no-undef": 2 }'
+RULES='{ "no-undef": "error" }'
 eslint --env es6 --ext .js,.jsx --env browser --env commonjs --parser "babel-eslint" --rule "$RULES" --no-eslintrc troposphere/static/js
 ```
 

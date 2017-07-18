@@ -44,7 +44,7 @@ export default React.createClass({
             return <div className="loading"></div>;
         }
 
-        var resourceElements = resources.map(function(resource) {
+        resourceElements = resources.map(function(resource) {
             var hyperlink = helpLinks.get(resource.link_key).get("href");
             return (
             <li key={resource.title}>

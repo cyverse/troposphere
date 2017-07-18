@@ -128,8 +128,8 @@ export default React.createClass({
                 endDateText = moment(request.get("end_date")).format("MMM D, YYYY h:mm:ss a");
             }
 
-            var newMachineId = !!request.get("new_machine") ? request.get("new_machine").uuid : "N/A";
-            var newMachineProvider = !!request.get("new_machine_provider") ? request.get("new_machine_provider").name : "Unknown";
+            var newMachineId = request.get("new_machine") ? request.get("new_machine").uuid : "N/A";
+            var newMachineProvider = request.get("new_machine_provider") ? request.get("new_machine_provider").name : "Unknown";
 
             const { name, uuid } = request.get("instance");
             const requestDate = moment(request.get("start_date")).format("MMM D, YYYY h:mm:ss a");

@@ -85,7 +85,6 @@ export default React.createClass({
         if (this.props.licenseList.length <= 1) {
             return
         }
-        ;
 
         let licenses = this.props.licenseList.map(this.renderLicense);
         return (

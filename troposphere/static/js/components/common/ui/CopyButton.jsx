@@ -85,10 +85,10 @@ function copyTextToClipboard(text) {
         document.execCommand('copy');
     } catch (err) {
         reportException(err);
-    };
+    }
 
     document.body.removeChild(textArea);
-};
+}
 
 export default React.createClass({
     getInitialState() {
@@ -114,7 +114,7 @@ export default React.createClass({
             this.setState({
                 canCopy: false,
             });
-        };
+        }
     },
 
     onClick() {
