@@ -11,7 +11,6 @@ export default React.createClass({
                 "default": "Identicons",
                 retro: "Retro",
                 robot: "Robots",
-                unicorn: "Unicorns",
                 monster: "Monsters",
                 wavatar: "Wavatars"
             }
