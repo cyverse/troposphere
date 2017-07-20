@@ -16,37 +16,37 @@ The select menu may also support placeholder text, when current is null.
        placeholder={ Text to display if current is null }
        ...  \>
 
+The select menu may also render disabled.
+
+    <SelectMenu
+       disabled=true
+       ...  \>
+
 */
 export default React.createClass({
     displayName: "SelectMenu",
 
     propTypes: {
         onSelect: React.PropTypes.func.isRequired,
-        optionName: React.PropTypes.func,
-        renderListOption: React.PropTypes.func,
+        optionName: React.PropTypes.func.isRequired,
         list: React.PropTypes.oneOfType([
             React.PropTypes.instanceOf(Backbone.Collection),
             React.PropTypes.array
-        ]),
-        hintText: React.PropTypes.string,
-        className: React.PropTypes.string,
+        ]).isRequired,
+        disabled: React.PropTypes.bool,
         current: React.PropTypes.object,
         placeholder: React.PropTypes.string,
     },
 
-    getDefaultProps: function() {
+    getDefaultProps() {
         return {
-            hintText: "",
-            className: "form-control"
+            disabled: false,
+            current: null,
+            placeholder: null
         }
     },
 
     getInitialState() {
-        if(
-            (!this.props.optionName && !this.props.renderListOption) ||
-            (this.props.optionName && this.props.renderListOption) ) {
-            console.warn("SelectMenu requires optionName _or_ renderListOption")
-        }
         return this.getStateFromProps(this.props);
     },
 
@@ -125,37 +125,31 @@ export default React.createClass({
             // placeholder option, it can be blank or have some placeholder
             // text
             if (current == null) {
-                options.push(this.renderPlaceholderOption(placeholder || this.props.hintText))
+                options.push(this.renderPlaceholderOption(placeholder || ""))
             }
 
-            let renderOptions = this.props.renderListOption;
-            let newOptions = [];
-            if(!renderOptions) {
-                /* Default Behavior:
-                * optionName(elem) -> name,
-                *        renderOption(name) -> option
-                */
-                newOptions = list.map(this.props.optionName).map(this.renderListOption);
-            } else {
-                /* Override Behavior:
-                * this.props.renderListOption(elem) -> option
-                */
-                newOptions = list.map(renderOptions);
-            }
             // Append options from the list
-            options = options.concat(newOptions);
+            options = options.concat(
+                // optionName(elem) -> name,
+                //        renderOption(name) -> option
+                list.map(this.props.optionName)
+                    .map(this.renderListOption)
+            )
 
             index = list.indexOf(current);
             if (current != null && index == -1) {
                 console.warn(
                     "SelectMenu: The element to display ("+current+") doesn't exist in the list of available elements"
                 );
-                console.log(current)
             }
         }
 
         return (
-        <select value={index} className={this.props.className} onChange={this.onSelect}>
+        <select
+            disabled={this.props.disabled}
+            value={index}
+            className="form-control"
+            onChange={this.onSelect}>
             {options}
         </select>
         );

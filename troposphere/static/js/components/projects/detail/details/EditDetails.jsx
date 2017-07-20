@@ -126,7 +126,7 @@ const EditDetails = React.createClass({
             <div className="project-info-segment row">
                 <h4 className="t-body-2 col-md-3">Visibility</h4>
                 <SelectMenu current={this.state.groupOwner}
-                    hintText={"Select a Private/Shared Group"}
+                    placeholder={"Select a Private/Shared Group"}
                     list={groupList}
                     optionName={g => this.mapGroupOptions(g)}
                     onSelect={this.onGroupChange} />

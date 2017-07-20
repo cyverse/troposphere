@@ -2,7 +2,8 @@ import React from "react";
 import Backbone from "backbone";
 
 import modals from "modals";
-import SelectMenu from "./SelectMenu2";
+import AllocationSource from "models/AllocationSource";
+import SelectMenu from "components/common/ui/SelectMenu";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph";
 
 export default React.createClass({
@@ -31,19 +32,19 @@ export default React.createClass({
         // doesn't exist!                v
         let { current } = this.state || {};
 
-        if (!current) {
-            // TODO: re-review this post-q-q-js
-            let allocSrc = instance.get("allocation_source");
-            if (!allocSrc) {
-                // Do nothing if null
-            } else if (!(allocSrc instanceof Backbone.Model)) {
-                current = allocationSources.findWhere({
-                    name: allocSrc.name
-                });
-            } else {
-                // we've got a Backbone.Model
-                current = allocSrc;
-            }
+        let source = instance.get("allocation_source")
+        if (!current && source) {
+            let sourceModel =
+                source instanceof Backbone.Model
+                ? source
+                : new AllocationSource(source);
+
+            // SelectMenu must render current, which must be an element of
+            // allocationSources, the above cruft is necessary, because we
+            // sometimes get an instance that isn't a backbone
+            current = allocationSources.find(el =>
+                el.get("uuid") == sourceModel.get("uuid")
+            )
         }
 
         return {
@@ -65,23 +66,16 @@ export default React.createClass({
     },
 
     render() {
-        let { allocationSources, instance } = this.props;
+        let { allocationSources, disabled } = this.props;
         let current = this.state.current;
-        // temp - could make this a `|| default` maybe
-        if (instance.get("allocation_source")) {
-            let src = instance.get("allocation_source");
-            current = src instanceof Backbone.Model ? src
-                : new Backbone.Model(instance.get("allocation_source"));
-        }
 
         return (
         <div style={{ paddingTop: "20px" }}>
             <h2 className="t-title">Allocation Source</h2>
             <div style={{ marginBottom: "20px" }}>
                 <SelectMenu current={current}
-                    disabled={this.props.disabled}
+                    disabled={disabled}
                     optionName={item => item.get("name")}
-                    findIndex={(el, idx, arr) => el.get("uuid") == current.get("uuid")}
                     list={allocationSources}
                     onSelect={this.onSourceChange} />
             </div>
