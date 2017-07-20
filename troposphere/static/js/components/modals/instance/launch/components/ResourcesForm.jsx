@@ -135,13 +135,10 @@ const ResourcesForm = React.createClass({
         </label>
         );
     },
-    render: function() {
-        let { identity, identityList, onIdentityChange, providerSize, providerSizeList, onSizeChange, } = this.props;
+    renderIdentity() {
+        let { identity, identityList, onIdentityChange } = this.props;
+
         return (
-        <form>
-            {globals.USE_ALLOCATION_SOURCES
-             ? this.renderAllocationSourceMenu()
-             : null}
             <div className="form-group">
                 {this.renderIdentityLabel()}
                 <SelectMenu id="identity"
@@ -150,6 +147,17 @@ const ResourcesForm = React.createClass({
                             list={ identityList }
                             onSelect={ onIdentityChange } />
             </div>
+        );
+    },
+    render: function() {
+        let { providerSize, providerSizeList, onSizeChange } = this.props;
+
+        return (
+        <form>
+            {globals.USE_ALLOCATION_SOURCES
+             ? this.renderAllocationSourceMenu()
+             : null}
+            {featureFlags.hasProjectSharing() ? this.renderIdentity() : null}
             <div className="form-group">
                 <label htmlFor="instanceSize">
                     Instance Size
