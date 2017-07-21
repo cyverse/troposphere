@@ -1,4 +1,5 @@
 import React from "react";
+import Raven from "raven-js";
 
 import QuestionMark from "components/common/ui/QuestionMark";
 import Label from "./Label";
@@ -98,7 +99,12 @@ export default React.createClass({
         let renderedFields = Object.keys(this.quotaData)
             .filter(field => {
                 if (!(field in quota)) {
-                    console.warn(`This view cannot render unsupported field: ${field}`);
+                    if (Raven.isSetup()) {
+                        Raven.captureMessage(
+                            "QuotaView: This view wants to " +
+                            `render the field: ${field} but it doesn't exist on ` +
+                            "the quota returned from the API");
+                    }
                     return false;
                 }
                 return true;
