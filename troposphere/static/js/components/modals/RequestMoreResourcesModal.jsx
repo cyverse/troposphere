@@ -149,7 +149,7 @@ export default React.createClass({
                 <label htmlFor="project-name">
                     {"What resources would you like to request?"}
                 </label>
-                {globals.USE_ALLOCATION_SOURCE
+                {globals.USE_ALLOCATION_SOURCES
                  ? this.renderAllocationSourceText()
                  : ""}
                 <textarea type="text"
@@ -159,7 +159,7 @@ export default React.createClass({
                     value={this.state.resources}
                     onChange={this.handleResourcesChange} />
             </div>
-            {globals.USE_ALLOCATION_SOURCE
+            {globals.USE_ALLOCATION_SOURCES
              ? this.renderAUCalculator()
              : ""}
             <div className="form-group">
