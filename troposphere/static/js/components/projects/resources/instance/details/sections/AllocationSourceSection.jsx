@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 
 import modals from "modals";
-import AllocationSource from "models/AllocationSource";
 import SelectMenu from "components/common/ui/SelectMenu";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph";
 import actions from 'actions';
@@ -11,7 +10,6 @@ export default React.createClass({
 
     propTypes: {
         disabled: React.PropTypes.bool.isRequired,
-        onSourceChange: React.PropTypes.func.isRequired,
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
@@ -25,38 +23,23 @@ export default React.createClass({
     },
 
     getStateFromProps(props) {
-        let { allocationSources, instance } = this.props;
+        let { instance } = props;
 
-        // This may look strange ========v
-        // This method gets called from  v
-        // getInitialState, when state   v
-        // doesn't exist!                v
-        let { current } = this.state || {};
-
-        let source = instance.get("allocation_source")
-        if (!current && source) {
-            let sourceModel =
-                source instanceof Backbone.Model
-                ? source
-                : new AllocationSource(source);
-
-            // SelectMenu must render current, which must be an element of
-            // allocationSources, the above cruft is necessary, because we
-            // sometimes get an instance that isn't a backbone
-            current = allocationSources.find(el =>
-                el.get("uuid") == sourceModel.get("uuid")
-            )
-        }
+        let source = instance.get("allocation_source");
+        let allocationId =
+            source instanceof Backbone.Model
+            ? source.get("uuid")
+            : source.uuid
 
         return {
-            current
+            allocationId,
         }
     },
 
     onSourceChange: function(allocationSource) {
         let { instance } = this.props;
         this.setState({
-            current: allocationSource
+            allocationId: allocationSource.get("uuid")
         });
         actions.InstanceActions.updateAllocationSource({
             instance,
@@ -72,7 +55,11 @@ export default React.createClass({
 
     render() {
         let { allocationSources, disabled } = this.props;
-        let current = this.state.current;
+        let { allocationId } = this.state;
+
+        let current = allocationSources.find(
+            el => el.get("uuid") == allocationId
+        )
 
         return (
         <div style={{ paddingTop: "20px" }}>
