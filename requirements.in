@@ -1,24 +1,24 @@
 # External/Third Party
-pycparser==2.14 # TEMPORARY
-django==1.11
-django-sslserver==0.18
+pycparser
+django
+django-sslserver
 
 djangorestframework
 markdown
 
-django-webpack-loader==0.3.0
-itsdangerous==0.24
-Jinja2==2.8
-pycrypto==2.6.1
-PyJWT==1.4.0
-python-dateutil==2.4
-psycopg2==2.5.4
-requests[security]==2.11.1
-uWSGI==2.0.13
+django-webpack-loader
+itsdangerous
+Jinja2
+pycrypto
+PyJWT
+python-dateutil
+psycopg2
+requests[security]
+uWSGI
 
 # Application Insights
 raven
-newrelic==2.64.0.48
+newrelic
 
 # Ours
 django-cyverse-auth
