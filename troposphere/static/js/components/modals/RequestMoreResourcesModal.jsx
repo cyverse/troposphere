@@ -1,9 +1,7 @@
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import AUCalculator from "components/common/AUCalculator";
 import stores from "stores";
-import globals from "globals";
 
 export default React.createClass({
     displayName: "RequestMoreResourcesModal",
@@ -83,31 +81,6 @@ export default React.createClass({
         });
     },
 
-    renderAllocationSourceText: function() {
-        return (
-        <div>
-            <p>
-                If you are requesting for an Allocation Source please include the following information below.
-            </p>
-            <ol>
-                <li>
-                    What Allocation Source
-                </li>
-                <li>
-                    How much you are requesting
-                </li>
-                <li>
-                    The reason you need more
-                </li>
-            </ol>
-        </div>
-        )
-    },
-
-    renderAUCalculator: function() {
-        return (<AUCalculator identity={this.state.identity} />);
-    },
-
     renderIdentity: function(identity) {
         return (
         <option key={identity.id} value={identity.id}>
@@ -149,9 +122,6 @@ export default React.createClass({
                 <label htmlFor="project-name">
                     {"What resources would you like to request?"}
                 </label>
-                {globals.USE_ALLOCATION_SOURCE
-                 ? this.renderAllocationSourceText()
-                 : ""}
                 <textarea type="text"
                     className="form-control"
                     rows="7"
@@ -159,9 +129,6 @@ export default React.createClass({
                     value={this.state.resources}
                     onChange={this.handleResourcesChange} />
             </div>
-            {globals.USE_ALLOCATION_SOURCE
-             ? this.renderAUCalculator()
-             : ""}
             <div className="form-group">
                 <label htmlFor="project-description">
                     {"How will you use the additional resources?"}
