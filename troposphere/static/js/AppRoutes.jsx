@@ -50,6 +50,8 @@ import ImageMaster from "./components/admin/ImageMaster";
 import ImageRequest from "./components/admin/ImageRequest";
 import IdentityMembershipMaster from "./components/admin/IdentityMembershipMaster";
 import NotFoundPage from "./components/NotFoundPage";
+import ResourceMaster from "./components/admin/ResourceMaster";
+import ResourceRequest from "./components/admin/ResourceRequest/ResourceRequest";
 
 const providersRoute = (
 <Route path="providers" component={ProvidersMaster}>
@@ -117,6 +119,9 @@ function AppRoutes(props) {
                 <Route path="users" component={AtmosphereUserMaster} />
                 <Route path="groups" component={GroupMaster} />
                 <Route path="identities" component={IdentityMembershipMaster} />
+                <Route path="resource-requests" component={ResourceMaster}>
+                    <Route path=":id" component={ResourceRequest} />
+                </Route>
                 <Route path="imaging-requests" component={ImageMaster}>
                     <Route path=":id" component={ImageRequest} />
                 </Route>

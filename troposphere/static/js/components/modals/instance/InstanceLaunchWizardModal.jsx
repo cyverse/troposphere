@@ -165,7 +165,7 @@ export default React.createClass({
             provider,
             providerSize,
             identityProvider,
-            allocationSource,
+            allocationSource
         });
     },
 
@@ -287,7 +287,7 @@ export default React.createClass({
             provider,
             imageVersion,
             providerSize,
-            identityProvider,
+            identityProvider
         }, this.viewBasic);
     },
 
@@ -352,7 +352,7 @@ export default React.createClass({
 
     onAllocationSourceChange: function(source) {
         this.setState({
-            allocationSource: source,
+            allocationSource: source
         });
     },
 
@@ -375,6 +375,10 @@ export default React.createClass({
         let identityProvider = stores.IdentityStore.findOne({
             "provider.id": provider.id
         });
+
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        }
 
         this.setState({
             provider,
@@ -670,7 +674,7 @@ export default React.createClass({
             onBack: this.onBack, onCancel: this.hide, onNameChange: this.onNameChange, onNameBlur: this.onNameBlur, onProjectChange: this.onProjectChange, onAllocationSourceChange:
             this.onAllocationSourceChange, onProviderChange: this.onProviderChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
             this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
-            this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList, }} />
+            this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList }} />
         )
     },
 

@@ -10,6 +10,7 @@ import IDestroy from "./instance/destroy";
 import IUpdate from "./instance/update";
 import IReport from "./instance/report";
 import IRequest from "./instance/requestImage";
+import updateAllocationSource from "./instance/updateAllocationSource";
 
 import { shelve } from "./instance/shelve";
 import { unshelve } from "./instance/unshelve";
@@ -30,5 +31,6 @@ export default {
     report: IReport.report,
     requestImage: IRequest.requestImage,
     shelve,
-    unshelve
+    unshelve,
+    updateAllocationSource
 };

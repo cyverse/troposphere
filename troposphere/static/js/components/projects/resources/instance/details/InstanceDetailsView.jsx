@@ -1,17 +1,14 @@
 import React from "react";
 import Backbone from "backbone";
-import context from "context";
 
 import BreadcrumbBar from "components/projects/common/BreadcrumbBar";
 import globals from "globals";
-import Utils from "actions/Utils";
+import context from "context";
 import InstanceInfoSection from "./sections/InstanceInfoSection";
 import InstanceDetailsSection from "./sections/InstanceDetailsSection";
 import InstanceMetricsSection from "./sections/InstanceMetricsSection";
 import AllocationSourceSection from "./sections/AllocationSourceSection";
 import InstanceActionsAndLinks from "./actions/InstanceActionsAndLinks";
-import EventActions from "actions/EventActions";
-import EventConstants from "constants/EventConstants";
 
 export default React.createClass({
     displayName: "InstanceDetailsView",
@@ -19,29 +16,7 @@ export default React.createClass({
     propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        allocationSources: React.PropTypes.instanceOf(Backbone.Collection),
-    },
-
-    onSourceChange(allocationSource) {
-        let instance = this.props.instance;
-        EventActions.fire(
-            EventConstants.ALLOCATION_SOURCE_CHANGE,
-            {
-                instance,
-                allocationSource
-            }
-        );
-        // force update the associated allocation source prior to update
-        instance.set({
-            allocation_source: allocationSource
-        });
-        Utils.dispatch(
-            EventConstants.ALLOCATION_SOURCE_CHANGE,
-            {
-                instance,
-                allocationSource
-            }
-        );
+        allocationSources: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
     renderAllocationSourceSection() {
@@ -49,7 +24,6 @@ export default React.createClass({
             current_username = context.profile.get('username'),
             disabled = (current_username != instance_username);
         let props = {
-            onSourceChange: this.onSourceChange,
             disabled: disabled,
             ...this.props
         }
