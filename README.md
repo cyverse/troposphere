@@ -47,7 +47,7 @@ location /assets {
 
 Finally start the dev server:
 ```bash
-npm run serve -- --cert /path/to/cert --key /path/to/key
+npm run serve -- --env.host=server.example.com --env.port=8080 --env.https --env.sslCert=/path/to/cert --env.sslKey=/path/to/key
 ```
 
 ### Linting
