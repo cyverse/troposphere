@@ -163,7 +163,6 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['ALLOCATION_UNIT_ABBREV'] = getattr(settings,
             "ALLOCATION_UNIT_ABBREV", None)
     template_params['ORG_NAME'] = settings.ORG_NAME
-    template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
     template_params['SENTRY_ENABLED'] = enable_sentry
     template_params['PROJECT_SHARING'] = enable_project_sharing
     template_params['sentry_tags_dict'] = sentry_tags

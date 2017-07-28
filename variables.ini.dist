@@ -52,7 +52,6 @@ SUPPORT_EMAIL =
 MAINTENANCE_EXEMPT_USERNAMES = [] # ['test1','test2'] -- a list of usernames that will be exempt from Maintenance
 API_SERVER =
 BASE_URL =
-DYNAMIC_ASSET_LOADING = False # False for local dev - controls JS asset generations and loading (app.js vs app-[hash].js)
 ENABLE_WEBPACK_LOADER_CACHE = False # if local, set False otherwise True
 DISABLE_PUBLIC_AUTH = True
 ENABLE_PROJECT_SHARING = True ;
