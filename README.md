@@ -41,13 +41,13 @@ Update your nginx definition (at `/etc/nginx/locations/tropo.conf`)
 ```nginx
 location /assets {
     # This just needs to point to the dev server which runs on 8080
-    proxy_pass https://atmo.local.cloud:8080;
+    proxy_pass https://server.example.com:8080;
 }
 ```
 
 Finally start the dev server:
 ```bash
-npm run serve -- --env.host=server.example.com --env.port=8080 --env.https --env.sslCert=/path/to/cert --env.sslKey=/path/to/key
+npm run serve -- --host server.example.com --port 8080 --https  --cert /path/to/cert --key /path/to/key
 ```
 
 ### Linting
