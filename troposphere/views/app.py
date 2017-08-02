@@ -147,6 +147,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     sentry_tags = {'server_name': server_prefix}
     if emulator:
         sentry_tags['emulator'] = str(emulator)
+    webpack_timeout = getattr(settings, 'WEBPACK_BUNDLE_TIMEOUT', None)
+    if webpack_timeout:
+        webpack_timeout *= 1000
 
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
@@ -204,6 +207,10 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     if hasattr(settings, "USE_GATE_ONE_API"):
         template_params['USE_GATE_ONE_API'] = settings.USE_GATE_ONE_API
         template_params['WEB_SH_URL'] = settings.WEB_SH_URL
+
+    # Only set these in a non-production environment
+    if settings.DEBUG:
+        template_params['WEBPACK_TIMEOUT'] = webpack_timeout
 
     return template_params
 

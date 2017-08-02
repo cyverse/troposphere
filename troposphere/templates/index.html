@@ -10,8 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ SITE_TITLE }}</title>
     <link rel="shortcut icon" href="{{ BASE_URL }}/assets/bundles/theme/images/favicon.ico" />
-
-    <!--CSS-->
+    <!-- CSS prior to assets-loaded -->
+    <style>
+    {% include 'pre-load.css' %}
+    </style>
+    <!-- CSS -->
 {% if DYNAMIC_ASSET_LOADING %}
     {% render_bundle 'app' 'css' %}
 {% else %}
@@ -38,7 +41,7 @@
 
     <div class="splash-image">
         <div class="loading"></div>
-        <h4 style="margin-top: 20px" class="center t-title">Loading {{ SITE_TITLE }}...</h4>
+        <h4 id="splash-header" style="margin-top: 20px" class="center t-title">Loading {{ SITE_TITLE }}...</h4>
     </div>
 
     <div id="application"></div>
@@ -197,6 +200,20 @@ var PROJECT_SHARING = true;
 {% if USER_PORTAL %}
     var user_portal = {{USER_PORTAL | safe}};
 {% endif %}
+{% if WEBPACK_TIMEOUT %}
+    var isLoaded = false;
+    var renderBundleSuccess = function() {
+        isLoaded = true;
+    };
+    setTimeout(
+        function() {
+            if(!isLoaded) {
+                document.getElementById("splash-header").innerHTML = "App load failed: Bundle not rendered.";
+                } else {
+                //document.getElementById("splash-header").innerHTML = "App load success!</br>Loading Atmosphere..";
+                }
+        }, {{ WEBPACK_TIMEOUT }});
+{% endif %}
     </script>
 
 {% if DYNAMIC_ASSET_LOADING %}
@@ -205,9 +222,9 @@ var PROJECT_SHARING = true;
     {% render_bundle 'vendor' 'js' %}
 
     {% if show_public_site %}
-    {% render_bundle 'public' 'js' %}
+    {% render_bundle 'public' 'js' attrs='onload="renderBundleSuccess()"'%}
     {% else %}
-    {% render_bundle 'app' 'js' %}
+    {% render_bundle 'app' 'js'  attrs='onload="renderBundleSuccess()"'%}
     {% endif %}
     {% if collect_analytics %}
     <!-- Google Analytics -->
