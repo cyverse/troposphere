@@ -15,7 +15,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var { getIfUtils, removeEmpty } = require('webpack-config-utils');
+var { getIfUtils, removeEmpty, propIf } = require('webpack-config-utils');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var BundleTracker = require('webpack-bundle-tracker');
 var fs = require('fs');
@@ -25,6 +25,15 @@ var themeImagesPath = require('./themeImagesPath');
 
 module.exports = function(ENV) {
   var { ifProduction } = getIfUtils(ENV);
+
+  // Preface the webpack-dev-server command with CSS_IN_JS=true for CSS hot
+  // reloading.
+  //
+  // By default we extract CSS from the larger bundle into a separate asset
+  // that is parsed/loaded before any js, this ensures that the content of our
+  // html will be styled the first time it is shown. However, CSS hot
+  // reloading only works if the CSS is shipped in the JS.
+  var extractCSS = ifProduction(true, !process.env.CSS_IN_JS);
 
   var PATHS = {
     output: path.join(__dirname, "/troposphere/assets/bundles"),
@@ -98,7 +107,7 @@ module.exports = function(ENV) {
         },
         {
           test: /\.css/,
-          use: ifProduction(ExtractTextPlugin.extract({
+          use: propIf(extractCSS, ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
               {
@@ -122,7 +131,7 @@ module.exports = function(ENV) {
         },
         {
           test: /\.less$/,
-          use: ifProduction(ExtractTextPlugin.extract({
+          use: propIf(extractCSS, ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
               {
@@ -148,7 +157,7 @@ module.exports = function(ENV) {
         },
         {
           test: /\.scss$/,
-          use: ifProduction(ExtractTextPlugin.extract({
+          use: propIf(extractCSS, ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
               {
