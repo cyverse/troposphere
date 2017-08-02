@@ -1,6 +1,4 @@
-{% if DYNAMIC_ASSET_LOADING %}
 {% load render_bundle from webpack_loader %}
-{% endif %}
 
 <!DOCTYPE html>
 {% include 'comment.html' %}
@@ -12,11 +10,7 @@
     <link rel="shortcut icon" href="{{ BASE_URL }}/assets/bundles/theme/images/favicon.ico" />
 
     <!--CSS-->
-{% if DYNAMIC_ASSET_LOADING %}
     {% render_bundle 'app' 'css' %}
-{% else %}
-    <link href="{{ BASE_URL }}/assets/bundles/app.css" rel="stylesheet" type="text/css">
-{% endif %}
 
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -199,32 +193,17 @@ var PROJECT_SHARING = true;
 {% endif %}
     </script>
 
-{% if DYNAMIC_ASSET_LOADING %}
-    <!-- Application dependencies -->
-    {% render_bundle 'manifest' 'js' %}
-    {% render_bundle 'vendor' 'js' %}
+{% render_bundle 'manifest' 'js' %}
+{% render_bundle 'vendor' 'js' %}
 
-    {% if show_public_site %}
-    {% render_bundle 'public' 'js' %}
-    {% else %}
-    {% render_bundle 'app' 'js' %}
-    {% endif %}
-    {% if collect_analytics %}
-    <!-- Google Analytics -->
-    {% render_bundle 'analytics' 'js' %}
-    {% endif %}
+{% if show_public_site %}
+{% render_bundle 'public' 'js' %}
 {% else %}
-    <script src="{{ BASE_URL }}/assets/bundles/manifest.js"></script>
-    <script src="{{ BASE_URL }}/assets/bundles/vendor.js"></script>
-    {% if show_public_site %}
-    <script src="{{ BASE_URL }}/assets/bundles/public.js"></script>
-    {% else %}
-    <script src="{{ BASE_URL }}/assets/bundles/app.js"></script>
-    {% endif %}
-    {% if collect_analytics %}
-    <!-- Google Analytics -->
-    <script src="{{ BASE_URL }}/assets/bundles/analytics.js"></script>
-    {% endif %}
+{% render_bundle 'app' 'js' %}
+{% endif %}
+{% if collect_analytics %}
+<!-- Google Analytics -->
+{% render_bundle 'analytics' 'js' %}
 {% endif %}
 </body>
 </html>

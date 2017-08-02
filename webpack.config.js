@@ -23,15 +23,8 @@ var fs = require('fs');
 // Theme Images
 var themeImagesPath = require('./themeImagesPath');
 
-module.exports = function(env) {
-  var ENV = env.webpack || env;
-  var HOST = env.host || 'localhost';
-  var PORT = env.port || 8080;
-  var PROTOCOL = env.https ? 'https' : 'http';
-  var SSL_KEY = env.sslKey || null;
-  var SSL_CERT = env.sslCert || null;
-
-  var { ifProduction, ifNotProduction } = getIfUtils(ENV);
+module.exports = function(ENV) {
+  var { ifProduction } = getIfUtils(ENV);
 
   var PATHS = {
     output: path.join(__dirname, "/troposphere/assets/bundles"),
@@ -40,11 +33,8 @@ module.exports = function(env) {
     images: path.join(__dirname, "/troposphere/static/images/"),
     theme: path.join(__dirname, "/troposphere/static/theme/"),
     themeImages: themeImagesPath,
-    public: ifProduction(
-      "/assets/bundles/",
-      `${PROTOCOL}://${HOST}:${PORT}/assets/bundles/`
-    )
-  };
+    public: "/assets/bundles/"
+};
 
   return {
     devtool: ifProduction('source-map', 'eval'),
@@ -52,7 +42,7 @@ module.exports = function(env) {
       vendor: Object.keys(pkg.dependencies),
       app: "./main",
       analytics: "./analytics",
-      public: ifProduction("./public_site/main", "./public_site/main")
+      public: "./public_site/main"
     }),
     output: {
       filename: ifProduction(
@@ -60,7 +50,7 @@ module.exports = function(env) {
         'bundle.[name].js'
       ),
       path: PATHS.output,
-      pathinfo: ifNotProduction(),
+      pathinfo: ifProduction(false, true),
       publicPath: PATHS.public
     },
     context: PATHS.context,
@@ -250,13 +240,6 @@ module.exports = function(env) {
       headers: {
         "Access-Control-Allow-Origin": "*"
       },
-      port: PORT,
-      host: env.https ? '0.0.0.0' : HOST,
-      https: env.https ? {
-        key: fs.readFileSync(SSL_KEY),
-        cert: fs.readFileSync(SSL_CERT)
-      } : false,
-      disableHostCheck: !!env.https
     }
   };
 };
