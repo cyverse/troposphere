@@ -135,6 +135,22 @@ const ResourcesForm = React.createClass({
         </label>
         );
     },
+    renderProvider() {
+        let { provider, providerList, onProviderChange } = this.props;
+
+        return (
+            <div className="form-group">
+                <label htmlFor="provider">
+                    Provider
+                </label>
+                <SelectMenu id="provider"
+                            current={ provider }
+                            optionName={ prov => prov.get('name') }
+                            list={ providerList }
+                            onSelect={ onProviderChange } />
+            </div>
+        );
+    },
     renderIdentity() {
         let { identity, identityList, onIdentityChange } = this.props;
 
@@ -157,7 +173,7 @@ const ResourcesForm = React.createClass({
             {globals.USE_ALLOCATION_SOURCES
              ? this.renderAllocationSourceMenu()
              : null}
-            {featureFlags.hasProjectSharing() ? this.renderIdentity() : null}
+            {featureFlags.hasProjectSharing() ? this.renderIdentity() : this.renderProvider()}
             <div className="form-group">
                 <label htmlFor="instanceSize">
                     Instance Size
