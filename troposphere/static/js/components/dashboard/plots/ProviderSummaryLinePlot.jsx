@@ -3,6 +3,15 @@ import Backbone from "backbone";
 
 import PercentageGraph from "components/common/ui/PercentageGraph";
 
+/**
+ * Cautiously retrieves the attribute by name.
+ */
+const getModelAttr = (model, attrName, defaultValue) => {
+    defaultValue = defaultValue || 0;
+    return model && model["get"] ? model.get(attrName) : defaultValue;
+};
+
+
 export default React.createClass({
     displayName: "ProviderSummaryLinePlot",
 
@@ -103,7 +112,7 @@ export default React.createClass({
 
         var currentCpuCount = instances.reduce(function(memo, instance) {
             var size = sizes.get(instance.get("size").id);
-            return memo + size.get("cpu");
+            return memo + getModelAttr(size, "cpu");
         }.bind(this), 0);
 
         return {
@@ -118,7 +127,7 @@ export default React.createClass({
 
         var currentMemory = instances.reduce(function(memo, instance) {
             var size = sizes.get(instance.get("size").id);
-            return memo + size.get("mem");
+            return memo + getModelAttr(size, "mem");
         }.bind(this), 0);
 
         return {
@@ -132,7 +141,7 @@ export default React.createClass({
         var maxStorage = quota.storage;
 
         var currentStorage = volumes.reduce(function(memo, volume) {
-            return memo + volume.get("size")
+            return memo + getModelAttr(volume, "size");
         }.bind(this), 0);
 
         return {
