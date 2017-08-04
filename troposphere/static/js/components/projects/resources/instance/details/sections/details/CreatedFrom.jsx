@@ -15,8 +15,10 @@ export default React.createClass({
     },
 
     render: function() {
-        var instance = this.props.instance,
-            image = stores.ImageStore.get(instance.get("image").id);
+        let { instance } = this.props,
+            image = instance ?
+                    stores.ImageStore.get(instance.get("image").id)
+                  : null;
 
         if (!image) {
             return (
