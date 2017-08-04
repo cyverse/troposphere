@@ -68,7 +68,12 @@ const ImageMaster = React.createClass({
                 this.onResourceClick(request);
             }.bind(this);
 
-            var errorStatus;
+            var errorStatus,
+                statusName = request.get("status") ?
+                             request.get("status").name : "(unknown)",
+                newMachineOwner = request.get("new_machine_owner"),
+                ownerUsername = newMachineOwner ?
+                                newMachineOwner.username : "(unknown)";
 
             if (request.get("old_status").indexOf("ERROR") > -1
                 || request.get("old_status").indexOf("Traceback") > -1
@@ -78,7 +83,7 @@ const ImageMaster = React.createClass({
 
             return (
             <li key={request.id} onClick={handleClick}>
-                {request.get("new_machine_owner").username} - <strong>{request.get("status").name}{errorStatus}</strong>
+                {ownerUsername} - <strong>{statusName}{errorStatus}</strong>
             </li>
             );
         }.bind(this));
