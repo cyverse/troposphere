@@ -8,6 +8,18 @@ import ImageRequestActions from "actions/ImageRequestActions";
 import subscribe from "utilities/subscribe";
 
 /**
+ * Create a string representing an instance's size (aka flavor)
+ */
+const buildInstanceSizeLabel = (size) => {
+    if (!size) {
+        return "(size unavailable)";
+    } else {
+        let { name, alias, cpu, mem, disk } = size;
+        return `${name}(${alias}) : ${cpu} CPU, ${mem} MB Memory, ${disk} Disk`;
+    }
+};
+
+/**
  * A consistently styled `<code/>` element
  *
  * This will likely be redefined within CyVerse-UI. When that
@@ -150,11 +162,7 @@ const ImageRequest = React.createClass({
             new_provider = request.get("new_machine_provider"),
             instance = request.get("instance"),
             size = instance.size,
-            instance_size_str = size.name
-                + "(" + size.alias + ") : "
-                + size.cpu + " CPU, "
-                + size.mem + " MB Memory, "
-                + size.disk + " Disk",
+            instance_size_str = buildInstanceSizeLabel(size),
             instance_mach_str = instance.image.name + " v." + machine.version,
             membership_list,
             access_list,
