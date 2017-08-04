@@ -9,6 +9,8 @@ import Description from "../components/Description";
 import Tags from "../components/Tags";
 import TagCollection from "collections/TagCollection";
 
+import { captureMessage } from "utilities/capture";
+
 import actions from "actions";
 import stores from "stores";
 
@@ -135,7 +137,16 @@ export default React.createClass({
     },
     renderBody: function(instance) {
         let { helpLink } = this.props,
-            link = helpLink ? helpLink.get("href") : "#";
+            link;
+
+        if (helpLink) {
+            link = helpLink.get("href");
+        } else {
+            link = "#";
+            captureMessage("HelpLink unavailable on render", {
+                component: this.displayName
+            });
+        }
 
         return (
         <div>

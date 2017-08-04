@@ -3,7 +3,24 @@ import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import Glyphicon from "components/common/Glyphicon";
-import { trackAction } from "../../../utilities/userActivity";
+
+import { trackAction } from "utilities/userActivity";
+import { captureMessage } from "utilities/capture";
+
+
+const defaultHelpLink = (link) => {
+    let href;
+
+    if (link) {
+        href = link.get("href");
+    } else {
+        href = "#";
+        captureMessage("HelpLink unavailable on render", {
+            component: "VolumeReportModal"
+        });
+    }
+    return href;
+};
 
 export default React.createClass({
     displayName: "VolumeReportModal",
@@ -114,8 +131,8 @@ export default React.createClass({
 
     renderIntroduction: function(volume) {
         let { helpLink, troubleshooting } = this.props,
-            linkVolume = helpLink ? helpLink.get("href") : "#",
-            linkTriage = troubleshooting ? troubleshooting.get("href") : "#";
+            linkVolume = defaultHelpLink(helpLink),
+            linkTriage = defaultHelpLink(troubleshooting);
 
         return (
         <p className="alert alert-info">
