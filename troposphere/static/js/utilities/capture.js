@@ -1,10 +1,13 @@
 import Raven from "raven-js";
 
 /**
- * Send message out to logging/context capture service
+ * Send _message_ out to logging/context capture service
  *
  * @param {string} message short description of occurrence
  * @param {object} data any extra context to associate
+ *
+ * This is _not_ capture an exception nor system fault. This
+ * is meant to capture context of a noteworthy occurrence.
  *
  * Additional data can be passed as the second parameter to
  * `captureMessage` and will be merged with any global
