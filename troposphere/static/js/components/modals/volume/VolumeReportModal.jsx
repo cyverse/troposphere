@@ -3,7 +3,25 @@ import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import Glyphicon from "components/common/Glyphicon";
-import { trackAction } from "../../../utilities/userActivity";
+
+import { trackAction } from "utilities/userActivity";
+import { captureMessage } from "utilities/capture";
+
+
+const defaultHelpLink = (link) => {
+    let href;
+
+    if (link) {
+        href = link.get("href");
+    } else {
+        href = "#";
+        // NOTE: not truly an exception, just unexpected
+        captureMessage("HelpLink unavailable on render", {
+            component: "VolumeReportModal"
+        });
+    }
+    return href;
+};
 
 export default React.createClass({
     displayName: "VolumeReportModal",
@@ -113,15 +131,19 @@ export default React.createClass({
     },
 
     renderIntroduction: function(volume) {
+        let { helpLink, troubleshooting } = this.props,
+            linkVolume = defaultHelpLink(helpLink),
+            linkTriage = defaultHelpLink(troubleshooting);
+
         return (
         <p className="alert alert-info">
             <Glyphicon name="info-sign" />
             {" Is the volume "}
             <code>{volume.get("name")}</code>
             {" exhibiting unexpected behavior? First, it may help to read about "}
-            <a href={this.props.helpLink.get("href")}>using volumes</a>
+            <a href={linkVolume}>using volumes</a>
             {" and "}
-            <a href={this.props.troubleshooting.get("href")}>troubleshooting volumes</a>
+            <a href={linkTriage}>troubleshooting volumes</a>
             {"."}
         </p>
         );
