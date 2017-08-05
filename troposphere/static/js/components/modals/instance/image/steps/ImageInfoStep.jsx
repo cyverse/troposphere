@@ -143,6 +143,7 @@ export default React.createClass({
             link = helpLink.get("href");
         } else {
             link = "#";
+            // NOTE: not truly an exception, just unexpected
             captureMessage("HelpLink unavailable on render", {
                 component: this.displayName
             });

@@ -15,6 +15,7 @@ const defaultHelpLink = (link) => {
         href = link.get("href");
     } else {
         href = "#";
+        // NOTE: not truly an exception, just unexpected
         captureMessage("HelpLink unavailable on render", {
             component: "VolumeReportModal"
         });
