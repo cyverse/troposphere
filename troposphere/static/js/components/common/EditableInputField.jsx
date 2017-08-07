@@ -8,7 +8,16 @@ export default React.createClass({
     displayName: "EditableInputField",
 
     propTypes: {
-        text: React.PropTypes.string
+        text: React.PropTypes.string.isRequired,
+        onChange: React.PropTypes.func,
+        onDoneEditing: React.PropTypes.func,
+    },
+
+    getDefaultProps() {
+        return {
+           onChange: () => {},
+           onDoneEditing: () => {}
+        }
     },
 
     componentDidMount: function() {
