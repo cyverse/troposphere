@@ -50,6 +50,19 @@ Finally start the dev server:
 npm run serve -- --host server.example.com --port 8080 --https  --cert /path/to/cert --key /path/to/key
 ```
 
+If you would like to enable CSS hot reloading, prefix the npm command like so:
+```bash
+CSS_IN_JS=true npm run serve ...
+```
+By default we extract CSS from the larger bundle into a separate asset that is
+parsed/loaded before any js, this ensures that the content of our html will be
+styled the first time it is shown. However, CSS hot reloading only works if
+the CSS is shipped in the JS. The caveat is that html content is shipped
+without initial styling.
+
+**Note:** `CSS_IN_JS` is completely ignored in a production environment.
+
+
 ### Linting
 
 See `LINT.md`
