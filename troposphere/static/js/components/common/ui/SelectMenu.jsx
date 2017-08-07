@@ -32,7 +32,7 @@ export default React.createClass({
         list: React.PropTypes.oneOfType([
             React.PropTypes.instanceOf(Backbone.Collection),
             React.PropTypes.array
-        ]).isRequired,
+        ]),
         disabled: React.PropTypes.bool,
         current: React.PropTypes.object,
         placeholder: React.PropTypes.string,
@@ -61,7 +61,9 @@ export default React.createClass({
         if (list instanceof Backbone.Collection) {
             list = list.toArray();
         } else if (list) {
-            list = list.slice()
+            list = list.slice();
+        } else {
+            list = [];
         }
 
         return {
