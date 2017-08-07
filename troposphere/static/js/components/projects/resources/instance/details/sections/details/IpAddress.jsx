@@ -14,14 +14,15 @@ export default React.createClass({
         var instance = this.props.instance,
             address = instance.get("ip_address");
 
-        if (!address || address.charAt(0) == "0") {
+        let missingAddress = !address || address.charAt(0) == "0";
+        if (missingAddress) {
             address = "N/A";
         }
 
         return (
         <ResourceDetail label="IP Address">
             {address}
-            <CopyButton text={ address }/>
+            {!missingAddress ? <CopyButton text={ address }/> : null}
         </ResourceDetail>
         );
     }
