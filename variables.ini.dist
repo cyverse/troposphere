@@ -3,6 +3,7 @@ SERVER_URL =
 ASSETS_PATH =
 THEME_PATH =
 THEME_NAME =
+BUILD_TYPE = "production"
 
 [theme]
 USE_THEME_IMAGES = False
