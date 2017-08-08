@@ -1,5 +1,12 @@
 location /assets {
+{% if BUILD_TYPE == "production" %}
     alias {{ ASSETS_PATH }};
+{% else %}
+    # Development builds will disable the 'assets alias' ...
+    # ... in order to enable webpack-dev-server to host your assets.
+    # alias {{ ASSETS_PATH }};
+    proxy_pass https://{{SERVER_URL}}:8080;
+{% endif %}
 }
 
 location ~^/(application|maintenance|login|globus_login|oauth2.0/callbackAuthorize|logout|forbidden|version|cf2|tropo-admin|tropo-api|web_shell|web_desktop|allocations|guacamole) {
