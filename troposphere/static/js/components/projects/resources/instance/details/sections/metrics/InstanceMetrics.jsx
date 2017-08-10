@@ -139,7 +139,7 @@ export default React.createClass({
                     break;
             }
             start = start.format("hh:mmYYYYMMDD");
-            until = this.state.until.format("hh:mmYYYYMMDD");
+            until = moment(this.state.until).format("hh:mmYYYYMMDD");
         }
 
         this.setState({
