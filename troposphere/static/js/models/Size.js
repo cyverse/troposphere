@@ -25,14 +25,14 @@ export default Backbone.Model.extend({
 
     formattedDetails: function() {
         var parts = [
-            this.get("cpu") + " CPUs",
-            this.get("mem") + " GB memory"
+            "CPU: " + this.get("cpu"),
+            "Mem: " + this.get("mem") + " GB"
         ];
         if (this.get("disk")) {
-            parts.push(this.get("disk") + " GB disk");
+            parts.push("Disk: " + this.get("disk") + " GB");
         }
         if (this.get("root")) {
-            parts.push(this.get("root") + " GB root");
+            parts.push("Disk: " + this.get("root") + " GB root");
         }
         let details = this.hasResources() ? `(${parts.join(", ")})` : "";
 
