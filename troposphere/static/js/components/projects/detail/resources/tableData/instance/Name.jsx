@@ -1,12 +1,12 @@
 import React from "react";
 import Backbone from "backbone";
 import { Link } from "react-router";
-import stores from "stores";
 import context from "context";
 import ShareIcon from "components/common/ui/ShareIcon";
+import subscribe from "utilities/subscribe";
 
 
-export default React.createClass({
+const Name = React.createClass({
     displayName: "Name",
 
     contextTypes: {
@@ -30,9 +30,10 @@ export default React.createClass({
                 />);
     },
     render: function() {
+        let IdentityStore = this.props.subscriptions.IdentityStore;
         var instance = this.props.instance,
             name = instance.get("name").trim() || "[no instance name]",
-            identity = stores.IdentityStore.get(instance.get('identity').id),
+            identity = IdentityStore.get(instance.get('identity').id),
             projectId = this.context.projectId;
 
         if ((instance && !instance.get("id") ) || !identity) {
@@ -49,3 +50,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(Name, ["IdentityStore"]);
