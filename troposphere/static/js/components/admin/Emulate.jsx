@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router';
 import Tooltip from "react-tooltip";
 
 
@@ -13,7 +14,8 @@ export default React.createClass({
         let { username } = this.props;
 
         return (
-        <a href={`emulate/${username}`}>
+        <Link to={`emulate/${username}`}
+              activeClassName="active">
             <i className={"glyphicon glyphicon-user"}
                data-for={username}
                data-tip="Emulate"
@@ -21,7 +23,7 @@ export default React.createClass({
             <Tooltip id={username}
                      place="top"
                      effect="solid" />
-        </a>
+        </Link>
         );
     }
 
