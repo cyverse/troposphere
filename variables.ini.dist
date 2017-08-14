@@ -3,7 +3,6 @@ SERVER_URL =
 ASSETS_PATH =
 THEME_PATH =
 THEME_NAME =
-BUILD_TYPE = "production"
 
 [theme]
 USE_THEME_IMAGES = False
@@ -19,6 +18,7 @@ HEADER_LINK_COLOR = "blue"
 LINK_COLOR = "#46afc8"
 
 [nginx]
+BUILD_TYPE = "production"
 ENABLE_HTTP2 = # enable if http2 module available in nginx build
 BUNDLE_FILE =
 TROPOSPHERE_PATH =
