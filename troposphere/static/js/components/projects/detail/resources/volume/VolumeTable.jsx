@@ -3,6 +3,9 @@ import Backbone from "backbone";
 import VolumeRow from "./VolumeRow";
 import SelectableTable from "../SelectableTable";
 
+import featureFlags from "utilities/featureFlags";
+
+
 export default React.createClass({
     displayName: "VolumeTable",
 
@@ -68,7 +71,7 @@ export default React.createClass({
                 Size
             </th>
             <th className="sm-header">
-                Identity
+                {featureFlags.hasProjectSharing() ? "Identity" : "Provider"}
             </th>
         </SelectableTable>
         )
