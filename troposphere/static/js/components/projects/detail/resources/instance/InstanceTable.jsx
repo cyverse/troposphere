@@ -3,6 +3,9 @@ import Backbone from "backbone";
 import InstanceRow from "./InstanceRow";
 import SelectableTable from "../SelectableTable";
 
+import featureFlags from "utilities/featureFlags";
+
+
 export default React.createClass({
     displayName: "InstanceTable",
 
@@ -61,7 +64,7 @@ export default React.createClass({
                 Size
             </th>
             <th className="sm-header">
-                Identity
+                {featureFlags.hasProjectSharing() ? "Identity" : "Provider"}
             </th>
         </SelectableTable>
         )
