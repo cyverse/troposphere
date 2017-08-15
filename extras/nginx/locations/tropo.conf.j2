@@ -1,11 +1,26 @@
 location /assets {
-{% if BUILD_TYPE == "production" %}
-    alias {{ ASSETS_PATH }};
-{% else %}
-    # Development builds will disable the 'assets alias' ...
-    # ... in order to enable webpack-dev-server to host your assets.
+    # Production Mode: By default,
+    # Troposphere serves static files by saving
+    # necessary staticfiles and webpack output to:
+    #     `{{ASSETS_PATH}}`
+{% if ENABLE_WEBPACK_DEV_SERVER == True %}
     # alias {{ ASSETS_PATH }};
+{%- else %}
+    alias {{ ASSETS_PATH }};
+{%- endif %}
+
+    # Developer mode: For easy development on the GUI
+    # Webpack-dev-server can also be used to host assets
+    # and refresh the clients page as content is updated
+    # To enable webpack-dev-server:
+    # - Ensure that the output of webpack-dev-server includes the line:
+    #       `Project is running at https://{{SERVER_URL}}:8080/`
+    # - uncomment the 'proxy_pass' line below.
+    # - comment out the 'alias' line above
+{% if ENABLE_WEBPACK_DEV_SERVER == True %}
     proxy_pass https://{{SERVER_URL}}:8080;
+{%- else %}
+    # proxy_pass https://{{SERVER_URL}}:8080;
 {% endif %}
 }
 
