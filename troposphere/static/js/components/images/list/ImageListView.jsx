@@ -36,7 +36,7 @@ export default React.createClass({
         if (newProps.query != this.props.query) {
             this.setState({
                 query: newProps.query || ""
-            });
+            }, this.updateState);
         }
     },
 
@@ -196,7 +196,7 @@ export default React.createClass({
 
         let images;
         if (query) {
-            images = stores.ImageStore.fetchWhere({
+            images = stores.ImageStore.getWhere({
                 search: query
             });
         } else {
