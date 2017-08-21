@@ -15,7 +15,7 @@ from django.contrib.auth import authenticate, login as auth_login
 
 from rest_framework import status
 
-from django_cyverse_auth.authBackends import get_or_create_user, create_user_and_token
+from django_cyverse_auth.authBackends import get_or_create_user, get_or_create_token
 from django_cyverse_auth.views import globus_login_redirect, globus_logout_redirect
 from troposphere.views.exceptions import invalid_auth
 
@@ -30,11 +30,11 @@ cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
 def _mock_login(request):
     user = authenticate(username=None, request=request)
     auth_login(request, user)
-    last_token = user.auth_tokens.last()
-    if not last_token:
-        user_profile = _get_user_profile(user)
-        auth_token = create_user_and_token(user_profile, last_token, issuer="MockLoginBackend")
-    _apply_token_to_session(request, last_token.key)
+    auth_token = user.auth_tokens.last()
+    if not auth_token:
+        user_profile = get_or_create_user(user.username, _get_user_profile(user))
+        auth_token = get_or_create_token(user_profile, issuer="MockLoginBackend")
+    _apply_token_to_session(request, auth_token.key)
 
     if request.session.get('redirect_to'):
         logger.debug("Found `redirect_to` in session... ")
@@ -75,8 +75,9 @@ def _post_login(request):
             return invalid_auth("Username/Password combination was invalid")
     auth_login(request, user)
     issuer_backend = request.session.get('_auth_user_backend', '').split('.')[-1]
-    user_profile = _get_user_profile(user)
-    new_token = create_user_and_token(user_profile, request.session.pop('token_key',None))
+    user_profile = get_or_create_user(user.username, _get_user_profile(user))
+    token_key = request.session.pop('token_key', None)
+    new_token = get_or_create_token(user_profile, token_key=token_key)
     _apply_token_to_session(request, new_token.key)
     request.session['access_token'] = new_token.key
     request.session['username'] = user.username
