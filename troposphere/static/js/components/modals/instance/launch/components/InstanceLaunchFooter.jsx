@@ -54,11 +54,18 @@ export default React.createClass({
     },
 
     renderBack: function() {
-        if (this.props.backIsDisabled) {
+        let { backIsDisabled,
+              waitingOnLaunch } = this.props;
+
+        if (backIsDisabled) {
             return
         } else {
             return (
-            <a className="btn btn-default pull-left" style={{ marginRight: "10px" }} onClick={this.props.onBack}><span className="glyphicon glyphicon-arrow-left" /> Back</a>
+            <button className="btn btn-default pull-left"
+                    style={{ marginRight: "10px" }}
+                    disabled={waitingOnLaunch}
+                    onClick={this.props.onBack}>
+                <span className="glyphicon glyphicon-arrow-left" /> Back</button>
             )
         }
     },
@@ -66,6 +73,7 @@ export default React.createClass({
     render: function() {
         let disable = false;
         let { showValidationErr,
+              advancedIsDisabled,
               waitingOnLaunch } = this.props;
 
         if (showValidationErr) {
@@ -75,7 +83,9 @@ export default React.createClass({
         return (
         <div className="modal-footer">
             {this.renderBack()}
-            <a className="pull-left btn" disabled={this.props.advancedIsDisabled} onClick={this.props.viewAdvanced}>
+            <a className="pull-left btn"
+               disabled={advancedIsDisabled || waitingOnLaunch}
+               onClick={() => { if (!waitingOnLaunch) { this.props.viewAdvanced() } }}>
                 {this.advancedIcon()}
                 {" Advanced Options"}
             </a>
