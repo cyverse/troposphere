@@ -94,7 +94,7 @@ function launch(params) {
         payload.allocation_source_id = params.allocation_source_uuid;
     }
 
-    // Create Instance (v2)
+    // Create Instance using the v2 API endpoint
     instance.create(payload)
         .done(function(attrs, status, response) {
             instance.set("id", attrs.id);
