@@ -15,14 +15,15 @@ const WaitingIndicator = React.createClass({
             textTransform: "uppercase",
             userSelect: "none",
             margin: "0px",
-            paddingLeft: "6px",
+            paddingLeft: "10px",
             paddingRight: "16px",
             opacity: 1,
             color: "rgba(0, 0, 0, 0.87)"
         };
         return (
-            <div style={{height: "36px"}} className="pull-right">
-              <span style={{top: "5px"}} className="loading-tiny-inline" />
+            <div style={{height: "36px", display: "flex", alignItems: "center"}}
+                 className="pull-right">
+              <span className="loading-tiny-inline" />
               <span style={style}>{"Launching ..."}</span>
             </div>
         );
@@ -88,7 +89,7 @@ export default React.createClass({
               /> : <WaitingIndicator /> }
             <RaisedButton
                 className="pull-right"
-                style={{ marginRight: "10px" }}
+                style={{ marginRight: "20px" }}
                 onClick={this.props.onCancel}
                 label="Cancel"
             />
