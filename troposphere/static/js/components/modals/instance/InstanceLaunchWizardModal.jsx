@@ -79,7 +79,8 @@ export default React.createClass({
             providerSize: null,
             identityProvider: null,
             attachedScripts: [],
-            allocationSource: null
+            allocationSource: null,
+            waitingOnLaunch: false
         }
     },
 
@@ -436,6 +437,13 @@ export default React.createClass({
         });
     },
 
+
+    onLaunchFailed: function() {
+        this.setState({
+            waitingOnLaunch: false
+        });
+    },
+
     filterSizeList(provider, sizes, imageVersion) {
         let selectedMachine =
             imageVersion.get('machines')
@@ -469,7 +477,9 @@ export default React.createClass({
                 identity: this.state.identityProvider,
                 size: this.state.providerSize,
                 version: this.state.imageVersion,
-                scripts: this.state.attachedScripts
+                scripts: this.state.attachedScripts,
+                onSuccess: () => { this.hide(); },
+                onFail: () => { this.onLaunchFailed(); }
             };
 
             if (globals.USE_ALLOCATION_SOURCES) {
@@ -477,10 +487,18 @@ export default React.createClass({
             }
 
             actions.InstanceActions.launch(launchData);
-            this.hide();
+
+            // enter into a "waiting" state to determine
+            // result of launch operation
+            this.setState({
+                waitingOnLaunch: true
+            });
+
             return
         }
 
+        // if we cannot launch, we are in a world of hurt
+        // - show some indication of that
         this.setState({
             showValidationErr: true
         })
@@ -623,12 +641,12 @@ export default React.createClass({
     },
 
     renderBasicOptions: function() {
-
         let provider = this.state.provider;
         let providerSize = this.state.providerSize;
         let project = this.state.project;
         let image = this.state.image;
         let imageVersion = this.state.imageVersion;
+        let waitingOnLaunch = this.state.waitingOnLaunch;
 
         let projectList = stores.ProjectStore.getAll() || null;
 
@@ -674,7 +692,7 @@ export default React.createClass({
             onBack: this.onBack, onCancel: this.hide, onNameChange: this.onNameChange, onNameBlur: this.onNameBlur, onProjectChange: this.onProjectChange, onAllocationSourceChange:
             this.onAllocationSourceChange, onProviderChange: this.onProviderChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
             this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
-            this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList }} />
+            this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList, waitingOnLaunch }} />
         )
     },
 

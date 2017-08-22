@@ -55,7 +55,8 @@ export default React.createClass({
             project,
             projectList,
             instanceName,
-            showValidationErr
+            showValidationErr,
+            waitingOnLaunch
         } = this.props;
         let hasErrorClass;
         let errorMessage = null;
@@ -95,6 +96,7 @@ export default React.createClass({
                     Instance Name
                 </label>
                 <input required
+                    disabled={waitingOnLaunch}
                     type="Name"
                     className="form-control"
                     id="instanceName"
@@ -109,6 +111,7 @@ export default React.createClass({
                     Base Image Version
                 </label>
                 <SelectMenu current={imageVersion}
+                    disabled={waitingOnLaunch}
                     list={this.props.imageVersionList}
                     optionName={item => item.get("name")}
                     onSelect={this.props.onVersionChange} />
@@ -118,6 +121,7 @@ export default React.createClass({
                     Project
                 </label>
                 <SelectMenu current={project}
+                    disabled={waitingOnLaunch}
                     list={projectList}
                     optionName={item => item.get("name")}
                     onSelect={this.props.onProjectChange} />
