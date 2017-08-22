@@ -39,12 +39,14 @@ function launch(params) {
     if (!params.machine)
         throw new Error("Missing machine");
 
-    let project = params.project,
-        instanceName = params.instanceName,
-        identity = params.identity,
-        size = params.size,
-        machine = params.machine,
-        scripts = params.scripts;
+    let { project,
+          instanceName,
+          identity,
+          size,
+          machine,
+          scripts,
+          onSuccess,
+          onFail } = params;
 
     let instance = new Instance({
         name: instanceName,
@@ -116,13 +118,10 @@ function launch(params) {
                 });
             });
 
-            // // Save projectInstance to db
-            // projectInstance.save(null, {
-            //     attrs: {
-            //         project: project.id,
-            //         instance: instance.id
-            //     }
-            // });
+            onSuccess();
+
+            // only change _context_ if we have succeeded in launching
+            appBrowserHistory.push(`/projects/${project.id}/resources`);
 
         }).fail(function(response) {
             // Remove instance from stores
@@ -136,12 +135,9 @@ function launch(params) {
                 title: "Instance could not be launched",
                 response: response
             });
-    });
 
-    // Since this is triggered from the images page, navigate off
-    // that page and back to the instance list so the user can see
-    // their instance being created
-    appBrowserHistory.push(`/projects/${project.id}/resources`);
+            onFail();
+        });
 }
 
 export default {

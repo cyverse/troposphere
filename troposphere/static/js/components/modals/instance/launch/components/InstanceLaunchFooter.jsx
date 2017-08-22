@@ -64,11 +64,13 @@ export default React.createClass({
 
     render: function() {
         let disable = false;
-        let showValidationErr = this.props.showValidationErr;
+        let { showValidationErr,
+              waitingOnLaunch } = this.props;
 
         if (showValidationErr) {
             disable = this.props.launchIsDisabled;
         }
+
         return (
         <div className="modal-footer">
             {this.renderBack()}
@@ -76,13 +78,14 @@ export default React.createClass({
                 {this.advancedIcon()}
                 {" Advanced Options"}
             </a>
-            <RaisedButton
-                primary
-                disabled={disable}
-                className="pull-right"
-                onTouchTap={this.props.onSubmitLaunch}
-                label="Launch Instance"
-            />
+            { !waitingOnLaunch ?
+              <RaisedButton
+                  primary
+                  disabled={disable}
+                  className="pull-right"
+                  onTouchTap={this.props.onSubmitLaunch}
+                  label="Launch Instance"
+              /> : <WaitingIndicator /> }
             <RaisedButton
                 className="pull-right"
                 style={{ marginRight: "10px" }}
