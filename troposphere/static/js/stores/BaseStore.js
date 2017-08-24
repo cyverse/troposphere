@@ -342,16 +342,11 @@ _.extend(Store.prototype, Backbone.Events, {
         return this.queryModels[queryString];
     },
 
-    // Fetches the first page of data for the given set of queryParams
-    // Example: params = {page_size: 1000, search: 'featured'}
-    // will be convereted to ?page_size=1000&search=featured
     fetchWhereNoCache: function(queryParams) {
         queryParams = queryParams || {};
 
         // Build the query string
         var queryString = this.buildQueryStringFromQueryParams(queryParams);
-
-        if (this.queryModels[queryString]) return this.queryModels[queryString];
 
         if (!this.isFetchingQuery[queryString]) {
             this.isFetchingQuery[queryString] = true;
@@ -365,6 +360,7 @@ _.extend(Store.prototype, Backbone.Events, {
             }.bind(this));
         }
     },
+
     appendModels: function(moreModels) {
         if (!this.models) {
             this.models = moreModels;
