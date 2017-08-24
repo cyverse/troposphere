@@ -1,7 +1,5 @@
 import Backbone from "backbone";
 
-import { appBrowserHistory } from "utilities/historyFunctions";
-
 import Utils from "./Utils";
 import actions from "actions";
 import context from "context";
@@ -59,15 +57,6 @@ export default {
             }
         }
     },
-
-    _migrateResourcesIntoProject: function(resources, project) {
-        resources.map(function(resource) {
-            this._migrateResourceIntoProject(resource, project);
-        }.bind(this));
-
-        appBrowserHistory.push(`/projects/${project.id}/resources`);
-    },
-
 
     // ------------------------
     // Exposed Operations
