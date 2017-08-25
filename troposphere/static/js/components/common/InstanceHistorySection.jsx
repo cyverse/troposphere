@@ -3,7 +3,7 @@ import Backbone from "backbone";
 import stores from "stores";
 import context from "context";
 import moment from "moment";
-
+import CollapsibleOutput from "components/common/ui/CollapsibleOutput";
 
 var InstanceHistorySection = React.createClass({
     displayName: "InstanceHistorySection",
@@ -79,23 +79,21 @@ var InstanceHistorySection = React.createClass({
         if (historyItem.get("end_date") && historyItem.get("end_date").isValid()) {
             formattedEndDate = moment(historyItem.get("end_date")).format("MMMM Do YYYY, h:mm a");
         }
-        let formattedExtra = "";
+        let formattedExtra;
         let formattedExtraLines = [];
         let show_traceback = (is_staff_user || context.hasEmulatedSession() );
         if(extra && 'display_error' in extra) {
-            formattedExtra = extra['display_error'];
+            formattedExtra = (<p>{extra['display_error']}</p>);
             if('traceback' in extra && show_traceback) {
-                formattedExtra = formattedExtra + "\\n" + extra['traceback']
-                formattedExtraLines = formattedExtra.split('\\n');
+                let formattedText = extra['display_error'] + "\n" + extra['traceback'];
+                formattedExtra = (<CollapsibleOutput output={formattedText} />);
             }
         }
         return (<tr key={historyItem.cid}>
                     <td>{historyItem.get("status")}</td>
                     <td>{formattedStartDate}</td>
                     <td>{formattedEndDate}</td>
-                    <td>{formattedExtraLines.map(
-                        (strng, idx) => (<p key={idx}>{strng}</p>)) }
-                    </td>
+                    <td>{formattedExtra}</td>
                 </tr>);
     },
     onRefresh() {
@@ -110,10 +108,9 @@ var InstanceHistorySection = React.createClass({
 
     },
     render: function() {
-        var instance = this.props.instance;
         var content;
-
-        if (!this.state.instanceHistory) {
+        let { instanceHistory } = this.state;
+        if (!instanceHistory) {
             if (stores.InstanceHistoryStore.isFetching) {
                 content = (
                     <div className="loading" />
@@ -137,7 +134,7 @@ var InstanceHistorySection = React.createClass({
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.instanceHistory.map(this.renderHistoryRow) }
+                        {instanceHistory.map(this.renderHistoryRow) }
                     </tbody>
                 </table>
             );
