@@ -437,11 +437,18 @@ export default React.createClass({
         });
     },
 
-
     onLaunchFailed: function() {
         this.setState({
             waitingOnLaunch: false
         });
+    },
+
+    onLaunchSuccess: function() {
+        let modalEl = document.getElementById("modal");
+        // hide if there is a modal visible (present in DOM)
+        if (modalEl && modalEl.childElementCount > 0) {
+            this.hide();
+        }
     },
 
     filterSizeList(provider, sizes, imageVersion) {
@@ -478,7 +485,7 @@ export default React.createClass({
                 size: this.state.providerSize,
                 version: this.state.imageVersion,
                 scripts: this.state.attachedScripts,
-                onSuccess: () => { this.hide(); },
+                onSuccess: () => { this.onLaunchSuccess(); },
                 onFail: () => { this.onLaunchFailed(); }
             };
 
