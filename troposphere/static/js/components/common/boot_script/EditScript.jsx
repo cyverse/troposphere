@@ -3,12 +3,52 @@ import RaisedButton from "material-ui/RaisedButton";
 import actions from "actions";
 
 export default React.createClass({
-    getInitialState: function() {
+
+    propTypes: {
+        script: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        style: React.PropTypes.object,
+        close: React.PropTypes.func.isRequired,
+        onSave: React.PropTypes.func.isRequired
+    },
+
+    getInitialState() {
+        return this.getStateFromProps(this.props);
+    },
+
+    getStateFromProps(props) {
+        let script = props.script;
+        if(! script) {
+            return ({
+                type: "URL",
+                strategy: "always",
+                title: "",
+                text: "",
+                validate: false
+            })
+        }
         return ({
-            type: "URL",
-            title: "",
-            text: "",
+            type: script.get('type'),
+            strategy: script.get('strategy'),  //Temporary
+            title: script.get('title'),
+            text: script.get('text'),
             validate: false
+        });
+    },
+
+    componentWillReceiveProps(props) {
+        this.setState(this.getStateFromProps(props));
+    },
+
+    getDefaultProps: function() {
+        return {
+            style: { position: "absolute", bottom: "75px", right: "15px" }
+        }
+    },
+
+    onChangeStrategy: function(e) {
+        let strategy = e.target.value;
+        this.setState({
+            strategy
         })
     },
 
@@ -47,19 +87,20 @@ export default React.createClass({
         });
     },
 
-    onCreateScript: function() {
+    onSaveScript: function() {
         if (!this.state.validate) {
             this.setState({
                 validate: true
             });
         }
         if (this.isSubmittable) {
-            let script = actions.ScriptActions.create({
+            let script = actions.ScriptActions.update(this.props.script, {
                 type: this.state.type,
+                strategy: this.state.strategy,
                 title: this.state.title.trim(),
                 text: this.state.text.trim()
             });
-            this.props.onAddAttachedScript(script);
+            this.props.onSave(script);
             this.props.close();
         }
     },
@@ -166,7 +207,7 @@ export default React.createClass({
         return (
 
         <div style={{ position: "reletive" }}>
-            <h3 className="t-subheading">Create and Add a New Script</h3>
+            <h3 className="t-subheading">Edit Script</h3>
             <hr/>
             <div className="row">
                 <div className="col-md-6">
@@ -200,24 +241,43 @@ export default React.createClass({
                                 onClick={this.onChangeType} /> Raw Text
                         </label>
                     </div>
+                    <h4 className="t-body-2">Boot Script Type</h4>
+                    <div className="radio-inline">
+                        <label className="radio">
+                            <input type="radio"
+                                name="optionsRadios-2"
+                                value="once"
+                                defaultChecked={this.state.strategy === "once"}
+                                onClick={this.onChangeStrategy} /> {"Run script on first boot"}
+                        </label>
+                    </div>
+                    <div className="radio-inline">
+                        <label className="radio">
+                            <input type="radio"
+                                name="optionsRadios-2"
+                                value="always"
+                                defaultChecked={this.state.strategy === "always"}
+                                onClick={this.onChangeStrategy} /> {"Run script on each deployment"}
+                        </label>
+                    </div>
                 </div>
                 <div className="col-md-6">
                     {this.renderInputType()}
                 </div>
             </div>
-            <div style={{ position: "absolute", bottom: "75px", right: "15px" }}>
+            <div style={this.props.style}>
                 <RaisedButton
                     primary
                     className="pull-right"
                     disabled={disable}
-                    onTouchTap={this.onCreateScript}
-                    label="Save and Add Script"
+                    onTouchTap={this.onSaveScript}
+                    label="Save"
                 />
                 <RaisedButton
                     className="pull-right"
                     style={{ marginRight: "10px" }}
                     onTouchTap={this.props.close}
-                    label="Cancel Create Script"
+                    label="Cancel"
                 />
             </div>
         </div>
