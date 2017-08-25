@@ -25,7 +25,6 @@ export default {
     redeploy: IRedeploy.redeploy,
     poll: IPoll.poll,
     launch: ILaunch.launch,
-    createProjectAndLaunchInstance: ILaunch.createProjectAndLaunchInstance,
     destroy: IDestroy.destroy,
     update: IUpdate.update,
     report: IReport.report,

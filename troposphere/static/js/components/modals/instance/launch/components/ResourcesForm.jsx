@@ -74,7 +74,8 @@ const ResourcesForm = React.createClass({
     renderAllocationSourceMenu() {
         let { allocationSource,
               allocationSourceList,
-              onAllocationSourceChange } = this.props;
+              onAllocationSourceChange,
+              waitingOnLaunch } = this.props;
 
         return (
         <div className="form-group">
@@ -82,6 +83,7 @@ const ResourcesForm = React.createClass({
                 Allocation Source
             </label>
             <SelectMenu current={allocationSource}
+                disabled={waitingOnLaunch}
                 list={allocationSourceList}
                 optionName={as => as.get("name")}
                 onSelect={onAllocationSourceChange} />
@@ -136,7 +138,10 @@ const ResourcesForm = React.createClass({
         );
     },
     renderProvider() {
-        let { provider, providerList, onProviderChange } = this.props;
+        let { provider,
+              providerList,
+              onProviderChange,
+              waitingOnLaunch } = this.props;
 
         return (
             <div className="form-group">
@@ -145,6 +150,7 @@ const ResourcesForm = React.createClass({
                 </label>
                 <SelectMenu id="provider"
                             current={ provider }
+                            disabled={waitingOnLaunch}
                             optionName={ prov => prov.get('name') }
                             list={ providerList }
                             onSelect={ onProviderChange } />
@@ -152,12 +158,16 @@ const ResourcesForm = React.createClass({
         );
     },
     renderIdentity() {
-        let { identity, identityList, onIdentityChange } = this.props;
+        let { identity,
+              identityList,
+              onIdentityChange,
+              waitingOnLaunch } = this.props;
 
         return (
             <div className="form-group">
                 {this.renderIdentityLabel()}
                 <SelectMenu id="identity"
+                            disabled={waitingOnLaunch}
                             current={ identity }
                             optionName={ ident => this.identityToOptionName(ident) }
                             list={ identityList }
@@ -166,7 +176,10 @@ const ResourcesForm = React.createClass({
         );
     },
     render: function() {
-        let { providerSize, providerSizeList, onSizeChange } = this.props;
+        let { providerSize,
+              providerSizeList,
+              onSizeChange,
+              waitingOnLaunch } = this.props;
 
         return (
         <form>
@@ -179,6 +192,7 @@ const ResourcesForm = React.createClass({
                     Instance Size
                 </label>
                 <SelectMenu current={providerSize}
+                    disabled={waitingOnLaunch}
                     optionName={this.getProviderSizeName}
                     list={providerSizeList}
                     onSelect={onSizeChange} />
