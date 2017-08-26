@@ -83,7 +83,7 @@ export default Backbone.Model.extend({
             project = options.project.get('uuid'),
             allocation_source_id = options.allocation_source_id,
             scripts = (options.scripts) ? options.scripts.map(function(script) {
-                return script.uuid; //FIXME: Verify if this should be `.get('uuid')`
+                return script.get('uuid');
             }) : [];
 
         var url = (
