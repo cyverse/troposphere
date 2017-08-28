@@ -79,6 +79,9 @@ _.extend(Store.prototype, Backbone.Events, {
     // --------------
 
     add: function(payload) {
+        if (!this.models) {
+            this.models = new this.collection();
+        }
         if ("at" in payload) {
             this.models.add(payload.data, {
                 at: payload.at
@@ -107,13 +110,15 @@ _.extend(Store.prototype, Backbone.Events, {
     },
 
     remove: function(model) {
-        this.models.remove(model);
+        // Only remove models if we have models in the cache
+        if (this.models) {
+            this.models.remove(model);
+        }
 
         // If already polling, Remove model from polling dictionary
         if (this.pollingModels[model.cid]) {
             delete this.pollingModels[model.cid];
         }
-        return;
     },
 
     // --------------
