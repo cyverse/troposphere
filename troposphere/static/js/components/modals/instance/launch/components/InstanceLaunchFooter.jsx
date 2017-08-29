@@ -53,6 +53,19 @@ export default React.createClass({
         )
     },
 
+    onAdvancedClick: function() {
+        let { advancedIsDisabled,
+              waitingOnLaunch,
+              viewAdvanced } = this.props,
+            canView = !(advancedIsDisabled || waitingOnLaunch);
+
+        // when the modal is waiting on a launch, or the "advanced"
+        // section has been actively disable, we cannot view
+        if (canView && viewAdvanced) {
+            viewAdvanced();
+        }
+    },
+
     renderBack: function() {
         let { backIsDisabled,
               waitingOnLaunch } = this.props;
@@ -85,7 +98,7 @@ export default React.createClass({
             {this.renderBack()}
             <a className="pull-left btn"
                disabled={advancedIsDisabled || waitingOnLaunch}
-               onClick={() => { if (!waitingOnLaunch) { this.props.viewAdvanced() } }}>
+               onClick={this.onAdvancedClick}>
                 {this.advancedIcon()}
                 {" Advanced Options"}
             </a>
