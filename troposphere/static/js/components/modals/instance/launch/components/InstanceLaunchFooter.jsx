@@ -101,7 +101,7 @@ export default React.createClass({
                 className="pull-right"
                 style={{ marginRight: "20px" }}
                 onClick={this.props.onCancel}
-                label="Cancel"
+                label={ !waitingOnLaunch ? "Cancel" : "Dismiss" }
             />
         </div>
         )
