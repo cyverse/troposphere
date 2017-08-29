@@ -140,20 +140,12 @@ export default {
         if (!params.currentProject)
             throw new Error("Missing currentProject");
 
-        var that = this,
-            newProject = params.newProject,
+        var newProject = params.newProject,
             resources = params.resources,
             currentProject = params.currentProject,
             resourcesCount = resources && resources.size
                            ? resources.size() : 0;
-        resources.map(function(resource) {
-            that.addResourceToProject(resource, newProject, {
-                silent: false
-            });
-            that.removeResourceFromProject(resource, currentProject, {
-                silent: false
-            });
-        });
+        resources.map(r => this.moveResource(r, currentProject, newProject));
         Utils.dispatch(ProjectConstants.EMIT_CHANGE);
 
         // NOTE: this _completed_ the move selected resources action;
@@ -161,6 +153,40 @@ export default {
         trackAction('moved-project-resources', {
             'number-of-resources': resourcesCount
         });
+    },
+
+    moveResource(resource, currentProject, newProject) {
+        if (resource instanceof Instance) {
+            actions.InstanceActions.update(resource, {
+                project: newProject
+            });
+        } else if (resource instanceof Volume) {
+            actions.VolumeActions.update(resource, {
+                project: newProject
+            });
+        } else if (resource instanceof ExternalLink) {
+            resource.set("projects", [newProject.id]);
+            actions.ProjectExternalLinkActions.addExternalLinkToProject({
+                project: newProject,
+                external_link: resource
+            });
+            actions.ProjectExternalLinkActions.removeExternalLinkFromProject({
+                project: currentProject,
+                external_link: resource
+            });
+        } else if (resource instanceof Image) {
+            resource.set("projects", [newProject.id]);
+            actions.ProjectImageActions.addImageToProject({
+                project: newProject,
+                image: resource
+            });
+            actions.ProjectImageActions.removeImageFromProject({
+                project: currentProject,
+                image: resource
+            });
+        } else {
+            throw new Error("Unknown resource type");
+        }
     },
 
     // ----------------------------
