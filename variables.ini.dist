@@ -18,6 +18,11 @@ HEADER_LINK_COLOR = "blue"
 LINK_COLOR = "#46afc8"
 
 [nginx]
+# ENABLE_WEBPACK_DEV_SERVER: boolean
+# - If True, nginx will proxy calls to assets to be handled by webpack-dev-server
+# - If False (Default), nginx will serve static content from the assets folder
+# NOTE: (Assets and static content can be generated via `make prod`)
+ENABLE_WEBPACK_DEV_SERVER =
 ENABLE_HTTP2 = # enable if http2 module available in nginx build
 BUNDLE_FILE =
 TROPOSPHERE_PATH =
