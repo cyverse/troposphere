@@ -54,5 +54,6 @@ export default {
     shouldReportInstanceViaIntercom,
     shouldReportVolumeViaIntercom,
     GUACAMOLE: !!window.GUACAMOLE_ENABLED || false,
-    hasProjectSharing
+    hasProjectSharing,
+    showClientCredentials
 }
