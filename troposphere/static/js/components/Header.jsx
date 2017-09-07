@@ -106,7 +106,6 @@ let LogoutLink = React.createClass({
     onLogout: function(e) {
         e.preventDefault();
         var api_logout_url = globals.API_V2_ROOT.replace("/api/v2","/api-auth/logout/");
-        var self = this;
         $.ajax(api_logout_url, {
             contentType: "application/json",
             success: function() {
