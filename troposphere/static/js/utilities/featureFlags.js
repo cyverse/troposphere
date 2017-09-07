@@ -25,6 +25,11 @@ const hasProjectSharing = () => {
     return window.PROJECT_SHARING || false;
 };
 
+const showClientCredentials = () => {
+    //TODO: Provide a way for this to be enabled in a future feature.
+    return false;
+};
+
 const showIdentityView = () => {
     //TODO: Provide a way for this to be enabled in a future feature.
     return false;

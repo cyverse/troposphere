@@ -1,5 +1,5 @@
 import React from "react";
-
+import featureFlags from "utilities/featureFlags";
 import SSHConfiguration from "components/settings/advanced/SSHConfiguration";
 import ScriptListView from "components/settings/advanced/ScriptListView";
 import ClientCredentials from "components/settings/advanced/ClientCredentials";
@@ -29,18 +29,20 @@ export default React.createClass({
         );
     },
 
-    You might be wondering what this is? Like is this line of text valid js? It should be removed, when the comment below is fixed.
     renderClientCredentials: function() {
-        //return (
-        //    <ClientCredentials/>
-        //);
+        if (!featureFlags.showClientCredentials()) {
+            return ;
+        }
+        return (
+            <ClientCredentials/>
+        );
     },
 
     renderMore: function() {
         return (
         <div style={{ marginLeft: "30px" }}>
-            {/* this.renderClientCredentials() -- Make this a feature before removing the comments*/}
-            {this.renderScripts() }
+            {this.renderClientCredentials()}
+            {this.renderScripts()}
             <SSHConfiguration/>
             <button onClick={this.showToggle}>
                 Show Less
