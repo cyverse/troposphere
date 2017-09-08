@@ -33,7 +33,8 @@ export default React.createClass({
 
     },
     onCompletedEdit: function(version, name, changeLog, end_date,
-        canImage, image, minCPU, minMem) {
+                              canImage, image, minCPU, minMem,
+                              versionMembership) {
         if (end_date) {
             // Move from datestring to ISO string
             end_date = new Date(Date.parse(end_date)).toISOString()
@@ -47,7 +48,8 @@ export default React.createClass({
             allow_imaging: canImage,
             image: image.id,
             min_cpu: minCPU,
-            min_mem: minMem
+            min_mem: minMem,
+            membership: versionMembership
         });
     },
     renderVersion: function(version) {

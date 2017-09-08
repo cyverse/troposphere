@@ -20,6 +20,7 @@ var ImageStore = BaseStore.extend({
         var updateAttrs = {
             name: image.get("name"),
             description: image.get("description"),
+            is_public: image.get("is_public"),
             tags: tagIds
         }
         if (image.get("end_date")) {

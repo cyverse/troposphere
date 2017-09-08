@@ -4,6 +4,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import EditTagsView from "./tags/EditTagsView";
 import EditNameView from "./name/EditNameView";
 import EditDescriptionView from "./description/EditDescriptionView";
+import EditVisibilityView from "./visibility/EditVisibilityView";
 import InteractiveDateField from "components/common/InteractiveDateField";
 import globals from "globals";
 import stores from "stores";
@@ -29,6 +30,7 @@ export default React.createClass({
         return {
             name: image.get("name"),
             description: image.get("description"),
+            is_public: image.get("is_public"),
             endDate: endDate,
             tags: imageTags
         }
@@ -38,6 +40,7 @@ export default React.createClass({
         var updatedAttributes = {
             name: this.state.name,
             description: this.state.description,
+            is_public: this.state.is_public,
             end_date: this.state.endDate,
             tags: this.state.tags
         };
@@ -63,6 +66,13 @@ export default React.createClass({
         var description = e.target.value;
         this.setState({
             description: description
+        });
+    },
+
+    onVisibilityChange: function(visibility) {
+        let is_public = visibility == "Public";
+        this.setState({
+            is_public,
         });
     },
 
@@ -114,6 +124,11 @@ export default React.createClass({
                     image={image}
                     value={this.state.description}
                     onChange={this.handleDescriptionChange}
+                />
+                <EditVisibilityView
+                    image={image}
+                    value={this.state.is_public}
+                    onChange={this.onVisibilityChange}
                 />
                 <EditTagsView
                     image={image}
