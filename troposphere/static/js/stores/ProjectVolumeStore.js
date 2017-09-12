@@ -4,11 +4,8 @@ import BaseStore from "stores/BaseStore";
 import ProjectVolumeCollection from "collections/ProjectVolumeCollection";
 import ProjectVolumeConstants from "constants/ProjectVolumeConstants";
 import VolumeCollection from "collections/VolumeCollection";
-import Volume from "models/Volume";
 import stores from "stores";
 
-let _modelsFor = {};
-let _isFetchingFor = {};
 let _pendingProjectVolumes = new VolumeCollection();
 
 function addPending(model) {
@@ -22,39 +19,10 @@ function removePending(model) {
 let ProjectStore = BaseStore.extend({
     collection: ProjectVolumeCollection,
 
-    initialize: function() {
-        this.models = new ProjectVolumeCollection();
-    },
-
-    fetchModelsFor: function(projectId) {
-        if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
-            _isFetchingFor[projectId] = true;
-            var models = new ProjectVolumeCollection();
-            models.fetch({
-                url: models.url + "?project__id=" + projectId
-            }).done(function() {
-                _isFetchingFor[projectId] = false;
-
-                // add models to existing cache
-                this.models.add(models.models);
-
-                // convert ProjectVolume collection to an VolumeCollection
-                var volumes = models.map(function(pv) {
-                    return new Volume(pv.get("volume"), {
-                        parse: true
-                    });
-                });
-                volumes = new VolumeCollection(volumes);
-
-                _modelsFor[projectId] = volumes;
-                this.emitChange();
-            }.bind(this));
-        }
-    },
     getVolumesFor: function(project) {
         var allVolumes = stores.VolumeStore.getAll();
         if (!project.id) return;
-        if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
+        if (!this.models) return this.fetchModels();
         if (!allVolumes) return;
 
         var volumes = this.models.filter(function(pv) {
