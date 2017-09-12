@@ -1,7 +1,16 @@
 from django.contrib import admin
+from django.utils import timezone
 
 from .models import (MaintenanceRecord, MaintenanceNotice,
                      UserPreferences, SiteMetadata)
+
+
+
+def end_date_object(modeladmin, request, queryset):
+    queryset.update(end_date=timezone.now())
+
+
+end_date_object.short_description = 'Add end-date to objects'
 
 
 @admin.register(UserPreferences)
