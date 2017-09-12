@@ -5,7 +5,56 @@ import context from "context";
 import moment from "moment";
 import CollapsibleOutput from "components/common/ui/CollapsibleOutput";
 
-var InstanceHistorySection = React.createClass({
+const HistoryRow = React.createClass({
+    displayName: "HistoryRow",
+
+    propTypes: {
+       historyItem: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
+
+    renderFormattedExtra(isStaffUser, extra) {
+        let formattedExtra = "";
+        let formattedExtraLines = [];
+        let show_traceback = (isStaffUser || context.hasEmulatedSession());
+
+        if(extra && 'display_error' in extra) {
+            formattedExtra = (<p>extra['display_error']</p>);
+            if('traceback' in extra && show_traceback) {
+                let formattedText = extra['display_error'] + "\n" + extra['traceback'];
+                formattedExtra = (<CollapsibleOutput output={formattedText} />);
+            }
+        }
+        return formattedExtra;
+    },
+
+    render() {
+        let { historyItem } = this.props;
+
+        let profile = stores.ProfileStore.get();
+        let isStaffUser = (profile) ? profile.get("is_staff") : false;
+        let extra = historyItem.get('extra'),
+            formattedStartDate = moment(historyItem.get("start_date")).format("MMMM Do YYYY, h:mm a"),
+            formattedEndDate = "Present";
+
+        if (historyItem.get("end_date") && historyItem.get("end_date").isValid()) {
+            formattedEndDate = moment(historyItem.get("end_date")).format("MMMM Do YYYY, h:mm a");
+        }
+
+        return (
+            <tr key={historyItem.cid}>
+                <td>{historyItem.get("status")}</td>
+                <td>{formattedStartDate}</td>
+                <td>{formattedEndDate}</td>
+                <td>
+                    {this.renderFormattedExtra(isStaffUser, extra)}
+                </td>
+            </tr>
+        );
+
+    }
+});
+
+const InstanceHistorySection = React.createClass({
     displayName: "InstanceHistorySection",
 
     propTypes: {
@@ -71,30 +120,9 @@ var InstanceHistorySection = React.createClass({
     },
 
     renderHistoryRow: function(historyItem) {
-        let profile = stores.ProfileStore.get();
-        let is_staff_user = (profile) ? profile.get("is_staff") : false;
-        let extra = historyItem.get('extra'),
-            formattedStartDate = moment(historyItem.get("start_date")).format("MMMM Do YYYY, h:mm a"),
-            formattedEndDate = "Present";
-        if (historyItem.get("end_date") && historyItem.get("end_date").isValid()) {
-            formattedEndDate = moment(historyItem.get("end_date")).format("MMMM Do YYYY, h:mm a");
-        }
-        let formattedExtra;
-        let formattedExtraLines = [];
-        let show_traceback = (is_staff_user || context.hasEmulatedSession() );
-        if(extra && 'display_error' in extra) {
-            formattedExtra = (<p>{extra['display_error']}</p>);
-            if('traceback' in extra && show_traceback) {
-                let formattedText = extra['display_error'] + "\n" + extra['traceback'];
-                formattedExtra = (<CollapsibleOutput output={formattedText} />);
-            }
-        }
-        return (<tr key={historyItem.cid}>
-                    <td>{historyItem.get("status")}</td>
-                    <td>{formattedStartDate}</td>
-                    <td>{formattedEndDate}</td>
-                    <td>{formattedExtra}</td>
-                </tr>);
+        return (
+            <HistoryRow key={historyItem.cid} historyItem={historyItem} />
+        );
     },
     onRefresh() {
         stores.InstanceHistoryStore.clearCache();
