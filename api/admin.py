@@ -58,5 +58,17 @@ class MaintenanceNoticeAdmin(admin.ModelAdmin):
         return False
 
 
+@admin.register(MaintenanceRecord)
+class MaintenanceAdmin(admin.ModelAdmin):
+    actions = [end_date_object, ]
+
+    list_display = [
+        "title",
+        "start_date",
+        "end_date",
+        "disable_login"
+    ]
+
+
 # Register your models here.
 #admin.site.register(SomeModelObject)
