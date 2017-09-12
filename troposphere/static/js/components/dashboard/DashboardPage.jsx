@@ -66,7 +66,7 @@ export default React.createClass({
             images = stores.ImageStore.getAll(),
             instances = stores.InstanceStore.getAll(),
             volumes = stores.VolumeStore.getAll(),
-            sizes = stores.SizeStore.fetchWhereNoCache({
+            sizes = stores.SizeStore.fetchWhere({
                 "archived": "true",
                 "page_size": 250
             });

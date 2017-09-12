@@ -19,7 +19,7 @@ export default React.createClass({
         <div className="modal-footer">
             <RaisedButton
                 style={{ float: "right" }}
-                isDisabled={this.props.footerDisabled}
+                disabled={this.props.footerDisabled}
                 label="Continue to Launch"
                 onTouchTap={this.props.onSaveAdvanced}
             />
