@@ -16,6 +16,7 @@ export default React.createClass({
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection),
         identities: React.PropTypes.instanceOf(Backbone.Collection),
+        allPatterns: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
@@ -68,6 +69,7 @@ export default React.createClass({
                     tags={this.props.tags}
                     providers={this.props.providers}
                     identities={this.props.identities}
+                    allPatterns={this.props.allPatterns}
                     onSave={this.handleSaveImageDetails}
                     onCancel={this.handleCancelEditing}
                 />

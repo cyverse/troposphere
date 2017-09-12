@@ -2,12 +2,14 @@ import React from "react";
 import Backbone from "backbone";
 import RaisedButton from "material-ui/RaisedButton";
 import EditTagsView from "./tags/EditTagsView";
+import EditAccessView from "./access_list/EditAccessView";
 import EditNameView from "./name/EditNameView";
 import EditDescriptionView from "./description/EditDescriptionView";
 import EditVisibilityView from "./visibility/EditVisibilityView";
 import InteractiveDateField from "components/common/InteractiveDateField";
 import globals from "globals";
 import stores from "stores";
+import actions from "actions";
 
 export default React.createClass({
     displayName: "EditImageDetails",
@@ -17,6 +19,7 @@ export default React.createClass({
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        allPatterns: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onSave: React.PropTypes.func.isRequired,
         onCancel: React.PropTypes.func.isRequired
     },
@@ -27,10 +30,12 @@ export default React.createClass({
                 image.get("end_date").tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z") : "";
 
         var imageTags = stores.TagStore.getImageTags(image);
+        var imageAccessList = stores.PatternMatchStore.getImageAccess(image);
         return {
             name: image.get("name"),
             description: image.get("description"),
             is_public: image.get("is_public"),
+            accessList: imageAccessList,
             endDate: endDate,
             tags: imageTags
         }
@@ -42,6 +47,7 @@ export default React.createClass({
             description: this.state.description,
             is_public: this.state.is_public,
             end_date: this.state.endDate,
+            access_list: this.state.accessList,
             tags: this.state.tags
         };
 
@@ -76,6 +82,29 @@ export default React.createClass({
         });
     },
 
+    onAccessAdded: function(pattern_match) {
+        let accessList = this.state.accessList
+        accessList.add(pattern_match)
+        this.setState({
+            accessList: accessList
+        });
+    },
+    onAccessRemoved: function(pattern_match) {
+        let accessList = this.state.accessList
+        accessList.remove(pattern_match)
+        this.setState({
+            accessList: accessList
+        });
+    },
+    onPatternCreated: function(patternObj) {
+        let params = {
+            image: this.props.image,
+            pattern: patternObj.pattern,
+            type: (patternObj.type == "E-Mail") ? 'Email': 'Username'
+        };
+        actions.PatternMatchActions.create_AddToImage(params);
+    },
+
     onTagAdded: function(tag) {
         let tags = this.state.tags
         tags.add(tag)
@@ -95,6 +124,8 @@ export default React.createClass({
     render: function() {
         var image = this.props.image,
             allTags = this.props.tags,
+            allPatterns = this.props.allPatterns,
+            accessList = this.state.accessList,
             imageTags = this.state.tags;
 
         return (
@@ -129,6 +160,14 @@ export default React.createClass({
                     image={image}
                     value={this.state.is_public}
                     onChange={this.onVisibilityChange}
+                />
+                <EditAccessView
+                    image={image}
+                    allPatterns={allPatterns}
+                    activeAccessList={accessList}
+                    onAccessAdded={this.onAccessAdded}
+                    onAccessRemoved={this.onAccessRemoved}
+                    onCreateNewPattern={this.onPatternCreated}
                 />
                 <EditTagsView
                     image={image}

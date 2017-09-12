@@ -19,6 +19,7 @@ export default React.createClass({
         // ImageStore is calling out to ImageVersionStore (oddly enough ...)
         stores.ImageVersionStore.addChangeListener(this.updateState);
         stores.TagStore.addChangeListener(this.updateState);
+        stores.PatternMatchStore.addChangeListener(this.updateState);
         if (stores.ProviderStore) stores.ProviderStore.addChangeListener(this.updateState);
         if (stores.IdentityStore) stores.IdentityStore.addChangeListener(this.updateState);
     },
@@ -27,6 +28,7 @@ export default React.createClass({
         stores.ImageStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
         stores.TagStore.removeChangeListener(this.updateState);
+        stores.PatternMatchStore.removeChangeListener(this.updateState);
         if (stores.ProviderStore) stores.ProviderStore.removeChangeListener(this.updateState);
         if (stores.IdentityStore) stores.IdentityStore.removeChangeListener(this.updateState);
     },
@@ -34,11 +36,12 @@ export default React.createClass({
     renderBody: function() {
         var image = stores.ImageStore.getMaybe(Number(this.props.params.imageId)),
             tags = stores.TagStore.getAll(),
+            allPatterns = stores.PatternMatchStore.getAll(),
             hasLoggedInUser = context.hasLoggedInUser(),
             providers = hasLoggedInUser ? stores.ProviderStore.getAll() : null,
             identities = hasLoggedInUser ? stores.IdentityStore.getAll() : null;
 
-        if (!image || !tags) return <div className="loading"/>;
+        if (!image || !tags || !allPatterns) return <div className="loading"/>;
 
         if (image.status === 404) return (
             <NotFoundPage resource="image"/>
@@ -48,7 +51,7 @@ export default React.createClass({
         // wait for providers and instances to be fetched
         if (!hasLoggedInUser) {
             return (
-            <ImageDetailsView image={image} tags={tags} />
+            <ImageDetailsView image={image} tags={tags} allPatterns={allPatterns} />
             );
         }
 
@@ -58,6 +61,7 @@ export default React.createClass({
         <ImageDetailsView image={image}
             providers={providers}
             identities={identities}
+            allPatterns={allPatterns}
             tags={tags} />
         );
     },

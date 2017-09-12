@@ -22,6 +22,7 @@ import ScriptStore from "stores/ScriptStore";
 import MaintenanceMessageStore from "stores/MaintenanceMessageStore";
 import MyBadgeStore from "stores/MyBadgeStore";
 import MembershipStore from "stores/MembershipStore";
+import PatternMatchStore from "stores/PatternMatchStore";
 import ProfileStore from "stores/ProfileStore";
 import ProjectStore from "stores/ProjectStore";
 import ProjectExternalLinkStore from "stores/ProjectExternalLinkStore";

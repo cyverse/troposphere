@@ -18,6 +18,7 @@ export default {
             name: newAttributes.name,
             is_public: newAttributes.is_public,
             description: newAttributes.description,
+            access_list: newAttributes.access_list,
             end_date: newAttributes.end_date,
             tags: newAttributes.tags
         });
