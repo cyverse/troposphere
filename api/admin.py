@@ -59,4 +59,4 @@ class MaintenanceNoticeAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
-admin.site.register(MaintenanceRecord)
+#admin.site.register(SomeModelObject)
