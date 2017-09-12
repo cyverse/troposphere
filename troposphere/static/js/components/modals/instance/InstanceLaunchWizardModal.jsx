@@ -18,6 +18,7 @@ import modals from "modals";
 import stores from "stores";
 import globals from "globals";
 import actions from "actions";
+import featureFlags from "utilities/featureFlags";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import { filterEndDate } from "utilities/filterCollection";
 
@@ -357,6 +358,32 @@ export default React.createClass({
         });
     },
 
+    onIdentityChange: function(identityProvider) {
+        let providerId = identityProvider.get('provider').id;
+
+        let provider = stores.ProviderStore.findWhere({id: providerId});
+
+        let providerSizeList = stores.SizeStore.fetchWhere({
+            provider__id: providerId
+        });
+
+        let imageVersion = this.state.imageVersion;
+        if (provider && providerSizeList && imageVersion) {
+            providerSizeList =
+                this.filterSizeList(provider, providerSizeList, imageVersion);
+        }
+
+        let providerSize;
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        }
+        this.setState({
+            provider,
+            providerSize,
+            identityProvider
+        });
+    },
+
     onProviderChange: function(provider) {
         let providerSizeList = stores.SizeStore.fetchWhere({
             provider__id: provider.id
@@ -692,12 +719,16 @@ export default React.createClass({
         if (globals.USE_ALLOCATION_SOURCES) {
             allocationSourceList = stores.AllocationSourceStore.getAll();
         }
+	let identityList;
+        if( featureFlags.hasProjectSharing()) {
+            identityList = stores.IdentityStore.getAll();
+	}
 
         return (
         <BasicLaunchStep { ...{ showValidationErr: this.state.showValidationErr, attachedScripts: this.state.attachedScripts, backIsDisabled: this.props.initialView=="BASIC_VIEW"
-            , launchIsDisabled: !this.canLaunch(), identityProvider: this.state.identityProvider, image, imageVersion, imageVersionList, instanceName: this.state.instanceName,
+            , launchIsDisabled: !this.canLaunch(), identity:this.state.identityProvider, identityProvider: this.state.identityProvider, identityList, image, imageVersion, imageVersionList, instanceName: this.state.instanceName,
             onBack: this.onBack, onCancel: this.hide, onNameChange: this.onNameChange, onNameBlur: this.onNameBlur, onProjectChange: this.onProjectChange, onAllocationSourceChange:
-            this.onAllocationSourceChange, onProviderChange: this.onProviderChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
+            this.onAllocationSourceChange, onIdentityChange: this.onIdentityChange, onProviderChange: this.onProviderChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
             this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
             this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList, waitingOnLaunch }} />
         )
