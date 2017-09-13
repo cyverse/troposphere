@@ -49,6 +49,16 @@ export default React.createClass({
         // Labels for bar graphs
         let auLabel = `${percent}% of ${total} ${units} from ${name}`;
 
+        if (total == -1) {
+            // Handle the 'unlimited allocation source'
+            auLabel = `${name} has no limit on ${units}`;
+            // Re-set startValue percentage
+            percent = 0;
+            // Re-set total, consumed to pass 'resourceExceded' checks.
+            consumed = 0;
+            total = 1;
+        }
+
         return (
         <div className="form-group">
             <label>
