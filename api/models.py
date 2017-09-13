@@ -61,7 +61,7 @@ class MaintenanceRecord(models.Model):
         disable_login = False
         records = MaintenanceRecord.active()
         for record in records:
-            if record.allow_login is not True:
+            if record.disable_login:
                 disable_login = True
         return disable_login
 
