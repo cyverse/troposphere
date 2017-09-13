@@ -1,16 +1,12 @@
 import React from "react";
 import Backbone from "backbone";
-
-import BreadcrumbBar from "components/projects/common/BreadcrumbBar";
 import globals from "globals";
-import context from "context";
-import InstanceInfoSection from "./sections/InstanceInfoSection";
-import InstanceDetailsSection from "./sections/InstanceDetailsSection";
-import InstanceMetricsSection from "./sections/InstanceMetricsSection";
-import AllocationSourceSection from "./sections/AllocationSourceSection";
-import InstanceActionsAndLinks from "./actions/InstanceActionsAndLinks";
 
-export default React.createClass({
+import subscribe from "utilities/subscribe";
+import BreadcrumbBar from "components/projects/common/BreadcrumbBar";
+import InstanceDetail from "components/common/InstanceDetail";
+
+const InstanceDetailsView = React.createClass({
     displayName: "InstanceDetailsView",
 
     propTypes: {
@@ -19,21 +15,10 @@ export default React.createClass({
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
-    renderAllocationSourceSection() {
-        let instance_username = this.props.instance.get('user').username,
-            current_username = context.profile.get('username'),
-            disabled = (current_username != instance_username);
-        let props = {
-            disabled: disabled,
-            ...this.props
-        }
-        return (
-        <AllocationSourceSection { ...props }/>
-        );
-    },
-
     render() {
-        let { instance, project } = this.props;
+        let { instance, project, allocationSources } = this.props;
+        let { HelpLinkStore } = this.props.subscriptions;
+        let helpLinks = HelpLinkStore.getAll();
 
         var breadcrumbs = [
             {
@@ -53,28 +38,33 @@ export default React.createClass({
             }
         ];
 
+        let requires = [project, instance, helpLinks];
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            requires.push(allocationSources)
+        }
+
+        // Use truthy check to see if loaded
+        let loaded = requires.every(r => Boolean(r));
+        if (!loaded) {
+            return <div className="loading"></div>;
+        }
+
+        let props = {
+            params: instance,
+            project,
+            allocationSources,
+            helpLinks
+        };
+
+
         return (
         <div>
             <BreadcrumbBar breadcrumbs={breadcrumbs} />
-            <div className="row resource-details-content">
-                <div className="col-md-9">
-                    <InstanceInfoSection instance={instance} />
-                    <hr/>
-                    {globals.USE_ALLOCATION_SOURCES
-                     ? this.renderAllocationSourceSection()
-                     : null}
-                    <InstanceDetailsSection instance={instance} />
-                    <hr/>
-                    {globals.SHOW_INSTANCE_METRICS
-                     ? <InstanceMetricsSection instance={instance} />
-                     : ""}
-                </div>
-                <div className="col-md-3">
-                    <InstanceActionsAndLinks project={project}
-                                             instance={instance} />
-                </div>
-            </div>
+            <InstanceDetail { ...props} />
         </div>
         );
     }
 });
+
+export default subscribe(InstanceDetailsView, ["HelpLinkStore"]);

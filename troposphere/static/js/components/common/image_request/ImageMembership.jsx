@@ -17,7 +17,6 @@ export default React.createClass({
         });
     },
     removeMemberFromList: function(user) {
-        console.log("Remove", user);
         var rem_list = this.props.membership_list;
         rem_list.remove(user);
         this.setState({
