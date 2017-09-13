@@ -14,7 +14,6 @@ const HistoryRow = React.createClass({
 
     renderFormattedExtra(isStaffUser, extra) {
         let formattedExtra = "";
-        let formattedExtraLines = [];
         let show_traceback = (isStaffUser || context.hasEmulatedSession());
 
         if(extra && 'display_error' in extra) {
