@@ -1,10 +1,59 @@
 import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
+import context from "context";
 import moment from "moment";
+import CollapsibleOutput from "components/common/ui/CollapsibleOutput";
 
+const HistoryRow = React.createClass({
+    displayName: "HistoryRow",
 
-var InstanceHistorySection = React.createClass({
+    propTypes: {
+       historyItem: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
+
+    renderFormattedExtra(isStaffUser, extra) {
+        let formattedExtra = "";
+        let show_traceback = (isStaffUser || context.hasEmulatedSession());
+
+        if(extra && 'display_error' in extra) {
+            formattedExtra = (<p>extra['display_error']</p>);
+            if('traceback' in extra && show_traceback) {
+                let formattedText = extra['display_error'] + "\n" + extra['traceback'];
+                formattedExtra = (<CollapsibleOutput output={formattedText} />);
+            }
+        }
+        return formattedExtra;
+    },
+
+    render() {
+        let { historyItem } = this.props;
+
+        let profile = stores.ProfileStore.get();
+        let isStaffUser = (profile) ? profile.get("is_staff") : false;
+        let extra = historyItem.get('extra'),
+            formattedStartDate = moment(historyItem.get("start_date")).format("MMMM Do YYYY, h:mm a"),
+            formattedEndDate = "Present";
+
+        if (historyItem.get("end_date") && historyItem.get("end_date").isValid()) {
+            formattedEndDate = moment(historyItem.get("end_date")).format("MMMM Do YYYY, h:mm a");
+        }
+
+        return (
+            <tr key={historyItem.cid}>
+                <td>{historyItem.get("status")}</td>
+                <td>{formattedStartDate}</td>
+                <td>{formattedEndDate}</td>
+                <td>
+                    {this.renderFormattedExtra(isStaffUser, extra)}
+                </td>
+            </tr>
+        );
+
+    }
+});
+
+const InstanceHistorySection = React.createClass({
     displayName: "InstanceHistorySection",
 
     propTypes: {
@@ -15,16 +64,26 @@ var InstanceHistorySection = React.createClass({
         return {
             instanceHistory: stores.InstanceHistoryStore.fetchWhere({
                 "instance": this.props.instance.id
-            })
+            }),
+            refreshing: false
         }
     },
 
     componentDidMount: function() {
         stores.InstanceHistoryStore.addChangeListener(this.onNewData);
+        stores.InstanceStore.addChangeListener(this.onNewData);
+        stores.InstanceHistoryStore.addChangeListener(this.requestListener);
     },
 
     componentWillUnmount: function() {
         stores.InstanceHistoryStore.removeChangeListener(this.onNewData);
+        stores.InstanceStore.removeChangeListener(this.onNewData);
+        stores.InstanceHistoryStore.removeChangeListener(this.requestListener);
+    },
+    requestListener() {
+        this.setState({
+            refreshing: false
+        });
     },
 
     onNewData: function() {
@@ -35,20 +94,50 @@ var InstanceHistorySection = React.createClass({
         });
     },
 
-    render: function() {
-        var instance = this.props.instance;
-        var content,
-            items,
-            deletedInfo;
-
-        if (instance.get("end_date")) {
-            deletedInfo = (
-                <lh>
-                    <strong>{"Deleted on " + moment(instance.get("end_date")).format("MMMM Do YYYY, h:mm a")}</strong>
-                </lh>
-            );
+    style() {
+        return {
+            refreshIcon: {
+                float: "right",
+                color: "lightgrey"
+            },
         }
-        if (!this.state.instanceHistory) {
+    },
+
+    renderRefreshButton() {
+        let { refreshing } = this.state;
+        let { refreshIcon } = this.style();
+        let controlsClass = "glyphicon glyphicon-refresh";
+
+        if (refreshing) {
+            controlsClass += " refreshing"
+            refreshIcon.color = "inherit";
+        }
+
+        return (
+        <span className={controlsClass} style={refreshIcon} onClick={this.onRefresh} />
+        );
+    },
+
+    renderHistoryRow: function(historyItem) {
+        return (
+            <HistoryRow key={historyItem.cid} historyItem={historyItem} />
+        );
+    },
+    onRefresh() {
+        stores.InstanceHistoryStore.clearCache();
+        let instanceHistory = stores.InstanceHistoryStore.fetchWhere({
+            "instance": this.props.instance.id
+        })
+        this.setState({
+            refreshing: true,
+            instanceHistory
+        });
+
+    },
+    render: function() {
+        var content;
+        let { instanceHistory } = this.state;
+        if (!instanceHistory) {
             if (stores.InstanceHistoryStore.isFetching) {
                 content = (
                     <div className="loading" />
@@ -61,30 +150,25 @@ var InstanceHistorySection = React.createClass({
                 );
             }
         } else {
-            items = this.state.instanceHistory.map(function(historyItem) {
-                let formattedAUTotal = historyItem.get("total_hours"),
-                    formattedStartDate = moment(historyItem.get("start_date")).format("MMMM Do YYYY, h:mm a"),
-                    formattedEndDate = "Present";
-                if (historyItem.get("end_date") && historyItem.get("end_date").isValid()) {
-                    formattedEndDate = moment(historyItem.get("end_date")).format("MMMM Do YYYY, h:mm a");
-                }
-                return (<div key={historyItem.cid}>
-                            {historyItem.get("status")}:
-                            {formattedStartDate} -
-                            {formattedEndDate} -
-                            {formattedAUTotal}
-                        </div>);
-            });
             content = (
-                <ul>
-                    {deletedInfo}
-                    {items}
-                </ul>
+                <table className="clearfix table" style={{ tableLayout: "fixed" }}>
+                    <thead>
+                        <tr>
+                            <th style={{ width: "100px"}}>Status</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {instanceHistory.map(this.renderHistoryRow) }
+                    </tbody>
+                </table>
             );
         }
         return (
         <div className="resource-details-section section">
-            <h4 className="t-title">Instance Status History</h4>
+            <h4 className="t-headline">Instance Status History {this.renderRefreshButton()}</h4>
             {content}
         </div>
         );

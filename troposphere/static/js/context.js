@@ -8,6 +8,9 @@ export default {
     getMaintenanceNotice: function() {
         return window.maint_notice;
     },
+    hasEmulatedSession: function() {
+        return window.emulator && window.emulator_token;
+    },
     hasLoggedInUser: function() {
         return hasLoggedInUser(this.profile);
     },

@@ -2,7 +2,9 @@ import React from "react";
 
 import subscribe from "utilities/subscribe";
 import globals from "globals";
+import context from "context";
 
+import AllocationSourceSection from "components/projects/resources/instance/details/sections/AllocationSourceSection";
 import InstanceDetailsSection from "components/projects/resources/instance/details/sections/InstanceDetailsSection";
 import PastInstanceDetailsSection from "components/projects/resources/instance/details/sections/PastInstanceDetailsSection";
 import InstanceActionsAndLinks from "components/projects/resources/instance/details/actions/InstanceActionsAndLinks";
@@ -19,6 +21,21 @@ const InstanceDetail = React.createClass({
     },
 
     onNewData: function() { this.forceUpdate(); },
+
+    renderAllocationSourceSection() {
+        let instance = this.props.params,
+            instance_username = instance.get('user').username,
+            current_username = context.profile.get('username'),
+            disabled = (current_username != instance_username);
+        let props = {
+            disabled: disabled,
+            instance,
+            ...this.props
+        }
+        return (
+        <AllocationSourceSection { ...props }/>
+        );
+    },
 
 
     renderInactiveInstance: function(history) {
@@ -38,40 +55,42 @@ const InstanceDetail = React.createClass({
             : "";
 
         return (
-        <div className="container">
-            <div className="row resource-details-content">
+            <div className="row resource-details-instanceDetailsSection">
                 <div className="col-md-9">
                     <InstanceInfoSection instance={instanceObj} />
                     <hr />
                     <PastInstanceDetailsSection instance={instanceObj} />
+                    <hr/>
                     {metrics}
+                    <hr/>
+                    <InstanceHistorySection instance={instanceObj} />
                 </div>
             </div>
-            <hr/>
-            <InstanceHistorySection instance={instanceObj} />
-        </div>
         );
     },
 
     renderActiveInstance: function(instance) {
         let { ProjectStore } = this.props.subscriptions;
-        var metrics = globals.SHOW_INSTANCE_METRICS
+        var metricsSection = globals.SHOW_INSTANCE_METRICS
             ? <InstanceMetricsSection instance={instance} />
-            : "";
+            : null;
+        var allocationSourceSection = globals.USE_ALLOCATION_SOURCES
+            ? this.renderAllocationSourceSection()
+            : null;
         let project = ProjectStore.get(instance.get('project').id);
         if (!project) {
             return (<div className="loading" />);
         }
 
         return (
-        <div className="container">
-            <div className="row resource-details-content">
+            <div className="row resource-details-instanceDetailsSection">
                 <div className="col-md-9">
                     <InstanceInfoSection instance={instance} />
                     <hr/>
+                    {allocationSourceSection}
                     <InstanceDetailsSection instance={instance} />
                     <hr/>
-                    {metrics}
+                    {metricsSection}
                     <hr/>
                     <InstanceHistorySection instance={instance} />
                 </div>
@@ -79,7 +98,6 @@ const InstanceDetail = React.createClass({
                     <InstanceActionsAndLinks project={project} instance={instance} />
                 </div>
             </div>
-        </div>
         );
     },
 
@@ -96,11 +114,18 @@ const InstanceDetail = React.createClass({
         }
 
         // If we got back active instances, but the instance isn't a member
+        let instanceDetailsSection;
         if (!instance) {
-            return this.renderInactiveInstance(history);
+            instanceDetailsSection = this.renderInactiveInstance(history);
+        } else {
+            instanceDetailsSection = this.renderActiveInstance(instance);
         }
 
-        return this.renderActiveInstance(instance);
+        return (
+            <div className="container">
+                {instanceDetailsSection}
+            </div>
+        );
     },
 
 });
