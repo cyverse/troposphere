@@ -12,15 +12,22 @@ export default React.createClass({
     render: function() {
         // Example Output:
         //
-        // You are using 12 of 32 allocated CPUs
-
-        return (
+        // You are using 12 of 32 allocated AUs
+        let body = (
           <div>
             {"You have used "}
             <b>{this.props.used + " of " + this.props.max}</b>
             {" allocated "}
             <b>{this.props.resourceName}</b>
-        </div>
-        );
+        </div>);
+
+        // You have no limit on allocated AUs
+        if (this.props.max == -1) {
+          body = (<div>
+           {"You have no limit on allocated "}<b>{this.props.resourceName}</b>
+          </div>);
+        }
+
+        return body;
     }
 });
