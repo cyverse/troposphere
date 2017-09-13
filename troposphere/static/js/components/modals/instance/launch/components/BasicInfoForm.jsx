@@ -10,6 +10,8 @@ export default React.createClass({
         projectList: React.PropTypes.instanceOf(Backbone.Collection),
         imageVersion: React.PropTypes.instanceOf(Backbone.Model),
         imageVersionList: React.PropTypes.instanceOf(Backbone.Collection),
+        identity: React.PropTypes.instanceOf(Backbone.Model),
+        identityList: React.PropTypes.instanceOf(Backbone.Collection),
         project: React.PropTypes.instanceOf(Backbone.Model),
         image: React.PropTypes.instanceOf(Backbone.Model),
         instanceName: React.PropTypes.string,
