@@ -1,16 +1,19 @@
 import React from "react";
-import stores from "stores";
+import subscribe from "utilities/subscribe";
 import Backbone from "backbone";
 import PercentLineChart from "components/images/detail/stats/PercentLineChart";
 
 
-export default React.createClass({
+const ImageStatsView = React.createClass({
     displayName: "ImageStatsView",
 
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
     getInitialState() {
+        let { ImageMetricsStore } = this.props.subscriptions;
+        let all_metrics = ImageMetricsStore.getAll();
+
         return {
             activeChart: "Monthly",
             summaryData: null
@@ -45,7 +48,8 @@ export default React.createClass({
         }
     },
     renderDailyChart: function(image) {
-        let image_metrics = stores.ImageMetricsStore.fetchWhere(
+        let { ImageMetricsStore } = this.props.subscriptions;
+        let image_metrics = ImageMetricsStore.fetchWhere(
             {
                 'page_size': 1000,
                 'interval': 'daily',
@@ -62,7 +66,8 @@ export default React.createClass({
         return this.renderMetricsChart(image, metrics);
     },
     renderWeeklyChart: function(image) {
-        let image_metrics = stores.ImageMetricsStore.fetchWhere(
+        let { ImageMetricsStore } = this.props.subscriptions;
+        let image_metrics = ImageMetricsStore.fetchWhere(
             {
                 'page_size': 1000,
                 'interval': 'weekly',
@@ -79,7 +84,8 @@ export default React.createClass({
         return this.renderMetricsChart(image, metrics);
     },
     renderMonthlyChart: function(image) {
-        let image_metric = stores.ImageMetricsStore.get(image.id);
+        let { ImageMetricsStore } = this.props.subscriptions;
+        let image_metric = ImageMetricsStore.get(image.id);
         if(!image_metric) {
             return (<div className="loading"/>);
         }
@@ -110,18 +116,13 @@ export default React.createClass({
          </div>);
     },
     componentDidMount: function() {
-        stores.ImageMetricsStore.addChangeListener(this.updateState);
-
-        let all_metrics = stores.ImageMetricsStore.getAll();
+        let { ImageMetricsStore } = this.props.subscriptions;
+        let all_metrics = ImageMetricsStore.getAll();
         let summaryData = this.state.summaryData;
         if (summaryData == null && all_metrics != null) {
             summaryData = this.getSummaryData(all_metrics);
         }
         this.setState({metricsData:all_metrics, summaryData});
-    },
-
-    componentWillUnmount: function() {
-        stores.ImageMetricsStore.removeChangeListener(this.updateState);
     },
 
     renderChartSelector: function(image) {
@@ -130,17 +131,18 @@ export default React.createClass({
                 </div>);
     },
     onChartSelected: function(e) {
+        let { ImageMetricsStore } = this.props.subscriptions;
         let selectedText = e.target.innerHTML;
         let all_metrics;
         if (selectedText == "Monthly") {
-            all_metrics = stores.ImageMetricsStore.getAll();
+            all_metrics = ImageMetricsStore.getAll();
         } else if(selectedText == "Daily") {
-            all_metrics = stores.ImageMetricsStore.fetchWhere({
+            all_metrics = ImageMetricsStore.fetchWhere({
                 'page_size': 1000,
                 'interval': 'daily',
             });
         } else if(selectedText == "Weekly") {
-            all_metrics = stores.ImageMetricsStore.fetchWhere({
+            all_metrics = ImageMetricsStore.fetchWhere({
                 'page_size': 1000,
                 'interval': 'weekly',
             });
@@ -197,18 +199,94 @@ export default React.createClass({
             return summaryData;
     },
     render: function() {
+        let { ProfileStore, ImageMetricsStore } = this.props.subscriptions;
         var image = this.props.image,
-            staff_user = stores.ProfileStore.get().get("is_staff");
+            staff_user = ProfileStore.get().get("is_staff");
 
         if (!staff_user) {
             return null;
         }
-        return (
+        let chartView = (
         <div id="ImageMetrics" className="image-versions image-info-segment row">
             <h4 className="t-title">Image Statistics:</h4>
             {this.renderChartSelector(image)}
             {this.renderChart(image)}
         </div>
         );
+
+        let image_metric = ImageMetricsStore.get(image.id);
+        if(!image_metric) {
+            return (<div className="loading"/>);
+        }
+        let metrics = image_metric.get('metrics');
+
+        let summarizedView = (
+            <div id="ImageMetrics" className="image-versions image-info-segment row">
+                <h4 className="t-title">Image Statistics</h4>
+                <div>
+                    <table className="clearfix table" style={{ tableLayout: "fixed" }}>
+                        <thead>
+                            <tr>
+                                <th style={{ width: "400px"}}>Statistic</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                {"Number of Projects including this Application"}
+                                </td>
+                                <td>
+                                {metrics.projects}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                {"Number of users who Bookmarked this Application"}
+                                </td>
+                                <td>
+                                {metrics.bookmarks}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                {"Number of Applications based on this Application"}
+                                </td>
+                                <td>
+                                {metrics.forks}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                {"Number of Instances Launched (Successful)"}
+                                </td>
+                                <td>
+                                {metrics.instances.success}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                {"Number of Instances Launched (Total)"}
+                                </td>
+                                <td>
+                                {metrics.instances.total}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                {"Number of Instances Launched (%)"}
+                                </td>
+                                <td>
+                                {metrics.instances.percent}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
+
+        return summarizedView;
     }
 });
+export default subscribe(ImageStatsView, ["ImageMetricsStore", "ProfileStore"]);
