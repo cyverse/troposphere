@@ -30,7 +30,7 @@ export default {
                 minMem: params.minMem,
                 minCPU: params.minCPU,
                 versionChanges: params.versionChanges,
-                newApplicationAccessList: params.newApplicationAccessList,
+                newApplicationAccessList: params.newAccessList,
                 newMachineOwner: instance.get("user").id,
                 versionFork: params.newImage,
                 visibility: params.visibility,

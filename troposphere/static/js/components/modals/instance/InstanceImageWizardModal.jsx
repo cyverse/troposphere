@@ -146,6 +146,7 @@ export default React.createClass({
             minMem: this.state.minMem,
             minCPU: this.state.minCPU,
             tags: this.state.imageTags,
+            newAccessList: this.state.activeAccessList,
             identity: this.state.identity,
             versionName: this.state.versionName,
             versionChanges: this.state.versionChanges,
@@ -222,8 +223,6 @@ export default React.createClass({
             case IMAGE_INFO_STEP:
                 return (
                 <ImageInfoStep instance={instance}
-                    allPatterns={allPatterns}
-                    activeAccessList={activeAccessList}
                     imageOwner={this.props.imageOwner}
                     onPrevious={this.onPrevious}
                     onNext={this.onNext}
@@ -243,6 +242,8 @@ export default React.createClass({
                 return (
                 <VisibilityStep instance={instance}
                     visibility={this.state.visibility}
+                    activeAccessList={activeAccessList}
+                    allPatterns={allPatterns}
                     imageUsers={this.state.imageUsers}
                     onPrevious={this.onPrevious}
                     onNext={this.onNext}
