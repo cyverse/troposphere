@@ -7,9 +7,16 @@ export default React.createClass({
 
     propTypes: {
         identityId: React.PropTypes.number,
+        disabled: React.PropTypes.bool,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onChange: React.PropTypes.func.isRequired
+    },
+
+    getDefaultProps() {
+        return {
+            disabled: false
+        }
     },
 
     getOptions: function() {
@@ -37,6 +44,7 @@ export default React.createClass({
         <select value={identityId}
             id="identity"
             className="form-control"
+            disabled={this.props.disabled}
             onChange={this.props.onChange}>
             {options}
         </select>

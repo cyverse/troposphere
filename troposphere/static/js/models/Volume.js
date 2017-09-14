@@ -68,6 +68,33 @@ export default Backbone.Model.extend({
         }.bind(this));
     },
 
+    create: function(options, cb) {
+        if (!options.name)
+            throw new Error("Missing name");
+        if (!options.size)
+            throw new Error("Missing size");
+        if (!options.project)
+            throw new Error("Missing project");
+        if (options.snapshot_id && options.image_id) {
+            throw new Error("Cannot pass 'image_id' and 'snapshot_id' to create.");
+        }
+        let identity = this.get("identity").uuid,
+            name = options.name,
+            size = options.size,
+            project = options.project.get('uuid');
+
+        let url = globals.API_V2_ROOT + "/volumes";
+        let attrs = {
+            name,
+            size,
+            project,
+            identity
+        }
+        return Backbone.sync("create", this, {
+            url,
+            attrs
+        });
+    },
     createOnV1Endpoint: function(options, cb) {
         if (!options.name)
             throw new Error("Missing name");

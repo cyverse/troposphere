@@ -82,6 +82,9 @@ _.extend(Store.prototype, Backbone.Events, {
         if (!this.models) {
             this.models = new this.collection();
         }
+        if(!payload) {
+            throw new Error(".add(..) expects a payload. Received " + payload)
+        }
         if ("at" in payload) {
             this.models.add(payload.data, {
                 at: payload.at
