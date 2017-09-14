@@ -162,7 +162,6 @@ export default React.createClass({
                     onChange={this.onVisibilityChange}
                 />
                 <EditAccessView
-                    image={image}
                     allPatterns={allPatterns}
                     activeAccessList={accessList}
                     onAccessAdded={this.onAccessAdded}

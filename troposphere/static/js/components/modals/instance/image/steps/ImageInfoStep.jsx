@@ -7,6 +7,7 @@ import Name from "../components/Name";
 import CreateUpdateFlag from "../components/CreateUpdateFlag";
 import Description from "../components/Description";
 import Tags from "../components/Tags";
+import EditAccessView from "components/images/detail/access_list/EditAccessView";
 import TagCollection from "collections/TagCollection";
 
 import { captureMessage } from "utilities/capture";
@@ -19,6 +20,8 @@ export default React.createClass({
     displayName: "ImageWizard-ImageInfoStep",
 
     propTypes: {
+        allPatterns: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        activeAccessList: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         imageOwner: React.PropTypes.bool.isRequired,
         helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -46,12 +49,27 @@ export default React.createClass({
         }
         let imageTags = new TagCollection(instance.get("image").tags);
 
+        // let parentImage = stores.ImageStore.get(instance.get('image').uuid);
+        //Note: An improvement here would be showing a `loader` until ImageStore.get() returns
+        // and then bootstrapping `activeAccessList` with `image.get('access_list')` rather than
+        // an empty Backbone Collection. Since this is a new feature, everything will be empty,
+        // so we can likely skip this improvement for a future refactor.
+        let activeAccessList = this.props.activeAccessList;
+        if (!activeAccessList) {
+            activeAccessList = new Backbone.Collection();
+        }
+
+        if(this.props.allPatterns == null) {
+            return (<div className="loading" />);
+        }
+
         return {
             name: defaultName,
             nameError: this.setNameError(defaultName),
             description: defaultDescription,
             newImage: true,
             imageTags,
+            activeAccessList,
         }
     },
 
@@ -79,6 +97,7 @@ export default React.createClass({
             name: $.trim(this.state.name),
             description: $.trim(this.state.description),
             imageTags: this.state.imageTags,
+            activeAccessList: this.state.activeAccessList,
             newImage: this.state.newImage
         });
     },
@@ -107,6 +126,30 @@ export default React.createClass({
         });
     },
 
+    onPatternCreated: function(patternObj) {
+        let params = {
+            pattern: patternObj.pattern,
+            type: (patternObj.type == "E-Mail") ? 'Email': 'Username',
+            // Add a success callback to add new pattern to list
+            success: this.onAccessAdded
+        };
+        actions.PatternMatchActions.create(params);
+    },
+
+    onAccessAdded: function(pattern_match) {
+        let activeAccessList = this.state.activeAccessList
+        activeAccessList.add(pattern_match)
+        this.setState({
+            activeAccessList: activeAccessList
+        });
+    },
+    onAccessRemoved: function(pattern_match) {
+        let activeAccessList = this.state.activeAccessList
+        activeAccessList.remove(pattern_match)
+        this.setState({
+            activeAccessList: activeAccessList
+        });
+    },
     onTagAdded: function(addedTag) {
         var imageTags = this.state.imageTags;
         imageTags.add(addedTag);
@@ -175,6 +218,14 @@ export default React.createClass({
                 onChange={this.onNameChange} />
             <hr />
             <Description value={this.state.description} onChange={this.onDescriptionChange} />
+            <hr />
+            <EditAccessView
+                allPatterns={this.props.allPatterns}
+                activeAccessList={this.state.activeAccessList}
+                onAccessAdded={this.onAccessAdded}
+                onAccessRemoved={this.onAccessRemoved}
+                onCreateNewPattern={this.onPatternCreated}
+            />
             <hr />
             <Tags onTagAdded={this.onTagAdded}
                 onTagRemoved={this.onTagRemoved}

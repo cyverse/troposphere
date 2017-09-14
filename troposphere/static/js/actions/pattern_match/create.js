@@ -12,7 +12,8 @@ export default {
             throw new Error("Missing type");
 
         var pattern = params.pattern,
-            type = params.type;
+            type = params.type,
+            successCB = params.success;
 
         var pattern_match = new PatternMatch({
             pattern: pattern,
@@ -32,6 +33,9 @@ export default {
             }, {
                 silent: false
             });
+            if(successCB) {
+                successCB(pattern_match);
+            }
         }).fail(function(response) {
             Utils.dispatch(PatternMatchConstants.REMOVE_PATTERN, {
                 pattern_match: pattern_match

@@ -49,6 +49,7 @@ export default React.createClass({
             imageUsers: new Backbone.Collection(),
             activeScripts: new Backbone.Collection(),
             activeLicenses: new Backbone.Collection(),
+            activeAccessList: new Backbone.Collection(),
             filesToExclude: "",
             breadcrumbs: [
                 {
@@ -95,6 +96,7 @@ export default React.createClass({
         stores.UserStore.addChangeListener(this.updateState);
         stores.ScriptStore.addChangeListener(this.updateState);
         stores.LicenseStore.addChangeListener(this.updateState);
+        stores.PatternMatchStore.addChangeListener(this.updateState);
 
     },
 
@@ -104,6 +106,7 @@ export default React.createClass({
         stores.UserStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
         stores.LicenseStore.removeChangeListener(this.updateState);
+        stores.PatternMatchStore.removeChangeListener(this.updateState);
 
     },
 
@@ -204,15 +207,23 @@ export default React.createClass({
         var instance = this.props.instance,
             step = this.state.step,
             allLicenses = stores.LicenseStore.getAll(),
+            allPatterns = stores.PatternMatchStore.getAll(),
+            activeAccessList = this.state.activeAccessList,
             activeLicenses = this.state.activeLicenses,
             allScripts = stores.ScriptStore.getAll(),
             helpLink = stores.HelpLinkStore.get("request-image"),
             activeScripts = this.state.activeScripts;
 
+        if(allPatterns == null) {
+            return (<div className="loading" />);
+        }
+
         switch (step) {
             case IMAGE_INFO_STEP:
                 return (
                 <ImageInfoStep instance={instance}
+                    allPatterns={allPatterns}
+                    activeAccessList={activeAccessList}
                     imageOwner={this.props.imageOwner}
                     onPrevious={this.onPrevious}
                     onNext={this.onNext}
