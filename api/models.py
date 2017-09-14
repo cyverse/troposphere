@@ -37,7 +37,7 @@ class MaintenanceRecord(models.Model):
     end_date = models.DateTimeField(blank=True, null=True)
     title = models.CharField(max_length=256)
     message = models.TextField()
-    allow_login = models.BooleanField(default=True)
+    disable_login = models.BooleanField(default=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -61,7 +61,7 @@ class MaintenanceRecord(models.Model):
         disable_login = False
         records = MaintenanceRecord.active()
         for record in records:
-            if record.allow_login is not True:
+            if record.disable_login:
                 disable_login = True
         return disable_login
 
@@ -70,7 +70,7 @@ class MaintenanceRecord(models.Model):
             self.title,
             self.start_date,
             self.end_date,
-            not self.allow_login
+            self.disable_login
         )
 
 

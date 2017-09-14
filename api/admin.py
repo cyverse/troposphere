@@ -1,7 +1,16 @@
 from django.contrib import admin
+from django.utils import timezone
 
 from .models import (MaintenanceRecord, MaintenanceNotice,
                      UserPreferences, SiteMetadata)
+
+
+
+def end_date_object(modeladmin, request, queryset):
+    queryset.update(end_date=timezone.now())
+
+
+end_date_object.short_description = 'Add end-date to objects'
 
 
 @admin.register(UserPreferences)
@@ -49,5 +58,17 @@ class MaintenanceNoticeAdmin(admin.ModelAdmin):
         return False
 
 
+@admin.register(MaintenanceRecord)
+class MaintenanceAdmin(admin.ModelAdmin):
+    actions = [end_date_object, ]
+
+    list_display = [
+        "title",
+        "start_date",
+        "end_date",
+        "disable_login"
+    ]
+
+
 # Register your models here.
-admin.site.register(MaintenanceRecord)
+#admin.site.register(SomeModelObject)

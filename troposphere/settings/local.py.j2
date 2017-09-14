@@ -294,3 +294,9 @@ WEB_SH_URL = "{{ WEB_SH_ROUTE }}"
 WEB_SH_BASE_URL = "{{ WEB_SH_BASE_URL }}"
 WEB_SH_JS_FILE = "{{ WEB_SH_JS_FILE }}"
 {% endif %}
+
+try:
+    from troposphere.settings.new_relic import NEW_RELIC_ENVIRONMENT
+    NEW_RELIC_CONFIGURED = True
+except ImportError:
+    NEW_RELIC_CONFIGURED = False
