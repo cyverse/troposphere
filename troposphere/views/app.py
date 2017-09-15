@@ -138,8 +138,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
                 json.dumps(settings.INTERCOM_OPTIONS)
 
     if new_relic_enabled:
+        from troposphere.settings import new_relic
         template_params['new_relic_browser_snippet'] = \
-            settings.new_relic.NEW_RELIC_BROWSER_SNIPPET
+            new_relic.NEW_RELIC_BROWSER_SNIPPET
 
     enable_sentry = getattr(settings, 'SENTRY_DSN',"") != ""
     enable_project_sharing = getattr(settings, 'ENABLE_PROJECT_SHARING',False)
