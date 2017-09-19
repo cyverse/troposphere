@@ -42,7 +42,6 @@ export default React.createClass({
         stores.ImageStore.addChangeListener(this.updateState);
         stores.InstanceStore.addChangeListener(this.updateState);
         stores.VolumeStore.addChangeListener(this.updateState);
-        stores.SizeStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
@@ -54,7 +53,6 @@ export default React.createClass({
         stores.ImageStore.removeChangeListener(this.updateState);
         stores.InstanceStore.removeChangeListener(this.updateState);
         stores.VolumeStore.removeChangeListener(this.updateState);
-        stores.SizeStore.removeChangeListener(this.updateState);
     },
 
     render: function() {
