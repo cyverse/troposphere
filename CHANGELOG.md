@@ -1,3 +1,23 @@
+## [Zesty-Zapdos](https://github.com/cyverse/troposphere/milestone/15?closed=1) (as of 8/3/2017)
+
+[Bugfixes](https://github.com/cyverse/troposphere/pulls?utf8=%E2%9C%93&q=is%3Apr%20is%3Aclosed%20merged%3A2017-06-05..2017-08-03):
+  - Instance Disk size validated on the client-side, when launching
+  - Made number of uWSGI processes configuration (web request/response performance tuning)
+  - Update resource requests (allocation & quota)
+  - Correct JSX attribute typos for CSS 
+  - Ensure Travis CI catches any missing data migrations 
+  - Fix issue with Gravatar icons differing between Instance History & Project views
+  - Remove duplicate `<SelectMenu/>` definitions; resolve component usage
+  - (Admind) improve image request error reporting
+  
+Enhancements:  
+  - Apache Guacamole integration as a "beta" remote access option
+  - Provide sourceMaps for deployed application bundles (improved error triage)
+  - Upgrade to Webpack v2
+  - Upgrade to Django 1.11
+  - Improve code quality via ESLint rule defintion
+  - (Admin) Offer "emulate" link from "Manage Users" tab
+
 ## [Yampy-Yellowlegs](https://github.com/cyverse/troposphere/milestone/14?closed=1) (as of 6/5/2017)
 
 Bugfixes:
