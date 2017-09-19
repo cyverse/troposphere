@@ -1,3 +1,21 @@
+## [Ancient-Asteroid (v27)](https://github.com/cyverse/troposphere/milestone/16?closed=1) (as of 9/13/2017)
+
+Bugfixes:
+  - Fixed issues where Size label for Instances left out disk information
+  - Allowed Instance Launch Modal to remain open until launching complete
+  - Avoid allowing "copy" for invalid IP addresses (`0.0.0.0`)
+  - Corrected issues with Emulate URL
+  - Include latest fix for django-cyverse-auth module
+  - Fixed boot scripts not being associated on launch
+  - Fixed problems preventing Volumes from being moved between projects
+  - Fixed Advanced Options feature in Launch Modal being "clickable"
+  - Fixed issue with instances row hyperlinks 
+
+Enhancments:
+  - Removed unused components 
+  - Improved `<SelectMenu />` component
+  - Better development support for faster feedback on changes
+
 ## [Zesty-Zapdos](https://github.com/cyverse/troposphere/milestone/15?closed=1) (as of 8/3/2017)
 
 [Bugfixes](https://github.com/cyverse/troposphere/pulls?utf8=%E2%9C%93&q=is%3Apr%20is%3Aclosed%20merged%3A2017-06-05..2017-08-03):
