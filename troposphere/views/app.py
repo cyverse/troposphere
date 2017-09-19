@@ -53,8 +53,8 @@ def should_route_to_maintenace(request, in_maintenance):
 
 
 def _should_enabled_new_relic():
-    return hasattr(settings, "NEW_RELIC_ENVIRONMENT") and \
-        bool(settings.NEW_RELIC_ENVIRONMENT) is True
+    return hasattr(settings, "NEW_RELIC_CONFIGURED") and \
+        bool(settings.NEW_RELIC_CONFIGURED) is True
 
 
 def _populate_template_params(request, maintenance_records, notice_t, disabled_login, public=False):
@@ -64,7 +64,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     in `local.py`).
     """
     # keep this variable around for the return statement ...
-    enable_new_relic = _should_enabled_new_relic()
+    new_relic_enabled = _should_enabled_new_relic()
     notice = ""
     if notice_t and len(notice_t) > 2:
         notice = notice_t[1] if not notice_t[2] else None
@@ -117,7 +117,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         'emulator': emulator,
         'records': maintenance_records,
         'notice': notice,
-        'new_relic_enabled': enable_new_relic,
+        'new_relic_enabled': new_relic_enabled,
         'show_public_site': public
     }
 
@@ -137,9 +137,10 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             template_params['intercom_options'] = \
                 json.dumps(settings.INTERCOM_OPTIONS)
 
-    if enable_new_relic:
+    if new_relic_enabled:
+        from troposphere.settings import new_relic
         template_params['new_relic_browser_snippet'] = \
-            settings.NEW_RELIC_BROWSER_SNIPPET
+            new_relic.NEW_RELIC_BROWSER_SNIPPET
 
     enable_sentry = getattr(settings, 'SENTRY_DSN',"") != ""
     enable_project_sharing = getattr(settings, 'ENABLE_PROJECT_SHARING',False)
