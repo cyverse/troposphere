@@ -1,7 +1,7 @@
 import React from "react";
 import subscribe from "utilities/subscribe";
 import Backbone from "backbone";
-import PercentLineChart from "components/images/detail/stats/PercentLineChart";
+// import PercentLineChart from "components/images/detail/stats/PercentLineChart";
 
 
 const ImageStatsView = React.createClass({
@@ -11,9 +11,6 @@ const ImageStatsView = React.createClass({
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
     getInitialState() {
-        let { ImageMetricsStore } = this.props.subscriptions;
-        let all_metrics = ImageMetricsStore.getAll();
-
         return {
             activeChart: "Monthly",
             summaryData: null
@@ -36,6 +33,7 @@ const ImageStatsView = React.createClass({
         }
         return seriesData;
     },
+    /**
     renderChart: function(image) {
         if(this.state.activeChart == "Monthly") {
             return this.renderMonthlyChart(image);
@@ -115,20 +113,18 @@ const ImageStatsView = React.createClass({
              {metricsChart}
          </div>);
     },
-    componentDidMount: function() {
-        let { ImageMetricsStore } = this.props.subscriptions;
-        let all_metrics = ImageMetricsStore.getAll();
-        let summaryData = this.state.summaryData;
-        if (summaryData == null && all_metrics != null) {
-            summaryData = this.getSummaryData(all_metrics);
-        }
-        this.setState({metricsData:all_metrics, summaryData});
-    },
-
     renderChartSelector: function(image) {
         return (<div id="controls" className="metrics breadcrumb">
                     {this.renderChartSelections(image)}
                 </div>);
+    },
+    renderChartSelections: function() {
+        let options = ["Daily", "Weekly", "Monthly"];
+        let self = this;
+        return options.map(function(opt) {
+            let classes = (self.state.activeChart == opt) ? "active metrics" : "";
+            return (<li id={"image-metrics-select-"+opt} key={"image-metrics-select-"+opt} className={classes} onClick={self.onChartSelected}><a>{opt}</a></li>);
+            });
     },
     onChartSelected: function(e) {
         let { ImageMetricsStore } = this.props.subscriptions;
@@ -158,14 +154,6 @@ const ImageStatsView = React.createClass({
         });
 
         return;
-    },
-    renderChartSelections: function() {
-        let options = ["Daily", "Weekly", "Monthly"];
-        let self = this;
-        return options.map(function(opt) {
-            let classes = (self.state.activeChart == opt) ? "active metrics" : "";
-            return (<li id={"image-metrics-select-"+opt} key={"image-metrics-select-"+opt} className={classes} onClick={self.onChartSelected}><a>{opt}</a></li>);
-            });
     },
     getSummaryData: function(all_metrics) {
             let featured_metrics = all_metrics.filter(function(image_metric) { return image_metric.get('is_featured'); });
@@ -198,6 +186,17 @@ const ImageStatsView = React.createClass({
             });
             return summaryData;
     },
+    componentDidMount: function() {
+        let { ImageMetricsStore } = this.props.subscriptions;
+        let all_metrics = ImageMetricsStore.getAll();
+        let summaryData = this.state.summaryData;
+        if (summaryData == null && all_metrics != null) {
+            summaryData = this.getSummaryData(all_metrics);
+        }
+        this.setState({metricsData:all_metrics, summaryData});
+    },
+    */
+
     render: function() {
         let { ProfileStore, ImageMetricsStore } = this.props.subscriptions;
         var image = this.props.image,
@@ -206,6 +205,7 @@ const ImageStatsView = React.createClass({
         if (!staff_user) {
             return null;
         }
+        /** Time-series metrics and their Chart view have been disabled until further notice.
         let chartView = (
         <div id="ImageMetrics" className="image-versions image-info-segment row">
             <h4 className="t-title">Image Statistics:</h4>
@@ -213,6 +213,7 @@ const ImageStatsView = React.createClass({
             {this.renderChart(image)}
         </div>
         );
+        */
 
         let image_metric = ImageMetricsStore.get(image.id);
         if(!image_metric) {

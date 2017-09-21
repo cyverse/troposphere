@@ -16,7 +16,7 @@ export default {
             imagePatternMatch = new ImagePatternMatch(),
             data = {
                 image: image.id,
-                pattern_match: pattern_match.uuid
+                match: pattern_match.id
             };
 
         imagePatternMatch.save(null, {

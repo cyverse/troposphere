@@ -10,14 +10,18 @@ export default {
             throw new Error("Missing pattern");
         if (!params.type)
             throw new Error("Missing type");
+        if (params.allowAccess == null)
+            throw new Error("Missing allowAccess");
 
         var pattern = params.pattern,
             type = params.type,
+            allowAccess = params.allowAccess,
             successCB = params.success;
 
         var pattern_match = new PatternMatch({
-            pattern: pattern,
-            type: type
+            pattern,
+            type,
+            allow_access: allowAccess
         });
 
         // Add the pattern_match optimistically

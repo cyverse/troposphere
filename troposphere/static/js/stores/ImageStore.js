@@ -232,6 +232,10 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
+        case ImageConstants.IMAGE_FETCH_DETAIL:
+            store.emitChange();
+            break;
+
         case ImageConstants.IMAGE_UPDATE:
             store.update(payload.image);
             break;

@@ -30,6 +30,10 @@ export default React.createClass({
             query: query
         });
     },
+    getPatternPropertyName: function(patternMatch) {
+        let prefix = (patternMatch.get('allow_access')) ? "ALLOW:" : "DENY:";
+        return prefix + " " + patternMatch.get('pattern');
+    },
     onCreatePattern: function(params) {
         this.props.onCreateNewPattern(params);
     },
@@ -42,12 +46,12 @@ export default React.createClass({
 
         //TODO: Change to a stores query
         if (query) {
-            accessList = this.props.allPatterns.filter(function(pattern_match) {
+            accessList = allPatterns.filter(function(pattern_match) {
                 return pattern_match.get("pattern").toLowerCase().indexOf(query.toLowerCase()) >= 0;
             });
             accessList = new Backbone.Collection(accessList);
         } else {
-            accessList = this.props.allPatterns
+            accessList = allPatterns
         }
 
         accessListView = (
@@ -57,7 +61,7 @@ export default React.createClass({
                 onModelRemoved={this.props.onAccessRemoved}
                 onModelCreated={this.onCreatePattern}
                 onQueryChange={this.onQueryChange}
-                propertyName={"pattern"}
+                propertyCB={this.getPatternPropertyName}
                 showButtonText="Create New Access Pattern"
                 placeholderText="Search by Access Pattern... (ex: wildcard*)" />
         );

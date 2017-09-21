@@ -1,4 +1,5 @@
 import React from "react";
+import actions from "actions";
 import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import Visibility from "../components/Visibility";
@@ -96,6 +97,7 @@ export default React.createClass({
         let params = {
             pattern: patternObj.pattern,
             type: (patternObj.type == "E-Mail") ? 'Email': 'Username',
+            allowAccess: patternObj.allowAccess,
             // Add a success callback to add new pattern to list
             success: this.onAccessAdded
         };

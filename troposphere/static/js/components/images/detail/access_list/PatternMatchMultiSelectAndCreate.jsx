@@ -15,7 +15,8 @@ export default React.createClass({
         //Mixin-requires:
         models: React.PropTypes.instanceOf(Backbone.Collection),
         activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        propertyName: React.PropTypes.string.isRequired,
+        propertyName: React.PropTypes.string,
+        propertyCB: React.PropTypes.func,
         onQueryChange: React.PropTypes.func.isRequired,
         onModelAdded: React.PropTypes.func.isRequired,
         onModelRemoved: React.PropTypes.func.isRequired,
@@ -34,6 +35,7 @@ export default React.createClass({
         return {
             showCreateForm: this.props.showCreateForm,
             pattern: "",
+            allowAccess: true,
         }
     },
 
@@ -73,7 +75,7 @@ export default React.createClass({
         if (this.state.showCreateForm == false) {
             return (<div className="new-pattern_match-form new-item-form" style={{ "visibility": "hidden" }} />);
         } else {
-            return (<CreatePatternMatchView onCreatePatternMatch={this.onCreatePatternMatch} pattern={this.state.pattern} />);
+            return (<CreatePatternMatchView onCreatePatternMatch={this.onCreatePatternMatch} allowAccess={this.state.allowAccess} pattern={this.state.pattern} />);
         }
     },
     onEditChange: function(e) {
@@ -112,6 +114,7 @@ export default React.createClass({
         return (
         <ChosenDropdownItem key={pattern_match.id}
             item={pattern_match}
+            propertyCB={this.props.propertyCB}
             propertyName={this.props.propertyName}
             onItemSelected={this.onModelAdded} />
         )
@@ -121,6 +124,7 @@ export default React.createClass({
         return (
         <ChosenSelectedItem key={pattern_match.id}
             item={pattern_match}
+            propertyCB={this.props.propertyCB}
             propertyName={this.props.propertyName}
             onRemoveItem={this.props.onModelRemoved} />
         )

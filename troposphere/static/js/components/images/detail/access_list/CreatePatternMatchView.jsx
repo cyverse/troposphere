@@ -1,4 +1,5 @@
 import React from "react";
+import SelectMenu from "components/common/ui/SelectMenu";
 
 const email = "E-Mail",
       username = "Username";
@@ -8,12 +9,14 @@ export default React.createClass({
 
     propTypes: {
         onCreatePatternMatch: React.PropTypes.func.isRequired,
-        pattern: React.PropTypes.string.isRequired
+        pattern: React.PropTypes.string.isRequired,
+        allowAccess: React.PropTypes.bool.isRequired
     },
 
     getInitialState: function() {
         return {
             pattern: this.props.pattern || "",
+            allowAccess: this.props.allowAccess || true,
             matchType: email,
             licenseURL: "",
             licenseText: "",
@@ -36,20 +39,21 @@ export default React.createClass({
         var params = {
             pattern: this.state.pattern,
             type: this.state.matchType,
+            allowAccess: this.state.allowAccess
         };
         this.props.onCreatePatternMatch(params);
     },
-    onPatternInputTypeChange: function(e) {
-        var match_type = e.target.value;
-        if (match_type == username) {
-            this.setState({
-                matchType: match_type
-            });
-        } else {
-            this.setState({
-                matchType: email
-            });
-        }
+    onPatternTypeChanged: function(typeOption) {
+        var match_type = typeOption.value;
+        this.setState({
+            matchType: match_type
+        });
+    },
+    onAccessChanged: function(accessOpt) {
+        var allowAccess = accessOpt.value;
+        this.setState({
+            allowAccess,
+        })
     },
     onPatternChange: function(e) {
         var title = e.target.value;
@@ -57,59 +61,33 @@ export default React.createClass({
             pattern: title
         })
     },
-    renderPatternInputRadio: function() {
-        var emailRadio,
-            usernameRadio;
+    renderPatternOptions: function() {
+        let options = [
+                {value: email, message: "E-mail pattern"},
+                {value: username, message: "Username pattern"}
+            ];
+        let {matchType} = this.state;
+        let current = options.find(option => option.value == matchType);
 
-        if (this.state.matchType == email) {
-            emailRadio = (
-                <label className="radio-inline">
-                    <input checked="checked"
-                        type="radio"
-                        name="inlinePatternOptions"
-                        id="patternTypeEmail"
-                        value={email}
-                        onChange={this.onPatternInputTypeChange} /> {email}
-                </label>);
-            usernameRadio = (
-                <label className="radio-inline">
-                    <input type="radio"
-                        name="inlinePatternOptions"
-                        id="patternTypeUsername"
-                        value={username}
-                        onChange={this.onPatternInputTypeChange} /> {username}
-                </label>);
-        } else {
-            emailRadio = (
-                <label className="radio-inline">
-                    <input type="radio"
-                        name="inlinePatternOptions"
-                        id="patternTypeEmail"
-                        value={email}
-                        onChange={this.onPatternInputTypeChange} /> {email}
-                </label>);
-            usernameRadio = (
-                <label className="radio-inline">
-                    <input checked="checked"
-                        type="radio"
-                        name="inlinePatternOptions"
-                        id="PatternTypeUsername"
-                        value={username}
-                        onChange={this.onPatternInputTypeChange} /> {username}
-                </label>);
-        }
+        return (<SelectMenu id="patternOptions" current={current}
+                    optionName={ o => o.message }
+                    list={options}
+                onSelect={this.onPatternTypeChanged} />
+            );
+    },
+    renderAccessOptions: function() {
+        let options = [
+                {value: true, message: "Allow access to pattern match"},
+                {value: false, message: "Deny access to pattern match"}
+            ];
+        let {allowAccess} = this.state;
+        let current = options.find(option => option.value == allowAccess);
 
-        return (
-        <div>
-            <label htmlFor="patternTypeSelect">
-                Match Type
-            </label>
-            <div className="form-group">
-                {emailRadio}
-                {usernameRadio}
-            </div>
-        </div>
-        );
+        return (<SelectMenu id="accessOptions" current={current}
+                    optionName={ o => o.message }
+                    list={options}
+                onSelect={this.onAccessChanged} />
+            );
     },
     renderPatternMatch: function() {
         let placeholder = "wildcard*@cyverse.org (matches wildcard1@cyverse.org, wildcard_bob@cyverse.org";
@@ -118,12 +96,12 @@ export default React.createClass({
         }
         return (
         <div className="form-group">
-            <label htmlFor="pattern">
-                Pattern Match
+            <label htmlFor="patternExpresion">
+                Pattern
             </label>
             <input type="text"
                 className="form-control"
-                id="pattern"
+                id="patternExpression"
                 placeholder={placeholder}
                 value={this.state.pattern}
                 onChange={this.onPatternChange} />
@@ -135,7 +113,14 @@ export default React.createClass({
         <div className="new-license-form new-item-form CreatePatternView">
             <div className="license-input-type-container">
                 {this.renderPatternMatch()}
-                {this.renderPatternInputRadio()}
+                <label htmlFor="patternOptions">
+                    Type
+                </label>
+                {this.renderPatternOptions()}
+                <label htmlFor="accessOptions">
+                    Allow/Deny Access
+                </label>
+                {this.renderAccessOptions()}
             </div>
             <div className="new-item-form-header form-group clearfix" style={{ "border": "black 1px" }}>
                 <button disabled={!this.isSubmittable()}

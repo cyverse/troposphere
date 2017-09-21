@@ -100,9 +100,12 @@ export default React.createClass({
         let params = {
             image: this.props.image,
             pattern: patternObj.pattern,
-            type: (patternObj.type == "E-Mail") ? 'Email': 'Username'
+            type: (patternObj.type == "E-Mail") ? 'Email': 'Username',
+            allowAccess: patternObj.allowAccess,
+            onSuccess: this.onAccessAdded
         };
         actions.PatternMatchActions.create_AddToImage(params);
+
     },
 
     onTagAdded: function(tag) {

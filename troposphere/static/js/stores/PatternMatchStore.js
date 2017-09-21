@@ -3,8 +3,7 @@ import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import PatternMatchConstants from "constants/PatternMatchConstants";
 
-let _pendingInstancePatternMatchs = {};
-let _pendingImagePatternMatchs = {};
+let _pendingImagePatternMatches = {};
 
 let PatternMatchStore = BaseStore.extend({
     collection: PatternMatchCollection,
@@ -27,7 +26,7 @@ let PatternMatchStore = BaseStore.extend({
         });
 
         // Add any pending patterns to the result set
-        var pendingImagePatternMatchs = _pendingImagePatternMatchs[image.id];
+        var pendingImagePatternMatchs = _pendingImagePatternMatches[image.id];
         if (pendingImagePatternMatchs) {
             imagePatternMatchArray = imagePatternMatchArray.concat(pendingImagePatternMatchs.models);
         }
@@ -36,12 +35,12 @@ let PatternMatchStore = BaseStore.extend({
     },
 
     addPendingPatternMatchToImage: function(pattern, image) {
-        _pendingImagePatternMatchs[image.id] = _pendingImagePatternMatchs[image.id] || new PatternMatchCollection();
-        _pendingImagePatternMatchs[image.id].add(pattern);
+        _pendingImagePatternMatches[image.id] = _pendingImagePatternMatches[image.id] || new PatternMatchCollection();
+        _pendingImagePatternMatches[image.id].add(pattern);
     },
 
     removePendingPatternMatchFromImage: function(pattern, image) {
-        _pendingImagePatternMatchs[image.id].remove(pattern);
+        _pendingImagePatternMatches[image.id].remove(pattern);
     }
 
 });
