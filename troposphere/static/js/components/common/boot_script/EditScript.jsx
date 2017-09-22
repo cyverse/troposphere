@@ -8,6 +8,7 @@ export default React.createClass({
     propTypes: {
         script: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         style: React.PropTypes.object,
+        wait_for_deploy: React.PropTypes.bool.isRequired,
         close: React.PropTypes.func.isRequired,
         onSave: React.PropTypes.func.isRequired
     },
@@ -18,20 +19,22 @@ export default React.createClass({
 
     getStateFromProps(props) {
         let script = props.script;
-        if(! script) {
+        if(script) {
             return ({
-                type: "URL",
-                strategy: "always",
-                title: "",
-                text: "",
+                type: script.get('type'),
+                strategy: script.get('strategy'),  //Temporary
+                title: script.get('title'),
+                text: script.get('text'),
+                wait_for_deploy: script.get('wait_for_deploy'),
                 validate: false
-            })
+            });
         }
         return ({
-            type: script.get('type'),
-            strategy: script.get('strategy'),  //Temporary
-            title: script.get('title'),
-            text: script.get('text'),
+            type: "URL",
+            strategy: "always",
+            title: "",
+            text: "",
+            wait_for_deploy: true,
             validate: false
         });
     },
@@ -50,6 +53,14 @@ export default React.createClass({
         let strategy = e.target.value;
         this.setState({
             strategy
+        })
+    },
+
+    onChangeWaitForDeploy: function(e) {
+        let boolStr = e.target.value,
+            wait_for_deploy = boolStr == "true";
+        this.setState({
+            wait_for_deploy
         })
     },
 
@@ -259,6 +270,29 @@ export default React.createClass({
                                 value="always"
                                 defaultChecked={this.state.strategy === "always"}
                                 onClick={this.onChangeStrategy} /> {"Run script on each deployment"}
+                        </label>
+                    </div>
+                    <h4 className="t-body-2">{"Wait for Deployment"}</h4>
+                    <div className="radio-inline">
+                        {"Wait for script to complete, ensure exit code 0, email me if there is a failure."}
+                        <label className="radio">
+                            <input type="radio"
+                                name="optionsRadios-2"
+                                value="true"
+                                defaultChecked={this.state.wait_for_deploy === true}
+                                onClick={this.onChangeWaitForDeploy} /> {"Wait for script to complete."}
+                        </label>
+                    </div>
+                    <div className="radio-inline">
+                        {"Execute scripts asynchronously. "}
+                        {"Log stdout in '/var/log/atmo/instance-scripts/"+this.state.title+"YYYY-MM-DD_HH:MM:SS.stdout'"}
+                        {"Log stderr in '/var/log/atmo/instance-scripts/"+this.state.title+"YYYY-MM-DD_HH:MM:SS.stderr'"}
+                        <label className="radio">
+                            <input type="radio"
+                                name="optionsRadios-2"
+                                value="false"
+                                defaultChecked={this.state.wait_for_deploy === false}
+                                onClick={this.onChangeWaitForDeploy} /> {"Execute scripts asynchronously."}
                         </label>
                     </div>
                 </div>

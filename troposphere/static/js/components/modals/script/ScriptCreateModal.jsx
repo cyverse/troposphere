@@ -17,6 +17,7 @@ export default React.createClass({
                 strategy: script.get('strategy'),
                 title: script.get('title'),
                 text: script.get('text'),
+                wait_for_deploy: script.get('wait_for_deploy'),
                 validate: false
             });
         }
@@ -25,6 +26,7 @@ export default React.createClass({
             strategy: "always",
             title: "",
             text: "",
+            wait_for_deploy: true,
             validate: false
         })
     },
@@ -36,6 +38,14 @@ export default React.createClass({
     onChangeStrategy: function(strategy) {
         this.setState({
             strategy
+        })
+    },
+
+    onChangeWaitForDeploy: function(e) {
+        let boolStr = e.target.value,
+            wait_for_deploy = boolStr == "true";
+        this.setState({
+            wait_for_deploy
         })
     },
 
@@ -195,6 +205,30 @@ export default React.createClass({
                         optionName={strategy => strategyChoices[strategy] }
                         list={strategyTypes}
                         onSelect={this.onChangeStrategy} />
+
+                    <h4 className="t-body-2">{"Wait for Deployment"}</h4>
+                    <div className="radio-inline">
+                        {"Wait for script to complete, ensure exit code 0, email me if there is a failure."}
+                        <label className="radio">
+                            <input type="radio"
+                                name="optionsRadios-2"
+                                value="true"
+                                defaultChecked={this.state.wait_for_deploy === true}
+                                onClick={this.onChangeWaitForDeploy} /> {"Wait for script to complete."}
+                        </label>
+                    </div>
+                    <div className="radio-inline">
+                        {"Execute scripts asynchronously. "}
+                        {"Log stdout in '/var/log/atmo/instance-scripts/"+this.state.title+"YYYY-MM-DD_HH:MM:SS.stdout'"}
+                        {"Log stderr in '/var/log/atmo/instance-scripts/"+this.state.title+"YYYY-MM-DD_HH:MM:SS.stderr'"}
+                        <label className="radio">
+                            <input type="radio"
+                                name="optionsRadios-2"
+                                value="false"
+                                defaultChecked={this.state.wait_for_deploy === false}
+                                onClick={this.onChangeWaitForDeploy} /> {"Execute scripts asynchronously."}
+                        </label>
+                    </div>
 
                     <h4 className="t-body-2">Input Type</h4>
                     <SelectMenu current={this.state.type}
