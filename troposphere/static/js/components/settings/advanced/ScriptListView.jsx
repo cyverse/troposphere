@@ -1,6 +1,5 @@
 import React from "react";
 import subscribe from "utilities/subscribe";
-import globals from "globals";
 import ModalHelpers from "components/modals/ModalHelpers";
 import ScriptCreateModal from "components/modals/script/ScriptCreateModal";
 

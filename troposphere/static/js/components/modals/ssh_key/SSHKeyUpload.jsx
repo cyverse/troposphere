@@ -1,4 +1,5 @@
 import React from "react";
+import Backbone from "backbone";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import actions from "actions";
 

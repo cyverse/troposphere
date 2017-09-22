@@ -1,5 +1,5 @@
+import Backbone from "backbone";
 import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import SelectMenu from "components/common/ui/SelectMenu";
 import actions from "actions";
@@ -11,22 +11,22 @@ export default React.createClass({
 
     getInitialState: function() {
         let script = this.props.script;
-        if(! script) {
+        if(script) {
             return ({
-                type: "URL",
-                strategy: "always",
-                title: "",
-                text: "",
+                type: script.get('type'),
+                strategy: script.get('strategy'),
+                title: script.get('title'),
+                text: script.get('text'),
                 validate: false
-            })
+            });
         }
         return ({
-            type: script.get('type'),
-            strategy: script.get('strategy'),  //Temporary
-            title: script.get('title'),
-            text: script.get('text'),
+            type: "URL",
+            strategy: "always",
+            title: "",
+            text: "",
             validate: false
-        });
+        })
     },
 
     propTypes: {
@@ -73,10 +73,8 @@ export default React.createClass({
         });
     },
 
-    // A utility function testing for whitespace or empty string at the beginning or end of string.
-    // There is probably a better place to put this.
     isValidString: function(str) {
-        if (str !== "") {
+        if (str.trim() !== "") {
             return true
         }
         return false
@@ -162,14 +160,12 @@ export default React.createClass({
         let title = this.state.title;
         let classNames = "form-group";
         let errorMessage = null;
-        let disable = false;
 
         if (this.state.validate) {
             if (!this.isValidString(title)) {
                 classNames = "form-group has-error";
                 errorMessage = `This field is required`;
             }
-            disable = !this.isSubmittable();
         }
         let typeChoices = ["URL", "Raw Text"],
             strategyTypes = [
@@ -221,10 +217,10 @@ export default React.createClass({
             });
         }
         if (this.isSubmittable) {
-            let script = actions.ScriptActions.create({
-                type: this.state.type,
+            actions.ScriptActions.create({
                 title: this.state.title.trim(),
                 text: this.state.text.trim(),
+                type: this.state.type,
                 strategy: this.state.strategy
             });
             this.hide();
@@ -238,11 +234,11 @@ export default React.createClass({
             });
         }
         if (this.isSubmittable) {
-            let script = actions.ScriptActions.update(this.props.script, {
-                type: this.state.type,
-                strategy: this.state.strategy,
+            actions.ScriptActions.update(this.props.script, {
                 title: this.state.title.trim(),
-                text: this.state.text.trim()
+                text: this.state.text.trim(),
+                type: this.state.type,
+                strategy: this.state.strategy
             });
             // do action after save is completed?
             this.hide();

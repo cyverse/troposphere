@@ -3,13 +3,12 @@ import ModalHelpers from "components/modals/ModalHelpers";
 import SSHKeyUpload from "components/modals/ssh_key/SSHKeyUpload";
 import subscribe from "utilities/subscribe";
 
-import stores from "stores";
 import globals from "globals";
 
 const SSHConfiguration = React.createClass({
 
     getInitialState: function() {
-        let {ProfileStore, SSHKeyStore} = this.props.subscriptions;
+        let {ProfileStore} = this.props.subscriptions;
         var profile = ProfileStore.get();
         return {
             displayMoreInfo: false,
