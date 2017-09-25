@@ -54,32 +54,6 @@ export default React.createClass({
         }
     },
 
-    onChangeDeploymentType: function(deploymentType) {
-        this.setState({
-            deploymentType
-        })
-    },
-
-    onChangeStrategyType: function(strategyType) {
-        this.setState({
-            strategyType
-        })
-    },
-
-    onChangeWaitForDeploy: function(e) {
-        let boolStr = e.target.value,
-            wait_for_deploy = boolStr == "true";
-        this.setState({
-            wait_for_deploy
-        })
-    },
-
-    onChangeInputType: function(inputType) {
-        this.setState({
-            inputType
-        })
-    },
-
     onChangeTitle: function(e) {
         let title = e.target.value;
         this.setState({
@@ -235,47 +209,82 @@ export default React.createClass({
         this.props.onScriptChanged(script);
     },
 
+    onChangeDeploymentType: function(deploymentOpt) {
+        let wait_for_deploy = deploymentOpt.type == "sync";
+
+        this.setState({
+            wait_for_deploy
+        });
+    },
+    onChangeStrategyType: function(strategyOpt) {
+        this.setState({
+            strategy: strategyOpt.type
+        })
+    },
+    onChangeInputType: function(inputOpt) {
+        this.setState({
+            type: inputOpt.type
+        })
+    },
+
+    renderDeploymentOptions() {
+        // deploymentType is a key into options 'type', i.e. ("sync","async",...)
+        let options = [
+            { wait_for_deploy: true, type: "sync", message: "Wait for script to complete, ensure exit code 0, email me if there is a failure." },
+            { wait_for_deploy: false, type: "async", message: "Execute scripts asynchronously. Store stdout/stderr to log files." }
+        ];
+        let { wait_for_deploy } = this.state;
+        let current = options.find(option => option.wait_for_deploy == wait_for_deploy);
+
+        return (
+            <SelectMenu current={ current }
+                optionName={ o => o.message }
+                list={ options }
+                onSelect={ this.onChangeDeploymentType }
+            />
+        );
+    },
+
+    renderStrategyOptions() {
+        // strategyType is a key into options 'type', i.e. ("once","always",...)
+        let { strategy } = this.state;
+        let options = [
+            { type: "once", message: "Run Script on first boot" },
+            { type: "always", message: "Run script on every deployment" }
+        ];
+        let current = options.find(option => option.type == strategy);
+        return (
+            <SelectMenu current={current}
+                optionName={ o => o.message }
+                list={options}
+                onSelect={this.onChangeStrategyType} />
+        );
+    },
+
+    renderInputOptions() {
+        let options = [
+                {type: "URL", message: "Import by URL"},
+                {type: "Raw Text", message: "Import by Text"}
+            ];
+        let {type} = this.state;
+        let current = options.find(option => option.type == type);
+
+        return (<SelectMenu current={current}
+                    optionName={ o => o.message }
+                    list={options}
+                onSelect={this.onChangeInputType} />
+            );
+    },
+
     render: function() {
         let classNames = "form-group";
         let errorMessage = null;
         let notSubmittable = false;
         let headerText = (this.props.script) ? "Edit Script" : "Create Script";
-        let inputTypes = [
-                {"name": "URL"},
-                {"name": "Raw Text"}],
-            inputChoices = {
-                "URL": "Import by URL",  // Advantages: update script external from Atmosphere
-                "Raw Text": "Import by Text"
-            },
-            strategyTypes = [
-                {"name": "once"},
-                {"name": "always"}],
-            strategyChoices = {
-                "once": "Run Script on first boot",
-                "always": "Run script on every deployment"
-            },
-            deploymentTypes = [
-                {"name": "sync"},
-                {"name": "async"}
-            ],
-            deploymentChoices = {
-                "sync": "Wait for script to complete, ensure exit code 0, email me if there is a failure.",
-                "async": "Execute scripts asynchronously. Store stdout/stderr to log files."};
-        let {deploymentType, strategyType, inputType, title} = this.state;
 
         // TODO: Looking to tell the user where the scripts output/stderr will be stored? Add this content.. somewhere.
         // {"Log stdout in '/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stdout'"}
         // {"Log stderr in '/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stderr'"}
-
-        if(!deploymentType) {
-            deploymentType = deploymentTypes[0];
-        }
-        if(!strategyType) {
-            strategyType = strategyTypes[0];
-        }
-        if(!inputType) {
-            inputType = inputTypes[0];
-        }
 
 
         if (this.state.validate) {
@@ -301,22 +310,11 @@ export default React.createClass({
                     <span className="help-block">{errorMessage}</span>
                 </div>
                 <h4 className="t-body-2">{"Boot Script Type"}</h4>
-                <SelectMenu current={strategyType}
-                    optionName={strategyType => strategyChoices[strategyType.name] }
-                    list={strategyTypes}
-                    onSelect={this.onChangeStrategyType} />
-
+                { this.renderStrategyOptions() }
                 <h4 className="t-body-2">{"Deployment Type"}</h4>
-                <SelectMenu current={deploymentType}
-                    optionName={deploymentType => deploymentChoices[deploymentType.name] }
-                    list={deploymentTypes}
-                    onSelect={this.onChangeDeploymentType} />
-
+                { this.renderDeploymentOptions() }
                 <h4 className="t-body-2">{"Input Type"}</h4>
-                <SelectMenu current={inputType}
-                    optionName={inputType => inputChoices[inputType.name] }
-                    list={inputTypes}
-                    onSelect={this.onChangeInputType} />
+                {this.renderInputOptions()}
                 <div className="col-md-6">
                     {this.renderInputType()}
                 </div>

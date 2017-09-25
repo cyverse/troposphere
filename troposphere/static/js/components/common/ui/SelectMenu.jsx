@@ -142,7 +142,7 @@ export default React.createClass({
             if (current != null && index == -1) {
                 let missingName = this.props.optionName(current);
                 console.warn(
-                    `SelectMenu: The element to display: "${missingName}" doesn't`,
+                    `SelectMenu: The element to display: "${current}" doesn't`,
                     "exist in the list of available elements"
                 );
             }
