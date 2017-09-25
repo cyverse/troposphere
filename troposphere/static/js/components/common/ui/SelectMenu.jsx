@@ -140,7 +140,6 @@ export default React.createClass({
 
             index = list.indexOf(current);
             if (current != null && index == -1) {
-                let missingName = this.props.optionName(current);
                 console.warn(
                     `SelectMenu: The element to display: "${current}" doesn't`,
                     "exist in the list of available elements"

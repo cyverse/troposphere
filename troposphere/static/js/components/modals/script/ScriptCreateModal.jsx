@@ -1,9 +1,7 @@
 import Backbone from "backbone";
 import React from "react";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import SelectMenu from "components/common/ui/SelectMenu";
 import EditScript from "components/common/boot_script/EditScript";
-import actions from "actions";
 
 export default React.createClass({
     displayName: "ScriptCreateModal",

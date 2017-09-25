@@ -307,6 +307,7 @@ export default React.createClass({
         let errorMessage = null;
         let notSubmittable = false;
         let headerText = (this.props.script) ? "Edit Script" : "Create Script";
+        let {title} = this.state;
 
 
 
