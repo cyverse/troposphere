@@ -162,7 +162,7 @@ export default React.createClass({
                     placeholder="#!/bin/bash"
                     rows="6"
                     value={this.state.text}
-                    onInput={this.onChangeText}
+                    onChange={this.onChangeText}
                     onBlur={this.onBlurText} />
                 <span className="help-block">{errorMessage}</span>
             </div>
@@ -310,7 +310,7 @@ export default React.createClass({
                     <input className="form-control"
                         placeholder="My Script"
                         value={this.state.title}
-                        onInput={this.onChangeTitle}
+                        onChange={this.onChangeTitle}
                         onBlur={this.onBlurTitle} />
                     <span className="help-block">{errorMessage}</span>
                 </div>
