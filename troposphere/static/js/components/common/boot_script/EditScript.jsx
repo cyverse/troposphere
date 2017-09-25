@@ -20,24 +20,25 @@ export default React.createClass({
 
     getStateFromProps(props) {
         let script = props.script;
-        if(script) {
-            return ({
-                type: script.get('type'),
-                strategy: script.get('strategy'),  //Temporary
-                title: script.get('title'),
-                text: script.get('text'),
-                wait_for_deploy: script.get('wait_for_deploy'),
-                validate: false
-            });
-        }
-        return ({
-            type: "URL",
-            strategy: "always",
+        let state = {
             title: "",
             text: "",
+            type: "URL",
+            strategy: "always",
             wait_for_deploy: true,
             validate: false
-        });
+        };
+        if(script) {
+            let scriptState = {
+                title: script.get('title'),
+                text: script.get('text'),
+                type: script.get('type'),
+                strategy: script.get('strategy'),
+                wait_for_deploy: script.get('wait_for_deploy'),
+            }
+            Object.assign(state, scriptState);
+        }
+        return state;
     },
 
     componentWillReceiveProps(props) {
