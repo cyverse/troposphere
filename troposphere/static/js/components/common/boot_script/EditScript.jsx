@@ -232,6 +232,18 @@ export default React.createClass({
         })
     },
 
+    renderDeploymentOptionsHint() {
+        if(this.state.wait_for_deploy) {
+            return;
+        }
+        return (
+            <div className="help-block">
+                {"- Log stdout in '/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stdout'"}
+                <br/>
+                {"- Log stderr in '/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stderr'"}
+            </div>);
+
+    },
     renderDeploymentOptions() {
         // deploymentType is a key into options 'type', i.e. ("sync","async",...)
         let options = [
@@ -287,9 +299,6 @@ export default React.createClass({
         let notSubmittable = false;
         let headerText = (this.props.script) ? "Edit Script" : "Create Script";
 
-        // TODO: Looking to tell the user where the scripts output/stderr will be stored? Add this content.. somewhere.
-        // {"Log stdout in '/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stdout'"}
-        // {"Log stderr in '/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stderr'"}
 
 
         if (this.state.validate) {
@@ -318,6 +327,7 @@ export default React.createClass({
                 { this.renderStrategyOptions() }
                 <h4 className="t-body-2">{"Deployment Type"}</h4>
                 { this.renderDeploymentOptions() }
+                { this.renderDeploymentOptionsHint() }
                 <h4 className="t-body-2">{"Input Type"}</h4>
                 {this.renderInputOptions()}
                 <div className="col-md-6">
