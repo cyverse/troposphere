@@ -53,7 +53,7 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             style: {},
-            footerStyle: { position: "absolute", bottom: "75px", right: "15px" },
+            footerStyle: {},
             footerClassName: "",
             script: null
         }
@@ -142,7 +142,9 @@ export default React.createClass({
                     value={this.state.text}
                     onChange={this.onChangeText}
                     onBlur={this.onBlurText} />
-                <span className="help-block">{errorMessage}</span>
+                <div className="help-block">
+                    {errorMessage}
+                </div>
             </div>
             )
         } else {
@@ -236,12 +238,19 @@ export default React.createClass({
         if(this.state.wait_for_deploy) {
             return;
         }
+        let stdoutPath = "/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stdout",
+            stderrPath = "/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stderr";
         return (
             <div className="help-block">
-                {"- Log stdout in '/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stdout'"}
+                {"Stdout will be logged on the VM at: "}
                 <br/>
-                {"- Log stderr in '/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stderr'"}
-            </div>);
+                {stdoutPath}
+                <br/>
+                {"Stderr will be logged on the VM at: "}
+                <br/>
+                {stderrPath}
+            </div>
+        );
 
     },
     renderDeploymentOptions() {
@@ -323,9 +332,9 @@ export default React.createClass({
                         onBlur={this.onBlurTitle} />
                     <span className="help-block">{errorMessage}</span>
                 </div>
-                <h4 className="t-body-2">{"Boot Script Type"}</h4>
+                <h4 className="t-body-2">{"Strategy"}</h4>
                 { this.renderStrategyOptions() }
-                <h4 className="t-body-2">{"Deployment Type"}</h4>
+                <h4 className="t-body-2">{"Deployment"}</h4>
                 { this.renderDeploymentOptions() }
                 { this.renderDeploymentOptionsHint() }
                 <h4 className="t-body-2">{"Input Type"}</h4>

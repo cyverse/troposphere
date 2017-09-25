@@ -64,10 +64,13 @@ const ScriptListView = React.createClass({
                 {script.get("title")}
             </td>
             <td style={td}>
-                {script.get("type")}
+                {script.get("strategy")}
             </td>
             <td style={td}>
-                {script.get("strategy")}
+                {script.get("wait_for_deploy") ? "Sync" : "Async" }
+            </td>
+            <td style={td}>
+                {script.get("type")}
             </td>
             <td>
                 <a onClick={this.editScript.bind(this, script)}><i className="glyphicon glyphicon-pencil" /></a>{" "}
@@ -99,8 +102,9 @@ const ScriptListView = React.createClass({
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Strategy</th>
+                                <th>Deployment</th>
                                 <th>Type</th>
-                                <th>Boot Type</th>
                                 <th style={{ width: "60px"}}>Actions</th>
                             </tr>
                         </thead>
