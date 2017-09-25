@@ -20,7 +20,9 @@ export default React.createClass({
 
     getStateFromProps(props) {
         let script = props.script;
-        let state = {
+        let state = {},
+            scriptState,
+            defaults = {
             title: "",
             text: "",
             type: "URL",
@@ -29,15 +31,18 @@ export default React.createClass({
             validate: false
         };
         if(script) {
-            let scriptState = {
+            scriptState = {
                 title: script.get('title'),
                 text: script.get('text'),
                 type: script.get('type'),
                 strategy: script.get('strategy'),
                 wait_for_deploy: script.get('wait_for_deploy'),
             }
-            Object.assign(state, scriptState);
         }
+        state = {
+            ...defaults,
+            ...scriptState
+        };
         return state;
     },
 
