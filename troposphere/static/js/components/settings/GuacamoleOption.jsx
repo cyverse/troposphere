@@ -1,5 +1,9 @@
 import _ from "underscore";
 import React from "react";
+import greenBlackImage from "themeImages/green-black.png";
+import whiteBlackImage from "themeImages/white-black.png";
+import blackWhiteImage from "themeImages/black-white.png";
+import grayBlackImage from "themeImages/gray-black.png";
 
 export default React.createClass({
     displayName: "GuacamoleOption",
@@ -7,13 +11,13 @@ export default React.createClass({
     getSrc: function(color) {
         switch (color) {
             case "green_black":
-                return "/assets/bundles/theme/images/green-black.png";
+                return greenBlackImage;
             case "white_black":
-                return "/assets/bundles/theme/images/white-black.png";
+                return whiteBlackImage;
             case "black_white":
-                return "/assets/bundles/theme/images/black-white.png";
+                return blackWhiteImage;
             default:
-                return "/assets/bundles/theme/images/gray-black.png";
+                return grayBlackImage;
         }
     },
 
