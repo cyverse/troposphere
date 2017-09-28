@@ -1,24 +1,15 @@
-import actions from "actions";
 import ModalHelpers from "components/modals/ModalHelpers";
 
 import VolumeCreateModal from "components/modals/volume/VolumeCreateModal";
 
 
 export default {
-    createAndAddToProject: function(payload) {
-        if (!payload.project)
+    createAndAddToProject: function(props) {
+        if (!props.project)
             throw new Error("Missing project");
 
-        var project = payload.project;
-
-        ModalHelpers.renderModal(VolumeCreateModal, null, function(volumeName, volumeSize, identity) {
-            actions.VolumeActions.createAndAddToProject({
-                volumeName: volumeName,
-                volumeSize: volumeSize,
-                identity: identity,
-                project: project
-            })
-        })
-
+        ModalHelpers.renderModal(VolumeCreateModal, props, function(createData) {
+            //NOTE: Volume creation is handled in VolumeCreateModal
+        });
     }
 };

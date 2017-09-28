@@ -1,14 +1,21 @@
-import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import stores from "stores";
-import IdentitySelect from "../instance/launch/components/IdentitySelect";
+import actions from "actions";
+import Backbone from "backbone";
 import modals from "modals";
+import React from "react";
+import stores from "stores";
+import RaisedButton from "material-ui/RaisedButton";
+import WaitingIndicator from "components/common/ui/WaitingIndicator";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import IdentitySelect from "../instance/launch/components/IdentitySelect";
 
 export default React.createClass({
     displayName: "VolumeCreateModal",
 
     mixins: [BootstrapModalMixin],
+
+    propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model),
+    },
 
     isSubmittable: function() {
         var identities = stores.IdentityStore.getAll(),
@@ -60,6 +67,7 @@ export default React.createClass({
         var identities = stores.IdentityStore.getAll();
 
         return {
+            waitingOnCreate: false,
             volumeName: "",
             volumeSize: 1,
             identityId: identities ? identities.first().id : null
@@ -94,13 +102,22 @@ export default React.createClass({
     },
 
     confirm: function() {
-        var name = this.state.volumeName.trim(),
-            size = this.state.volumeSize,
-            identityId = this.state.identityId,
+
+        let identityId = this.state.identityId,
             identity = stores.IdentityStore.get(identityId);
 
-        this.hide();
-        this.props.onConfirm(name, size, identity);
+        let createData = {
+            volumeName: this.state.volumeName.trim(),
+            volumeSize: this.state.volumeSize,
+            project: this.props.project,
+            onSuccess: () => { this.hide(); },
+            identity
+        }
+
+        actions.VolumeActions.createV2(createData);
+        this.setState({
+            waitingOnCreate: true,
+        });
     },
 
 
@@ -256,6 +273,7 @@ export default React.createClass({
             identityId = this.state.identityId,
             name = this.state.volumeName,
             size = this.state.volumeSize,
+            { waitingOnCreate } = this.state,
             identity;
 
         if (!identities || !providers || !volumes) return <div className="loading"></div>;
@@ -274,6 +292,7 @@ export default React.createClass({
                         <input type="text"
                             className="form-control"
                             value={name}
+                            disabled={waitingOnCreate}
                             onChange={this.onVolumeNameChange} />
                     </div>
                 </div>
@@ -284,6 +303,7 @@ export default React.createClass({
                     <div className="col-sm-9">
                         <input type="number"
                             className="form-control"
+                            disabled={waitingOnCreate}
                             value={size}
                             onChange={this.onVolumeSizeChange} />
                     </div>
@@ -294,6 +314,7 @@ export default React.createClass({
                     </label>
                     <div className="col-sm-9">
                         <IdentitySelect identityId={identityId}
+                            disabled={waitingOnCreate}
                             identities={identities}
                             providers={providers}
                             onChange={this.onProviderIdentityChange} />
@@ -310,6 +331,8 @@ export default React.createClass({
     },
 
     render: function() {
+        let { waitingOnCreate } = this.state;
+
         return (
         <div className="modal fade">
             <div className="modal-dialog">
@@ -327,12 +350,13 @@ export default React.createClass({
                             onTouchTap={this.cancel}
                             label="Cancel"
                         />
+                        { !waitingOnCreate ?
                         <RaisedButton
                             primary
                             onTouchTap={this.confirm}
                             disabled={!this.isSubmittable()}
                             label="Create volume"
-                        />
+                        /> : <WaitingIndicator label="Creating ..."/> }
                     </div>
                 </div>
             </div>
