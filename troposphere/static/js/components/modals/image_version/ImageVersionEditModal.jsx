@@ -63,6 +63,7 @@ export default React.createClass({
         stores.ImageStore.addChangeListener(this.updateState);
         stores.UserStore.addChangeListener(this.updateState);
         stores.MembershipStore.addChangeListener(this.updateState);
+        stores.GroupStore.addChangeListener(this.updateState);
         stores.ScriptStore.addChangeListener(this.updateState);
         stores.LicenseStore.addChangeListener(this.updateState);
         stores.ImageVersionStore.addChangeListener(this.updateState);
@@ -75,6 +76,7 @@ export default React.createClass({
     componentWillUnmount: function() {
         stores.ImageStore.removeChangeListener(this.updateState);
         stores.UserStore.removeChangeListener(this.updateState);
+        stores.GroupStore.removeChangeListener(this.updateState);
         stores.MembershipStore.removeChangeListener(this.updateState);
         stores.LicenseStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
@@ -120,7 +122,8 @@ export default React.createClass({
             this.state.versionImage,
             this.state.versionMinCPU,
             // convert RAM to MB
-            this.state.versionMinMem * 1024
+            this.state.versionMinMem * 1024,
+            this.state.versionMembership
         );
     },
 
@@ -156,12 +159,6 @@ export default React.createClass({
         this.setState({
             versionImage: image,
             versionNameError: versionNameError
-        });
-    },
-
-    onMembershipChanged: function(membership_list) {
-        this.setState({
-            versionMembership: membership_list
         });
     },
 
@@ -333,7 +330,6 @@ export default React.createClass({
             versionImageId,
             advancedOptions,
             optionsButtonText = (this.state.showOptions) ? "Hide Advanced Options" : "Advanced Options",
-            membershipsList = stores.MembershipStore.getAll(),
             licensesList = stores.LicenseStore.getAll(),
             activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(this.props.version),
             scriptsList = stores.ScriptStore.getAll(),
@@ -382,11 +378,12 @@ export default React.createClass({
         );
         availabilityView = (<EditAvailabilityView image={this.props.image} version={this.props.version} />);
         if (this.props.image.get("is_public")) {
-            membershipView = (<div>
-                                  Here lies a pretty view telling users they can add/edit/remove users they shared a specific version with.. ONLY IF that image is private
-                              </div>)
+            membershipView = (
+                <p className="alert alert-info">
+                    {"Before updating membership, select 'Edit Image' and update 'Visibility' to 'Private'"}
+                </p>);
         } else {
-            membershipView = (<EditMembershipView memberships={membershipsList}
+            membershipView = (<EditMembershipView
                                   activeMemberships={versionMembers}
                                   onMembershipAdded={this.onMembershipAdded}
                                   onMembershipRemoved={this.onMembershipRemoved}
@@ -407,7 +404,7 @@ export default React.createClass({
                                  className="form-control"
                                  value={created}
                                  readOnly={true}
-                                 editable={false} />
+                              />
                          </div>
         );
         // canImageView = (<div className='form-group checkbox'>

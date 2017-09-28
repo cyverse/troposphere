@@ -9,6 +9,7 @@ export default React.createClass({
     propTypes: {
         item: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onItemSelected: React.PropTypes.func.isRequired,
+        propertyCB: React.PropTypes.func,
         propertyName: React.PropTypes.string
     },
 
@@ -41,18 +42,25 @@ export default React.createClass({
     },
 
     render: function() {
-        var item = this.props.item,
+        var propertyName,
+            item = this.props.item,
             classes = classNames({
                 "active-result": true,
                 "highlighted": this.state.isMouseOver
             });
+
+        if(this.props.propertyCB) {
+            propertyName = this.props.propertyCB(item);
+        } else {
+            propertyName = item.get(this.props.propertyName);
+        }
 
         return (
         <li className={classes}
             onMouseEnter={this.onMouseEnter}
             onMouseLeave={this.onMouseLeave}
             onClick={this.onItemSelected}>
-            {item.get(this.props.propertyName)}
+            {propertyName}
         </li>
         );
     }
