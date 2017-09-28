@@ -8,8 +8,6 @@ export default {
         if (!props.project)
             throw new Error("Missing project");
 
-        var project = props.project;
-
         ModalHelpers.renderModal(VolumeCreateModal, props, function(createData) {
             //NOTE: Volume creation is handled in VolumeCreateModal
         });

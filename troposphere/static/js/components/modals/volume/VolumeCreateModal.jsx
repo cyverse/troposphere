@@ -1,11 +1,12 @@
-import WaitingIndicator from "components/common/ui/WaitingIndicator";
-import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import stores from "stores";
 import actions from "actions";
-import IdentitySelect from "../instance/launch/components/IdentitySelect";
+import Backbone from "backbone";
 import modals from "modals";
+import React from "react";
+import stores from "stores";
+import RaisedButton from "material-ui/RaisedButton";
+import WaitingIndicator from "components/common/ui/WaitingIndicator";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import IdentitySelect from "../instance/launch/components/IdentitySelect";
 
 export default React.createClass({
     displayName: "VolumeCreateModal",

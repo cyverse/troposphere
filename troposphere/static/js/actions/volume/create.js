@@ -1,7 +1,6 @@
 import VolumeConstants from "constants/VolumeConstants";
 import Volume from "models/Volume";
 import actions from "actions";
-import stores from "stores";
 import Utils from "../Utils";
 import ProjectVolume from "models/ProjectVolume";
 import ProjectVolumeConstants from "constants/ProjectVolumeConstants";
@@ -65,7 +64,7 @@ export default {
                  *
                  * the arguments would be: (jqXHR, textStatus, errorThrown)
                  */
-                Utils.dispatch(InstanceConstants.POLL_VOLUME, {
+                Utils.dispatch(VolumeConstants.POLL_VOLUME, {
                     volume: volume
                 });
             });
