@@ -1,28 +1,23 @@
 import React from "react";
 import ModalHelpers from "components/modals/ModalHelpers";
-import SSHKeyUpload from "components/modals/SSHKeyUpload";
-import stores from "stores";
+import SSHKeyUpload from "components/modals/ssh_key/SSHKeyUpload";
+import subscribe from "utilities/subscribe";
 
 import globals from "globals";
 
-export default React.createClass({
+const SSHConfiguration = React.createClass({
 
     getInitialState: function() {
-        var profile = stores.ProfileStore.get();
+        let {ProfileStore} = this.props.subscriptions;
+        var profile = ProfileStore.get();
         return {
             displayMoreInfo: false,
             profile: profile,
-            ssh_keys: stores.SSHKeyStore.getAll(),
         };
     },
 
     updateState: function() {
         this.setState(this.getInitialState());
-    },
-
-    componentDidMount: function() {
-        stores.ProfileStore.addChangeListener(this.updateState);
-        stores.SSHKeyStore.addChangeListener(this.updateState);
     },
 
     onDisplayMoreInfo(e) {
@@ -67,26 +62,31 @@ export default React.createClass({
         )
     },
 
-    componentWillUnmount: function() {
-        stores.ProfileStore.removeChangeListener(this.updateState);
-        stores.SSHKeyStore.removeChangeListener(this.updateState);
-    },
+    editSSHKey: function(sshKey) {
+        var profile = this.state.profile;
+        let props = {
+            sshKey: sshKey,
+            user: profile.get('user')
+        };
+        ModalHelpers.renderModal(SSHKeyUpload, props, function() {});
 
+    },
     destroySSHKey: function(sshKey) {
 
         // EmitChange is responsible for triggering the rerender, which
         // happens after the network request.
 
         // Optimistically delete the key
-        stores.SSHKeyStore.remove(sshKey);
+        let {SSHKeyStore} = this.props.subscriptions;
+        SSHKeyStore.remove(sshKey);
         sshKey.destroy({
             success: function() {
-                stores.SSHKeyStore.emitChange();
+                SSHKeyStore.emitChange();
             },
             error: function() {
                 // Re-add the key to store if delete failed
-                stores.SSHKeyStore.add(sshKey);
-                stores.SSHKeyStore.emitChange();
+                SSHKeyStore.add(sshKey);
+                SSHKeyStore.emitChange();
             }
         });
     },
@@ -108,8 +108,12 @@ export default React.createClass({
 
     renderSSHKeyRow: function(sshKey) {
         let { td } = this.style();
+
+        // Set a key that lexicograhically sorts first by title then by cid.
+        // Cannot sort by id, because recently created bootscript has no id
+        let key = sshKey.get("name") + sshKey.cid;
         return (
-        <tr key={sshKey.get("id")}>
+        <tr key={key}>
             <td style={td}>
                 {sshKey.get("name")}
             </td>
@@ -117,6 +121,7 @@ export default React.createClass({
                 {sshKey.get("pub_key").replace(/\n/g, " ")}
             </td>
             <td>
+                <a onClick={this.editSSHKey.bind(this, sshKey)}><i className="glyphicon glyphicon-pencil" /></a>{" "}
                 <a onClick={this.destroySSHKey.bind(this, sshKey)}><i style={{ color: "crimson" }} className="glyphicon glyphicon-trash" /></a>
             </td>
         </tr>
@@ -124,8 +129,9 @@ export default React.createClass({
     },
 
     render: function() {
-        var profile = this.state.profile;
-        var ssh_keys = this.state.ssh_keys;
+        let {SSHKeyStore} = this.props.subscriptions,
+            profile = this.state.profile,
+            ssh_keys = SSHKeyStore.getAll();
 
         return (
             <div>
@@ -137,13 +143,13 @@ export default React.createClass({
                     </p>
                     {  this.renderMoreInfo() }
                 </div>
-                <div>
+                <div style={{maxWidth: "80%"}}>
                     <table className="clearfix table" style={{ tableLayout: "fixed" }}>
                         <thead>
                             <tr>
-                                <th style={{ width: "100px"}}>name</th>
-                                <th>public key</th>
-                                <th style={{ width: "30px"}}></th>
+                                <th>Name</th>
+                                <th style={{ width: "80%" }}>Public Key</th>
+                                <th style={{ width: "60px"}}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -154,6 +160,8 @@ export default React.createClass({
                                         <i className="glyphicon glyphicon-plus" />
                                     </a>
                                 </td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
@@ -163,3 +171,5 @@ export default React.createClass({
     }
 
 });
+
+export default subscribe(SSHConfiguration, ["SSHKeyStore", "ProfileStore"]);

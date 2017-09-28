@@ -1,6 +1,8 @@
 import React from "react";
-
+import featureFlags from "utilities/featureFlags";
 import SSHConfiguration from "components/settings/advanced/SSHConfiguration";
+import ScriptListView from "components/settings/advanced/ScriptListView";
+import ClientCredentials from "components/settings/advanced/ClientCredentials";
 
 
 export default React.createClass({
@@ -21,16 +23,26 @@ export default React.createClass({
             showMore: !this.state.showMore
         });
     },
+    renderScripts: function() {
+        return (
+            <ScriptListView/>
+        );
+    },
+
     renderClientCredentials: function() {
-        //return (
-        //    <ClientCredentials/>
-        //);
+        if (!featureFlags.showClientCredentials()) {
+            return ;
+        }
+        return (
+            <ClientCredentials/>
+        );
     },
 
     renderMore: function() {
         return (
         <div style={{ marginLeft: "30px" }}>
-            {/* this.renderClientCredentials() -- Make this a feature before removing the comments*/}
+            {this.renderClientCredentials()}
+            {this.renderScripts()}
             <SSHConfiguration/>
             <button onClick={this.showToggle}>
                 Show Less

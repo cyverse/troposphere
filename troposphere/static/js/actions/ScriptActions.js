@@ -1,5 +1,9 @@
+import { create } from "./script/create"
+import { update } from "./script/update"
+import { create_AddToImageVersion } from "./script/create_AddToImageVersion"
 
 export default {
-    create: require("./script/create").create,
-    create_AddToImageVersion: require("./script/create_AddToImageVersion").create_AddToImageVersion
+    create,
+    update,
+    create_AddToImageVersion,
 };
