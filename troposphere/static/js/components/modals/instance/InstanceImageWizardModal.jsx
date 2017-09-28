@@ -49,6 +49,7 @@ export default React.createClass({
             imageUsers: new Backbone.Collection(),
             activeScripts: new Backbone.Collection(),
             activeLicenses: new Backbone.Collection(),
+            activeAccessList: new Backbone.Collection(),
             filesToExclude: "",
             breadcrumbs: [
                 {
@@ -95,6 +96,7 @@ export default React.createClass({
         stores.UserStore.addChangeListener(this.updateState);
         stores.ScriptStore.addChangeListener(this.updateState);
         stores.LicenseStore.addChangeListener(this.updateState);
+        stores.PatternMatchStore.addChangeListener(this.updateState);
 
     },
 
@@ -104,6 +106,7 @@ export default React.createClass({
         stores.UserStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
         stores.LicenseStore.removeChangeListener(this.updateState);
+        stores.PatternMatchStore.removeChangeListener(this.updateState);
 
     },
 
@@ -143,6 +146,7 @@ export default React.createClass({
             minMem: this.state.minMem,
             minCPU: this.state.minCPU,
             tags: this.state.imageTags,
+            newAccessList: this.state.activeAccessList,
             identity: this.state.identity,
             versionName: this.state.versionName,
             versionChanges: this.state.versionChanges,
@@ -204,10 +208,16 @@ export default React.createClass({
         var instance = this.props.instance,
             step = this.state.step,
             allLicenses = stores.LicenseStore.getAll(),
+            allPatterns = stores.PatternMatchStore.getAll(),
+            activeAccessList = this.state.activeAccessList,
             activeLicenses = this.state.activeLicenses,
             allScripts = stores.ScriptStore.getAll(),
             helpLink = stores.HelpLinkStore.get("request-image"),
             activeScripts = this.state.activeScripts;
+
+        if(allPatterns == null) {
+            return (<div className="loading" />);
+        }
 
         switch (step) {
             case IMAGE_INFO_STEP:
@@ -232,6 +242,8 @@ export default React.createClass({
                 return (
                 <VisibilityStep instance={instance}
                     visibility={this.state.visibility}
+                    activeAccessList={activeAccessList}
+                    allPatterns={allPatterns}
                     imageUsers={this.state.imageUsers}
                     onPrevious={this.onPrevious}
                     onNext={this.onNext}

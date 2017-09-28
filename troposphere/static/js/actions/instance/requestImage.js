@@ -32,6 +32,8 @@ export default {
             throw new Error("Missing licenses");
         if (!params.visibility)
             throw new Error("Missing visibility");
+        if (!params.newApplicationAccessList)
+            throw new Error("Missing newApplicationAccessList");
         if (!params.imageUsers)
             throw new Error("Missing imageUsers");
 
@@ -46,6 +48,9 @@ export default {
             fork = params.versionFork,
             versionName = params.versionName,
             newMachineOwner = params.newMachineOwner,
+            newApplicationAccessList = params.newApplicationAccessList.map(function(access_pattern) {
+                return access_pattern.id;
+            }),
             versionChanges = params.versionChanges,
             systemFiles = params.systemFiles || "[no files specified]",
             visibility = params.visibility,
@@ -74,6 +79,7 @@ export default {
             new_version_memory_min: minMem,
             new_version_cpu_min: minCPU,
             new_application_visibility: visibility,
+            new_application_access_list: newApplicationAccessList,
             new_machine_owner: newMachineOwner,
             new_version_allow_imaging: true,
             new_version_change_log: versionChanges,

@@ -1,23 +1,21 @@
 import React from "react";
 import Backbone from "backbone";
 import MembershipMultiSelect from "./MembershipMultiSelect";
+import subscribe from "utilities/subscribe";
 
-export default React.createClass({
+const EditMembershipView = React.createClass({
     displayName: "EditMembershipView",
 
     propTypes: {
         activeMemberships: React.PropTypes.instanceOf(Backbone.Collection),
-        memberships: React.PropTypes.instanceOf(Backbone.Collection),
         onMembershipAdded: React.PropTypes.func.isRequired,
         onMembershipRemoved: React.PropTypes.func.isRequired,
-        onCreateNewMembership: React.PropTypes.func,
         label: React.PropTypes.string.isRequired
     },
 
     getDefaultProps: function() {
         return {
             activeMemberships: new Backbone.Collection(),
-            memberships: new Backbone.Collection()
         }
     },
     getInitialState: function() {
@@ -35,13 +33,17 @@ export default React.createClass({
     render: function() {
         var query = this.state.query,
             membershipView,
-            memberships = this.props.memberships;
+            memberships,
+            { GroupStore} = this.props.subscriptions;
 
         if (query) {
-            memberships = this.props.memberships.filter(function(membership) {
-                return membership.get("name").toLowerCase().indexOf(query) >= 0;
+            memberships = GroupStore.fetchWhere({
+                search: query
             });
-            memberships = new Backbone.Collection(memberships);
+        } else {
+            memberships = GroupStore.fetchWhere({
+                search: ""
+            });
         }
 
         membershipView = (
@@ -61,3 +63,4 @@ export default React.createClass({
         );
     }
 });
+export default subscribe(EditMembershipView, ["GroupStore"]);

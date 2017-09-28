@@ -25,6 +25,36 @@ export default React.createClass({
         });
     },
 
+    renderAccessList: function(imageData) {
+        if (imageData.visibility === "public") {
+            return (
+        <div className="form-group">
+            <label className="control-label col-sm-3">
+                AccessList
+            </label>
+            <div className="help-block col-sm-9">
+                {"[Disabled when visibility is public]"}
+            </div>
+        </div>
+        );
+        }
+
+        var patterns = imageData.activeAccessList.map(function(pattern_match) {
+            return pattern_match.get("pattern") + "("+ pattern_match.get('type') +")";
+        });
+
+        return (
+        <div className="form-group">
+            <label className="control-label col-sm-3">
+                AccessList
+            </label>
+            <div className="help-block col-sm-9">
+                {patterns.length > 0 ? patterns.join(", ") : "[n/a]"}
+            </div>
+        </div>
+        )
+    },
+
     renderUsers: function(imageData) {
         if (imageData.visibility !== "select") return;
 
@@ -239,6 +269,7 @@ export default React.createClass({
                         {visibilityMap[imageData.visibility]}
                     </div>
                 </div>
+                {this.renderAccessList(imageData)}
                 {this.renderUsers(imageData)}
                 {this.renderFilesToExclude(imageData)}
                 {this.renderBootScripts(imageData)}

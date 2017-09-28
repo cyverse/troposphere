@@ -4,22 +4,21 @@ import Utils from "../Utils";
 
 export default {
 
-    create: function(params) {
-        if (!params.title)
+    create: function({ title, type, text, strategy }) {
+        if (!title)
             throw new Error("Missing title");
-        if (!params.type)
+        if (!type)
             throw new Error("Missing type");
-        if (!params.text)
+        if (!text)
             throw new Error("Missing text");
-
-        var title = params.title,
-            script_type = params.type,
-            text = params.text;
+        if (!strategy)
+            throw new Error("Missing strategy");
 
         var script = new Script({
-            title: title,
-            type: script_type,
-            text: text
+            title,
+            type,
+            text,
+            strategy,
         });
 
         // Add the script optimistically

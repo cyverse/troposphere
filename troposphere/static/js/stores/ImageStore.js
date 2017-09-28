@@ -17,9 +17,15 @@ var ImageStore = BaseStore.extend({
         var tagIds = tags.map(function(tag) {
             return tag.id;
         });
+        var accessList = image.get('access_list'),
+            accessListIds = accessList.map(function(pattern_match) {
+                return pattern_match.id;
+            });
         var updateAttrs = {
             name: image.get("name"),
             description: image.get("description"),
+            is_public: image.get("is_public"),
+            access_list: accessListIds,
             tags: tagIds
         }
         if (image.get("end_date")) {
@@ -226,6 +232,10 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
+        case ImageConstants.IMAGE_FETCH_DETAIL:
+            store.emitChange();
+            break;
+
         case ImageConstants.IMAGE_UPDATE:
             store.update(payload.image);
             break;

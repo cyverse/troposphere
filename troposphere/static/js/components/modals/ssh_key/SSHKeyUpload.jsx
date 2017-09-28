@@ -1,10 +1,24 @@
 import React from "react";
+import Backbone from "backbone";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import stores from "stores";
+import actions from "actions";
 
 export default React.createClass({
 
+    propTypes: {
+        sshKey: React.PropTypes.instanceOf(Backbone.Model),
+        user: React.PropTypes.number.isRequired
+    },
+
     getInitialState: function() {
+        let { sshKey } = this.props;
+        if(sshKey) {
+            return {
+                keyName: sshKey.get("name"),
+                pubKey: sshKey.get("pub_key"),
+                errorMsg: ""
+            }
+        }
         return {
             keyName: "",
             pubKey: "",
@@ -16,14 +30,15 @@ export default React.createClass({
 
     updateKeyName: function(event) {
         this.setState({
-            "keyName": event.target.value.trim()
+            "keyName": event.target.value
         });
     },
 
     updatePublicKey: function(event) {
-        // Rule out most whitespace issues
-        let key = event.target.value.trim();
+        let rawKey = event.target.value;
 
+        // Trim the key prior to validation, because leading/trailing ws is ignored
+        let key = rawKey.trim();
         let parts = key.split(/\s+/g);
         let err = "";
 
@@ -38,17 +53,9 @@ export default React.createClass({
         }
 
         this.setState({
-            "pubKey": key,
+            "pubKey": rawKey,
             "errorMsg": err
         });
-    },
-
-    componentDidMount: function() {
-        stores.SSHKeyStore.addChangeListener(this.updateState);
-    },
-
-    componentWillUnmount: function() {
-        stores.SSHKeyStore.removeChangeListener(this.getInitialState);
     },
 
     validateKeyType: function(firstWord) {
@@ -73,11 +80,13 @@ export default React.createClass({
     },
 
     validateKey: function() {
-        let parts = this.state.pubKey.split(/\s+/g);
+        // Trim the key prior to validation, because leading/trailing ws is ignored
+        let key = this.state.pubKey.trim();
+        let parts = key.split(/\s+/g);
 
         return this.validateKeyType(parts[0]) &&
-        this.validateNumOfParts(this.state.pubKey) &&
-        this.validateOneLine(this.state.pubKey) &&
+        this.validateNumOfParts(key) &&
+        this.validateOneLine(key) &&
         this.validateKeyBodyBase64(parts[1]);
     },
 
@@ -85,20 +94,20 @@ export default React.createClass({
         return this.validateKey() && this.state.keyName.length > 0;
     },
 
-    addPublicKey: function() {
-        stores.SSHKeyStore.models.create({
-            atmo_user: this.props.user,
-            name: this.state.keyName,
-            pub_key: this.state.pubKey,
-        }, {
-            success: function() {
-                stores.SSHKeyStore.emitChange();
-            },
-        });
-    },
-
     onSubmit: function() {
-        this.addPublicKey();
+        let attributes = {
+            name: this.state.keyName.trim(),
+            pub_key: this.state.pubKey.trim(),
+            atmo_user: this.props.user
+        };
+        let { sshKey } = this.props;
+
+        if (sshKey) {
+            actions.SSHKeyActions.update(sshKey, attributes);
+        } else {
+            actions.SSHKeyActions.create(attributes);
+        }
+
         this.hide();
     },
 
@@ -113,7 +122,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h1 className="t-title">Add a public SSH key</h1>
+                        <h1 className="t-title">{(this.props.sshKey) ? "Update public SSH key": "Add a public SSH key"}</h1>
                     </div>
                     <div style={{ minHeight: "300px" }} className="modal-body">
                         <div className="form-group">
@@ -121,7 +130,7 @@ export default React.createClass({
                                 Key Name
                             </label>
                             <div>
-                                <input type="text" className="form-control" onChange={this.updateKeyName} />
+                                <input type="text" className="form-control" onChange={this.updateKeyName} value={this.state.keyName} />
                             </div>
                         </div>
                         <div>
@@ -132,7 +141,7 @@ export default React.createClass({
                                 <textarea placeholder="Begins with either ssh-rsa, ssh-dss, ..."
                                     style={{ minHeight: "200px" }}
                                     className="form-control"
-                                    onChange={this.updatePublicKey} />
+                                    onChange={this.updatePublicKey} value={this.state.pubKey} />
                                 {showKeyWarn ? <span className="help-block">{"* " + this.state.errorMsg}</span> : ""}
                             </div>
                         </div>

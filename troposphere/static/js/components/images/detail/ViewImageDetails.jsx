@@ -6,6 +6,7 @@ import CreatedView from "./created/CreatedView";
 import RemovedView from "./removed/RemovedView";
 import AuthorView from "./author/AuthorView";
 import DescriptionView from "./description/DescriptionView";
+import VisibilityView from "./visibility/VisibilityView";
 import Gravatar from "components/common/Gravatar";
 import Ribbon from "components/common/Ribbon";
 
@@ -98,6 +99,7 @@ export default React.createClass({
                         <RemovedView image={ image } />
                         <AuthorView image={ image } />
                         <DescriptionView image={ image } />
+                        <VisibilityView image={ image } />
                         <TagsView image={ image } tags={ tags } />
                     </div>
                     { this.renderEditLink() }
