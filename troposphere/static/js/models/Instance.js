@@ -46,6 +46,8 @@ export default Backbone.Model.extend({
         Backbone.sync("read", this, {
             url: url
         }).done(function(attrs, status, response) {
+            // set attributes that need to be updated
+            // following a poll, "from cloud" will be latest
             var statusSplit = attrs.status.split(" - ");
             this.set("ip_address", attrs.ip_address);
             this.set("status", attrs.status);
@@ -54,6 +56,8 @@ export default Backbone.Model.extend({
                 status: statusSplit[0],
                 activity: attrs.activity
             }));
+            this.set("web_desktop", attrs.web_desktop);
+            this.set("vnc", attrs.has_vnc);
             cb(response);
         }.bind(this)).fail(function(response, status, errorThrown) {
             cb(response);
