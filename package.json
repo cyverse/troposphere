@@ -17,7 +17,7 @@
   },
   "scripts": {
     "clean": "rimraf troposphere/assets/bundles",
-    "serve": "webpack-dev-server --hot --env development",
+    "serve": "webpack-dev-server --hot --env development --content-base troposphere/assets",
     "build:dev": "npm run clean && webpack --env development",
     "build:prod": "npm run clean && webpack --env production -p",
     "jenkins": "webpack --profile --colors --",
