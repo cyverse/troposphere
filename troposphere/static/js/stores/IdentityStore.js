@@ -22,8 +22,8 @@ let IdentityStore = BaseStore.extend({
         }
         let models = null;
         if (group != null) {
-            let group_key = "?group_id="+group.id,
-                query_params = {"group_id" : group.id};
+            let group_key = "?group_id="+group.get("id"),
+                query_params = {"group_id" : group.get("id")};
             if (!this.queryModels[group_key]) {
                 models = this.fetchWhere(query_params);
             } else {

@@ -145,7 +145,7 @@ const NullProjectMigrateResourceModal = React.createClass({
         let selectedIdentityUUID = resource.get('identity').uuid;
         let projects = ProjectStore.getAll().cfilter(p => {
             let group = p.get('owner');
-            let identities = identities_for_groups[group.id];
+            let identities = identities_for_groups[group.uuid];
             if(!identities) {
                 return false;
             }
