@@ -1,3 +1,17 @@
+## [Beneficent-Bolide (v28)](https://github.com/cyverse/troposphere/milestone/17?closed=1) (as of 10/03/2017)
+
+Bugfixes:
+  - No longer need to [refresh an Instance Detail page to see "Web Desktop" link](https://github.com/cyverse/troposphere/pull/716) on Active instance
+  - Corrected Maintenance Records to have structure consistent with Atmosphere
+  - Fixed so that log out of Troposphere logs a user out of Atmosphere API as well
+  
+Enhancements:
+  - Image Owner can now [update visibility & access](https://github.com/cyverse/troposphere/pull/706) to images
+  - Support for Unlimited Allocation Sources
+  - [Improved Boot Scripts](https://github.com/cyverse/troposphere/pull/703) management and handling
+  - Volume creation modal pauses until complete, showning new Volume in Project
+  - Added Django Manage command to start and stop Maintenance
+
 ## [Ancient-Asteroid (v27)](https://github.com/cyverse/troposphere/milestone/16?closed=1) (as of 9/13/2017)
 
 Bugfixes:
