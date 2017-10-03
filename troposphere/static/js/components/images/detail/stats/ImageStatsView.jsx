@@ -220,6 +220,10 @@ const ImageStatsView = React.createClass({
             return (<div className="loading"/>);
         }
         let metrics = image_metric.get('metrics');
+        if(!metrics || Object.keys(metrics).length === 0) {
+            // Metrics unavailable//not-yet-generated for this image.
+            return ;
+        }
 
         let summarizedView = (
             <div id="ImageMetrics" className="image-versions image-info-segment row">

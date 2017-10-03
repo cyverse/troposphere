@@ -7,7 +7,6 @@ import Gravatar from "components/common/Gravatar";
 import MediaCard from "components/common/ui/MediaCard";
 import Bookmark from "components/images/common/Bookmark";
 import Tags from "components/images/detail/tags/Tags";
-import SparklineGraph from "components/images/detail/stats/SparklineGraph";
 import Showdown from "showdown";
 import context from "context";
 import globals from "globals";
@@ -67,23 +66,23 @@ const ImageListCard = React.createClass({
         let imageTags = stores.TagStore.getImageTags(image);
             imageTags = imageTags ? imageTags.first(10) : null;
         let metric, labels, seriesData;
-        if(staff_user) {
-            graphDiv = (<div style={{ "width": "135px", "height" : "15px"}}> {"No Metrics Available"} </div>);
-            if(imageMetric != null) {
-                metric = imageMetric.get('metrics');
-                if (metric) {
-                    seriesData = this.getChartData(image, metric);
-                    labels = this.getLabels(metric);
-                    if (labels.length > 0) {
-                        graphDiv = (<SparklineGraph
-                                        seriesData={seriesData}
-                                        categories={labels}
-                                        title={""}
-                                    />);
-                    }
-                }
-            }
-        }
+        // if(staff_user) {
+        //     graphDiv = (<div style={{ "width": "135px", "height" : "15px"}}> {"No Metrics Available"} </div>);
+        //     if(imageMetric != null) {
+        //         metric = imageMetric.get('metrics');
+        //         if (metric) {
+        //             seriesData = this.getChartData(image, metric);
+        //             labels = this.getLabels(metric);
+        //             if (labels.length > 0) {
+        //                 graphDiv = (<SparklineGraph
+        //                                 seriesData={seriesData}
+        //                                 categories={labels}
+        //                                 title={""}
+        //                             />);
+        //             }
+        //         }
+        //     }
+        // }
         let imageCreationDate = moment(image.get("start_date"))
                 .tz(globals.TZ_REGION)
                 .format("MMM Do YY hh:mm ");
