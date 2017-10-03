@@ -1,3 +1,55 @@
+## [Beneficent-Bolide (v28)](https://github.com/cyverse/troposphere/milestone/17?closed=1) (as of 10/03/2017)
+
+Bugfixes:
+  - No longer need to [refresh an Instance Detail page to see "Web Desktop" link](https://github.com/cyverse/troposphere/pull/716) on Active instance
+  - Corrected Maintenance Records to have structure consistent with Atmosphere
+  - Fixed so that log out of Troposphere logs a user out of Atmosphere API as well
+  
+Enhancements:
+  - Image Owner can now [update visibility & access](https://github.com/cyverse/troposphere/pull/706) to images
+  - Support for Unlimited Allocation Sources
+  - [Improved Boot Scripts](https://github.com/cyverse/troposphere/pull/703) management and handling
+  - Volume creation modal pauses until complete, showning new Volume in Project
+  - Added Django Manage command to start and stop Maintenance
+
+## [Ancient-Asteroid (v27)](https://github.com/cyverse/troposphere/milestone/16?closed=1) (as of 9/13/2017)
+
+Bugfixes:
+  - Fixed issues where Size label for Instances left out disk information
+  - Allowed Instance Launch Modal to remain open until launching complete
+  - Avoid allowing "copy" for invalid IP addresses (`0.0.0.0`)
+  - Corrected issues with Emulate URL
+  - Include latest fix for django-cyverse-auth module
+  - Fixed boot scripts not being associated on launch
+  - Fixed problems preventing Volumes from being moved between projects
+  - Fixed Advanced Options feature in Launch Modal being "clickable"
+  - Fixed issue with instances row hyperlinks 
+
+Enhancments:
+  - Removed unused components 
+  - Improved `<SelectMenu />` component
+  - Better development support for faster feedback on changes
+
+## [Zesty-Zapdos](https://github.com/cyverse/troposphere/milestone/15?closed=1) (as of 8/3/2017)
+
+[Bugfixes](https://github.com/cyverse/troposphere/pulls?utf8=%E2%9C%93&q=is%3Apr%20is%3Aclosed%20merged%3A2017-06-05..2017-08-03):
+  - Instance Disk size validated on the client-side, when launching
+  - Made number of uWSGI processes configuration (web request/response performance tuning)
+  - Update resource requests (allocation & quota)
+  - Correct JSX attribute typos for CSS 
+  - Ensure Travis CI catches any missing data migrations 
+  - Fix issue with Gravatar icons differing between Instance History & Project views
+  - Remove duplicate `<SelectMenu/>` definitions; resolve component usage
+  - (Admind) improve image request error reporting
+  
+Enhancements:  
+  - Apache Guacamole integration as a "beta" remote access option
+  - Provide sourceMaps for deployed application bundles (improved error triage)
+  - Upgrade to Webpack v2
+  - Upgrade to Django 1.11
+  - Improve code quality via ESLint rule defintion
+  - (Admin) Offer "emulate" link from "Manage Users" tab
+
 ## [Yampy-Yellowlegs](https://github.com/cyverse/troposphere/milestone/14?closed=1) (as of 6/5/2017)
 
 Bugfixes:
