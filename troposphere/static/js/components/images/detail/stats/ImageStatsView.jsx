@@ -215,12 +215,12 @@ const ImageStatsView = React.createClass({
         );
         */
 
-        let image_metric = ImageMetricsStore.get(image.id);
-        if(!image_metric) {
+        let imageMetric = ImageMetricsStore.get(image.id);
+        if(!imageMetric) {
             return (<div className="loading"/>);
         }
-        let metrics = image_metric.get('metrics');
-        if(!metrics || Object.keys(metrics).length === 0) {
+
+        if(!imageMetric.hasMetrics()) {
             // Metrics unavailable//not-yet-generated for this image.
             return ;
         }
@@ -242,7 +242,7 @@ const ImageStatsView = React.createClass({
                                 {"Number of Projects including this Application"}
                                 </td>
                                 <td>
-                                {metrics.projects}
+                                {imageMetric.getProjectsTotal()}
                                 </td>
                             </tr>
                             <tr>
@@ -250,7 +250,7 @@ const ImageStatsView = React.createClass({
                                 {"Number of users who Bookmarked this Application"}
                                 </td>
                                 <td>
-                                {metrics.bookmarks}
+                                {imageMetric.getBookmarksTotal()}
                                 </td>
                             </tr>
                             <tr>
@@ -258,7 +258,7 @@ const ImageStatsView = React.createClass({
                                 {"Number of Applications based on this Application"}
                                 </td>
                                 <td>
-                                {metrics.forks}
+                                {imageMetric.getApplicationForks()}
                                 </td>
                             </tr>
                             <tr>
@@ -266,7 +266,7 @@ const ImageStatsView = React.createClass({
                                 {"Number of Instances Launched (Successful)"}
                                 </td>
                                 <td>
-                                {metrics.instances.success}
+                                {imageMetric.getInstancesSuccess()}
                                 </td>
                             </tr>
                             <tr>
@@ -274,7 +274,7 @@ const ImageStatsView = React.createClass({
                                 {"Number of Instances Launched (Total)"}
                                 </td>
                                 <td>
-                                {metrics.instances.total}
+                                {imageMetric.getInstancesTotal()}
                                 </td>
                             </tr>
                             <tr>
@@ -282,7 +282,7 @@ const ImageStatsView = React.createClass({
                                 {"Number of Instances Launched (%)"}
                                 </td>
                                 <td>
-                                {metrics.instances.percent}
+                                {imageMetric.getInstancesPercent()}
                                 </td>
                             </tr>
                         </tbody>
