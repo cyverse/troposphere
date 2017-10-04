@@ -33,6 +33,7 @@ stores.ImageStore = require("stores/ImageStore");
 stores.ImageMetricsStore = require("stores/ImageMetricsStore");
 stores.ImageBookmarkStore = require("stores/ImageBookmarkStore");
 stores.ImageVersionStore = require("stores/ImageVersionStore");
+stores.PatternMatchStore = require("stores/PatternMatchStore");
 stores.TagStore = require("stores/TagStore");
 stores.HelpLinkStore = require("stores/HelpLinkStore");
 

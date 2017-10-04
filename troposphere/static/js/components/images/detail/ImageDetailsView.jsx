@@ -1,13 +1,17 @@
 import React from "react";
 import Backbone from "backbone";
 import HeaderView from "./header/HeaderView";
-import actions from "actions";
+
 import ViewImageDetails from "./ViewImageDetails";
 import EditImageDetails from "./EditImageDetails";
 import VersionsView from "./versions/VersionsView";
 import ImageStatsView from "./stats/ImageStatsView";
+import actions from "actions";
+import context from "context";
 import modals from "modals";
+
 import { trackAction } from "../../../utilities/userActivity";
+
 
 export default React.createClass({
     displayName: "ImageDetailsView",
@@ -56,12 +60,16 @@ export default React.createClass({
 
     render: function() {
         var view,
-            statisticsView = (
-            <ImageStatsView image={ this.props.image } />
-            ),
+            statisticsView,
             versionView = (
-            <VersionsView image={this.props.image} />
+                <VersionsView image={this.props.image} />
             );
+
+        if (context.hasLoggedInUser()) {
+            statisticsView = (
+                <ImageStatsView image={ this.props.image } />
+            );
+        }
 
         if (this.state.isEditing) {
             view = (

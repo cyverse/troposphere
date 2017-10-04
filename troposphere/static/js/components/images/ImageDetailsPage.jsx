@@ -39,9 +39,14 @@ export default React.createClass({
             allPatterns = stores.PatternMatchStore.getAll(),
             hasLoggedInUser = context.hasLoggedInUser(),
             providers = hasLoggedInUser ? stores.ProviderStore.getAll() : null,
-            identities = hasLoggedInUser ? stores.IdentityStore.getAll() : null;
+            identities = hasLoggedInUser ? stores.IdentityStore.getAll() : null,
+            requiredData = [image, tags];
 
-        if (!image || !tags || !allPatterns) return <div className="loading"/>;
+        if (hasLoggedInUser) {
+            requiredData.push(allPatterns);
+        }
+
+        if (!requiredData.every(obj => obj)) return <div className="loading"/>;
 
         if (image.status === 404) return (
             <NotFoundPage resource="image"/>
