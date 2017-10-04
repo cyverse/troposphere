@@ -11,8 +11,8 @@ export default {
         if (!params.instance)
             throw new Error("Missing instance");
 
-        let isImageOwner = context.profile.get('is_staff') || instance.get("image").user == instance.get("user").id
         var instance = params.instance,
+            isImageOwner = context.profile.get('is_staff') || instance.get("image").user == instance.get("user").id,
             props = {
                 instance: instance,
                 imageOwner: isImageOwner
