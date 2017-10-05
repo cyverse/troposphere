@@ -185,7 +185,6 @@ export default React.createClass({
                 type: this.state.type,
                 strategy: this.state.strategy
             });
-            this.hide();
         }
     },
 
