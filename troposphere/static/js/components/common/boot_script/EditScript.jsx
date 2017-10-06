@@ -183,7 +183,8 @@ export default React.createClass({
                 title: this.state.title.trim(),
                 text: this.state.text.trim(),
                 type: this.state.type,
-                strategy: this.state.strategy
+                strategy: this.state.strategy,
+                wait_for_deploy: this.state.wait_for_deploy
             });
         }
     },
@@ -199,7 +200,8 @@ export default React.createClass({
                 title: this.state.title.trim(),
                 text: this.state.text.trim(),
                 type: this.state.type,
-                strategy: this.state.strategy
+                strategy: this.state.strategy,
+                wait_for_deploy: this.state.wait_for_deploy
             });
             return script;
         }

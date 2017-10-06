@@ -212,7 +212,9 @@ export default React.createClass({
         actions.ScriptActions.create_AddToImageVersion(this.props.version, {
             title: scriptObj.title,
             type: scriptObj.type,
-            text: scriptObj.text
+            text: scriptObj.text,
+            strategy: scriptObj.strategy,
+            wait_for_deploy: scriptObj.wait_for_deploy
         });
     },
 
