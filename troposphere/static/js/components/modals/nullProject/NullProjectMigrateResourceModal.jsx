@@ -22,9 +22,10 @@ const NullProjectMigrateResourceModal = React.createClass({
     },
 
     onProjectCreated(project) {
-        //FIXME: ensure proper rendering
-        return;
+        // When we have created a new project, force re-render
+        this.forceUpdate();
     },
+
     onProjectCreateFailed: function() {
         //FIXME: notification, show error validation=True
         return;
@@ -341,8 +342,11 @@ const NullProjectMigrateResourceModal = React.createClass({
                 description: projectName,
                 owner: this.state.groupOwner,
             };
+
         actions.ProjectActions.create(
-            project_params, this.onProjectCreated, this.onProjectCreateFailed);
+            project_params,
+            this.onProjectCreated,
+            this.onProjectCreateFailed);
     },
     getMemberNames: function(group) {
         if(!group) {
