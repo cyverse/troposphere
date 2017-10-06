@@ -206,7 +206,8 @@ const NullProjectMigrateResourceModal = React.createClass({
          * - Look at the given identity of a resource
          *   - Determine which "group" should be allowed to place the resource.
          * Where this method does not work:
-         * - When two or more groups share an IdentityMembership, this method will prevent someone from actually submitting the form.
+         * - When two or more groups share an IdentityMembership, this method will
+         *   prevent someone from actually submitting the form.
          *
          */
         let { GroupStore, IdentityStore } = this.props.subscriptions;
@@ -394,7 +395,11 @@ const NullProjectMigrateResourceModal = React.createClass({
                 placeholder="Enter project name..." />
             </div>
             {this.renderVisibility()}
-            <button className="btn btn-primary" onClick={this.createNewProject} disabled={this.isCreateDisabled()}>{"Create Project"}</button>
+            <button className="btn btn-primary"
+                    onClick={this.createNewProject}
+                    disabled={this.isCreateDisabled()}>
+                {"Create Project"}
+            </button>
         </div>
         )
     },
