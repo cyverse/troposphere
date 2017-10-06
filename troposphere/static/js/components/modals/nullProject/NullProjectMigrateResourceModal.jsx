@@ -334,8 +334,11 @@ const NullProjectMigrateResourceModal = React.createClass({
                 description: projectName,
                 owner: this.state.groupOwner,
             };
+
         actions.ProjectActions.create(
-            project_params, this.onProjectCreated, this.onProjectCreateFailed);
+            project_params,
+            this.onProjectCreated,
+            this.onProjectCreateFailed);
     },
     getMemberNames: function(group) {
         if(!group) {
@@ -388,7 +391,11 @@ const NullProjectMigrateResourceModal = React.createClass({
                 placeholder="Enter project name..." />
             </div>
             {this.renderVisibility()}
-            <button className="btn btn-primary" onClick={this.createNewProject} disabled={this.isCreateDisabled()}>{"Create Project"}</button>
+            <button className="btn btn-primary"
+                    onClick={this.createNewProject}
+                    disabled={this.isCreateDisabled()}>
+                {"Create Project"}
+            </button>
         </div>
         )
     },
