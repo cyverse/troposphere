@@ -22,9 +22,10 @@ const NullProjectMigrateResourceModal = React.createClass({
     },
 
     onProjectCreated(project) {
-        //FIXME: ensure proper rendering
-        return;
+        // When we have created a new project, force re-render
+        this.forceUpdate();
     },
+
     onProjectCreateFailed: function() {
         //FIXME: notification, show error validation=True
         return;
