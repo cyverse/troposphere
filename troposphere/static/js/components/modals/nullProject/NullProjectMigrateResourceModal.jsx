@@ -296,7 +296,14 @@ const NullProjectMigrateResourceModal = React.createClass({
         let resourceSelectionList = this.props.resources.map(function(resource) {
             return that.renderResourceProjectSelection(resource, identities_for_groups);
         });
-        return resourceSelectionList;
+
+        return (
+            <div className="form-group"
+                 style={{ overflowY: "auto" }}>
+                <ul style={{ paddingLeft: 0 }}>
+                    {resourceSelectionList}
+                </ul>
+            </div> );
     },
     isCreateDisabled: function() {
         //Enabled for testing.
@@ -375,7 +382,7 @@ const NullProjectMigrateResourceModal = React.createClass({
     renderProjectCreationForm: function() {
 
         return (
-        <div >
+        <div className="form-group">
             <div className="form-group">
             <label>
                 {"Create a Project"}
