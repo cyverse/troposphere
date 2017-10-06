@@ -15,19 +15,29 @@ export default React.createClass({
     },
 
     render: function() {
+        //Future-FIXME: Include bootable volume support && link.
         var instance = this.props.instance,
-            image = stores.ImageStore.get(instance.get("image").id);
+            instance_image = instance.get("image"),
+            version = instance.get('version'),
+            version_separator = "v.",  // Future-FIXME: This is a configurable in atmosphere that could be passed through clank and used..
+            image_name = "",
+            version_name = "",
+            label = "",
+            image = (instance_image) ? stores.ImageStore.get(instance_image.id) : null; //Bootable volumes have no image ID..
 
-        if (!image) {
+        if(!instance_image || !image) {
             return (
             <div className="loading-tiny-inline"></div>
             );
         }
+        image_name = image.get('name');
+        version_name = (version && version.name) ? version.name : "";
+        label = (version_name) ? image_name+" "+version_separator+version_name : image_name;
 
         return (
         <ResourceDetail label="Based on">
             <Link to={`images/${image.id}`}>
-                {image.get("name")}
+                {label}
             </Link>
         </ResourceDetail>
         );
