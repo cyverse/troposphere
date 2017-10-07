@@ -134,10 +134,11 @@ export default React.createClass({
 
             return (
             <div className={classNames}>
-                <label>
+                <label htmlFor="script-url">
                     Script URL
                 </label>
-                <input className="form-control"
+                <input id="script-url"
+                    className="form-control"
                     placeholder="http://yourscript.org"
                     value={this.state.text}
                     onChange={this.onChangeText}
@@ -156,11 +157,12 @@ export default React.createClass({
             }
 
             return (
-            <div className={classNames}>
-                <label>
+            <div className={classNames} >
+                <label htmlFor="script-raw-text">
                     Raw Text
                 </label>
-                <textarea className="form-control"
+                <textarea id="script-raw-text"
+                    className="form-control"
                     placeholder="#!/bin/bash"
                     rows="6"
                     value={this.state.text}
@@ -183,9 +185,9 @@ export default React.createClass({
                 title: this.state.title.trim(),
                 text: this.state.text.trim(),
                 type: this.state.type,
-                strategy: this.state.strategy
+                strategy: this.state.strategy,
+                wait_for_deploy: this.state.wait_for_deploy
             });
-            this.hide();
         }
     },
 
@@ -200,7 +202,8 @@ export default React.createClass({
                 title: this.state.title.trim(),
                 text: this.state.text.trim(),
                 type: this.state.type,
-                strategy: this.state.strategy
+                strategy: this.state.strategy,
+                wait_for_deploy: this.state.wait_for_deploy
             });
             return script;
         }
@@ -244,15 +247,15 @@ export default React.createClass({
             <div className="help-block">
                 {"Stdout will be logged on the VM at: "}
                 <br/>
-                {stdoutPath}
+                <code>{stdoutPath}</code>
                 <br/>
                 {"Stderr will be logged on the VM at: "}
                 <br/>
-                {stderrPath}
+                <code>{stderrPath}</code>
             </div>
         );
-
     },
+
     renderDeploymentOptions() {
         // deploymentType is a key into options 'type', i.e. ("sync","async",...)
         let options = [
@@ -303,13 +306,12 @@ export default React.createClass({
     },
 
     render: function() {
-        let classNames = "form-group";
-        let errorMessage = null;
-        let notSubmittable = false;
-        let headerText = (this.props.script) ? "Edit Script" : "Create Script";
-        let {title} = this.state;
+        let { title } = this.state;
 
-
+        let classNames = "form-group",
+            headerText = (this.props.script) ? "Edit Script" : "Create Script",
+            errorMessage = null,
+            notSubmittable = false;
 
         if (this.state.validate) {
             if (!this.isValidString(title)) {
@@ -323,24 +325,30 @@ export default React.createClass({
         <div style={this.props.style}>
             <h3 className="t-subheading">{headerText}</h3>
             <hr/>
-            <div className="row">
+            <div>
                 <div className={classNames}>
                     <label>{"Script Title"}</label>
                     <input className="form-control"
                         placeholder="My Script"
-                        value={this.state.title}
+                        value={title}
                         onChange={this.onChangeTitle}
                         onBlur={this.onBlurTitle} />
                     <span className="help-block">{errorMessage}</span>
                 </div>
                 <h4 className="t-body-2">{"Strategy"}</h4>
+                <div className={classNames}>
                 { this.renderStrategyOptions() }
+                </div>
                 <h4 className="t-body-2">{"Deployment"}</h4>
+                <div className={classNames}>
                 { this.renderDeploymentOptions() }
                 { this.renderDeploymentOptionsHint() }
+                </div>
                 <h4 className="t-body-2">{"Input Type"}</h4>
+                <div className={classNames}>
                 {this.renderInputOptions()}
-                <div className="col-md-6">
+                </div>
+                <div>
                     {this.renderInputType()}
                 </div>
             </div>

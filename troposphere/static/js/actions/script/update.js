@@ -10,6 +10,10 @@ export default {
             throw new Error("Missing type");
         if (!newAttributes.text)
             throw new Error("Missing text");
+        if (!newAttributes.strategy)
+            throw new Error("Missing strategy");
+        if (newAttributes.wait_for_deploy == null)
+            throw new Error("Missing wait_for_deploy");
 
         // Save attributes, before we optimistically update them
         let prevAttibutes = Object.assign({}, script.attributes);

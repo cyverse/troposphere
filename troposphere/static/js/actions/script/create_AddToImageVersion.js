@@ -14,15 +14,21 @@ export default {
             throw new Error("Missing type");
         if (!params.text)
             throw new Error("Missing text");
+        if (!params.strategy)
+            throw new Error("Missing strategy");
+        if (params.wait_for_deploy == null)
+            throw new Error("Missing wait_for_deploy");
 
         var title = params.title,
             script_type = params.type,
+            wait_for_deploy = params.wait_for_deploy,
             text = params.text;
 
         var script = new Script({
             title: title,
             type: script_type,
-            text: text
+            text: text,
+            wait_for_deploy
         });
 
         // Add the script optimistically

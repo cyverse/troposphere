@@ -22,9 +22,10 @@ const NullProjectMigrateResourceModal = React.createClass({
     },
 
     onProjectCreated(project) {
-        //FIXME: ensure proper rendering
-        return;
+        // When we have created a new project, force re-render
+        this.forceUpdate();
     },
+
     onProjectCreateFailed: function() {
         //FIXME: notification, show error validation=True
         return;
@@ -206,7 +207,8 @@ const NullProjectMigrateResourceModal = React.createClass({
          * - Look at the given identity of a resource
          *   - Determine which "group" should be allowed to place the resource.
          * Where this method does not work:
-         * - When two or more groups share an IdentityMembership, this method will prevent someone from actually submitting the form.
+         * - When two or more groups share an IdentityMembership, this method will
+         *   prevent someone from actually submitting the form.
          *
          */
         let { GroupStore, IdentityStore } = this.props.subscriptions;
@@ -296,7 +298,14 @@ const NullProjectMigrateResourceModal = React.createClass({
         let resourceSelectionList = this.props.resources.map(function(resource) {
             return that.renderResourceProjectSelection(resource, identities_for_groups);
         });
-        return resourceSelectionList;
+
+        return (
+            <div className="form-group"
+                 style={{ overflowY: "auto" }}>
+                <ul style={{ paddingLeft: 0 }}>
+                    {resourceSelectionList}
+                </ul>
+            </div> );
     },
     isCreateDisabled: function() {
         //Enabled for testing.
@@ -333,8 +342,11 @@ const NullProjectMigrateResourceModal = React.createClass({
                 description: projectName,
                 owner: this.state.groupOwner,
             };
+
         actions.ProjectActions.create(
-            project_params, this.onProjectCreated, this.onProjectCreateFailed);
+            project_params,
+            this.onProjectCreated,
+            this.onProjectCreateFailed);
     },
     getMemberNames: function(group) {
         if(!group) {
@@ -375,7 +387,7 @@ const NullProjectMigrateResourceModal = React.createClass({
     renderProjectCreationForm: function() {
 
         return (
-        <div >
+        <div className="form-group">
             <div className="form-group">
             <label>
                 {"Create a Project"}
@@ -387,7 +399,11 @@ const NullProjectMigrateResourceModal = React.createClass({
                 placeholder="Enter project name..." />
             </div>
             {this.renderVisibility()}
-            <button className="btn btn-primary" onClick={this.createNewProject} disabled={this.isCreateDisabled()}>{"Create Project"}</button>
+            <button className="btn btn-primary"
+                    onClick={this.createNewProject}
+                    disabled={this.isCreateDisabled()}>
+                {"Create Project"}
+            </button>
         </div>
         )
     },
