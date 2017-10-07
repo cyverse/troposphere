@@ -22,6 +22,7 @@ const ScriptListView = React.createClass({
             //Do this on success.
         });
     },
+
     destroyScript: function(script) {
 
         // EmitChange is responsible for triggering the rerender, which
@@ -73,8 +74,10 @@ const ScriptListView = React.createClass({
                 {script.get("type")}
             </td>
             <td>
-                <a onClick={this.editScript.bind(this, script)}><i className="glyphicon glyphicon-pencil" /></a>{" "}
-                <a onClick={this.destroyScript.bind(this, script)}><i style={{ color: "crimson" }} className="glyphicon glyphicon-trash" /></a>
+                <a onClick={this.editScript.bind(this, script)}>
+                    <i className="glyphicon glyphicon-pencil" /></a>{" "}
+                <a onClick={this.destroyScript.bind(this, script)}>
+                    <i style={{ color: "crimson" }} className="glyphicon glyphicon-trash" /></a>
             </td>
         </tr>
         );
@@ -89,7 +92,7 @@ const ScriptListView = React.createClass({
 
         return (
             <div>
-                <h3>Boot Scripts</h3>
+                <h3>Deployment Scripts (formerly Boot Scripts)</h3>
                 <div style={{maxWidth: "600px"}}>
                     <p>
                         Use the table below to create and/or edit existing

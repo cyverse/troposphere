@@ -38,7 +38,9 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h1 className="t-title">{(this.props.script) ? "Update Deployment Script" : "Add a new Deployment Script"}</h1>
+                        <h1 className="t-title">
+                            {(this.props.script) ? "Update Deployment Script" : "Add New Deployment Script"}
+                        </h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}
