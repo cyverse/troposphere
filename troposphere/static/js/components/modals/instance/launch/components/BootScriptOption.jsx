@@ -38,7 +38,9 @@ export default React.createClass({
 
     renderCreateScript: function() {
         return (
-        <CreateScript {...this.props} close={this.onCloseCreateScript} />
+        <CreateScript {...this.props}
+            close={this.onCloseCreateScript}
+            onCreate={this.props.onAddAttachedScript} />
         )
     },
 
