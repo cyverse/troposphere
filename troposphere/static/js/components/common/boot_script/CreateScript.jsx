@@ -3,20 +3,21 @@ import RaisedButton from "material-ui/RaisedButton";
 import actions from "actions";
 
 export default React.createClass({
+    propTypes: {
+        style: React.PropTypes.object,
+        close: React.PropTypes.func.isRequired,
+        onCreate: React.PropTypes.func.isRequired,
+    },
+
     getInitialState: function() {
         return ({
             type: "URL",
             strategy: "always",
+            wait_for_deploy: true,
             title: "",
             text: "",
             validate: false
         })
-    },
-
-    propTypes: {
-        style: React.PropTypes.object,
-        close: React.PropTypes.func.isRequired,
-        onCreate: React.PropTypes.func.isRequired
     },
 
     getDefaultProps: function() {
@@ -36,6 +37,13 @@ export default React.createClass({
         let type = e.target.value;
         this.setState({
             type
+        })
+    },
+
+    onChangeDeployment: function(e) {
+        let deployType = e.target.value === "sync";
+        this.setState({
+            wait_for_deploy: deployType
         })
     },
 
@@ -78,8 +86,10 @@ export default React.createClass({
                 type: this.state.type,
                 title: this.state.title.trim(),
                 text: this.state.text.trim(),
-                strategy: this.state.strategy.trim()
+                strategy: this.state.strategy.trim(),
+                wait_for_deploy: this.state.wait_for_deploy
             });
+
             this.props.onCreate(script);
             this.props.close();
         }
@@ -186,7 +196,7 @@ export default React.createClass({
 
         return (
 
-        <div style={{ position: "reletive" }}>
+        <div>
             <h3 className="t-subheading">Create and Add a New Script</h3>
             <hr/>
             <div className="row">
@@ -202,43 +212,65 @@ export default React.createClass({
                             onBlur={this.onBlurTitle} />
                         <span className="help-block">{errorMessage}</span>
                     </div>
-                    <h4 className="t-body-2">Input Type</h4>
-                    <div className="radio-inline">
-                        <label className="radio">
-                            <input type="radio"
-                                name="optionsRadios"
-                                value="URL"
-                                defaultChecked={this.state.type === "URL"}
-                                onClick={this.onChangeType} /> URL
-                        </label>
-                    </div>
-                    <div className="radio-inline">
-                        <label className="radio">
-                            <input type="radio"
-                                name="optionsRadios"
-                                value="Raw Text"
-                                defaultChecked={this.state.type === "Raw Text"}
-                                onClick={this.onChangeType} /> Raw Text
-                        </label>
-                    </div>
-                    <h4 className="t-body-2">Boot Script Type</h4>
-                    <div className="radio-inline">
-                        <label className="radio">
-                            <input type="radio"
-                                name="optionsRadios-2"
-                                value="once"
-                                defaultChecked={this.state.strategy === "once"}
-                                onClick={this.onChangeStrategy} /> {"Run script on first boot"}
-                        </label>
-                    </div>
-                    <div className="radio-inline">
-                        <label className="radio">
-                            <input type="radio"
-                                name="optionsRadios-2"
-                                value="always"
-                                defaultChecked={this.state.strategy === "always"}
-                                onClick={this.onChangeStrategy} /> {"Run script on each deployment"}
-                        </label>
+                    <div className={classNames}>
+                        <h4 className="t-body-2">Input Type</h4>
+                        <div className="radio-inline">
+                            <label className="radio">
+                                <input type="radio"
+                                       name="optionsRadios"
+                                       value="URL"
+                                       defaultChecked={this.state.type === "URL"}
+                                       onClick={this.onChangeType} /> URL
+                            </label>
+                        </div>
+                        <div className="radio-inline">
+                            <label className="radio">
+                                <input type="radio"
+                                       name="optionsRadios"
+                                       value="Raw Text"
+                                       defaultChecked={this.state.type === "Raw Text"}
+                                       onClick={this.onChangeType} /> Raw Text
+                            </label>
+                        </div>
+                        <h4 className="t-body-2">Execution Strategy Type</h4>
+                        <div className="radio">
+                            <label className="radio">
+                                <input type="radio"
+                                       name="strategyTypeRadios"
+                                       value="once"
+                                       defaultChecked={this.state.strategy === "once"}
+                                       onClick={this.onChangeStrategy} /> {"Run script on first boot"}
+                            </label>
+                        </div>
+                        <div className="radio">
+                            <label className="radio">
+                                <input type="radio"
+                                       name="strategyTypeRadios"
+                                       value="always"
+                                       defaultChecked={this.state.strategy === "always"}
+                                       onClick={this.onChangeStrategy} /> {"Run script on each deployment"}
+                            </label>
+                        </div>
+                        <h4 className="t-body-2">Deployment Type</h4>
+                        <div className="radio">
+                            <label className="radio">
+                                <input type="radio"
+                                       name="deploymentTypeRadios"
+                                       value="once"
+                                       defaultChecked={this.state.wait_for_deploy}
+                                       onClick={this.onChangeDeployment} /> {"Wait for script to complete"}
+                            </label>
+                        </div>
+                        <div className="radio">
+                            <label className="radio">
+                                <input type="radio"
+                                       name="deploymentTypeRadios"
+                                       value="always"
+                                       defaultChecked={!this.state.wait_for_deploy}
+                                       onClick={this.onChangeDeployment} /> {"Execute script asynchronously"}
+                            </label>
+                        </div>
+
                     </div>
                 </div>
                 <div className="col-md-6">
