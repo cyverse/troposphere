@@ -333,9 +333,9 @@ def application(request):
     notice_info = get_notice(request)
 
     if should_route_to_maintenace(request, in_maintenance):
-        logger.warn('%s has actice session but is NOT in staff_list_usernames'
-            % request.user.username)
-        logger.warn('- routing user')
+        logger.warn('%s has active session but is NOT in staff_list_usernames'
+            % request.user)
+        logger.warn('- redirecting user to maintenance')
         return redirect('maintenance')
     if getattr(settings, "DISABLE_PUBLIC_AUTH", False):
         return _handle_authenticated_application_request(request,
