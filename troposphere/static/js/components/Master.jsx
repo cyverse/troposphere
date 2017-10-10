@@ -114,6 +114,12 @@ export default React.createClass({
             email: profile.get('email'),
             username: profile.get('username'),
         }
+
+        if (context.hasEmulatedSession()) {
+            userContext.emulated = true;
+            userContext.emulator = context.getEmulator();
+        }
+
         Raven.setUserContext(userContext);
         Raven.setTagsContext(window.SENTRY_TAGS);
     },
