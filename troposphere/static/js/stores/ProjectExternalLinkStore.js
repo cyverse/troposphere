@@ -55,6 +55,9 @@ let ProjectStore = BaseStore.extend({
         }
     },
 
+    getSharedLinks: function() {
+        return new ExternalLinkCollection();
+    },
     getExternalLinksFor: function(project) {
         var allExternalLinks = stores.ExternalLinkStore.getAll();
         if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);

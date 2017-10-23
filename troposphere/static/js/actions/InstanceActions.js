@@ -3,6 +3,7 @@ import ISuspend from "./instance/suspend";
 import IStop from "./instance/stop";
 import IStart from "./instance/start";
 import IReboot from "./instance/reboot";
+import IShare from "./instance/share";
 import IRedeploy from "./instance/redeploy";
 import IPoll from "./instance/poll";
 import ILaunch from "./instance/launch";
@@ -22,6 +23,9 @@ export default {
     stop: IStop.stop,
     start: IStart.start,
     reboot: IReboot.reboot,
+    createShareRequest: IShare.createShareRequest,
+    updateShareRequest: IShare.updateShareRequest,
+    deleteShareRequest: IShare.deleteShareRequest,
     redeploy: IRedeploy.redeploy,
     poll: IPoll.poll,
     launch: ILaunch.launch,

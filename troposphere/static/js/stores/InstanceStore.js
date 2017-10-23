@@ -56,6 +56,25 @@ var InstanceStore = BaseStore.extend({
             }.bind(this));
         }
     },
+    getSharedInstances: function() {
+        if (!this.models) return this.fetchModels();
+        let allInstances = this.models;
+
+        if (!allInstances) {
+            return;
+        }
+        var instances = allInstances.filter(instance => {
+            let compare_project= instance.get("project"),
+                shared_with_me;
+            if(!compare_project) {
+                return false;
+            }
+            shared_with_me = compare_project.shared_with_me;
+            return shared_with_me;
+        });
+
+        return new InstanceCollection(instances);
+    },
     getInstancesForIdentity: function(identity) {
         if (!this.models) return this.fetchModels();
 

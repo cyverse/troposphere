@@ -117,7 +117,8 @@ export default React.createClass({
         }
     },
 
-    onClick() {
+    onClick(e) {
+        e.stopPropagation();
         const { text } = this.props;
         copyTextToClipboard(text);
 

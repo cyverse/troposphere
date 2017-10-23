@@ -8,11 +8,11 @@ export default React.createClass({
     displayName: "ProjectDetailsMaster",
 
     getChildContext() {
-        return { projectId: Number(this.props.params.projectId) };
+        return { projectId: this.props.params.projectId };
     },
 
    childContextTypes: {
-        projectId: React.PropTypes.number
+        projectId: React.PropTypes.string
     },
 
     updateState: function() {
@@ -28,7 +28,13 @@ export default React.createClass({
     },
 
     render: function() {
-        var project = stores.ProjectStore.get(Number(this.props.params.projectId));
+        let projectID = this.props.params.projectId,
+            project;
+        if (projectID == "shared") {
+            project = stores.ProjectStore.getSharedProject();
+        } else {
+            project = stores.ProjectStore.get(Number(projectID));
+        }
 
         if (!project) {
             return (

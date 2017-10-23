@@ -49,7 +49,9 @@ export default React.createClass({
 
     render: function() {
         var project = this.props.project;
-
+        if(project.id == 'shared') {
+            return null;
+        }
         return (
         <div>
             <div className="secondary-nav">

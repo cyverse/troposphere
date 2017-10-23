@@ -1,11 +1,21 @@
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
+import Project from "models/Project";
 import ProjectCollection from "collections/ProjectCollection";
 import ProjectConstants from "constants/ProjectConstants";
 
 let ProjectStore = BaseStore.extend({
     collection: ProjectCollection,
 
+    getSharedProject: function() {
+        var sharedProject = new Project({
+            id: 'shared',
+            owner: 'shared',
+            name: 'My Shared Resources',
+            description: "This project contains shared resources. To share a resource with another user, create an instance and select 'Share Access'. After approving the request, your resources will be found here."
+        });
+        return sharedProject;
+    },
     getProjectsForIdentity: function(identityObj) {
         if (identityObj == null) {
             return this.fetchModels();

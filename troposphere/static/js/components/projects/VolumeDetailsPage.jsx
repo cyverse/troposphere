@@ -30,10 +30,15 @@ export default React.createClass({
     },
 
     render() {
-        let { params } = this.props,
-            project = stores.ProjectStore.get(Number(params.projectId)),
-            volume = stores.VolumeStore.get(Number(params.volumeId)),
+        let { projectId, volumeId } = this.props.params,
+            volume = stores.VolumeStore.get(Number(volumeId)),
             helpLinks = stores.HelpLinkStore.getAll();
+        let project;
+        if(projectId == "shared") {
+            project = stores.ProjectStore.getSharedProject();
+        } else {
+            project = stores.ProjectStore.get(Number(projectId));
+        }
 
         if (!project || !volume || !helpLinks) {
             return <div className="loading"></div>;

@@ -9,8 +9,13 @@ export default React.createClass({
     displayName: "ProjectDetailsPage",
 
     render() {
-        let projectId = Number(this.props.params.projectId),
-            project = stores.ProjectStore.get(projectId);
+        let projectID = this.props.params.projectId,
+            project;
+        if (projectID == "shared") {
+            project = stores.ProjectStore.getSharedProject();
+        } else {
+            project = stores.ProjectStore.get(Number(projectID));
+        }
 
         if (!project) {
             return (

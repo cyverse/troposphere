@@ -1,14 +1,18 @@
+import Backbone from "backbone";
 import React from "react";
 
 import subscribe from "utilities/subscribe";
 import globals from "globals";
 import context from "context";
 
+import featureFlags from "utilities/featureFlags";
 import AllocationSourceSection from "components/projects/resources/instance/details/sections/AllocationSourceSection";
 import InstanceDetailsSection from "components/projects/resources/instance/details/sections/InstanceDetailsSection";
 import PastInstanceDetailsSection from "components/projects/resources/instance/details/sections/PastInstanceDetailsSection";
 import InstanceActionsAndLinks from "components/projects/resources/instance/details/actions/InstanceActionsAndLinks";
 import InstanceMetricsSection from "components/projects/resources/instance/details/sections/InstanceMetricsSection";
+import InstancePlaybookHistorySection from "components/projects/resources/instance/details/sections/InstancePlaybookHistorySection";
+import InstanceAccessListView from "components/common/InstanceAccessListView";
 import InstanceInfoSection from "components/projects/resources/instance/details/sections/InstanceInfoSection";
 import InstanceHistorySection from "components/common/InstanceHistorySection";
 
@@ -17,12 +21,13 @@ const InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 
     propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         params: React.PropTypes.object
     },
 
     onNewData: function() { this.forceUpdate(); },
 
-    renderAllocationSourceSection() {
+    renderAllocationSourceSection(key) {
         let instance = this.props.params,
             instance_username = instance.get('user').username,
             current_username = context.profile.get('username'),
@@ -30,6 +35,7 @@ const InstanceDetail = React.createClass({
         let props = {
             disabled: disabled,
             instance,
+            key,
             ...this.props
         }
         return (
@@ -50,18 +56,12 @@ const InstanceDetail = React.createClass({
             return <div className="loading" />
         }
 
-        var metrics = globals.SHOW_INSTANCE_METRICS
-            ? <InstanceMetricsSection instance={instanceObj} />
-            : "";
-
         return (
             <div className="row resource-details-instanceDetailsSection">
                 <div className="col-md-9">
                     <InstanceInfoSection instance={instanceObj} />
                     <hr />
                     <PastInstanceDetailsSection instance={instanceObj} />
-                    <hr/>
-                    {metrics}
                     <hr/>
                     <InstanceHistorySection instance={instanceObj} />
                 </div>
@@ -71,13 +71,7 @@ const InstanceDetail = React.createClass({
 
     renderActiveInstance: function(instance) {
         let { ProjectStore } = this.props.subscriptions;
-        var metricsSection = globals.SHOW_INSTANCE_METRICS
-            ? <InstanceMetricsSection instance={instance} />
-            : null;
-        var allocationSourceSection = globals.USE_ALLOCATION_SOURCES
-            ? this.renderAllocationSourceSection()
-            : null;
-        let project = ProjectStore.get(instance.get('project').id);
+        let project = this.props.project;
         if (!project) {
             return (<div className="loading" />);
         }
@@ -85,20 +79,50 @@ const InstanceDetail = React.createClass({
         return (
             <div className="row resource-details-instanceDetailsSection">
                 <div className="col-md-9">
-                    <InstanceInfoSection instance={instance} />
-                    <hr/>
-                    {allocationSourceSection}
-                    <InstanceDetailsSection instance={instance} />
-                    <hr/>
-                    {metricsSection}
-                    <hr/>
-                    <InstanceHistorySection instance={instance} />
+                    {this.renderSections()}
                 </div>
                 <div className="col-md-3">
                     <InstanceActionsAndLinks project={project} instance={instance} />
                 </div>
             </div>
         );
+    },
+    renderSections: function() {
+        let instance = this.props.params,
+            instance_id = instance.id,
+            instance_project_shared_with_me = instance.get('project').shared_with_me,
+            is_shared_instance = instance_project_shared_with_me,
+            project = this.props.project,
+            info_section = (<InstanceInfoSection key={instance_id+"-info"} instance={instance} editable={!is_shared_instance}/>),
+            details_section = (<InstanceDetailsSection key={instance_id+"-details"} instance={instance} />),
+            sections = [
+                info_section,
+                (<hr key={instance_id+"-hr1"} />),
+                details_section,
+            ];
+
+        if(globals.USE_ALLOCATION_SOURCES && !is_shared_instance) {
+            var allocationSourceSection = this.renderAllocationSourceSection(instance_id+"-allocations");
+            sections.splice(2, 0, (<hr key={instance_id+"-hr2"} />));
+            sections.splice(2, 0, allocationSourceSection);
+        }
+        if(globals.SHOW_INSTANCE_METRICS) {
+            var metricsSection = (<InstanceMetricsSection key={instance_id+"-metrics"} instance={instance} />);
+            sections.push(<hr key={instance_id+"-hr3"} />);
+            sections.push(metricsSection);
+        }
+        if(featureFlags.hasInstanceSharing() && !is_shared_instance && instance.is_active()) {
+            let access_view = (<InstanceAccessListView key={instance_id+"-access"} instance={instance} />);
+            let history_view = (<InstanceHistorySection key={instance_id+"-history"} instance={instance} />);
+            let playbook_view = (<InstancePlaybookHistorySection key={instance_id+"-playbook"} instance={instance} />);
+            sections.push(<hr key={instance_id+"-hr4"} />);
+            sections.push(access_view)
+            sections.push(<hr key={instance_id+"-hr5"} />);
+            sections.push(history_view)
+            sections.push(<hr key={instance_id+"-hr6"} />);
+            sections.push(playbook_view)
+        }
+        return sections;
     },
 
     render: function() {

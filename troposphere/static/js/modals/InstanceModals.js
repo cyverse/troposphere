@@ -8,6 +8,7 @@ import IRequestImageModal from "./instance/requestImage";
 import IResumeModal from "./instance/resume";
 import IStartModal from "./instance/start";
 import IStopModal from "./instance/stop";
+import IShareModal from "./instance/share";
 import ISuspendModal from "./instance/suspend";
 import IShelveModal from "./instance/shelve";
 import IUnshelveModal from "./instance/unshelve";
@@ -23,6 +24,7 @@ export default {
     resume: IResumeModal.resume,
     start: IStartModal.start,
     stop: IStopModal.stop,
+    share: IShareModal.share,
     suspend: ISuspendModal.suspend,
     shelve: IShelveModal.shelve,
     unshelve: IUnshelveModal.unshelve

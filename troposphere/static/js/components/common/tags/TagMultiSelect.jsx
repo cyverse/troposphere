@@ -3,12 +3,12 @@ import Backbone from "backbone";
 import ChosenDropdownTag from "./ChosenDropdownTag";
 import ChosenSelectedTag from "./ChosenSelectedTag";
 import CreateTagView from "./CreateTagView";
-import ChosenMixin from "components/mixins/ChosenMixinExternal";
+import ChosenMultiMixinExternal from "components/mixins/ChosenMultiMixinExternal";
 
 
 export default React.createClass({
     displayName: "TagMultiSelect",
-    mixins: [ChosenMixin],
+    mixins: [ChosenMultiMixinExternal],
 
     propTypes: {
         tags: React.PropTypes.instanceOf(Backbone.Collection),

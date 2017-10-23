@@ -17,6 +17,10 @@ if(window.intercom_options && window.intercom_options['report']) {
     reportVolumesViaIntercom = reportOptions['volumes'] || false;
 }
 
+const hasInstanceSharing = () => {
+    return window.INSTANCE_SHARING || true;
+};
+
 const hasProjectSharing = () => {
     //FIXME: include ability to use context to determine if user is staff
     //       - uncomment `import` statement
@@ -55,5 +59,6 @@ export default {
     shouldReportVolumeViaIntercom,
     GUACAMOLE: !!window.GUACAMOLE_ENABLED || false,
     hasProjectSharing,
-    showClientCredentials
+    showClientCredentials,
+    hasInstanceSharing
 }

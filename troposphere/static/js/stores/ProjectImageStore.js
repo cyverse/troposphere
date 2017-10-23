@@ -60,6 +60,9 @@ var ProjectImageStore = BaseStore.extend({
         return _modelsFor[project.id].length;
     },
 
+    getSharedImages: function() {
+        return new ImageCollection();
+    },
     getImagesFor: function(project) {
         if (!project.id) return;
         if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);

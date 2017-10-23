@@ -2,14 +2,14 @@ import React from "react";
 import Backbone from "backbone";
 import ChosenDropdownItem from "components/common/chosen/ChosenDropdownItem";
 import ChosenSelectedItem from "components/common/chosen/ChosenSelectedItem";
-import ChosenMixinExternal from "components/mixins/ChosenMixinExternal";
+import ChosenMultiMixinExternal from "components/mixins/ChosenMultiMixinExternal";
 import CreateScriptView from "./CreateScriptView";
 
 
 export default React.createClass({
     displayName: "ScriptMultiSelectAndCreate",
 
-    mixins: [ChosenMixinExternal],
+    mixins: [ChosenMultiMixinExternal],
 
     propTypes: {
         //Mixin-requires:

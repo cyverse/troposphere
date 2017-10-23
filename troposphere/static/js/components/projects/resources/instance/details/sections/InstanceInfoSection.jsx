@@ -10,7 +10,14 @@ export default React.createClass({
     displayName: "InstanceInfoSection",
 
     propTypes: {
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+       editable: React.PropTypes.bool
+    },
+
+    getDefaultProps: function() {
+        return {
+            editable: true
+        }
     },
 
     getInitialState: function() {
@@ -87,7 +94,8 @@ export default React.createClass({
             instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
             type = stores.ProfileStore.get().get("icon_set"),
             iconSize = 113,
-            nameContent;
+            nameContent,
+            nameClassNames;
         let errorMessage = this.isValid(this.state.editedName) ?
             "" : 'Invalid format, names can not end in a period followed by numbers. For example: "Name.2222"';
         if (this.state.isEditing) {
@@ -101,9 +109,15 @@ export default React.createClass({
                     />
                 </div>
             );
-        } else {
+        } else if ( this.props.editable) {
+            nameClassNames = "resource-name editable"
             nameContent = (
                 <h4 onClick={this.onEnterEditMode}>{this.state.name} <i className="glyphicon glyphicon-pencil"></i></h4>
+            );
+        } else {
+            nameClassNames = "resource-name"
+            nameContent = (
+                <h4>{this.state.name}</h4>
             );
         }
 
@@ -115,7 +129,7 @@ export default React.createClass({
                               type={type}/>
                 </div>
                 <div className="resource-info">
-                    <div className="resource-name editable">
+                    <div className={nameClassNames}>
                         {nameContent}
                     </div>
                 </div>

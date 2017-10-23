@@ -25,7 +25,6 @@ export default React.createClass({
             let uuid = instance.get("uuid"),
                 isPreviewed = (previewedResource === instance),
                 isChecked = selectedResources.findWhere({uuid}) ? true : false;
-
             return (
             <InstanceRow key={instance.id || instance.cid}
                 instance={instance}

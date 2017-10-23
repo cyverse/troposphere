@@ -9,8 +9,8 @@ import stores from "stores";
 import context from "context";
 
 
-const Project = React.createClass({
-    displayName: "Project",
+const ComponentProject = React.createClass({
+    displayName: "ComponentProject",
 
     propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -168,10 +168,17 @@ const Project = React.createClass({
         if (project && project.id && !project.isNew()) {
             description = project.get('description');
             projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY hh:mm a");
-            projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
-            projectInstances = stores.ProjectInstanceStore.getInstancesFor(project);
-            projectImages = stores.ProjectImageStore.getImagesFor(project);
-            projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
+            if(project.id == 'shared') {
+                projectExternalLinks = stores.ProjectExternalLinkStore.getSharedLinks(),
+                projectInstances = stores.InstanceStore.getSharedInstances(),
+                projectVolumes = stores.ProjectVolumeStore.getSharedVolumes(),
+                projectImages = stores.ProjectImageStore.getSharedImages();
+            } else {
+                projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
+                projectInstances = stores.ProjectInstanceStore.getInstancesFor(project);
+                projectImages = stores.ProjectImageStore.getImagesFor(project);
+                projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
+            }
         } else {
             return (
                 <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
@@ -227,5 +234,5 @@ const Project = React.createClass({
 });
 
 export default subscribe(
-    Project,
+    ComponentProject,
     ["IdentityStore"]);
