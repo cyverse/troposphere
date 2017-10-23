@@ -126,6 +126,21 @@ export default React.createClass({
                     {"Are you experiencing a problem with Atmosphere to which you can't find a solution? " +
                      "Do you have a feature request or bug report? Let us know!"}
                 </p>
+                <div className="alert alert-info">
+                    <p>
+                        <i className="glyphicon glyphicon-info-sign" />
+                        <strong> Reporting an issue with an Instance? </strong>
+                    </p>
+                    <p>
+                        {"If you're letting us know about an issue with an Instance, please "}
+                        <strong>do not</strong> {"delete that instance."}
+                    </p>
+                    <p>
+                        {"If you're running multiple instances, please include the Instance's Alias " +
+                         "(this can be found on the detail page). Or, use the Report action from the " +
+                         " Instance detail page"}
+                    </p>
+                </div>
                 <textarea type="text"
                     className="form-control"
                     rows="7"
