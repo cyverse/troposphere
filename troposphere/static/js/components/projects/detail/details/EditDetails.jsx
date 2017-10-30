@@ -39,13 +39,15 @@ const EditDetails = React.createClass({
     },
 
     handleSave: function(description) {
+        let owner = featureFlags.hasProjectSharing() ?
+                    this.state.groupOwner :
+                    context.profile.get('username');
+
         this.props.onSave({
             name: this.state.name,
             description: this.state.description,
-            owner: this.state.groupOwner
+            owner
         });
-
-    //actions.ProjectActions.updateProjectAttributes(this.props.project, {description: description})
     },
 
     handleNameChange: function(e) {
