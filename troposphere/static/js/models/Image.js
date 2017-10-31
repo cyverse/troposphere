@@ -4,6 +4,19 @@ import globals from "globals";
 import CryptoJS from "crypto-js";
 import moment from "moment";
 
+/**
+ * Return a boolean indicating if a date is valid
+ *
+ * It might be enough to do:
+ *   obj && obj.isValid && obj.isValid()
+ */
+const safeIsValid = (obj) => {
+    return obj
+        && obj.isValid
+        && (typeof obj.isValid === 'function')
+        && obj.isValid();
+}
+
 export default Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/images",
 
@@ -27,6 +40,6 @@ export default Backbone.Model.extend({
     },
 
     isEndDated: function() {
-        return this.get("end_date") && this.get("end_date").isValid()
+        return safeIsValid(this.get("end_date"));
     }
 });
