@@ -136,7 +136,7 @@ export default React.createClass({
         // If a query is present, bail
         if (!images || !tags || this.state.query) return;
         images.comparator = function(img) {
-            return img.get('end_date').isValid() ? 1 : -1;
+            return img.isEndDated() ? 1 : -1;
         };
         images.sort();
 
@@ -154,7 +154,7 @@ export default React.createClass({
 
         if (images && tags) {
             images.comparator = function(img) {
-                return img.get('end_date').isValid() ? 1 : -1;
+                return img.isEndDated() ? 1 : -1;
             };
             images.sort();
             return (

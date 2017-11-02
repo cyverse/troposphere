@@ -35,7 +35,7 @@ const HistoryRow = React.createClass({
             formattedStartDate = moment(historyItem.get("start_date")).format("MMMM Do YYYY, h:mm a"),
             formattedEndDate = "Present";
 
-        if (historyItem.get("end_date") && historyItem.get("end_date").isValid()) {
+        if (historyItem.isEndDated()) {
             formattedEndDate = moment(historyItem.get("end_date")).format("MMMM Do YYYY, h:mm a");
         }
 

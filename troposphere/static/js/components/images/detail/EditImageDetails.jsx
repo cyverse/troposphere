@@ -26,7 +26,7 @@ export default React.createClass({
 
     getInitialState: function() {
         var image = this.props.image,
-            endDate = image.get("end_date").isValid() ?
+            endDate = image.isEndDated() ?
                 image.get("end_date").tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z") : "";
 
         var imageTags = stores.TagStore.getImageTags(image);
