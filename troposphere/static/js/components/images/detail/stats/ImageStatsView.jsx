@@ -222,7 +222,7 @@ const ImageStatsView = React.createClass({
 
         if(!imageMetric.hasMetrics()) {
             // Metrics unavailable//not-yet-generated for this image.
-            return ;
+            return null;
         }
 
         let summarizedView = (
