@@ -6,7 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 
 from rest_framework import status
-
+from requests.exceptions import HTTPError
 from troposphere.views.exceptions import failure_response
 
 logger = logging.getLogger(__name__)
@@ -45,8 +45,21 @@ def web_desktop(request):
     # FIXME: Remove verify=False in the future
     response = requests.get(access_token_route, headers=headers, verify=False)
 
-    # Raise exceptions for HTTP errors
-    response.raise_for_status()
+    try:
+        # Raise exceptions for HTTP errors
+        response.raise_for_status()
+    except HTTPError as exc:
+        status_code = exc.response.status_code
+        if status_code == 404:
+            return failure_response(
+                    status.HTTP_404_NOT_FOUND,
+                    "Instance %s not found " % request.POST['instance_id'])
+
+        logger.exception("Failed to acquire access_token from Atmosphere API: Response: %s", response)
+        #Reviewer-NOTE: Can we independently fire a sentry event, if enabled, when this happens?
+        return failure_response(
+                status.HTTP_503_SERVICE_UNAVAILABLE,
+                "Failed to acquire acccess_token. Please retry your request.")
 
     data = response.json()
     url = data.get('token_url')
