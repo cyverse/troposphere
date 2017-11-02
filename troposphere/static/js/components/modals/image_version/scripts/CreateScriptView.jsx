@@ -16,6 +16,8 @@ export default React.createClass({
             scriptType: "URL",
             scriptURL: "",
             scriptText: "",
+            strategy: "always",
+            wait_for_deploy: true
         }
     },
     isSubmittable: function() {
@@ -36,7 +38,9 @@ export default React.createClass({
         var params = {
             title: this.state.scriptTitle,
             type: this.state.scriptType,
-            text: (this.state.scriptType == "URL") ? this.state.scriptURL : this.state.scriptText
+            text: (this.state.scriptType == "URL") ? this.state.scriptURL : this.state.scriptText,
+            strategy: this.state.strategy.trim(),
+            wait_for_deploy: this.state.wait_for_deploy
         };
         this.props.onCreateScript(params);
     },
@@ -68,6 +72,18 @@ export default React.createClass({
         var title = e.target.value;
         this.setState({
             scriptTitle: title
+        })
+    },
+    onChangeDeployment: function(e) {
+        let deployType = e.target.value === "sync";
+        this.setState({
+            wait_for_deploy: deployType
+        })
+    },
+    onChangeStrategy: function(e) {
+        let strategy = e.target.value;
+        this.setState({
+            strategy
         })
     },
     renderScriptSelection: function() {
@@ -157,6 +173,60 @@ export default React.createClass({
                 </div>
         );
     },
+    renderExecutionStrategyType: function() {
+        return (
+            <div className="form-group">
+                <label htmlFor="strategyTypeRadios">
+                    Strategy Type
+                </label>
+                <div className="radio">
+                    <label className="radio">
+                        <input type="radio"
+                               name="strategyTypeRadios"
+                               value="once"
+                               defaultChecked={this.state.strategy === "once"}
+                               onClick={this.onChangeStrategy} /> {"Run script on first boot"}
+                    </label>
+                </div>
+                <div className="radio">
+                    <label className="radio">
+                        <input type="radio"
+                               name="strategyTypeRadios"
+                               value="always"
+                               defaultChecked={this.state.strategy === "always"}
+                               onClick={this.onChangeStrategy} /> {"Run script on each deployment"}
+                    </label>
+                </div>
+            </div>
+        );
+    },
+    renderDeploymentType: function () {
+        return (
+            <div className="form-group">
+                <label htmlFor="deploymentTypeRadios">
+                    Deployment Type
+                </label>
+                <div className="radio">
+                    <label className="radio">
+                        <input type="radio"
+                               name="deploymentTypeRadios"
+                               value="once"
+                               defaultChecked={this.state.wait_for_deploy}
+                               onClick={this.onChangeDeployment} /> {"Wait for script to complete"}
+                    </label>
+                </div>
+                <div className="radio">
+                    <label className="radio">
+                        <input type="radio"
+                               name="deploymentTypeRadios"
+                               value="always"
+                               defaultChecked={!this.state.wait_for_deploy}
+                               onClick={this.onChangeDeployment} /> {"Execute script asynchronously"}
+                    </label>
+                </div>
+            </div>
+        );
+    },
     render: function() {
         return (
 
@@ -165,6 +235,8 @@ export default React.createClass({
                 {this.renderScriptTitle()}
                 {this.renderScriptInputRadio()}
                 {this.renderScriptSelection()}
+                {this.renderExecutionStrategyType()}
+                {this.renderDeploymentType()}
             </div>
             <div className="new-item-form-header form-group clearfix" style={{ "border": "black 1px" }}>
                 <button disabled={!this.isSubmittable()}

@@ -58,7 +58,9 @@ export default React.createClass({
         var script = actions.ScriptActions.create({
             title: scriptObj.title,
             type: scriptObj.type,
-            text: scriptObj.text
+            text: scriptObj.text,
+            strategy: scriptObj.strategy,
+            wait_for_deploy: scriptObj.wait_for_deploy
         });
         var scripts = this.state.activeScripts;
         scripts.add(script);
