@@ -1,5 +1,6 @@
 import React from "react";
 
+import globals from "globals";
 import AllocationSourceView from "./AllocationSourceView";
 import IdentityView from "./IdentityView";
 
@@ -122,8 +123,8 @@ export default React.createClass({
             <hr style={horizontalRule} />
             <h4 className="t-title">1. Update the user's current resources</h4>
             <div style={section}>
-                <h5 className="t-title">Allocation</h5>
-                { this.renderAllocationsSection() }
+                { globals.EXTERNAL_ALLOCATION ? null : <h5 className="t-title">Allocation</h5> }
+                { globals.EXTERNAL_ALLOCATION ? null : this.renderAllocationsSection() }
                 <h5 className="t-title">Quota</h5>
                 { this.renderIdentitiesSection() }
             </div>
