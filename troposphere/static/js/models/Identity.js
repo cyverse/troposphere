@@ -1,5 +1,6 @@
 import Backbone from "backbone";
 import featureFlags from "utilities/featureFlags";
+import globals from "globals";
 
 function isRelevant(model, identityId) {
     // using double ~ to convert string to number
@@ -9,6 +10,7 @@ function isRelevant(model, identityId) {
 }
 
 export default Backbone.Model.extend({
+    urlRoot: globals.API_V2_ROOT + "/identities",
     parse: function(attributes) {
 
         // put default allocation data here since it isn't
