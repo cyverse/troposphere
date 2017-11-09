@@ -1,6 +1,6 @@
 import _ from "underscore";
 import React from "react";
-import GuacamoleOption from "./GuacamoleOption";
+import GuacamoleOption from "components/settings/web_shell/GuacamoleOption";
 
 export default React.createClass({
     displayName: "GuacamoleSelect",
