@@ -57,7 +57,6 @@ export default React.createClass({
     render: function() {
         var profile = this.state.profile;
         var selectedIconSet = profile.get("settings")["icon_set"];
-        var selectedGuacamoleColor = profile.get("settings")["guacamole_color"];
         var wantsEmails = profile.get("settings")["send_emails"];
 
         return (

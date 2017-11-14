@@ -31,8 +31,15 @@ export default React.createClass({
       });
   },
 
+  handleTermEmulatorSelect: function(term) {
+      actions.ProfileActions.updateProfileAttributes(this.state.profile, {
+          term_emulator: term
+      });
+  },
+
   renderMore: function() {
       var selectedGuacamoleColor = this.state.profile.get("settings")["guacamole_color"];
+      var selectedTermEmulator = this.state.profile.get("settings")["term_emulator"];
       return (
       <div style={{ marginLeft: "30px" }}>
           <h4>Web Shell Color Select</h4>
@@ -40,7 +47,13 @@ export default React.createClass({
               Use the form below to select color for SSH terminal in "New Web Shell".
           </p>
           <GuacamoleSelect selected={selectedGuacamoleColor} onSelect={this.handleColorSelect} />
-          <TerminalEmulator />
+
+          <h4>Terminal Emulator Selection</h4>
+          <p>
+              Use "tmux" or "screen" to enable persistence on Web Shell connections. Select "No persistence" to disable persistent connections.
+          </p>
+          <TerminalEmulator selected={selectedTermEmulator} onSelect={this.handleTermEmulatorSelect}/>
+
           <button onClick={this.showToggle}>
               Show Less
           </button>
