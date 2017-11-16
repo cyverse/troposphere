@@ -30,10 +30,9 @@ export default React.createClass({
                 screen: "screen"
             }
          };
-     },
+    },
 
     getQuickTips: function(type) {
-        var retVal = "";
         switch (type) {
             case "default":
                 return(
