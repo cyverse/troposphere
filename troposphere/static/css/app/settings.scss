@@ -32,6 +32,16 @@
     width: 300px;
   }
 
+  .hidden-quick-tips {
+    outline: none;
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    text-shadow: 1px 1px 1px #fff;
+    font-weight: bold;
+    margin: 0px 0px 10px 0px;
+  }
+
   .t-title {
     margin: 20px 0px 15px 0px;
     border-bottom: 1px solid #ddd;
