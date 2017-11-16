@@ -1,9 +1,9 @@
 import _ from "underscore";
 import React from "react";
-import greenBlackImage from "themeImages/green-black.png";
-import whiteBlackImage from "themeImages/white-black.png";
-import blackWhiteImage from "themeImages/black-white.png";
-import grayBlackImage from "themeImages/gray-black.png";
+import greenBlackImage from "images/green-black.png";
+import whiteBlackImage from "images/white-black.png";
+import blackWhiteImage from "images/black-white.png";
+import grayBlackImage from "images/gray-black.png";
 
 export default React.createClass({
     displayName: "GuacamoleOption",

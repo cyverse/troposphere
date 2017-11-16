@@ -235,7 +235,7 @@ export default React.createClass({
 
         let links = [
             {
-                label: "Open Web Shell",
+                label: "Open Old Web Shell",
                 icon: "console",
                 href: webShellUrl,
                 onClick: this.onWebShell,
@@ -246,7 +246,7 @@ export default React.createClass({
 
         if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
             links.push({
-                label: "Open Web Desktop",
+                label: "Open Old Web Desktop",
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(this, this.props.instance, "web_desktop", "vnc"),
                 openInNewWindow: true,
@@ -256,7 +256,7 @@ export default React.createClass({
 
         if (featureFlags.GUACAMOLE) {
           links.push({
-              label: "Open New Web Shell (beta)",
+              label: "Open Web Shell",
               icon: "text-background",
               onClick: this.onWebDesktop.bind(this, this.props.instance, "guacamole", "ssh"),
               openInNewWindow: true,
@@ -265,7 +265,7 @@ export default React.createClass({
 
           if (webDesktopCapable) {
             links.push({
-              label: "Open New Web Desktop (beta)",
+              label: "Open Web Desktop",
               icon: "sound-dolby",
               onClick: this.onWebDesktop.bind(this, this.props.instance, "guacamole", "vnc"),
               openInNewWindow: true,
