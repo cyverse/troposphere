@@ -1,7 +1,7 @@
 import React from "react";
-import GuacamoleSelect from "components/settings/web_shell/GuacamoleSelect";
-import TerminalEmulator from "components/settings/web_shell/TerminalEmulator";
-import CustomCommand from "components/settings/web_shell/CustomCommand";
+import ColorSchemeSelect from "components/settings/web_shell/ColorSchemeSelect";
+import LoginCommandSelect from "components/settings/web_shell/LoginCommandSelect";
+import CustomCommandEntry from "components/settings/web_shell/CustomCommandEntry";
 import actions from "actions";
 import modals from "modals";
 import stores from "stores";
@@ -44,7 +44,7 @@ export default React.createClass({
 
       var customCommand = <div></div>;
       if (selectedTermEmulator != "Screen" && selectedTermEmulator != "Tmux" && selectedTermEmulator != "Default")
-          customCommand = <CustomCommand value={selectedTermEmulator} onChange={this.handleTermEmulatorSelect} />
+          customCommand = <CustomCommandEntry value={selectedTermEmulator} onChange={this.handleTermEmulatorSelect} />
 
       return (
       <div style={{ marginLeft: "30px" }}>
@@ -52,14 +52,14 @@ export default React.createClass({
           <p>
           Use the form below to select color for SSH terminal in "New Web Shell".
           </p>
-          <GuacamoleSelect selected={selectedGuacamoleColor} onSelect={this.handleColorSelect} />
+          <ColorSchemeSelect selected={selectedGuacamoleColor} onSelect={this.handleColorSelect} />
 
           <h4>Web Shell Login</h4>
           <p>
           Customize your Web Shell by selecting a command from the dropdown to run it when initiating a Web Shell connection.<br/>
           Select "Custom" to enter your own command. Please note that if the command is invalid, Web Shell connections may fail.
           </p>
-          <TerminalEmulator selected={selectedTermEmulator} onSelect={this.handleTermEmulatorSelect} />
+          <LoginCommandSelect selected={selectedTermEmulator} onSelect={this.handleTermEmulatorSelect} />
 
           {customCommand}
 

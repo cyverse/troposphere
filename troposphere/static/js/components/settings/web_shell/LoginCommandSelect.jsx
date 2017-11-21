@@ -1,10 +1,10 @@
 import _ from "underscore";
 import React from "react";
 import stores from "stores";
-import TerminalOption from "components/settings/web_shell/TerminalOption";
+import LoginCommandOption from "components/settings/web_shell/LoginCommandOption";
 
 export default React.createClass({
-    displayName: "TerminalEmulator",
+    displayName: "LoginCommandSelect",
 
     getInitialState: function() {
         return {
@@ -122,7 +122,7 @@ export default React.createClass({
     render: function() {
         var options = _.map(this.props.options, function(text, type) {
             return (
-            <TerminalOption type={type} text={text} />
+            <LoginCommandOption type={type} text={text} />
             );
         }.bind(this));
 

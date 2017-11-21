@@ -2,7 +2,7 @@ import _ from "underscore";
 import React from "react";
 
 export default React.createClass({
-    displayName: "CustomCommand",
+    displayName: "CustomCommandEntry",
 
     handleSelect: function(e) {
         e.preventDefault();

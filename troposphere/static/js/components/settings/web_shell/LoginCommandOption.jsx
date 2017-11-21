@@ -2,7 +2,7 @@ import _ from "underscore";
 import React from "react";
 
 export default React.createClass({
-    displayName: "TerminalOption",
+    displayName: "LoginCommandOption",
 
     render: function() {
         return (
