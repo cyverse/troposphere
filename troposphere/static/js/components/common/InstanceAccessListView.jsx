@@ -3,6 +3,7 @@ import Backbone from "backbone";
 import subscribe from 'utilities/subscribe';
 import Glyphicon from "components/common/Glyphicon";
 import context from "context";
+import featureFlags from "utilities/featureFlags";
 
 import actions from "actions";
 /**
@@ -62,6 +63,11 @@ const InstanceAccessListView = React.createClass({
             </div>
         </div>);
     },
+    updateRequestsList: function() {
+        let {InstanceAccessStore} = this.props.subscriptions;
+
+        InstanceAccessStore.clearCache();
+    },
     getRequests: function() {
         let {InstanceAccessStore} = this.props.subscriptions,
             current_username = context.profile.get('username'),
@@ -92,17 +98,26 @@ const InstanceAccessListView = React.createClass({
             </tr>
         );
     },
-
+    approveRequest: function(accessRequest) {
+        actions.InstanceActions.updateShareRequest({
+            instance_access_request: accessRequest,
+            status: "approved",
+            onSuccess: this.updateRequestsList
+        });
+    },
     denyRequest: function(accessRequest) {
         actions.InstanceActions.updateShareRequest({
             instance_access_request: accessRequest,
-            status: "denied"
+            status: "denied",
+            onSuccess: this.updateRequestsList
         });
     },
     deleteRequest: function(accessRequest) {
         actions.InstanceActions.deleteShareRequest({
-            instance_access_request: accessRequest
+            instance_access_request: accessRequest,
+            onSuccess: this.updateRequestsList
         });
+        //TODO: On delete, update the table to remove the result.
     },
 
     renderAccessRequestActions: function(accessRequest) {
@@ -117,8 +132,12 @@ const InstanceAccessListView = React.createClass({
             current_username = context.profile.get('username'),
             status = accessRequest.get('status'),
             key = accessRequest.id + "-",
+            approve_text = "Approve request",
             delete_text = (status == 'approved') ? "Cancel request" : "Remove access for "+requestUser,
             deny_text = (status == 'approved') ? "Cancel request" : "Remove my Share Access",
+            approve_action = (<a key={key + "approve"} title={approve_text} onClick={this.approveRequest.bind(this, accessRequest)}>
+                   <Glyphicon name="ok" />
+               </a>),
             deny_action = (<a key={key + "deny"} title={deny_text} onClick={this.denyRequest.bind(this, accessRequest)}>
                    <Glyphicon name="trash" />
                </a>),
@@ -126,6 +145,9 @@ const InstanceAccessListView = React.createClass({
                    <Glyphicon name="trash" />
                </a>);
         let actions = []
+        if(featureFlags.autoApproveInstanceAccess == false) {
+            actions.push(approve_action);
+        }
         if(instance_owner_username == current_username) {
             actions.push(delete_action)
         } else {

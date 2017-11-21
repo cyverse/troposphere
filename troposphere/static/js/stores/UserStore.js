@@ -11,7 +11,7 @@ let UserStore = BaseStore.extend({
     },
 
     queryParams: {
-        page_size: 3000
+        page_size: 10000
     },
 
 

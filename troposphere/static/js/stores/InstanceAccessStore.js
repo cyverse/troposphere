@@ -11,14 +11,15 @@ let InstanceAccessStore = BaseStore.extend({
         if(instance == null) {
             return this.fetchModels();
         }
-        let instance_uuid = instance.get('uuid'),
-            instance_key = "?instance__provider_alias="+instance_uuid,
-            query_params = {"instance__provider_alias": instance_uuid};
-        if(!this.queryModels[instance_key]) {
-            return this.fetchWhere(query_params);
-        } else {
-            return this.queryModels[instance_key];
-        }
+        return this.findWhere({"instance.provider_alias": instance.get('uuid')});
+        // let instance_uuid = instance.get('uuid'),
+        //     instance_key = "?instance__provider_alias="+instance_uuid,
+        //     query_params = {"instance__provider_alias": instance_uuid};
+        // if(!this.queryModels[instance_key]) {
+        //     return this.fetchWhere(query_params);
+        // } else {
+        //     return this.queryModels[instance_key];
+        // }
     },
 });
 

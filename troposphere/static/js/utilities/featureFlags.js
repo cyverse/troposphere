@@ -39,6 +39,12 @@ const showIdentityView = () => {
     return false;
 };
 
+const autoApproveInstanceAccess = () => {
+    //Always true. Make this a template variable if you do *not*
+    //want to auto-approve instance access requests.
+    return true;
+};
+
 const hasIntercomActive = () => {
         return window.intercom_app_id && window.Intercom;
 };

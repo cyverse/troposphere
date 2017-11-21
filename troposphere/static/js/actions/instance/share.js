@@ -9,13 +9,18 @@ export default {
         // Delete access request
         if (!params.instance_access_request)
             throw new Error("Missing instance_access_request");
-        let { instance_access_request } = params;
+        let {
+            instance_access_request,
+            onSuccess,
+            onFail
+            } = params;
 
         instance_access_request.destroy({
         }).done(function() {
                 Utils.dispatch(InstanceAccessConstants.REMOVE_INSTANCE_ACCESS, {
                     instance_access_request,
                 });
+                onSuccess();
                 Utils.displaySuccess({
                     message: `Your instance access request has been deleted.`
                 });
@@ -31,7 +36,10 @@ export default {
         if (!params.user)
             throw new Error("Missing user");
 
-        let { instance, user } = params,
+        let {
+            instance,
+            onSuccess,
+            user} = params,
             username = user.get('username'),
             newAccessRequest = new InstanceAccess({
                 instance,
@@ -53,6 +61,9 @@ export default {
                 Utils.dispatch(InstanceAccessConstants.UPDATE_INSTANCE_ACCESS, {
                     instance_access_request: newAccessRequest
                 });
+                if(onSuccess) {
+                    onSuccess(newAccessRequest)
+                }
                 Utils.displaySuccess({
                     message: `Your instance access request has been sent to ${username}.`
                 });
@@ -71,7 +82,7 @@ export default {
         if (!params.status)
             throw new Error("Missing status");
 
-        let { status, instance_access_request } = params,
+        let { status, instance_access_request, onSuccess } = params,
             newAttributes = {status},
             oldStatus = instance_access_request.get('status');
 
@@ -82,7 +93,10 @@ export default {
             .done(function() {
                 Utils.displaySuccess({
                     message: `Instance access request has been ${status}.`
-                })
+                });
+                if(onSuccess) {
+                    onSuccess(instance_access_request)
+                }
             })
             .fail(response => {
                 Utils.displayError({

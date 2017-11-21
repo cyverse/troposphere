@@ -19,12 +19,13 @@ let InstancePlaybookStore = BaseStore.extend({
     getForInstance: function(instance) {
         if(!this.models) {
             this.fetchModels();
+            return;
         }
-        var instance_histories = this.fetchWhere({
-            instance_id: instance.get('uuid')
+        var playbooks = this.findWhere({
+            "instance.uuid": instance.get('uuid')
         });
 
-        return instance_histories;
+        return playbooks;
     },
 });
 
