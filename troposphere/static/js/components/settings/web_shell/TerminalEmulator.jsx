@@ -25,74 +25,86 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             options: {
-                "default": "No persistence",
-                tmux: "tmux",
-                screen: "screen"
+                "default": "Custom",
+                Tmux: "Tmux",
+                Screen: "Screen",
+                Default: "Default"
             }
          };
     },
 
     getQuickTips: function(type) {
-        switch (type) {
-            case "default":
-                return(
-                <div>
-                    <a onClick={this.showToggle}>
-                        <p>
-                        This mode just uses the default bash terminal.
-                        </p>
-                    </a>
-                </div>
-                );
-            case "tmux":
-                return(
-                <div>
-                    <a onClick={this.showToggle}>
-                        <h4>Tmux Quick Tips</h4>
-                        <p>
-                        Use the key combination "CTRL+b" before each of the following commands.
-                        </p>
-                        <pre>
-                        s - list sessions <br/>
-                        $ - rename current sessions <br/>
-                        c - create new tab <br/>
-                        w - list tabs <br/>
-                        n - next tab <br/>
-                        p - previous tab <br/>
-                        , - name tab <br/>
-                        & - kill tab <br/>
-                        % - vertical split pane <br/>
-                        " - horizontal split pane <br/>
-                        x - kill pane <br/>
-                        Arrow keys to move between panes <br/>
-                        ] - enable viewing up <br/>
-                        d - detach without closing session <br/>
-                        </pre>
-                    </a>
-                    <sup><a target="_blank" href="https://gist.github.com/MohamedAlaa/2961058">Source of the Quick Tips</a></sup>
-                </div>
-                );
-            case "screen":
-                return(
-                <div>
-                    <a onClick={this.showToggle}>
-                        <h4>GNU Screen Quick Tips</h4>
-                        <p>
-                        Use the key combination "CTRL+a" before each of the following commands.
-                        </p>
-                        <pre>
-                        " - list tab <br/>
-                        A - rename current tab <br/>
-                        c - create new tab <br/>
-                        S - horizontal split pane <br/>
-                        | - vertical split pane <br/>
-                        TAB - switch between panes <br/>
-                        d - detach without closing session <br/>
-                        </pre>
-                    </a>
-                    <sup><a target="_blank" href="https://wiki.archlinux.org/index.php/GNU_Screen">Source of the Quick Tips</a></sup>
-                </div>
-                );
+        if (type == "Default") {
+            return(
+              <div>
+                <a onClick={this.showToggle}>
+                  <p>
+                    This mode just uses the default bash terminal.
+                  </p>
+                </a>
+              </div>
+            );
+        } else if (type == "Tmux") {
+            return(
+            <div>
+                <a onClick={this.showToggle}>
+                    <h4>Tmux Quick Tips</h4>
+                    <p>
+                    The command line program "tmux" will enable persistence on Web Shell connections which will keep processes running even when the browser is closed.
+                    Use the key combination "CTRL+b" before each of the following commands.
+                    </p>
+                    <pre>
+                    s - list sessions <br/>
+                    $ - rename current sessions <br/>
+                    c - create new tab <br/>
+                    w - list tabs <br/>
+                    n - next tab <br/>
+                    p - previous tab <br/>
+                    , - name tab <br/>
+                    & - kill tab <br/>
+                    % - vertical split pane <br/>
+                    " - horizontal split pane <br/>
+                    x - kill pane <br/>
+                    Arrow keys to move between panes <br/>
+                    ] - enable viewing up <br/>
+                    d - detach without closing session <br/>
+                    </pre>
+                </a>
+                <sup><a target="_blank" href="https://gist.github.com/MohamedAlaa/2961058">Source of the Quick Tips</a></sup>
+            </div>
+            );
+        } else if (type == "Screen") {
+            return(
+            <div>
+                <a onClick={this.showToggle}>
+                    <h4>GNU Screen Quick Tips</h4>
+                    <p>
+                    The command line program "screen" will enable persistence on Web Shell connections which will keep processes running even when the browser is closed.
+                    Use the key combination "CTRL+a" before each of the following commands.
+                    </p>
+                    <pre>
+                    " - list tab <br/>
+                    A - rename current tab <br/>
+                    c - create new tab <br/>
+                    S - horizontal split pane <br/>
+                    | - vertical split pane <br/>
+                    TAB - switch between panes <br/>
+                    d - detach without closing session <br/>
+                    </pre>
+                </a>
+                <sup><a target="_blank" href="https://wiki.archlinux.org/index.php/GNU_Screen">Source of the Quick Tips</a></sup>
+            </div>
+            );
+        } else {
+            return(
+            <div>
+                <a onClick={this.showToggle}>
+                    <p>
+                    No tips available for custom commands.
+                    </p>
+                </a>
+            </div>
+            );
         }
     },
 
@@ -121,6 +133,7 @@ export default React.createClass({
                     {options}
                 </select>
             </form>
+
             {this.state.showTips ?
              this.getQuickTips(this.props.selected) :
              this.noQuickTips()}

@@ -1,6 +1,7 @@
 import React from "react";
 import GuacamoleSelect from "components/settings/web_shell/GuacamoleSelect";
 import TerminalEmulator from "components/settings/web_shell/TerminalEmulator";
+import CustomCommand from "components/settings/web_shell/CustomCommand";
 import actions from "actions";
 import modals from "modals";
 import stores from "stores";
@@ -40,20 +41,27 @@ export default React.createClass({
   renderMore: function() {
       var selectedGuacamoleColor = this.state.profile.get("settings")["guacamole_color"];
       var selectedTermEmulator = this.state.profile.get("settings")["term_emulator"];
+
+      var customCommand = <div></div>;
+      if (selectedTermEmulator != "Screen" && selectedTermEmulator != "Tmux" && selectedTermEmulator != "Default")
+          customCommand = <CustomCommand value={selectedTermEmulator} onChange={this.handleTermEmulatorSelect} />
+
       return (
       <div style={{ marginLeft: "30px" }}>
           <h4>Color Scheme</h4>
           <p>
-              Use the form below to select color for SSH terminal in "New Web Shell".
+          Use the form below to select color for SSH terminal in "New Web Shell".
           </p>
           <GuacamoleSelect selected={selectedGuacamoleColor} onSelect={this.handleColorSelect} />
 
-          <h4>Persistence</h4>
+          <h4>Web Shell Login</h4>
           <p>
-              Enabling persistence on Web Shell connections will keep processes running even when the browser is closed.
-              Select "tmux" or "screen" to enable persistence on Web Shell connections using the respective command line programs. Select "No persistence" to disable persistent connections.
+          Customize your Web Shell by selecting a command from the dropdown to run it when initiating a Web Shell connection.<br/>
+          Select "Custom" to enter your own command. Please note that if the command is invalid, Web Shell connections may fail.
           </p>
-          <TerminalEmulator selected={selectedTermEmulator} onSelect={this.handleTermEmulatorSelect}/>
+          <TerminalEmulator selected={selectedTermEmulator} onSelect={this.handleTermEmulatorSelect} />
+
+          {customCommand}
 
           <button onClick={this.showToggle}>
               Show Less
