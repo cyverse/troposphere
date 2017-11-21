@@ -1,8 +1,12 @@
 import React from "react";
-import subscribe from "utilities/subscribe";
-import InstancePlaybookHistoryRow from "./InstancePlaybookHistoryRow";
+import context from "context";
+
 import featureFlags from "utilities/featureFlags";
-//FIXME: POLLing for InstancePlaybookStore is required to complete this feature.
+import subscribe from "utilities/subscribe";
+
+import Glyphicon from "components/common/Glyphicon";
+import InstancePlaybookHistoryRow from "./InstancePlaybookHistoryRow";
+
 
 const InstancePlaybookHistorySection = React.createClass({
     displayName: "InstancePlaybookHistorySection",
@@ -40,7 +44,9 @@ const InstancePlaybookHistorySection = React.createClass({
         let {InstancePlaybookStore } = this.props.subscriptions;
         let instance_playbook_histories = InstancePlaybookStore.getForInstance(this.props.instance);
         if(instance_playbook_histories == null) {
-            return (<div className="loading"/>);
+            return (<tr>
+                        <td><span className="loading-tiny-inline"/></td>
+                    </tr>);
         } else if (instance_playbook_histories.length == 0) {
             return (
                 <tr>
@@ -93,13 +99,22 @@ const InstancePlaybookHistorySection = React.createClass({
 
     render: function() {
         if(!featureFlags.hasInstanceSharing()) {
-            return;
+            return null;
+        }
+        if(! context.profile.get('is_staff') && !context.hasEmulatedSession()) {
+            return null;
         }
         return (
         <div>
             <div className="resource-details-section section">
                 <h4 className="t-title">Instance Command History</h4>
                 <div style={{maxWidth: "600px"}}>
+                    <p className="alert alert-warning">
+                        <Glyphicon name="info-sign" />
+                    NOTE: This table is NOT visible to regular users.
+                    Staff users will see this for their accounts as well
+                    as accounts that they have emulated.
+                    </p>
                     <p>
                         Use the table below to track the commands that
                         have been executed in your instance.

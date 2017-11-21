@@ -55,14 +55,14 @@ export default React.createClass({
         if (this.isInError(status)) {
             return (
             <span>
-                <div> <StatusLight status="error"/> <span style={style}>{status}</span> </div>
+                <StatusLight status="error"/> <span style={style}>{status}</span>
             </span>
             );
         }
 
         return (
         <span>
-            <div> <StatusLight status={lightStatus}/> <span style={style}>{status}</span> </div>
+            <StatusLight status={lightStatus}/> <span style={style}>{status}</span>
             {this.renderProgressBar(percentComplete)}
         </span>
         );
