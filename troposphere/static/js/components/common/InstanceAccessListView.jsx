@@ -145,7 +145,7 @@ const InstanceAccessListView = React.createClass({
                    <Glyphicon name="trash" />
                </a>);
         let actions = []
-        if(featureFlags.autoApproveInstanceAccess == false) {
+        if(featureFlags.autoApproveInstanceAccess() == false) {
             actions.push(approve_action);
         }
         if(instance_owner_username == current_username) {

@@ -1,10 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Glyphicon from "components/common/Glyphicon";
 import Backbone from "backbone";
 import ChosenDropdown from "components/common/ui/ChosenDropdown";
 import classNames from "classnames";
-import $ from "jquery";
 
 import ChosenMixinExternal from "components/mixins/ChosenMixinExternal";
 
@@ -163,12 +161,6 @@ export default {
     renderEditModel: function() {
         var { editing, query } = this.state,
             { placeholderText } = this.props,
-            classes = classNames({
-                "chosen-container-external": true,
-                "chosen-container-external-single": true,
-                "chosen-with-drop": this.state.showOptions && query,
-                "chosen-container-external-active": this.state.showOptions
-            }),
             results;
         if (!editing) {
             return;

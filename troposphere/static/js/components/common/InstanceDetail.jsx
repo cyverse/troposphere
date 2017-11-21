@@ -70,7 +70,6 @@ const InstanceDetail = React.createClass({
     },
 
     renderActiveInstance: function(instance) {
-        let { ProjectStore } = this.props.subscriptions;
         let project = this.props.project;
         if (!project) {
             return (<div className="loading" />);
@@ -92,7 +91,6 @@ const InstanceDetail = React.createClass({
             instance_id = instance.id,
             instance_project_shared_with_me = instance.get('project').shared_with_me,
             is_shared_instance = instance_project_shared_with_me,
-            project = this.props.project,
             info_section = (<InstanceInfoSection key={instance_id+"-info"} instance={instance} editable={!is_shared_instance}/>),
             details_section = (<InstanceDetailsSection key={instance_id+"-details"} instance={instance} />),
             sections = [
@@ -154,4 +152,4 @@ const InstanceDetail = React.createClass({
 
 });
 
-export default subscribe(InstanceDetail, ["ProjectStore", "ImageStore", "InstanceStore", "InstanceHistoryStore"]);
+export default subscribe(InstanceDetail, ["ImageStore", "InstanceStore", "InstanceHistoryStore"]);

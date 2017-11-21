@@ -1,11 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-import context from "context";
 import subscribe from 'utilities/subscribe';
 import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import Glyphicon from "components/common/Glyphicon";
-import Users from "components/common/Users";
 import InstanceAccessRequestView from "components/common/InstanceAccessRequestView";
 
 const InstanceShareModal = React.createClass({
@@ -49,10 +46,7 @@ const InstanceShareModal = React.createClass({
     //
 
     renderBody: function() {
-        let username = this.state.username,
-            instance = this.props.instance,
-            instance_id = instance.get('uuid');
-        //Use current state or defaults to render InstanceAccessRequestView
+        let instance = this.props.instance;
         return (<InstanceAccessRequestView instance={instance} onSelectUser={this.onSelectUser} />);
     },
 

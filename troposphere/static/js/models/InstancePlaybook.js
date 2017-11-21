@@ -17,11 +17,11 @@ export default Backbone.Model.extend({
         var url = this.urlRoot + "/" + this.id;
         Backbone.sync("read", this, {
             url: url
-        }).done(function(attrs, status, response) {
-            var status = attrs.status;
-            this.set("status", attrs.status);
+        }).done(function(attrs, response_status, response) {
+            var api_status = attrs.status;
+            this.set("status", api_status);
             cb(response);
-        }.bind(this)).fail(function(response, status, errorThrown) {
+        }.bind(this)).fail(function(response, response_status, errorThrown) {
             cb(response);
         });
     },

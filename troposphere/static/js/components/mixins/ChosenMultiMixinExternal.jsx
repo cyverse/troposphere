@@ -1,7 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import _ from "underscore";
-import $ from "jquery";
 import Backbone from "backbone";
 import classNames from "classnames";
 
@@ -148,13 +146,10 @@ export default {
         return results;
     },
     getFilteredModels: function() {
-        var models = this.props.models,
-            query = this.state.query,
+        let models = this.props.models,
             activeCollection = this._mergeModels(
                 this.props.requiredModels,
                 this.props.activeModels),
-            selectedModels = activeCollection.map(this.renderSelectedModel),
-            placeholderText = this.props.placeholderText,
             filteredModels;
         filteredModels = models.filter(function(model) {
             return activeCollection.filter(function(activeModel) {
@@ -164,14 +159,12 @@ export default {
         return filteredModels;
     },
     renderChosenSearchSelect: function() {
-        var models = this.props.models,
-            query = this.state.query,
+        let query = this.state.query,
+            placeholderText = this.props.placeholderText,
             activeCollection = this._mergeModels(
                 this.props.requiredModels,
                 this.props.activeModels),
             selectedModels = activeCollection.map(this.renderSelectedModel),
-            placeholderText = this.props.placeholderText,
-            filteredModels,
             classes = classNames({
                 "chosen-container-external": true,
                 "chosen-container-external-multi": true,

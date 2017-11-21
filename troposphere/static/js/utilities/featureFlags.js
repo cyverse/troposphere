@@ -61,6 +61,7 @@ export default {
     WEB_DESKTOP: !!window.WEB_DESKTOP_ENABLED || false,
     hasIntercomActive,
     showIdentityView,
+    autoApproveInstanceAccess,
     shouldReportInstanceViaIntercom,
     shouldReportVolumeViaIntercom,
     GUACAMOLE: !!window.GUACAMOLE_ENABLED || false,

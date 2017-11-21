@@ -20,11 +20,16 @@ export default {
                 Utils.dispatch(InstanceAccessConstants.REMOVE_INSTANCE_ACCESS, {
                     instance_access_request,
                 });
-                onSuccess();
+                if(onSuccess) {
+                    onSuccess();
+                }
                 Utils.displaySuccess({
                     message: `Your instance access request has been deleted.`
                 });
         }).fail(function() {
+                if(onFail) {
+                    onFail();
+                }
                 Utils.displayError({
                     message: `Failed to delete instance access request.`
                 });
@@ -39,6 +44,7 @@ export default {
         let {
             instance,
             onSuccess,
+            onFail,
             user} = params,
             username = user.get('username'),
             newAccessRequest = new InstanceAccess({
@@ -71,6 +77,9 @@ export default {
                 Utils.dispatch(InstanceAccessConstants.REMOVE_INSTANCE_ACCESS, {
                     instance_access_request: newAccessRequest
                 });
+                if(onFail) {
+                    onFail();
+                }
                 Utils.displayError({
                     message: `Failed to create instance access request.`
                 });
@@ -82,7 +91,12 @@ export default {
         if (!params.status)
             throw new Error("Missing status");
 
-        let { status, instance_access_request, onSuccess } = params,
+        let {
+                status,
+                instance_access_request,
+                onFail,
+                onSuccess
+            } = params,
             newAttributes = {status},
             oldStatus = instance_access_request.get('status');
 
@@ -104,6 +118,9 @@ export default {
                     response: response
                 });
                 instance_access_request.set({status: oldStatus});
+                if(onFail) {
+                    onFail(instance_access_request);
+                }
                 Utils.dispatch(InstanceAccessConstants.UPDATE_INSTANCE_ACCESS, { instance_access_request });
             });
         // update access request

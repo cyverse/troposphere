@@ -2,7 +2,6 @@ import BaseStore from "stores/BaseStore";
 import InstancePlaybookCollection from "collections/InstancePlaybookCollection";
 import InstanceConstants from "constants/InstanceConstants";
 import Dispatcher from "dispatchers/Dispatcher";
-import actions from "actions";
 
 let InstancePlaybookStore = BaseStore.extend({
     collection: InstancePlaybookCollection,
@@ -34,12 +33,12 @@ store.lastUpdated = Date.now();
 
 Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
-    var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
 
         case InstanceConstants.INSTANCE_SHARE_ACCESS:
+            //Force a new set of InstancePlaybooks
             store.clearCache();
             store.lastUpdated = Date.now();
             store.getAll();

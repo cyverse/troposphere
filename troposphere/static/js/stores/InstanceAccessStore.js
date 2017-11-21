@@ -2,7 +2,6 @@ import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import InstanceAccessCollection from "collections/InstanceAccessCollection";
 import InstanceAccessConstants from "constants/InstanceAccessConstants";
-import actions from "actions";
 
 let InstanceAccessStore = BaseStore.extend({
     collection: InstanceAccessCollection,

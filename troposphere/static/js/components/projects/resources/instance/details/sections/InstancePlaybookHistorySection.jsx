@@ -1,4 +1,5 @@
 import React from "react";
+import Backbone from "backbone";
 import context from "context";
 
 import featureFlags from "utilities/featureFlags";

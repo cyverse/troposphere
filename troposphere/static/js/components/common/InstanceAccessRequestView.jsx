@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 import subscribe from 'utilities/subscribe';
 import Glyphicon from "components/common/Glyphicon";
-import Users from "components/common/Users";
 import ChosenSingleDropdown from "components/common/ui/ChosenSingleDropdown";
 
 /**

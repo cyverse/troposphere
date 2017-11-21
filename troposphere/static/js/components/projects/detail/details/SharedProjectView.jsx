@@ -40,8 +40,7 @@ const SharedProjectView = React.createClass({
         );
     },
     renderSharedResourcesTable: function() {
-        var project = this.state.project,
-            { InstanceStore } = this.props.subscriptions,
+        var { InstanceStore } = this.props.subscriptions,
             instances = InstanceStore.getSharedInstances();
 
         if (!instances.models[0]) {
@@ -64,8 +63,7 @@ const SharedProjectView = React.createClass({
                 type = ProfileStore.get().get("icon_set"),
                 iconSize = 18;
             // set the color of the row based on the status of the instance
-            var trClass,
-                endDateText = "N/A";
+            var trClass;
             switch (instanceStatus) {
                 case "active":
                     trClass = "active";
@@ -126,8 +124,7 @@ const SharedProjectView = React.createClass({
         );
     },
     render: function() {
-        var project = this.state.project,
-            { HelpLinkStore } = this.props.subscriptions,
+        var { HelpLinkStore } = this.props.subscriptions,
             helpLinks = HelpLinkStore.getAll();
 
         if (!helpLinks) {

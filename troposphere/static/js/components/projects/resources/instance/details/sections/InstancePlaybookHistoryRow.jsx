@@ -1,5 +1,4 @@
 import React from "react";
-import subscribe from "utilities/subscribe";
 import Backbone from "backbone";
 import PlaybookStatus from "./PlaybookStatus";
 
@@ -21,8 +20,6 @@ const InstancePlaybookHistoryRow = React.createClass({
         this.setState({
             refreshing: true
         });
-        let {InstancePlaybookStore} = this.props.subscriptions;
-
         let { instancePlaybookHistory } = this.props;
         let self = this;
         instancePlaybookHistory.save(
@@ -95,4 +92,4 @@ const InstancePlaybookHistoryRow = React.createClass({
     }
 });
 
-export default subscribe(InstancePlaybookHistoryRow, ["InstancePlaybookStore"]);
+export default InstancePlaybookHistoryRow;
