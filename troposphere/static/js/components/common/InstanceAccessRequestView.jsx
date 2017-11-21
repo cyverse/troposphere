@@ -53,8 +53,6 @@ const InstanceAccessRequestView = React.createClass({
                 {"- Instance access will allow the shared user to login via password (if available) and SSH key access, to the instance: "+instance_ip}<br/>
                 {"- Multiple instance access request(s) can be created, but users must be invited one at a time."}<br/>
                 {"- The shared user will be notified in the application when you send an instance access request."}<br/>
-                {"- The shared user must accept your instance access request before they will gain access."}<br/>
-                {"- The shared user can deny your instance access request.."}<br/>
                 {"- At any point after the access request is approved, you can delete the request and the users login/SSH access will also be removed from the application."}<br/>
                 </p>
             </div>

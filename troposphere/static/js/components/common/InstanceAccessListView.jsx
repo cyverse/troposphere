@@ -43,8 +43,6 @@ const InstanceAccessListView = React.createClass({
                 {"- Instance access will allow the shared user to login via password (if available) and SSH key access, to the instance: "+instance_ip}<br/>
                 {"- Multiple instance access request(s) can be created, but users must be invited one at a time."}<br/>
                 {"- The shared user will be notified in the application when you send an instance access request."}<br/>
-                {"- The shared user must accept your instance access request before they will gain access."}<br/>
-                {"- The shared user can deny your instance access request.."}<br/>
                 {"- At any point after the access request is approved, you can delete the request and the users login/SSH access will also be removed from the application."}<br/>
                 </p>
             </div>
@@ -105,13 +103,6 @@ const InstanceAccessListView = React.createClass({
             onSuccess: this.updateRequestsList
         });
     },
-    denyRequest: function(accessRequest) {
-        actions.InstanceActions.updateShareRequest({
-            instance_access_request: accessRequest,
-            status: "denied",
-            onSuccess: this.updateRequestsList
-        });
-    },
     deleteRequest: function(accessRequest) {
         actions.InstanceActions.deleteShareRequest({
             instance_access_request: accessRequest,
@@ -133,13 +124,9 @@ const InstanceAccessListView = React.createClass({
             status = accessRequest.get('status'),
             key = accessRequest.id + "-",
             approve_text = "Approve request",
-            delete_text = (status == 'approved') ? "Cancel request" : "Remove access for "+requestUser,
-            deny_text = (status == 'approved') ? "Cancel request" : "Remove my Share Access",
+            delete_text = "Delete instance access for "+ requestUser,
             approve_action = (<a key={key + "approve"} title={approve_text} onClick={this.approveRequest.bind(this, accessRequest)}>
                    <Glyphicon name="ok" />
-               </a>),
-            deny_action = (<a key={key + "deny"} title={deny_text} onClick={this.denyRequest.bind(this, accessRequest)}>
-                   <Glyphicon name="trash" />
                </a>),
             delete_action = (<a key={key + "delete"} title={delete_text} style={{color: "crimson"}} onClick={this.deleteRequest.bind(this, accessRequest)}>
                    <Glyphicon name="trash" />
@@ -148,11 +135,7 @@ const InstanceAccessListView = React.createClass({
         if(featureFlags.autoApproveInstanceAccess() == false) {
             actions.push(approve_action);
         }
-        if(instance_owner_username == current_username) {
-            actions.push(delete_action)
-        } else {
-            actions.push(deny_action)
-        }
+        actions.push(delete_action)
         return (
            <td key={key} style={tdStyle}>
             {actions}
@@ -194,8 +177,8 @@ const InstanceAccessListView = React.createClass({
             <div style={{maxWidth: "600px"}}>
                 <p>
                     This table contains a list of access requests.
-                    You can approve, deny, or delete an access request by
-                    clicking on the corresponding action on the right-hand side.
+                    You can delete an access request by
+                    clicking on the corresponding action on the right-hand side of each row.
                 </p>
             </div>
             <div style={{maxWidth: "80%"}}>
