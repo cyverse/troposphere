@@ -12,7 +12,9 @@ let ProjectStore = BaseStore.extend({
             id: 'shared',
             owner: 'shared',
             name: 'My Shared Resources',
-            description: "This project contains shared resources. To share a resource with another user, create an instance and select 'Share Access'. After approving the request, your resources will be found here."
+            description: "This project contains shared resources. To share a resource with another user, create an instance and select 'Share Access'. After approving the request, your resources will be found here.",
+            leaders: [],
+            users: [],
         });
         return sharedProject;
     },
