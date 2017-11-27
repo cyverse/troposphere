@@ -46,30 +46,37 @@ export default React.createClass({
 
     onAllocationSave(allocationSource) {
         let { selectedRequest: request } = this.props;
-        return Promise.resolve(allocationSource.save(allocationSource.pick("compute_allowed"), { patch: true }))
+        let promise = Promise.resolve(
+            allocationSource.save(allocationSource.pick("compute_allowed"), { patch: true })
+        );
+        promise
             .then(() => {
                 Utils.dispatch(AllocationSourceConstants.UPDATE, {
                     allocation: allocationSource,
                     username: request.get("created_by").username
                 })
             })
-            .catch(errorHandler)
+            .catch(errorHandler);
+        return promise;
     },
 
     onIdentitySave(identity) {
         let { selectedRequest: request } = this.props;
         let quota = new Quota(_.omit(identity.get('quota'), ["id", "uuid"]));
-        return Promise.resolve(quota.save())
+        let promise = Promise.resolve(quota.save())
             .then(
-                () => Promise.resolve(identity.save({ 'quota': quota.pick("id") }, { patch: true }))
-            )
+                () => identity.save({ 'quota': quota.pick("id") }, { patch: true })
+            );
+
+        promise
             .then(() => {
                 Utils.dispatch(IdentityConstants.UPDATE, {
                     identity,
                     username: request.get("created_by").username
                 });
             })
-            .catch(errorHandler)
+            .catch(errorHandler);
+        return promise;
     },
 
     onApprove() {
@@ -80,16 +87,18 @@ export default React.createClass({
         });
 
         this.setState({ actionPending: true });
-        ResourceRequestActions.updateRequest(request, status)
-            .then(() => {
-                browserHistory.push("/application/admin/resource-requests");
-            })
-            .catch(errorHandler)
-            .always(this.setActionResolved);
-    },
-
-    setActionResolved() {
-        this.setState({ actionPending: false });
+        let promise = Promise.resolve(ResourceRequestActions.updateRequest(request, status));
+        promise
+            .then(
+                // onSuccess, navigate away
+                () => browserHistory.push("/application/admin/resource-requests"),
+            )
+            .catch(err => {
+                // onFailure, action is no longer pending, trigger error handler
+                this.setState({ actionPending: false })
+                errorHandler(err);
+            });
+        return promise;
     },
 
     onDeny(reason) {
@@ -101,12 +110,18 @@ export default React.createClass({
         });
 
         this.setState({ actionPending: true });
-        ResourceRequestActions.updateRequest(request, status, reason)
-            .then(() => {
-                browserHistory.push("/application/admin/resource-requests");
+        let promise = ResourceRequestActions.updateRequest(request, status, reason);
+        promise
+            .then(
+                // onSuccess, navigate away
+                () => browserHistory.push("/application/admin/resource-requests"),
+            )
+            .catch(err => {
+                // onFailure, action is no longer pending, trigger error handler
+                this.setState({ actionPending: false });
+                errorHandler(err);
             })
-            .catch(errorHandler)
-            .always(this.setActionResolved);
+        return promise;
     },
 
     fetch() {

@@ -8,7 +8,8 @@ export default {
             reason === undefined ? {} : { admin_message: reason }
         )
 
-        return Promise.resolve(request.save(params, { patch: true }))
+        let promise = Promise.resolve(request.save(params, { patch: true }));
+        promise
             .then(() => {
                 Utils.dispatch(ResourceConstants.UPDATE, {
                     model: request
@@ -16,6 +17,7 @@ export default {
                 Utils.dispatch(ResourceConstants.REMOVE, {
                     model: request
                 });
-            })
+            });
+        return promise;
     }
 };
