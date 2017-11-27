@@ -4,7 +4,7 @@ import ResourceConstants from "constants/ResourceRequestConstants";
 export default {
     updateRequest(request, status, reason) {
         let params = Object.assign(
-            { status: status.id },
+            { status: { id: status.id } },
             reason === undefined ? {} : { admin_message: reason }
         )
 
