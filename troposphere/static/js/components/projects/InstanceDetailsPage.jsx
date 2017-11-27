@@ -36,7 +36,12 @@ export default React.createClass({
 
     render() {
         let { projectId, instanceId } = this.props.params;
-        let project = stores.ProjectStore.get(projectId);
+        let project;
+        if(projectId == "shared") {
+            project = stores.ProjectStore.getSharedProject();
+        } else {
+            project = stores.ProjectStore.get(projectId);
+        }
         let instance = stores.InstanceStore.get(instanceId);
         let helpLinks = stores.HelpLinkStore.getAll();
         let allocationSources = stores.AllocationSourceStore.getAll();

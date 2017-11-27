@@ -123,6 +123,10 @@ export default React.createClass({
         modals.InstanceModals.start(this.props.instance);
     },
 
+    onShare: function() {
+        modals.InstanceModals.share(this.props.instance);
+    },
+
     onSuspend: function() {
         modals.InstanceModals.suspend(this.props.instance);
     },
@@ -351,9 +355,9 @@ export default React.createClass({
     },
     getLinkElements: function() {
         let { actionElements } = this.state;
-        let linkElements = [
+        let commandLinkElements = [
                 {
-                    label: "Actions",
+                    label: "Manage",
                     icon: null
                 },
                 {
@@ -362,21 +366,44 @@ export default React.createClass({
                     onClick: this.onReport
                 }
             ];
+        let linkElements = [
+                {
+                    label: "Actions",
+                    icon: null
+                },
+            ];
+        let {instance, project} = this.props;
 
-        let instance_owner = this.props.instance.get('user'),
-            project_leaders = this.props.project.get('leaders'),
-            current_username = context.profile.get('username');
-        let is_leader = project_leaders.find(function(project) { return project.username == current_username }),
-            is_leader_or_owner = (current_username == instance_owner.username || is_leader != null);
+        let instance_owner = instance.get('user'),
+            project_shared_with_me = instance.get('project').shared_with_me,
+            is_shared_instance = project_shared_with_me;
+
+        if(featureFlags.hasInstanceSharing() && !is_shared_instance && instance.is_active()) {
+                commandLinkElements.push({
+                    label: "Share Access",
+                    icon: "user",
+                    onClick: this.onShare
+                });
+        }
+        if(!is_shared_instance) {
+            let project_leaders = project.get('leaders'),
+                current_username = context.profile.get('username'),
+                is_leader = project_leaders.find(function(project) { return project.username == current_username }),
+                is_leader_or_owner = (project_shared_with_me || current_username == instance_owner.username || is_leader != null);
+            is_shared_instance = !is_leader_or_owner;
+        }
 
 
-        if (!is_leader_or_owner) {
+        if (is_shared_instance) {
             actionElements = [
             {
                 label: "Shared Instance - No Actions Available",
                 icon: null
             }];
+        } else {
+            linkElements = commandLinkElements.concat(linkElements);
         }
+
         linkElements = linkElements.concat(actionElements);
         linkElements.push({
             label: "Links",

@@ -26,7 +26,6 @@ export default React.createClass({
             volumeHash = CryptoJS.MD5((volume.id || volume.cid).toString()).toString(),
             type = stores.ProfileStore.get().get("icon_set"),
             iconSize = 18;
-
         return (
         <SelectableRow isActive={this.props.isPreviewed}
             isSelected={this.props.isChecked}

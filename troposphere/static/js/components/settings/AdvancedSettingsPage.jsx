@@ -2,6 +2,7 @@ import React from "react";
 import featureFlags from "utilities/featureFlags";
 import SSHConfiguration from "components/settings/advanced/SSHConfiguration";
 import ScriptListView from "components/settings/advanced/ScriptListView";
+import InstanceAccessListView from "components/common/InstanceAccessListView";
 import ClientCredentials from "components/settings/advanced/ClientCredentials";
 
 
@@ -10,7 +11,7 @@ export default React.createClass({
 
     getInitialState: function() {
         return {
-            showMore: false,
+            showMore: true,
         };
     },
 
@@ -23,6 +24,12 @@ export default React.createClass({
             showMore: !this.state.showMore
         });
     },
+    renderInstanceAccessRequests: function() {
+        return (
+            <InstanceAccessListView/>
+        );
+    },
+
     renderScripts: function() {
         return (
             <ScriptListView/>
@@ -43,6 +50,7 @@ export default React.createClass({
         <div style={{ marginLeft: "30px" }}>
             {this.renderClientCredentials()}
             {this.renderScripts()}
+            {this.renderInstanceAccessRequests()}
             <SSHConfiguration/>
             <button onClick={this.showToggle}>
                 Show Less

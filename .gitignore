@@ -66,6 +66,7 @@ troposphere/assets
 themeImagesPath.js
 troposphere/static/css/app/variables.scss
 troposphere/static/theme/themeImages
+troposphere/static/theme/other/*
 troposphere/static/theme/theme.json
 troposphere/static/theme/*
 variables.ini

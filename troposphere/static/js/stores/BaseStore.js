@@ -35,6 +35,7 @@ let Store = function(attributes, options) {
     // isFetchingMore: True or false depending on whether the next page of data
     // for this.models is being fetched
     this.isFetchingMore = false;
+    this.lastUpdated = Date.now();
 
     this.initialize.apply(this, arguments);
 };
@@ -133,7 +134,7 @@ _.extend(Store.prototype, Backbone.Events, {
     initialize: function() {},
 
     // Fetch the first page of data from the server
-    fetchModels: function() {
+    fetchModels: function(all_pages) {
         if (!this.models && !this.isFetching) {
             this.isFetching = true;
             var models = new this.collection();
@@ -148,9 +149,14 @@ _.extend(Store.prototype, Backbone.Events, {
                 url: _.result(models, "url") + queryString
             }).done(function() {
                 this.isFetching = false;
+                this.lastUpdated = Date.now();
                 this.models = models;
                 if (this.pollingEnabled) {
                     this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
+                }
+                if ( all_pages == true && this.models.meta && this.models.meta.next ) {
+                    this.fetchMore(true);
+                    return;
                 }
                 this.emitChange();
             }.bind(this));
@@ -185,6 +191,14 @@ _.extend(Store.prototype, Backbone.Events, {
         }.bind(this));
     },
     // Returns the entire local cache, everything in this.models
+    getAllPages: function() {
+        if (!this.models) {
+            this.fetchModels(true)
+        } else {
+            return this.models;
+        }
+    },
+
     getAll: function() {
         if (!this.models) {
             this.fetchModels()
@@ -204,6 +218,7 @@ _.extend(Store.prototype, Backbone.Events, {
                 url: models.url
             }).done(function() {
                 this.isFetching = false;
+                this.lastUpdated = Date.now();
                 this.models = models;
                 this.emitChange();
                 if (cb) {
@@ -318,7 +333,7 @@ _.extend(Store.prototype, Backbone.Events, {
     },
 
     // Fetches the next page of data for this.models
-    fetchMore: function() {
+    fetchMore: function(propagate) {
         var nextUrl = this.models.meta.next;
 
         if (nextUrl && !this.isFetchingMore) {
@@ -332,6 +347,10 @@ _.extend(Store.prototype, Backbone.Events, {
                     merge: true
                 });
                 this.models.meta = moreModels.meta;
+                if ( propagate == true && this.models.meta.next ) {
+                    this.fetchMore(true);
+                    return;
+                }
                 this.emitChange();
             }.bind(this));
         }

@@ -11,7 +11,7 @@ let UserStore = BaseStore.extend({
     },
 
     queryParams: {
-        page_size: 3000
+        page_size: 10000
     },
 
 
@@ -27,7 +27,13 @@ let UserStore = BaseStore.extend({
 
         return new UserCollection(versionUserArray);
     },
-
+    getUsername: function(username) {
+        if (!this.models) return this.fetchModels();
+        var user = this.models.findWhere({
+            username: username
+        });
+        return user;
+    },
     getUsersFromList: function(usernameList) {
         if (!this.models)
             throw new Error("Must fetch users before calling getUsersFromList");

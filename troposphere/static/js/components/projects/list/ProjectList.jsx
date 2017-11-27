@@ -1,8 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-
-import Project from "./Project";
-
+import stores from "stores";
+import ComponentProject from "./Project";
+import featureFlags from "utilities/featureFlags";
 
 export default React.createClass({
     displayName: "ProjectList",
@@ -16,9 +16,28 @@ export default React.createClass({
     projectClicked: function(project) {
         return this.props.onProjectClicked(project);
     },
+    renderSharedProject: function() {
+        if (!featureFlags.hasInstanceSharing()) {
+            return null;
+        }
+        //Only show shared project when you have shared resources.
+        let instances = stores.InstanceStore.getSharedInstances(),
+            sharedProject = stores.ProjectStore.getSharedProject();
+        if(!instances || instances.length == 0) {
+            return null;
+        }
+        return (
+        <ComponentProject key={sharedProject.id}
+            project={sharedProject}
+            projects={this.props.projects}
+            onClick={self.projectClicked}
+            className={""} />
+        );
+    },
     render: function() {
         var self = this,
-            projects = this.props.projects.map(function(project) {
+            sharedProject = this.renderSharedProject(),
+            projectListItems = this.props.projects.map(function(project) {
                 var className;
                 if (this.props.selectedProject && this.props.selectedProject == project) {
                     className = "active"
@@ -26,7 +45,7 @@ export default React.createClass({
                     className = ""
                 }
                 return (
-                <Project key={project.id || project.cid}
+                <ComponentProject key={project.id || project.cid}
                     project={project}
                     projects={this.props.projects}
                     onClick={self.projectClicked}
@@ -34,9 +53,13 @@ export default React.createClass({
                 );
             }.bind(this));
 
+        if(sharedProject) {
+            projectListItems.push(sharedProject)
+        }
+
         return (
         <ul id="project-list" className="row">
-            {projects}
+            {projectListItems}
         </ul>
         );
     }

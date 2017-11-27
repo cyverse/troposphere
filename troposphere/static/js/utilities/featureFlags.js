@@ -17,6 +17,10 @@ if(window.intercom_options && window.intercom_options['report']) {
     reportVolumesViaIntercom = reportOptions['volumes'] || false;
 }
 
+const hasInstanceSharing = () => {
+    return window.INSTANCE_SHARING || false;
+};
+
 const hasProjectSharing = () => {
     //FIXME: include ability to use context to determine if user is staff
     //       - uncomment `import` statement
@@ -35,6 +39,12 @@ const showIdentityView = () => {
     return false;
 };
 
+const autoApproveInstanceAccess = () => {
+    //Always true. Make this a template variable if you do *not*
+    //want to auto-approve instance access requests.
+    return true;
+};
+
 const hasIntercomActive = () => {
         return window.intercom_app_id && window.Intercom;
 };
@@ -51,9 +61,11 @@ export default {
     WEB_DESKTOP: !!window.WEB_DESKTOP_ENABLED || false,
     hasIntercomActive,
     showIdentityView,
+    autoApproveInstanceAccess,
     shouldReportInstanceViaIntercom,
     shouldReportVolumeViaIntercom,
     GUACAMOLE: !!window.GUACAMOLE_ENABLED || false,
     hasProjectSharing,
-    showClientCredentials
+    showClientCredentials,
+    hasInstanceSharing
 }

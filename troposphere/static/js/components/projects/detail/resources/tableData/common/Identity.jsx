@@ -11,13 +11,21 @@ const Identity = React.createClass({
 
     render: function() {
         var project_resource = this.props.project_resource,
-            { IdentityStore } = this.props.subscriptions;
-
-        let identity = IdentityStore.get(project_resource.get("identity").id);
-
-        if (!identity) return <div className="loading-tiny-inline"></div>;
+            { IdentityStore } = this.props.subscriptions,
+            resource_shared_with_me = project_resource.get('project').shared_with_me,
+            resource_location = project_resource.get('identity').provider_location,
+            content;
+        if(resource_shared_with_me) {
+            content = resource_location;
+        } else {
+            let identity = IdentityStore.get(project_resource.get("identity").id);
+            if (!identity) {
+                return <div className="loading-tiny-inline"></div>;
+            }
+            content = identity.getName()
+        }
         return (
-            <span>{identity.getName()}</span>
+            <span>{content}</span>
         );
     }
 });

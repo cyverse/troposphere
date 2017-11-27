@@ -5,7 +5,7 @@ import { Link } from "react-router";
 export default React.createClass({
 
     contextTypes: {
-        projectId: React.PropTypes.number
+        projectId: React.PropTypes.string
     },
 
     propTypes: {

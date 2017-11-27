@@ -19,6 +19,9 @@ function removePending(model) {
 let ProjectStore = BaseStore.extend({
     collection: ProjectVolumeCollection,
 
+    getSharedVolumes: function() {
+        return new VolumeCollection();
+    },
     getVolumesFor: function(project) {
         var allVolumes = stores.VolumeStore.getAll();
         if (!project.id) return;

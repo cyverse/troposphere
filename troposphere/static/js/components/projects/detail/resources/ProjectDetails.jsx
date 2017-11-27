@@ -157,16 +157,48 @@ export default React.createClass({
             this.props.project
         );
     },
-
-    render: function() {
-        var project = this.props.project,
-            projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
+    getSharedProjectResources: function(project) {
+        let projectExternalLinks = stores.ProjectExternalLinkStore.getSharedLinks(),
+            projectInstances = stores.InstanceStore.getSharedInstances(),
+            projectVolumes = stores.ProjectVolumeStore.getSharedVolumes(),
+            projectImages = stores.ProjectImageStore.getSharedImages();
+        return {
+            projectInstances,
+            projectVolumes,
+            projectExternalLinks,
+            projectImages
+        }
+    },
+    getProjectResources: function(project) {
+        if(project.id == 'shared') {
+            return this.getSharedProjectResources(project)
+        }
+        let projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
             projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
             projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
-            projectImages = stores.ProjectImageStore.getImagesFor(project),
+            projectImages = stores.ProjectImageStore.getImagesFor(project);
+        return {
+            projectInstances,
+            projectVolumes,
+            projectExternalLinks,
+            projectImages
+        }
+    },
+    render: function() {
+        var project = this.props.project,
             previewedResource = this.state.previewedResource,
             selectedResources = this.state.selectedResources,
-            isButtonBarVisible;
+            projectResources = this.getProjectResources(project),
+            projectInstances, projectVolumes, projectExternalLinks, projectImages, isButtonBarVisible;
+
+        if(projectResources) {
+            projectInstances = projectResources.projectInstances;
+            projectVolumes = projectResources.projectVolumes;
+            projectExternalLinks = projectResources.projectExternalLinks;
+            projectImages = projectResources.projectImages;
+        } else {
+            projectInstances = projectVolumes = projectExternalLinks = projectImages = null;
+        }
 
         if (!projectInstances || !projectImages || !projectExternalLinks || !projectVolumes)
             return <div className="loading"></div>;

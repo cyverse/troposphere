@@ -9,7 +9,7 @@ const HistoryRow = React.createClass({
     displayName: "HistoryRow",
 
     propTypes: {
-       historyItem: React.PropTypes.instanceOf(Backbone.Model).isRequired
+       historyItem: React.PropTypes.instanceOf(Backbone.Model).isRequired,
     },
 
     renderFormattedExtra(isStaffUser, extra) {
