@@ -1,6 +1,5 @@
 import Utils from "./Utils";
 import ResourceConstants from "constants/ResourceRequestConstants";
-import errorHandler from "actions/errorHandler"
 
 export default {
     updateRequest(request, status, reason) {
@@ -18,6 +17,5 @@ export default {
                     model: request
                 });
             })
-            .catch(errorHandler)
     }
 };

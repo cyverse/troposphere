@@ -84,6 +84,7 @@ export default React.createClass({
             .then(() => {
                 browserHistory.push("/application/admin/resource-requests");
             })
+            .catch(errorHandler)
             .always(this.setActionResolved);
     },
 
@@ -104,6 +105,7 @@ export default React.createClass({
             .then(() => {
                 browserHistory.push("/application/admin/resource-requests");
             })
+            .catch(errorHandler)
             .always(this.setActionResolved);
     },
 
