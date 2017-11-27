@@ -22,7 +22,6 @@ export default React.createClass({
     getInitialState() {
         return {
             actionPending: false,
-            mounted: true
         };
     },
 
@@ -38,7 +37,6 @@ export default React.createClass({
         stores.AllocationSourceStore.removeChangeListener(this.updateState);
         stores.IdentityStore.removeChangeListener(this.updateState);
         stores.QuotaStore.removeChangeListener(this.updateState);
-        this.setState({ mounted: false })
     },
 
     updateState() {
@@ -90,9 +88,7 @@ export default React.createClass({
     },
 
     setActionResolved() {
-        if (this.state.mounted) {
-            this.setState({ actionPending: false });
-        }
+        this.setState({ actionPending: false });
     },
 
     onDeny(reason) {

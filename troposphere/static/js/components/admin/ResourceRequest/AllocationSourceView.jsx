@@ -1,6 +1,7 @@
 import React from "react";
 
 import globals from "globals";
+import cancellable from "utilities/cancellable";
 import ProgressBar from "components/common/ui/ProgressBar";
 
 export default React.createClass({
@@ -139,15 +140,16 @@ class AllocationEditableSaveableView extends AllocationView {
     constructor(props) {
         super(props);
         this.state = {
-            // TODO change allocationSource to alllocation
             allocationSource: props.allocationSource.clone(),
             isEditing: false,
             isPending: false,
-            mounted: true
+            cancellables: []
         };
     }
 
-    componentWillUnmount() { this.state.mounted = false; }
+    componentWillUnmount() {
+        this.state.cancellables.forEach(c => c.cancel());
+    }
 
     componentWillReceiveProps({ allocationSource }) {
         this.setState({ allocationSource: allocationSource.clone() });
@@ -181,20 +183,25 @@ class AllocationEditableSaveableView extends AllocationView {
     }
 
     onSave() {
-       let { allocationSource } = this.state;
-        // Clone our allocationSource, so that call to props.onSave doesn't affect our
-        // state
-        let clone = allocationSource.clone()
-        this.setState({ isPending: true });
-        this.props.onSave(clone)
-            .then(this.resetPending.bind(this))
-            .catch(this.resetPending.bind(this));
-    }
+       let { allocationSource, cancellables } = this.state;
 
-    resetPending() {
-        if (this.state.mounted) {
-            this.setState({ isPending: false })
-        }
+        // Create cancellable versions of callbacks to prevent calling
+        // setState on unmount
+        let onSuccess = cancellable(
+            allocation => {
+                allocationSource.set(allocation);
+                this.setState({ allocationSource, isPending: false });
+            }
+        );
+        let onErr = cancellable(() => this.setState({ isPending: false }));
+        cancellables.push(onSuccess);
+        cancellables.push(onErr);
+
+        this.setState({ isPending: true });
+        // Clone our allocation, so that call to props.onSave doesn't affect
+        // our state
+        this.props.onSave(allocationSource.clone())
+            .then(onSuccess, onErr);
     }
 
     renderSaveText() {
@@ -243,5 +250,3 @@ class AllocationEditableSaveableView extends AllocationView {
 AllocationEditableSaveableView.propTypes = {
     onSave: React.PropTypes.func.isRequired
 }
-
-

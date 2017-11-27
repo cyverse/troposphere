@@ -1,6 +1,7 @@
 import React from "react";
 
 import QuotaView from "components/admin/ResourceRequest/QuotaView";
+import cancellable from "utilities/cancellable";
 
 export default React.createClass({
 
@@ -9,15 +10,11 @@ export default React.createClass({
         onSave: React.PropTypes.func.isRequired
     },
 
-    componentWillUnmount() {
-        this.setState({ mounted: false })
-    },
-
     getInitialState() {
         return {
             identity: this.props.identity.clone(),
             isPending: false,
-            mounted: true,
+            cancellables: [],
         }
     },
 
@@ -26,23 +23,30 @@ export default React.createClass({
     },
 
     onSave() {
-        let { identity } = this.state;
+        let { identity, cancellables } = this.state;
+
+        // Create cancellable versions of callbacks to prevent calling
+        // setState on unmount
+        let onSuccess = cancellable(
+            ident => {
+                identity.set(ident);
+                this.setState({ identity, isPending: false });
+            }
+        )
+        let onErr = cancellable(() => this.setState({ isPending: false }))
+        cancellables.push(onSuccess);
+        cancellables.push(onErr);
 
         this.setState({ isPending: true });
 
         // Clone our identity, so that call to props.onSave doesn't affect our
         // state
-        let clone = identity.clone()
-        this.setState({ isPending: true });
-        this.props.onSave(clone)
-            .then(this.resetPending)
-            .catch(this.resetPending)
+        this.props.onSave(identity.clone())
+            .then(onSuccess, onErr);
     },
 
-    resetPending() {
-        if (this.state.mounted) {
-            this.setState({ isPending: false })
-        }
+    componentWillUnmount() {
+        this.state.cancellables.forEach(c => c.cancel());
     },
 
     onQuotaChange(quota) {
