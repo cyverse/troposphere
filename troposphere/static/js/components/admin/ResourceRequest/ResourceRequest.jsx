@@ -118,16 +118,6 @@ export default React.createClass({
             });
         }
 
-        let requestIdent;
-        if (request && request.has("identity")) {
-            requestIdent = request.get("identity");
-        }
-
-        // Limit identities to identity found in resource request if it exists
-        if (identities && requestIdent) {
-            identities = identities.cfilter(i => i.get("id") == requestIdent.id);
-        }
-
         let allocationSources;
         if (request) {
             allocationSources = stores.AllocationSourceStore.fetchWhere({

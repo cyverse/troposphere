@@ -52,8 +52,6 @@ export default {
     },
 
     requestMoreResources: function(params) {
-        if (!params.identity)
-            throw new Error("Missing identity");
         if (!params.quota)
             throw new Error("Missing quota");
         if (!params.reason)
@@ -63,15 +61,9 @@ export default {
             actions.BadgeActions.askSupport();
         }
 
-
-        var identity = params.identity,
-            quota = params.quota,
-            reason = params.reason;
-
         var data = {
-            identity: identity,
-            request: quota,
-            description: reason
+            request: params.quota,
+            description: params.reason
         };
 
         var requestUrl = globals.API_V2_ROOT + "/resource_requests";
