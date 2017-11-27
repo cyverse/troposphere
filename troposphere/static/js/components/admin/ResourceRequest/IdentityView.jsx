@@ -18,10 +18,6 @@ export default React.createClass({
         }
     },
 
-    componentWillReceiveProps({ identity }) {
-        this.setState({ identity: identity.clone() });
-    },
-
     onSave() {
         let { identity, cancellables } = this.state;
 

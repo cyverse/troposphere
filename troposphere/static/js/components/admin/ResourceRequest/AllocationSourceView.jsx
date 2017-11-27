@@ -151,9 +151,6 @@ class AllocationEditableSaveableView extends AllocationView {
         this.state.cancellables.forEach(c => c.cancel());
     }
 
-    componentWillReceiveProps({ allocationSource }) {
-        this.setState({ allocationSource: allocationSource.clone() });
-    }
 
     renderEditIcon() {
         let { isEditing } = this.state;
