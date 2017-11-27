@@ -117,11 +117,7 @@ const InstanceAccessListView = React.createClass({
             whiteSpace: 'normal',
             textAlign: 'right',
         };
-        let instance = accessRequest.get('instance'),
-            requestUser = accessRequest.get('user').username,
-            instance_owner_username = instance.user,
-            current_username = context.profile.get('username'),
-            status = accessRequest.get('status'),
+        let requestUser = accessRequest.get('user').username,
             key = accessRequest.id + "-",
             approve_text = "Approve request",
             delete_text = "Delete instance access for "+ requestUser,
@@ -143,7 +139,10 @@ const InstanceAccessListView = React.createClass({
         );
     },
     renderAccessRequestRow: function(accessRequest) {
-        let tdStyle = {
+        let instance = accessRequest.get('instance'),
+            requestUser = accessRequest.get('user').username,
+            status = accessRequest.get('status'),
+            tdStyle = {
                 wordWrap: 'break-word',
                 whiteSpace: 'normal'
             },
@@ -152,13 +151,13 @@ const InstanceAccessListView = React.createClass({
         return (
             <tr key={key}>
                 <td style={tdStyle}>
-                    {accessRequest.get('instance').uuid}
+                    {instance.uuid}
                 </td>
                 <td style={tdStyle}>
-                    {accessRequest.get('user').username}
+                    {requestUser}
                 </td>
                 <td style={tdStyle}>
-                    {accessRequest.get('status')}
+                    {status}
                 </td>
                 {this.renderAccessRequestActions(accessRequest)}
             </tr>
