@@ -2,7 +2,7 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 import ComponentProject from "./Project";
-
+import featureFlags from "utilities/featureFlags";
 
 export default React.createClass({
     displayName: "ProjectList",
@@ -17,6 +17,9 @@ export default React.createClass({
         return this.props.onProjectClicked(project);
     },
     renderSharedProject: function() {
+        if (!featureFlags.hasInstanceSharing()) {
+            return null;
+        }
         //Only show shared project when you have shared resources.
         let instances = stores.InstanceStore.getSharedInstances(),
             sharedProject = stores.ProjectStore.getSharedProject();

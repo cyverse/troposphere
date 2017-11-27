@@ -18,7 +18,7 @@ if(window.intercom_options && window.intercom_options['report']) {
 }
 
 const hasInstanceSharing = () => {
-    return window.INSTANCE_SHARING || true;
+    return window.INSTANCE_SHARING || false;
 };
 
 const hasProjectSharing = () => {
