@@ -66,15 +66,12 @@ export default {
 
         var identity = params.identity,
             quota = params.quota,
-            reason = params.reason,
-            // if admin_url is undefined, the API will default to the django admin UI for ticket management
-            admin_url = window.location.origin + "/application/admin/resource-requests/";
+            reason = params.reason;
 
         var data = {
             identity: identity,
             request: quota,
-            description: reason,
-            admin_url: admin_url
+            description: reason
         };
 
         var requestUrl = globals.API_V2_ROOT + "/resource_requests";
