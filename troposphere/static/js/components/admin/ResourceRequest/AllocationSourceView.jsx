@@ -73,68 +73,6 @@ AllocationView.propTypes = {
     allocationSource: React.PropTypes.object.isRequired
 }
 
-class AllocationEditableView extends AllocationView {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isEditing: false
-        };
-    }
-
-    renderEditIcon() {
-        let { isEditing } = this.state;
-        return (
-        <span style={{margin:"0 5px", cursor: "pointer" }}
-            onClick={() => this.setState({ isEditing: !isEditing })}
-            className="glyphicon glyphicon-pencil" />
-        );
-    }
-
-    onInputChange({ target: { value }}) {
-        let id = this.props.allocationSource.get("id");
-        let compute_allowed = +value;
-        this.props.onChange({ id, compute_allowed });
-    }
-
-    renderEditableField(num) {
-        let style = {
-            margin:"0 5px"
-        }
-        return (
-        <input style={style}
-               onChange={this.onInputChange.bind(this)}
-               type="number"
-               value={num} />
-        );
-    }
-
-    render() {
-        let { name } = this.props.allocationSource.pick("name");
-        let { isEditing } = this.state;
-        let { percent, total } = this.getUsage(this.props.allocationSource);
-        let editableTotal =
-            isEditing
-            ? this.renderEditableField(total)
-            : total;
-
-        let allocationLabel = (
-        <span>
-             { `${percent}% used of ` }
-             { editableTotal }
-             { ` Allocation from ${name}` }
-             { this.renderEditIcon() }
-        </span>
-        );
-
-        return (
-        <ProgressBar startColor="#56AA21" startValue={percent} label={allocationLabel} />
-        );
-    }
-}
-
-AllocationEditableView.propTypes = {
-    onChange: React.PropTypes.func.isRequired
-}
 
 class AllocationEditableSaveableView extends AllocationView {
     constructor(props) {
@@ -150,7 +88,6 @@ class AllocationEditableSaveableView extends AllocationView {
     componentWillUnmount() {
         this.state.cancellables.forEach(c => c.cancel());
     }
-
 
     renderEditIcon() {
         let { isEditing } = this.state;
