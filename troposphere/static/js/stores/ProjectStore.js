@@ -7,7 +7,7 @@ let ProjectStore = BaseStore.extend({
     collection: ProjectCollection,
 
     getProjectsForIdentity: function(identityObj) {
-        if (identityObj == null) {
+        if (!this.models) {
             return this.fetchModels();
         }
         let identity_key = "?identity_uuid="+identityObj.uuid,

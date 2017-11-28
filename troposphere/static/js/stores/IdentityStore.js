@@ -42,7 +42,7 @@ let IdentityStore = BaseStore.extend({
     },
 
     getIdentitiesForProject: function(project) {
-        if (project == null) {
+        if (!this.models) {
             return this.fetchModels();
         }
         let project_key = "?project_id="+project.id,

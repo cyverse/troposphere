@@ -59,17 +59,6 @@ export default React.createClass({
     },
 
     renderBody: function() {
-        // Hack: We have to call this method to populate the request
-        // store. When this modal is submitted (see the call to onConfirm
-        // above), a single resource request gets posted. When the
-        // callback succeeds, the new request is added to the store. If
-        // the store is not populated (models is null), then adding fails.
-        var requests = stores.ResourceRequestStore.getAll();
-
-        if (!requests) {
-            return <div className="loading" />;
-        }
-
         return (
         <div role="form">
             <div className="form-group">
