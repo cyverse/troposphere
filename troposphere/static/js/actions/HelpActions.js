@@ -1,9 +1,10 @@
 import $ from "jquery";
+
 import NotificationController from "controllers/NotificationController";
 import globals from "globals";
 import Badges from "Badges";
 import Utils from "./Utils";
-import Constants from "constants/ResourceRequestConstants";
+import ResourceRequestConstants from "constants/ResourceRequestConstants";
 import actions from "actions";
 
 export default {
@@ -75,7 +76,7 @@ export default {
             contentType: "application/json",
             success: function(data) {
                 NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
-                Utils.dispatch(Constants.ADD, {
+                Utils.dispatch(ResourceRequestConstants.ADD, {
                     model: data
                 });
                 actions.BadgeActions.checkOrGrant(Badges.RESOURCE_REQUEST_BADGE);
