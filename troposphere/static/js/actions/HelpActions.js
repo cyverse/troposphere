@@ -2,7 +2,6 @@ import $ from "jquery";
 
 import NotificationController from "controllers/NotificationController";
 import globals from "globals";
-import Badges from "Badges";
 import Utils from "./Utils";
 import ResourceRequestConstants from "constants/ResourceRequestConstants";
 import actions from "actions";
@@ -79,7 +78,6 @@ export default {
                 Utils.dispatch(ResourceRequestConstants.ADD, {
                     model: data
                 });
-                actions.BadgeActions.checkOrGrant(Badges.RESOURCE_REQUEST_BADGE);
             },
             error: function(response) {
                 var errorMessage,
