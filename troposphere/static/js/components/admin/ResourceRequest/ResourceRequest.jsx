@@ -92,12 +92,13 @@ export default React.createClass({
             .then(
                 // onSuccess, navigate away
                 () => browserHistory.push("/application/admin/resource-requests"),
-            )
-            .catch(err => {
+
                 // onFailure, action is no longer pending, trigger error handler
-                this.setState({ actionPending: false })
-                errorHandler(err);
-            });
+                err => {
+                    this.setState({ actionPending: false })
+                    errorHandler(err);
+                }
+            );
         return promise;
     },
 
@@ -117,12 +118,13 @@ export default React.createClass({
             .then(
                 // onSuccess, navigate away
                 () => browserHistory.push("/application/admin/resource-requests"),
-            )
-            .catch(err => {
+
                 // onFailure, action is no longer pending, trigger error handler
-                this.setState({ actionPending: false });
-                errorHandler(err);
-            })
+                err => {
+                    this.setState({ actionPending: false });
+                    errorHandler(err);
+                }
+            )
         return promise;
     },
 
