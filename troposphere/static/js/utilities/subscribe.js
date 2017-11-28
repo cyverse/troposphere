@@ -34,6 +34,7 @@ import ProjectVolumeStore from "stores/ProjectVolumeStore";
 import ProviderMachineStore from "stores/ProviderMachineStore";
 import ProviderStore from "stores/ProviderStore";
 import ResourceRequestStore from "stores/ResourceRequestStore";
+import AdminResourceRequestStore from "stores/AdminResourceRequestStore";
 import IdentityMembershipStore from "stores/IdentityMembershipStore";
 import StatusStore from "stores/StatusStore";
 import SSHKeyStore from "stores/SSHKeyStore";
@@ -51,7 +52,7 @@ import AllocationSourceStore from "stores/AllocationSourceStore";
 // late. This wrapper component wraps the module when it is defined and
 // stores.<STORE_NAME> isn't available then.
 let stores = {
-    AllocationStore, BadgeStore, ClientCredentialStore, GroupStore, ExternalLinkStore, HelpLinkStore, ImageStore, ImagePatternMatchStore, ImageMetricsStore, ImageVersionStore, ImageVersionMembershipStore, ImageVersionLicenseStore, ImageVersionScriptStore, IdentityStore, ImageBookmarkStore, InstanceHistoryStore, ImageRequestStore, InstanceStore, InstanceTagStore, LicenseStore, ScriptStore, MaintenanceMessageStore, MyBadgeStore, MembershipStore, PatternMatchStore, ProfileStore, ProjectStore, ProjectExternalLinkStore, ProjectImageStore, ProjectInstanceStore, ProjectVolumeStore, ProviderMachineStore, ProviderStore, ResourceRequestStore, IdentityMembershipStore, StatusStore, SSHKeyStore, QuotaStore, SizeStore, TagStore, UserStore, VersionStore, VolumeStore, AllocationSourceStore
+    AllocationStore, BadgeStore, ClientCredentialStore, GroupStore, ExternalLinkStore, HelpLinkStore, ImageStore, ImagePatternMatchStore, ImageMetricsStore, ImageVersionStore, ImageVersionMembershipStore, ImageVersionLicenseStore, ImageVersionScriptStore, IdentityStore, ImageBookmarkStore, InstanceHistoryStore, ImageRequestStore, InstanceStore, InstanceTagStore, LicenseStore, ScriptStore, MaintenanceMessageStore, MyBadgeStore, MembershipStore, PatternMatchStore, ProfileStore, ProjectStore, ProjectExternalLinkStore, ProjectImageStore, ProjectInstanceStore, ProjectVolumeStore, ProviderMachineStore, ProviderStore, ResourceRequestStore, AdminResourceRequestStore, IdentityMembershipStore, StatusStore, SSHKeyStore, QuotaStore, SizeStore, TagStore, UserStore, VersionStore, VolumeStore, AllocationSourceStore
 }
 
 // Add change listeners to the component for the following stores. The stores

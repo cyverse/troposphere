@@ -18,12 +18,12 @@ const ResourceMaster = React.createClass({
     },
 
     componentWillUnmount() {
-        stores.ResourceRequestStore.removeChangeListener(this.requestListener);
+        stores.AdminResourceRequestStore.removeChangeListener(this.requestListener);
     },
 
     componentDidMount() {
-        stores.ResourceRequestStore.addChangeListener(this.requestListener);
-        stores.ResourceRequestStore.findWhere({
+        stores.AdminResourceRequestStore.addChangeListener(this.requestListener);
+        stores.AdminResourceRequestStore.findWhere({
             "status.name": "pending"
         });
     },
@@ -59,8 +59,8 @@ const ResourceMaster = React.createClass({
             refreshing: true
         });
 
-        stores.ResourceRequestStore.clearCache();
-        stores.ResourceRequestStore.getAll();
+        stores.AdminResourceRequestStore.clearCache();
+        stores.AdminResourceRequestStore.getAll();
     },
 
     style() {
@@ -131,7 +131,7 @@ const ResourceMaster = React.createClass({
     },
 
     render() {
-        let requests = stores.ResourceRequestStore.findWhere({
+        let requests = stores.AdminResourceRequestStore.findWhere({
             "status.name": "pending"
         });
 

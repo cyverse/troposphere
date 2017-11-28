@@ -4,6 +4,7 @@ import NotificationController from "controllers/NotificationController";
 import globals from "globals";
 import Utils from "./Utils";
 import ResourceRequestConstants from "constants/ResourceRequestConstants";
+import AdminResourceRequestConstants from "constants/AdminResourceRequestConstants";
 import actions from "actions";
 
 export default {
@@ -76,6 +77,9 @@ export default {
             success: function(data) {
                 NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
                 Utils.dispatch(ResourceRequestConstants.ADD, {
+                    model: data
+                });
+                Utils.dispatch(AdminResourceRequestConstants.ADD, {
                     model: data
                 });
             },

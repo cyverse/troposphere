@@ -6,7 +6,7 @@ import Utils from "actions/Utils";
 import stores from "stores";
 import { browserHistory } from "react-router";
 import ResourceRequestView from "./ResourceRequestView";
-import ResourceRequestActions from "actions/ResourceRequestActions";
+import AdminResourceRequestActions from "actions/AdminResourceRequestActions";
 import Quota from "models/Quota";
 import AllocationSourceConstants from "constants/AllocationSourceConstants";
 import IdentityConstants from "constants/IdentityConstants"
@@ -87,7 +87,7 @@ export default React.createClass({
         });
 
         this.setState({ actionPending: true });
-        let promise = Promise.resolve(ResourceRequestActions.updateRequest(request, status));
+        let promise = Promise.resolve(AdminResourceRequestActions.updateRequest(request, status));
         promise
             .then(
                 // onSuccess, navigate away
@@ -110,7 +110,9 @@ export default React.createClass({
         });
 
         this.setState({ actionPending: true });
-        let promise = ResourceRequestActions.updateRequest(request, status, reason);
+        let promise = Promise.resolve(
+            AdminResourceRequestActions.updateRequest(request, status, reason)
+        );
         promise
             .then(
                 // onSuccess, navigate away
