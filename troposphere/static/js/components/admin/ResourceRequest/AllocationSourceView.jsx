@@ -124,7 +124,7 @@ class AllocationEditableSaveableView extends AllocationView {
         let onSuccess = cancellable(
             allocation => {
                 allocationSource.set(allocation);
-                this.setState({ allocationSource, isPending: false });
+                this.setState({ allocationSource, isPending: false, isEditing: false });
             }
         );
         let onErr = cancellable(() => this.setState({ isPending: false }));
