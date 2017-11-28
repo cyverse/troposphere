@@ -1,9 +1,9 @@
 import _ from "underscore";
 import React from "react";
-import GuacamoleOption from "./GuacamoleOption";
+import ColorSchemeOption from "./ColorSchemeOption";
 
 export default React.createClass({
-    displayName: "GuacamoleSelect",
+    displayName: "ColorSchemeSelect",
 
     getDefaultProps: function() {
         return {
@@ -25,7 +25,7 @@ export default React.createClass({
         var colors = _.map(this.props.colors, function(text, type) {
             var isSelected = (type == this.props.selected);
             return (
-            <GuacamoleOption key={text}
+            <ColorSchemeOption key={text}
                 type={type}
                 text={text}
                 selected={isSelected}

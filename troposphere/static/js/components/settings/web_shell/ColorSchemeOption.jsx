@@ -6,7 +6,7 @@ import blackWhiteImage from "images/black-white.png";
 import grayBlackImage from "images/gray-black.png";
 
 export default React.createClass({
-    displayName: "GuacamoleOption",
+    displayName: "ColorSchemeOption",
 
     getSrc: function(color) {
         switch (color) {
