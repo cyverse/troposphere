@@ -3,6 +3,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Button from "components/common/ui/Button";
 
 export default React.createClass({
+    displayName: "AdvancedOptionsFooter",
+
     onClearAdvanced: function() {
         this.props.onClearAdvanced();
     },

@@ -49,9 +49,13 @@ export default React.createClass({
             isRefreshing: true
         });
         setTimeout(function() {
-            if (this.isMounted()) this.setState({
+            /* eslint-disable react/no-is-mounted */
+            if (this.isMounted()) {
+                this.setState({
                     isRefreshing: false
                 });
+            }
+            /* eslint-enable react/no-is-mounted */
         }.bind(this), refreshTime * 1000);
 
         // now actually poll the instances and volumes
@@ -77,7 +81,7 @@ export default React.createClass({
             className += " refreshing";
 
         return (
-        <RaisedButton 
+        <RaisedButton
             onTouchTap={this.handleRefresh}
             disabled={this.state.isRefreshing}
         >

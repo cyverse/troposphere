@@ -130,6 +130,7 @@ const ImageListCard = React.createClass({
             );
         }
 
+        /* eslint-disable react/no-danger */
         return (
             <MediaCard
                 avatar={ icon }
@@ -155,6 +156,7 @@ const ImageListCard = React.createClass({
                 }
             />
         );
+        /* eslint-enable react/no-danger */
     }
 });
 

@@ -2,6 +2,8 @@ import React from "react";
 import ProgressBar from "components/common/ui/ProgressBar";
 
 export default React.createClass({
+    displayName: "ProviderAllocationGraph",
+
     propTypes: {
         onRequestResources: React.PropTypes.func,
         resourcesUsed: React.PropTypes.object,

@@ -48,12 +48,14 @@ const ViewDetails = React.createClass({
             description = project.get("description"),
             descriptionHtml = converter.makeHtml(description);
 
+        /* eslint-disable react/no-danger */
         return (
         <div className="project-info-segment row">
             <h4 className="t-body-2 col-md-3">Description</h4>
             <div className="col-md-9" dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
         </div>
-        )
+        );
+        /* eslint-enable react/no-danger */
     },
 
     renderUsersText: function(group_users) {

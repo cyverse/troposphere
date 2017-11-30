@@ -3,6 +3,8 @@ import Backbone from "backbone";
 import ProgressBar from "components/common/ui/ProgressBar";
 
 export default React.createClass({
+    displayName: "ResourceGraphs",
+
     propTypes: {
         onRequestResources: React.PropTypes.func,
         resourcesUsed: React.PropTypes.object,

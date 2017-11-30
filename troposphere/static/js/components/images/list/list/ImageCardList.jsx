@@ -6,6 +6,7 @@ import stores from "stores";
 
 
 export default React.createClass({
+    displayName: "ImageCardList",
 
     propTypes: {
         title: React.PropTypes.string,
@@ -46,4 +47,3 @@ export default React.createClass({
         );
     }
 });
-

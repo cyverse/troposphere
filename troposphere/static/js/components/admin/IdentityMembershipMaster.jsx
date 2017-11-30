@@ -8,7 +8,7 @@ import modals from "modals";
 
 
 export default React.createClass({
-    displayName: "IdentityMembership",
+    displayName: "IdentityMembershipMaster",
 
     mixins: [ComponentHandleInputWithDelay],
 

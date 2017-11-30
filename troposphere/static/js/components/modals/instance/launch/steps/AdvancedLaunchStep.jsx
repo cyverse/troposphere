@@ -3,6 +3,7 @@ import BootScriptOption from "../components/BootScriptOption";
 import AdvancedOptionsFooter from "../components/AdvancedOptionsFooter";
 
 export default React.createClass({
+    displayName: "AdvancedLaunchStep",
 
     getInitialState: function() {
         return {

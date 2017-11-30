@@ -20,9 +20,11 @@ export default React.createClass({
         return getIdentityState();
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateImages: function() {
         if (this.isMounted()) this.setState(getIdentityState());
     },
+    /* eslint-enable react/no-is-mounted */
 
     componentDidMount: function() {
         stores.IdentityStore.addChangeListener(this.updateImages);

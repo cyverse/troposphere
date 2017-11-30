@@ -3,6 +3,7 @@ import Backbone from "backbone";
 import { Link } from "react-router";
 
 export default React.createClass({
+    displayName: "Name",
 
     contextTypes: {
         projectId: React.PropTypes.number

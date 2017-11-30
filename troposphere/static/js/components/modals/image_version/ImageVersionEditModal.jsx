@@ -51,9 +51,11 @@ export default React.createClass({
         }
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateState: function() {
         if (this.isMounted()) this.setState(this.getState());
     },
+    /* eslint-enable react/no-is-mounted */
 
     getState: function() {
         return this.state;

@@ -4,6 +4,7 @@ import { Link } from "react-router";
 
 
 export default React.createClass({
+    displayName: "Name",
 
     contextTypes: {
         projectId: React.PropTypes.number

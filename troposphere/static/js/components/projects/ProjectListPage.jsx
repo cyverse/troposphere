@@ -20,9 +20,11 @@ export default React.createClass({
         return getProjectState();
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateImages: function() {
         if (this.isMounted()) this.setState(getProjectState());
     },
+    /* eslint-enable react/no-is-mounted */
 
     componentDidMount: function() {
         stores.ProjectStore.addChangeListener(this.updateImages);

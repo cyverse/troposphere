@@ -21,9 +21,11 @@ export default React.createClass({
         return getState();
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateState: function() {
         if (this.isMounted()) this.setState(getState());
     },
+    /* eslint-enable react/no-is-mounted */
 
     //
     // Internal Modal Callbacks

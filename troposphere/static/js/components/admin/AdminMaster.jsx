@@ -4,6 +4,8 @@ import SecondaryAdminNavigation from "./SecondaryAdminNavigation";
 
 
 export default React.createClass({
+    displayName: "AdminMaster",
+
     render: function() {
         return (
         <div>

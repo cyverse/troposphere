@@ -74,9 +74,11 @@ export default React.createClass({
         };
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateState: function() {
         if (this.isMounted()) this.setState(this.getState());
     },
+    /* eslint-enable react/no-is-mounted */
 
     componentDidMount: function() {
         stores.ProviderStore.addChangeListener(this.updateState);
@@ -345,7 +347,7 @@ export default React.createClass({
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <RaisedButton 
+                        <RaisedButton
                             style={{ marginRight: "10px" }}
                             onTouchTap={this.cancel}
                             label="Cancel"

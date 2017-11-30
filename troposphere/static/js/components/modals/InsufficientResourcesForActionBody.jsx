@@ -1,6 +1,7 @@
 import React from "react";
 import Glyphicon from "components/common/Glyphicon";
 
+/* eslint-disable react/display-name */
 export default {
     build: function() {
         return (
@@ -16,3 +17,4 @@ export default {
         );
     }
 }
+/* eslint-enable react/display-name */

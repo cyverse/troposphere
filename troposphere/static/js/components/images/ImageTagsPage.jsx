@@ -18,9 +18,11 @@ export default React.createClass({
         return state;
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateState() {
         if (this.isMounted()) this.setState(this.getState());
     },
+    /* eslint-enable react/no-is-mounted */
 
     componentDidMount() {
         stores.ImageStore.addChangeListener(this.updateState);

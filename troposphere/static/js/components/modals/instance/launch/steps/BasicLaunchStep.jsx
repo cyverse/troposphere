@@ -6,6 +6,8 @@ import ResourcesForm from "../components/ResourcesForm";
 import InstanceLaunchFooter from "../components/InstanceLaunchFooter";
 
 export default React.createClass({
+    displayName: "BasicLaunchStep",
+
     render: function() {
         let defaults = {
             advancedIsDisabled: false

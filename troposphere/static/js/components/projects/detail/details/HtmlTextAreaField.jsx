@@ -43,15 +43,19 @@ export default React.createClass({
 
             if (this.props.canEditTitle && this.state.isEditing) {
                 titleContent = (
-                    <EditableTextAreaField text={this.state.title} onDoneEditing={this.onDoneEditing} />
+                    <EditableTextAreaField text={this.state.title}
+                                           onDoneEditing={this.onDoneEditing} />
                 );
             } else {
+                /* eslint-disable react/no-danger */
                 titleContent = (
                     <div onClick={this.onEnterEditMode}>
-                        <span className="html-wrapper" dangerouslySetInnerHTML={{ __html: textHtml }} />
+                        <span className="html-wrapper"
+                              dangerouslySetInnerHTML={{ __html: textHtml }} />
                         <i className="glyphicon glyphicon-pencil"></i>
                     </div>
                 );
+                /* eslint-enable react/no-danger */
             }
         } else {
             titleContent = null;

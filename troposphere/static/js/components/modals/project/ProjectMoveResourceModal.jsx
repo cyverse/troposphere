@@ -53,9 +53,11 @@ export default React.createClass({
         return getState(this.props.currentProject, this.state || {});
     },
 
+    /* eslint-disable react/no-is-mounted */
     updateState: function() {
         if (this.isMounted()) this.setState(getState(this.props.currentProject, this.state || {}));
     },
+    /* eslint-enable react/no-is-mounted */
 
     componentDidMount: function() {
         stores.ProjectStore.addChangeListener(this.updateState);

@@ -4,6 +4,8 @@ import WaitingIndicator from "components/common/ui/WaitingIndicator";
 
 
 export default React.createClass({
+    displayName: "InstanceLaunchFooter",
+
     propTypes: {
         backIsDisabled: React.PropTypes.bool.isRequired,
         launchIsDisabled: React.PropTypes.bool.isRequired,

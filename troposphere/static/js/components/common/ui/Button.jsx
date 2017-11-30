@@ -2,6 +2,8 @@ import React from "react";
 import Tooltip from "components/common/ui/Tooltip";
 
 export default React.createClass({
+    displayName: "Button",
+
     propTypes: {
         buttonType: React.PropTypes.string.isRequired,
         title: React.PropTypes.string.isRequired,

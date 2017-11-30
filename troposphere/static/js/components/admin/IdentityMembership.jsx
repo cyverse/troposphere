@@ -6,6 +6,7 @@ import moment from "moment";
 
 
 export default React.createClass({
+    displayName: "IdentityMembership",
 
     propTypes: {
         membership: React.PropTypes.instanceOf(Backbone.Model).isRequired
