@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 import CryptoJS from "crypto-js";
 
-import Glyphicon from 'components/common/Glyphicon';
 import Gravatar from "components/common/Gravatar";
 import Ribbon from "components/common/Ribbon";
 import MediaCard from "components/common/ui/MediaCard";

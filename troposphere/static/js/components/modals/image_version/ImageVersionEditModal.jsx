@@ -9,6 +9,7 @@ import EditMembershipView from "./membership/EditMembershipView";
 import EditLicensesView from "./licenses/EditLicensesView";
 import EditScriptsView from "./scripts/EditScriptsView";
 import EditMinimumRequirementsView from "./requirements/EditMinimumRequirementsView";
+import AddDocumentObjectIdentifier from "./doc_object_id/AddDocumentObjectIdentifier";
 import ImageSelect from "components/modals/image_version/ImageSelect";
 import stores from "stores";
 import actions from "actions";
@@ -43,6 +44,7 @@ export default React.createClass({
             versionCanImage: version.get("allow_imaging"),
             versionParentID: (parent_version == null) ? "" : parent_version.id,
             versionLicenses: null,
+            docObjectId: version.get("doc_object_id"),
             versionScripts: null,
             versionMemberships: null,
             versionMinCPU: (version.get("min_cpu") == null) ? 0 : version.get("min_cpu"),
@@ -159,7 +161,8 @@ export default React.createClass({
             this.state.versionMinCPU,
             // convert RAM to MB
             this.state.versionMinMem * 1024,
-            this.state.versionMembership
+            this.state.versionMembership,
+            this.state.docObjectId
         );
     },
 
@@ -322,7 +325,11 @@ export default React.createClass({
         }
     },
 
-
+    onDocObjectIdChange: function(doi) {
+        this.setState({
+            docObjectId: doi
+        });
+    },
 
     //
     //
@@ -423,6 +430,13 @@ export default React.createClass({
 
     },
 
+    renderDocObjectIdView: function () {
+        return (
+            <AddDocumentObjectIdentifier currentDOI={this.state.docObjectId}
+                                         onChange={this.onDocObjectIdChange} />
+        );
+    },
+
     renderAdvancedOptions: function() {
 
         return (
@@ -432,6 +446,8 @@ export default React.createClass({
                 {this.renderMembershipsView()}
                 <hr />
                 {this.renderLicenseView()}
+                <hr />
+                {this.renderDocObjectIdView()}
                 <hr />
                 {this.renderScriptsView()}
                 <hr />

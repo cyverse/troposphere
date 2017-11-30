@@ -1,7 +1,8 @@
 import React from "react";
 
 /**
- * https://regex101.com/r/2wzS9M/1
+ * An explanation of the regular expression below, by 'component' is
+ * available at: https://regex101.com/r/2wzS9M/1
  */
 const doiRegex = /\b(10\.[0-9]{4,}(?:\.[0-9]+)*\/(?:(?![\"&\'])\S)+)\b/im;
 
@@ -98,12 +99,6 @@ const AddDocumentObjectIdentifier = React.createClass({
             hasValidationClass = null;
 
         let { doi, invalid, success } = this.state;
-
-        let btnStyle = {
-            lineHeight: "1.47",
-            borderTopRightRadius: "5px",
-            borderBottomRightRadius: "5px"
-        };
 
         if (invalid) {
             helpMessage = "Value provided is not a valid DOI";
