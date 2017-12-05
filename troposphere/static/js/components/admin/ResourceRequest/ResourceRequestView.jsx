@@ -72,8 +72,16 @@ export default React.createClass({
         let { identities, onIdentitySave: onSave } = this.props;
         let { section } = this.style();
 
-        let body = <p>There are no identities</p>;
+        // Filter identities to only include active identities
         if (identities) {
+            identities = identities.filter(i => i.get("provider").active);
+        }
+
+        // Before identities load, render empty string
+        let body = "";
+        if (identities && identities.length === 0) {
+            body = <p>This user doesn't have access to any active providers</p>;
+        } else if (identities) {
             body = identities.map(identity => {
                 let id = identity.get("id");
                 let props = {
@@ -85,7 +93,7 @@ export default React.createClass({
                     <IdentityView { ...props}/>
                 </div>
                 )
-            })
+            });
         }
 
         return (
