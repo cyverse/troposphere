@@ -11,32 +11,18 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     getInitialState() {
-        let identities = stores.IdentityStore.getAll();
         return {
             view: null,
             nextView: null,
-            identity: identities ? identities.first().id : null,
             resources: "",
             reason: ""
         }
     },
 
     updateState() {
-        let identities = stores.IdentityStore.getAll(),
-            identityId = null;
-
-        if (identities) {
-            identityId = this.state.identity || identities.first().id;
-        }
-
         if (!this.state.view) {
             this.setState({
                 view: "INITIAL_VIEW",
-                identity: identityId
-            });
-        } else {
-            this.setState({
-                identity: identityId
             });
         }
     },
@@ -69,9 +55,7 @@ export default React.createClass({
 
     confirm: function() {
         this.hide();
-        this.props.onConfirm(this.state.identity,
-                             this.state.resources,
-                             this.state.reason);
+        this.props.onConfirm(this.state.resources, this.state.reason);
     },
 
     viewInitial() {
@@ -197,16 +181,6 @@ export default React.createClass({
     },
 
     renderMoreQuota() {
-        let { identity } = this.state;
-
-        if (!identity) {
-            stores.IdentityStore.getAll();
-
-            return (
-                <div className="loading"></div>
-            );
-        }
-
         return (
         <div role="form">
             <div className="form-group">

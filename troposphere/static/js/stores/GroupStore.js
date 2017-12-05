@@ -19,7 +19,7 @@ let GroupStore = BaseStore.extend({
         }
     },
     getGroupsForIdentity: function(identityObj) {
-        if (identityObj == null) {
+        if (this.models) {
             return this.fetchModels();
         }
         let identity_key = "?identity_uuid="+identityObj.uuid,

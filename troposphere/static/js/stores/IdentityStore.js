@@ -2,6 +2,7 @@ import BaseStore from "stores/BaseStore";
 import Dispatcher from "dispatchers/Dispatcher";
 import IdentityCollection from "collections/IdentityCollection";
 import AccountConstants from "constants/AccountConstants";
+import IdentityConstants from "constants/IdentityConstants"
 
 let IdentityStore = BaseStore.extend({
     collection: IdentityCollection,
@@ -41,7 +42,7 @@ let IdentityStore = BaseStore.extend({
     },
 
     getIdentitiesForProject: function(project) {
-        if (project == null) {
+        if (!this.models) {
             return this.fetchModels();
         }
         let project_key = "?project_id="+project.id,
@@ -63,7 +64,17 @@ let IdentityStore = BaseStore.extend({
             });
             return versionIdentities;
         }
-    }
+    },
+
+    updateIdentityByUsername({ identity, username }) {
+        let queryString = this.buildQueryStringFromQueryParams({ username });
+        let models = this.queryModels[queryString];
+        if (!models) {
+            return;
+        }
+
+        models.add(identity, { merge: true });
+    },
 
 });
 
@@ -71,12 +82,14 @@ let store = new IdentityStore();
 
 Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
-    // Payload not used in current implementation
-    // var payload = dispatch.action.payload;
+    var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
 
+        case IdentityConstants.UPDATE:
+            store.updateIdentityByUsername(payload);
+            break;
         case AccountConstants.UPDATE_ACCOUNT:
             store.clearCache();
             break;

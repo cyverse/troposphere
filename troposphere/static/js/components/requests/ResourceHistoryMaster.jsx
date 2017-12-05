@@ -1,7 +1,7 @@
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 
-import ResourceActions from "actions/ResourceActions";
+import ResourceRequestActions from "actions/ResourceRequestActions";
 import subscribe from "utilities/subscribe";
 
 
@@ -36,10 +36,10 @@ export default subscribe(React.createClass({
 
     onClose(request, statuses) {
         let closedStatus = statuses.findWhere({ "name": "closed" });
-        ResourceActions.close({
-            request: request,
-            status: closedStatus
-        });
+        ResourceRequestActions.updateRequest(
+            request,
+            closedStatus
+        );
     },
 
     render() {

@@ -9,42 +9,25 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-        identity: React.PropTypes.number,
         onConfirm: React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
-        let identities = stores.IdentityStore.getAll();
-        let defaultIdentity;
-        if (identities) {
-            defaultIdentity = identities.first().id;
-        }
-
         return {
-            identity: this.props.identity || defaultIdentity,
             resources: "",
             reason: ""
         };
     },
 
     updateState: function() {
-        let { identity } = this.state;
-        let identities = stores.IdentityStore.getAll();
-
-        if (!identity && identities) {
-            this.setState({ identity: identities.first().id })
-        }
-
         this.forceUpdate()
     },
 
     componentDidMount: function() {
-        stores.IdentityStore.addChangeListener(this.updateState);
         stores.ResourceRequestStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
-        stores.IdentityStore.removeChangeListener(this.updateState);
         stores.ResourceRequestStore.removeChangeListener(this.updateState);
     },
 
@@ -60,13 +43,7 @@ export default React.createClass({
 
     confirm: function() {
         this.hide();
-        this.props.onConfirm(this.state.identity, this.state.resources, this.state.reason);
-    },
-
-    handleIdentityChange: function(e) {
-        this.setState({
-            identity: Number(e.target.value)
-        });
+        this.props.onConfirm(this.state.resources, this.state.reason);
     },
 
     handleResourcesChange: function(e) {
@@ -81,43 +58,9 @@ export default React.createClass({
         });
     },
 
-    renderIdentity: function(identity) {
-        return (
-        <option key={identity.id} value={identity.id}>
-            {identity.get("provider").name}
-        </option>
-        )
-    },
-
     renderBody: function() {
-        var identities = stores.IdentityStore.getAll(),
-            selectedIdentity = this.state.identity,
-
-            // Hack: We have to call this method to populate the request
-            // store. When this modal is submitted (see the call to onConfirm
-            // above), a single resource request gets posted. When the
-            // callback succeeds, the new request is added to the store. If
-            // the store is not populated (models is null), then adding fails.
-            requests = stores.ResourceRequestStore.getAll();
-
-        let isLoading =
-            [identities, selectedIdentity, requests]
-            .some(item => !item) // Check if some are falsy
-
-        if (isLoading) {
-            return <div className="loading" />;
-        }
-
         return (
         <div role="form">
-            <div className="form-group">
-                <label htmlFor="project-identity">
-                    {"What cloud would you like resources for?"}
-                </label>
-                <select value={selectedIdentity} className="form-control" onChange={this.handleIdentityChange}>
-                    {identities.map(this.renderIdentity)}
-                </select>
-            </div>
             <div className="form-group">
                 <label htmlFor="project-name">
                     {"What resources would you like to request?"}

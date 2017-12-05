@@ -13,35 +13,35 @@ export default React.createClass({
 
     quotaData: {
         "cpu": {
-            label: "CPU:",
+            label: "CPU",
             tip: "Total cpus across instances"
         },
         "memory": {
-            label: "Memory (GB):",
+            label: "Memory (GB)",
             tip: "Total memory across instances"
         },
         "storage": {
-            label: "Storage (GB):",
+            label: "Storage (GB)",
             tip: "Total disk space across instances"
         },
         "storage_count": {
-            label: "Volumes:",
+            label: "Volumes",
             tip: "Total number of volumes"
         },
         "snapshot_count": {
-            label: "Snapshots:",
+            label: "Snapshots",
             tip: "Total number of instance snapshots"
         },
         "instance_count": {
-            label: "Instances:",
+            label: "Instances",
             tip: "Total number of instances"
         },
         "port_count": {
-            label: "Fixed IPs:",
+            label: "Fixed IPs",
             tip: ""
         },
         "floating_ip_count": {
-            label: "Floating IPs:",
+            label: "Floating IPs",
             tip: ""
         }
     },
@@ -50,25 +50,35 @@ export default React.createClass({
     handleQuotaChange(e, field) {
         let { quota } = this.props;
 
-        let changedFieldObj = {};
-        changedFieldObj[field] = Number(e.target.value);
-
         this.props.onQuotaChange(
-             Object.assign({}, quota, changedFieldObj)
+             Object.assign({}, quota, { [field]: Number(e.target.value) })
         );
     },
 
     style() {
         return {
             label: {
-                display: "block"
+                display: "block",
             },
             quotaBlock: {
                 paddingRight: "15px",
-                float: "left"
+                flexGrow: 1,
+            },
+            quotaField: {
+                padding: "0 1em",
+                borderRight: "solid rgb(239, 239, 239) 2px"
+            },
+            quotaValue: {
+                padding: "0 1em"
             },
             questionMark: {
                 float: "right"
+            },
+            container: {
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                width: "100%"
             }
         };
     },
@@ -92,7 +102,9 @@ export default React.createClass({
         </div>
         );
     },
+
     render() {
+        let { container } = this.style();
         let { quota } = this.props;
 
         // [ "cpu", "memory", "storage", ...]
@@ -128,7 +140,7 @@ export default React.createClass({
             .map(this.renderQuotaField);
 
         return (
-        <div>
+        <div style={ container }>
             { renderedFields }
         </div>
         );

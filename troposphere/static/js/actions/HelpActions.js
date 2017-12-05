@@ -1,9 +1,10 @@
 import $ from "jquery";
+
 import NotificationController from "controllers/NotificationController";
 import globals from "globals";
-import Badges from "Badges";
 import Utils from "./Utils";
-import Constants from "constants/ResourceRequestConstants";
+import ResourceRequestConstants from "constants/ResourceRequestConstants";
+import AdminResourceRequestConstants from "constants/AdminResourceRequestConstants";
 import actions from "actions";
 
 export default {
@@ -52,8 +53,6 @@ export default {
     },
 
     requestMoreResources: function(params) {
-        if (!params.identity)
-            throw new Error("Missing identity");
         if (!params.quota)
             throw new Error("Missing quota");
         if (!params.reason)
@@ -63,18 +62,9 @@ export default {
             actions.BadgeActions.askSupport();
         }
 
-
-        var identity = params.identity,
-            quota = params.quota,
-            reason = params.reason,
-            // if admin_url is undefined, the API will default to the django admin UI for ticket management
-            admin_url = window.location.origin + "/application/admin/resource-requests/";
-
         var data = {
-            identity: identity,
-            request: quota,
-            description: reason,
-            admin_url: admin_url
+            request: params.quota,
+            description: params.reason
         };
 
         var requestUrl = globals.API_V2_ROOT + "/resource_requests";
@@ -86,10 +76,12 @@ export default {
             contentType: "application/json",
             success: function(data) {
                 NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
-                Utils.dispatch(Constants.ADD, {
+                Utils.dispatch(ResourceRequestConstants.ADD, {
                     model: data
                 });
-                actions.BadgeActions.checkOrGrant(Badges.RESOURCE_REQUEST_BADGE);
+                Utils.dispatch(AdminResourceRequestConstants.ADD, {
+                    model: data
+                });
             },
             error: function(response) {
                 var errorMessage,
