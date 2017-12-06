@@ -62,12 +62,14 @@ export default {
             actions.BadgeActions.askSupport();
         }
 
-        var data = {
+        let admin_url = window.location.origin + "/application/admin/resource-requests/";
+        let data = {
             request: params.quota,
-            description: params.reason
+            description: params.reason,
+            admin_url: admin_url
         };
 
-        var requestUrl = globals.API_V2_ROOT + "/resource_requests";
+        let requestUrl = globals.API_V2_ROOT + "/resource_requests";
 
         $.ajax(requestUrl, {
             type: "POST",
