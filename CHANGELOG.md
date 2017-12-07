@@ -1,3 +1,17 @@
+## [Delightful-Duboshin (v30)](https://github.com/cyverse/troposphere/milestone/19?closed=1) (as of 12/12/2017)
+
+Enhancement:
+  - Now community is able to associate a DOI with ImageVersion
+
+Bugfixes:
+  - Fixed bug that prevented a software license from being added to a ImageVersion
+  - Fixed rendering issues with ImageVersion Modal
+
+Admin:
+  - Separate resource submission from resource save, while included the "admin_url"
+  - Filter quota section to only show active identities
+    - (in Atmosphere domain model: identity is user + cloud-provider) 
+
 ## [Carbonaceous Comet (v29)](https://github.com/cyverse/troposphere/milestone/18?closed=1) (as of 11/14/2017)
 
 Enhancements:
