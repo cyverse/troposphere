@@ -1,3 +1,14 @@
+## [Carbonaceous Comet (v29)](https://github.com/cyverse/troposphere/milestone/18?closed=1) (as of 11/14/2017)
+
+Enhancements:
+  -  Can select Guacamole SSH color scheme from Settings page
+  - Begin deprecate existing web desktop and shell
+    - (the previous technology for "Web Shell" & "Web Desktop" will be replaced by Guacamole in 2018)
+
+Bugfixes:
+  - Move non-theme images into troposphere static 
+  - Fixed failures in /web_desktop cause 500 errors 
+
 ## [Beneficent-Bolide (v28)](https://github.com/cyverse/troposphere/milestone/17?closed=1) (as of 10/03/2017)
 
 Bugfixes:
