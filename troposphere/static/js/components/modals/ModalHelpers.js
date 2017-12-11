@@ -14,7 +14,7 @@ function onCancel() {
 export default {
 
     renderModal: function(ModalComponent, props, onConfirm=() => {}) {
-        props = _.extend(props || {}, {
+        let newProps = _.extend({}, props, {
             onConfirm,
             onCancel: onCancel,
             handleHidden: onCancel
@@ -25,7 +25,7 @@ export default {
             { muiTheme: getMuiTheme( appTheme ) },
             React.createElement(
                 ModalComponent,
-                props
+                newProps
             )
         );
 
