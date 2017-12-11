@@ -101,9 +101,9 @@ export default React.createClass({
             })
 
         ).then(() => {
-            !nullProject.isEmpty()
-                ? actions.NullProjectActions.migrateResourcesIntoProject(nullProject)
-                : actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+            nullProject.isEmpty()
+                ? actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject()
+                : actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
         })
     },
 
