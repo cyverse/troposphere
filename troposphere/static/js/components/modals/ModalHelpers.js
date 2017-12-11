@@ -13,7 +13,7 @@ function onCancel() {
 
 export default {
 
-    renderModal: function(ModalComponent, props, cb) {
+    renderModal: function(ModalComponent, props, cb=() => {}) {
         props = _.extend(props || {}, {
             onConfirm: cb,
             onCancel: onCancel,
