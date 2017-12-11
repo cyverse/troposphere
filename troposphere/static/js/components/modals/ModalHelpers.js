@@ -13,9 +13,9 @@ function onCancel() {
 
 export default {
 
-    renderModal: function(ModalComponent, props, cb=() => {}) {
+    renderModal: function(ModalComponent, props, onConfirm=() => {}) {
         props = _.extend(props || {}, {
-            onConfirm: cb,
+            onConfirm,
             onCancel: onCancel,
             handleHidden: onCancel
         });
