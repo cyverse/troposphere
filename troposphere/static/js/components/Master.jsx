@@ -9,7 +9,6 @@ import actions from "actions";
 import modals from "modals";
 import modernizrTest from "components/modals/unsupported/modernizrTest";
 import NullProject from "models/NullProject";
-import noAllocationSource from "modals/allocationSource/noAllocationSource";
 
 import Raven from "raven-js";
 
@@ -81,7 +80,7 @@ export default React.createClass({
                 let missing = all_instances.cfilter(i => !i.get("allocation_source") && i.get('user').username == username);
 
                 if (missing.length > 0) {
-                    noAllocationSource.showModal(missing, resolve);
+                    modals.NoAllocationSourceModal.showModal(missing, resolve);
                 } else {
                     // give the other promises a shot at handling things
                     resolve();
