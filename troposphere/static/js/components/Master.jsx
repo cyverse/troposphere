@@ -80,7 +80,7 @@ export default React.createClass({
                 let missing = all_instances.cfilter(i => !i.get("allocation_source") && i.get('user').username == username);
 
                 if (missing.length > 0) {
-                    modals.NoAllocationSourceModal.showModal(missing, resolve);
+                    modals.NoAllocationSourceModal.showModal(missing).then(resolve);
                 } else {
                     // give the other promises a shot at handling things
                     resolve();
@@ -95,7 +95,7 @@ export default React.createClass({
             // to launch the next modal if we need to
             () => new Promise((resolve, reject) => {
                 modernizrTest.unsupported()
-                    ? modals.UnsupportedModal.showModal(resolve)
+                    ? modals.UnsupportedModal.showModal().then(resolve)
                     : resolve();
             })
 

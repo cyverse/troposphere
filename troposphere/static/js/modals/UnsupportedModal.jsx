@@ -80,7 +80,7 @@ const showModal = function() {
         keyboard: false
     };
 
-    ModalHelpers.renderModal(UnsupportedModal, props);
+    return ModalHelpers.renderModal(UnsupportedModal, props);
 }
 
 export { UnsupportedModal as default };

@@ -14,10 +14,13 @@ function onCancel() {
 export default {
 
     renderModal: function(ModalComponent, props, onConfirm=() => {}) {
+        // Construct a promise that is resolved after the modal is hidden
+        let resolve, promise = new Promise(r => resolve = r);
+
         let newProps = _.extend({}, props, {
             onConfirm,
             onCancel: onCancel,
-            handleHidden: onCancel
+            handleHidden: () => { onCancel(); resolve(); }
         });
 
         var modal = React.createElement(
@@ -30,5 +33,9 @@ export default {
         );
 
         ReactDOM.render(modal, document.getElementById("modal"));
+
+        // Return a promise, which can be used to chain modals, or perform any
+        // action after a modal
+        return promise;
     }
 }
