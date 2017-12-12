@@ -73,14 +73,14 @@ const UnsupportedModal = React.createClass({
     }
 });
 
-const showModal = function(callback) {
+const showModal = function() {
 
     let props = {
         backdrop: "static",
         keyboard: false
     };
 
-    ModalHelpers.renderModal(UnsupportedModal, props, callback);
+    return ModalHelpers.renderModal(UnsupportedModal, props);
 }
 
 export { UnsupportedModal as default };

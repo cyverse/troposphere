@@ -144,6 +144,7 @@ modals.TagModals = require("modals/TagModals");
 modals.VersionModals = require("modals/VersionModals");
 modals.VolumeModals = require("modals/VolumeModals");
 modals.UnsupportedModal = require("modals/UnsupportedModal");
+modals.NoAllocationSourceModal = require("modals/allocationSource/noAllocationSource");
 
 export default {
     run: function() {
@@ -190,7 +191,7 @@ export default {
             var LoginMasterComponent = React.createFactory(LoginMaster);
 
             //Show login component when user is not already-logged in.
-            const Render = window.access_token ? 
+            const Render = window.access_token ?
                 SplashScreenComponent() : LoginMasterComponent();
 
             ReactDOM.render(Render, document.getElementById("application"));

@@ -3,14 +3,12 @@ import NoAllocationSourceModal from "components/modals/allocationSource/NoAlloca
 
 
 export default {
-    showModal: function(instances, callback) {
-        ModalHelpers.renderModal(
+    showModal: function(instances) {
+        return ModalHelpers.renderModal(
             NoAllocationSourceModal,
             {
                 backdrop: "static",
                 instances
-            },
-            callback
-        );
+            });
     }
 };
