@@ -1,8 +1,8 @@
 import { trackAction } from "../../utilities/userActivity";
 import React from "react";
 import AdvancedSettingsPage from "components/settings/AdvancedSettingsPage";
+import WebShellSettingsPage from "components/settings/WebShellSettingsPage";
 import IconSelect from "./IconSelect";
-import GuacamoleSelect from "./GuacamoleSelect";
 import SettingsHeader from "./SettingsHeader";
 import actions from "actions";
 import modals from "modals";
@@ -39,12 +39,6 @@ export default React.createClass({
         });
     },
 
-    handleColorSelect: function(colorType) {
-        actions.ProfileActions.updateProfileAttributes(this.state.profile, {
-            guacamole_color: colorType
-        });
-    },
-
     handleChangeEmailPreference: function(event) {
         var isChecked = event.target.checked;
         actions.ProfileActions.updateProfileAttributes(this.state.profile, {
@@ -63,7 +57,6 @@ export default React.createClass({
     render: function() {
         var profile = this.state.profile;
         var selectedIconSet = profile.get("settings")["icon_set"];
-        var selectedGuacamoleColor = profile.get("settings")["guacamole_color"];
         var wantsEmails = profile.get("settings")["send_emails"];
 
         return (
@@ -91,13 +84,8 @@ export default React.createClass({
                         Select the Image and Instance icon set you would like to use:
                     </p>
                     <IconSelect selected={selectedIconSet} onSelect={this.handleIconSelect} />
-
-                    <h4>Web Shell Color Select</h4>
-                    <p>
-                        Use the form below to select color for SSH terminal in "New Web Shell".
-                    </p>
-                    <GuacamoleSelect selected={selectedGuacamoleColor} onSelect={this.handleColorSelect} />
                 </div>
+                <WebShellSettingsPage />
                 <AdvancedSettingsPage />
             </div>
         </div>
