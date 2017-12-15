@@ -62,17 +62,24 @@ export default React.createClass({
 
     onIdentitySave(identity) {
         let { selectedRequest: request } = this.props;
+        let username = request.get("created_by").username;
         let quota = new Quota(_.omit(identity.get('quota'), ["id", "uuid"]));
         let promise = Promise.resolve(quota.save())
             .then(
-                () => identity.save({ 'quota': quota.pick("id") }, { patch: true })
+                () => {
+                    // The api expects a username query paramater for an admin
+                    // to update another users' identity. This will be
+                    // changed.
+                    let urlByUsername = `${identity.url()}?username=${username}`;
+                    return identity.save({ 'quota': quota.pick("id") }, { patch: true, url: urlByUsername })
+                }
             );
 
         promise
             .then(() => {
                 Utils.dispatch(IdentityConstants.UPDATE, {
                     identity,
-                    username: request.get("created_by").username
+                    username
                 });
             })
             .catch(errorHandler);
