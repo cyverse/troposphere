@@ -1,5 +1,6 @@
 import React from "react";
 import ColorSchemeSelect from "components/settings/web_shell/ColorSchemeSelect";
+import RecordWebShell from "components/settings/web_shell/RecordWebShell";
 import actions from "actions";
 import modals from "modals";
 import stores from "stores";
@@ -43,15 +44,23 @@ export default React.createClass({
 
       return (
       <div style={{ marginLeft: "30px" }}>
-          <h4 className="t-title">Web Shell Color Select</h4>
-          <p>
-              Use the form below to select color for SSH terminal in "New Web Shell".
-          </p>
-          <ColorSchemeSelect selected={selectedGuacamoleColor} onSelect={this.handleColorSelect} />
+          <div className="container">
+              <div>
+                  <h4 className="t-title">Color Scheme</h4>
+                  <p>
+                      Use the form below to select color for SSH terminal in "New Web Shell".
+                  </p>
+                  <ColorSchemeSelect selected={selectedGuacamoleColor} onSelect={this.handleColorSelect} />
+              </div>
 
-          <h4 className="t-title">Record Sessions</h4>
-          <div>
-              <input type="checkbox" checked={recordShell} onChange={this.handleShellRecordChange} /> Record Web Shell sessions.<br/><br/>
+              <div className="notifications">
+                  <h4 className="t-title">Record Sessions</h4>
+                  <p>
+                      Recordings will be saved in <code>/home/{this.state.profile.get("userid")}/session_recordings</code>
+                      and can be used with the command <code>scriptreplay NAME.timing NAME</code>
+                  </p>
+                  <RecordWebShell checked={recordShell} onChange={this.handleShellRecordChange} />
+              </div>
           </div>
 
           <button onClick={this.showToggle}>
