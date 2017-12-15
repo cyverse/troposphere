@@ -2,15 +2,16 @@ import React from "react";
 import _ from "underscore";
 import Backbone from "backbone";
 
+import Utils from "actions/Utils";
 import stores from "stores";
 import { browserHistory } from "react-router";
 import ResourceRequestView from "./ResourceRequestView";
-import ResourceActions from "actions/ResourceActions";
+import AdminResourceRequestActions from "actions/AdminResourceRequestActions";
 import Quota from "models/Quota";
+import AllocationSourceConstants from "constants/AllocationSourceConstants";
+import IdentityConstants from "constants/IdentityConstants"
+import errorHandler from "actions/errorHandler"
 
-// This component is responsible for interfacing with our stores, and
-// fetching/aggregating data. It does the dirty work for the
-// ResourceRequestView.
 export default React.createClass({
 
     propTypes: {
@@ -20,7 +21,7 @@ export default React.createClass({
 
     getInitialState() {
         return {
-            actionPending: false
+            actionPending: false,
         };
     },
 
@@ -43,141 +44,134 @@ export default React.createClass({
         this.forceUpdate();
     },
 
-    onApprove(view) {
+    onAllocationSave(allocationSource) {
         let { selectedRequest: request } = this.props;
-        let {
-            quota: storeQuota,
-            allocationSources: storeAllocations,
-            identity,
-            statuses
-        } = this.fetch();
-
-        let { quota, allocationSources } = view;
-
-        let quotas = stores.QuotaStore.getAll();
-        let response = view.response;
-
-        let quotaChanged =
-            // Test if some of the attributes are not equal
-            storeQuota.keys().some(attr => storeQuota.get(attr) !== quota[attr]);
-
-        let updatedQuota;
-        if (quotaChanged) {
-            updatedQuota =
-                // Search for quota in store based on attributes not id
-                quotas.findWhere(_.omit(quota, "id")) ||
-
-                // Updated quota doesn't exist, so create one
-                new Quota(_.omit(quota, "id"));
-        }
-
-        let changedAllocations = allocationSources
-            .filter(as => {
-                let storeAs = storeAllocations.get(as.uuid);
-                let allocationChanged =
-                    storeAs.keys().some(attr => storeAs.get(attr) !== as[attr])
-                return allocationChanged;
+        let promise = Promise.resolve(
+            allocationSource.save(allocationSource.pick("compute_allowed"), { patch: true })
+        );
+        promise
+            .then(() => {
+                Utils.dispatch(AllocationSourceConstants.UPDATE, {
+                    allocation: allocationSource,
+                    username: request.get("created_by").username
+                })
             })
-            .map(as => {
-                let storeAs = storeAllocations.get(as.uuid);
-                return storeAs.set(as);
-            })
+            .catch(errorHandler);
+        return promise;
+    },
 
+    onIdentitySave(identity) {
+        let { selectedRequest: request } = this.props;
+        let quota = new Quota(_.omit(identity.get('quota'), ["id", "uuid"]));
+        let promise = Promise.resolve(quota.save())
+            .then(
+                () => identity.save({ 'quota': quota.pick("id") }, { patch: true })
+            );
+
+        promise
+            .then(() => {
+                Utils.dispatch(IdentityConstants.UPDATE, {
+                    identity,
+                    username: request.get("created_by").username
+                });
+            })
+            .catch(errorHandler);
+        return promise;
+    },
+
+    onApprove() {
+        let { selectedRequest: request } = this.props;
+        let { statuses } = this.fetch();
         let status = statuses.findWhere({
             name: "approved"
         });
 
         this.setState({ actionPending: true });
-        ResourceActions.approve({
-            allocationSources: changedAllocations,
-            identity,
-            quota: updatedQuota,
-            status,
-            request,
-            response
-        }).then(() => {
-            browserHistory.push("/application/admin/resource-requests");
-        }).catch(this.setActionResolved)
+        let promise = Promise.resolve(AdminResourceRequestActions.updateRequest(request, status));
+        promise
+            .then(
+                // onSuccess, navigate away
+                () => browserHistory.push("/application/admin/resource-requests"),
+
+                // onFailure, action is no longer pending, trigger error handler
+                err => {
+                    this.setState({ actionPending: false })
+                    errorHandler(err);
+                }
+            );
+        return promise;
     },
 
-    setActionResolved() {
-        this.setState({ actionPending: false });
-    },
-
-    onDeny(view) {
+    onDeny(reason) {
         let { selectedRequest: request } = this.props;
         let { statuses } = this.fetch();
-
-        let response = view.response;
 
         let status = statuses.findWhere({
             name: "denied"
         });
 
         this.setState({ actionPending: true });
-        ResourceActions.deny({
-            request,
-            response,
-            status
-        }).then(() => {
-            browserHistory.push("/application/admin/resource-requests");
-        }).catch(this.setActionResolved)
+        let promise = Promise.resolve(
+            AdminResourceRequestActions.updateRequest(request, status, reason)
+        );
+        promise
+            .then(
+                // onSuccess, navigate away
+                () => browserHistory.push("/application/admin/resource-requests"),
+
+                // onFailure, action is no longer pending, trigger error handler
+                err => {
+                    this.setState({ actionPending: false });
+                    errorHandler(err);
+                }
+            )
+        return promise;
     },
 
     fetch() {
         let { selectedRequest: request } = this.props;
-        let quotas = stores.QuotaStore.getAll();
         let statuses = stores.StatusStore.getAll();
 
         let identities;
-        if (request)
+        if (request) {
             identities = stores.IdentityStore.fetchWhere({
                 username: request.get("created_by").username
             });
-
-        let identity;
-        if (identities && request) {
-            identity = identities.get(request.get("identity").id);
-        }
-
-        let quota;
-        if (quotas && identity) {
-            quota = quotas.get(identity.get("quota").id);
         }
 
         let allocationSources;
         if (request) {
             allocationSources = stores.AllocationSourceStore.fetchWhere({
                 "username": request.get("created_by").username
-            });
+            })
         }
 
         return {
             allocationSources,
-            identity,
-            quota,
+            identities,
             statuses
         };
     },
 
     render() {
-        let { allocationSources, quota } = this.fetch();
+        let { allocationSources, identities } = this.fetch();
         let { selectedRequest } = this.props;
         let { actionPending } = this.state;
 
-        // Wait for the data necessary for the view
-        if (actionPending || !(allocationSources && quota)) {
+        if (actionPending) {
             return (
                 <div className="loading"></div>
             );
         }
 
         let viewProps = {
-            request: selectedRequest.toJSON(),
-            allocationSources: allocationSources.map(as => as.toJSON()),
-            quota: quota.toJSON(),
+            request: selectedRequest,
+            allocationSources,
+            identities,
+            onAllocationSave: this.onAllocationSave,
+            onIdentitySave: this.onIdentitySave,
             onApprove: this.onApprove,
-            onDeny: this.onDeny
+            onDeny: this.onDeny,
         };
 
         return (

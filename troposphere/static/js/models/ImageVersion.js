@@ -37,5 +37,10 @@ export default Backbone.Model.extend({
         }
 
         return result;
+    },
+
+    hasDOI: function() {
+        // convert value to a Boolean when returned
+        return !!this.get("doc_object_id");
     }
 });

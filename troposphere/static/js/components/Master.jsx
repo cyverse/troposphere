@@ -9,7 +9,6 @@ import actions from "actions";
 import modals from "modals";
 import modernizrTest from "components/modals/unsupported/modernizrTest";
 import NullProject from "models/NullProject";
-import noAllocationSource from "modals/allocationSource/noAllocationSource";
 
 import Raven from "raven-js";
 
@@ -73,38 +72,34 @@ export default React.createClass({
             });
         let all_instances = stores.InstanceStore.getAll();
 
-        new Promise((resolve, reject) => {
-            if (globals.USE_ALLOCATION_SOURCES) {
-                // Filter instances without AS
-                let profile = context.profile,
-                    username =  profile.get('username');
-                let missing = all_instances.cfilter(i => !i.get("allocation_source") && i.get('user').username == username);
+        Promise.resolve()
+            .then(
+                () => {
+                    if (globals.USE_ALLOCATION_SOURCES) {
+                        let profile = context.profile,
+                            username =  profile.get('username'),
+                            missing = all_instances.cfilter(
+                                i => !i.get("allocation_source") && i.get('user').username == username
+                            );
 
-                if (missing.length > 0) {
-                    noAllocationSource.showModal(missing, resolve);
-                } else {
-                    // give the other promises a shot at handling things
-                    resolve();
+                        if (missing.length > 0) {
+                            return modals.NoAllocationSourceModal.showModal(missing);
+                        }
+                    }
                 }
-            } else {
-                // Continue on to the next promise
-                resolve();
-            }
-        }).then(
-
-            // After the previous promise was resolved, we create this promise
-            // to launch the next modal if we need to
-            () => new Promise((resolve, reject) => {
-                modernizrTest.unsupported()
-                    ? modals.UnsupportedModal.showModal(resolve)
-                    : resolve();
-            })
-
-        ).then(() => {
-            !nullProject.isEmpty()
-                ? actions.NullProjectActions.migrateResourcesIntoProject(nullProject)
-                : actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
-        })
+            )
+           .then(
+               () => {
+                   if (modernizrTest.unsupported()) {
+                       return modals.UnsupportedModal.showModal();
+                   }
+               }
+            ).then(
+                () =>
+                    nullProject.isEmpty()
+                    ? actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject()
+                    : actions.NullProjectActions.migrateResourcesIntoProject(nullProject)
+            )
     },
 
     loadRavenData: function() {

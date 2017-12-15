@@ -1,14 +1,13 @@
-
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
-import ResourceRequestCollection from "collections/ResourceRequestCollection";
-import ResourceRequestConstants from "constants/ResourceRequestConstants";
+import AdminResourceRequestCollection from "collections/AdminResourceRequestCollection";
+import AdminResourceRequestConstants from "constants/AdminResourceRequestConstants";
 
-let ResourceRequestStore = BaseStore.extend({
-    collection: ResourceRequestCollection,
+let AdminResourceRequestStore = BaseStore.extend({
+    collection: AdminResourceRequestCollection,
 });
 
-let store = new ResourceRequestStore();
+let store = new AdminResourceRequestStore();
 
 Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
@@ -16,22 +15,22 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-        case ResourceRequestConstants.ADD:
+        case AdminResourceRequestConstants.ADD:
             store.add({
                 data: payload.model,
                 at: 0
             });
             break;
 
-        case ResourceRequestConstants.UPDATE:
+        case AdminResourceRequestConstants.UPDATE:
             store.update(payload.model);
             break;
 
-        case ResourceRequestConstants.REMOVE:
+        case AdminResourceRequestConstants.REMOVE:
             store.remove(payload.model);
             break;
 
-        case ResourceRequestConstants.EMIT_CHANGE:
+        case AdminResourceRequestConstants.EMIT_CHANGE:
             break;
 
         default:

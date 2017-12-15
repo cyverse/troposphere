@@ -10,6 +10,6 @@ export default {
             header: "Disable User"
         };
 
-        ModalHelpers.renderModal(ManageUserModal, props, function() {});
+        return ModalHelpers.renderModal(ManageUserModal, props);
     }
 };

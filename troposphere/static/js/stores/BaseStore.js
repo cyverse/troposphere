@@ -80,9 +80,11 @@ _.extend(Store.prototype, Backbone.Events, {
 
     add: function(payload) {
         if (!this.models) {
+            // Temporaily create a collection, but request collection from api
             this.models = new this.collection();
+            this.fetchModels();
         }
-        if(!payload) {
+        if (!payload) {
             throw new Error(".add(..) expects a payload. Received " + payload)
         }
         if ("at" in payload) {
@@ -134,7 +136,7 @@ _.extend(Store.prototype, Backbone.Events, {
 
     // Fetch the first page of data from the server
     fetchModels: function() {
-        if (!this.models && !this.isFetching) {
+        if (!this.isFetching) {
             this.isFetching = true;
             var models = new this.collection();
             var queryString = "";

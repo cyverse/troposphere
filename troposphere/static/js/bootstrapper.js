@@ -77,6 +77,7 @@ stores.ProjectVolumeStore = require("stores/ProjectVolumeStore");
 stores.ProviderMachineStore = require("stores/ProviderMachineStore");
 stores.ProviderStore = require("stores/ProviderStore");
 stores.ResourceRequestStore = require("stores/ResourceRequestStore");
+stores.AdminResourceRequestStore = require("stores/AdminResourceRequestStore");
 stores.IdentityMembershipStore = require("stores/IdentityMembershipStore");
 stores.StatusStore = require("stores/StatusStore");
 stores.SSHKeyStore = require("stores/SSHKeyStore");
@@ -118,7 +119,8 @@ actions.ProjectExternalLinkActions = require("actions/ProjectExternalLinkActions
 actions.ProjectImageActions = require("actions/ProjectImageActions");
 actions.ProjectInstanceActions = require("actions/ProjectInstanceActions");
 actions.ProjectVolumeActions = require("actions/ProjectVolumeActions");
-actions.ResourceActions = require("actions/ResourceActions");
+actions.ResourceRequestActions = require("actions/ResourceRequestActions");
+actions.AdminResourceRequestActions = require("actions/AdminResourceRequestActions");
 actions.SSHKeyActions = require("actions/SSHKeyActions");
 actions.ScriptActions = require("actions/ScriptActions");
 actions.TagActions = require("actions/TagActions");
@@ -142,6 +144,7 @@ modals.TagModals = require("modals/TagModals");
 modals.VersionModals = require("modals/VersionModals");
 modals.VolumeModals = require("modals/VolumeModals");
 modals.UnsupportedModal = require("modals/UnsupportedModal");
+modals.NoAllocationSourceModal = require("modals/allocationSource/noAllocationSource");
 
 export default {
     run: function() {
@@ -188,7 +191,7 @@ export default {
             var LoginMasterComponent = React.createFactory(LoginMaster);
 
             //Show login component when user is not already-logged in.
-            const Render = window.access_token ? 
+            const Render = window.access_token ?
                 SplashScreenComponent() : LoginMasterComponent();
 
             ReactDOM.render(Render, document.getElementById("application"));

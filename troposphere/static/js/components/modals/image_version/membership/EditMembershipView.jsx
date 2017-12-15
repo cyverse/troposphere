@@ -34,7 +34,7 @@ const EditMembershipView = React.createClass({
         var query = this.state.query,
             membershipView,
             memberships,
-            { GroupStore} = this.props.subscriptions;
+            { GroupStore } = this.props.subscriptions;
 
         if (query) {
             memberships = GroupStore.fetchWhere({
@@ -63,4 +63,5 @@ const EditMembershipView = React.createClass({
         );
     }
 });
+
 export default subscribe(EditMembershipView, ["GroupStore"]);

@@ -1,3 +1,28 @@
+## [Delightful-Duboshin (v30)](https://github.com/cyverse/troposphere/milestone/19?closed=1) (as of 12/12/2017)
+
+Enhancement:
+  - Now community is able to associate a DOI with ImageVersion
+
+Bugfixes:
+  - Fixed bug that prevented a software license from being added to a ImageVersion
+  - Fixed rendering issues with ImageVersion Modal
+
+Admin:
+  - Separate resource submission from resource save, while included the "admin_url"
+  - Filter quota section to only show active identities
+    - (in Atmosphere domain model: identity is user + cloud-provider) 
+
+## [Carbonaceous Comet (v29)](https://github.com/cyverse/troposphere/milestone/18?closed=1) (as of 11/14/2017)
+
+Enhancements:
+  -  Can select Guacamole SSH color scheme from Settings page
+  - Begin deprecate existing web desktop and shell
+    - (the previous technology for "Web Shell" & "Web Desktop" will be replaced by Guacamole in 2018)
+
+Bugfixes:
+  - Move non-theme images into troposphere static 
+  - Fixed failures in /web_desktop cause 500 errors 
+
 ## [Beneficent-Bolide (v28)](https://github.com/cyverse/troposphere/milestone/17?closed=1) (as of 10/03/2017)
 
 Bugfixes:

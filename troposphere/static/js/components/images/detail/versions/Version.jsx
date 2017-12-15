@@ -6,6 +6,7 @@ import Gravatar from "components/common/Gravatar";
 import Ribbon from "components/common/Ribbon";
 import MediaCard from "components/common/ui/MediaCard";
 import AvailabilityView from "../availability/AvailabilityView";
+import { Pill } from 'cyverse-ui';
 
 import stores from "stores";
 import context from "context";
@@ -131,6 +132,24 @@ export default React.createClass({
        );
     },
 
+    renderDocObjectId() {
+        let { version } = this.props,
+            hasDOI = version && version.hasDOI(),
+            doi = version ? version.get("doc_object_id") : "",
+            doiLink = null;
+
+        if (hasDOI) {
+            doiLink = (
+                <a href={`https://doi.org/${doi}`}>{`${doi}`}</a>
+            );
+        }
+        return (
+            <div style={{marginBottom: "15px"}}>
+                <strong>{`DOI: `}</strong>{doiLink}
+            </div>
+        );
+    },
+
     renderSummary() {
         let { version } = this.props;
         let styles = this.styles();
@@ -176,6 +195,7 @@ export default React.createClass({
         <div style={ styles.content }>
             { this.renderEndDated() }
             { this.renderChangeLog() }
+            { this.renderDocObjectId() }
             <div style={ styles.availability } >
                 { providerAvailability }
             </div>
@@ -195,12 +215,18 @@ export default React.createClass({
 
     render() {
         // todo: figure out if anything is ever recommended, or if it's just a concept idea
-        let { version, image } = this.props;
+        let { version, image } = this.props,
+            versionHash = CryptoJS.MD5(version.id.toString()).toString(),
+            type = stores.ProfileStore.get().get("icon_set"),
+            owner = image.get("created_by").username,
+            date = this.renderDateString(version);
 
-        let versionHash = CryptoJS.MD5(version.id.toString()).toString();
-        let type = stores.ProfileStore.get().get("icon_set");
-        let owner = image.get("created_by").username;
-        let date = this.renderDateString(version);
+        let title = !version.hasDOI() ? version.get("name") : (
+            <span>
+                {`${ version.get("name")} `}
+                <Pill>DOI</Pill>
+            </span>
+        );
 
         let subheading =  (
             <span>
@@ -213,7 +239,7 @@ export default React.createClass({
             <MediaCard
                 onCardClick={ this.onCardClick }
                 isOpen={ this.state.isOpen }
-                title={ version.get("name") }
+                title={ title }
                 subheading={ subheading }
                 avatar={
                     <Gravatar

@@ -1,7 +1,8 @@
 import React from "react";
 
-import AllocationSourcesView from "./AllocationSourcesView";
-import QuotaView from "./QuotaView";
+import globals from "globals";
+import AllocationSourceView from "./AllocationSourceView";
+import IdentityView from "./IdentityView";
 
 // This is the view for the admin Resource Requests panel. This view shouldn't
 // fetch or retrieve any data, just renders props.
@@ -9,84 +10,32 @@ export default React.createClass({
 
     propTypes: {
         request: React.PropTypes.object.isRequired,
-        allocationSources: React.PropTypes.array.isRequired,
-        quota: React.PropTypes.object.isRequired,
+        allocationSources: React.PropTypes.object,
+        identities: React.PropTypes.object,
         onApprove: React.PropTypes.func.isRequired,
-        onDeny: React.PropTypes.func.isRequired
+        onDeny: React.PropTypes.func.isRequired,
+        onAllocationSave: React.PropTypes.func.isRequired,
+        onIdentitySave: React.PropTypes.func.isRequired
     },
 
     getInitialState() {
-        return this.getStateFromProps(this.props);
-    },
-
-    componentWillReceiveProps(newProps) {
-        // If a new request is present
-        if (newProps.request.id != this.props.request.id) {
-            this.setState(this.getStateFromProps(newProps));
-        }
-    },
-
-    getStateFromProps(props) {
-        let { quota, allocationSources } = props;
         return {
-            response: "",
-            quota,
-            allocationSources
+            denyReason: "",
         };
     },
 
-    canSubmit() {
-        let response = this.state.response;
-        return response && response.trim().length > 0;
-    },
-
-    handleResponseChange(e) {
-        this.setState({
-            response: e.target.value
-        });
-    },
-
-    onAllocationChange({ id, compute_allowed }) {
-        let allocationSources = this.state.allocationSources.map(as => {
-            if (as.id === id) {
-                return Object.assign({}, as, { id, compute_allowed });
-            }
-            return as;
-        });
-        this.setState({ allocationSources });
-    },
-
-    onQuotaChange(quota) {
-        this.setState({ quota });
-    },
-
-    onDeny() {
-        let { response, quota, allocationSources } = this.state;
-        this.props.onDeny({
-            response, quota, allocationSources
-        });
-    },
-
-    onApprove() {
-        let { response, quota, allocationSources } = this.state;
-
-        this.props.onApprove({
-            response, quota, allocationSources
-        });
+    handleResponseChange({ target: { value: denyReason } }) {
+        this.setState({ denyReason });
     },
 
     style() {
         return {
             horizontalRule: {
-                margin: "10px 0px"
-            },
-            responseArea: {
-                resize: "vertical",
-                minHeight: "100px"
+                margin: "30px 0px"
             },
             section: {
-                paddingBottom: "10px",
-                paddingLeft: "10px",
+                marginBottom: "20px",
+                marginLeft: "10px",
                 flexGrow: 1
             },
             container: {
@@ -96,68 +45,121 @@ export default React.createClass({
         }
     },
 
+    renderAllocationsSection() {
+        let { allocationSources, onAllocationSave } = this.props;
+        let { section } = this.style();
+
+        let body = <p>There are no allocations</p>;
+        if (allocationSources) {
+            body = allocationSources.map(allocationSource => {
+                let id = allocationSource.get("id");
+                let props = {
+                    onSave: onAllocationSave,
+                    allocationSource,
+                }
+                return <AllocationSourceView key={id} { ...props }/>;
+            })
+        }
+
+        return (
+        <div style={section}>
+            { body }
+        </div>
+        );
+    },
+
+    renderIdentitiesSection() {
+        let { identities, onIdentitySave: onSave } = this.props;
+        let { section } = this.style();
+
+        // Filter identities to only include active identities
+        if (identities) {
+            identities = identities.filter(i => i.get("provider").active);
+        }
+
+        // Before identities load, render empty string
+        let body = "";
+        if (identities && identities.length === 0) {
+            body = <p>This user doesn't have access to any active providers</p>;
+        } else if (identities) {
+            body = identities.map(identity => {
+                let id = identity.get("id");
+                let props = {
+                    identity,
+                    onSave,
+                }
+                return (
+                <div key={id} style={{ marginBottom: "10px" }}>
+                    <IdentityView { ...props}/>
+                </div>
+                )
+            });
+        }
+
+        return (
+        <div style={section}>
+            { body }
+            <div style={{ clear: "both" }} />
+        </div>
+        );
+    },
+
     render() {
         let {
             created_by: { username },
             request, description
-        } = this.props.request;
+        } = this.props.request.toJSON();
         let {
-            container, section, horizontalRule, responseArea
+            container, section, horizontalRule
         } = this.style();
-        let {
-            response, quota, allocationSources
-        } = this.state;
-        let { onQuotaChange, onAllocationChange } = this;
+        let { denyReason } = this.state;
 
         return (
         <div style={container}>
-            <div>
-                <h4 className="t-title">User:</h4>
-                <div style={section}>
-                    <p>{username}</p>
-                </div>
-                <h4 className="t-title">Request:</h4>
-                <div style={section}>
-                    <p>{request}</p>
-                </div>
-                <h4 className="t-title">Description:</h4>
-                <div style={section}>
-                    <p>{description}</p>
-                </div>
-                <h4 className="t-title">Allocation:</h4>
-                <div style={section}>
-                <AllocationSourcesView { ...{ allocationSources, onAllocationChange }}/>
-                </div>
-                <h4 className="t-title">Quota:</h4>
-                <div style={section}>
-                    <QuotaView { ...{ quota, onQuotaChange } }/>
-                </div>
+            <h4 className="t-title">User</h4>
+            <div style={section}>
+                <p>{username}</p>
             </div>
-            <div style={{ clear: "both" }} />
+            <h4 className="t-title">Request</h4>
+            <div style={section}>
+                <p>{request}</p>
+            </div>
+            <h4 className="t-title">Description</h4>
+            <div style={section}>
+                <p>{description}</p>
+            </div>
             <hr style={horizontalRule} />
-            <div className="form-group">
-                <h4 className="t-title">Response:</h4>
-                <textarea style={responseArea}
-                    className="form-control"
-                    type="text"
-                    form="admin"
-                    value={response}
-                    onChange={this.handleResponseChange}>
-                </textarea>
+            <h4 className="t-title">1. Update the user's current resources</h4>
+            <div style={section}>
+                { globals.EXTERNAL_ALLOCATION ? null : <h5 className="t-title">Allocation</h5> }
+                { globals.EXTERNAL_ALLOCATION ? null : this.renderAllocationsSection() }
+                <h5 className="t-title">Quota</h5>
+                { this.renderIdentitiesSection() }
             </div>
-            <div className="buttons">
-                <button disabled={!this.canSubmit()}
-                    onClick={this.onApprove}
-                    type="button"
-                    className="btn btn-default btn-sm">
-                    Approve
-                </button>
-                <button disabled={!this.canSubmit()}
-                    onClick={this.onDeny}
-                    type="button"
-                    className="btn btn-default btn-sm">
-                    Deny
-                </button>
+            <h4 className="t-title">2. Approve or Deny the request</h4>
+            <div style={section}>
+                <p>On approve or deny, the user will be notified by email and
+                encouraged to reach out to support if they have questions.
+                Under <a href="//application/my-requests/resources">my requests</a>, users can track the status of each
+                request.</p>
+                <div style={{ display: "flex" }}>
+                    <div style={{ padding: "20px", borderRight: "solid 1px #eee" }} >
+                        <button onClick={this.props.onApprove}
+                            type="button"
+                            className="btn btn-default btn-sm">
+                            Approve
+                        </button>
+                    </div>
+                    <div style={{ padding: "20px" }} >
+                        <span style={{ paddingRight: "10px" }}>Provide a reason: <input onChange={this.handleResponseChange} value={ denyReason } /></span>
+                        <button onClick={() => this.props.onDeny(this.state.denyReason)}
+                            disabled={ this.state.denyReason == "" }
+                            type="button"
+                            className="btn btn-default btn-sm">
+                            Deny
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         );

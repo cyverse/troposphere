@@ -27,8 +27,8 @@ export default subscribe(React.createClass({
     },
 
     requestPreview() {
-        let { ResourceRequestStore } = this.props.subscriptions;
-        let requests = ResourceRequestStore.findWhere({
+        let { AdminResourceRequestStore } = this.props.subscriptions;
+        let requests = AdminResourceRequestStore.findWhere({
             "status.name": "pending"
         });
 
@@ -59,4 +59,4 @@ export default subscribe(React.createClass({
         </div>
         );
     }
-}), [ "ResourceRequestStore" ]);
+}), [ "AdminResourceRequestStore" ]);
