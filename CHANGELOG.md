@@ -1,4 +1,4 @@
-## [Delightful-Duboshin (v30)](https://github.com/cyverse/troposphere/milestone/19?closed=1) (as of 12/12/2017)
+## [Delightful-Duboshin (v30)](https://github.com/cyverse/troposphere/milestone/19?closed=1) (as of 2017-12-12)
 
 Enhancement:
   - Now community is able to associate a DOI with ImageVersion
@@ -12,7 +12,7 @@ Admin:
   - Filter quota section to only show active identities
     - (in Atmosphere domain model: identity is user + cloud-provider) 
 
-## [Carbonaceous Comet (v29)](https://github.com/cyverse/troposphere/milestone/18?closed=1) (as of 11/14/2017)
+## [Carbonaceous Comet (v29)](https://github.com/cyverse/troposphere/milestone/18?closed=1) (as of 2017-11-14)
 
 Enhancements:
   -  Can select Guacamole SSH color scheme from Settings page
@@ -23,7 +23,7 @@ Bugfixes:
   - Move non-theme images into troposphere static 
   - Fixed failures in /web_desktop cause 500 errors 
 
-## [Beneficent-Bolide (v28)](https://github.com/cyverse/troposphere/milestone/17?closed=1) (as of 10/03/2017)
+## [Beneficent-Bolide (v28)](https://github.com/cyverse/troposphere/milestone/17?closed=1) (as of 2017-10-03)
 
 Bugfixes:
   - No longer need to [refresh an Instance Detail page to see "Web Desktop" link](https://github.com/cyverse/troposphere/pull/716) on Active instance
@@ -37,7 +37,7 @@ Enhancements:
   - Volume creation modal pauses until complete, showning new Volume in Project
   - Added Django Manage command to start and stop Maintenance
 
-## [Ancient-Asteroid (v27)](https://github.com/cyverse/troposphere/milestone/16?closed=1) (as of 9/13/2017)
+## [Ancient-Asteroid (v27)](https://github.com/cyverse/troposphere/milestone/16?closed=1) (as of 2017-09-13)
 
 Bugfixes:
   - Fixed issues where Size label for Instances left out disk information
@@ -55,7 +55,7 @@ Enhancments:
   - Improved `<SelectMenu />` component
   - Better development support for faster feedback on changes
 
-## [Zesty-Zapdos](https://github.com/cyverse/troposphere/milestone/15?closed=1) (as of 8/3/2017)
+## [Zesty-Zapdos](https://github.com/cyverse/troposphere/milestone/15?closed=1) (as of 2017-08-03)
 
 [Bugfixes](https://github.com/cyverse/troposphere/pulls?utf8=%E2%9C%93&q=is%3Apr%20is%3Aclosed%20merged%3A2017-06-05..2017-08-03):
   - Instance Disk size validated on the client-side, when launching
@@ -75,7 +75,7 @@ Enhancements:
   - Improve code quality via ESLint rule defintion
   - (Admin) Offer "emulate" link from "Manage Users" tab
 
-## [Yampy-Yellowlegs](https://github.com/cyverse/troposphere/milestone/14?closed=1) (as of 6/5/2017)
+## [Yampy-Yellowlegs](https://github.com/cyverse/troposphere/milestone/14?closed=1) (as of 2017-06-05)
 
 Bugfixes:
   - Corrected issue where Instances within Project View appear to be "stuck" in Build
@@ -93,7 +93,7 @@ Enhancements:
   - (Admin) Made request status for Image Requests collapsible
   - (Admin) Added setting flag for how resources can be "reported"
 
-## [Xylotomous-Xenops](https://github.com/cyverse/troposphere/milestone/13?closed=1) (as of 4/25/2017)
+## [Xylotomous-Xenops](https://github.com/cyverse/troposphere/milestone/13?closed=1) (as of 2017-04-25)
 Features:
   - Integrated in-app, live chat to answer question & help resolve issues
   - All actions available on an instance are now driven by the API
@@ -108,7 +108,7 @@ Bugfixes:
   - Corrected issue with adding tags to Images
   - Corrected problem where "Web Desktop" link shown for suspended instances
 
-## [Whimsical-Wyvern](https://github.com/cyverse/troposphere/milestone/12?closed=1) (as of 3/21/2017)
+## [Whimsical-Wyvern](https://github.com/cyverse/troposphere/milestone/12?closed=1) (as of 2017-03-21)
 Features:
   - Provided a framework that allows support for custom messages within Troposphere UI
   - Staff users will now see basic image metrics in the image catalog
@@ -118,7 +118,7 @@ Internal:
   - Sentry.io is now configurable via Clank
 
 
-## [Voracious-Velociraptor](https://github.com/cyverse/troposphere/milestone/11?closed=1) (as of 2/14/2017)
+## [Voracious-Velociraptor](https://github.com/cyverse/troposphere/milestone/11?closed=1) (as of 2017-02-14)
 Features:
   - Provided a framework that allows support for custom messages within Troposphere UI
 Enhancements:
@@ -128,7 +128,7 @@ Bugfixes:
   - end-dated images will no longer show in the Instance Launch modal
   - Small changes to make Troposphere more mobile-friendly
 
-## [Undulating-Umbrellabird](https://github.com/cyverse/troposphere/pulls?q=is%3Amerged+is%3Apr+milestone%3A%22Undulating-Umbrellabird+%22) (as of 1/4/2017)
+## [Undulating-Umbrellabird](https://github.com/cyverse/troposphere/pulls?q=is%3Amerged+is%3Apr+milestone%3A%22Undulating-Umbrellabird+%22) (as of 2017-01-04)
 
 Features:
   - Export credentials for use with OpenStack client tools
