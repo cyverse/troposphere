@@ -57,7 +57,8 @@ export default React.createClass({
                   <h4 className="t-title">Record Sessions</h4>
                   <p>
                       Recordings will be saved in <code>/home/{this.state.profile.get("userid")}/session_recordings</code>
-                      and can be used with the command <code>scriptreplay NAME.timing NAME</code>
+                      on the instance that it was recorded from, with the date-time as the filename. It can be watched with
+                      the command <code>scriptreplay NAME.timing NAME</code>.
                   </p>
                   <RecordWebShell checked={recordShell} onChange={this.handleShellRecordChange} />
               </div>
