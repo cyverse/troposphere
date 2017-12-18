@@ -123,9 +123,10 @@ const InstanceDetail = React.createClass({
             instances = InstanceStore.getAll(),
             history = null;
 
+        // if we are provided w/ an instance,
+        // then fetch history using provided id in paramas
         if (!instance) {
-            let { instanceId } = this.props.params,
-                instance = instances && instances.get(instanceId);
+            let { instanceId } = this.props.params;
 
             history = InstanceHistoryStore.fetchWhere({
                 "instance": instanceId
