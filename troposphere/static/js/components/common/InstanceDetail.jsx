@@ -13,6 +13,21 @@ import InstanceInfoSection from "components/projects/resources/instance/details/
 import InstanceHistorySection from "components/common/InstanceHistorySection";
 
 
+function getInstanceObjectFrom(history, store) {
+    let instanceHistory = history.first(),
+        instance;
+
+    if (instanceHistory) {
+        let ih = instanceHistory.get('instance') || {};
+        instance = store.fetchOne(ih.id, {
+            archived: true,
+        });
+    }
+
+    return instance;
+}
+
+
 const InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 
