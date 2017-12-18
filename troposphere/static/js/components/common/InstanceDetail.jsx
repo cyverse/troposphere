@@ -37,13 +37,12 @@ const InstanceDetail = React.createClass({
 
     onNewData: function() { this.forceUpdate(); },
 
-    renderAllocationSourceSection() {
-        let instance = this.props.params,
-            instance_username = instance.get('user').username,
-            current_username = context.profile.get('username'),
-            disabled = (current_username != instance_username);
+    renderAllocationSourceSection(instance) {
+        let instanceUsername = instance.get('user').username,
+            currentUsername = context.profile.get('username');
+
         let props = {
-            disabled: disabled,
+            disabled: (currentUsername != instanceUsername),
             instance,
             ...this.props
         }
@@ -54,12 +53,11 @@ const InstanceDetail = React.createClass({
 
 
     renderInactiveInstance: function(history) {
-        let { InstanceStore } = this.props.subscriptions;
-        var instanceHistory = history.first(),
-            instance = instanceHistory.get('instance'),
-            instanceObj = InstanceStore.fetchOne(instance.id, {
-                archived: true,
-            });
+        let { InstanceStore } = this.props.subscriptions,
+            instanceObj = getInstanceObjectFrom(
+                history,
+                InstanceStore
+            );
 
         if(!instanceObj) {
             return <div className="loading" />
@@ -90,7 +88,7 @@ const InstanceDetail = React.createClass({
             ? <InstanceMetricsSection instance={instance} />
             : null;
         var allocationSourceSection = globals.USE_ALLOCATION_SOURCES
-            ? this.renderAllocationSourceSection()
+            ? this.renderAllocationSourceSection(instance)
             : null;
         let project = ProjectStore.get(instance.get('project').id);
         if (!project) {
