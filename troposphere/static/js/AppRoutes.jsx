@@ -136,7 +136,7 @@ function AppRoutes(props) {
                 <Route path="resources" component={RequestHistory} />
                 <Route path="images" component={MyImageRequestsPage} />
             </Route>
-            <Route path="instances/:id" component={NewInstanceDetail} />
+            <Route path="instances/:instanceId" component={NewInstanceDetail} />
             <IndexRoute component={DashboardPage} />
             <IndexRedirect to="dashboard" />
         </Route>

@@ -16,7 +16,7 @@ const InstanceDetailsView = React.createClass({
     },
 
     render() {
-        let { instance, project, allocationSources } = this.props;
+        let { instance, project, allocationSources, params } = this.props;
         let { HelpLinkStore } = this.props.subscriptions;
         let helpLinks = HelpLinkStore.getAll();
 
@@ -51,7 +51,8 @@ const InstanceDetailsView = React.createClass({
         }
 
         let props = {
-            params: instance,
+            params,
+            instance,
             project,
             allocationSources,
             helpLinks
