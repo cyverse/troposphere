@@ -32,6 +32,8 @@ const InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 
     propTypes: {
+        // `params` is supplied by React Router when
+        // this component participates in a <Route />:
         params: React.PropTypes.object
     },
 
