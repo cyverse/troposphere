@@ -48,6 +48,7 @@ const InstanceDetail = React.createClass({
             instance,
             ...this.props
         }
+
         return (
         <AllocationSourceSection { ...props }/>
         );
@@ -117,15 +118,32 @@ const InstanceDetail = React.createClass({
     },
 
     render: function() {
-        let { params } = this.props;
-        let { InstanceStore, InstanceHistoryStore } = this.props.subscriptions;
-        let instances = InstanceStore.getAll();
-        let instance = instances && instances.get(params.id);
-        let history = InstanceHistoryStore.fetchWhere({
-            "instance": params.id
-        })
-        if (!history || !instances) {
-            return <div className="loading" />
+        let { instance } = this.props,
+            { InstanceStore, InstanceHistoryStore } = this.props.subscriptions,
+            instances = InstanceStore.getAll(),
+            history = null;
+
+        if (!instance) {
+            let { instanceId } = this.props.params,
+                instance = instances && instances.get(instanceId);
+
+            history = InstanceHistoryStore.fetchWhere({
+                "instance": instanceId
+            });
+        } else {
+            history = InstanceHistoryStore.fetchWhere({
+                "instance": instance.id
+            });
+        }
+
+        // needs to be defined after the assignment location
+        // for `history` or it'll just include `null`
+        let requires = [instances, history];
+
+        // Use truthy check to see if loaded
+        let loaded = requires.every(r => Boolean(r));
+        if (!loaded) {
+            return (<div className="loading" />);
         }
 
         // If we got back active instances, but the instance isn't a member
