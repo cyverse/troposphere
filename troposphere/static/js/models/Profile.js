@@ -36,6 +36,7 @@ export default Backbone.Model.extend({
         attributes.quick_launch = response.quick_launch;
         attributes.icon_set = response.icon_set;
         attributes.guacamole_color = response.guacamole_color;
+        attributes.record_shell = response.record_shell;
 
         attributes.settings = {};
         attributes.settings.background = response.background;
@@ -45,6 +46,7 @@ export default Backbone.Model.extend({
         attributes.settings.quick_launch = response.quick_launch;
         attributes.settings.send_emails = response.send_emails;
         attributes.settings.guacamole_color = response.guacamole_color;
+        attributes.settings.record_shell = response.record_shell;
 
         return attributes;
     }
