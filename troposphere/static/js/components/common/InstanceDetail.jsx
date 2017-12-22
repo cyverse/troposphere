@@ -13,6 +13,21 @@ import InstanceInfoSection from "components/projects/resources/instance/details/
 import InstanceHistorySection from "components/common/InstanceHistorySection";
 
 
+function getInstanceObjectFrom(history, store) {
+    let instanceHistory = history.first(),
+        instance;
+
+    if (instanceHistory) {
+        let ih = instanceHistory.get('instance') || {};
+        instance = store.fetchOne(ih.id, {
+            archived: true,
+        });
+    }
+
+    return instance;
+}
+
+
 const InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 
@@ -22,16 +37,16 @@ const InstanceDetail = React.createClass({
 
     onNewData: function() { this.forceUpdate(); },
 
-    renderAllocationSourceSection() {
-        let instance = this.props.params,
-            instance_username = instance.get('user').username,
-            current_username = context.profile.get('username'),
-            disabled = (current_username != instance_username);
+    renderAllocationSourceSection(instance) {
+        let instanceUsername = instance.get('user').username,
+            currentUsername = context.profile.get('username');
+
         let props = {
-            disabled: disabled,
+            disabled: (currentUsername != instanceUsername),
             instance,
             ...this.props
         }
+
         return (
         <AllocationSourceSection { ...props }/>
         );
@@ -39,12 +54,11 @@ const InstanceDetail = React.createClass({
 
 
     renderInactiveInstance: function(history) {
-        let { InstanceStore } = this.props.subscriptions;
-        var instanceHistory = history.first(),
-            instance = instanceHistory.get('instance'),
-            instanceObj = InstanceStore.fetchOne(instance.id, {
-                archived: true,
-            });
+        let { InstanceStore } = this.props.subscriptions,
+            instanceObj = getInstanceObjectFrom(
+                history,
+                InstanceStore
+            );
 
         if(!instanceObj) {
             return <div className="loading" />
@@ -75,7 +89,7 @@ const InstanceDetail = React.createClass({
             ? <InstanceMetricsSection instance={instance} />
             : null;
         var allocationSourceSection = globals.USE_ALLOCATION_SOURCES
-            ? this.renderAllocationSourceSection()
+            ? this.renderAllocationSourceSection(instance)
             : null;
         let project = ProjectStore.get(instance.get('project').id);
         if (!project) {
@@ -102,18 +116,33 @@ const InstanceDetail = React.createClass({
     },
 
     render: function() {
-        let { params } = this.props;
-        let { InstanceStore, InstanceHistoryStore } = this.props.subscriptions;
-        let instances = InstanceStore.getAll();
-        let instance = instances && instances.get(params.id);
-        let history = InstanceHistoryStore.fetchWhere({
-            "instance": params.id
-        })
-        if (!history || !instances) {
-            return <div className="loading" />
+        let { instance } = this.props,
+            { InstanceStore, InstanceHistoryStore } = this.props.subscriptions,
+            instances = InstanceStore.getAll(),
+            history = null;
+
+        // if we are provided w/ an instance,
+        // then fetch history using provided id in paramas
+        if (!instance) {
+            let { instanceId } = this.props.params;
+
+            history = InstanceHistoryStore.fetchWhere({
+                "instance": instanceId
+            });
+        } else {
+            history = InstanceHistoryStore.fetchWhere({
+                "instance": instance.id
+            });
         }
 
-        // If we got back active instances, but the instance isn't a member
+        let requires = [instances, history];
+
+        // Use truthy check to see if loaded
+        let loaded = requires.every(r => Boolean(r));
+        if (!loaded) {
+            return (<div className="loading" />);
+        }
+
         let instanceDetailsSection;
         if (!instance) {
             instanceDetailsSection = this.renderInactiveInstance(history);

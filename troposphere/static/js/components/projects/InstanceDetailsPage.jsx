@@ -10,6 +10,10 @@ import stores from "stores";
 export default React.createClass({
     displayName: "InstanceDetailsPage",
 
+    propTypes: {
+        params: React.PropTypes.object
+    },
+
     componentDidMount() {
         stores.ProjectStore.addChangeListener(this.updateState);
         stores.InstanceStore.addChangeListener(this.updateState);
@@ -54,6 +58,7 @@ export default React.createClass({
         }
 
         let props = {
+            params: this.props.params,
             project,
             instance,
             helpLinks,
