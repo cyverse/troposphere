@@ -32,8 +32,6 @@ const InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 
     propTypes: {
-        // `params` is supplied by React Router when
-        // this component participates in a <Route />:
         params: React.PropTypes.object
     },
 
@@ -137,8 +135,6 @@ const InstanceDetail = React.createClass({
             });
         }
 
-        // needs to be defined after the assignment location
-        // for `history` or it'll just include `null`
         let requires = [instances, history];
 
         // Use truthy check to see if loaded
@@ -147,7 +143,6 @@ const InstanceDetail = React.createClass({
             return (<div className="loading" />);
         }
 
-        // If we got back active instances, but the instance isn't a member
         let instanceDetailsSection;
         if (!instance) {
             instanceDetailsSection = this.renderInactiveInstance(history);

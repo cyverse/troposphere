@@ -11,8 +11,6 @@ export default React.createClass({
     displayName: "InstanceDetailsPage",
 
     propTypes: {
-        // `params` is supplied by React Router when
-        // this component participates in a <Route />:
         params: React.PropTypes.object
     },
 
