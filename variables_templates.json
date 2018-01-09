@@ -1,23 +1,11 @@
 {
     "SECTION_MAPPING": {
         "local.py": ["local.py"],
-        "nginx": ["nginx", "nginx-site", "nginx-tropo"],
-        "uwsgi.ini": ["troposphere.uwsgi"],
         "theme": ["theme.json", "variables.scss", "themeImagesPath.js"]
     },
     "CONFIG_FILES": {
         "local.py": ["troposphere/settings/local.py.j2",
             "troposphere/settings/local.py"
-        ],
-        "nginx": ["extras/nginx/Makefile.j2", "extras/nginx/Makefile"],
-        "nginx-site": ["extras/nginx/site.conf.j2",
-            "extras/nginx/site.conf"
-        ],
-        "nginx-tropo": ["extras/nginx/locations/tropo.conf.j2",
-            "extras/nginx/locations/tropo.conf"
-        ],
-        "troposphere.uwsgi": [ "extras/troposphere.uwsgi.ini.j2",
-            "extras/troposphere.uwsgi.ini"
         ],
         "theme.json": [ "troposphere/static/theme/theme.json.j2",
             "troposphere/static/theme/theme.json"

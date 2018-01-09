@@ -17,34 +17,6 @@ HEADER_BORDER_COLOR = "red"
 HEADER_LINK_COLOR = "blue"
 LINK_COLOR = "#46afc8"
 
-[nginx]
-# ENABLE_WEBPACK_DEV_SERVER: boolean
-# - If True, nginx will proxy calls to assets to be handled by webpack-dev-server
-# - If False (Default), nginx will serve static content from the assets folder
-# NOTE: (Assets and static content can be generated via `make prod`)
-ENABLE_WEBPACK_DEV_SERVER =
-ENABLE_HTTP2 = # enable if http2 module available in nginx build
-BUNDLE_FILE =
-TROPOSPHERE_PATH =
-LOCATIONS_DIR =
-SITES_AVAILABLE_DIR =
-SITES_ENABLED_DIR =
-DHPARAM =
-DHPARAM_KEY_SIZE =
-VIRTUALENV_PATH =
-NGINX_TLS_PRIVKEY_DEST =
-NGINX_TLS_FULLCHAIN_DEST =
-
-
-[uwsgi.ini]
-LOCAL_DEV =
-PATH_TO_TROPOSPHERE =
-VIRTUALENV_PATH =
-NUM_PROCESSES =
-UWSGI_USER =
-UWSGI_GROUP =
-UWSGI_LOG_PATH =
-
 [local.py]
 DEBUG = False
 ADMINS_EMAIL_TUPLE=[] # [('Atmosphere Admin', 'atmo-admin@website.com'),('System Admins', 'sys-admin@website.com')]
