@@ -135,6 +135,32 @@ export default React.createClass({
         return promise;
     },
 
+    onClose() {
+        let { selectedRequest: request } = this.props;
+        let { statuses } = this.fetch();
+
+        let status = statuses.findWhere({
+            name: "closed"
+        });
+
+        this.setState({ actionPending: true });
+        let promise = Promise.resolve(
+            AdminResourceRequestActions.updateRequest(request, status)
+        );
+        promise
+            .then(
+                // onSuccess, navigate away
+                () => browserHistory.push("/application/admin/resource-requests"),
+
+                // onFailure, action is no longer pending, trigger error handler
+                err => {
+                    this.setState({ actionPending: false });
+                    errorHandler(err);
+                }
+            )
+        return promise;
+    },
+
     fetch() {
         let { selectedRequest: request } = this.props;
         let statuses = stores.StatusStore.getAll();
@@ -179,6 +205,7 @@ export default React.createClass({
             onIdentitySave: this.onIdentitySave,
             onApprove: this.onApprove,
             onDeny: this.onDeny,
+            onClose: this.onClose,
         };
 
         return (

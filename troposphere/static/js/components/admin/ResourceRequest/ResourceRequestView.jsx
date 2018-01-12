@@ -13,6 +13,7 @@ export default React.createClass({
         allocationSources: React.PropTypes.object,
         identities: React.PropTypes.object,
         onApprove: React.PropTypes.func.isRequired,
+        onClose: React.PropTypes.func.isRequired,
         onDeny: React.PropTypes.func.isRequired,
         onAllocationSave: React.PropTypes.func.isRequired,
         onIdentitySave: React.PropTypes.func.isRequired
@@ -136,12 +137,13 @@ export default React.createClass({
                 <h5 className="t-title">Quota</h5>
                 { this.renderIdentitiesSection() }
             </div>
-            <h4 className="t-title">2. Approve or Deny the request</h4>
+            <h4 className="t-title">2. Approve/Deny/Close the request</h4>
             <div style={section}>
                 <p>On approve or deny, the user will be notified by email and
                 encouraged to reach out to support if they have questions.
                 Under <a href="//application/my-requests/resources">my requests</a>, users can track the status of each
                 request.</p>
+                <p>On close, the user will not be notified</p>
                 <div style={{ display: "flex" }}>
                     <div style={{ padding: "20px", borderRight: "solid 1px #eee" }} >
                         <button onClick={this.props.onApprove}
@@ -150,13 +152,20 @@ export default React.createClass({
                             Approve
                         </button>
                     </div>
-                    <div style={{ padding: "20px" }} >
+                    <div style={{ padding: "20px", borderRight: "solid 1px #eee" }}>
                         <span style={{ paddingRight: "10px" }}>Provide a reason: <input onChange={this.handleResponseChange} value={ denyReason } /></span>
                         <button onClick={() => this.props.onDeny(this.state.denyReason)}
                             disabled={ this.state.denyReason == "" }
                             type="button"
                             className="btn btn-default btn-sm">
                             Deny
+                        </button>
+                    </div>
+                    <div style={{ padding: "20px" }}>
+                        <button onClick={this.props.onClose}
+                            type="button"
+                            className="btn btn-default btn-sm">
+                            Close
                         </button>
                     </div>
                 </div>
