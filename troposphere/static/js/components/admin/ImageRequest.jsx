@@ -67,9 +67,15 @@ const ImageRequest = React.createClass({
     },
 
     render: function() {
-        let { ImageRequestStore } = this.props.subscriptions,
-            request = ImageRequestStore.get(this.props.params.id),
-            machine = request.get("parent_machine"),
+        let { ImageRequestStore, StatusStore } = this.props.subscriptions;
+        let statuses = StatusStore.getAll();
+        let request = ImageRequestStore.get(this.props.params.id);
+
+        if (!statuses || !request) {
+            return <div className="loading" />;
+        }
+
+        let machine = request.get("parent_machine"),
             new_machine = request.get("new_machine"),
             new_provider = request.get("new_machine_provider"),
             instance = request.get("instance"),

@@ -14,7 +14,6 @@ const ImageMaster = React.createClass({
     },
 
     componentDidMount: function() {
-        stores.StatusStore.getAll();
         stores.ImageRequestStore.fetchFirstPageWhere(
             {
                 "active": "true"
