@@ -5,6 +5,9 @@ import stores from "stores";
 
 
 const ImageMaster = React.createClass({
+    propTypes: {
+        params: React.PropTypes.object
+    },
 
     getInitialState: function() {
         return {
@@ -56,8 +59,27 @@ const ImageMaster = React.createClass({
         );
     },
 
+    renderRequestView() {
+        let { params } = this.props;
+        let { requests } = this.state;
+        if (!("id" in params)) {
+            return (
+                <p>Please select a request.</p>
+            );
+        }
+
+        let request = requests.find(r => r.get('id') == params.id)
+        if (!request) {
+            return (
+                <p>This request is no longer active. Please select a request.</p>
+            );
+        }
+
+        return  this.props.children;
+    },
+
     render: function() {
-        var requests = this.state.requests;
+        let { requests } = this.state;
         if (requests == null) {
             return <div className="loading"></div>
         }
@@ -102,7 +124,7 @@ const ImageMaster = React.createClass({
             <ul className="requests-list pull-left">
                 {imageRequestRows}
             </ul>
-            {this.props.children}
+            { this.renderRequestView() }
         </div>
         );
     }
