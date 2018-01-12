@@ -54,6 +54,10 @@ const ImageRequest = React.createClass({
         });
     },
 
+    close: function() {
+        this.submitUpdate("closed");
+    },
+
     approve: function() {
         this.submitUpdate("approved");
     },
@@ -270,6 +274,12 @@ const ImageRequest = React.createClass({
                     type="button"
                     className="btn btn-default btn-sm">
                     Re-Submit
+                </button>
+                <button disabled={request.get("status").name == "closed"}
+                    onClick={this.close}
+                    type="button"
+                    className="btn btn-default btn-sm">
+                    Close
                 </button>
             </div>
         </div>
