@@ -1,12 +1,14 @@
 import React from "react";
 import { withRouter } from "react-router";
 
-import stores from "stores";
+import subscribe from "utilities/subscribe";
 
 
 const ImageMaster = React.createClass({
+
     propTypes: {
-        params: React.PropTypes.object
+        params: React.PropTypes.object,
+        subscriptions: React.PropTypes.object.isRequired
     },
 
     getInitialState: function() {
@@ -17,30 +19,32 @@ const ImageMaster = React.createClass({
     },
 
     componentDidMount: function() {
-        stores.ImageRequestStore.fetchFirstPageWhere(
+        let { ImageRequestStore } = this.props.subscriptions;
+        ImageRequestStore.fetchFirstPageWhere(
             {
                 "active": "true"
             },
             {},
             function() {
                 this.setState({
-                    requests: stores.ImageRequestStore.getAll()
+                    requests: ImageRequestStore.getAll()
                 });
             }.bind(this));
     },
 
     onRefresh: function() {
+        let { ImageRequestStore } = this.props.subscriptions;
         this.setState({
             refreshing: true
         });
-        stores.ImageRequestStore.fetchFirstPageWhere({
+        ImageRequestStore.fetchFirstPageWhere({
             "active": "true"
         },
             {},
             function() {
                 this.setState({
                     refreshing: false,
-                    requests: stores.ImageRequestStore.getAll()
+                    requests: ImageRequestStore.getAll()
                 });
             }.bind(this));
     },
@@ -130,4 +134,4 @@ const ImageMaster = React.createClass({
     }
 });
 
-export default withRouter(ImageMaster);
+export default withRouter(subscribe(ImageMaster, ["ImageRequestStore"]));
