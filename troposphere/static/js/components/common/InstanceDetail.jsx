@@ -123,22 +123,13 @@ const InstanceDetail = React.createClass({
 
         // if we are provided w/ an instance,
         // then fetch history using provided id in paramas
-        if (!instance) {
-            let { instanceId } = this.props.params;
-
-            history = InstanceHistoryStore.fetchWhere({
-                "instance": instanceId
-            });
-        } else {
-            history = InstanceHistoryStore.fetchWhere({
-                "instance": instance.id
-            });
-        }
-
-        let requires = [instances, history];
+        let instanceId = instance ? instance.id : this.props.params.instanceId;
+        history = InstanceHistoryStore.fetchWhere({
+            "instance": instanceId
+        });
 
         // Use truthy check to see if loaded
-        let loaded = requires.every(r => Boolean(r));
+        let loaded = [instances, history].every(r => Boolean(r));
         if (!loaded) {
             return (<div className="loading" />);
         }
