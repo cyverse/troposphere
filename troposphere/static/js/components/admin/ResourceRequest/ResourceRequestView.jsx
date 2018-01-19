@@ -3,6 +3,9 @@ import React from "react";
 import globals from "globals";
 import AllocationSourceView from "./AllocationSourceView";
 import IdentityView from "./IdentityView";
+import ModalHelpers from "components/modals/ModalHelpers";
+import ConfirmApproveModal from "./ConfirmApproveModal";
+
 
 // This is the view for the admin Resource Requests panel. This view shouldn't
 // fetch or retrieve any data, just renders props.
@@ -10,6 +13,7 @@ export default React.createClass({
 
     propTypes: {
         request: React.PropTypes.object.isRequired,
+        resourcesChanged: React.PropTypes.bool.isRequired,
         allocationSources: React.PropTypes.object,
         identities: React.PropTypes.object,
         onApprove: React.PropTypes.func.isRequired,
@@ -43,6 +47,20 @@ export default React.createClass({
                 paddingLeft: "2em",
                 flexGrow: 1
             }
+        }
+    },
+
+    onApprove() {
+        let { resourcesChanged, onApprove } = this.props;
+        if (resourcesChanged) {
+            onApprove();
+        } else {
+            // Confirm first that the user want to approve a request when
+            // resources haven't changed
+            ModalHelpers.renderModal(
+                ConfirmApproveModal,
+                { onApprove }
+            );
         }
     },
 
@@ -146,7 +164,7 @@ export default React.createClass({
                 <p>On close, the user will not be notified</p>
                 <div style={{ display: "flex" }}>
                     <div style={{ padding: "20px", borderRight: "solid 1px #eee" }} >
-                        <button onClick={this.props.onApprove}
+                        <button onClick={this.onApprove}
                             type="button"
                             className="btn btn-default btn-sm">
                             Approve
