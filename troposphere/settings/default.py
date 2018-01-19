@@ -8,7 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-UI_VERSION = "v29"
+UI_VERSION = "v30"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os

@@ -5,6 +5,21 @@ import ScriptCreateModal from "components/modals/script/ScriptCreateModal";
 
 const ScriptListView = React.createClass({
 
+    getInitialState: function() {
+        return {
+            displayMoreInfo: false,
+        };
+    },
+
+    style() {
+        return {
+            td: {
+                wordWrap: "break-word",
+                whiteSpace: "normal"
+            }
+        }
+    },
+
     launchCreateScriptModal: function() {
         //Open modal, new script
         let props = {};
@@ -44,13 +59,65 @@ const ScriptListView = React.createClass({
         });
     },
 
-    style() {
-        return {
-            td: {
-                wordWrap: "break-word",
-                whiteSpace: "normal"
-            }
+    onDisplayMoreInfo(e) {
+        let { displayMoreInfo } = this.state;
+        e.preventDefault();
+        this.setState({
+            displayMoreInfo: !displayMoreInfo
+        });
+    },
+
+    renderMoreInfo() {
+        let { displayMoreInfo } = this.state;
+
+        if (displayMoreInfo) {
+            let dd = { paddingLeft: "25px" };
+
+            return (
+            <div>
+                <p>
+                    Deployment Scripts have extended functionality that our
+                    community may wish to leverage in new instances or images.
+                </p>
+                <dl style={{margin: "5px 0 10px auto"}}>
+                    <dt>Script Title</dt>
+                    <dd style={dd}>name that will appear when selecting the deployment script</dd>
+                    <dt>Execution Strategy Type</dt>
+                    <dd style={dd}>
+                        <u>Sync</u> - wait for script to complete, ensure
+                        exit code 0, email me if there is a failure.
+                    </dd>
+                    <dd style={dd}>
+                        <u>Async</u> - execute scripts asynchronously.
+                        Store <code>stdout/stderr</code> to log files.
+                    </dd>
+                    <dt>Deployment Type</dt>
+                    <dd style={dd}>
+                        <u>Once</u> - run script on first boot
+                    </dd>
+                    <dd style={dd}>
+                        <u>Always</u> - run script on every deployment
+                    </dd>
+                    <dt>Input Type</dt>
+                    <dd style={dd}>
+                        <u>URL</u> - import script using the provided URL
+                    </dd>
+                    <dd style={dd}>
+                        <u>Text</u> - import script using provided text
+                    </dd>
+                </dl>
+                <p>
+                    Click to <a onClick={this.onDisplayMoreInfo}>hide</a> more information.
+                </p>
+            </div>
+            )
         }
+
+        return (
+            <p>
+                Click <a onClick={this.onDisplayMoreInfo}>here</a> to learn more.
+            </p>
+        );
     },
 
     renderScriptRow: function(script) {
@@ -65,7 +132,9 @@ const ScriptListView = React.createClass({
                 {script.get("title")}
             </td>
             <td style={td}>
-                {script.get("strategy")}
+                <span style={{textTransform:"capitalize"}}>
+                    {script.get("strategy")}
+                </span>
             </td>
             <td style={td}>
                 {script.get("wait_for_deploy") ? "Sync" : "Async" }
@@ -82,6 +151,7 @@ const ScriptListView = React.createClass({
         </tr>
         );
     },
+
     render: function() {
         let {ScriptStore} = this.props.subscriptions,
             boot_scripts = ScriptStore.getAll();
@@ -96,18 +166,19 @@ const ScriptListView = React.createClass({
                 <div style={{maxWidth: "600px"}}>
                     <p>
                         Use the table below to create and/or edit existing
-                        boot scripts. These scripts can be selected
+                        deployment scripts. These scripts can be selected
                         when you launch an instance.
                     </p>
+                    {this.renderMoreInfo()}
                 </div>
                 <div style={{maxWidth: "80%"}}>
                     <table className="clearfix table" style={{ tableLayout: "fixed" }}>
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Strategy</th>
-                                <th>Deployment</th>
-                                <th>Type</th>
+                                <th>Script Title</th>
+                                <th>Execution Strategy Type</th>
+                                <th>Deployment Type</th>
+                                <th>Input Type</th>
                                 <th style={{ width: "60px"}}>Actions</th>
                             </tr>
                         </thead>
