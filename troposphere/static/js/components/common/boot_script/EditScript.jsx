@@ -226,11 +226,13 @@ export default React.createClass({
             wait_for_deploy
         });
     },
+
     onChangeStrategyType: function(strategyOpt) {
         this.setState({
             strategy: strategyOpt.type
         })
     },
+
     onChangeInputType: function(inputOpt) {
         this.setState({
             type: inputOpt.type
@@ -239,17 +241,17 @@ export default React.createClass({
 
     renderDeploymentOptionsHint() {
         if(this.state.wait_for_deploy) {
-            return;
+            return null;
         }
         let stdoutPath = "/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stdout",
             stderrPath = "/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stderr";
         return (
             <div className="help-block">
-                {"Stdout will be logged on the VM at: "}
+                {"stdout will be logged on the VM at: "}
                 <br/>
                 <code>{stdoutPath}</code>
                 <br/>
-                {"Stderr will be logged on the VM at: "}
+                {"stderr will be logged on the VM at: "}
                 <br/>
                 <code>{stderrPath}</code>
             </div>
@@ -259,8 +261,16 @@ export default React.createClass({
     renderDeploymentOptions() {
         // deploymentType is a key into options 'type', i.e. ("sync","async",...)
         let options = [
-            { wait_for_deploy: true, type: "sync", message: "Wait for script to complete, ensure exit code 0, email me if there is a failure." },
-            { wait_for_deploy: false, type: "async", message: "Execute scripts asynchronously. Store stdout/stderr to log files." }
+            {
+                wait_for_deploy: true,
+                type: "sync",
+                message: "Sync - wait for script to complete, ensure exit code 0, email me if there is a failure."
+            },
+            {
+                wait_for_deploy: false,
+                type: "async",
+                message: "Async - execute scripts asynchronously. Store stdout/stderr to log files."
+            }
         ];
         let { wait_for_deploy } = this.state;
         let current = options.find(option => option.wait_for_deploy == wait_for_deploy);
@@ -278,8 +288,8 @@ export default React.createClass({
         // strategyType is a key into options 'type', i.e. ("once","always",...)
         let { strategy } = this.state;
         let options = [
-            { type: "once", message: "Run Script on first boot" },
-            { type: "always", message: "Run script on every deployment" }
+            { type: "once", message: "Once - run script on first boot" },
+            { type: "always", message: "Always - run script on every deployment" }
         ];
         let current = options.find(option => option.type == strategy);
         return (
@@ -335,11 +345,11 @@ export default React.createClass({
                         onBlur={this.onBlurTitle} />
                     <span className="help-block">{errorMessage}</span>
                 </div>
-                <h4 className="t-body-2">{"Strategy"}</h4>
+                <h4 className="t-body-2">{"Execution Strategy Type"}</h4>
                 <div className={classNames}>
                 { this.renderStrategyOptions() }
                 </div>
-                <h4 className="t-body-2">{"Deployment"}</h4>
+                <h4 className="t-body-2">{"Deployment Type"}</h4>
                 <div className={classNames}>
                 { this.renderDeploymentOptions() }
                 { this.renderDeploymentOptionsHint() }
