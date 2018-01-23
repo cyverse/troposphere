@@ -174,18 +174,6 @@ _.extend(Store.prototype, Backbone.Events, {
         }
     },
 
-    onFetchModel: function(modelId, cb) {
-        this.isFetchingModel[modelId] = true;
-        var model = new this.collection.prototype.model({
-            id: modelId
-        });
-        model.fetch().done(function() {
-            this.isFetchingModel[modelId] = false;
-            this.models.add(model);
-            cb(model);
-            this.emitChange();
-        }.bind(this));
-    },
     // Returns the entire local cache, everything in this.models
     getAll: function() {
         if (!this.models) {
