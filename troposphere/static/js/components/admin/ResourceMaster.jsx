@@ -1,8 +1,9 @@
 import React from "react";
+import { withRouter } from "react-router";
 
-import { browserHistory } from "react-router";
 import ResourceRequestNav from "./ResourceRequest/ResourceRequestNav"
 import stores from "stores";
+
 
 const ResourceMaster = React.createClass({
 
@@ -49,7 +50,7 @@ const ResourceMaster = React.createClass({
 
     onSelect(request) {
         // Navigate to a request at the top of the list
-        browserHistory.push(`/application/admin/resource-requests/${request.id}`);
+        this.props.router.push(`/admin/resource-requests/${request.id}`);
     },
 
     onRefresh() {
@@ -141,4 +142,4 @@ const ResourceMaster = React.createClass({
     }
 });
 
-export default ResourceMaster;
+export default withRouter(ResourceMaster);
