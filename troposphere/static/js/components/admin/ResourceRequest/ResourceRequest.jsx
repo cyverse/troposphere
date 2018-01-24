@@ -22,6 +22,8 @@ export default React.createClass({
     getInitialState() {
         return {
             actionPending: false,
+            allocationsSavedOnce: false,
+            identitiesSavedOnce: false,
         };
     },
 
@@ -55,6 +57,7 @@ export default React.createClass({
                     allocation: allocationSource,
                     username: request.get("created_by").username
                 })
+                this.setState({ allocationsSavedOnce: true });
             })
             .catch(errorHandler);
         return promise;
@@ -81,6 +84,7 @@ export default React.createClass({
                     identity,
                     username
                 });
+                this.setState({ identitiesSavedOnce: true });
             })
             .catch(errorHandler);
         return promise;
@@ -189,7 +193,7 @@ export default React.createClass({
     render() {
         let { allocationSources, identities } = this.fetch();
         let { selectedRequest } = this.props;
-        let { actionPending } = this.state;
+        let { actionPending, allocationsSavedOnce, identitiesSavedOnce } = this.state;
 
         if (actionPending) {
             return (
@@ -199,6 +203,7 @@ export default React.createClass({
 
         let viewProps = {
             request: selectedRequest,
+            resourcesChanged: allocationsSavedOnce || identitiesSavedOnce,
             allocationSources,
             identities,
             onAllocationSave: this.onAllocationSave,
