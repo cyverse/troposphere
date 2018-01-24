@@ -32,7 +32,7 @@
     "build": "npm run build:prod"
   },
   "dependencies": {
-    "babel-polyfill": "^6.16.0",
+    "babel-polyfill": "^6.26.0",
     "backbone": "^1.2.1",
     "bootstrap-sass": "^3.3.6",
     "classnames": "^2.2.3",
