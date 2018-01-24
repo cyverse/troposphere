@@ -23,9 +23,7 @@ const ResourceMaster = React.createClass({
 
     componentDidMount() {
         stores.AdminResourceRequestStore.addChangeListener(this.requestListener);
-        stores.AdminResourceRequestStore.findWhere({
-            "status.name": "pending"
-        });
+        stores.AdminResourceRequestStore.getAll();
     },
 
     requestListener() {
@@ -87,7 +85,7 @@ const ResourceMaster = React.createClass({
         );
     },
 
-    renderRequestDetail(requests, selectedRequest) {
+    renderRequestDetail(selectedRequest) {
         let children = this.props.children;
 
         // If we don't have children then the user is at
@@ -96,57 +94,48 @@ const ResourceMaster = React.createClass({
             return <p style={{ margin: "1em" }}>Please select a request.</p>;
         }
 
+        if (!selectedRequest) {
+            return <div className="loading" />;
+        }
+
         // Pass props to the child route
         return React.Children.map(children,
-                c => React.cloneElement(c, { requests, selectedRequest }));
+                c => React.cloneElement(c, { selectedRequest }));
     },
 
-    renderBody(requests) {
+    renderBody() {
         let { container } = this.style();
         let params = this.props.params;
         let requestId = params.id;
+        let requests = stores.AdminResourceRequestStore.getAll();
 
-        // No requests
+        if (!requests) {
+            return <div className="loading" />;
+        }
+
         if (requests.length == 0) {
             return <p>There are no requests.</p>;
         }
 
-        // Request doesn't exist
-        if (requestId && !requests.has(requestId)) {
-            return <p>The request does not exist.</p>;
-        }
-
-        // Choose a selected request
-        let selectedRequest = null;
-        if (requestId) {
-            selectedRequest = requests.get(params.id);
-        }
+        // Lookup selectedRequest by requestId, or make a separate request for
+        // the model specifically
+        let selectedRequest =
+            (requests.get(requestId) || stores.AdminResourceRequestStore.getModel(requestId));
 
         return (
         <div style={container}>
             { this.renderRequestNav(requests, selectedRequest) }
-            { this.renderRequestDetail(requests, selectedRequest) }
+            { this.renderRequestDetail(selectedRequest) }
         </div>
         );
     },
 
     render() {
-        let requests = stores.AdminResourceRequestStore.findWhere({
-            "status.name": "pending"
-        });
-
-        let body = null;
-        if (!requests) {
-            body = <div className="loading" />;
-        } else {
-            body = this.renderBody(requests);
-        }
-
         return (
         <div className="resource-master">
             <h2 className="t-headline">Resource Requests {this.renderRefreshButton()}</h2>
             <hr />
-            { body }
+            { this.renderBody() }
         </div>
         );
     }

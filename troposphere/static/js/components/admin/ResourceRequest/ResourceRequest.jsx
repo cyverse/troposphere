@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "underscore";
-import Backbone from "backbone";
+import { withRouter } from "react-router";
 
 import Utils from "actions/Utils";
 import stores from "stores";
@@ -16,7 +16,6 @@ export default React.createClass({
 
     propTypes: {
         selectedRequest: React.PropTypes.object,
-        requests: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
     getInitialState() {

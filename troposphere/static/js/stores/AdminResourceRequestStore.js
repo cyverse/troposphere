@@ -5,6 +5,9 @@ import AdminResourceRequestConstants from "constants/AdminResourceRequestConstan
 
 let AdminResourceRequestStore = BaseStore.extend({
     collection: AdminResourceRequestCollection,
+    queryParams: {
+        page_size: 1000
+    },
 });
 
 let store = new AdminResourceRequestStore();

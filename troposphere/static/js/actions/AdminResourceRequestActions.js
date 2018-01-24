@@ -14,9 +14,6 @@ export default {
                 Utils.dispatch(AdminResourceConstants.UPDATE, {
                     model: request
                 });
-                Utils.dispatch(AdminResourceConstants.REMOVE, {
-                    model: request
-                });
             });
         return promise;
     }
