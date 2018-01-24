@@ -126,7 +126,7 @@ export default React.createClass({
     render() {
         let {
             created_by: { username },
-            request, description
+            request, description, status
         } = this.props.request.toJSON();
         let {
             container, section, horizontalRule
@@ -146,6 +146,10 @@ export default React.createClass({
             <h4 className="t-title">Description</h4>
             <div style={section}>
                 <p>{description}</p>
+            </div>
+            <h4 className="t-title">Status</h4>
+            <div style={section}>
+                <p>{status.name}</p>
             </div>
             <hr style={horizontalRule} />
             <h4 className="t-title">1. Update the user's current resources</h4>
