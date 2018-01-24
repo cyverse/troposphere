@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import globals from "globals";
 import AllocationSourceView from "./AllocationSourceView";
@@ -123,10 +124,20 @@ export default React.createClass({
         );
     },
 
+    renderCreatedDate(startDate) {
+        let m = moment(startDate);
+        return (
+        <p>
+        { m.format("MMM Do YYYY") } ({ m.fromNow() })
+        </p>
+        );
+    },
+
     render() {
         let {
             created_by: { username },
-            request, description, status
+            request, description, status,
+            start_date,
         } = this.props.request.toJSON();
         let {
             container, section, horizontalRule
@@ -150,6 +161,10 @@ export default React.createClass({
             <h4 className="t-title">Status</h4>
             <div style={section}>
                 <p>{status.name}</p>
+            </div>
+            <h4 className="t-title">Created</h4>
+            <div style={section}>
+                { this.renderCreatedDate(start_date) }
             </div>
             <hr style={horizontalRule} />
             <h4 className="t-title">1. Update the user's current resources</h4>
