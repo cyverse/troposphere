@@ -49,6 +49,7 @@ const shouldReportVolumeViaIntercom = () => {
 
 export default {
     WEB_DESKTOP: !!window.WEB_DESKTOP_ENABLED || false,
+    BATCH_RESOURCE_ACTIONS: !!window.BATCH_RESOURCE_ACTIONS || false,
     hasIntercomActive,
     showIdentityView,
     shouldReportInstanceViaIntercom,
