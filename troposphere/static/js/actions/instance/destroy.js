@@ -1,63 +1,25 @@
+import { applyInstanceAction } from "./functions.js";
 
-import InstanceConstants from "constants/InstanceConstants";
-import InstanceState from "models/InstanceState";
-import Utils from "../Utils";
-import globals from "globals";
 
-export default {
+/**
+ * Defines the "terminate" ation for a collection of instances
+ *
+ * We expect `params` to be an object with an `instances` property
+ * providing access to a mappable collection of instance models.
+ */
+const destroy = (params) => {
+    let instanceTerminate = applyInstanceAction(
+        "terminate",
+        {
+            status_raw: "active - deleting",
+            status: "active",
+            activity: "deleting"
+        },
+        "Your instance could not be stopped"
+    );
 
-    destroy: function(payload, options) {
-        if (!payload.instance)
-            throw new Error("Missing instance");
+    instanceTerminate(params);
+}
 
-        var instance = payload.instance,
-            originalState = instance.get("state"),
-            instanceState = new InstanceState({
-                status_raw: originalState.get("status_raw"),
-                status: originalState.get("status"),
-                activity: "deleting"
-            }),
-            identity = instance.get("identity"),
-            provider = instance.get("provider"),
-            url = (
-            globals.API_ROOT +
-            "/provider/" + provider.uuid +
-            "/identity/" + identity.uuid +
-            "/instance/" + instance.get("uuid")
-            );
 
-        instance.set({
-            state: instanceState
-        });
-        instance.set({
-            end_date: new Date()
-        });
-
-        Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
-            instance: instance
-        });
-
-        instance.destroy({
-            url: url
-        }).done(function() {
-            Utils.dispatch(InstanceConstants.POLL_FOR_DELETED, {
-                instance: instance
-            });
-        }).fail(function(response) {
-            instance.set({
-                state: originalState
-            });
-            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
-                instance: instance
-            });
-            Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
-                instance: instance
-            });
-            Utils.displayError({
-                title: "Your instance could not be deleted",
-                response: response
-            });
-        });
-    }
-
-};
+export { destroy };

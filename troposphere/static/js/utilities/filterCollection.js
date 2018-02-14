@@ -1,5 +1,8 @@
 import moment from "moment";
 
+import Instance from "models/Instance";
+
+
 const filterEndDate = (version) => {
     let dateNow = moment(new Date()).format();
     let endDate = version.get("end_date")
@@ -15,4 +18,8 @@ const filterEndDate = (version) => {
     return false
 }
 
-export { filterEndDate }
+const filterInstances = (resource) => {
+    return resource instanceof Instance;
+}
+
+export { filterEndDate, filterInstances }

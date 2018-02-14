@@ -17,7 +17,8 @@ var fix = function(f) {
 export default {
     cmap: fix(new Backbone.Collection().map),
     cfilter: fix(new Backbone.Collection().filter),
+    creject: fix(new Backbone.Collection().reject),
     csome: fix(new Backbone.Collection().some),
     cwhere: fix(new Backbone.Collection().where),
-    csort: fix(new Backbone.Collection().sort)
+    csort: fix(new Backbone.Collection().sort),
 }
