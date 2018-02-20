@@ -11,6 +11,7 @@ import IpAddress from "./details/IpAddress";
 import LaunchDate from "./details/LaunchDate";
 import CreatedFrom from "./details/CreatedFrom";
 import Identity from "./details/Identity";
+import DeployScripts from "./details/DeployScripts";
 
 export default React.createClass({
     displayName: "InstanceDetailsSection",
@@ -20,7 +21,8 @@ export default React.createClass({
     },
 
     render: function() {
-        var instance = this.props.instance;
+        var instance = this.props.instance,
+            deployScripts = instance ? instance.get("scripts") : [];
 
         return (
         <div className="resource-details-section section">
@@ -35,6 +37,7 @@ export default React.createClass({
                 <Identity instance={instance} />
                 <Id instance={instance} />
                 <Alias instance={instance} />
+                <DeployScripts scripts={deployScripts} />
             </ul>
         </div>
         );
