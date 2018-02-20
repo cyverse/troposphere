@@ -19,7 +19,7 @@ export default React.createClass({
         var instance = this.props.instance,
             instance_image = instance.get("image"),
             version = instance.get('version'),
-            version_separator = "v.",  // Future-FIXME: This is a configurable in atmosphere that could be passed through clank and used..
+            version_separator = "v",  // Future-FIXME: This is a configurable in atmosphere that could be passed through clank and used..
             image_name = "",
             version_name = "",
             label = "",
