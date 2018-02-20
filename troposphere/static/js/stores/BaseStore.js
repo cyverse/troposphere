@@ -30,7 +30,10 @@ let Store = function(attributes, options) {
 
     // isFetchingModel: dictionary of ids as keys and individual models as the values.  Used
     // when we need to make sure to fetch an individual model
+    //
+    // fetchedModels is a cache of models which have been fetched by id
     this.isFetchingModel = {};
+    this.fetchedModels = {};
 
     // isFetchingMore: True or false depending on whether the next page of data
     // for this.models is being fetched
@@ -168,24 +171,32 @@ _.extend(Store.prototype, Backbone.Events, {
             });
             model.fetch().done(function() {
                 this.isFetchingModel[modelId] = false;
-                this.models.add(model);
+                this.fetchedModels[modelId] = model;
+                if (this.models) {
+                    this.models.add(model);
+                }
                 this.emitChange();
             }.bind(this));
         }
     },
 
-    onFetchModel: function(modelId, cb) {
-        this.isFetchingModel[modelId] = true;
-        var model = new this.collection.prototype.model({
-            id: modelId
-        });
-        model.fetch().done(function() {
-            this.isFetchingModel[modelId] = false;
-            this.models.add(model);
-            cb(model);
-            this.emitChange();
-        }.bind(this));
+    // If the model doesn't exist fetch it, otherwise return it.
+    //
+    // Note: this method is similar to `get` on the BaseStore. That method
+    // assumes that calling fetchModels will populate the model referred to by
+    // modelId, but that is not the case if the model exists in the 2nd page
+    // of a paginated api. This method will work against a paginated api.
+    getModel: function(modelId) {
+        if (!modelId) {
+            return;
+        }
+        let model = this.fetchedModels[modelId];
+        if (model) {
+            return model;
+        }
+        this.fetchModel(modelId);
     },
+
     // Returns the entire local cache, everything in this.models
     getAll: function() {
         if (!this.models) {

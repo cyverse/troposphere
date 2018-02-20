@@ -1,10 +1,9 @@
 import React from "react";
 import _ from "underscore";
-import Backbone from "backbone";
+import { withRouter } from "react-router";
 
 import Utils from "actions/Utils";
 import stores from "stores";
-import { browserHistory } from "react-router";
 import ResourceRequestView from "./ResourceRequestView";
 import AdminResourceRequestActions from "actions/AdminResourceRequestActions";
 import Quota from "models/Quota";
@@ -12,11 +11,10 @@ import AllocationSourceConstants from "constants/AllocationSourceConstants";
 import IdentityConstants from "constants/IdentityConstants"
 import errorHandler from "actions/errorHandler"
 
-export default React.createClass({
+const ResourceRequest = React.createClass({
 
     propTypes: {
         selectedRequest: React.PropTypes.object,
-        requests: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
     getInitialState() {
@@ -102,7 +100,7 @@ export default React.createClass({
         promise
             .then(
                 // onSuccess, navigate away
-                () => browserHistory.push("/application/admin/resource-requests"),
+                () => this.props.router.push("admin/resource-requests"),
 
                 // onFailure, action is no longer pending, trigger error handler
                 err => {
@@ -128,14 +126,14 @@ export default React.createClass({
         promise
             .then(
                 // onSuccess, navigate away
-                () => browserHistory.push("/application/admin/resource-requests"),
+                () => this.props.router.push("admin/resource-requests"),
 
                 // onFailure, action is no longer pending, trigger error handler
                 err => {
                     this.setState({ actionPending: false });
                     errorHandler(err);
                 }
-            )
+            );
         return promise;
     },
 
@@ -154,7 +152,7 @@ export default React.createClass({
         promise
             .then(
                 // onSuccess, navigate away
-                () => browserHistory.push("/application/admin/resource-requests"),
+                () => this.props.router.push("admin/resource-requests"),
 
                 // onFailure, action is no longer pending, trigger error handler
                 err => {
@@ -218,3 +216,5 @@ export default React.createClass({
         );
     }
 });
+
+export default withRouter(ResourceRequest);

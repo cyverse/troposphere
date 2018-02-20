@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import globals from "globals";
 import AllocationSourceView from "./AllocationSourceView";
@@ -26,7 +27,19 @@ export default React.createClass({
     getInitialState() {
         return {
             denyReason: "",
+            allowUpdatesToResolvedRequests: false
         };
+    },
+
+    componentWillReceiveProps(props) {
+        if (this.props.request.id !== props.request.id) {
+
+            // If we're viewing a new request, reset the state
+            this.setState({
+                allowUpdatesToResolvedRequests: false,
+                denyReason: ""
+            });
+        }
     },
 
     handleResponseChange({ target: { value: denyReason } }) {
@@ -123,15 +136,101 @@ export default React.createClass({
         );
     },
 
+    renderEditViewInOverlay() {
+        let hideOverlay = () => this.setState({ allowUpdatesToResolvedRequests: true });
+
+        // Render an overlay, to show that you likely do not want to
+        // be editing a resource request that was already processed
+        return (
+        <div>
+            <p>This request is no longer pending. <a onClick={hideOverlay}>Edit anyway</a>.</p>
+            <div style={{ position: "relative", opacity: 0.5 }}>
+                { this.renderEditView() }
+                <div style={{ position: "absolute", width: "100%", height: "100%", top: 0 }} />
+            </div>
+        </div>
+        );
+    },
+
+    renderEditView() {
+        let { section } = this.style();
+        let { denyReason } = this.state;
+
+        return (
+        <div>
+            <h4 className="t-title">1. Update the user's current resources</h4>
+            <div style={section}>
+                { globals.EXTERNAL_ALLOCATION ? null : <h5 className="t-title">Allocation</h5> }
+                { globals.EXTERNAL_ALLOCATION ? null : this.renderAllocationsSection() }
+                <h5 className="t-title">Quota</h5>
+                { this.renderIdentitiesSection() }
+            </div>
+            <h4 className="t-title">2. Approve/Deny/Close the request</h4>
+            <div style={section}>
+                <p>
+                    On approve or deny, the user will be notified by email and
+                    encouraged to reach out to support if they have questions.
+                    Under <a href="//application/my-requests/resources">my
+                    requests</a>, users can track the status of each request.
+                </p>
+                <p>
+                    On close, the user will not be notified
+                </p>
+                <div style={{ display: "flex" }}>
+                    <div style={{ padding: "20px", borderRight: "solid 1px #eee" }} >
+                        <button onClick={this.onApprove}
+                            type="button"
+                            className="btn btn-default btn-sm">
+                            Approve
+                        </button>
+                    </div>
+                    <div style={{ padding: "20px", borderRight: "solid 1px #eee" }}>
+                        <span style={{ paddingRight: "10px" }}>Provide a reason: <input onChange={this.handleResponseChange} value={ denyReason } /></span>
+                        <button onClick={() => this.props.onDeny(denyReason)}
+                            disabled={ denyReason == "" }
+                            type="button"
+                            className="btn btn-default btn-sm">
+                            Deny
+                        </button>
+                    </div>
+                    <div style={{ padding: "20px" }}>
+                        <button onClick={this.props.onClose}
+                            type="button"
+                            className="btn btn-default btn-sm">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        );
+    },
+
+    renderCreatedDate(startDate) {
+        let m = moment(startDate);
+        return (
+        <p>
+        { m.format("MMM Do YYYY") } ({ m.fromNow() })
+        </p>
+        );
+    },
+
     render() {
         let {
             created_by: { username },
-            request, description
+            status,
+            request,
+            description,
+            start_date,
         } = this.props.request.toJSON();
         let {
             container, section, horizontalRule
         } = this.style();
-        let { denyReason } = this.state;
+        let {
+            allowUpdatesToResolvedRequests
+        } = this.state;
+
+        let allowEdits = status.name == "pending" || allowUpdatesToResolvedRequests;
 
         return (
         <div style={container}>
@@ -147,47 +246,16 @@ export default React.createClass({
             <div style={section}>
                 <p>{description}</p>
             </div>
+            <h4 className="t-title">Status</h4>
+            <div style={section}>
+                <p>{status.name}</p>
+            </div>
+            <h4 className="t-title">Created</h4>
+            <div style={section}>
+                { this.renderCreatedDate(start_date) }
+            </div>
             <hr style={horizontalRule} />
-            <h4 className="t-title">1. Update the user's current resources</h4>
-            <div style={section}>
-                { globals.EXTERNAL_ALLOCATION ? null : <h5 className="t-title">Allocation</h5> }
-                { globals.EXTERNAL_ALLOCATION ? null : this.renderAllocationsSection() }
-                <h5 className="t-title">Quota</h5>
-                { this.renderIdentitiesSection() }
-            </div>
-            <h4 className="t-title">2. Approve/Deny/Close the request</h4>
-            <div style={section}>
-                <p>On approve or deny, the user will be notified by email and
-                encouraged to reach out to support if they have questions.
-                Under <a href="//application/my-requests/resources">my requests</a>, users can track the status of each
-                request.</p>
-                <p>On close, the user will not be notified</p>
-                <div style={{ display: "flex" }}>
-                    <div style={{ padding: "20px", borderRight: "solid 1px #eee" }} >
-                        <button onClick={this.onApprove}
-                            type="button"
-                            className="btn btn-default btn-sm">
-                            Approve
-                        </button>
-                    </div>
-                    <div style={{ padding: "20px", borderRight: "solid 1px #eee" }}>
-                        <span style={{ paddingRight: "10px" }}>Provide a reason: <input onChange={this.handleResponseChange} value={ denyReason } /></span>
-                        <button onClick={() => this.props.onDeny(this.state.denyReason)}
-                            disabled={ this.state.denyReason == "" }
-                            type="button"
-                            className="btn btn-default btn-sm">
-                            Deny
-                        </button>
-                    </div>
-                    <div style={{ padding: "20px" }}>
-                        <button onClick={this.props.onClose}
-                            type="button"
-                            className="btn btn-default btn-sm">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
+            { allowEdits ? this.renderEditView() : this.renderEditViewInOverlay() }
         </div>
         );
     }
