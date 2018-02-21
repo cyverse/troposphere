@@ -156,6 +156,11 @@ export default Backbone.Model.extend({
         });
     },
 
+    hasIpAddress: function() {
+        return (this.get("ip_address") &&
+                this.get("ip_address").charAt(0) != "0");
+    },
+
     getCreds: function() {
         return {
             provider_id: this.get("identity").provider,

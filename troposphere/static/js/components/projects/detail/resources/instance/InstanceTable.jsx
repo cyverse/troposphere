@@ -66,6 +66,9 @@ export default React.createClass({
             <th className="sm-header">
                 {featureFlags.hasProjectSharing() ? "Identity" : "Provider"}
             </th>
+            <th>
+                {" "}
+            </th>
         </SelectableTable>
         )
     }

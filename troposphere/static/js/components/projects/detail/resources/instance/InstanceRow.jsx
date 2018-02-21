@@ -6,10 +6,12 @@ import Status from "../tableData/instance/Status";
 import Activity from "../tableData/instance/Activity"
 import IpAddress from "../tableData/instance/IpAddress";
 import Size from "../tableData/instance/Size";
+import OptionInfoMenu from "../tableData/instance/OptionInfoMenu";
 import Identity from "../tableData/common/Identity";
 import CryptoJS from "crypto-js";
 import Gravatar from "components/common/Gravatar";
 import stores from "stores";
+
 
 export default React.createClass({
     displayName: "InstanceRow",
@@ -55,6 +57,9 @@ export default React.createClass({
             </td>
             <td className="sm-cell" data-label="Identity">
                 <Identity project_resource={instance} />
+            </td>
+            <td className="sm-cell" data-label="Option Info">
+                <OptionInfoMenu instance={instance} />
             </td>
         </SelectableRow>
         );
