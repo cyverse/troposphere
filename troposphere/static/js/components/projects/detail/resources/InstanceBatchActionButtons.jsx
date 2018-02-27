@@ -173,7 +173,7 @@ export default React.createClass({
                         key="Unshelve"
                         icon="log-out"
                         tooltip="Unshelve the selected instance"
-                        onClick={this.onResume}
+                        onClick={this.onUnshelve}
                         isVisible={true} />
                 );
             }
