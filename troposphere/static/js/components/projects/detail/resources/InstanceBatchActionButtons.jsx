@@ -37,6 +37,10 @@ export default React.createClass({
         modals.InstanceModals.resume(this.props.instance);
     },
 
+    onUnshelve: function() {
+        modals.InstanceModals.unshelve(this.props.instance);
+    },
+
 /*
    // Once a data structure is available that could offer the
    // possible "actions" on an instance given it's state (and
@@ -145,7 +149,7 @@ export default React.createClass({
                                 isVisible={true} />
                     );
                 }
-            } else if (status === "suspended") {
+            } else if (status === "suspended" && !multipleSelected) {
                 linksArray.push(
                     <Button style={style}
                         key="Resume"
@@ -154,13 +158,22 @@ export default React.createClass({
                         onClick={this.onResume}
                         isVisible={true} />
                 );
-            } else if (status === "shutoff") {
+            } else if (status === "shutoff" && !multipleSelected) {
                 linksArray.push(
                     <Button style={style}
                         key="Start"
                         icon="play"
                         tooltip="Start"
                         onClick={this.onStart}
+                        isVisible={true} />
+                );
+            } else if (status === "shelved_offloaded" && !multipleSelected){
+                linksArray.push(
+                    <Button style={style}
+                        key="Unshelve"
+                        icon="log-out"
+                        tooltip="Unshelve the selected instance"
+                        onClick={this.onResume}
                         isVisible={true} />
                 );
             }
