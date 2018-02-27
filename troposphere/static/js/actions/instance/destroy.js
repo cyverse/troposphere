@@ -7,7 +7,7 @@ import { applyInstanceAction } from "./functions.js";
  * We expect `params` to be an object with an `instances` property
  * providing access to a mappable collection of instance models.
  */
-const destroy = (params) => {
+const destroy = (params, options) => {
     let instanceTerminate = applyInstanceAction(
         "terminate",
         {
@@ -15,10 +15,10 @@ const destroy = (params) => {
             status: "active",
             activity: "deleting"
         },
-        "Your instance could not be stopped"
+        "Your instance(s) could not be deleted"
     );
 
-    instanceTerminate(params);
+    instanceTerminate(params, options);
 }
 
 
