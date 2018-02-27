@@ -1,5 +1,4 @@
 import InstanceConstants from "constants/InstanceConstants";
-import Instance from "models/Instance";
 import InstanceState from "models/InstanceState";
 import InstanceActionRequest from "models/InstanceActionRequest";
 
