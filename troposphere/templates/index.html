@@ -165,6 +165,12 @@
     var EXTERNAL_ALLOCATION = false;
 {% endif %}
 
+{% if BATCH_RESOURCE_ACTIONS %}
+    var BATCH_RESOURCE_ACTIONS = true;
+{%  else %}
+    var BATCH_RESOURCE_ACTIONS = false;
+{% endif %}
+
 var ALLOCATION_UNIT_NAME = "{{ ALLOCATION_UNIT_NAME }}";
 var ALLOCATION_UNIT_ABBREV = "{{ ALLOCATION_UNIT_ABBREV }}";
 
