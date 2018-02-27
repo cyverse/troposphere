@@ -88,6 +88,7 @@ export default React.createClass({
 
     deselectAllResources: function() {
         this.setState({
+            previewedResource: null,
             selectedResources: new Backbone.Collection()
         });
     },

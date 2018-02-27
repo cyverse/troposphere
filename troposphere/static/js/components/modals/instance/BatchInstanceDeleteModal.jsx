@@ -5,7 +5,6 @@ import RaisedButton from "material-ui/RaisedButton";
 
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import Glyphicon from "components/common/Glyphicon";
-import InstanceModel from "models/Instance";
 
 
 export default React.createClass({
@@ -14,9 +13,10 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-        instances: React.PropTypes.instanceOf(InstanceModel).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        rejected: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         attachedVolumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        attachedResults: React.PropTypes.object.isRequired,
+        matchedIds: React.PropTypes.array.isRequired,
         onConfirm: React.PropTypes.func.isRequired,
     },
 

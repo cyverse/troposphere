@@ -38,6 +38,14 @@ export default React.createClass({
     },
 
 /*
+   // Once a data structure is available that could offer the
+   // possible "actions" on an instance given it's state (and
+   // in the future, the provider's allowed actions), then you
+   // could allow the selection of multiple instance, and with
+   // each selection perform a "set intersect" on the possible
+   // actions to show ... With that, you could then offer up
+   // the following event handlers:
+
     onStart: function() {
         let { selectedResources } = this.props,
             instances = selectedResources.filter(filterInstances);
@@ -84,9 +92,9 @@ export default React.createClass({
 
         modals.InstanceModals.destroy({
             instances,
-            project
+            project,
+            onUnselect: this.props.onUnselectAll
         });
-        this.props.onUnselectAll();
     },
 
     render: function() {
@@ -101,29 +109,33 @@ export default React.createClass({
 
         if (selectedResources) {
             if (status === "active") {
-                linksArray.push(
-                    <Button style={style}
-                        key="Suspend"
-                        icon="pause"
-                        tooltip="Suspend"
-                        onClick={this.onSuspend}
-                        isVisible={true} />
-                );
-                linksArray.push(
-                    <Button style={style}
-                        key="Stop"
-                        icon="stop"
-                        tooltip="Stop"
-                        onClick={this.onStop}
-                        isVisible={true} />
-                );
-                // NOTE: we are not going to make rebooting
-                // multiple instances *possible*, but this
-                // was an artifical decision made by me,
-                // @lenards, after discussing it with
-                // @steve-gregory - this could be done if
-                // there is any value in that bulk action
+                // NOTE: again, we could allow "valid"
+                // action buttons when multiple resources
+                // are selected if we had a way to determine
+                // a set of valid actions.
+                // I, lenards, think a state machine that models
+                // the valid transitions could be statically
+                // defined in the UI to enable this, and then
+                // **later** replace by a dynamic STM data
+                // structure that was driven by when was enabled
+                // by the SiteOperator, per Cloud Provider.
                 if (!multipleSelected) {
+                    linksArray.push(
+                        <Button style={style}
+                                key="Suspend"
+                                icon="pause"
+                                tooltip="Suspend"
+                                onClick={this.onSuspend}
+                                isVisible={true} />
+                    );
+                    linksArray.push(
+                        <Button style={style}
+                                key="Stop"
+                                icon="stop"
+                                tooltip="Stop"
+                                onClick={this.onStop}
+                                isVisible={true} />
+                    );
                     linksArray.push(
                         <Button style={style}
                                 key="Reboot"
