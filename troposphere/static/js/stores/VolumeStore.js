@@ -31,7 +31,6 @@ let VolumeStore = BaseStore.extend({
         return new VolumeCollection(volumes);
     },
 
-
     getVolumesAttachedToInstance: function(instance) {
         if (!this.models) return this.fetchModels();
 
@@ -43,6 +42,30 @@ let VolumeStore = BaseStore.extend({
         });
 
         return new VolumeCollection(attachedVolumes);
+    },
+
+    getVolumesAttachedToInstances: function(instances) {
+        if (!this.models) return this.fetchModels();
+
+        let uuids = instances.pluck("uuid") || [],
+            matches = [];
+
+        let attachedVolumes = this.models.filter(function(volume) {
+            let attachData = volume.get("attach_data"),
+                isAttached = attachData.instance_id && uuids.includes(attachData.instance_id);
+
+            // generate a matched list of UUIDs of the instances with attached volumes
+            if (isAttached) {
+                matches.push(attachData.instance_id);
+            }
+
+            return isAttached
+        });
+
+        return {
+            matchedIds: matches,
+            volumes: new VolumeCollection(attachedVolumes)
+        };
     },
 
     // Makes a clean list of attached resources from volume information for easy reference
