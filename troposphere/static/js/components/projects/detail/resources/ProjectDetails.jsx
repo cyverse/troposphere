@@ -1,10 +1,12 @@
 import React from "react";
 import Backbone from "backbone";
+
 import ButtonBar from "./ButtonBar";
 import ExternalLinkList from "./link/ExternalLinkList";
 import ImageList from "./image/ImageList";
 import InstanceList from "./instance/InstanceList";
 import VolumeList from "./volume/VolumeList";
+
 import modals from "modals";
 import stores from "stores";
 import actions from "actions";
@@ -73,7 +75,7 @@ export default React.createClass({
     },
 
     onResourceSelected: function(resource) {
-        var selectedResources = this.state.selectedResources;
+        let { selectedResources } = this.state;
 
         // Add the resource to the list of selected resources
         selectedResources.push(resource);
@@ -85,28 +87,30 @@ export default React.createClass({
     },
 
     deselectAllResources: function() {
-        var selectedResources = this.state.selectedResources;
-        selectedResources.reset();
         this.setState({
-            selectedResources
+            selectedResources: new Backbone.Collection()
         });
     },
 
     onResourceDeselected: function(resource) {
-        var selectedResources = this.state.selectedResources,
-            previewedResource = this.state.previewedResource;
+        let { selectedResources,
+              previewedResource } = this.state,
+            nextSelected,
+            nextPreviewed;
 
-        // Remove the resources from the list of selected resources
-        selectedResources.remove(resource);
+        // Remove the resource from the list of selected resources
+        // by rejecting (which returns resources without `resource`)
+        // ----
+        // note - `creject` is just version of `reject` the honors
+        // the expectation of getting back a Collection, not array
+        nextSelected = selectedResources.creject(resource);
 
-        // Replace preview, with another
-        if (previewedResource == resource) {
-            previewedResource = selectedResources.last();
-        }
+        nextPreviewed = (previewedResource == resource) ?
+                        nextSelected.last() : previewedResource;
 
         this.setState({
-            previewedResource,
-            selectedResources,
+            previewedResource: nextPreviewed,
+            selectedResources: nextSelected
         });
     },
 
@@ -137,6 +141,7 @@ export default React.createClass({
             );
         }
     },
+
     onDeleteSelectedResources: function() {
         actions.ProjectActions.deleteResources(
             this.state.selectedResources,
@@ -159,31 +164,39 @@ export default React.createClass({
     },
 
     render: function() {
-        var project = this.props.project,
-            projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
-            projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
-            projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
-            projectImages = stores.ProjectImageStore.getImagesFor(project),
+        let project = this.props.project,
             previewedResource = this.state.previewedResource,
             selectedResources = this.state.selectedResources,
             isButtonBarVisible;
 
-        if (!projectInstances || !projectImages || !projectExternalLinks || !projectVolumes)
+        let projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
+            projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+            projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
+            projectImages = stores.ProjectImageStore.getImagesFor(project);
+
+        if (!projectInstances ||
+            !projectImages ||
+            !projectExternalLinks ||
+            !projectVolumes) {
             return <div className="loading"></div>;
+        }
 
         // Only show the action button bar if the user has selected resources
         isButtonBarVisible = this.state.selectedResources.length > 0;
 
         return (
         <div className="project-content clearfix">
-            <ButtonBar isVisible={isButtonBarVisible}
+            <ButtonBar
+                isVisible={isButtonBarVisible}
                 onMoveSelectedResources={this.onMoveSelectedResources}
                 onDeleteSelectedResources={this.onDeleteSelectedResources}
                 onReportSelectedResources={this.onReportSelectedResources}
                 onRemoveSelectedResources={this.onRemoveSelectedResources}
                 previewedResource={previewedResource}
+                selectedResources={selectedResources}
                 multipleSelected={selectedResources && selectedResources.length > 1}
                 onUnselect={this.onResourceDeselected}
+                onUnselectAll={this.deselectAllResources}
                 project={project} />
             <div className="resource-list clearfix">
                 <div className="scrollable-content" style={{ borderTop: "solid 1px #E1E1E1" }}>

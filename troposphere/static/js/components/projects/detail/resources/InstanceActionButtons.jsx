@@ -8,6 +8,7 @@ export default React.createClass({
 
     propTypes: {
         multipleSelected: React.PropTypes.bool.isRequired,
+        selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },

@@ -1,11 +1,14 @@
 import React from "react";
 import Backbone from "backbone";
-import context from "context";
+
 import Button from "./Button";
 import SubMenu from "./SubMenu";
 import RefreshButton from "./RefreshButton";
 import RequestResourcesButton from "./RequestResourcesButton";
 import ResourceActionButtons from "./ResourceActionButtons";
+
+import context from "context";
+
 
 export default React.createClass({
     displayName: "ButtonBar",
@@ -13,6 +16,7 @@ export default React.createClass({
     propTypes: {
         isVisible: React.PropTypes.bool.isRequired,
         multipleSelected: React.PropTypes.bool.isRequired,
+        selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
         onMoveSelectedResources: React.PropTypes.func.isRequired,
         onDeleteSelectedResources: React.PropTypes.func.isRequired,
         onReportSelectedResources: React.PropTypes.func.isRequired,
@@ -44,6 +48,19 @@ export default React.createClass({
         //   isVisible={true}
         // />
 
+        let {
+            isVisible,
+            onMoveSelectedResources,
+            onRemoveSelectedResources,
+            onUnselect,
+            onUnselectAll,
+            previewedResource,
+            selectedResources,
+            multipleSelected,
+            project } = this.props;
+
+        let isSuperUser = context.profile.get("is_superuser");
+
         return (
         <div
             style={{
@@ -63,20 +80,23 @@ export default React.createClass({
                 <RequestResourcesButton />
                 <Button icon="folder-open"
                     tooltip="Move selected resources"
-                    onClick={this.props.onMoveSelectedResources}
-                    isVisible={this.props.isVisible} />
+                    onClick={onMoveSelectedResources}
+                    isVisible={isVisible} />
                 <Button icon="export"
                     tooltip="Remove selected resources (admin only)"
-                    onClick={this.props.onRemoveSelectedResources}
+                    onClick={onRemoveSelectedResources}
                     style={{ "backgroundColor": "bisque" }}
-                    isVisible={context.profile.get("is_superuser") && this.props.isVisible} />
+                    isVisible={isSuperUser && isVisible} />
 
             </div>
             <div>
-                <ResourceActionButtons onUnselect={this.props.onUnselect}
-                    previewedResource={this.props.previewedResource}
-                    multipleSelected={this.props.multipleSelected}
-                    project={this.props.project} />
+                <ResourceActionButtons
+                    onUnselect={onUnselect}
+                    onUnselectAll={onUnselectAll}
+                    previewedResource={previewedResource}
+                    selectedResources={selectedResources}
+                    multipleSelected={multipleSelected}
+                    project={project} />
             </div>
         </div>
         );
