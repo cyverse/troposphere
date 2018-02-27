@@ -44,6 +44,7 @@ export default {
 
         let project = payload.project,
             instances = payload.instances,
+            onUnselect = payload.onUnselect,
             attachedResults = VolumeStore.getVolumesAttachedToInstances(instances),
             { volumes: attachedVolumes,
               matchedIds } = attachedResults,
@@ -58,6 +59,9 @@ export default {
             // destroy all instances without attached volumes ...
             actions.InstanceActions.destroy(props, options);
 
+            if (onUnselect) {
+                onUnselect();
+            }
             if (project) {
                 appBrowserHistory.push(`/projects/${project.id}/resources`);
             }
