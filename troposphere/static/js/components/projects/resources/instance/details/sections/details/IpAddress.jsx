@@ -1,7 +1,15 @@
 import React from "react";
 import Backbone from "backbone";
+
 import ResourceDetail from "components/projects/common/ResourceDetail";
 import CopyButton from "components/common/ui/CopyButton";
+
+import context from "context";
+
+const WrapWithHyperlink = ({href, children}) => (
+  href ? <a href={href}>{children}</a> : <span>{children}</span>
+);
+
 
 export default React.createClass({
     displayName: "IpAddress",
@@ -12,17 +20,23 @@ export default React.createClass({
 
     render() {
         var instance = this.props.instance,
-            address = instance.get("ip_address");
+            address = instance.getIpAddress(),
+            hyperlink;
 
-        let missingAddress = !address || address.charAt(0) == "0";
-        if (missingAddress) {
+        if (!instance.hasIpAddress()) {
             address = "N/A";
+        } else {
+            let username = context.getUsername(),
+                prefix = (username && !context.hasEmulatedSession())
+                       ? `${username}@` : '';
+            // if you're emulating, then don't apply the ":username@" prefix
+            hyperlink = `ssh://${prefix}${address}`;
         }
 
         return (
         <ResourceDetail label="IP Address">
-            {address}
-            {!missingAddress ? <CopyButton text={ address }/> : null}
+            <WrapWithHyperlink href={hyperlink}>{address}</WrapWithHyperlink>
+            {instance.hasIpAddress() ? <CopyButton text={ address }/> : null}
         </ResourceDetail>
         );
     }
