@@ -10,7 +10,8 @@ import stores from "stores";
 
 function getState() {
     return {
-        profile: stores.ProfileStore.get()
+        profile: stores.ProfileStore.get(),
+        userPreference: stores.UserPreferenceStore.get()
     };
 }
 
