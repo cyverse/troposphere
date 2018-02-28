@@ -87,6 +87,7 @@ stores.TagStore = require("stores/TagStore");
 stores.UserStore = require("stores/UserStore");
 stores.VersionStore = require("stores/VersionStore");
 stores.VolumeStore = require("stores/VolumeStore");
+stores.UserPreferenceStore = require("stores/UserPreferenceStore");
 stores.AllocationSourceStore = require("stores/AllocationSourceStore");
 
 import actions from "actions";
@@ -125,6 +126,7 @@ actions.SSHKeyActions = require("actions/SSHKeyActions");
 actions.ScriptActions = require("actions/ScriptActions");
 actions.TagActions = require("actions/TagActions");
 actions.UserActions = require("actions/UserActions");
+actions.UserPreferenceActions = require("actions/UserPreferenceActions");
 actions.VolumeActions = require("actions/VolumeActions");
 
 import modals from "modals";
