@@ -55,6 +55,7 @@ class UserPreferenceSerializer(serializers.HyperlinkedModelSerializer):
             'user',
             'show_beta_interface',
             'airport_ui',
+            'allow_ssh_hyperlinks',
             'created_date',
             'modified_date'
         )

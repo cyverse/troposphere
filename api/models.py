@@ -79,6 +79,7 @@ class UserPreferences(models.Model):
     show_beta_interface = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    allow_ssh_hyperlinks = models.BooleanField(default=False)
     airport_ui = models.NullBooleanField(default=None, null=True)
 
     def __unicode__(self):
