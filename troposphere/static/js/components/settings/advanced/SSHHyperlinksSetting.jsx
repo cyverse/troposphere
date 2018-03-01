@@ -44,7 +44,7 @@ const SSHHyperlinksSetting = React.createClass({
         return (
             <div>
                 <h3>SSH Hyperlinks</h3>
-                <div style={{marginBottom: "10px"}}>
+                <div style={{marginBottom: "20px"}}>
                     <input type="checkbox"
                            checked={allowSshHyperlink}
                            onChange={this.handleChange} /> Allow SSH protocol links for Instances.
