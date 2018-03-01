@@ -26,7 +26,12 @@ const SSHHyperlinksSetting = React.createClass({
     handleChange(event) {
         let { checked: allowSshHyperlink } = event.target;
 
-        actions.UserPreferenceActions.updateUserPreferenceAttributes(this.state.userPreference, {
+        trackAction("set-pref-ssh-hyperlinks", {
+            enabled: allowSshHyperlink
+        });
+
+        actions.UserPreferenceActions.updateUserPreferenceAttributes(
+            this.state.userPreference, {
             allow_ssh_hyperlinks: allowSshHyperlink
         });
     },
