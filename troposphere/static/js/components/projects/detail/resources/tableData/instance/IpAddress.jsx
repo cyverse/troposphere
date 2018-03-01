@@ -1,6 +1,9 @@
 import React from "react";
 import Backbone from "backbone";
 
+import FormattedIpAddress from "components/projects/common/FormattedIpAddress";
+
+
 export default React.createClass({
     displayName: "IpAddress",
 
@@ -9,16 +12,10 @@ export default React.createClass({
     },
 
     render: function() {
-        var instance = this.props.instance;
-
-        var address = instance.get("ip_address");
-
-        if (!address || address.charAt(0) == "0") {
-            address = "N/A";
-        }
+        let { instance } = this.props;
 
         return (
-        <span>{address}</span>
+            <FormattedIpAddress instance={instance} />
         );
     }
 });
