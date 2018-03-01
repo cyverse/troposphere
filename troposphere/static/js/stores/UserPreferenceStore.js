@@ -1,21 +1,15 @@
 import _ from "underscore";
 
 import Dispatcher from "dispatchers/Dispatcher";
-import NotificationController from "controllers/NotificationController";
 import Store from "stores/Store";
 
-import UserPreference from "models/UserPreference";
+import NotificationController from "controllers/NotificationController";
 import UserPreferenceCollection from "collections/UserPreferenceCollection";
 import UserPreferenceConstants from "constants/UserPreferenceConstants";
 
-import globals from "globals";
-
 
 let _userPref = null;
-let _wrappingCollection = null;
 let _isFetching = false;
-
-
 
 
 function _handelFetchFailure(result) {
@@ -46,7 +40,6 @@ function fetchUserPref() {
             url: _.result(models, "url") // add queryString parameters, if needed
         }).done(function() {
             _isFetching = false;
-            _wrappingCollection = models;
             _userPref = models.at(0);
             UserPreferenceStore.emitChange();
         }).fail(function(result) {
@@ -83,7 +76,7 @@ Dispatcher.register(function(msg) {
         case UserPreferenceConstants.UPDATE_USER_PREFERENCE:
             if (payload) {
                 updateUserPref(payload)
-            };
+            }
             break;
 
         default:
@@ -95,7 +88,7 @@ Dispatcher.register(function(msg) {
     return true;
 });
 
-
 _.extend(UserPreferenceStore, Store);
+
 
 export default UserPreferenceStore;
