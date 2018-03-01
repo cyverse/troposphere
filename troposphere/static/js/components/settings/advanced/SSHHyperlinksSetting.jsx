@@ -42,7 +42,7 @@ const SSHHyperlinksSetting = React.createClass({
 
         if (!userPreference) {
             return (
-                <span>Loading...</span>
+                <div className="loading"/>
             );
         }
 
