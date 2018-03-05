@@ -32,6 +32,10 @@ export default React.createClass({
         modals.InstanceModals.resume(this.props.instance);
     },
 
+    onUnshelve: function() {
+        modals.InstanceModals.unshelve(this.props.instance);
+    },
+
     onDelete: function() {
         this.props.onUnselect(this.props.instance);
         modals.InstanceModals.destroy({
@@ -89,6 +93,15 @@ export default React.createClass({
                         icon="play"
                         tooltip="Start"
                         onClick={this.onStart}
+                        isVisible={true} />
+                );
+            } else if (status === "shelved_offloaded") {
+               linksArray.push(
+                    <Button style={style}
+                        key="Unshelve"
+                        icon="log-out"
+                        tooltip="Unshelve the selected instance"
+                        onClick={this.onUnshelve}
                         isVisible={true} />
                 );
             }
