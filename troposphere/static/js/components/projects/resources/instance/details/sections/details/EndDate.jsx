@@ -11,11 +11,18 @@ var EndDate = React.createClass({
     },
 
     render: function() {
-        return (
-        <ResourceDetail label="Deleted">
-            <Time date={this.props.instance.get("end_date")} />
-        </ResourceDetail>
-        );
+        let endDate = this.props.instance.get("end_date"),
+            element = null;
+
+        if (endDate) {
+            element = (
+                <ResourceDetail label="Deleted">
+                    <Time date={endDate} />
+                </ResourceDetail>
+            );
+        }
+
+        return element;
     }
 });
 
