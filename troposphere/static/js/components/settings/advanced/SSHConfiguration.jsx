@@ -8,7 +8,7 @@ import globals from "globals";
 const SSHConfiguration = React.createClass({
 
     getInitialState: function() {
-        let {ProfileStore} = this.props.subscriptions;
+        let { ProfileStore } = this.props.subscriptions;
         var profile = ProfileStore.get();
         return {
             displayMoreInfo: false,
@@ -21,9 +21,10 @@ const SSHConfiguration = React.createClass({
     },
 
     onDisplayMoreInfo(e) {
+        let { displayMoreInfo } = this.state;
         e.preventDefault();
         this.setState({
-            displayMoreInfo: true
+            displayMoreInfo: !displayMoreInfo
         });
     },
 
@@ -34,7 +35,7 @@ const SSHConfiguration = React.createClass({
     },
 
     renderMoreInfo() {
-        var displayMoreInfo = this.state.displayMoreInfo;
+        let { displayMoreInfo } = this.state;
 
         if (displayMoreInfo) {
             return (
@@ -50,6 +51,9 @@ const SSHConfiguration = React.createClass({
                    instance, please edit <code>/root/.ssh/authorized_keys</code> inside the
                    instance, or contact Atmosphere support at
                    { this.renderSupportLink() } for assistance.
+                </p>
+                <p>
+                   Click to <a onClick={this.onDisplayMoreInfo}>hide</a> more information.
                 </p>
             </div>
             )
