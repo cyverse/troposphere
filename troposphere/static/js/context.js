@@ -11,6 +11,9 @@ export default {
     getEmulator: function() {
         return window.emulator;
     },
+    getUsername: function() {
+        return this.profile.get("username");
+    },
     hasEmulatedSession: function() {
         return window.emulator && window.emulator_token;
     },

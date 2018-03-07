@@ -7,6 +7,7 @@ from Crypto.Hash import SHA256
 from troposphere.models import TroposphereUser as User
 from rest_framework import (viewsets, mixins, status)
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from api.models import UserPreferences
 from troposphere import settings
@@ -51,7 +52,7 @@ class UserPreferenceViewSet(viewsets.ModelViewSet):
     """
     queryset = UserPreferences.objects.all()
     serializer_class = UserPreferenceSerializer
-    http_method_names = ['get', 'put', 'patch', 'head', 'options', 'trace']
+    http_method_names = ['get', 'post', 'put', 'patch', 'head', 'options', 'trace']
 
     def get_queryset(self):
         """

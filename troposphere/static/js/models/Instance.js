@@ -1,8 +1,12 @@
-import Backbone from "backbone";
 import _ from "underscore";
+import Backbone from "backbone";
+import ip from "ip";
+
+import InstanceState from "./InstanceState";
+
 import globals from "globals";
 import context from "context";
-import InstanceState from "./InstanceState";
+
 
 export default Backbone.Model.extend({
 
@@ -161,6 +165,19 @@ export default Backbone.Model.extend({
             provider_id: this.get("identity").provider,
             identity_id: this.get("identity").id
         };
+    },
+
+    getIpAddress: function() {
+        return this.get("ip_address");
+    },
+
+    hasIpAddress: function() {
+        let address = this.getIpAddress();
+        return address && address.charAt(0) != "0";
+    },
+
+    hasPublicIpAddress: function() {
+        return !ip.isPrivate(this.getIpAddress());
     },
 
     shell_url: function() {
