@@ -1,7 +1,7 @@
 {
   "name": "troposphere",
   "description": "Atmosphere Web Client",
-  "version": "32.0.0",
+  "version": "33.0.0",
   "author": "CyVerse, formerly iPlant Collaborative",
   "license": "BSD-3-Clause",
   "homepage": "https://github.com/cyverse/troposphere",
