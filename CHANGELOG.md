@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
   - Suggest adopting a changelog format
     - This is very similar to what we have now. It's just documented somwhere on the web where we can point to as a process to follow
+  - Change ./manage.py maintenance to be non-interactive
 
 ### Fixed
   - Admin request panel can view older requests (#751)
