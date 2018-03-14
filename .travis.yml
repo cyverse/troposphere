@@ -35,6 +35,7 @@
 
   script:
     - ./travis/check_properly_generated_requirements.sh
-    - ./manage.py  makemigrations --dry-run --check
+    - ./manage.py makemigrations --dry-run --check
+    - ./manage.py test
     - npm run build
     - npm run lint
