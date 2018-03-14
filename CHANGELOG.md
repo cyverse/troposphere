@@ -24,7 +24,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v31...HEAD)
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v31-0...HEAD)
 
 ### Added
   - Add confirmation modal to admin resource request (#750)
@@ -41,7 +41,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Security
   - Update to jQuery 3.* to address 2 CVEs (#752)
 
-## [v31](https://github.com/cyverse/troposphere/compare/v30...v31) - 2018-03-06
+## [v31-0](https://github.com/cyverse/troposphere/compare/v30...v31-0) - 2018-03-08
 
 ### Added
   - Show unshelve action in button bar
