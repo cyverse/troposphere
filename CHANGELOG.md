@@ -38,6 +38,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Fixed
   - Admin request panel can view older requests (#751)
     - It used to be constrained to viewing only pending requests, within the most recent 1000, now can show any request by id
+  - Use the correct endpoint for showing atmosphere-ansible version [#768](https://github.com/cyverse/troposphere/pull/768)
 
 ### Security
   - Update to jQuery 3.* to address 2 CVEs (#752)
