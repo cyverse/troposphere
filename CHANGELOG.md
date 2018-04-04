@@ -24,8 +24,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v31-0...HEAD)
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v32-1...HEAD)
+## [v32-1](https://github.com/cyverse/troposphere/compare/v32-0...v32-1) 2018-04-04
+### Changed
+  - Change ./manage.py maintenance to be non-interactive
 
+## [v32-0](https://github.com/cyverse/troposphere/compare/v31-0...v32-0) 2018-03-04
 ### Added
   - Add confirmation modal to admin resource request (#750)
     - Solves problem where requests were being 'approved' while the resources were not being updated
@@ -33,7 +37,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
   - Suggest adopting a changelog format
     - This is very similar to what we have now. It's just documented somwhere on the web where we can point to as a process to follow
-  - Change ./manage.py maintenance to be non-interactive
 
 ### Fixed
   - Admin request panel can view older requests (#751)
