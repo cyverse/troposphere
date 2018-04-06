@@ -24,27 +24,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v31-0...HEAD)
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v32-0...HEAD)
+### Changed
+  - Suggest adopting a changelog format ([#766](https://github.com/cyverse/troposphere/pull/766))
+    - This is very similar to what we have now. It's just documented somwhere
+      on the web where we can point to as a process to follow
 
+## [v32-0](https://github.com/cyverse/troposphere/compare/v31-0...v32-0) - 2018-04-06
 ### Added
-  - Add confirmation modal to admin resource request (#750)
+  - Add confirmation modal to admin resource request ([#750](https://github.com/cyverse/troposphere/pull/750))
     - Solves problem where requests were being 'approved' while the resources were not being updated
 
 ### Changed
-  - Suggest adopting a changelog format
-    - This is very similar to what we have now. It's just documented somwhere on the web where we can point to as a process to follow
-  - Change ./manage.py maintenance to be non-interactive
+  - Change ./manage.py maintenance to be non-interactive ([#769](https://github.com/cyverse/troposphere/pull/769))
 
 ### Fixed
-  - Admin request panel can view older requests (#751)
+  - Admin request panel can view older requests ([#751](https://github.com/cyverse/troposphere/pull/751))
     - It used to be constrained to viewing only pending requests, within the most recent 1000, now can show any request by id
-  - Use the correct endpoint for showing atmosphere-ansible version [#768](https://github.com/cyverse/troposphere/pull/768)
+  - Use the correct endpoint for showing atmosphere-ansible version ([#768](https://github.com/cyverse/troposphere/pull/768))
 
 ### Security
-  - Update to jQuery 3.* to address 2 CVEs (#752)
+  - Update to jQuery 3.* to address 2 CVEs ([#752](https://github.com/cyverse/troposphere/pull/752))
 
 ## [v31-0](https://github.com/cyverse/troposphere/compare/v30...v31-0) - 2018-03-08
-
 ### Added
   - Show unshelve action in button bar
   - Include prettier command

@@ -18,6 +18,7 @@ HEADER_LINK_COLOR = "blue"
 LINK_COLOR = "#46afc8"
 
 [local.py]
+ADDITIONAL_ALLOWED_HOSTNAMES = [] # Additional HOST header values that django will permit in requests
 DEBUG = False
 ADMINS_EMAIL_TUPLE=[] # [('Atmosphere Admin', 'atmo-admin@website.com'),('System Admins', 'sys-admin@website.com')]
 SERVER_EMAIL =
