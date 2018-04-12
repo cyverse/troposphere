@@ -11,7 +11,10 @@ let ProviderStore = BaseStore.extend({
             this.fetchModels();
         } else {
             let providers = this.models;
-            let versionProviders = version.get("machines").map(m => m.provider.id);
+            let versionProviders = version
+                .get("machines")
+                .filter(m => !m.end_date)
+                .map(m => m.provider.id);
 
             // Return version providers (but prefer our models)
             return providers.cfilter(prov => {
