@@ -30,8 +30,7 @@ const EditDetails = React.createClass({
 
     isSubmittable: function() {
         var hasName = !!this.state.name.trim();
-        var hasDescription = !!this.state.description.trim();
-        return hasName && hasDescription;
+        return hasName;
     },
 
     handleCancel: function() {
