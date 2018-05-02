@@ -35,8 +35,6 @@ export default {
     create: function(params, onSuccess, onFailure) {
         if (!params.name)
             throw new Error("Missing name");
-        if (!params.description)
-            throw new Error("Missing description");
         if (featureFlags.hasProjectSharing() && !params.owner)
             throw new Error("Missing group owner");
         var name = params.name,

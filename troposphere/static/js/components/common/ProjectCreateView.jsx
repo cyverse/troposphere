@@ -59,25 +59,8 @@ const ProjectCreateView = React.createClass({
         }
     },
 
-    validateDescription: function () {
-        let description = this.state.projectDescription;
-        let hasError = false;
-        let message = "";
-
-        if (description === "") {
-            hasError = true;
-            message = "This field is required";
-        }
-
-        return {
-            hasError,
-            message
-        }
-    },
-
     isSubmittable: function () {
         if (this.validateName().hasError ||
-            this.validateDescription().hasError ||
             (featureFlags.hasProjectSharing() && this.validateOwner().hasError) ) {
             return false;
         }
@@ -148,7 +131,6 @@ const ProjectCreateView = React.createClass({
         let nameClassNames = "form-group";
         let nameErrorMessage = null;
         let descriptionClassNames = "form-group";
-        let descriptionErrorMessage = null;
 
         let { GroupStore } = this.props.subscriptions;
 
@@ -160,9 +142,6 @@ const ProjectCreateView = React.createClass({
             nameClassNames = this.validateName().hasError ?
                 "form-group has-error" : null;
             nameErrorMessage = this.validateName().message;
-            descriptionClassNames = this.validateDescription().hasError ?
-                "form-group has-error" : null;
-            descriptionErrorMessage = this.validateDescription().message;
         }
 
         return (
@@ -191,7 +170,6 @@ const ProjectCreateView = React.createClass({
                     rows="7"
                     value={this.state.projectDescription}
                     onChange={this.onDescriptionChange} />
-                <span className="help-block">{descriptionErrorMessage}</span>
             </div>
             {this.renderProjectVisibility()}
         </div>
