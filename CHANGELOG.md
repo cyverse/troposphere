@@ -33,6 +33,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - During migrate resources, choose a default project, so users don't have to
     mechanically select multiple times (especially helpful for developers) ([#776](https://github.com/cyverse/troposphere/pull/776))
 
+### Fixed
+  - Fix launch modal including providers where an image version is end-dated ([#775](https://github.com/cyverse/troposphere/pull/775))
+
 ## [v32-0](https://github.com/cyverse/troposphere/compare/v31-0...v32-0) - 2018-04-06
 ### Added
   - Add confirmation modal to admin resource request ([#750](https://github.com/cyverse/troposphere/pull/750))
