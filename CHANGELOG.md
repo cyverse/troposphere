@@ -30,6 +30,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
     - This is very similar to what we have now. It's just documented somwhere
       on the web where we can point to as a process to follow
   - Make it easy to create projects (don't require a project description) ([#777](https://github.com/cyverse/troposphere/pull/777))
+  - During migrate resources, choose a default project, so users don't have to
+    mechanically select multiple times (especially helpful for developers) ([#776](https://github.com/cyverse/troposphere/pull/776))
 
 ## [v32-0](https://github.com/cyverse/troposphere/compare/v31-0...v32-0) - 2018-04-06
 ### Added
