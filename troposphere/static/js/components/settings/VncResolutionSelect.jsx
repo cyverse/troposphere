@@ -24,7 +24,7 @@ export default React.createClass({
 
         return (
         <select value={this.props.id}
-            className="form-control"
+            className="dropdown"
             id="resolution"
             onChange={this.props.onChange}>
             {options}
