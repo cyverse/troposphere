@@ -3,6 +3,7 @@ import React from "react";
 import AdvancedSettingsPage from "components/settings/AdvancedSettingsPage";
 import IconSelect from "./IconSelect";
 import GuacamoleSelect from "./GuacamoleSelect";
+import VncResolutionSelect from "./VncResolutionSelect";
 import SettingsHeader from "./SettingsHeader";
 import actions from "actions";
 import modals from "modals";
@@ -45,6 +46,12 @@ export default React.createClass({
         });
     },
 
+    handleVncResolutionSelect: function(newRes) {
+        actions.ProfileActions.updateProfileAttributes(this.state.profile, {
+            vnc_resolution: newRes
+        });
+    },
+
     handleChangeEmailPreference: function(event) {
         var isChecked = event.target.checked;
         actions.ProfileActions.updateProfileAttributes(this.state.profile, {
@@ -64,6 +71,7 @@ export default React.createClass({
         var profile = this.state.profile;
         var selectedIconSet = profile.get("settings")["icon_set"];
         var selectedGuacamoleColor = profile.get("settings")["guacamole_color"];
+        var selectedVncResolution = profile.get("settings")["vnc_resolution"];
         var wantsEmails = profile.get("settings")["send_emails"];
 
         return (
@@ -94,9 +102,15 @@ export default React.createClass({
 
                     <h4>Web Shell Color Select</h4>
                     <p>
-                        Use the form below to select color for SSH terminal in "New Web Shell".
+                        Use the form below to select color for SSH terminal in Web Shell.
                     </p>
                     <GuacamoleSelect selected={selectedGuacamoleColor} onSelect={this.handleColorSelect} />
+
+                    <h4>VNC Resolution</h4>
+                    <p>
+                        Select the desired resolution of the Web Desktop.
+                    </p>
+                    <VncResolutionSelect selected={selectedVncResolution} onSelect={this.handleVncResolutionSelect} />
                 </div>
                 <AdvancedSettingsPage />
             </div>
