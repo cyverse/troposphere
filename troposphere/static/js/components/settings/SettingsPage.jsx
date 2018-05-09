@@ -49,7 +49,7 @@ export default React.createClass({
     handleVncResolutionSelect: function(newRes) {
         var newResVal = newRes.target.value
         actions.ProfileActions.updateProfileAttributes(this.state.profile, {
-            vnc_resolution: newRes
+            vnc_resolution: newResVal
         });
     },
 
