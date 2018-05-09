@@ -5,8 +5,15 @@ export default React.createClass({
     displayName: "VncResolutionSelect",
 
     renderOption: function(res) {
+        if (this.props.selected == res) {
+            return (
+            <option value={res} selected>
+              {res}
+            </option>
+            );
+        }
         return (
-        <option>
+        <option value={res}>
           {res}
         </option>
         );
@@ -14,6 +21,7 @@ export default React.createClass({
 
     render: function() {
         var options = [
+            "800x600",
             "1024x768",
             "1280x1024",
             "1600x1000",

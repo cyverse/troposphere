@@ -47,6 +47,7 @@ export default React.createClass({
     },
 
     handleVncResolutionSelect: function(newRes) {
+        var newResVal = newRes.target.value
         actions.ProfileActions.updateProfileAttributes(this.state.profile, {
             vnc_resolution: newRes
         });
@@ -110,7 +111,7 @@ export default React.createClass({
                     <p>
                         Select the desired resolution of the Web Desktop.
                     </p>
-                    <VncResolutionSelect selected={selectedVncResolution} onSelect={this.handleVncResolutionSelect} />
+                    <VncResolutionSelect selected={selectedVncResolution} onChange={this.handleVncResolutionSelect} />
                 </div>
                 <AdvancedSettingsPage />
             </div>
