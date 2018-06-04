@@ -18,7 +18,8 @@ const NullProjectMigrateResourceModal = React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-        resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
     onProjectCreated(project) {
@@ -63,11 +64,12 @@ const NullProjectMigrateResourceModal = React.createClass({
 
     getInitialState: function() {
 
+        const defaultProject = this.props.projects.first();
         let resourceProjectMap = {};
 
         this.props.resources.forEach(resource => {
             resourceProjectMap[resource.id] = {
-                project: null,
+                project: defaultProject,
                 resource
             }
         });

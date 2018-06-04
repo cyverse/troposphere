@@ -134,6 +134,7 @@ export default {
         });
     },
     migrateResourcesIntoProject: function(nullProject) {
+        const projects = stores.ProjectStore.getAll();
         var instances = nullProject.get("instances"),
             volumes = nullProject.get("volumes"),
             resources = new Backbone.Collection(),
@@ -156,7 +157,8 @@ export default {
 
             var props = {
                 resources: resources,
-                backdrop: "static"
+                backdrop: "static",
+                projects,
             };
 
             ModalHelpers.renderModal(NullProjectMigrateResourceModal, props, function(project_resource_list) {
