@@ -80,6 +80,7 @@ export default React.createClass({
             providerSize: null,
             identityProvider: null,
             attachedScripts: [],
+            provisionOption: "full-provision",
             allocationSource: null,
             waitingOnLaunch: false,
         };
@@ -241,6 +242,10 @@ export default React.createClass({
     //=========================
     // Event Handlers
     //=========================
+
+    onProvisionOptionChange: function(e, value) {
+        this.setState({provisionOption: value});
+    },
 
     onSelectImage: function(image) {
         let instanceName = image.get("name");
@@ -792,6 +797,7 @@ export default React.createClass({
                     onAllocationSourceChange: this.onAllocationSourceChange,
                     onIdentityChange: this.onIdentityChange,
                     onProviderChange: this.onProviderChange,
+                    onProvisionOptionChange: this.onProvisionOptionChange,
                     onRequestResources: this.onRequestResources,
                     onSizeChange: this.onSizeChange,
                     onSubmitLaunch: this.onSubmitLaunch,
@@ -802,6 +808,7 @@ export default React.createClass({
                     providerList,
                     providerSize,
                     providerSizeList,
+                    provisionOption: this.state.provisionOption,
                     resourcesUsed,
                     viewAdvanced: this.viewAdvanced,
                     hasAdvancedOptions: this.hasAdvancedOptions(),
