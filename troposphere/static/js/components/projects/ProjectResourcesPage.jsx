@@ -4,8 +4,6 @@ import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper"
 import ProjectDetails from "./detail/resources/ProjectDetails";
 import stores from "stores";
 
-
-
 export default React.createClass({
     displayName: "ProjectResouresPage",
 
@@ -14,20 +12,19 @@ export default React.createClass({
     },
 
     render: function() {
-        let project = stores.ProjectStore.get(Number(this.props.params.projectId)),
+        let project = stores.ProjectStore.get(
+                Number(this.props.params.projectId)
+            ),
             helpLinks = stores.HelpLinkStore.getAll();
 
         if (!project && !helpLinks) {
-            return (
-            <div className="loading"></div>
-            );
+            return <div className="loading" />;
         }
 
         return (
-        <ProjectResourcesWrapper project={project}>
-            <ProjectDetails project={project} />
-        </ProjectResourcesWrapper>
+            <ProjectResourcesWrapper project={project}>
+                <ProjectDetails project={project} />
+            </ProjectResourcesWrapper>
         );
     }
-
 });

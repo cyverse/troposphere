@@ -8,7 +8,7 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             icons: {
-                "default": "Identicons",
+                default: "Identicons",
                 retro: "Retro",
                 robot: "Robots",
                 monster: "Monsters",
@@ -23,22 +23,22 @@ export default React.createClass({
     },
 
     render: function() {
-        var icons = _.map(this.props.icons, function(text, type) {
-            var isSelected = (type == this.props.selected);
-            return (
-            <IconOption key={text}
-                type={type}
-                text={text}
-                selected={isSelected}
-                onClick={this.handleClick} />
-            );
-        }.bind(this));
-
-        return (
-        <ul id="icon-set-select">
-            {icons}
-        </ul>
+        var icons = _.map(
+            this.props.icons,
+            function(text, type) {
+                var isSelected = type == this.props.selected;
+                return (
+                    <IconOption
+                        key={text}
+                        type={type}
+                        text={text}
+                        selected={isSelected}
+                        onClick={this.handleClick}
+                    />
+                );
+            }.bind(this)
         );
-    }
 
+        return <ul id="icon-set-select">{icons}</ul>;
+    }
 });

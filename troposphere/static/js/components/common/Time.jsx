@@ -19,7 +19,9 @@ export default React.createClass({
 
     render: function() {
         var title = Moment(this.props.date).format(),
-            dateTime = Moment(this.props.date).utc().format(),
+            dateTime = Moment(this.props.date)
+                .utc()
+                .format(),
             text = "",
             moment = Moment(this.props.date),
             absoluteText = moment.format("MMM D, YYYY"),
@@ -27,17 +29,15 @@ export default React.createClass({
 
         if (this.props.showAbsolute) {
             text += absoluteText;
-            if (this.props.showRelative)
-                text += " (" + relativeText + ")";
+            if (this.props.showRelative) text += " (" + relativeText + ")";
         } else if (this.props.showRelative) {
             text += relativeText;
         }
 
         return (
-        <time title={title} dateTime={dateTime}>
-            {text}
-        </time>
+            <time title={title} dateTime={dateTime}>
+                {text}
+            </time>
         );
     }
-
 });

@@ -1,4 +1,3 @@
-
 export default {
     ADD_PATTERN: "ADD_PATTERN",
     UPDATE_PATTERN: "UPDATE_PATTERN",

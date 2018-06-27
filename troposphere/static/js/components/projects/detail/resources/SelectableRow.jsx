@@ -32,19 +32,24 @@ export default React.createClass({
         }
     },
 
-
     render: function() {
         let resource = this.props.resource,
             diminish = resource && resource.isNew() ? 0.32 : 1,
             rowClassName = this.props.isActive ? "selected" : "";
 
         return (
-        <tr className={"sm-row " + rowClassName} style={{ cursor: "pointer" }} onClick={this.previewResource}>
-            <td className="sm-cell hidden-xs" style={{ opacity: diminish }} onClick={this.toggleCheckbox}>
-                <Checkbox isChecked={this.props.isSelected} />
-            </td>
-            {this.props.children}
-        </tr>
+            <tr
+                className={"sm-row " + rowClassName}
+                style={{cursor: "pointer"}}
+                onClick={this.previewResource}>
+                <td
+                    className="sm-cell hidden-xs"
+                    style={{opacity: diminish}}
+                    onClick={this.toggleCheckbox}>
+                    <Checkbox isChecked={this.props.isSelected} />
+                </td>
+                {this.props.children}
+            </tr>
         );
     }
 });

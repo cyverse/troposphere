@@ -9,8 +9,7 @@ export default Backbone.Collection.extend({
 
     comparator: function(model) {
         var username = model.get("username");
-        if (username)
-            return model.get("username").toLowerCase();
+        if (username) return model.get("username").toLowerCase();
         return username;
     },
 
@@ -23,5 +22,4 @@ export default Backbone.Collection.extend({
 
         return response.results;
     }
-
 });

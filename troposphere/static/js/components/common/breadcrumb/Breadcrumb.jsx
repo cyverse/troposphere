@@ -1,13 +1,12 @@
 import React from "react";
 
 export default React.createClass({
-
     displayName: "Breadcrumb",
 
     propTypes: {
         breadcrumb: React.PropTypes.object.isRequired,
         onClick: React.PropTypes.func.isRequired,
-        breadcrumbText: React.PropTypes.number.isRequired,
+        breadcrumbText: React.PropTypes.number.isRequired
     },
 
     mouseOver: function() {
@@ -22,13 +21,14 @@ export default React.createClass({
         var class_names = this.props.breadcrumb.state;
 
         return (
-        <div onMouseOver={this.mouseOver}
-            onMouseOut={this.mouseOut}
-            className={class_names}
-            onClick={this.crumbClicked}>
-            <span className="hidden-xs">Step</span>
-            {this.props.breadcrumbText}
-        </div>
+            <div
+                onMouseOver={this.mouseOver}
+                onMouseOut={this.mouseOut}
+                className={class_names}
+                onClick={this.crumbClicked}>
+                <span className="hidden-xs">Step</span>
+                {this.props.breadcrumbText}
+            </div>
         );
     },
     crumbClicked: function() {

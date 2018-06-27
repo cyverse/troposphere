@@ -67,19 +67,24 @@ export default React.createClass({
 
         // Use selected instance or default to the first one (when available)
         if (next.instances) {
-          var volume = this.props.volume,
-              firstInstanceId = null;
+            var volume = this.props.volume,
+                firstInstanceId = null;
 
-          // Filter out instances not in the same provider as the volume
-          next.instances = next.instances.cfilter(function (i) {
-            if( i.get('status') != 'active' ) {
-                return false;
-            }
-            return i.get('identity').provider === volume.get('identity').provider;
-          });
-          // if the collection has a first, use that instance's id
-          firstInstanceId = next.instances.first() ? next.instances.first().id : null;
-          next.instanceId = this.state.instanceId || firstInstanceId;
+            // Filter out instances not in the same provider as the volume
+            next.instances = next.instances.cfilter(function(i) {
+                if (i.get("status") != "active") {
+                    return false;
+                }
+                return (
+                    i.get("identity").provider ===
+                    volume.get("identity").provider
+                );
+            });
+            // if the collection has a first, use that instance's id
+            firstInstanceId = next.instances.first()
+                ? next.instances.first().id
+                : null;
+            next.instanceId = this.state.instanceId || firstInstanceId;
         }
 
         return next;
@@ -139,89 +144,98 @@ export default React.createClass({
 
     renderLoadingContent: function() {
         return (
-        <div className="modal-content">
-            <div className="modal-header">
-                {this.renderCloseButton()}
-                <strong>Attach Volume</strong>
+            <div className="modal-content">
+                <div className="modal-header">
+                    {this.renderCloseButton()}
+                    <strong>Attach Volume</strong>
+                </div>
+                <div className="modal-body">
+                    <div className="loading" />
+                </div>
+                <div className="modal-footer" />
             </div>
-            <div className="modal-body">
-                <div className="loading"></div>
-            </div>
-            <div className="modal-footer">
-            </div>
-        </div>
-        )
+        );
     },
 
     renderAttachRulesContent: function() {
         return (
-        <div className="modal-content">
-            <div className="modal-header">
-                <h1 className="t-title">Volume Attach Rules</h1>
-            </div>
-            <div className="modal-body">
-                <div role="form">
-                    <div className="form-group">
-                        <p>
-                            <strong>Uh oh!</strong> It looks like you don't have any instances in this project that you can attach the volume to. Volumes can only be attached
-                            to instances that are <strong>active</strong>, in the <strong>same project</strong> and on the <strong>same provider</strong> as the volume.
-                        </p>
-                        <p>
-                            {"If you'd like to attach this volume to an instance, you'll first need to "}
-                            <a href={this.props.helpLink.get("href")}>create an instance</a>
-                            {" on the same provider or move an existing instance into this project."}
-                        </p>
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h1 className="t-title">Volume Attach Rules</h1>
+                </div>
+                <div className="modal-body">
+                    <div role="form">
+                        <div className="form-group">
+                            <p>
+                                <strong>Uh oh!</strong> It looks like you don't
+                                have any instances in this project that you can
+                                attach the volume to. Volumes can only be
+                                attached to instances that are{" "}
+                                <strong>active</strong>, in the{" "}
+                                <strong>same project</strong> and on the{" "}
+                                <strong>same provider</strong> as the volume.
+                            </p>
+                            <p>
+                                {
+                                    "If you'd like to attach this volume to an instance, you'll first need to "
+                                }
+                                <a href={this.props.helpLink.get("href")}>
+                                    create an instance
+                                </a>
+                                {
+                                    " on the same provider or move an existing instance into this project."
+                                }
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <div className="modal-footer">
+                    <RaisedButton primary onTouchTap={this.cancel} label="OK" />
+                </div>
             </div>
-            <div className="modal-footer">
-                <RaisedButton
-                    primary
-                    onTouchTap={this.cancel}
-                    label="OK"
-                />
-            </div>
-        </div>
-        )
+        );
     },
 
     renderAttachVolumeContent: function(instances) {
         var instanceId = this.state.instanceId;
 
         return (
-        <div className="modal-content">
-            <div className="modal-header">
-                {this.renderCloseButton()}
-                <strong>Attach Volume</strong>
-            </div>
-            <div className="modal-body">
-                <div role="form">
-                    <p>
-                        Select the instance from the list below that you would like to attach the volume to:
-                    </p>
-                    <div className="form-group">
-                        <label htmlFor="instance">
-                            Instance
-                        </label>
-                        <InstanceSelect instanceId={instanceId} instances={instances} onChange={this.onInstanceChange} />
+            <div className="modal-content">
+                <div className="modal-header">
+                    {this.renderCloseButton()}
+                    <strong>Attach Volume</strong>
+                </div>
+                <div className="modal-body">
+                    <div role="form">
+                        <p>
+                            Select the instance from the list below that you
+                            would like to attach the volume to:
+                        </p>
+                        <div className="form-group">
+                            <label htmlFor="instance">Instance</label>
+                            <InstanceSelect
+                                instanceId={instanceId}
+                                instances={instances}
+                                onChange={this.onInstanceChange}
+                            />
+                        </div>
                     </div>
                 </div>
+                <div className="modal-footer">
+                    <RaisedButton
+                        style={{marginRight: "10px"}}
+                        onTouchTap={this.cancel}
+                        label="Cancel"
+                    />
+                    <RaisedButton
+                        primary
+                        onTouchTap={this.confirm}
+                        disabled={!this.isSubmittable()}
+                        label="Attach volume to instance"
+                    />
+                </div>
             </div>
-            <div className="modal-footer">
-                <RaisedButton
-                    style={{ marginRight: "10px" }}
-                    onTouchTap={this.cancel}
-                    label="Cancel"
-                />
-                <RaisedButton
-                    primary
-                    onTouchTap={this.confirm}
-                    disabled={!this.isSubmittable()}
-                    label="Attach volume to instance"
-                />
-            </div>
-        </div>
-        )
+        );
     },
 
     render: function() {
@@ -239,11 +253,9 @@ export default React.createClass({
         }
 
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                {content}
+            <div className="modal fade">
+                <div className="modal-dialog">{content}</div>
             </div>
-        </div>
         );
     }
 });

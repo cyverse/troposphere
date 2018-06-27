@@ -1,4 +1,3 @@
-
 export default {
     INSTANCE_UPDATE: "INSTANCE_UPDATE",
     INSTANCE_START: "INSTANCE_START",

@@ -3,7 +3,6 @@ import Backbone from "backbone";
 import Button from "./Button";
 import modals from "modals";
 
-
 export default React.createClass({
     displayName: "ExternalLinkActionButtons",
 
@@ -25,23 +24,25 @@ export default React.createClass({
         var linksArray = [];
 
         linksArray.push(
-            <Button key="Delete"
+            <Button
+                key="Delete"
                 icon="remove"
                 tooltip="Delete"
                 onClick={this.onDelete}
-                isVisible={true} />
+                isVisible={true}
+            />
         );
 
         return (
-        <div style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            flex: "1 1 10%",
-            flexWrap: "nowrap"
-        }}>
-            {linksArray}
-        </div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    flex: "1 1 10%",
+                    flexWrap: "nowrap"
+                }}>
+                {linksArray}
+            </div>
         );
     }
-
 });

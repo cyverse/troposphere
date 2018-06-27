@@ -8,8 +8,7 @@ export default Backbone.Collection.extend({
     model: InstanceAction,
 
     initialize: function(models, options) {
-        if (options.alias)
-            this.alias = options.alias;
+        if (options.alias) this.alias = options.alias;
     },
 
     url: function() {

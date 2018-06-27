@@ -2,7 +2,7 @@ import Backbone from "backbone";
 
 import Project from "models/Project";
 import globals from "globals";
-import { api } from "mock/projects";
+import {api} from "mock/projects";
 import mockSync from "utilities/mockSync";
 
 export default Backbone.Collection.extend({
@@ -30,7 +30,5 @@ export default Backbone.Collection.extend({
         return nameA < nameB ? -1 : 1;
     },
 
-    sync: globals.USE_MOCK_DATA
-        ? mockSync(api)
-        : Backbone.sync
+    sync: globals.USE_MOCK_DATA ? mockSync(api) : Backbone.sync
 });

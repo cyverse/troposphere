@@ -24,25 +24,29 @@ let ProjectInstanceStore = BaseStore.extend({
         if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
             _isFetchingFor[projectId] = true;
             var models = new ProjectInstanceCollection();
-            models.fetch({
-                url: models.url + "?project__id=" + projectId
-            }).done(function() {
-                _isFetchingFor[projectId] = false;
+            models
+                .fetch({
+                    url: models.url + "?project__id=" + projectId
+                })
+                .done(
+                    function() {
+                        _isFetchingFor[projectId] = false;
 
-                // add models to existing cache
-                this.models.add(models.models);
+                        // add models to existing cache
+                        this.models.add(models.models);
 
-                // convert ProjectInstance collection to an InstanceCollection
-                var instances = models.map(function(pi) {
-                    return new Instance(pi.get("instance"), {
-                        parse: true
-                    });
-                });
-                instances = new InstanceCollection(instances);
+                        // convert ProjectInstance collection to an InstanceCollection
+                        var instances = models.map(function(pi) {
+                            return new Instance(pi.get("instance"), {
+                                parse: true
+                            });
+                        });
+                        instances = new InstanceCollection(instances);
 
-                _modelsFor[projectId] = instances;
-                this.emitChange();
-            }.bind(this));
+                        _modelsFor[projectId] = instances;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
@@ -60,8 +64,7 @@ let ProjectInstanceStore = BaseStore.extend({
         // FIXME: Verify that project ID/UUID are matching here.
         var instances = allInstances.filter(function(i) {
             let compare_project = i.get("project");
-            return (compare_project &&
-                compare_project.id == project.id);
+            return compare_project && compare_project.id == project.id;
         });
 
         return new InstanceCollection(instances);
@@ -78,9 +81,7 @@ let ProjectInstanceStore = BaseStore.extend({
 
         return new InstanceCollection(instances);
     }
-
 });
-
 
 let store = new ProjectInstanceStore();
 
@@ -90,7 +91,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case Constants.ADD_PROJECT_INSTANCE:
             store.add(payload.projectInstance);
             break;

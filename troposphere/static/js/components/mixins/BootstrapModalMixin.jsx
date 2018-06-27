@@ -5,7 +5,7 @@ import $ from "jquery";
 //
 // Copied from http://bl.ocks.org/insin/raw/8449696/
 //
-let BootstrapModalMixin = function() {
+let BootstrapModalMixin = (function() {
     var handlerProps = [
         "handleShow",
         "handleShown",
@@ -39,7 +39,7 @@ let BootstrapModalMixin = function() {
                 keyboard: true,
                 show: true,
                 remote: ""
-            }
+            };
         },
 
         componentDidMount: function() {
@@ -50,49 +50,52 @@ let BootstrapModalMixin = function() {
                 remote: this.props.remote
             });
 
-            handlerProps.forEach(function(prop) {
-                if (this[prop]) {
-                    $modal.on(bsModalEvents[prop], this[prop])
-                }
-                if (this.props[prop]) {
-                    $modal.on(bsModalEvents[prop], this.props[prop])
-                }
-            }.bind(this))
+            handlerProps.forEach(
+                function(prop) {
+                    if (this[prop]) {
+                        $modal.on(bsModalEvents[prop], this[prop]);
+                    }
+                    if (this.props[prop]) {
+                        $modal.on(bsModalEvents[prop], this.props[prop]);
+                    }
+                }.bind(this)
+            );
         },
 
         componentWillUnmount: function() {
             var $modal = $(ReactDOM.findDOMNode(this));
-            handlerProps.forEach(function(prop) {
-                if (this[prop]) {
-                    $modal.off(bsModalEvents[prop], this[prop])
-                }
-                if (this.props[prop]) {
-                    $modal.off(bsModalEvents[prop], this.props[prop])
-                }
-            }.bind(this))
+            handlerProps.forEach(
+                function(prop) {
+                    if (this[prop]) {
+                        $modal.off(bsModalEvents[prop], this[prop]);
+                    }
+                    if (this.props[prop]) {
+                        $modal.off(bsModalEvents[prop], this.props[prop]);
+                    }
+                }.bind(this)
+            );
         },
 
         hide: function() {
-            $(ReactDOM.findDOMNode(this)).modal("hide")
+            $(ReactDOM.findDOMNode(this)).modal("hide");
         },
 
         show: function() {
-            $(ReactDOM.findDOMNode(this)).modal("show")
+            $(ReactDOM.findDOMNode(this)).modal("show");
         },
 
         toggle: function() {
-            $(ReactDOM.findDOMNode(this)).modal("toggle")
+            $(ReactDOM.findDOMNode(this)).modal("toggle");
         },
 
         renderCloseButton: function() {
             return (
-            <button type="button" className="close" onClick={this.hide}>
-                {'\u00d7'}
-            </button>
+                <button type="button" className="close" onClick={this.hide}>
+                    {"\u00d7"}
+                </button>
             );
         }
-
-    }
-}();
+    };
+})();
 
 export default BootstrapModalMixin;

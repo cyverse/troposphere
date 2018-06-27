@@ -10,9 +10,9 @@ export default React.createClass({
 
     render: function() {
         return (
-        <option value={this.props.instance.id}>
-            {this.props.instance.get("name")}
-        </option>
+            <option value={this.props.instance.id}>
+                {this.props.instance.get("name")}
+            </option>
         );
     }
 });

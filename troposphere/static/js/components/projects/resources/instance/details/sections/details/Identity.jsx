@@ -8,7 +8,6 @@ import context from "context";
 
 import featureFlags from "utilities/featureFlags";
 
-
 const Identity = React.createClass({
     displayName: "Identity",
 
@@ -17,35 +16,39 @@ const Identity = React.createClass({
     },
 
     render_share_icon: function(identity) {
-        let current_user = context.profile.get('username');
-        let identity_owner = identity.get('user').username;
-        if(identity_owner == current_user) {
+        let current_user = context.profile.get("username");
+        let identity_owner = identity.get("user").username;
+        if (identity_owner == current_user) {
             return; //Owned by user
         }
         //Shared with user
         return (
             <ShareIcon
                 owner={identity_owner}
-                isLeader={identity.get('is_leader')}
-            />);
+                isLeader={identity.get("is_leader")}
+            />
+        );
     },
 
     render: function() {
-        let { IdentityStore, ProviderStore } = this.props.subscriptions;
+        let {IdentityStore, ProviderStore} = this.props.subscriptions;
         var instance = this.props.instance,
             identity = IdentityStore.get(instance.get("identity").id),
             provider = ProviderStore.get(instance.get("provider").id),
-            resourceLabel = featureFlags.hasProjectSharing() ? "Identity" : "Provider";
+            resourceLabel = featureFlags.hasProjectSharing()
+                ? "Identity"
+                : "Provider";
 
-        if (!provider || !identity) return <div className="loading-tiny-inline"></div>;
+        if (!provider || !identity)
+            return <div className="loading-tiny-inline" />;
 
         let identity_text = identity.getName();
 
         return (
-        <ResourceDetail label={resourceLabel}>
-            {this.render_share_icon(identity)}
-            {identity_text}
-        </ResourceDetail>
+            <ResourceDetail label={resourceLabel}>
+                {this.render_share_icon(identity)}
+                {identity_text}
+            </ResourceDetail>
         );
     }
 });

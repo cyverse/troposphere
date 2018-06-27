@@ -4,7 +4,6 @@ import SelectableRow from "../SelectableRow";
 import Name from "../tableData/link/Name";
 import Link from "../tableData/link/Link";
 
-
 export default React.createClass({
     displayName: "ExternalLinkRow",
 
@@ -21,19 +20,20 @@ export default React.createClass({
         var external_link = this.props.external_link;
 
         return (
-        <SelectableRow isActive={this.props.isPreviewed}
-            isSelected={this.props.isChecked}
-            onResourceSelected={this.props.onResourceSelected}
-            onResourceDeselected={this.props.onResourceDeselected}
-            onPreviewResource={this.props.onPreviewResource}
-            resource={external_link}>
-            <td className="image-preview sm-cell" data-label="Name">
-                <Name external_link={external_link} />
-            </td>
-            <td className="image-preview sm-cell" data-label="Link">
-                <Link external_link={external_link} />
-            </td>
-        </SelectableRow>
+            <SelectableRow
+                isActive={this.props.isPreviewed}
+                isSelected={this.props.isChecked}
+                onResourceSelected={this.props.onResourceSelected}
+                onResourceDeselected={this.props.onResourceDeselected}
+                onPreviewResource={this.props.onPreviewResource}
+                resource={external_link}>
+                <td className="image-preview sm-cell" data-label="Name">
+                    <Name external_link={external_link} />
+                </td>
+                <td className="image-preview sm-cell" data-label="Link">
+                    <Link external_link={external_link} />
+                </td>
+            </SelectableRow>
         );
     }
 });

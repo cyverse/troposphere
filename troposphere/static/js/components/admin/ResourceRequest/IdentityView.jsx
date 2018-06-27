@@ -4,7 +4,6 @@ import QuotaView from "components/admin/ResourceRequest/QuotaView";
 import cancellable from "utilities/cancellable";
 
 export default React.createClass({
-
     propTypes: {
         identity: React.PropTypes.object.isRequired,
         onSave: React.PropTypes.func.isRequired
@@ -14,31 +13,28 @@ export default React.createClass({
         return {
             identity: this.props.identity.clone(),
             isPending: false,
-            cancellables: [],
-        }
+            cancellables: []
+        };
     },
 
     onSave() {
-        let { identity, cancellables } = this.state;
+        let {identity, cancellables} = this.state;
 
         // Create cancellable versions of callbacks to prevent calling
         // setState on unmount
-        let onSuccess = cancellable(
-            ident => {
-                identity.set(ident);
-                this.setState({ identity, isPending: false });
-            }
-        )
-        let onErr = cancellable(() => this.setState({ isPending: false }))
+        let onSuccess = cancellable(ident => {
+            identity.set(ident);
+            this.setState({identity, isPending: false});
+        });
+        let onErr = cancellable(() => this.setState({isPending: false}));
         cancellables.push(onSuccess);
         cancellables.push(onErr);
 
-        this.setState({ isPending: true });
+        this.setState({isPending: true});
 
         // Clone our identity, so that call to props.onSave doesn't affect our
         // state
-        this.props.onSave(identity.clone())
-            .then(onSuccess, onErr);
+        this.props.onSave(identity.clone()).then(onSuccess, onErr);
     },
 
     componentWillUnmount() {
@@ -46,35 +42,52 @@ export default React.createClass({
     },
 
     onQuotaChange(quota) {
-        let { identity } = this.state;
+        let {identity} = this.state;
 
         identity.set("quota", quota);
-        this.setState({ identity });
+        this.setState({identity});
     },
 
     render() {
-        let { identity: cloudIdentity } = this.props;
-        let { identity, isPending } = this.state;
-        let { onQuotaChange } = this;
+        let {identity: cloudIdentity} = this.props;
+        let {identity, isPending} = this.state;
+        let {onQuotaChange} = this;
         let localQuota = identity.get("quota");
         let cloudQuota = cloudIdentity.get("quota");
 
         let quotaChanged =
             // Check if the the cloud identity and local identity for different quota
-            Object.keys(cloudQuota).some(attr => cloudQuota[attr] !== localQuota[attr]);
+            Object.keys(cloudQuota).some(
+                attr => cloudQuota[attr] !== localQuota[attr]
+            );
 
         let statusElement = null;
         if (isPending) {
-            statusElement = <span style={{ float: "right", margin: 0 }} className="loading-small"></span>;
+            statusElement = (
+                <span
+                    style={{float: "right", margin: 0}}
+                    className="loading-small"
+                />
+            );
         } else if (quotaChanged) {
-            statusElement = <span> <a style={{ float: "right" }} onClick={ this.onSave }>save</a></span>;
+            statusElement = (
+                <span>
+                    {" "}
+                    <a style={{float: "right"}} onClick={this.onSave}>
+                        save
+                    </a>
+                </span>
+            );
         }
 
         return (
-        <div style={{ marginBottom: "10px" }}>
-            <p>{ identity.get("provider").name }{ statusElement }</p>
-            <QuotaView {...{ quota: localQuota, onQuotaChange }} />
-        </div>
+            <div style={{marginBottom: "10px"}}>
+                <p>
+                    {identity.get("provider").name}
+                    {statusElement}
+                </p>
+                <QuotaView {...{quota: localQuota, onQuotaChange}} />
+            </div>
         );
     }
 });

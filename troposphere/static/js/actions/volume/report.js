@@ -3,12 +3,9 @@ import $ from "jquery";
 import Utils from "../Utils";
 
 export default {
-
     report: function(params) {
-        if (!params.reportInfo)
-            throw new Error("Missing reportInfo");
-        if (!params.volume)
-            throw new Error("Missing volume");
+        if (!params.reportInfo) throw new Error("Missing reportInfo");
+        if (!params.volume) throw new Error("Missing volume");
 
         let volume = params.volume,
             reportInfo = params.reportInfo;
@@ -28,7 +25,8 @@ export default {
             contentType: "application/json",
             success: function() {
                 Utils.displayInfo({
-                    message: "We're sorry to hear you're having trouble with your volume. Your report has " +
+                    message:
+                        "We're sorry to hear you're having trouble with your volume. Your report has " +
                         "been sent to support and someone will contact you through email to help resolve your issue."
                 });
             },
@@ -40,5 +38,4 @@ export default {
             }
         });
     }
-
 };

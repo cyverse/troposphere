@@ -4,7 +4,6 @@ import TimeframeBreadcrumb from "./TimeframeBreadcrumb";
 import RefreshComponent from "./RefreshComponent";
 import moment from "moment";
 
-
 export default React.createClass({
     displayName: "InstanceMetrics",
 
@@ -29,7 +28,7 @@ export default React.createClass({
             canRefresh: false,
 
             // Set refresh interval to 1 minute
-            refreshDelay: 60 * 1000,
+            refreshDelay: 60 * 1000
         };
     },
     onSuccess: function() {
@@ -42,7 +41,7 @@ export default React.createClass({
         // Called after successfully fetching data
         this.setState({
             available: true,
-            timestamp: timestamp,
+            timestamp: timestamp
         });
     },
 
@@ -54,7 +53,9 @@ export default React.createClass({
         });
     },
     componentDidMount: function() {
-        var prov = this.props.instance.get("provider").id || this.props.instance.get("provider");
+        var prov =
+            this.props.instance.get("provider").id ||
+            this.props.instance.get("provider");
 
         // Metrics are only available for 4 and 5
         if (!(prov == 4 || prov == 5)) {
@@ -62,12 +63,15 @@ export default React.createClass({
         }
 
         // Kickstart graphs since d3 needs a finished dom
-        this.setState({
-            controller: new GraphController({
-                container: document.querySelector("#graphs"),
-                width: this.state.graphWidth,
-            }),
-        }, this.refresh);
+        this.setState(
+            {
+                controller: new GraphController({
+                    container: document.querySelector("#graphs"),
+                    width: this.state.graphWidth
+                })
+            },
+            this.refresh
+        );
     },
 
     refresh: function() {
@@ -100,23 +104,30 @@ export default React.createClass({
         }
 
         // Disable refresh button
-        me.setState({
-            canRefresh: false,
-        }, function() {
-            this.state.controller.switch({
-                uuid: this.state.uuid,
-                from: start,
-                until: until,
-                timeframe: this.state.timeframe,
-                refresh: true,
-            }, this.onSuccess, this.onError);
-        });
+        me.setState(
+            {
+                canRefresh: false
+            },
+            function() {
+                this.state.controller.switch(
+                    {
+                        uuid: this.state.uuid,
+                        from: start,
+                        until: until,
+                        timeframe: this.state.timeframe,
+                        refresh: true
+                    },
+                    this.onSuccess,
+                    this.onError
+                );
+            }
+        );
     },
 
     onTimeFrameClick: function(e) {
         var start = null,
             until = null;
-            /*
+        /*
             If the instance is no longer active, get the last two weeks of activity before it
             was end dated
             */
@@ -142,16 +153,23 @@ export default React.createClass({
             until = moment(this.state.until).format("hh:mmYYYYMMDD");
         }
 
-        this.setState({
-            timeframe: e.target.innerHTML
-        }, function() {
-            this.state.controller.switch({
-                uuid: this.state.uuid,
-                from: start,
-                until: until,
-                timeframe: this.state.timeframe
-            }, this.onSuccess, this.onError);
-        });
+        this.setState(
+            {
+                timeframe: e.target.innerHTML
+            },
+            function() {
+                this.state.controller.switch(
+                    {
+                        uuid: this.state.uuid,
+                        from: start,
+                        until: until,
+                        timeframe: this.state.timeframe
+                    },
+                    this.onSuccess,
+                    this.onError
+                );
+            }
+        );
     },
 
     onRefreshClick: function() {
@@ -164,36 +182,49 @@ export default React.createClass({
         var refresh;
         if (!this.props.inactive) {
             refresh = (
-                <RefreshComponent delay={this.state.refreshDelay} timestamp={this.state.timestamp} onRefreshClick={this.refresh} />
+                <RefreshComponent
+                    delay={this.state.refreshDelay}
+                    timestamp={this.state.timestamp}
+                    onRefreshClick={this.refresh}
+                />
             );
         }
 
-        var prov = this.props.instance.get("provider").id || this.props.instance.get("provider");
+        var prov =
+            this.props.instance.get("provider").id ||
+            this.props.instance.get("provider");
         if (!(prov == 4 || prov == 5)) {
-            return (<div id="not-available">
-                        Instance metrics are not available on this provider
-                    </div>)
+            return (
+                <div id="not-available">
+                    Instance metrics are not available on this provider
+                </div>
+            );
         }
 
         // available is true or still waiting for network request
         if (this.state.available || this.state.available === null) {
             return (
-            <div id="InstanceMetrics">
-                <div id="controls" style={{ display: this.state.available ? "inherit" : "none" }}>
-                    <TimeframeBreadcrumb timeframe={this.state.timeframe} onTimeFrameClick={this.onTimeFrameClick} />
-                    {refresh}
+                <div id="InstanceMetrics">
+                    <div
+                        id="controls"
+                        style={{
+                            display: this.state.available ? "inherit" : "none"
+                        }}>
+                        <TimeframeBreadcrumb
+                            timeframe={this.state.timeframe}
+                            onTimeFrameClick={this.onTimeFrameClick}
+                        />
+                        {refresh}
+                    </div>
+                    <div id="container" className="metrics">
+                        <div className="loading" />
+                        <div id="graphs" />
+                    </div>
                 </div>
-                <div id="container" className="metrics">
-                    <div className="loading"></div>
-                    <div id="graphs"></div>
-                </div>
-            </div>
-            )
+            );
         }
 
         // available is explicitly false, the network request failed
-        return (<div id="not-available">
-                    Instance metrics not available
-                </div>)
+        return <div id="not-available">Instance metrics not available</div>;
     }
 });

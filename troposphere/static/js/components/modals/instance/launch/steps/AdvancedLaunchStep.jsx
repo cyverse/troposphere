@@ -3,7 +3,6 @@ import BootScriptOption from "../components/BootScriptOption";
 import AdvancedOptionsFooter from "../components/AdvancedOptionsFooter";
 
 export default React.createClass({
-
     getInitialState: function() {
         return {
             view: "BOOTSCRIPT_VIEW",
@@ -13,10 +12,10 @@ export default React.createClass({
                 {
                     name: "Deployment Scripts",
                     view: "BOOTSCRIPT_VIEW"
-                },
-            // This is for testing options sidebar,
-            // to add new options add them to this object and follow the pattern starting with renderBody below.
-            /*{
+                }
+                // This is for testing options sidebar,
+                // to add new options add them to this object and follow the pattern starting with renderBody below.
+                /*{
                 name: "Option 2",
                 view: "OPTION2_VIEW"
             },
@@ -24,8 +23,8 @@ export default React.createClass({
                 name: "Option 3",
                 view: "OPTION3_VIEW"
             }*/
-            ],
-        }
+            ]
+        };
     },
 
     changeOption: function(item) {
@@ -34,28 +33,27 @@ export default React.createClass({
         });
     },
 
-
     onDisableFooter: function() {
         this.setState({
-            footerDisabled: true,
-        })
+            footerDisabled: true
+        });
     },
 
     onEnableFooter: function() {
         this.setState({
-            footerDisabled: false,
-        })
+            footerDisabled: false
+        });
     },
 
     renderBody: function() {
         let view = this.state.view;
         switch (view) {
             case "BOOTSCRIPT_VIEW":
-                return this.renderBootScripts()
+                return this.renderBootScripts();
             case "OPTION2_VIEW":
-                return this.renderOption2()
+                return this.renderOption2();
             case "OPTION3_VIEW":
-                return this.renderOption3()
+                return this.renderOption3();
         }
     },
 
@@ -66,30 +64,28 @@ export default React.createClass({
             isActive = "active";
         }
         return (
-        <li key={i} className={`NavStacked-link ${isActive}`}>
-            <a onClick={this.changeOption.bind(this, item)}>
-                {title}
-            </a>
-        </li>
+            <li key={i} className={`NavStacked-link ${isActive}`}>
+                <a onClick={this.changeOption.bind(this, item)}>{title}</a>
+            </li>
         );
     },
 
     renderBootScripts: function() {
         return (
-        <BootScriptOption {...this.props} onDisableFooter={this.onDisableFooter} onEnableFooter={this.onEnableFooter} />
+            <BootScriptOption
+                {...this.props}
+                onDisableFooter={this.onDisableFooter}
+                onEnableFooter={this.onEnableFooter}
+            />
         );
     },
 
     renderOption2: function() {
-        return (
-        "Option2"
-        )
+        return "Option2";
     },
 
     renderOption3: function() {
-        return (
-        "Option3"
-        )
+        return "Option3";
     },
 
     renderOptionList: function() {
@@ -99,31 +95,31 @@ export default React.createClass({
         // allowing the user to toggle the side bar open or closed for more
         // room.
         if (this.state.options.length <= 1) {
-            return
+            return;
         }
         let options = this.state.options.map(this.renderOptions);
         return (
-        <ul className="AdvancedOptions-optionList NavStacked">
-            {options}
-        </ul>
-        )
+            <ul className="AdvancedOptions-optionList NavStacked">{options}</ul>
+        );
     },
 
     render: function() {
         return (
-        <div>
-            <div className="AdvancedOptions">
-                {this.renderOptionList()}
-                <div className="AdvancedOptions-content">
-                    {this.renderBody()}
+            <div>
+                <div className="AdvancedOptions">
+                    {this.renderOptionList()}
+                    <div className="AdvancedOptions-content">
+                        {this.renderBody()}
+                    </div>
                 </div>
+                <AdvancedOptionsFooter
+                    continueToLaunch={this.state.continueToLaunch}
+                    clearOptionsIsDisabled={!this.props.hasAdvancedOptions}
+                    footerDisabled={this.state.footerDisabled}
+                    onSaveAdvanced={this.props.onSaveAdvanced}
+                    onClearAdvanced={this.props.onClearAdvanced}
+                />
             </div>
-            <AdvancedOptionsFooter continueToLaunch={this.state.continueToLaunch}
-                clearOptionsIsDisabled={!this.props.hasAdvancedOptions}
-                footerDisabled={this.state.footerDisabled}
-                onSaveAdvanced={this.props.onSaveAdvanced}
-                onClearAdvanced={this.props.onClearAdvanced} />
-        </div>
-        )
+        );
     }
 });

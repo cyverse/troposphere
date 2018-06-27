@@ -4,32 +4,31 @@ import PercentGraph from "components/common/ui/PercentageGraph";
 import messages from "messages/allocationMessages";
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "AllocationSourcePlot",
 
-    propTypes: {
-    },
+    propTypes: {},
 
     updateState: function() {
         this.forceUpdate();
     },
 
     componentDidMount: function() {
-       stores.AllocationSourceStore.addChangeListener(this.updateState);
+        stores.AllocationSourceStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
-       stores.AllocationSourceStore.removeChangeListener(this.updateState);
+        stores.AllocationSourceStore.removeChangeListener(this.updateState);
     },
 
     seriesData: function(item) {
-        let percentage = item.get("compute_used") / item.get("compute_allowed") * 100;
+        let percentage =
+            item.get("compute_used") / item.get("compute_allowed") * 100;
         return {
             name: item.get("name"),
             data: [percentage],
             limits: {
-                Allocation: item.get("compute_allowed"),
+                Allocation: item.get("compute_allowed")
             },
             appendMessages: {
                 Allocation: messages.unitAbbrev
@@ -39,14 +38,14 @@ export default React.createClass({
                 enabled: true,
                 formatter: function() {
                     if (this.y != 0) {
-                        return (Math.round(this.y * 100) / 100) + "%";
+                        return Math.round(this.y * 100) / 100 + "%";
                     } else {
-                        return '0%';
+                        return "0%";
                     }
                 }
             },
             animation: false
-        }
+        };
     },
 
     //
@@ -58,10 +57,15 @@ export default React.createClass({
         if (!AllocationList) return <div className="loading" />;
 
         return (
-        <div style={{ MarginBottom: "20px" }}>
-            <h2 className="t-title">Allocation Source</h2>
-            <PercentGraph seriesData={stores.AllocationSourceStore.getAll().map(this.seriesData)} categories={["Allocation"]} />
-        </div>
+            <div style={{MarginBottom: "20px"}}>
+                <h2 className="t-title">Allocation Source</h2>
+                <PercentGraph
+                    seriesData={stores.AllocationSourceStore.getAll().map(
+                        this.seriesData
+                    )}
+                    categories={["Allocation"]}
+                />
+            </div>
         );
     }
 });

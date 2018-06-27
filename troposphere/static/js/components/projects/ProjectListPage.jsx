@@ -2,7 +2,6 @@ import React from "react";
 import ProjectListView from "./list/ProjectListView";
 import stores from "stores";
 
-
 function getProjectState() {
     return {
         projects: stores.ProjectStore.getAll()
@@ -38,13 +37,9 @@ export default React.createClass({
     //
     render: function() {
         if (this.state.projects) {
-            return (
-            <ProjectListView projects={this.state.projects} />
-            );
+            return <ProjectListView projects={this.state.projects} />;
         } else {
-            return (
-            <div className="loading"></div>
-            );
+            return <div className="loading" />;
         }
     }
 });

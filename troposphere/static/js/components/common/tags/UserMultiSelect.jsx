@@ -4,7 +4,6 @@ import ChosenDropdownTag from "./ChosenDropdownTag";
 import ChosenSelectedTag from "./ChosenSelectedTag";
 import ChosenMixin from "components/mixins/ChosenMixinExternal";
 
-
 export default React.createClass({
     displayName: "UserMultiSelect",
 
@@ -12,7 +11,8 @@ export default React.createClass({
 
     propTypes: {
         models: React.PropTypes.instanceOf(Backbone.Collection),
-        activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        activeModels: React.PropTypes.instanceOf(Backbone.Collection)
+            .isRequired,
         onQueryChange: React.PropTypes.func.isRequired,
         onModelAdded: React.PropTypes.func.isRequired,
         onModelRemoved: React.PropTypes.func.isRequired
@@ -31,27 +31,31 @@ export default React.createClass({
     },
 
     getAllAddedMatchingQueryPhrase: function(query) {
-        return 'All users matching "' + query + '" have been added'
+        return 'All users matching "' + query + '" have been added';
     },
 
     renderModel: function(tag) {
         return (
-        <ChosenDropdownTag key={tag.id}
-            tag={tag}
-            propertyName={'username'}
-            onTagSelected={this.onModelAdded} />
-        )
+            <ChosenDropdownTag
+                key={tag.id}
+                tag={tag}
+                propertyName={"username"}
+                onTagSelected={this.onModelAdded}
+            />
+        );
     },
 
     renderSelectedModel: function(tag) {
         return (
-        <ChosenSelectedTag key={tag.id}
-            tag={tag}
-            propertyName={'username'}
-            onRemoveTag={this.props.onModelRemoved} />
-        )
+            <ChosenSelectedTag
+                key={tag.id}
+                tag={tag}
+                propertyName={"username"}
+                onRemoveTag={this.props.onModelRemoved}
+            />
+        );
     },
     render: function() {
         return this.renderChosenSearchSelect();
     }
-})
+});

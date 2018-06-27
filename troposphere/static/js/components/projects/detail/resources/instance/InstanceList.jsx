@@ -17,29 +17,29 @@ export default React.createClass({
     getInstanceContent: function() {
         if (this.props.instances.length > 0) {
             return (
-            <InstanceTable instances={this.props.instances}
-                onResourceSelected={this.props.onResourceSelected}
-                onResourceDeselected={this.props.onResourceDeselected}
-                onPreviewResource={this.props.onPreviewResource}
-                previewedResource={this.props.previewedResource}
-                selectedResources={this.props.selectedResources} />
+                <InstanceTable
+                    instances={this.props.instances}
+                    onResourceSelected={this.props.onResourceSelected}
+                    onResourceDeselected={this.props.onResourceDeselected}
+                    onPreviewResource={this.props.onPreviewResource}
+                    previewedResource={this.props.previewedResource}
+                    selectedResources={this.props.selectedResources}
+                />
             );
         } else {
-            return (
-            <NoInstanceNotice/>
-            );
+            return <NoInstanceNotice />;
         }
     },
 
     render: function() {
         return (
-        <div>
-            <div className="header">
-                <i className="glyphicon glyphicon-tasks"></i>
-                <h3 className="title-3">Instances</h3>
+            <div>
+                <div className="header">
+                    <i className="glyphicon glyphicon-tasks" />
+                    <h3 className="title-3">Instances</h3>
+                </div>
+                {this.getInstanceContent()}
             </div>
-            {this.getInstanceContent()}
-        </div>
         );
     }
 });

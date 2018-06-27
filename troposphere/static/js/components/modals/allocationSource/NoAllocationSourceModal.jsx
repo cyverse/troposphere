@@ -14,7 +14,8 @@ const DefaultModalView = React.createClass({
     propTypes: {
         instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        allocationSources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        allocationSources: React.PropTypes.instanceOf(Backbone.Collection)
+            .isRequired,
         onConfirm: React.PropTypes.func.isRequired
     },
 
@@ -27,7 +28,7 @@ const DefaultModalView = React.createClass({
     },
 
     getStateFromProps(props) {
-        let { allocationSources, instances } = this.props;
+        let {allocationSources, instances} = this.props;
 
         // This is a structure for the pairing of (instance, allocationSource)
         // Ex. { instance.id:  { instance, allocationSource }}
@@ -39,12 +40,12 @@ const DefaultModalView = React.createClass({
             instanceAllocations[instance.id] = {
                 allocationSource: defaultAllocation,
                 instance
-            }
-        })
+            };
+        });
 
         return {
             instanceAllocations
-        }
+        };
     },
 
     onConfirm() {
@@ -52,7 +53,7 @@ const DefaultModalView = React.createClass({
         // {
         //     instanceId: { allocationSource, instance }
         // }
-        let { instanceAllocations } = this.state;
+        let {instanceAllocations} = this.state;
 
         // Flatten it to:
         // [ { allocationSource, instance } ]
@@ -62,26 +63,39 @@ const DefaultModalView = React.createClass({
     },
 
     renderInstance(instance) {
-        let { allocationSources } = this.props;
-        let { allocationSource } = this.state.instanceAllocations[instance.id];
+        let {allocationSources} = this.props;
+        let {allocationSource} = this.state.instanceAllocations[instance.id];
 
         return (
-        <li key={instance.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0px 0px 10px 10px" }}>
-            <b style={{ whiteSpace: "nowrap" }}>{instance.get("name")}</b>
-            <span style={{ width: "40%" }}><SelectMenu current={allocationSource}
-                                                 list={allocationSources}
-                                                 onSelect={as => this.pairInstanceWithAllocation(instance, as)}
-                                                 optionName={as => as.get("name")} /></span>
-        </li>
-        )
+            <li
+                key={instance.id}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0px 0px 10px 10px"
+                }}>
+                <b style={{whiteSpace: "nowrap"}}>{instance.get("name")}</b>
+                <span style={{width: "40%"}}>
+                    <SelectMenu
+                        current={allocationSource}
+                        list={allocationSources}
+                        onSelect={as =>
+                            this.pairInstanceWithAllocation(instance, as)
+                        }
+                        optionName={as => as.get("name")}
+                    />
+                </span>
+            </li>
+        );
     },
 
     pairInstanceWithAllocation(instance, allocationSource) {
-        let { instanceAllocations } = this.state;
+        let {instanceAllocations} = this.state;
         instanceAllocations[instance.id] = {
             instance,
             allocationSource
-        }
+        };
         this.setState({
             instanceAllocations
         });
@@ -92,13 +106,11 @@ const DefaultModalView = React.createClass({
         let renderedInstances = orphans.map(this.renderInstance);
 
         return (
-        <div key={name}>
-            <h2 className="t-title">{`Project: ${name}`}</h2>
-            <ul style={{ padding: 0 }}>
-                {renderedInstances}
-            </ul>
-        </div>
-        )
+            <div key={name}>
+                <h2 className="t-title">{`Project: ${name}`}</h2>
+                <ul style={{padding: 0}}>{renderedInstances}</ul>
+            </div>
+        );
     },
 
     renderProjectList(renderedProjects, project) {
@@ -107,8 +119,8 @@ const DefaultModalView = React.createClass({
 
         // Get project instances that are orphans (missing an
         // allocationSource)
-        let projectOrphans = orphans.filter(
-            a => projectInstances.some(b => a.id == b.id)
+        let projectOrphans = orphans.filter(a =>
+            projectInstances.some(b => a.id == b.id)
         );
 
         // If the project has orphan instances, render that project
@@ -123,58 +135,60 @@ const DefaultModalView = React.createClass({
         let orphans = this.props.instances,
             renderedNullProject = [];
 
-        let noProjects = orphans.filter(
-            o => o.get("project") == null
-        );
+        let noProjects = orphans.filter(o => o.get("project") == null);
 
         if (noProjects.length > 0) {
             let pseudoProject = new Backbone.Model({
                 name: "<None>"
             });
             renderedNullProject.push(
-                this.renderProject(pseudoProject, noProjects));
+                this.renderProject(pseudoProject, noProjects)
+            );
         }
 
         return renderedNullProject;
     },
 
     renderBody() {
-        let { projects } = this.props;
+        let {projects} = this.props;
 
         // Render each project that needs updated instances
         let renderedProjects = projects.reduce(this.renderProjectList, []);
         let renderedNullProject = this.renderNullProjectInstances();
 
         return (
-        <div role="form">
-            <p>
-                It looks like you have instances without an Allocation Source. When an instance is active it will use up allocation from its Allocation Source.
-            </p>
-            <p>
-                Review that these are okay.
-            </p>
-            <hr className="hr" />
-            {renderedProjects}
-            {renderedNullProject}
-        </div>
+            <div role="form">
+                <p>
+                    It looks like you have instances without an Allocation
+                    Source. When an instance is active it will use up allocation
+                    from its Allocation Source.
+                </p>
+                <p>Review that these are okay.</p>
+                <hr className="hr" />
+                {renderedProjects}
+                {renderedNullProject}
+            </div>
         );
     },
 
     render() {
         return (
-        <div className="modal-content">
-            <div className="modal-header">
-                <h1 className="t-title">Confirm Allocation Sources for Your Instances</h1>
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h1 className="t-title">
+                        Confirm Allocation Sources for Your Instances
+                    </h1>
+                </div>
+                <div className="modal-body">{this.renderBody()}</div>
+                <div className="modal-footer">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={this.onConfirm}>
+                        Confirm Selections
+                    </button>
+                </div>
             </div>
-            <div className="modal-body">
-                {this.renderBody()}
-            </div>
-            <div className="modal-footer">
-                <button type="button" className="btn btn-primary" onClick={this.onConfirm}>
-                    Confirm Selections
-                </button>
-            </div>
-        </div>
         );
     }
 });
@@ -183,7 +197,6 @@ const LoadingModalView = React.createClass({
     displayName: "NoAllocationSourceLoadingModalView",
 
     render() {
-
         let containerStyle = {
             position: "absolute",
             width: "100%",
@@ -195,16 +208,16 @@ const LoadingModalView = React.createClass({
         };
 
         return (
-        <div className="modal-content">
-            <div style={{ position: "relative" }} className="modal-body">
-                <div style={containerStyle}>
-                    <div className="loading"></div>
+            <div className="modal-content">
+                <div style={{position: "relative"}} className="modal-body">
+                    <div style={containerStyle}>
+                        <div className="loading" />
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
-})
+});
 
 const ModalBackend = React.createClass({
     displayName: "NoAllocationSourceModalBackend",
@@ -241,7 +254,6 @@ const ModalBackend = React.createClass({
         if (globals.USE_ALLOCATION_SOURCES) {
             stores.AllocationSourceStore.removeChangeListener(this.updateState);
         }
-
     },
 
     updateState() {
@@ -258,11 +270,13 @@ const ModalBackend = React.createClass({
             projects,
             instances: this.props.instances,
             onConfirm: this.onConfirm
-        }
+        };
 
-        let body = loading
-            ? <LoadingModalView />
-            : <DefaultModalView { ...props } />
+        let body = loading ? (
+            <LoadingModalView />
+        ) : (
+            <DefaultModalView {...props} />
+        );
 
         if (allocationSources && allocationSources.length == 0) {
             // we've entered an edge case, they have a valid
@@ -273,14 +287,12 @@ const ModalBackend = React.createClass({
         }
 
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                {body}
+            <div className="modal fade">
+                <div className="modal-dialog">{body}</div>
             </div>
-        </div>
         );
     }
 });
 
-export { ModalBackend as default };
-export { LoadingModalView, DefaultModalView };
+export {ModalBackend as default};
+export {LoadingModalView, DefaultModalView};

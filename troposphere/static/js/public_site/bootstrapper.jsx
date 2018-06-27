@@ -1,21 +1,21 @@
 import $ from "jquery";
 import React from "react";
 import ReactDOM from "react-dom";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import appTheme from 'theme/appTheme';
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import getMuiTheme from "material-ui/styles/getMuiTheme";
+import appTheme from "theme/appTheme";
 
 // Needed for MUI's onTouchTap
 // http://stackoverflow.com/a/34015469/988941
-import injectTapEvent from 'react-tap-event-plugin';
+import injectTapEvent from "react-tap-event-plugin";
 injectTapEvent();
 
-import { Router } from "react-router";
+import {Router} from "react-router";
 
 import Profile from "models/Profile";
 
 import routes from "./AppRoutes";
-import { appBrowserHistory } from "utilities/historyFunctions";
+import {appBrowserHistory} from "utilities/historyFunctions";
 
 import browserBondo from "utilities/browserBondo";
 import modals from "modals";
@@ -46,7 +46,7 @@ stores.ProfileStore = {
     get: function() {
         return new Profile({
             icon_set: "default"
-        })
+        });
     },
     addChangeListener: function() {},
     removeChangeListener: function() {}
@@ -60,22 +60,17 @@ stores.MaintenanceMessageStore = {
 };
 
 function startApplication() {
-
     $(document).ready(function() {
         $("body").removeClass("splash-screen");
 
         const App = (
             <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
-                <Router history={appBrowserHistory}>
-                    {routes}
-                </Router>
+                <Router history={appBrowserHistory}>{routes}</Router>
             </MuiThemeProvider>
         );
 
         // Start the application router
-        ReactDOM.render(
-            App,
-            document.getElementById("application"));
+        ReactDOM.render(App, document.getElementById("application"));
     });
 }
 
@@ -83,4 +78,4 @@ export default {
     run: function() {
         startApplication();
     }
-}
+};

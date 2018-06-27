@@ -3,7 +3,6 @@ import React from "react";
 import Badge from "./Badge";
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "AllBadges",
 
@@ -20,23 +19,17 @@ export default React.createClass({
         var badges = stores.BadgeStore.getAll();
 
         if (!badges) {
-            return (
-            <div className="loading" />
-            )
+            return <div className="loading" />;
         }
 
         var badgeDisplay = badges.map(function(badge) {
-            return (
-            <Badge badge={badge} />
-            )
+            return <Badge badge={badge} />;
         });
 
         return (
-        <div className="all">
-            <ul id="all-badges-list">
-                {badgeDisplay}
-            </ul>
-        </div>
+            <div className="all">
+                <ul id="all-badges-list">{badgeDisplay}</ul>
+            </div>
         );
     }
 });

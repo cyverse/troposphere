@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
-
+import {Link} from "react-router";
 
 export default React.createClass({
     displayName: "ProjectsBreadcrumb",
@@ -15,21 +14,15 @@ export default React.createClass({
             link;
 
         if (this.props.isCurrentLocation) {
-            return (
-            <span>{breadcrumb.name}</span>
-            );
+            return <span>{breadcrumb.name}</span>;
         }
 
-        link = (
-            <Link to={breadcrumb.linksTo}>
-                {breadcrumb.name}
-            </Link>
-        );
+        link = <Link to={breadcrumb.linksTo}>{breadcrumb.name}</Link>;
 
         return (
-        <span className="breadcrumb">
-            {link} <span>{" > "}</span>
-        </span>
+            <span className="breadcrumb">
+                {link} <span>{" > "}</span>
+            </span>
         );
     }
 });

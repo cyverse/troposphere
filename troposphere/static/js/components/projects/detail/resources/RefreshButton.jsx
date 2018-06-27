@@ -1,10 +1,9 @@
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from "material-ui/RaisedButton";
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import stores from "stores";
 import actions from "actions";
-
 
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -16,7 +15,7 @@ export default React.createClass({
     getInitialState: function() {
         return {
             isRefreshing: false
-        }
+        };
     },
 
     componentDidMount: function() {
@@ -48,11 +47,15 @@ export default React.createClass({
         this.setState({
             isRefreshing: true
         });
-        setTimeout(function() {
-            if (this.isMounted()) this.setState({
-                    isRefreshing: false
-                });
-        }.bind(this), refreshTime * 1000);
+        setTimeout(
+            function() {
+                if (this.isMounted())
+                    this.setState({
+                        isRefreshing: false
+                    });
+            }.bind(this),
+            refreshTime * 1000
+        );
 
         // now actually poll the instances and volumes
         instances.each(function(instance) {
@@ -73,17 +76,14 @@ export default React.createClass({
 
     render: function() {
         var className = "glyphicon glyphicon-refresh";
-        if (this.state.isRefreshing)
-            className += " refreshing";
+        if (this.state.isRefreshing) className += " refreshing";
 
         return (
-        <RaisedButton 
-            onTouchTap={this.handleRefresh}
-            disabled={this.state.isRefreshing}
-        >
-            <i className={className} />
-        </RaisedButton>
+            <RaisedButton
+                onTouchTap={this.handleRefresh}
+                disabled={this.state.isRefreshing}>
+                <i className={className} />
+            </RaisedButton>
         );
     }
-
 });

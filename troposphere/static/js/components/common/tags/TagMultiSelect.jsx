@@ -5,32 +5,32 @@ import ChosenSelectedTag from "./ChosenSelectedTag";
 import CreateTagView from "./CreateTagView";
 import ChosenMixin from "components/mixins/ChosenMixinExternal";
 
-
 export default React.createClass({
     displayName: "TagMultiSelect",
     mixins: [ChosenMixin],
 
     propTypes: {
         tags: React.PropTypes.instanceOf(Backbone.Collection),
-        activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        activeModels: React.PropTypes.instanceOf(Backbone.Collection)
+            .isRequired,
         onQueryChange: React.PropTypes.func.isRequired,
         onModelAdded: React.PropTypes.func.isRequired,
         onModelRemoved: React.PropTypes.func.isRequired,
         //Necessary for modal creation (Where available)
         onCreateNewTag: React.PropTypes.func,
         //Necessary for inline creation (when modals aren't an option)
-        onModelCreated: React.PropTypes.func,
+        onModelCreated: React.PropTypes.func
     },
 
     getInitialState: function() {
         return {
             showCreateForm: false,
-            tagName: "",
-        }
+            tagName: ""
+        };
     },
 
     onEditChange: function() {
-        var truth_value = (this.state.showCreateForm) ? false : true;
+        var truth_value = this.state.showCreateForm ? false : true;
         this.setState({
             showCreateForm: truth_value
         });
@@ -45,9 +45,9 @@ export default React.createClass({
 
     getNoResultsPhrase: function(query) {
         return (
-        <span style={{ whiteSpace: "pre" }}>
-            { `No tags found matching "${query}". Press enter to create a new tag.` }
-        </span>
+            <span style={{whiteSpace: "pre"}}>
+                {`No tags found matching "${query}". Press enter to create a new tag.`}
+            </span>
         );
     },
 
@@ -61,43 +61,57 @@ export default React.createClass({
 
     getAllAddedMatchingQueryPhrase: function(query) {
         return (
-        <span style={{ whiteSpace: "pre" }}>
-            { `All tags matching "${query}" have been added.` }
-        </span>
+            <span style={{whiteSpace: "pre"}}>
+                {`All tags matching "${query}" have been added.`}
+            </span>
         );
     },
 
     renderModel: function(tag) {
         return (
-        <ChosenDropdownTag key={tag.id}
-            tag={tag}
-            propertyName={'name'}
-            onTagSelected={this.onModelAdded} />
-        )
+            <ChosenDropdownTag
+                key={tag.id}
+                tag={tag}
+                propertyName={"name"}
+                onTagSelected={this.onModelAdded}
+            />
+        );
     },
 
     renderSelectedModel: function(tag) {
         return (
-        <ChosenSelectedTag key={tag.id}
-            tag={tag}
-            propertyName={'name'}
-            onRemoveTag={this.props.onModelRemoved} />
-        )
+            <ChosenSelectedTag
+                key={tag.id}
+                tag={tag}
+                propertyName={"name"}
+                onRemoveTag={this.props.onModelRemoved}
+            />
+        );
     },
     render: function() {
         return (
-        <div className="scriptMultiSelectAndCreate">
-            {this.renderChosenSearchSelect()}
-            {this.renderCreateForm()}
-        </div>
+            <div className="scriptMultiSelectAndCreate">
+                {this.renderChosenSearchSelect()}
+                {this.renderCreateForm()}
+            </div>
         );
     },
 
     renderCreateForm: function() {
         if (this.state.showCreateForm == false) {
-            return (<div className="new-script-form new-item-form" style={{ "visibility": "hidden" }} />);
+            return (
+                <div
+                    className="new-script-form new-item-form"
+                    style={{visibility: "hidden"}}
+                />
+            );
         } else {
-            return (<CreateTagView onCreateTag={this.onCreateTag} tagName={this.state.tagName} />);
+            return (
+                <CreateTagView
+                    onCreateTag={this.onCreateTag}
+                    tagName={this.state.tagName}
+                />
+            );
         }
     },
     onEnterKeyPressed: function(value) {
@@ -107,9 +121,10 @@ export default React.createClass({
         //IF options are showing and results are listed, pick the first one on Enter-pressed.
         var filtered_results = this.getFilteredResults(
             this.props.models,
-            this.props.activeModels)
+            this.props.activeModels
+        );
         if (filtered_results && filtered_results.length > 0) {
-            this.onModelAdded(filtered_results[0])
+            this.onModelAdded(filtered_results[0]);
             return;
         } else {
             //IF options are showing and NO results are listed,
@@ -125,6 +140,5 @@ export default React.createClass({
             }
         }
         this.clearSearchField();
-
-    },
-})
+    }
+});

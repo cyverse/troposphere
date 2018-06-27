@@ -1,7 +1,6 @@
 import _ from "underscore";
 import Backbone from "backbone";
 
-
 let CHANGE_EVENT = "change";
 
 let Store = function(attributes, options) {
@@ -42,9 +41,7 @@ let Store = function(attributes, options) {
     this.initialize.apply(this, arguments);
 };
 
-
 _.extend(Store.prototype, Backbone.Events, {
-
     // ---------------
     // Event listeners
     // ---------------
@@ -66,9 +63,14 @@ _.extend(Store.prototype, Backbone.Events, {
         this.trigger(CHANGE_EVENT);
     },
     buildQueryStringFromQueryParams: function(queryParams) {
-        var queryString = Object.keys(queryParams).sort().map(function(key, index) {
-            return key + "=" + queryParams[key];
-        }.bind(this)).join("&");
+        var queryString = Object.keys(queryParams)
+            .sort()
+            .map(
+                function(key, index) {
+                    return key + "=" + queryParams[key];
+                }.bind(this)
+            )
+            .join("&");
         queryString = queryString ? "?" + queryString : queryString;
         return queryString;
     },
@@ -88,7 +90,7 @@ _.extend(Store.prototype, Backbone.Events, {
             this.fetchModels();
         }
         if (!payload) {
-            throw new Error(".add(..) expects a payload. Received " + payload)
+            throw new Error(".add(..) expects a payload. Received " + payload);
         }
         if ("at" in payload) {
             this.models.add(payload.data, {
@@ -97,15 +99,16 @@ _.extend(Store.prototype, Backbone.Events, {
             return;
         }
         // temporarily use cid to get around currently undefined id
-        if (!payload.id)
-            payload.id = payload.cid;
+        if (!payload.id) payload.id = payload.cid;
         this.models.add(payload);
     },
 
     update: function(model) {
-        var existingModel = this.models.get(model) || this.models.get({
-            cid: model.cid
-        });
+        var existingModel =
+            this.models.get(model) ||
+            this.models.get({
+                cid: model.cid
+            });
         if (existingModel) {
             this.models.add(model, {
                 merge: true
@@ -146,19 +149,27 @@ _.extend(Store.prototype, Backbone.Events, {
 
             // Build the query string if queryParameters have been provided
             if (this.queryParams) {
-                queryString = this.buildQueryStringFromQueryParams(this.queryParams);
+                queryString = this.buildQueryStringFromQueryParams(
+                    this.queryParams
+                );
             }
 
-            models.fetch({
-                url: _.result(models, "url") + queryString
-            }).done(function() {
-                this.isFetching = false;
-                this.models = models;
-                if (this.pollingEnabled) {
-                    this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
-                }
-                this.emitChange();
-            }.bind(this));
+            models
+                .fetch({
+                    url: _.result(models, "url") + queryString
+                })
+                .done(
+                    function() {
+                        this.isFetching = false;
+                        this.models = models;
+                        if (this.pollingEnabled) {
+                            this.models.each(
+                                this.pollNowUntilBuildIsFinished.bind(this)
+                            );
+                        }
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
@@ -169,14 +180,16 @@ _.extend(Store.prototype, Backbone.Events, {
             var model = new this.collection.prototype.model({
                 id: modelId
             });
-            model.fetch().done(function() {
-                this.isFetchingModel[modelId] = false;
-                this.fetchedModels[modelId] = model;
-                if (this.models) {
-                    this.models.add(model);
-                }
-                this.emitChange();
-            }.bind(this));
+            model.fetch().done(
+                function() {
+                    this.isFetchingModel[modelId] = false;
+                    this.fetchedModels[modelId] = model;
+                    if (this.models) {
+                        this.models.add(model);
+                    }
+                    this.emitChange();
+                }.bind(this)
+            );
         }
     },
 
@@ -200,7 +213,7 @@ _.extend(Store.prototype, Backbone.Events, {
     // Returns the entire local cache, everything in this.models
     getAll: function() {
         if (!this.models) {
-            this.fetchModels()
+            this.fetchModels();
         } else {
             return this.models;
         }
@@ -213,16 +226,20 @@ _.extend(Store.prototype, Backbone.Events, {
 
             var models = new this.collection();
 
-            models.fetch({
-                url: models.url
-            }).done(function() {
-                this.isFetching = false;
-                this.models = models;
-                this.emitChange();
-                if (cb) {
-                    cb();
-                }
-            }.bind(this));
+            models
+                .fetch({
+                    url: models.url
+                })
+                .done(
+                    function() {
+                        this.isFetching = false;
+                        this.models = models;
+                        this.emitChange();
+                        if (cb) {
+                            cb();
+                        }
+                    }.bind(this)
+                );
         }
         return this.models;
     },
@@ -240,16 +257,20 @@ _.extend(Store.prototype, Backbone.Events, {
             var queryString = this.buildQueryStringFromQueryParams(queryParams);
             var models = new this.collection();
 
-            models.fetch({
-                url: models.url + queryString
-            }).done(function() {
-                this.isFetching = false;
-                this.models = models;
-                this.emitChange();
-                if (cb) {
-                    cb();
-                }
-            }.bind(this));
+            models
+                .fetch({
+                    url: models.url + queryString
+                })
+                .done(
+                    function() {
+                        this.isFetching = false;
+                        this.models = models;
+                        this.emitChange();
+                        if (cb) {
+                            cb();
+                        }
+                    }.bind(this)
+                );
         }
     },
 
@@ -284,10 +305,9 @@ _.extend(Store.prototype, Backbone.Events, {
 
                 var tokens = key.split(".");
                 if (tokens.length === 1) {
-                    if (model.get(key) !== params[key])
-                        matchesCriteria = false;
+                    if (model.get(key) !== params[key]) matchesCriteria = false;
                 } else {
-                    var lookup = model.get(tokens[0])
+                    var lookup = model.get(tokens[0]);
                     if (lookup[tokens[1]] !== params[key])
                         matchesCriteria = false;
                 }
@@ -315,10 +335,9 @@ _.extend(Store.prototype, Backbone.Events, {
 
                 var tokens = key.split(".");
                 if (tokens.length === 1) {
-                    if (model.get(key) !== params[key])
-                        matchesCriteria = false;
+                    if (model.get(key) !== params[key]) matchesCriteria = false;
                 } else {
-                    var lookup = model.get(tokens[0])
+                    var lookup = model.get(tokens[0]);
                     if (lookup[tokens[1]] !== params[key])
                         matchesCriteria = false;
                 }
@@ -337,16 +356,20 @@ _.extend(Store.prototype, Backbone.Events, {
         if (nextUrl && !this.isFetchingMore) {
             this.isFetchingMore = true;
             var moreModels = new this.collection();
-            moreModels.fetch({
-                url: nextUrl
-            }).done(function() {
-                this.isFetchingMore = false;
-                this.models.add(moreModels.models, {
-                    merge: true
-                });
-                this.models.meta = moreModels.meta;
-                this.emitChange();
-            }.bind(this));
+            moreModels
+                .fetch({
+                    url: nextUrl
+                })
+                .done(
+                    function() {
+                        this.isFetchingMore = false;
+                        this.models.add(moreModels.models, {
+                            merge: true
+                        });
+                        this.models.meta = moreModels.meta;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
@@ -367,13 +390,17 @@ _.extend(Store.prototype, Backbone.Events, {
         if (!this.isFetchingQuery[queryString]) {
             this.isFetchingQuery[queryString] = true;
             var models = new this.collection();
-            models.fetch({
-                url: models.url + queryString
-            }).done(function() {
-                this.isFetchingQuery[queryString] = false;
-                this.queryModels[queryString] = models;
-                this.emitChange();
-            }.bind(this));
+            models
+                .fetch({
+                    url: models.url + queryString
+                })
+                .done(
+                    function() {
+                        this.isFetchingQuery[queryString] = false;
+                        this.queryModels[queryString] = models;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
@@ -399,14 +426,18 @@ _.extend(Store.prototype, Backbone.Events, {
             this.isFetchingQuery[queryString] = true;
             this.isFetching = true;
             var models = new this.collection();
-            models.fetch({
-                url: models.url + queryString
-            }).done(function() {
-                this.isFetching = false;
-                this.isFetchingQuery[queryString] = false;
-                this.queryModels[queryString] = models;
-                this.emitChange();
-            }.bind(this));
+            models
+                .fetch({
+                    url: models.url + queryString
+                })
+                .done(
+                    function() {
+                        this.isFetching = false;
+                        this.isFetchingQuery[queryString] = false;
+                        this.queryModels[queryString] = models;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
@@ -426,14 +457,18 @@ _.extend(Store.prototype, Backbone.Events, {
             this.isFetching = true;
             this.isFetchingQuery[queryString] = true;
 
-            this.queryModels[queryString].fetch({
-                url: nextUrl,
-                remove: false
-            }).done(function() {
-                this.isFetching = false;
-                this.isFetchingQuery[queryString] = false;
-                this.emitChange();
-            }.bind(this));
+            this.queryModels[queryString]
+                .fetch({
+                    url: nextUrl,
+                    remove: false
+                })
+                .done(
+                    function() {
+                        this.isFetching = false;
+                        this.isFetchingQuery[queryString] = false;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
@@ -455,13 +490,21 @@ _.extend(Store.prototype, Backbone.Events, {
             model = new this.collection.prototype.model({
                 id: modelId
             });
-            model.fetch({
-               url: this.collection.prototype.url + "/" + modelId + queryString
-            }).done(function() {
-                this.isFetchingModel[queryKey] = false;
-                this.queryModels[queryKey] = model;
-                this.emitChange();
-            }.bind(this));
+            model
+                .fetch({
+                    url:
+                        this.collection.prototype.url +
+                        "/" +
+                        modelId +
+                        queryString
+                })
+                .done(
+                    function() {
+                        this.isFetchingModel[queryKey] = false;
+                        this.queryModels[queryKey] = model;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
         return null;
     },
@@ -473,7 +516,9 @@ _.extend(Store.prototype, Backbone.Events, {
     // Poll model while whileFunc(model) returns true.
     pollWhile: function(model, whileFunc) {
         if (!model.fetchFromCloud)
-            throw new Error("model missing required method for polling: fetchFromCloud");
+            throw new Error(
+                "model missing required method for polling: fetchFromCloud"
+            );
 
         // If already polling, mutate the callback and exit
         if (this.pollingModels[model.cid]) {
@@ -487,26 +532,29 @@ _.extend(Store.prototype, Backbone.Events, {
         // Wrapper gets called every pollingFrequency, calling the latest
         // whileFunc
         var wrapper = function() {
-            model.fetchFromCloud(function(response) {
+            model.fetchFromCloud(
+                function(response) {
+                    // If no longer polling, exit
+                    if (!this.pollingModels[model.cid]) return;
 
-                // If no longer polling, exit
-                if (!this.pollingModels[model.cid])
-                    return;
+                    // Use latest polling func
+                    var keepPolling = this.pollingModels[model.cid](
+                        model,
+                        response
+                    );
 
-                // Use latest polling func
-                var keepPolling = this.pollingModels[model.cid](model, response);
+                    if (this.has(model)) {
+                        this.update(model);
+                        this.emitChange();
+                    }
 
-                if (this.has(model)) {
-                    this.update(model);
-                    this.emitChange();
-                }
-
-                if (keepPolling) {
-                    setTimeout(wrapper, this.pollingFrequency);
-                } else {
-                    delete this.pollingModels[model.cid];
-                }
-            }.bind(this));
+                    if (keepPolling) {
+                        setTimeout(wrapper, this.pollingFrequency);
+                    } else {
+                        delete this.pollingModels[model.cid];
+                    }
+                }.bind(this)
+            );
         }.bind(this);
 
         // Kickstart polling
@@ -516,7 +564,9 @@ _.extend(Store.prototype, Backbone.Events, {
     // Fetches the models state immediately and then sets up to be polled if not in a final state
     pollNowUntilBuildIsFinished: function(model) {
         if (!this.isInFinalState)
-            throw new Error("store missing required method for polling: isInFinalState");
+            throw new Error(
+                "store missing required method for polling: isInFinalState"
+            );
 
         if (model.id) {
             this.pollWhile(model, _.negate(this.isInFinalState));
@@ -525,10 +575,13 @@ _.extend(Store.prototype, Backbone.Events, {
 
     // Delays before polling, should be removed...
     pollUntilBuildIsFinished: function(model, pollingDelay) {
-        if(!pollingDelay) {
+        if (!pollingDelay) {
             pollingDelay = this.pollingFrequency;
         }
-        setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), pollingDelay);
+        setTimeout(
+            this.pollNowUntilBuildIsFinished.bind(this, model),
+            pollingDelay
+        );
     }
 });
 

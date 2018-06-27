@@ -20,28 +20,28 @@ export default React.createClass({
             content;
 
         if (this.props.volumes.length <= 0) {
-            content = (
-                <NoVolumeNotice/>
-            );
+            content = <NoVolumeNotice />;
         } else {
             content = (
-                <VolumeTable volumes={volumes}
+                <VolumeTable
+                    volumes={volumes}
                     onResourceSelected={this.props.onResourceSelected}
                     onResourceDeselected={this.props.onResourceDeselected}
                     onPreviewResource={this.props.onPreviewResource}
                     previewedResource={this.props.previewedResource}
-                    selectedResources={this.props.selectedResources} />
+                    selectedResources={this.props.selectedResources}
+                />
             );
         }
 
         return (
-        <div>
-            <div className="header">
-                <i className="glyphicon glyphicon-hdd"></i>
-                <h3 className="title-3">Volumes</h3>
+            <div>
+                <div className="header">
+                    <i className="glyphicon glyphicon-hdd" />
+                    <h3 className="title-3">Volumes</h3>
+                </div>
+                {content}
             </div>
-            {content}
-        </div>
         );
     }
 });

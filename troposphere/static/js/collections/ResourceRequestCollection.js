@@ -15,5 +15,4 @@ export default Backbone.Collection.extend({
         };
         return response.results;
     }
-
 });

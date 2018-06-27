@@ -1,4 +1,3 @@
-
 import moment from "moment";
 import ImageCollection from "collections/ImageCollection";
 import ProviderCollection from "collections/ProviderCollection";
@@ -13,11 +12,11 @@ var ImageStore = BaseStore.extend({
     collection: ImageCollection,
 
     update: function(image) {
-        var tags = image.get("tags")
+        var tags = image.get("tags");
         var tagIds = tags.map(function(tag) {
             return tag.id;
         });
-        var accessList = image.get('access_list'),
+        var accessList = image.get("access_list"),
             accessListIds = accessList.map(function(pattern_match) {
                 return pattern_match.id;
             });
@@ -27,11 +26,11 @@ var ImageStore = BaseStore.extend({
             is_public: image.get("is_public"),
             access_list: accessListIds,
             tags: tagIds
-        }
+        };
         if (image.get("end_date")) {
             var end_date;
             if (typeof image.get("end_date") == "object") {
-                end_date = image.get("end_date")
+                end_date = image.get("end_date");
             } else {
                 //NOTE: This may never happen..
                 end_date = moment(image.get("end_date"));
@@ -43,22 +42,29 @@ var ImageStore = BaseStore.extend({
                 end_date = null;
             }
             //Add new date (or non-date) to the update list
-            updateAttrs.end_date = end_date
+            updateAttrs.end_date = end_date;
         }
-        image.save(updateAttrs, {
-            patch: true
-        }).done(function() {
-            image.set({
-                tags: tags
-            });
-            this.emitChange();
-        }.bind(this)).fail(function() {
-            var failureMessage = "Error updating Image " + image.get("name") + ".";
-            NotificationController.error(failureMessage);
-            this.emitChange();
-        }.bind(this));
+        image
+            .save(updateAttrs, {
+                patch: true
+            })
+            .done(
+                function() {
+                    image.set({
+                        tags: tags
+                    });
+                    this.emitChange();
+                }.bind(this)
+            )
+            .fail(
+                function() {
+                    var failureMessage =
+                        "Error updating Image " + image.get("name") + ".";
+                    NotificationController.error(failureMessage);
+                    this.emitChange();
+                }.bind(this)
+            );
     },
-
 
     get: function(imageId) {
         if (!this.models) return this.fetchModels();
@@ -67,9 +73,11 @@ var ImageStore = BaseStore.extend({
         return image;
     },
     getForProject: function(projectId) {
-        var project_images = projectId ? this.fetchWhere({
-            projects__id: projectId
-        }) : null;
+        var project_images = projectId
+            ? this.fetchWhere({
+                  projects__id: projectId
+              })
+            : null;
 
         return project_images;
     },
@@ -153,23 +161,26 @@ var ImageStore = BaseStore.extend({
                 return;
             }
 
-            var _providers = machines.filter(
-                function(machine) {
-                    // filter out providers that don't exist
-                    var providerId = machine.provider.id,
-                        provider = stores.ProviderStore.get(machine.provider.id);
+            var _providers = machines.filter(function(machine) {
+                // filter out providers that don't exist
+                var providerId = machine.provider.id,
+                    provider = stores.ProviderStore.get(machine.provider.id);
 
-                    if (!provider) {
-                        /* eslint-disable no-console */
-                        console.warn("Machine " + machine.id +
-                                     " listed on version " + version.id +
-                                     " showing availability on non-existent provider " +
-                                     providerId);
-                        /* eslint-enable no-console */
-                    }
+                if (!provider) {
+                    /* eslint-disable no-console */
+                    console.warn(
+                        "Machine " +
+                            machine.id +
+                            " listed on version " +
+                            version.id +
+                            " showing availability on non-existent provider " +
+                            providerId
+                    );
+                    /* eslint-enable no-console */
+                }
 
-                    return provider;
-                });
+                return provider;
+            });
 
             if (_providers) {
                 providers = providers.concat(_providers);
@@ -179,7 +190,9 @@ var ImageStore = BaseStore.extend({
         if (partialLoad) {
             return null;
         }
-        providers = new ProviderCollection(providers).filter(function(provider) {
+        providers = new ProviderCollection(providers).filter(function(
+            provider
+        ) {
             // remove duplicate providers
             if (!providerHash[provider.id]) {
                 providerHash[provider.id] = provider;
@@ -201,24 +214,31 @@ var ImageStore = BaseStore.extend({
             var model = new this.collection.prototype.model({
                 id: modelId
             });
-            model.fetch().done(function() {
-                this.isFetchingModel[modelId] = false;
-                this.models.add(model);
-                this.emitChange();
-            }.bind(this)).fail( err => {
-                if (err.status === 404) {
-                    model.status = 404;
-                    this.isFetchingModel[modelId] = false;
-                    this.nullModels[modelId] = model;
-                    this.emitChange();
-                }
-            });
+            model
+                .fetch()
+                .done(
+                    function() {
+                        this.isFetchingModel[modelId] = false;
+                        this.models.add(model);
+                        this.emitChange();
+                    }.bind(this)
+                )
+                .fail(err => {
+                    if (err.status === 404) {
+                        model.status = 404;
+                        this.isFetchingModel[modelId] = false;
+                        this.nullModels[modelId] = model;
+                        this.emitChange();
+                    }
+                });
         }
     },
 
     getMaybe: function(imageId) {
         if (!this.models) return this.fetchModels();
-        var image = BaseStore.prototype.get.apply(this, arguments) || this.nullModels[imageId];
+        var image =
+            BaseStore.prototype.get.apply(this, arguments) ||
+            this.nullModels[imageId];
         if (!image) return this.fetchMaybeModel(imageId);
         return image;
     }
@@ -248,6 +268,5 @@ Dispatcher.register(function(dispatch) {
 
     return true;
 });
-
 
 export default store;

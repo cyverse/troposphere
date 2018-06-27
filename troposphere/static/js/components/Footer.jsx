@@ -1,10 +1,9 @@
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import modals from "modals";
 import context from "context";
 import globals from "globals";
-
 
 export default React.createClass({
     displayName: "Footer",
@@ -33,37 +32,34 @@ export default React.createClass({
             feedbackButton = (
                 <RaisedButton
                     primary
-                    style={{ marginLeft: "20px" }}
+                    style={{marginLeft: "20px"}}
                     onTouchTap={this.onFeedback}
                     label="Feedback & Support"
                 />
             );
         }
 
-        if(!footerHTML) {
+        if (!footerHTML) {
             footerContent = (
-            <div className="container">
-                <a href={this.props.link} target="_blank">
-                    {"\u00a9" + year + " " + this.props.text}
-                </a>
-                {feedbackButton}
-            </div>
+                <div className="container">
+                    <a href={this.props.link} target="_blank">
+                        {"\u00a9" + year + " " + this.props.text}
+                    </a>
+                    {feedbackButton}
+                </div>
             );
         } else {
-            footerContent = (<div className="container">
-                <span className="footer-content"
-                    dangerouslySetInnerHTML={{ __html:footerHTML }}>
-                </span>
-                {feedbackButton}
-            </div>
+            footerContent = (
+                <div className="container">
+                    <span
+                        className="footer-content"
+                        dangerouslySetInnerHTML={{__html: footerHTML}}
+                    />
+                    {feedbackButton}
+                </div>
             );
         }
 
-        return (
-        <footer className="footer">
-            {footerContent}
-        </footer>
-        );
+        return <footer className="footer">{footerContent}</footer>;
     }
-
 });

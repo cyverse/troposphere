@@ -19,5 +19,4 @@ export default Backbone.Collection.extend({
     comparator: function(a, b) {
         return a.id - b.id;
     }
-
 });

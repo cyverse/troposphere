@@ -7,7 +7,6 @@ export default {
         let group = props.group;
         ModalHelpers.renderModal(GroupEditModal, props, function(group_attrs) {
             actions.GroupActions.update(group, group_attrs);
-        })
-
+        });
     }
 };

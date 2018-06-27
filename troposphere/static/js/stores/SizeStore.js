@@ -1,7 +1,6 @@
 import BaseStore from "stores/BaseStore";
 import SizeCollection from "collections/SizeCollection";
 
-
 let SizeStore = BaseStore.extend({
     collection: SizeCollection,
 
@@ -27,7 +26,7 @@ SizeStore.prototype.filterWhereGreaterThanOrEqualTo = function(params) {
     });
 
     return results;
-}
+};
 
 let store = new SizeStore();
 

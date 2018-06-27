@@ -11,14 +11,12 @@ const Identity = React.createClass({
 
     render: function() {
         var project_resource = this.props.project_resource,
-            { IdentityStore } = this.props.subscriptions;
+            {IdentityStore} = this.props.subscriptions;
 
         let identity = IdentityStore.get(project_resource.get("identity").id);
 
-        if (!identity) return <div className="loading-tiny-inline"></div>;
-        return (
-            <span>{identity.getName()}</span>
-        );
+        if (!identity) return <div className="loading-tiny-inline" />;
+        return <span>{identity.getName()}</span>;
     }
 });
 

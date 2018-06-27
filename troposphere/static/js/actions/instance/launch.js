@@ -1,4 +1,4 @@
-import { appBrowserHistory } from "utilities/historyFunctions";
+import {appBrowserHistory} from "utilities/historyFunctions";
 
 import Utils from "../Utils";
 
@@ -16,57 +16,61 @@ import ProjectInstance from "models/ProjectInstance";
 
 import globals from "globals";
 
-
 function launch(params) {
-    if (!params.project)
-        throw new Error("Missing project");
-    if (!params.instanceName)
-        throw new Error("Missing instanceName");
-    if (!params.identity)
-        throw new Error("Missing identity");
-    if (!params.size)
-        throw new Error("Missing size");
+    if (!params.project) throw new Error("Missing project");
+    if (!params.instanceName) throw new Error("Missing instanceName");
+    if (!params.identity) throw new Error("Missing identity");
+    if (!params.size) throw new Error("Missing size");
     if (params.version) {
         let machines = params.version.get("machines"),
             selected_machines = machines.filter(function(machine) {
-                return machine.provider.uuid === params.identity.get("provider").uuid;
+                return (
+                    machine.provider.uuid ===
+                    params.identity.get("provider").uuid
+                );
             });
         if (!selected_machines.length) {
-            throw new Error("Machine could not be filtered-down based on selected version & identity")
+            throw new Error(
+                "Machine could not be filtered-down based on selected version & identity"
+            );
         }
-        params.machine = selected_machines[0]
+        params.machine = selected_machines[0];
     }
-    if (!params.machine)
-        throw new Error("Missing machine");
+    if (!params.machine) throw new Error("Missing machine");
 
-    let { project,
-          instanceName,
-          identity,
-          size,
-          machine,
-          scripts,
-          onSuccess,
-          onFail } = params;
+    let {
+        project,
+        instanceName,
+        identity,
+        size,
+        machine,
+        scripts,
+        onSuccess,
+        onFail
+    } = params;
 
-    let instance = new Instance({
-        name: instanceName,
-        size: {
-            id: size.id,
-            alias: size.get("alias")
+    let instance = new Instance(
+        {
+            name: instanceName,
+            size: {
+                id: size.id,
+                alias: size.get("alias")
+            },
+            status: "build - requesting_launch",
+            provider: {
+                id: identity.get("provider").id,
+                uuid: identity.get("provider").uuid
+            },
+            project: project.id,
+            identity: {
+                id: identity.id,
+                uuid: identity.get("uuid")
+            }
         },
-        status: "build - requesting_launch",
-        provider: {
-            id: identity.get("provider").id,
-            uuid: identity.get("provider").uuid
-        },
-        project: project.id,
-        identity: {
-            id: identity.id,
-            uuid: identity.get("uuid")
+        {
+            parse: true
         }
-    }, {
-        parse: true
-    });
+    );
 
     // Add instance to InstanceStore
     Utils.dispatch(InstanceConstants.ADD_INSTANCE, {
@@ -90,40 +94,44 @@ function launch(params) {
         source_alias: machine.uuid,
         scripts: scripts,
         project: project
-    }
+    };
 
     if (globals.USE_ALLOCATION_SOURCES) {
         payload.allocation_source_id = params.allocation_source_uuid;
     }
 
     // Create Instance using the v2 API endpoint
-    instance.create(payload)
+    instance
+        .create(payload)
         .done(function(attrs, status, response) {
             instance.set("id", attrs.id);
             instance.set("uuid", attrs.alias);
 
             // Get the instance from the cloud, ignore our local copy
-            instance.fetch().then(function() {
-                Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
-                    instance: instance
-                });
-            }, function() {
-                /**
-                 * this can have the same function signature as a `fail`
-                 *
-                 * the arguments would be: (jqXHR, textStatus, errorThrown)
-                 */
-                Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
-                    instance: instance
-                });
-            });
+            instance.fetch().then(
+                function() {
+                    Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
+                        instance: instance
+                    });
+                },
+                function() {
+                    /**
+                     * this can have the same function signature as a `fail`
+                     *
+                     * the arguments would be: (jqXHR, textStatus, errorThrown)
+                     */
+                    Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
+                        instance: instance
+                    });
+                }
+            );
 
             onSuccess();
 
             // only change _context_ if we have succeeded in launching
             appBrowserHistory.push(`/projects/${project.id}/resources`);
-
-        }).fail(function(response) {
+        })
+        .fail(function(response) {
             // Remove instance from stores
             Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {
                 instance: instance

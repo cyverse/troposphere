@@ -7,15 +7,13 @@ import moment from "moment";
  * It might be enough to do:
  *   obj && obj.isValid && obj.isValid()
  */
-const safeIsValid = (obj) => {
-    return obj
-        && obj.isValid
-        && (typeof obj.isValid === 'function')
-        && obj.isValid();
-}
+const safeIsValid = obj => {
+    return (
+        obj && obj.isValid && typeof obj.isValid === "function" && obj.isValid()
+    );
+};
 
 export default Backbone.Model.extend({
-
     getCreds: function() {
         return {
             provider_id: this.get("identity").provider,

@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
 
-
 export default React.createClass({
     displayName: "AuthorView",
 
@@ -13,12 +12,12 @@ export default React.createClass({
         var image = this.props.image;
 
         return (
-        <div className="image-info-segment row">
-            <h4 className="t-body-2 col-md-2">Created by:</h4>
-            <p className="content col-md-10">
-                {image.get("created_by").username}
-            </p>
-        </div>
+            <div className="image-info-segment row">
+                <h4 className="t-body-2 col-md-2">Created by:</h4>
+                <p className="content col-md-10">
+                    {image.get("created_by").username}
+                </p>
+            </div>
         );
     }
 });

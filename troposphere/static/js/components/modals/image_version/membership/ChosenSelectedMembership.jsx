@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
 
-
 export default React.createClass({
     displayName: "ChosenSelectedMembership",
 
@@ -14,7 +13,7 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             propertyName: "name"
-        }
+        };
     },
 
     onRemoveMembership: function() {
@@ -25,9 +24,14 @@ export default React.createClass({
         var membership = this.props.membership;
 
         return (
-        <li className="search-choice">
-            <span className="search-choice-close" onClick={this.onRemoveMembership}>{membership.get(this.props.propertyName)} <i className="glyphicon glyphicon-remove"></i></span>
-        </li>
+            <li className="search-choice">
+                <span
+                    className="search-choice-close"
+                    onClick={this.onRemoveMembership}>
+                    {membership.get(this.props.propertyName)}{" "}
+                    <i className="glyphicon glyphicon-remove" />
+                </span>
+            </li>
         );
     }
 });

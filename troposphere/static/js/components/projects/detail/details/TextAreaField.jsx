@@ -1,7 +1,6 @@
 import React from "react";
 import EditableTextAreaField from "components/common/EditableTextAreaField";
 
-
 export default React.createClass({
     displayName: "TextAreaField",
 
@@ -15,7 +14,7 @@ export default React.createClass({
         return {
             isEditing: false,
             title: this.props.title
-        }
+        };
     },
 
     onDoneEditing: function(text) {
@@ -33,18 +32,20 @@ export default React.createClass({
     },
 
     render: function() {
-
         var titleContent;
         if (this.props.title) {
             if (this.props.canEditTitle && this.state.isEditing) {
                 titleContent = (
-                    <EditableTextAreaField text={this.state.title} onDoneEditing={this.onDoneEditing} />
+                    <EditableTextAreaField
+                        text={this.state.title}
+                        onDoneEditing={this.onDoneEditing}
+                    />
                 );
             } else {
                 titleContent = (
                     <p onClick={this.onEnterEditMode}>
                         {this.state.title}
-                        <i className="glyphicon glyphicon-pencil"></i>
+                        <i className="glyphicon glyphicon-pencil" />
                     </p>
                 );
             }
@@ -53,13 +54,8 @@ export default React.createClass({
         }
 
         var titleClassName = "project-property col-md-9";
-        if (this.props.canEditTitle)
-            titleClassName += " editable";
+        if (this.props.canEditTitle) titleClassName += " editable";
 
-        return (
-        <div className={titleClassName}>
-            {titleContent}
-        </div>
-        );
+        return <div className={titleClassName}>{titleContent}</div>;
     }
 });

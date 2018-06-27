@@ -5,42 +5,41 @@ import QuestionMark from "components/common/ui/QuestionMark";
 import Label from "./Label";
 
 export default React.createClass({
-
     propTypes: {
         quota: React.PropTypes.object.isRequired,
         onQuotaChange: React.PropTypes.func.isRequired
     },
 
     quotaData: {
-        "cpu": {
+        cpu: {
             label: "CPU",
             tip: "Total cpus across instances"
         },
-        "memory": {
+        memory: {
             label: "Memory (GB)",
             tip: "Total memory across instances"
         },
-        "storage": {
+        storage: {
             label: "Storage (GB)",
             tip: "Total disk space across instances"
         },
-        "storage_count": {
+        storage_count: {
             label: "Volumes",
             tip: "Total number of volumes"
         },
-        "snapshot_count": {
+        snapshot_count: {
             label: "Snapshots",
             tip: "Total number of instance snapshots"
         },
-        "instance_count": {
+        instance_count: {
             label: "Instances",
             tip: "Total number of instances"
         },
-        "port_count": {
+        port_count: {
             label: "Fixed IPs",
             tip: ""
         },
-        "floating_ip_count": {
+        floating_ip_count: {
             label: "Floating IPs",
             tip: ""
         }
@@ -48,21 +47,21 @@ export default React.createClass({
 
     // field is one of [ "cpu", "memory", "storage", ...]
     handleQuotaChange(e, field) {
-        let { quota } = this.props;
+        let {quota} = this.props;
 
         this.props.onQuotaChange(
-             Object.assign({}, quota, { [field]: Number(e.target.value) })
+            Object.assign({}, quota, {[field]: Number(e.target.value)})
         );
     },
 
     style() {
         return {
             label: {
-                display: "block",
+                display: "block"
             },
             quotaBlock: {
                 paddingRight: "15px",
-                flexGrow: 1,
+                flexGrow: 1
             },
             quotaField: {
                 padding: "0 1em",
@@ -84,28 +83,30 @@ export default React.createClass({
     },
 
     renderQuotaField(data, i) {
-        let { field, label, value, tip } = data;
-        let { quotaBlock, questionMark, label: labelStyle } = this.style();
+        let {field, label, value, tip} = data;
+        let {quotaBlock, questionMark, label: labelStyle} = this.style();
 
         let tooltip = <QuestionMark style={questionMark} tip={tip} />;
 
         return (
-        <div style={quotaBlock} key={i}>
-            <Label style={labelStyle} htmlFor={field}>
-                {label}
-                { tip ? tooltip : null }
-            </Label>
-            <input className="form-control"
-                type="number"
-                value={value}
-                onChange={(e) => this.handleQuotaChange.call(this, e, field)} />
-        </div>
+            <div style={quotaBlock} key={i}>
+                <Label style={labelStyle} htmlFor={field}>
+                    {label}
+                    {tip ? tooltip : null}
+                </Label>
+                <input
+                    className="form-control"
+                    type="number"
+                    value={value}
+                    onChange={e => this.handleQuotaChange.call(this, e, field)}
+                />
+            </div>
         );
     },
 
     render() {
-        let { container } = this.style();
-        let { quota } = this.props;
+        let {container} = this.style();
+        let {quota} = this.props;
 
         // [ "cpu", "memory", "storage", ...]
         let renderedFields = Object.keys(this.quotaData)
@@ -114,8 +115,9 @@ export default React.createClass({
                     if (Raven.isSetup()) {
                         Raven.captureMessage(
                             "QuotaView: This view wants to " +
-                            `render the field: ${field} but it doesn't exist on ` +
-                            "the quota returned from the API");
+                                `render the field: ${field} but it doesn't exist on ` +
+                                "the quota returned from the API"
+                        );
                     }
                     return false;
                 }
@@ -139,10 +141,6 @@ export default React.createClass({
             // Map the data to rendered elements
             .map(this.renderQuotaField);
 
-        return (
-        <div style={ container }>
-            { renderedFields }
-        </div>
-        );
+        return <div style={container}>{renderedFields}</div>;
     }
 });

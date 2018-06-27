@@ -1,4 +1,3 @@
-
 export default {
     VOLUME_UPDATE: "VOLUME_UPDATE",
     VOLUME_ATTACH: "VOLUME_ATTACH",

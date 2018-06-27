@@ -17,16 +17,15 @@ export default React.createClass({
     getInitialState: function() {
         return {
             index: this.props.defaultLink
-        }
+        };
     },
 
     onTabClick: function(index) {
         this.props.onTabClick(index);
         this.setState({
             index
-        })
+        });
     },
-
 
     renderLink: function(link, index) {
         let active = "";
@@ -38,19 +37,19 @@ export default React.createClass({
         let onClick = this.onTabClick.bind(this, index);
 
         return (
-        <li key={index} className="TabLinks-link">
-            <a className={active} onClick={onClick}>
-                {link}
-            </a>
-        </li>
+            <li key={index} className="TabLinks-link">
+                <a className={active} onClick={onClick}>
+                    {link}
+                </a>
+            </li>
         );
     },
 
     render: function() {
         return (
-        <ul className="TabLinks clearFix">
-            {this.props.links.map(this.renderLink)}
-        </ul>
+            <ul className="TabLinks clearFix">
+                {this.props.links.map(this.renderLink)}
+            </ul>
         );
     }
 });

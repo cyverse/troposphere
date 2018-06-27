@@ -11,10 +11,10 @@ let reportVolumesViaIntercom = false;
  * Because `intercom_options` maybe undefined, and the options
  * within it could be defined incorrectly.
  */
-if(window.intercom_options && window.intercom_options['report']) {
-    let reportOptions = window.intercom_options['report'] || {};
-    reportInstancesViaIntercom = reportOptions['instances'] || false;
-    reportVolumesViaIntercom = reportOptions['volumes'] || false;
+if (window.intercom_options && window.intercom_options["report"]) {
+    let reportOptions = window.intercom_options["report"] || {};
+    reportInstancesViaIntercom = reportOptions["instances"] || false;
+    reportVolumesViaIntercom = reportOptions["volumes"] || false;
 }
 
 const hasProjectSharing = () => {
@@ -36,7 +36,7 @@ const showIdentityView = () => {
 };
 
 const hasIntercomActive = () => {
-        return window.intercom_app_id && window.Intercom;
+    return window.intercom_app_id && window.Intercom;
 };
 
 const shouldReportInstanceViaIntercom = () => {
@@ -56,4 +56,4 @@ export default {
     GUACAMOLE: !!window.GUACAMOLE_ENABLED || false,
     hasProjectSharing,
     showClientCredentials
-}
+};

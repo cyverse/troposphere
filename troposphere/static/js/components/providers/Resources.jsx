@@ -6,7 +6,6 @@ import IdentityCollection from "collections/IdentityCollection";
 import ProviderSummaryLinePlot from "components/dashboard/plots/ProviderSummaryLinePlot";
 import ResourceStatusSummaryPlot from "components/dashboard/plots/ResourceStatusSummaryPlot";
 
-
 export default React.createClass({
     displayName: "Resources",
 
@@ -49,30 +48,40 @@ export default React.createClass({
                 page_size: 100
             });
 
-        if (!provider || !identity || !instances || !volumes || !sizes) return <div className="loading"></div>;
+        if (!provider || !identity || !instances || !volumes || !sizes)
+            return <div className="loading" />;
 
         let providers = new ProviderCollection([provider]),
             identities = new IdentityCollection([identity]);
 
         return (
-        <div className="row provider-info-section">
-            <div className="provider">
-                <div className="row">
-                    <div className="col-md-8">
-                        <ProviderSummaryLinePlot providers={providers}
-                            identities={identities}
-                            instances={instances}
-                            volumes={volumes}
-                            sizes={sizes} />
-                    </div>
-                    <div className="col-md-4">
-                        <ResourceStatusSummaryPlot title="Instances" provider={provider.id} resources={instances} />
-                        <ResourceStatusSummaryPlot title="Volumes" provider={provider.id} resources={volumes} />
+            <div className="row provider-info-section">
+                <div className="provider">
+                    <div className="row">
+                        <div className="col-md-8">
+                            <ProviderSummaryLinePlot
+                                providers={providers}
+                                identities={identities}
+                                instances={instances}
+                                volumes={volumes}
+                                sizes={sizes}
+                            />
+                        </div>
+                        <div className="col-md-4">
+                            <ResourceStatusSummaryPlot
+                                title="Instances"
+                                provider={provider.id}
+                                resources={instances}
+                            />
+                            <ResourceStatusSummaryPlot
+                                title="Volumes"
+                                provider={provider.id}
+                                resources={volumes}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         );
-
     }
 });

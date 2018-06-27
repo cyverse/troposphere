@@ -6,7 +6,6 @@ import InstanceDetailsView from "./resources/instance/details/InstanceDetailsVie
 import globals from "globals";
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "InstanceDetailsPage",
 
@@ -16,7 +15,7 @@ export default React.createClass({
         stores.HelpLinkStore.addChangeListener(this.updateState);
 
         if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.addChangeListener(this.updateState)
+            stores.AllocationSourceStore.addChangeListener(this.updateState);
         }
     },
 
@@ -26,7 +25,7 @@ export default React.createClass({
         stores.HelpLinkStore.removeChangeListener(this.updateState);
 
         if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.removeChangeListener(this.updateState)
+            stores.AllocationSourceStore.removeChangeListener(this.updateState);
         }
     },
 
@@ -35,7 +34,7 @@ export default React.createClass({
     },
 
     render() {
-        let { identityId, instanceId } = this.props.params;
+        let {identityId, instanceId} = this.props.params;
         let identity = stores.IdentityStore.get(identityId);
         let instance = stores.InstanceStore.get(instanceId);
         let helpLinks = stores.HelpLinkStore.getAll();
@@ -44,27 +43,26 @@ export default React.createClass({
         let requires = [identity, instance, helpLinks];
 
         if (globals.USE_ALLOCATION_SOURCES) {
-            requires.push(allocationSources)
+            requires.push(allocationSources);
         }
 
         // Use truthy check to see if loaded
         let loaded = requires.every(r => Boolean(r));
         if (!loaded) {
-            return <div className="loading"></div>;
+            return <div className="loading" />;
         }
 
         let props = {
             identity,
             instance,
             helpLinks,
-            allocationSources,
-        }
+            allocationSources
+        };
 
         return (
-        <IdentityResourcesWrapper { ...props }>
-            <InstanceDetailsView { ...props } />
-        </IdentityResourcesWrapper>
+            <IdentityResourcesWrapper {...props}>
+                <InstanceDetailsView {...props} />
+            </IdentityResourcesWrapper>
         );
     }
-
 });

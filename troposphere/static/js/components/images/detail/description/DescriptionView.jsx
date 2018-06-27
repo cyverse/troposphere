@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 import Showdown from "showdown";
 
-
 export default React.createClass({
     displayName: "DescriptionView",
 
@@ -17,10 +16,13 @@ export default React.createClass({
             descriptionHtml = converter.makeHtml(description);
 
         return (
-        <div className="image-info-segment row">
-            <h4 className="t-body-2 col-md-2">Description:</h4>
-            <div className="content col-md-10" dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-        </div>
+            <div className="image-info-segment row">
+                <h4 className="t-body-2 col-md-2">Description:</h4>
+                <div
+                    className="content col-md-10"
+                    dangerouslySetInnerHTML={{__html: descriptionHtml}}
+                />
+            </div>
         );
     }
 });

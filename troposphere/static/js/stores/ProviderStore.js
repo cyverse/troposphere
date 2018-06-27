@@ -22,7 +22,6 @@ let ProviderStore = BaseStore.extend({
             });
         }
     }
-
 });
 
 let store = new ProviderStore();
@@ -34,7 +33,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ProviderConstants.UPDATE_PROVIDER:
             store.clearCache();
             break;
@@ -48,6 +46,5 @@ Dispatcher.register(function(dispatch) {
 
     return true;
 });
-
 
 export default store;

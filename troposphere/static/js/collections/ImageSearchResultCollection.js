@@ -6,12 +6,15 @@ export default Backbone.Collection.extend({
     model: Image,
 
     initialize: function(models, options) {
-        if (options.query)
-            this.query = options.query;
+        if (options.query) this.query = options.query;
     },
 
     url: function() {
-        return globals.API_V2_ROOT + "/images?search=" + encodeURIComponent(this.query);
+        return (
+            globals.API_V2_ROOT +
+            "/images?search=" +
+            encodeURIComponent(this.query)
+        );
     },
 
     parse: function(response) {

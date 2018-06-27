@@ -14,43 +14,47 @@ export default React.createClass({
 
     render: function() {
         return (
-        <div>
-            <p style={{ marginBottom: "50px" }}>
-                Deployment scripts will be executed when a user has launched their instance. They will also be executed each time an instance is "Started", "Resumed", or "Restarted".
-                As such, these scripts should be able to handle being run multiple times without adverse effects.
-            </p>
-            <div className="row">
-                <div className="col-md-6 form-group">
-                    <label>
-                        Add Scripts to Your Instance
-                    </label>
-                    <hr/>
-                    <div className="form-group">
-                        <SelectMenu current={null}
-                            placeholder="Select scripts to add to your instance"
-                            optionName={s => s.get("title")}
-                            list={this.props.bootScriptList}
-                            onSelect={this.props.onAddAttachedScript} />
+            <div>
+                <p style={{marginBottom: "50px"}}>
+                    Deployment scripts will be executed when a user has launched
+                    their instance. They will also be executed each time an
+                    instance is "Started", "Resumed", or "Restarted". As such,
+                    these scripts should be able to handle being run multiple
+                    times without adverse effects.
+                </p>
+                <div className="row">
+                    <div className="col-md-6 form-group">
+                        <label>Add Scripts to Your Instance</label>
+                        <hr />
+                        <div className="form-group">
+                            <SelectMenu
+                                current={null}
+                                placeholder="Select scripts to add to your instance"
+                                optionName={s => s.get("title")}
+                                list={this.props.bootScriptList}
+                                onSelect={this.props.onAddAttachedScript}
+                            />
+                        </div>
+                        <div
+                            style={{textAlign: "center", marginBottom: "20px"}}>
+                            - OR -
+                        </div>
+                        <RaisedButton
+                            fullWidth
+                            onTouchTap={this.props.onCreateScript}
+                            label="Create a New Script"
+                        />
                     </div>
-                    <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                        - OR -
+                    <div className="col-md-6">
+                        <label>These Scripts will be Added</label>
+                        <hr />
+                        <ScriptTags
+                            scripts={this.props.attachedScripts}
+                            onRemove={this.props.onRemoveAttachedScript}
+                        />
                     </div>
-                    <RaisedButton
-                        fullWidth
-                        onTouchTap={this.props.onCreateScript}
-                        label="Create a New Script"
-                    />
-                </div>
-                <div className="col-md-6">
-                    <label>
-                        These Scripts will be Added
-                    </label>
-                    <hr/>
-                    <ScriptTags scripts={this.props.attachedScripts} onRemove={this.props.onRemoveAttachedScript} />
                 </div>
             </div>
-        </div>
         );
     }
 });
-

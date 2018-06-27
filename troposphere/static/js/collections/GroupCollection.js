@@ -9,8 +9,7 @@ export default Backbone.Collection.extend({
 
     comparator: function(model) {
         var groupname = model.get("name");
-        if (groupname)
-            return groupname.toLowerCase();
+        if (groupname) return groupname.toLowerCase();
         return groupname;
     },
 
@@ -23,5 +22,4 @@ export default Backbone.Collection.extend({
 
         return response.results;
     }
-
 });

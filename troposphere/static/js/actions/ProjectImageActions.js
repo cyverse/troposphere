@@ -3,18 +3,14 @@ import ProjectImage from "models/ProjectImage";
 import Utils from "./Utils";
 import stores from "stores";
 
-
 export default {
-
     // -------------------------
     // Add/Remove Project Image
     // -------------------------
 
     addImageToProject: function(params, options) {
-        if (!params.project)
-            throw new Error("Missing project");
-        if (!params.image && !params.image.id)
-            throw new Error("Missing image");
+        if (!params.project) throw new Error("Missing project");
+        if (!params.image && !params.image.id) throw new Error("Missing image");
 
         var project = params.project,
             image = params.image,
@@ -24,20 +20,24 @@ export default {
                 image: image.id
             };
 
-        projectImage.save(null, {
-            attrs: data
-        }).done(function() {
-            Utils.dispatch(ProjectImageConstants.ADD_PROJECT_IMAGE, {
-                projectImage: projectImage
-            }, options);
-        })
+        projectImage
+            .save(null, {
+                attrs: data
+            })
+            .done(function() {
+                Utils.dispatch(
+                    ProjectImageConstants.ADD_PROJECT_IMAGE,
+                    {
+                        projectImage: projectImage
+                    },
+                    options
+                );
+            });
     },
 
     removeImageFromProject: function(params, options) {
-        if (!params.project)
-            throw new Error("Missing project");
-        if (!params.image)
-            throw new Error("Missing image");
+        if (!params.project) throw new Error("Missing project");
+        if (!params.image) throw new Error("Missing image");
 
         var project = params.project,
             image = params.image,
@@ -50,9 +50,13 @@ export default {
         // We can do better by guarding that call.
         if (projectImage) {
             projectImage.destroy().done(function() {
-                Utils.dispatch(ProjectImageConstants.REMOVE_PROJECT_IMAGE, {
-                    projectImage: projectImage
-                }, options);
+                Utils.dispatch(
+                    ProjectImageConstants.REMOVE_PROJECT_IMAGE,
+                    {
+                        projectImage: projectImage
+                    },
+                    options
+                );
             });
         }
     }

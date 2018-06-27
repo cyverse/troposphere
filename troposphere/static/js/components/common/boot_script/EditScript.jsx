@@ -5,7 +5,6 @@ import SelectMenu from "components/common/ui/SelectMenu";
 import actions from "actions";
 
 export default React.createClass({
-
     propTypes: {
         script: React.PropTypes.instanceOf(Backbone.Model),
         style: React.PropTypes.object,
@@ -23,21 +22,21 @@ export default React.createClass({
         let state = {},
             scriptState,
             defaults = {
-            title: "",
-            text: "",
-            type: "URL",
-            strategy: "always",
-            wait_for_deploy: true,
-            validate: false
-        };
-        if(script) {
+                title: "",
+                text: "",
+                type: "URL",
+                strategy: "always",
+                wait_for_deploy: true,
+                validate: false
+            };
+        if (script) {
             scriptState = {
-                title: script.get('title'),
-                text: script.get('text'),
-                type: script.get('type'),
-                strategy: script.get('strategy'),
-                wait_for_deploy: script.get('wait_for_deploy'),
-            }
+                title: script.get("title"),
+                text: script.get("text"),
+                type: script.get("type"),
+                strategy: script.get("strategy"),
+                wait_for_deploy: script.get("wait_for_deploy")
+            };
         }
         state = {
             ...defaults,
@@ -56,14 +55,14 @@ export default React.createClass({
             footerStyle: {},
             footerClassName: "",
             script: null
-        }
+        };
     },
 
     onChangeTitle: function(e) {
         let title = e.target.value;
         this.setState({
             title
-        })
+        });
     },
 
     onBlurTitle: function() {
@@ -77,7 +76,7 @@ export default React.createClass({
         let text = e.target.value;
         this.setState({
             text
-        })
+        });
     },
 
     onBlurText: function() {
@@ -89,19 +88,19 @@ export default React.createClass({
 
     isValidString: function(str) {
         if (str !== "") {
-            return true
+            return true;
         }
-        return false
+        return false;
     },
 
     isValidUrl: function(str) {
         if (!(str.search("https?://") < 0)) {
             if (str.indexOf(" ") >= 0) {
-                return false
+                return false;
             }
-            return true
+            return true;
         }
-        return false
+        return false;
     },
 
     isSubmittable: function() {
@@ -111,12 +110,12 @@ export default React.createClass({
         if (this.isValidString(title) && this.isValidString(text)) {
             if (this.state.type === "URL") {
                 if (!this.isValidUrl(text)) {
-                    return false
+                    return false;
                 }
             }
             return true;
         }
-        return false
+        return false;
     },
 
     renderInputType: function() {
@@ -133,21 +132,19 @@ export default React.createClass({
             }
 
             return (
-            <div className={classNames}>
-                <label htmlFor="script-url">
-                    Script URL
-                </label>
-                <input id="script-url"
-                    className="form-control"
-                    placeholder="http://yourscript.org"
-                    value={this.state.text}
-                    onChange={this.onChangeText}
-                    onBlur={this.onBlurText} />
-                <div className="help-block">
-                    {errorMessage}
+                <div className={classNames}>
+                    <label htmlFor="script-url">Script URL</label>
+                    <input
+                        id="script-url"
+                        className="form-control"
+                        placeholder="http://yourscript.org"
+                        value={this.state.text}
+                        onChange={this.onChangeText}
+                        onBlur={this.onBlurText}
+                    />
+                    <div className="help-block">{errorMessage}</div>
                 </div>
-            </div>
-            )
+            );
         } else {
             if (this.state.validate) {
                 if (!this.isValidString(text)) {
@@ -157,20 +154,20 @@ export default React.createClass({
             }
 
             return (
-            <div className={classNames} >
-                <label htmlFor="script-raw-text">
-                    Raw Text
-                </label>
-                <textarea id="script-raw-text"
-                    className="form-control"
-                    placeholder="#!/bin/bash"
-                    rows="6"
-                    value={this.state.text}
-                    onChange={this.onChangeText}
-                    onBlur={this.onBlurText} />
-                <span className="help-block">{errorMessage}</span>
-            </div>
-            )
+                <div className={classNames}>
+                    <label htmlFor="script-raw-text">Raw Text</label>
+                    <textarea
+                        id="script-raw-text"
+                        className="form-control"
+                        placeholder="#!/bin/bash"
+                        rows="6"
+                        value={this.state.text}
+                        onChange={this.onChangeText}
+                        onBlur={this.onBlurText}
+                    />
+                    <span className="help-block">{errorMessage}</span>
+                </div>
+            );
         }
     },
 
@@ -211,7 +208,7 @@ export default React.createClass({
 
     onSubmit: function() {
         let script;
-        if( this.props.script) {
+        if (this.props.script) {
             script = this.onSaveScript();
         } else {
             script = this.onCreateScript();
@@ -230,29 +227,35 @@ export default React.createClass({
     onChangeStrategyType: function(strategyOpt) {
         this.setState({
             strategy: strategyOpt.type
-        })
+        });
     },
 
     onChangeInputType: function(inputOpt) {
         this.setState({
             type: inputOpt.type
-        })
+        });
     },
 
     renderDeploymentOptionsHint() {
-        if(this.state.wait_for_deploy) {
+        if (this.state.wait_for_deploy) {
             return null;
         }
-        let stdoutPath = "/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stdout",
-            stderrPath = "/var/log/atmo/instance-scripts/"+this.state.title+".YYYY-MM-DD_HH:MM:SS.stderr";
+        let stdoutPath =
+                "/var/log/atmo/instance-scripts/" +
+                this.state.title +
+                ".YYYY-MM-DD_HH:MM:SS.stdout",
+            stderrPath =
+                "/var/log/atmo/instance-scripts/" +
+                this.state.title +
+                ".YYYY-MM-DD_HH:MM:SS.stderr";
         return (
             <div className="help-block">
                 {"stdout will be logged on the VM at: "}
-                <br/>
+                <br />
                 <code>{stdoutPath}</code>
-                <br/>
+                <br />
                 {"stderr will be logged on the VM at: "}
-                <br/>
+                <br />
                 <code>{stderrPath}</code>
             </div>
         );
@@ -264,62 +267,75 @@ export default React.createClass({
             {
                 wait_for_deploy: true,
                 type: "sync",
-                message: "Sync - wait for script to complete, ensure exit code 0, email me if there is a failure."
+                message:
+                    "Sync - wait for script to complete, ensure exit code 0, email me if there is a failure."
             },
             {
                 wait_for_deploy: false,
                 type: "async",
-                message: "Async - execute scripts asynchronously. Store stdout/stderr to log files."
+                message:
+                    "Async - execute scripts asynchronously. Store stdout/stderr to log files."
             }
         ];
-        let { wait_for_deploy } = this.state;
-        let current = options.find(option => option.wait_for_deploy == wait_for_deploy);
+        let {wait_for_deploy} = this.state;
+        let current = options.find(
+            option => option.wait_for_deploy == wait_for_deploy
+        );
 
         return (
-            <SelectMenu current={ current }
-                optionName={ o => o.message }
-                list={ options }
-                onSelect={ this.onChangeDeploymentType }
+            <SelectMenu
+                current={current}
+                optionName={o => o.message}
+                list={options}
+                onSelect={this.onChangeDeploymentType}
             />
         );
     },
 
     renderStrategyOptions() {
         // strategyType is a key into options 'type', i.e. ("once","always",...)
-        let { strategy } = this.state;
+        let {strategy} = this.state;
         let options = [
-            { type: "once", message: "Once - run script on first boot" },
-            { type: "always", message: "Always - run script on every deployment" }
+            {type: "once", message: "Once - run script on first boot"},
+            {
+                type: "always",
+                message: "Always - run script on every deployment"
+            }
         ];
         let current = options.find(option => option.type == strategy);
         return (
-            <SelectMenu current={current}
-                optionName={ o => o.message }
+            <SelectMenu
+                current={current}
+                optionName={o => o.message}
                 list={options}
-                onSelect={this.onChangeStrategyType} />
+                onSelect={this.onChangeStrategyType}
+            />
         );
     },
 
     renderInputOptions() {
         let options = [
-                {type: "URL", message: "Import by URL"},
-                {type: "Raw Text", message: "Import by Text"}
-            ];
+            {type: "URL", message: "Import by URL"},
+            {type: "Raw Text", message: "Import by Text"}
+        ];
         let {type} = this.state;
         let current = options.find(option => option.type == type);
 
-        return (<SelectMenu current={current}
-                    optionName={ o => o.message }
-                    list={options}
-                onSelect={this.onChangeInputType} />
-            );
+        return (
+            <SelectMenu
+                current={current}
+                optionName={o => o.message}
+                list={options}
+                onSelect={this.onChangeInputType}
+            />
+        );
     },
 
     render: function() {
-        let { title } = this.state;
+        let {title} = this.state;
 
         let classNames = "form-group",
-            headerText = (this.props.script) ? "Edit Script" : "Create Script",
+            headerText = this.props.script ? "Edit Script" : "Create Script",
             errorMessage = null,
             notSubmittable = false;
 
@@ -332,52 +348,54 @@ export default React.createClass({
         }
 
         return (
-        <div style={this.props.style}>
-            <h3 className="t-subheading">{headerText}</h3>
-            <hr/>
-            <div>
-                <div className={classNames}>
-                    <label>{"Script Title"}</label>
-                    <input className="form-control"
-                        placeholder="My Script"
-                        value={title}
-                        onChange={this.onChangeTitle}
-                        onBlur={this.onBlurTitle} />
-                    <span className="help-block">{errorMessage}</span>
-                </div>
-                <h4 className="t-body-2">{"Execution Strategy Type"}</h4>
-                <div className={classNames}>
-                { this.renderStrategyOptions() }
-                </div>
-                <h4 className="t-body-2">{"Deployment Type"}</h4>
-                <div className={classNames}>
-                { this.renderDeploymentOptions() }
-                { this.renderDeploymentOptionsHint() }
-                </div>
-                <h4 className="t-body-2">{"Input Type"}</h4>
-                <div className={classNames}>
-                {this.renderInputOptions()}
-                </div>
+            <div style={this.props.style}>
+                <h3 className="t-subheading">{headerText}</h3>
+                <hr />
                 <div>
-                    {this.renderInputType()}
+                    <div className={classNames}>
+                        <label>{"Script Title"}</label>
+                        <input
+                            className="form-control"
+                            placeholder="My Script"
+                            value={title}
+                            onChange={this.onChangeTitle}
+                            onBlur={this.onBlurTitle}
+                        />
+                        <span className="help-block">{errorMessage}</span>
+                    </div>
+                    <h4 className="t-body-2">{"Execution Strategy Type"}</h4>
+                    <div className={classNames}>
+                        {this.renderStrategyOptions()}
+                    </div>
+                    <h4 className="t-body-2">{"Deployment Type"}</h4>
+                    <div className={classNames}>
+                        {this.renderDeploymentOptions()}
+                        {this.renderDeploymentOptionsHint()}
+                    </div>
+                    <h4 className="t-body-2">{"Input Type"}</h4>
+                    <div className={classNames}>
+                        {this.renderInputOptions()}
+                    </div>
+                    <div>{this.renderInputType()}</div>
+                </div>
+                <div
+                    className={this.props.footerClassName}
+                    style={this.props.footerStyle}>
+                    <RaisedButton
+                        primary
+                        className="pull-right"
+                        disabled={notSubmittable}
+                        onTouchTap={this.onSubmit}
+                        label="Save"
+                    />
+                    <RaisedButton
+                        className="pull-right"
+                        style={{marginRight: "10px"}}
+                        onTouchTap={this.props.onClose}
+                        label="Cancel"
+                    />
                 </div>
             </div>
-            <div className={this.props.footerClassName} style={this.props.footerStyle}>
-                <RaisedButton
-                    primary
-                    className="pull-right"
-                    disabled={notSubmittable}
-                    onTouchTap={this.onSubmit}
-                    label="Save"
-                />
-                <RaisedButton
-                    className="pull-right"
-                    style={{ marginRight: "10px" }}
-                    onTouchTap={this.props.onClose}
-                    label="Cancel"
-                />
-            </div>
-        </div>
         );
     }
 });

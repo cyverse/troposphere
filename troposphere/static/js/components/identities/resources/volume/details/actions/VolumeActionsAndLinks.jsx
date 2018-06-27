@@ -14,7 +14,10 @@ export default React.createClass({
     },
 
     onAttach: function() {
-        modals.InstanceVolumeModals.attach(this.props.volume, this.props.project);
+        modals.InstanceVolumeModals.attach(
+            this.props.volume,
+            this.props.project
+        );
     },
 
     onDetach: function() {
@@ -22,7 +25,7 @@ export default React.createClass({
     },
 
     onDelete: function() {
-        let { project, volume } = this.props;
+        let {project, volume} = this.props;
 
         modals.VolumeModals.destroy({
             volume,
@@ -38,11 +41,13 @@ export default React.createClass({
                 volume: this.props.volume
             });
         } else {
-            window.Intercom('trackEvent',
-                            'reported-volume',
-                            {'created_at': Date.now()});
-            window.Intercom('showNewMessage',
-                            'I am having issues with a volume. ');
+            window.Intercom("trackEvent", "reported-volume", {
+                created_at: Date.now()
+            });
+            window.Intercom(
+                "showNewMessage",
+                "I am having issues with a volume. "
+            );
         }
     },
 
@@ -88,10 +93,11 @@ export default React.createClass({
 
         var links = linksArray.map(function(link) {
             // Links without icons are generally section headings
-            if (!link.icon) return (
-                <li key={link.label} className="section-label">
-                    {link.label}
-                </li>
+            if (!link.icon)
+                return (
+                    <li key={link.label} className="section-label">
+                        {link.label}
+                    </li>
                 );
 
             let className = "section-link",
@@ -99,12 +105,12 @@ export default React.createClass({
 
             linkLabelMarkup = (
                 <span>
-                    <Glyphicon name={link.icon}/>{` ${link.label}`}
+                    <Glyphicon name={link.icon} />
+                    {` ${link.label}`}
                 </span>
             );
 
-            if (link.isDangerLink)
-                className += " danger";
+            if (link.isDangerLink) className += " danger";
 
             // todo: This isn't implemented well at all.  We should be disabling these
             // buttons if there isn't a valid href for the link, or (perhaps) not even
@@ -113,14 +119,16 @@ export default React.createClass({
             //
             if (link.openInNewWindow) {
                 var style = {};
-                if (!link.href)
-                    style.cursor = "not-allowed";
+                if (!link.href) style.cursor = "not-allowed";
                 return (
-                <li key={link.label} className={className + " link"} style={style}>
-                    <a href={link.href} target="_blank">
-                        {linkLabelMarkup}
-                    </a>
-                </li>
+                    <li
+                        key={link.label}
+                        className={className + " link"}
+                        style={style}>
+                        <a href={link.href} target="_blank">
+                            {linkLabelMarkup}
+                        </a>
+                    </li>
                 );
             }
 
@@ -129,31 +137,29 @@ export default React.createClass({
             // Backbone.history.navigate from an onClick callback, we want all url
             // changes to pass through our Backbone catcher in main.js that we can use
             // to log requests to Google Analytics
-            if (link.href) return (
-                <li key={link.label} className={className + " link"}>
-                    <a href={link.href}>
-                        {linkLabelMarkup}
-                    </a>
-                </li>
+            if (link.href)
+                return (
+                    <li key={link.label} className={className + " link"}>
+                        <a href={link.href}>{linkLabelMarkup}</a>
+                    </li>
                 );
 
             // Links with onClick callbacks will typically trigger modals requiring
             // confirmation before continuing
             return (
-            <li key={link.label} className={className} onClick={link.onClick}>
-                {linkLabelMarkup}
-            </li>
+                <li
+                    key={link.label}
+                    className={className}
+                    onClick={link.onClick}>
+                    {linkLabelMarkup}
+                </li>
             );
         });
 
         return (
-        <div className="resource-actions">
-            <ul>
-                {links}
-            </ul>
-        </div>
-
+            <div className="resource-actions">
+                <ul>{links}</ul>
+            </div>
         );
     }
-
 });

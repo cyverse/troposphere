@@ -1,5 +1,5 @@
-import React from 'react';
-import GlyphiconTooltip from 'components/common/ui/GlyphiconTooltip';
+import React from "react";
+import GlyphiconTooltip from "components/common/ui/GlyphiconTooltip";
 
 export default React.createClass({
     propTypes: {
@@ -9,9 +9,7 @@ export default React.createClass({
         let props = Object.assign({}, this.props, {
             // Extend props with question-sign
             glyphicon: "question-sign"
-        })
-        return (
-            <GlyphiconTooltip {...props}/>
-        );
+        });
+        return <GlyphiconTooltip {...props} />;
     }
 });

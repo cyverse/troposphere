@@ -14,7 +14,7 @@ let ExternalLinkStore = BaseStore.extend({
         if (!this.models) return this.fetchModels();
 
         var external_links = this.models.filter(function(external_link) {
-            return external_link.get("projects").length === 0
+            return external_link.get("projects").length === 0;
         });
 
         return new ExternalLinkCollection(external_links);
@@ -29,7 +29,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ExternalLinkConstants.ADD_LINK:
             store.add(payload.external_link);
             break;

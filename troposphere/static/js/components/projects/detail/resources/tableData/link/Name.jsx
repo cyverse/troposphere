@@ -1,10 +1,8 @@
 import React from "react";
 import Backbone from "backbone";
-import { Link } from "react-router";
-
+import {Link} from "react-router";
 
 export default React.createClass({
-
     contextTypes: {
         projectId: React.PropTypes.number
     },
@@ -19,15 +17,13 @@ export default React.createClass({
             projectId = this.context.projectId;
 
         if (!linkId) {
-            return (
-            <span>{external_link.get("title")}</span>
-            );
+            return <span>{external_link.get("title")}</span>;
         }
 
         return (
-        <Link to={`/projects/${projectId}/links/${linkId}`}>
-            {external_link.get("title")}
-        </Link>
+            <Link to={`/projects/${projectId}/links/${linkId}`}>
+                {external_link.get("title")}
+            </Link>
         );
     }
 });

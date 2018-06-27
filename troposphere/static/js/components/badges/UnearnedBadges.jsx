@@ -4,7 +4,6 @@ import Badge from "./Badge";
 import actions from "actions";
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "UnearnedBadges",
 
@@ -26,10 +25,10 @@ export default React.createClass({
         var email = stores.ProfileStore.get().get("email");
         if (!email) {
             return (
-            <div>
-                <h1 className="t-headline">Loading</h1>
-            </div>
-            )
+                <div>
+                    <h1 className="t-headline">Loading</h1>
+                </div>
+            );
         }
         var badges = stores.BadgeStore.getAll();
         var myBadges = stores.MyBadgeStore.getAll();
@@ -37,9 +36,7 @@ export default React.createClass({
         var myBadgeIds = {};
 
         if (!badges || !myBadges || !instanceHistory) {
-            return (
-            <div className="loading" />
-            )
+            return <div className="loading" />;
         }
 
         myBadges.map(function(badge) {
@@ -49,18 +46,14 @@ export default React.createClass({
         var badgeDisplay = badges.map(function(badge) {
             var badgeId = badge.id;
             if (!myBadgeIds[badgeId]) {
-                return (
-                <Badge badge={badge} />
-                )
+                return <Badge badge={badge} />;
             }
         });
 
         return (
-        <div className="to-earn">
-            <ul id="all-badges-list">
-                {badgeDisplay}
-            </ul>
-        </div>
+            <div className="to-earn">
+                <ul id="all-badges-list">{badgeDisplay}</ul>
+            </div>
         );
     }
 });

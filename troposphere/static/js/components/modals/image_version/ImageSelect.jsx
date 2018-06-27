@@ -1,7 +1,6 @@
 import React from "react";
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "ImageSelect",
 
@@ -27,10 +26,10 @@ export default React.createClass({
 
     renderImage: function(image) {
         return (
-        <option key={image.id} value={image.id}>
-            {image.get("name")}
-        </option>
-        )
+            <option key={image.id} value={image.id}>
+                {image.get("name")}
+            </option>
+        );
     },
 
     render: function() {
@@ -43,21 +42,28 @@ export default React.createClass({
         options = images.map(this.renderImage);
 
         return (
-        <div className="form-group">
-            <h4 className="t-body-2" htmlFor="Image" className="control-label">Change Image</h4>
-            <div className="alert alert-danger">
-                <strong>Warning:</strong> Changing this value will move this version to a different image you own.
+            <div className="form-group">
+                <h4
+                    className="t-body-2"
+                    htmlFor="Image"
+                    className="control-label">
+                    Change Image
+                </h4>
+                <div className="alert alert-danger">
+                    <strong>Warning:</strong> Changing this value will move this
+                    version to a different image you own.
+                </div>
+                <div className="help-block">
+                    Select the Image that best describes this image.
+                </div>
+                <select
+                    value={imageId}
+                    name="Image"
+                    className="form-control"
+                    onChange={this.handleChange}>
+                    {options}
+                </select>
             </div>
-            <div className="help-block">
-                Select the Image that best describes this image.
-            </div>
-            <select value={imageId}
-                name="Image"
-                className="form-control"
-                onChange={this.handleChange}>
-                {options}
-            </select>
-        </div>
         );
     }
 });

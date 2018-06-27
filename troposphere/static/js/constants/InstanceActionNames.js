@@ -1,4 +1,3 @@
-
 export default {
     START: "Start",
     STOP: "Stop",

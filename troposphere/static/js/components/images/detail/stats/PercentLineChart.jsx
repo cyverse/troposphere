@@ -3,7 +3,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Highcharts from "highcharts";
 
-
 export default React.createClass({
     displayName: "PercentageGraph",
 
@@ -39,17 +38,17 @@ export default React.createClass({
             chart: {
                 type: "line",
                 backgroundColor: "transparent",
-                height,
+                height
             },
             credits: {
                 enabled: false
             },
             title: {
-                text: this.props.title,
+                text: this.props.title
             },
             xAxis: {
                 type: "category",
-                categories,
+                categories
             },
             yAxis: {
                 min: 0,
@@ -73,6 +72,6 @@ export default React.createClass({
     //
 
     render: function() {
-        return ( <div/> );
+        return <div />;
     }
 });

@@ -42,6 +42,6 @@ const captureMessage = (message, data) => {
             extra: data
         });
     }
-}
+};
 
-export { captureMessage };
+export {captureMessage};

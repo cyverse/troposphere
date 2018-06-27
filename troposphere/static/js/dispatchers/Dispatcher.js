@@ -1,4 +1,3 @@
-
 import Q from "q";
 import _ from "underscore";
 
@@ -33,7 +32,7 @@ let Dispatcher = {
         Q.all(_promises).done(_clearPromises);
     },
 
-    waitFor: function( /*array*/ promiseIndexes, /*function*/ callback) {
+    waitFor: function(/*array*/ promiseIndexes, /*function*/ callback) {
         var selectedPromises = _.map(promiseIndexes, function(index) {
             return _promises[index];
         });

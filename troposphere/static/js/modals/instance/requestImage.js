@@ -4,22 +4,23 @@ import InstanceImageWizardModal from "components/modals/instance/InstanceImageWi
 import actions from "actions";
 import context from "context";
 
-
 export default {
-
     requestImage: function(params) {
-        if (!params.instance)
-            throw new Error("Missing instance");
+        if (!params.instance) throw new Error("Missing instance");
 
         var instance = params.instance,
-            isImageOwner = context.profile.get('is_staff') || instance.get("image").user == instance.get("user").id,
+            isImageOwner =
+                context.profile.get("is_staff") ||
+                instance.get("image").user == instance.get("user").id,
             props = {
                 instance: instance,
                 imageOwner: isImageOwner
-            //NOTE:onConfirm set in function below, as part of ModalHelpers.renderModal
+                //NOTE:onConfirm set in function below, as part of ModalHelpers.renderModal
             };
 
-        ModalHelpers.renderModal(InstanceImageWizardModal, props, function(params) {
+        ModalHelpers.renderModal(InstanceImageWizardModal, props, function(
+            params
+        ) {
             actions.InstanceActions.requestImage({
                 instance: instance,
                 identity: instance.get("identity").id,
@@ -41,7 +42,6 @@ export default {
                 scripts: params.scripts,
                 licenses: params.licenses
             });
-        })
+        });
     }
-
 };

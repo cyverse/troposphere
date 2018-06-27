@@ -55,15 +55,13 @@ export default React.createClass({
     },
 
     render: function() {
-        let { tags, helpLinks } = this.state,
+        let {tags, helpLinks} = this.state,
             query = this.queryFromProps();
 
         if (!tags || !helpLinks) {
-            return <div className="loading"></div>;
+            return <div className="loading" />;
         }
 
-        return (
-        <ImageListView tags={tags} query={query} />
-        );
+        return <ImageListView tags={tags} query={query} />;
     }
 });

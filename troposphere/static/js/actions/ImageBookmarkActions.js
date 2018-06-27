@@ -6,10 +6,8 @@ import Utils from "./Utils";
 import stores from "stores";
 
 export default {
-
     addBookmark: function(params, options) {
-        if (!params.image)
-            throw new Error("Missing image");
+        if (!params.image) throw new Error("Missing image");
 
         var image = params.image,
             imageBookmark = new ImageBookmark(),
@@ -17,19 +15,24 @@ export default {
                 image: image.id
             };
 
-        imageBookmark.save(null, {
-            attrs: data
-        }).done(function() {
-            actions.BadgeActions.checkOrGrant(Badges.FAVORITE_IMAGE_BADGE);
-            Utils.dispatch(ImageBookmarkConstants.ADD_IMAGE_BOOKMARK, {
-                imageBookmark: imageBookmark
-            }, options);
-        });
+        imageBookmark
+            .save(null, {
+                attrs: data
+            })
+            .done(function() {
+                actions.BadgeActions.checkOrGrant(Badges.FAVORITE_IMAGE_BADGE);
+                Utils.dispatch(
+                    ImageBookmarkConstants.ADD_IMAGE_BOOKMARK,
+                    {
+                        imageBookmark: imageBookmark
+                    },
+                    options
+                );
+            });
     },
 
     removeBookmark: function(params, options) {
-        if (!params.image)
-            throw new Error("Missing image");
+        if (!params.image) throw new Error("Missing image");
 
         var image = params.image,
             imageBookmark = stores.ImageBookmarkStore.findOne({
@@ -37,10 +40,13 @@ export default {
             });
 
         imageBookmark.destroy().done(function() {
-            Utils.dispatch(ImageBookmarkConstants.REMOVE_IMAGE_BOOKMARK, {
-                imageBookmark: imageBookmark
-            }, options);
+            Utils.dispatch(
+                ImageBookmarkConstants.REMOVE_IMAGE_BOOKMARK,
+                {
+                    imageBookmark: imageBookmark
+                },
+                options
+            );
         });
     }
-
 };

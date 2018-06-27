@@ -5,10 +5,8 @@ import Dispatcher from "dispatchers/Dispatcher";
 import InstanceConstants from "constants/InstanceConstants";
 import InstanceActionCollection from "collections/InstanceActionCollection";
 
-
 let _modelsFor = {};
 let _isFetchingFor = {};
-
 
 const InstanceActionStore = {
     collection: InstanceActionCollection,
@@ -48,7 +46,7 @@ const InstanceActionStore = {
             // the :alias attribute is used in fetching _context_
             // *specific* instance actions - the status of an
             // instance will determine the possible actions available
-            var models = new this.collection(null, { alias });
+            var models = new this.collection(null, {alias});
 
             models.fetch().done(() => {
                 _isFetchingFor[alias] = false;
@@ -64,9 +62,8 @@ const InstanceActionStore = {
  */
 _.extend(InstanceActionStore, Store);
 
-
 Dispatcher.register(function(dispatch) {
-    let { actionType, payload } = dispatch.action;
+    let {actionType, payload} = dispatch.action;
 
     // ---
     // right now, we want to observer Instance Status changes,
@@ -86,6 +83,5 @@ Dispatcher.register(function(dispatch) {
 
     return true;
 });
-
 
 export default InstanceActionStore;

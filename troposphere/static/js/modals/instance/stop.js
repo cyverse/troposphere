@@ -9,6 +9,6 @@ export default {
             actions.InstanceActions.stop({
                 instance: instance
             });
-        })
+        });
     }
 };

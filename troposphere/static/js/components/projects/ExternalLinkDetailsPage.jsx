@@ -5,7 +5,6 @@ import ExternalLinkDetailsView from "./resources/link/details/ExternalLinkDetail
 
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "ExternalLinkDetailsPage",
 
@@ -19,12 +18,12 @@ export default React.createClass({
             linkId = this.props.params.linkId,
             link = stores.ExternalLinkStore.get(linkId);
 
-        if (!project || !link) return <div className="loading"></div>;
+        if (!project || !link) return <div className="loading" />;
 
         return (
-        <ProjectResourcesWrapper project={project}>
-            <ExternalLinkDetailsView project={project} link={link} />
-        </ProjectResourcesWrapper>
+            <ProjectResourcesWrapper project={project}>
+                <ExternalLinkDetailsView project={project} link={link} />
+            </ProjectResourcesWrapper>
         );
     }
 });

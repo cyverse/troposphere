@@ -5,24 +5,24 @@ import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
 import ProjectSelect from "../instance_launch/ProjectSelect";
 
-
 function getState(currentProject, currentState) {
     var state = {
         projects: stores.ProjectStore.getAll(),
-        owner: currentProject.get('owner'),
+        owner: currentProject.get("owner"),
         projectId: null
     };
     // Use selected project or default to the null one
     if (state.projects) {
-        state.projects = state.projects.cfilter(function (project) {
-            return project.get('owner').name == state.owner.name;
+        state.projects = state.projects.cfilter(function(project) {
+            return project.get("owner").name == state.owner.name;
         });
         state.projects.remove(currentProject);
 
         // todo: Account for the scenario when the only project is the current one
         // and the length of projects will now be zero
         if (state.projects.models.length > 0) {
-            state.projectId = currentState.projectId || state.projects.first().id;
+            state.projectId =
+                currentState.projectId || state.projects.first().id;
         }
     }
 
@@ -54,7 +54,10 @@ export default React.createClass({
     },
 
     updateState: function() {
-        if (this.isMounted()) this.setState(getState(this.props.currentProject, this.state || {}));
+        if (this.isMounted())
+            this.setState(
+                getState(this.props.currentProject, this.state || {})
+            );
     },
 
     componentDidMount: function() {
@@ -80,7 +83,6 @@ export default React.createClass({
         this.props.onConfirm(project);
     },
 
-
     //
     // Custom Modal Callbacks
     // ----------------------
@@ -93,95 +95,92 @@ export default React.createClass({
         });
     },
 
-
     //
     // Render
     // ------
     //
 
     renderResource: function(resource) {
-        return (
-        <li key={resource.id}>
-            {resource.get("name")}
-        </li>
-        );
+        return <li key={resource.id}>{resource.get("name")}</li>;
     },
 
     renderBody: function() {
         if (this.state.projects) {
             if (this.state.projects.models.length > 0) {
                 return (
-                <div role="form">
-                    <div className="form-group">
-                        <label htmlFor="volumeSize">
-                            Resources to Move
-                        </label>
-                        <p>
-                            The following resources will be moved to the selected project
-                        </p>
-                        <ul>
-                            {this.props.resources.map(this.renderResource)}
-                        </ul>
+                    <div role="form">
+                        <div className="form-group">
+                            <label htmlFor="volumeSize">
+                                Resources to Move
+                            </label>
+                            <p>
+                                The following resources will be moved to the
+                                selected project
+                            </p>
+                            <ul>
+                                {this.props.resources.map(this.renderResource)}
+                            </ul>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="project">Project</label>
+                            <ProjectSelect
+                                projectId={this.state.projectId}
+                                projects={this.state.projects}
+                                onChange={this.onProjectChange}
+                            />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="project">
-                            Project
-                        </label>
-                        <ProjectSelect projectId={this.state.projectId} projects={this.state.projects} onChange={this.onProjectChange} />
-                    </div>
-                </div>
                 );
             } else {
                 return (
-                <div role="form">
-                    <div className="form-group">
-                        <p>
-                            Looks like you only have one project owned by { this.state.owner.name }.
-                        </p>
-                        <p>
-                            In order to move resources between projects, you will first need to create a second project owned by { this.state.owner.name }.
-                        </p>
+                    <div role="form">
+                        <div className="form-group">
+                            <p>
+                                Looks like you only have one project owned by{" "}
+                                {this.state.owner.name}.
+                            </p>
+                            <p>
+                                In order to move resources between projects, you
+                                will first need to create a second project owned
+                                by {this.state.owner.name}.
+                            </p>
+                        </div>
                     </div>
-                </div>
                 );
             }
         }
 
-        return (
-        <div className="loading"></div>
-        );
+        return <div className="loading" />;
     },
 
     render: function() {
         // todo: If the user only has one project, provide an action to create another project
 
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <strong>Move Resources</strong>
-                    </div>
-                    <div className="modal-body">
-                        {this.renderBody()}
-                    </div>
-                    <div className="modal-footer">
-                        <RaisedButton
-                            style={{ marginRight: "10px" }}
-                            onTouchTap={this.cancel}
-                            label="Cancel"
-                        />
-                        <RaisedButton
-                            primary
-                            onTouchTap={this.confirm}
-                            disabled={!this.isSubmittable()}
-                            label="Move resources"
-                        />
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <strong>Move Resources</strong>
+                        </div>
+                        <div className="modal-body">{this.renderBody()}</div>
+                        <div className="modal-footer">
+                            <RaisedButton
+                                style={{marginRight: "10px"}}
+                                onTouchTap={this.cancel}
+                                label="Cancel"
+                            />
+                            <RaisedButton
+                                primary
+                                onTouchTap={this.confirm}
+                                disabled={!this.isSubmittable()}
+                                label="Move resources"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

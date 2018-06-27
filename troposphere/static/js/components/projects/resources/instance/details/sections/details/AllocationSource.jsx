@@ -20,9 +20,9 @@ export default React.createClass({
         }
 
         return (
-        <ResourceDetail label="Allocation Source">
-            {sourceName}
-        </ResourceDetail>
+            <ResourceDetail label="Allocation Source">
+                {sourceName}
+            </ResourceDetail>
         );
     }
 });

@@ -3,39 +3,26 @@ import $ from "jquery";
 import Utils from "../Utils";
 
 export default {
-
     requestImage: function(params) {
-
-        if (!params.instance)
-            throw new Error("Missing instance");
-        if (!params.name)
-            throw new Error("Missing name");
-        if (!params.description)
-            throw new Error("Missing description");
-        if (!params.tags)
-            throw new Error("Missing tags");
+        if (!params.instance) throw new Error("Missing instance");
+        if (!params.name) throw new Error("Missing name");
+        if (!params.description) throw new Error("Missing description");
+        if (!params.tags) throw new Error("Missing tags");
         if (params.versionFork == undefined)
             throw new Error("Missing create/update flag(fork)");
-        if (!params.versionName)
-            throw new Error("Missing name");
-        if (!params.versionChanges)
-            throw new Error("Missing description");
+        if (!params.versionName) throw new Error("Missing name");
+        if (!params.versionChanges) throw new Error("Missing description");
         // if(!params.providerId) throw new Error("Missing providerId");
         // if(!params.software) throw new Error("Missing software");
         // if(!params.filesToExclude) throw new Error("Missing filesToExclude");
         // if(!params.systemFiles) throw new Error("Missing systemFiles");
-        if (!params.scripts)
-            throw new Error("Missing scripts");
-        if (!params.identity)
-            throw new Error("Missing identity");
-        if (!params.licenses)
-            throw new Error("Missing licenses");
-        if (!params.visibility)
-            throw new Error("Missing visibility");
+        if (!params.scripts) throw new Error("Missing scripts");
+        if (!params.identity) throw new Error("Missing identity");
+        if (!params.licenses) throw new Error("Missing licenses");
+        if (!params.visibility) throw new Error("Missing visibility");
         if (!params.newApplicationAccessList)
             throw new Error("Missing newApplicationAccessList");
-        if (!params.imageUsers)
-            throw new Error("Missing imageUsers");
+        if (!params.imageUsers) throw new Error("Missing imageUsers");
 
         var instance = params.instance.get("id"),
             name = params.name,
@@ -48,9 +35,11 @@ export default {
             fork = params.versionFork,
             versionName = params.versionName,
             newMachineOwner = params.newMachineOwner,
-            newApplicationAccessList = params.newApplicationAccessList.map(function(access_pattern) {
-                return access_pattern.id;
-            }),
+            newApplicationAccessList = params.newApplicationAccessList.map(
+                function(access_pattern) {
+                    return access_pattern.id;
+                }
+            ),
             versionChanges = params.versionChanges,
             systemFiles = params.systemFiles || "[no files specified]",
             visibility = params.visibility,
@@ -90,10 +79,7 @@ export default {
             new_version_licenses: licenses
         };
 
-
-        var requestUrl = (
-        globals.API_V2_ROOT + "/machine_requests"
-        );
+        var requestUrl = globals.API_V2_ROOT + "/machine_requests";
 
         $.ajax({
             url: requestUrl,
@@ -114,5 +100,4 @@ export default {
             }
         });
     }
-
 };

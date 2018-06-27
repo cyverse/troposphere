@@ -2,7 +2,7 @@ import BaseStore from "stores/BaseStore";
 import Dispatcher from "dispatchers/Dispatcher";
 import IdentityCollection from "collections/IdentityCollection";
 import AccountConstants from "constants/AccountConstants";
-import IdentityConstants from "constants/IdentityConstants"
+import IdentityConstants from "constants/IdentityConstants";
 
 let IdentityStore = BaseStore.extend({
     collection: IdentityCollection,
@@ -12,7 +12,7 @@ let IdentityStore = BaseStore.extend({
             return this.fetchModels();
         }
         var identities = this.models.filter(function(identity) {
-            return identity.get('user').username === username;
+            return identity.get("user").username === username;
         });
         return new IdentityCollection(identities);
     },
@@ -23,8 +23,8 @@ let IdentityStore = BaseStore.extend({
         }
         let models = null;
         if (group != null) {
-            let group_key = "?group_id="+group.get("id"),
-                query_params = {"group_id" : group.get("id")};
+            let group_key = "?group_id=" + group.get("id"),
+                query_params = {group_id: group.get("id")};
             if (!this.queryModels[group_key]) {
                 models = this.fetchWhere(query_params);
             } else {
@@ -32,11 +32,11 @@ let IdentityStore = BaseStore.extend({
             }
         }
         // Optionally Chaining with 'ownership' filter..
-        if(!username || !models) {
+        if (!username || !models) {
             return models;
         }
         var owner_filtered_models = models.cfilter(function(identity) {
-            return identity.get('user').username === username;
+            return identity.get("user").username === username;
         });
         return owner_filtered_models;
     },
@@ -45,8 +45,8 @@ let IdentityStore = BaseStore.extend({
         if (!this.models) {
             return this.fetchModels();
         }
-        let project_key = "?project_id="+project.id,
-            query_params = {"project_id" : project.id};
+        let project_key = "?project_id=" + project.id,
+            query_params = {project_id: project.id};
         if (!this.queryModels[project_key]) {
             return this.fetchWhere(query_params);
         } else {
@@ -60,22 +60,21 @@ let IdentityStore = BaseStore.extend({
         } else {
             let identities = this.models;
             let versionIdentities = identities.cfilter(ident => {
-                return ident.get('provider').id == provider.id;
+                return ident.get("provider").id == provider.id;
             });
             return versionIdentities;
         }
     },
 
-    updateIdentityByUsername({ identity, username }) {
-        let queryString = this.buildQueryStringFromQueryParams({ username });
+    updateIdentityByUsername({identity, username}) {
+        let queryString = this.buildQueryStringFromQueryParams({username});
         let models = this.queryModels[queryString];
         if (!models) {
             return;
         }
 
-        models.add(identity, { merge: true });
-    },
-
+        models.add(identity, {merge: true});
+    }
 });
 
 let store = new IdentityStore();
@@ -86,7 +85,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case IdentityConstants.UPDATE:
             store.updateIdentityByUsername(payload);
             break;
@@ -103,6 +101,5 @@ Dispatcher.register(function(dispatch) {
 
     return true;
 });
-
 
 export default store;

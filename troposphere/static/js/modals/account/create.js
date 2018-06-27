@@ -4,9 +4,10 @@ import AccountCreateModal from "components/modals/account/AccountCreateModal";
 
 export default {
     create: function() {
-        ModalHelpers.renderModal(AccountCreateModal, null, function(provider_attrs) {
+        ModalHelpers.renderModal(AccountCreateModal, null, function(
+            provider_attrs
+        ) {
             actions.AccountActions.create(provider_attrs);
-        })
-
+        });
     }
 };

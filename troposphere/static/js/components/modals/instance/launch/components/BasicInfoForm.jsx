@@ -27,7 +27,7 @@ export default React.createClass({
     },
 
     nameError() {
-        const { instanceName } = this.props;
+        const {instanceName} = this.props;
 
         function invalidName() {
             return /\.\d+$/gm.test(instanceName);
@@ -42,11 +42,13 @@ export default React.createClass({
     },
 
     getMemberNames: function(project) {
-        if(project == null) {
+        if (project == null) {
             return "";
         }
-        let user_list = project.get('users'),
-            username_list = user_list.map(function(g) {return g.username});
+        let user_list = project.get("users"),
+            username_list = user_list.map(function(g) {
+                return g.username;
+            });
 
         return username_list.join(", ");
     },
@@ -82,57 +84,60 @@ export default React.createClass({
         let groupOwner, projectType;
 
         let projectUsernameList = this.getMemberNames(project);
-        if(! featureFlags.hasProjectSharing()) {
+        if (!featureFlags.hasProjectSharing()) {
             projectType = "";
         } else if (project != null) {
-            groupOwner = project.get('owner');
-            projectType = (groupOwner && groupOwner.name == context.profile.get('username')) ? "Private Project" : "Shared Project, Visible to Users: " + projectUsernameList;
+            groupOwner = project.get("owner");
+            projectType =
+                groupOwner && groupOwner.name == context.profile.get("username")
+                    ? "Private Project"
+                    : "Shared Project, Visible to Users: " +
+                      projectUsernameList;
         } else {
             projectType = "Select a project to continue.";
         }
 
         return (
-        <form>
-            <div className={"form-group " + hasErrorClass }>
-                <label htmlFor="instanceName">
-                    Instance Name
-                </label>
-                <input required
-                    disabled={waitingOnLaunch}
-                    type="Name"
-                    className="form-control"
-                    id="instanceName"
-                    value={instanceName}
-                    ref="nameInput"
-                    onChange={this.props.onNameChange}
-                    onBlur={this.props.onNameBlur} />
-                <span className="help-block">{errorMessage}</span>
-            </div>
-            <div className="form-group">
-                <label htmlFor="imageVersion">
-                    Base Image Version
-                </label>
-                <SelectMenu current={imageVersion}
-                    disabled={waitingOnLaunch}
-                    list={this.props.imageVersionList}
-                    optionName={item => item.get("name")}
-                    onSelect={this.props.onVersionChange} />
-            </div>
-            <div className="form-group">
-                <label htmlFor="project">
-                    Project
-                </label>
-                <SelectMenu current={project}
-                    disabled={waitingOnLaunch}
-                    list={projectList}
-                    optionName={item => item.get("name")}
-                    onSelect={this.props.onProjectChange} />
-                <p className="t-caption" style={{ display: "block" }}>
-                   {projectType}
-                </p>
-
-            </div>
-        </form>
+            <form>
+                <div className={"form-group " + hasErrorClass}>
+                    <label htmlFor="instanceName">Instance Name</label>
+                    <input
+                        required
+                        disabled={waitingOnLaunch}
+                        type="Name"
+                        className="form-control"
+                        id="instanceName"
+                        value={instanceName}
+                        ref="nameInput"
+                        onChange={this.props.onNameChange}
+                        onBlur={this.props.onNameBlur}
+                    />
+                    <span className="help-block">{errorMessage}</span>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="imageVersion">Base Image Version</label>
+                    <SelectMenu
+                        current={imageVersion}
+                        disabled={waitingOnLaunch}
+                        list={this.props.imageVersionList}
+                        optionName={item => item.get("name")}
+                        onSelect={this.props.onVersionChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="project">Project</label>
+                    <SelectMenu
+                        current={project}
+                        disabled={waitingOnLaunch}
+                        list={projectList}
+                        optionName={item => item.get("name")}
+                        onSelect={this.props.onProjectChange}
+                    />
+                    <p className="t-caption" style={{display: "block"}}>
+                        {projectType}
+                    </p>
+                </div>
+            </form>
         );
     }
 });

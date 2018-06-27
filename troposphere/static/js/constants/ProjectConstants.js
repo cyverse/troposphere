@@ -1,4 +1,3 @@
-
 export default {
     ADD_PROJECT: "ADD_PROJECT",
     UPDATE_PROJECT: "UPDATE_PROJECT",

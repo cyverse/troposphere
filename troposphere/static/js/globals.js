@@ -1,6 +1,5 @@
 import jstz from "jstz";
 
-
 let timezone = jstz.determine();
 let tz_region = timezone ? timezone.name() : "America/Phoenix";
 let shell_proxy = "https://atmo-proxy.cyverse.org/";
@@ -8,13 +7,12 @@ let default_footer_link = "http://www.cyverse.org/";
 
 let USER_PORTAL = {
     link() {
-        return window.user_portal && window.user_portal.link || "";
+        return (window.user_portal && window.user_portal.link) || "";
     },
     text() {
-        return window.user_portal && window.user_portal.text || "";
+        return (window.user_portal && window.user_portal.text) || "";
     }
 };
-
 
 export default {
     API_ROOT: window.API_ROOT || "/api/v1",
@@ -40,4 +38,4 @@ export default {
     ALLOCATION_UNIT_NAME: window.ALLOCATION_UNIT_NAME,
     SHOW_INSTANCE_METRICS: window.SHOW_INSTANCE_METRICS,
     USER_PORTAL
-}
+};

@@ -7,7 +7,6 @@ import Description from "./Description";
 import Instances from "./Instances";
 import Resources from "./Resources";
 
-
 export default React.createClass({
     displayName: "ProviderListView",
 
@@ -29,19 +28,17 @@ export default React.createClass({
         var provider_id = Number(this.props.params.id);
         var provider = stores.ProviderStore.get(provider_id);
 
-        if (!provider) return <div className="loading"></div>;
+        if (!provider) return <div className="loading" />;
 
         return (
-        <div className="provider-details">
-            <Name provider={provider} />
-            <hr/>
-            <Stats provider={provider} />
-            <Description provider={provider} />
-            <Instances provider={provider} />
-            <Resources provider={provider} />
-        </div>
+            <div className="provider-details">
+                <Name provider={provider} />
+                <hr />
+                <Stats provider={provider} />
+                <Description provider={provider} />
+                <Instances provider={provider} />
+                <Resources provider={provider} />
+            </div>
         );
-
     }
-
 });

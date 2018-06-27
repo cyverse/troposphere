@@ -9,7 +9,6 @@ import ExternalLinkActionButtons from "./ExternalLinkActionButtons";
 import InstanceActionButtons from "./InstanceActionButtons";
 import VolumeActionButtons from "./VolumeActionButtons";
 
-
 export default React.createClass({
     displayName: "ResourceActionButtons",
 
@@ -17,46 +16,53 @@ export default React.createClass({
         multipleSelected: React.PropTypes.bool.isRequired,
         previewedResource: React.PropTypes.instanceOf(Backbone.Model),
         project: React.PropTypes.instanceOf(Backbone.Model),
-        volume: React.PropTypes.instanceOf(Backbone.Model),
+        volume: React.PropTypes.instanceOf(Backbone.Model)
     },
 
     render: function() {
         var resource = this.props.previewedResource,
             project = this.props.project;
 
-        if (!resource) return <span/>;
+        if (!resource) return <span />;
 
         if (resource instanceof Instance) {
             return (
-            <InstanceActionButtons onUnselect={this.props.onUnselect}
-                multipleSelected={this.props.multipleSelected}
-                instance={resource}
-                project={project} />
+                <InstanceActionButtons
+                    onUnselect={this.props.onUnselect}
+                    multipleSelected={this.props.multipleSelected}
+                    instance={resource}
+                    project={project}
+                />
             );
         } else if (resource instanceof Image) {
             return (
-            <ImageActionButtons onUnselect={this.props.onUnselect}
-                multipleSelected={this.props.multipleSelected}
-                image={resource}
-                project={project} />
+                <ImageActionButtons
+                    onUnselect={this.props.onUnselect}
+                    multipleSelected={this.props.multipleSelected}
+                    image={resource}
+                    project={project}
+                />
             );
         } else if (resource instanceof ExternalLink) {
             return (
-            <ExternalLinkActionButtons onUnselect={this.props.onUnselect}
-                multipleSelected={this.props.multipleSelected}
-                external_link={resource}
-                project={project} />
+                <ExternalLinkActionButtons
+                    onUnselect={this.props.onUnselect}
+                    multipleSelected={this.props.multipleSelected}
+                    external_link={resource}
+                    project={project}
+                />
             );
         } else if (resource instanceof Volume) {
             return (
-            <VolumeActionButtons onUnselect={this.props.onUnselect}
-                multipleSelected={this.props.multipleSelected}
-                volume={resource}
-                project={project} />
+                <VolumeActionButtons
+                    onUnselect={this.props.onUnselect}
+                    multipleSelected={this.props.multipleSelected}
+                    volume={resource}
+                    project={project}
+                />
             );
         } else {
-            return <span/>;
+            return <span />;
         }
     }
-
 });

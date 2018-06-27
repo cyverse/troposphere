@@ -37,7 +37,7 @@ export default React.createClass({
             visibility: this.props.visibility,
             users: this.props.users,
             imageUsers: this.props.imageUsers || new Backbone.Collection()
-        }
+        };
     },
 
     /** Callbacks */
@@ -91,12 +91,12 @@ export default React.createClass({
         imageUsers.remove(user);
         this.setState({
             imageUsers: imageUsers
-        })
+        });
     },
     onPatternCreated: function(patternObj) {
         let params = {
             pattern: patternObj.pattern,
-            type: (patternObj.type == "E-Mail") ? 'Email': 'Username',
+            type: patternObj.type == "E-Mail" ? "Email" : "Username",
             allowAccess: patternObj.allowAccess,
             // Add a success callback to add new pattern to list
             success: this.onAccessAdded
@@ -105,15 +105,15 @@ export default React.createClass({
     },
 
     onAccessAdded: function(pattern_match) {
-        let activeAccessList = this.state.activeAccessList
-        activeAccessList.add(pattern_match)
+        let activeAccessList = this.state.activeAccessList;
+        activeAccessList.add(pattern_match);
         this.setState({
             activeAccessList: activeAccessList
         });
     },
     onAccessRemoved: function(pattern_match) {
-        let activeAccessList = this.state.activeAccessList
-        activeAccessList.remove(pattern_match)
+        let activeAccessList = this.state.activeAccessList;
+        activeAccessList.remove(pattern_match);
         this.setState({
             activeAccessList: activeAccessList
         });
@@ -121,69 +121,81 @@ export default React.createClass({
 
     /** Rendering **/
     renderUserList: function() {
-        let helpLabel = "Please include users that should be able to launch this image.";
+        let helpLabel =
+            "Please include users that should be able to launch this image.";
         if (this.state.visibility === "select") {
             return (
-            <Users users={this.state.imageUsers} onUserAdded={this.onAddUser} onUserRemoved={this.onRemoveUser} help={helpLabel} />
-            )
+                <Users
+                    users={this.state.imageUsers}
+                    onUserAdded={this.onAddUser}
+                    onUserRemoved={this.onRemoveUser}
+                    help={helpLabel}
+                />
+            );
         }
     },
 
     renderAccessList: function() {
         if (this.state.visibility === "select") {
-            if(this.props.allPatterns == null) {
-                return (<div className="loading" />);
+            if (this.props.allPatterns == null) {
+                return <div className="loading" />;
             }
             return (
-            <div>
-                <hr />
-                <EditAccessView
-                    allPatterns={this.props.allPatterns}
-                    activeAccessList={this.state.activeAccessList}
-                    onAccessAdded={this.onAccessAdded}
-                    onAccessRemoved={this.onAccessRemoved}
-                    onCreateNewPattern={this.onPatternCreated}
-                />
-            </div>
+                <div>
+                    <hr />
+                    <EditAccessView
+                        allPatterns={this.props.allPatterns}
+                        activeAccessList={this.state.activeAccessList}
+                        onAccessAdded={this.onAccessAdded}
+                        onAccessRemoved={this.onAccessRemoved}
+                        onCreateNewPattern={this.onPatternCreated}
+                    />
+                </div>
             );
         }
     },
 
     renderBody: function() {
         return (
-        <div>
-            <Visibility instance={this.props.instance} value={this.state.visibility} onChange={this.onVisibilityChange} />
-            {this.renderUserList()}
-            {this.renderAccessList()}
-        </div>
+            <div>
+                <Visibility
+                    instance={this.props.instance}
+                    value={this.state.visibility}
+                    onChange={this.onVisibilityChange}
+                />
+                {this.renderUserList()}
+                {this.renderAccessList()}
+            </div>
         );
     },
 
     render: function() {
         return (
-        <div>
-            <div className="modal-body">
-                {this.renderBody()}
+            <div>
+                <div className="modal-body">{this.renderBody()}</div>
+                <div className="modal-footer">
+                    <button
+                        type="button"
+                        className="btn btn-default cancel-button pull-left"
+                        onClick={this.onPrevious}>
+                        <span className="glyphicon glyphicon-chevron-left" />{" "}
+                        Back
+                    </button>
+                    <RaisedButton
+                        secondary
+                        style={{marginRight: "10px"}}
+                        onTouchTap={this.onNext}
+                        disabled={!this.isSubmittable()}
+                        label="Advanced Options"
+                    />
+                    <RaisedButton
+                        primary
+                        onTouchTap={this.onSubmit}
+                        disabled={!this.isSubmittable()}
+                        label="Submit"
+                    />
+                </div>
             </div>
-            <div className="modal-footer">
-                <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>
-                    <span className="glyphicon glyphicon-chevron-left"></span> Back
-                </button>
-                <RaisedButton
-                    secondary
-                    style={{ marginRight: "10px" }}
-                    onTouchTap={this.onNext}
-                    disabled={!this.isSubmittable()}
-                    label="Advanced Options"
-                />
-                <RaisedButton
-                    primary
-                    onTouchTap={this.onSubmit}
-                    disabled={!this.isSubmittable()}
-                    label="Submit"
-                />
-            </div>
-        </div>
         );
     }
 });

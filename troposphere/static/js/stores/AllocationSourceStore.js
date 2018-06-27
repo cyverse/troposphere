@@ -5,13 +5,13 @@ import Dispatcher from "dispatchers/Dispatcher";
 
 let AllocationSourceStore = BaseStore.extend({
     collection: AllocationSourceCollection,
-    updateAllocationByUsername({ allocation, username }) {
-        let queryString = this.buildQueryStringFromQueryParams({ username });
+    updateAllocationByUsername({allocation, username}) {
+        let queryString = this.buildQueryStringFromQueryParams({username});
         let models = this.queryModels[queryString];
         if (!models) {
             return;
         }
-        models.add(allocation, { merge: true });
+        models.add(allocation, {merge: true});
     }
 });
 
@@ -38,4 +38,3 @@ Dispatcher.register(function(dispatch) {
 });
 
 export default store;
-

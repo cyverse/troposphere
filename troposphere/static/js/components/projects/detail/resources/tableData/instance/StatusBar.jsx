@@ -19,17 +19,17 @@ export default React.createClass({
         style.width = percentComplete + "%";
 
         if (!percentComplete || percentComplete === 100) {
-            return (
-            null
-            );
+            return null;
         }
 
         return (
-        <div className="progress">
-            <div className="progress-bar progress-bar-success progress-bar-striped active" style={style}>
-                {style.width}
+            <div className="progress">
+                <div
+                    className="progress-bar progress-bar-success progress-bar-striped active"
+                    style={style}>
+                    {style.width}
+                </div>
             </div>
-        </div>
         );
     }
 });

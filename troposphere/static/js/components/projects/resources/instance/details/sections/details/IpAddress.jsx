@@ -20,10 +20,10 @@ export default React.createClass({
         }
 
         return (
-        <ResourceDetail label="IP Address">
-            {address}
-            {!missingAddress ? <CopyButton text={ address }/> : null}
-        </ResourceDetail>
+            <ResourceDetail label="IP Address">
+                {address}
+                {!missingAddress ? <CopyButton text={address} /> : null}
+            </ResourceDetail>
         );
     }
 });

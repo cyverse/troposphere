@@ -1,4 +1,3 @@
-
 export default {
     ADD_ACCOUNT: "ADD_ACCOUNT",
     UPDATE_ACCOUNT: "UPDATE_ACCOUNT",

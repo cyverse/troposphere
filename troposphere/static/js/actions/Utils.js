@@ -3,7 +3,6 @@ import NotificationController from "controllers/NotificationController";
 import $ from "jquery";
 
 export default {
-
     dispatch: function(actionType, payload, options) {
         options = options || {};
         AppDispatcher.handleRouteAction({
@@ -14,8 +13,7 @@ export default {
     },
 
     displayInfo: function(options) {
-        if (!options.message)
-            throw new Error("Missing message");
+        if (!options.message) throw new Error("Missing message");
         NotificationController.info(null, options.message);
     },
     // Size information for the user's browser and monitor
@@ -27,12 +25,10 @@ export default {
             "screen-height": screen.height,
             "user-interface": "troposphere"
         };
-
     },
 
     displaySuccess: function(options) {
-        if (!options.message)
-            throw new Error("Missing message");
+        if (!options.message) throw new Error("Missing message");
         NotificationController.success(null, options.message);
     },
 
@@ -40,47 +36,57 @@ export default {
         var response = options.response,
             title = options.title;
         try {
-            let error, raw_error,
-                error_json = (response.responseJSON != null) ? response.responseJSON : null,
+            let error,
+                raw_error,
+                error_json =
+                    response.responseJSON != null
+                        ? response.responseJSON
+                        : null,
                 error_msg = response.responseText;
-            if(error_json != null) {
+            if (error_json != null) {
                 if ("detail" in error_json) {
                     raw_error = error_json.detail;
                     error = {
-                        "code": response.status,
-                        "message": "Encountered the following errors:" + JSON.stringify(raw_error)
+                        code: response.status,
+                        message:
+                            "Encountered the following errors:" +
+                            JSON.stringify(raw_error)
                     };
                 } else if ("errors" in error_json) {
                     raw_error = error_json.errors[0];
-                    if('code' in raw_error && 'message' in raw_error) {
+                    if ("code" in raw_error && "message" in raw_error) {
                         //Properly formed error
                         error = raw_error;
                     } else {
                         //Safety -- if syntax changes
                         error = {
-                            "code": response.status,
-                            "message": "Encountered the following errors:" + JSON.stringify(raw_error)
+                            code: response.status,
+                            message:
+                                "Encountered the following errors:" +
+                                JSON.stringify(raw_error)
                         };
                     }
                 } else {
                     //Safety -- if 'errors' isn't available
                     error = {
-                        "code": response.status,
-                        "message": "Encountered the following errors:" + JSON.stringify(error_json)
+                        code: response.status,
+                        message:
+                            "Encountered the following errors:" +
+                            JSON.stringify(error_json)
                     };
                 }
-            } else if(error_msg != null) {
+            } else if (error_msg != null) {
                 //Safety -- when no JSON is given in the response
                 error = {
-                    "code": response.status,
-                    "message": error_msg
-                }
+                    code: response.status,
+                    message: error_msg
+                };
             } else {
                 //Safety -- when response contains no body
                 error = {
-                    "code": 0,
-                    "message": "API Error - Connection Refused"
-                }
+                    code: 0,
+                    message: "API Error - Connection Refused"
+                };
             }
 
             NotificationController.error(

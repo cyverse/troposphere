@@ -6,8 +6,6 @@ import React from "react";
  */
 const doiRegex = /\b(10\.[0-9]{4,}(?:\.[0-9]+)*\/(?:(?![\"&\'])\S)+)\b/im;
 
-
-
 const AddDocumentObjectIdentifier = React.createClass({
     displayName: "AddDocumentObjectIdentifier",
 
@@ -54,10 +52,9 @@ const AddDocumentObjectIdentifier = React.createClass({
             });
         } else {
             this.setState({
-                doi: doiInput,
+                doi: doiInput
             });
         }
-
     },
 
     onBlur: function(e) {
@@ -98,7 +95,7 @@ const AddDocumentObjectIdentifier = React.createClass({
             helpMessage = null,
             hasValidationClass = null;
 
-        let { doi, invalid, success } = this.state;
+        let {doi, invalid, success} = this.state;
 
         if (invalid) {
             helpMessage = "Value provided is not a valid DOI";
@@ -113,35 +110,36 @@ const AddDocumentObjectIdentifier = React.createClass({
         }
 
         return (
-        <div>
-            <h4 className="t-body-2">{title}</h4>
-            <div className="help-block">
-                <p>
-                If you have a Document Object Identifier (DOI) issued by a journal or
-                organization the represents this image version, you can associated it
-                with this image version by entering it in the field below.
-                </p>
+            <div>
+                <h4 className="t-body-2">{title}</h4>
+                <div className="help-block">
+                    <p>
+                        If you have a Document Object Identifier (DOI) issued by
+                        a journal or organization the represents this image
+                        version, you can associated it with this image version
+                        by entering it in the field below.
+                    </p>
+                </div>
+                <div className="alert alert-info">
+                    <p className="info">
+                        CyVerse will offer DOI issuance for virtual machine
+                        images in the future.
+                    </p>
+                </div>
+                <div className={"form-group " + hasValidationClass}>
+                    <input
+                        id="doiInput"
+                        type="text"
+                        className="form-control"
+                        value={doi}
+                        onChange={this.onChange}
+                        onBlur={this.onBlur}
+                    />
+                    <span className="help-block">{helpMessage}</span>
+                </div>
             </div>
-            <div className="alert alert-info">
-                <p className="info">
-                CyVerse will offer DOI issuance for virtual machine images in the future.
-                </p>
-            </div>
-            <div className={"form-group " + hasValidationClass }>
-                <input id="doiInput"
-                       type="text"
-                       className="form-control"
-                       value={doi}
-                       onChange={this.onChange}
-                       onBlur={this.onBlur} />
-                <span className="help-block">{helpMessage}</span>
-            </div>
-        </div>
         );
-    },
-
-
-
+    }
 });
 
 export default AddDocumentObjectIdentifier;

@@ -19,7 +19,7 @@ export default React.createClass({
         return {
             tags: this.props.image.get("tags"),
             query: ""
-        }
+        };
     },
 
     onEnterKeyPressed: function(e) {
@@ -37,7 +37,7 @@ export default React.createClass({
 
     onQueryChange: function(query) {
         this.setState({
-            query,
+            query
         });
     },
 
@@ -46,37 +46,44 @@ export default React.createClass({
     },
 
     render: function() {
-        let { imageTags, tags } = this.props;
+        let {imageTags, tags} = this.props;
         let query = this.state.query;
 
         if (query && tags) {
             tags = tags.cfilter(function(tag) {
-                return tag.get("name").toLowerCase().indexOf(query.toLowerCase()) >= 0;
+                return (
+                    tag
+                        .get("name")
+                        .toLowerCase()
+                        .indexOf(query.toLowerCase()) >= 0
+                );
             });
         }
 
         return (
-        <div className="image-tags">
-            <h4 className="t-body-2">Tags</h4>
-            <div className="content">
-                <div className="resource-tags">
-                    <TagMultiSelect
-                        models={tags}
-                        activeModels={imageTags}
-                        onModelAdded={this.props.onTagAdded}
-                        onModelRemoved={this.props.onTagRemoved}
-                        onCreateNewTag={this.onCreateNewTag}
-                        onEnterKeyPressed={this.onEnterKeyPressed}
-                        onQueryChange={this.onQueryChange}
-                        placeholderText="Search by tag name..." />
-                    <a className="btn btn-primary new-tag"
-                        href="#"
-                        onClick={this.onCreateNewEmptyTag}>
-                        + Create New tag
-                    </a>
+            <div className="image-tags">
+                <h4 className="t-body-2">Tags</h4>
+                <div className="content">
+                    <div className="resource-tags">
+                        <TagMultiSelect
+                            models={tags}
+                            activeModels={imageTags}
+                            onModelAdded={this.props.onTagAdded}
+                            onModelRemoved={this.props.onTagRemoved}
+                            onCreateNewTag={this.onCreateNewTag}
+                            onEnterKeyPressed={this.onEnterKeyPressed}
+                            onQueryChange={this.onQueryChange}
+                            placeholderText="Search by tag name..."
+                        />
+                        <a
+                            className="btn btn-primary new-tag"
+                            href="#"
+                            onClick={this.onCreateNewEmptyTag}>
+                            + Create New tag
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

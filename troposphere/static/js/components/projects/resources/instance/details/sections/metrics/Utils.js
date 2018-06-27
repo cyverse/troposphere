@@ -8,25 +8,30 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
     // front/end
     var extra = 2;
 
-    var req = api + "/" + uuid + ".json" +
-        "?field=" + urlParams.field +
-        "&res=" + urlParams.res +
-        "&size=" + (urlParams.size + extra);
+    var req =
+        api +
+        "/" +
+        uuid +
+        ".json" +
+        "?field=" +
+        urlParams.field +
+        "&res=" +
+        urlParams.res +
+        "&size=" +
+        (urlParams.size + extra);
 
     if (urlParams.fun) {
         req += "&fun=" + urlParams.fun;
     }
 
-    if (urlParams.from)
-        req += "&from=" + urlParams.from;
+    if (urlParams.from) req += "&from=" + urlParams.from;
 
-    if (urlParams.until)
-        req += "&until=" + urlParams.until;
+    if (urlParams.until) req += "&until=" + urlParams.until;
 
-    d3.json(req)
+    d3
+        .json(req)
         .header("Authorization", "Token " + window.access_token)
         .get(function(error, json) {
-
             // The json object should be an array with length >= 1
             if (!(json && Array.isArray(json) && json.length)) {
                 return onError && onError();
@@ -40,18 +45,19 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
             }
             if (data.length > 0) {
                 data.length = urlParams.size;
-                onSuccess(data.map(function(arr) {
-                    return {
-                        x: arr[1] * 1000,
-                        y: arr[0]
-                    };
-                }));
+                onSuccess(
+                    data.map(function(arr) {
+                        return {
+                            x: arr[1] * 1000,
+                            y: arr[0]
+                        };
+                    })
+                );
             } else {
                 onError();
             }
-
-        })
-}
+        });
+};
 
 let bytesToString = function(bytes) {
     var fmt = d3.format(".0f"),

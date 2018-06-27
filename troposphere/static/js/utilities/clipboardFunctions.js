@@ -10,26 +10,25 @@ import Raven from "raven-js";
  */
 function acknowledge(msg, title) {
     let toastrDefaults = {
-        "closeButton": false,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "positionClass": "toast-bottom-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "260",
-        "hideDuration": "1000",
-        "timeOut": "1125",
-        "extendedTimeOut": "650",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
+        closeButton: false,
+        debug: false,
+        newestOnTop: false,
+        progressBar: false,
+        positionClass: "toast-bottom-right",
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: "260",
+        hideDuration: "1000",
+        timeOut: "1125",
+        extendedTimeOut: "650",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
     };
 
     toastr.info(msg, title, toastrDefaults);
 }
-
 
 /**
  * Report exception via Sentry error client (Raven)
@@ -52,14 +51,16 @@ function reportException(ex) {
     }
 }
 
-
 const hasClipboardAPI = () => {
     let result = false;
 
     try {
-        result = document.queryCommandSupported &&
-                 document.queryCommandSupported('copy');
-    } catch (e) { reportException(e); }
+        result =
+            document.queryCommandSupported &&
+            document.queryCommandSupported("copy");
+    } catch (e) {
+        reportException(e);
+    }
     return result;
 };
 
@@ -92,11 +93,13 @@ const copyElement = (element, options) => {
             // this call the largest candidate for creating
             // an error to catch - we could slim it down
             // to just this call
-            copied = document.execCommand('copy');
+            copied = document.execCommand("copy");
             if (copied && options) {
                 if (options.acknowledge) {
-                    acknowledge("Text has been copied to the clipboard",
-                                "Copied ... ");
+                    acknowledge(
+                        "Text has been copied to the clipboard",
+                        "Copied ... "
+                    );
                 }
             }
             // clean up selections ...
@@ -109,4 +112,4 @@ const copyElement = (element, options) => {
     return copied;
 };
 
-export { copyElement, hasClipboardAPI };
+export {copyElement, hasClipboardAPI};

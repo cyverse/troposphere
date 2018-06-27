@@ -25,12 +25,11 @@ let VolumeStore = BaseStore.extend({
         if (!this.models) return this.fetchModels();
 
         var volumes = this.models.filter(function(volume) {
-            return volume.get("identity").uuid === identity.get('uuid');
+            return volume.get("identity").uuid === identity.get("uuid");
         });
 
         return new VolumeCollection(volumes);
     },
-
 
     getVolumesAttachedToInstance: function(instance) {
         if (!this.models) return this.fetchModels();
@@ -59,13 +58,15 @@ let VolumeStore = BaseStore.extend({
         return attachedResources;
     },
 
-
     getVolumesNotInAProject: function() {
         if (!this.models) return this.fetchModels();
         let profile = context.profile,
-            username =  profile.get('username');
+            username = profile.get("username");
         var volumes = this.models.filter(function(volume) {
-            return (volume.get("project") == null && volume.get('user').username == username);
+            return (
+                volume.get("project") == null &&
+                volume.get("user").username == username
+            );
         });
 
         return new VolumeCollection(volumes);
@@ -81,29 +82,30 @@ let VolumeStore = BaseStore.extend({
 
     // Poll for a model
     pollUntilDetached: function(volume) {
-        this.pollWhile(volume, function(model, response) {
-            var status = volume.get("state").get("status");
-            var responseIs200 = String(response.status)[0] == "2";
+        this.pollWhile(
+            volume,
+            function(model, response) {
+                var status = volume.get("state").get("status");
+                var responseIs200 = String(response.status)[0] == "2";
 
-            var keepPolling = status != "available" && responseIs200;
+                var keepPolling = status != "available" && responseIs200;
 
-            if (keepPolling) {
-                volume.set({
-                    state: new VolumeState({
-                        status_raw: "detaching"
-                    })
+                if (keepPolling) {
+                    volume.set({
+                        state: new VolumeState({
+                            status_raw: "detaching"
+                        })
+                    });
+                }
+                Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {
+                    volume: volume
                 });
-            }
-            Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {
-                volume: volume
-            });
 
-            return keepPolling;
-        }.bind(this));
+                return keepPolling;
+            }.bind(this)
+        );
     }
-
 });
-
 
 let store = new VolumeStore();
 
@@ -113,7 +115,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case VolumeConstants.ADD_VOLUME:
             store.add(payload.volume);
             break;

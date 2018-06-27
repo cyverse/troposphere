@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
 
-
 export default React.createClass({
     displayName: "EditNameView",
 
@@ -15,12 +14,16 @@ export default React.createClass({
         var name = this.props.value;
 
         return (
-        <div className="image-info-segment">
-            <h4 className="t-body-2">Name</h4>
-            <div className="form-group">
-                <input className="form-control" value={name} onChange={this.props.onChange} />
+            <div className="image-info-segment">
+                <h4 className="t-body-2">Name</h4>
+                <div className="form-group">
+                    <input
+                        className="form-control"
+                        value={name}
+                        onChange={this.props.onChange}
+                    />
+                </div>
             </div>
-        </div>
         );
     }
 });

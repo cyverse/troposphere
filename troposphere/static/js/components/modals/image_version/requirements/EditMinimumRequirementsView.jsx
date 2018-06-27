@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export default React.createClass({
     propTypes: {
         cpu: React.PropTypes.number.isRequired,
@@ -16,50 +15,54 @@ export default React.createClass({
     },
 
     render: function() {
-        var cpuWarning,
-            memWarning;
+        var cpuWarning, memWarning;
 
         if (!this.props.checkValidCPU()) {
-            cpuWarning = (<p className="text-danger">
-                              CPU must be between
-                              {this.props.cpuMinVal} and
-                              {this.props.cpuMaxVal}
-                          </p>);
+            cpuWarning = (
+                <p className="text-danger">
+                    CPU must be between
+                    {this.props.cpuMinVal} and
+                    {this.props.cpuMaxVal}
+                </p>
+            );
         }
         if (!this.props.checkValidMem()) {
-            memWarning = (<p className="text-danger">
-                              Memory must be between
-                              {this.props.memMinVal} and
-                              {this.props.memMaxVal} GB
-                          </p>);
+            memWarning = (
+                <p className="text-danger">
+                    Memory must be between
+                    {this.props.memMinVal} and
+                    {this.props.memMaxVal} GB
+                </p>
+            );
         }
 
         return (
-        <div>
-            <h4 className="t-body-2">Minimum Requirements</h4>
             <div>
-                <div className="help-block">
-                    Minimum # of CPU cores:
+                <h4 className="t-body-2">Minimum Requirements</h4>
+                <div>
+                    <div className="help-block">Minimum # of CPU cores:</div>
+                    <input
+                        className="form-control"
+                        type="text"
+                        value={this.props.cpu}
+                        onChange={this.props.onCPUChange}
+                    />
+                    {cpuWarning}
+                    <br />
                 </div>
-                <input className="form-control"
-                    type="text"
-                    value={this.props.cpu}
-                    onChange={this.props.onCPUChange} />
-                {cpuWarning}
-                <br />
-            </div>
-            <div>
-                <div className="help-block">
-                    Minimum amount of memory (GB):
+                <div>
+                    <div className="help-block">
+                        Minimum amount of memory (GB):
+                    </div>
+                    <input
+                        className="form-control"
+                        type="text"
+                        value={this.props.mem}
+                        onChange={this.props.onMemChange}
+                    />
+                    {memWarning}
                 </div>
-                <input className="form-control"
-                    type="text"
-                    value={this.props.mem}
-                    onChange={this.props.onMemChange} />
-                {memWarning}
             </div>
-        </div>
         );
     }
-
 });

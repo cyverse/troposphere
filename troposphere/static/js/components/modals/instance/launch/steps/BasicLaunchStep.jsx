@@ -12,21 +12,21 @@ export default React.createClass({
         };
 
         return (
-        <div>
-            <div className="modal-section row">
-                <div className="col-md-6">
-                    <h3 className="t-title">Basic Info</h3>
-                    <hr/>
-                    <BasicInfoForm {...this.props}/>
+            <div>
+                <div className="modal-section row">
+                    <div className="col-md-6">
+                        <h3 className="t-title">Basic Info</h3>
+                        <hr />
+                        <BasicInfoForm {...this.props} />
+                    </div>
+                    <div className="col-md-6">
+                        <h3 className="t-title">Resources</h3>
+                        <hr />
+                        <ResourcesForm {...this.props} />
+                    </div>
                 </div>
-                <div className="col-md-6">
-                    <h3 className="t-title">Resources</h3>
-                    <hr/>
-                    <ResourcesForm {...this.props} />
-                </div>
+                <InstanceLaunchFooter {..._.extend(defaults, this.props)} />
             </div>
-            <InstanceLaunchFooter {..._.extend(defaults, this.props)} />
-        </div>
         );
     }
 });

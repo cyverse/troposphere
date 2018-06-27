@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
 
-
 export default React.createClass({
     displayName: "IdentityResourcesWrapper",
 
@@ -12,12 +11,9 @@ export default React.createClass({
 
     render: function() {
         return (
-        <div className="container">
-            <div className="td-identity-content">
-                {this.props.children}
+            <div className="container">
+                <div className="td-identity-content">{this.props.children}</div>
             </div>
-        </div>
         );
     }
-
 });

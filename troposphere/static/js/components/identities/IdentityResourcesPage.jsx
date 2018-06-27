@@ -4,8 +4,6 @@ import IdentityResourcesWrapper from "./detail/resources/IdentityResourcesWrappe
 import IdentityDetails from "./detail/resources/IdentityDetails";
 import stores from "stores";
 
-
-
 export default React.createClass({
     displayName: "IdentityResouresPage",
 
@@ -14,20 +12,19 @@ export default React.createClass({
     },
 
     render: function() {
-        let identity = stores.IdentityStore.get(Number(this.props.params.identityId)),
+        let identity = stores.IdentityStore.get(
+                Number(this.props.params.identityId)
+            ),
             helpLinks = stores.HelpLinkStore.getAll();
 
         if (!identity && !helpLinks) {
-            return (
-            <div className="loading"></div>
-            );
+            return <div className="loading" />;
         }
 
         return (
-        <IdentityResourcesWrapper identity={identity}>
-            <IdentityDetails identity={identity} />
-        </IdentityResourcesWrapper>
+            <IdentityResourcesWrapper identity={identity}>
+                <IdentityDetails identity={identity} />
+            </IdentityResourcesWrapper>
         );
     }
-
 });

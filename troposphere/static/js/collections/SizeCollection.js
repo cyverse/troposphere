@@ -28,5 +28,4 @@ export default Backbone.Collection.extend({
         }
         return lhsCPU < rhsCPU ? -1 : 1;
     }
-
 });

@@ -10,7 +10,9 @@ export default React.createClass({
 
     render: function() {
         return (
-        <span style={{ textTransform: "capitalize" }}>{this.props.volume.get("size") + " GB"}</span>
+            <span style={{textTransform: "capitalize"}}>
+                {this.props.volume.get("size") + " GB"}
+            </span>
         );
     }
 });

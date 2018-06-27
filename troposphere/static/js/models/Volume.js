@@ -41,7 +41,9 @@ export default Backbone.Model.extend({
     },
 
     isAttached: function() {
-        return this.get("status") == "in-use" || this.get("status") == "detaching";
+        return (
+            this.get("status") == "in-use" || this.get("status") == "detaching"
+        );
     },
 
     fetchFromCloud: function(cb) {
@@ -49,39 +51,45 @@ export default Backbone.Model.extend({
             providerId = this.get("provider").uuid,
             identityId = this.get("identity").uuid;
 
-        var url = (
-        globals.API_ROOT +
-            "/provider/" + providerId +
-            "/identity/" + identityId +
-            "/volume/" + volumeId
-        );
+        var url =
+            globals.API_ROOT +
+            "/provider/" +
+            providerId +
+            "/identity/" +
+            identityId +
+            "/volume/" +
+            volumeId;
 
         Backbone.sync("read", this, {
             url: url
-        }).done(function(attrs, status, response) {
-            this.set("status", attrs.status || "Unknown");
-            this.set("state", new VolumeState({
-                status_raw: attrs.status
-            }));
-            this.set("attach_data", extractAttachData(attrs));
-            cb(response);
-        }.bind(this));
+        }).done(
+            function(attrs, status, response) {
+                this.set("status", attrs.status || "Unknown");
+                this.set(
+                    "state",
+                    new VolumeState({
+                        status_raw: attrs.status
+                    })
+                );
+                this.set("attach_data", extractAttachData(attrs));
+                cb(response);
+            }.bind(this)
+        );
     },
 
     create: function(options, cb) {
-        if (!options.name)
-            throw new Error("Missing name");
-        if (!options.size)
-            throw new Error("Missing size");
-        if (!options.project)
-            throw new Error("Missing project");
+        if (!options.name) throw new Error("Missing name");
+        if (!options.size) throw new Error("Missing size");
+        if (!options.project) throw new Error("Missing project");
         if (options.snapshot_id && options.image_id) {
-            throw new Error("Cannot pass 'image_id' and 'snapshot_id' to create.");
+            throw new Error(
+                "Cannot pass 'image_id' and 'snapshot_id' to create."
+            );
         }
         let identity = this.get("identity").uuid,
             name = options.name,
             size = options.size,
-            project = options.project.get('uuid');
+            project = options.project.get("uuid");
 
         let url = globals.API_V2_ROOT + "/volumes";
         let attrs = {
@@ -89,29 +97,28 @@ export default Backbone.Model.extend({
             size,
             project,
             identity
-        }
+        };
         return Backbone.sync("create", this, {
             url,
             attrs
         });
     },
     createOnV1Endpoint: function(options, cb) {
-        if (!options.name)
-            throw new Error("Missing name");
-        if (!options.size)
-            throw new Error("Missing size");
+        if (!options.name) throw new Error("Missing name");
+        if (!options.size) throw new Error("Missing size");
 
         var providerId = this.get("provider").uuid,
             identityId = this.get("identity").uuid,
             name = options.name,
             size = options.size;
 
-        var url = (
-        globals.API_ROOT +
-            "/provider/" + providerId +
-            "/identity/" + identityId +
-            "/volume"
-        );
+        var url =
+            globals.API_ROOT +
+            "/provider/" +
+            providerId +
+            "/identity/" +
+            identityId +
+            "/volume";
 
         return Backbone.sync("create", this, {
             url: url,

@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export default React.createClass({
     displayName: "EditDescriptionView",
 
@@ -8,7 +7,7 @@ export default React.createClass({
         return {
             title: "Description",
             className: "image-description"
-        }
+        };
     },
     propTypes: {
         title: React.PropTypes.string,
@@ -19,15 +18,19 @@ export default React.createClass({
     },
     render: function() {
         return (
-        <div className={this.props.className}>
-            <h4 className={"t-body-2 " + this.props.titleClassName}>{this.props.title}</h4>
-            <div className={this.props.formClassName}>
-                <textarea className="form-control"
-                    rows="7"
-                    value={this.props.value}
-                    onChange={this.props.onChange} />
+            <div className={this.props.className}>
+                <h4 className={"t-body-2 " + this.props.titleClassName}>
+                    {this.props.title}
+                </h4>
+                <div className={this.props.formClassName}>
+                    <textarea
+                        className="form-control"
+                        rows="7"
+                        value={this.props.value}
+                        onChange={this.props.onChange}
+                    />
+                </div>
             </div>
-        </div>
         );
     }
 });

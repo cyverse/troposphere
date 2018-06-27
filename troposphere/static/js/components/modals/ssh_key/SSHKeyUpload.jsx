@@ -4,33 +4,32 @@ import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import actions from "actions";
 
 export default React.createClass({
-
     propTypes: {
         sshKey: React.PropTypes.instanceOf(Backbone.Model),
         user: React.PropTypes.number.isRequired
     },
 
     getInitialState: function() {
-        let { sshKey } = this.props;
-        if(sshKey) {
+        let {sshKey} = this.props;
+        if (sshKey) {
             return {
                 keyName: sshKey.get("name"),
                 pubKey: sshKey.get("pub_key"),
                 errorMsg: ""
-            }
+            };
         }
         return {
             keyName: "",
             pubKey: "",
-            errorMsg: "",
-        }
+            errorMsg: ""
+        };
     },
 
     mixins: [BootstrapModalMixin],
 
     updateKeyName: function(event) {
         this.setState({
-            "keyName": event.target.value
+            keyName: event.target.value
         });
     },
 
@@ -43,7 +42,8 @@ export default React.createClass({
         let err = "";
 
         if (!this.validateKeyType(parts[0])) {
-            err = "Public key must begin with either ssh-rsa, ssh-dss, ecdsa-sha2-nistp256, or ssh-ed25519";
+            err =
+                "Public key must begin with either ssh-rsa, ssh-dss, ecdsa-sha2-nistp256, or ssh-ed25519";
         } else if (!this.validateOneLine(key)) {
             err = "Public key cannot contain line breaks";
         } else if (!this.validateNumOfParts(key)) {
@@ -53,14 +53,16 @@ export default React.createClass({
         }
 
         this.setState({
-            "pubKey": rawKey,
-            "errorMsg": err
+            pubKey: rawKey,
+            errorMsg: err
         });
     },
 
     validateKeyType: function(firstWord) {
         // Worth noting that `ssh-keygen -t dsa` creates a key beginning with `ssh-dss`
-        return /^(ssh-dss|ecdsa-sha2-nistp256|ssh-ed25519|ssh-rsa)$/.test(firstWord);
+        return /^(ssh-dss|ecdsa-sha2-nistp256|ssh-ed25519|ssh-rsa)$/.test(
+            firstWord
+        );
     },
 
     validateOneLine: function(key) {
@@ -84,10 +86,12 @@ export default React.createClass({
         let key = this.state.pubKey.trim();
         let parts = key.split(/\s+/g);
 
-        return this.validateKeyType(parts[0]) &&
-        this.validateNumOfParts(key) &&
-        this.validateOneLine(key) &&
-        this.validateKeyBodyBase64(parts[1]);
+        return (
+            this.validateKeyType(parts[0]) &&
+            this.validateNumOfParts(key) &&
+            this.validateOneLine(key) &&
+            this.validateKeyBodyBase64(parts[1])
+        );
     },
 
     isSubmittable() {
@@ -100,7 +104,7 @@ export default React.createClass({
             pub_key: this.state.pubKey.trim(),
             atmo_user: this.props.user
         };
-        let { sshKey } = this.props;
+        let {sshKey} = this.props;
 
         if (sshKey) {
             actions.SSHKeyActions.update(sshKey, attributes);
@@ -117,51 +121,79 @@ export default React.createClass({
         let notSubmittable = !this.isSubmittable();
 
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title">{(this.props.sshKey) ? "Update public SSH key": "Add a public SSH key"}</h1>
-                    </div>
-                    <div style={{ minHeight: "300px" }} className="modal-body">
-                        <div className="form-group">
-                            <label className="control-label">
-                                Key Name
-                            </label>
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title">
+                                {this.props.sshKey
+                                    ? "Update public SSH key"
+                                    : "Add a public SSH key"}
+                            </h1>
+                        </div>
+                        <div
+                            style={{minHeight: "300px"}}
+                            className="modal-body">
+                            <div className="form-group">
+                                <label className="control-label">
+                                    Key Name
+                                </label>
+                                <div>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        onChange={this.updateKeyName}
+                                        value={this.state.keyName}
+                                    />
+                                </div>
+                            </div>
                             <div>
-                                <input type="text" className="form-control" onChange={this.updateKeyName} value={this.state.keyName} />
+                                <label className="control-label">
+                                    Public Key
+                                </label>
+                                <div
+                                    aria-invalid={showKeyWarn}
+                                    className={
+                                        "form-group " +
+                                        (showKeyWarn ? "has-error" : "")
+                                    }>
+                                    <textarea
+                                        placeholder="Begins with either ssh-rsa, ssh-dss, ..."
+                                        style={{minHeight: "200px"}}
+                                        className="form-control"
+                                        onChange={this.updatePublicKey}
+                                        value={this.state.pubKey}
+                                    />
+                                    {showKeyWarn ? (
+                                        <span className="help-block">
+                                            {"* " + this.state.errorMsg}
+                                        </span>
+                                    ) : (
+                                        ""
+                                    )}
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <label className="control-label">
-                                Public Key
-                            </label>
-                            <div aria-invalid={showKeyWarn} className={"form-group " + (showKeyWarn ? "has-error" : "")}>
-                                <textarea placeholder="Begins with either ssh-rsa, ssh-dss, ..."
-                                    style={{ minHeight: "200px" }}
-                                    className="form-control"
-                                    onChange={this.updatePublicKey} value={this.state.pubKey} />
-                                {showKeyWarn ? <span className="help-block">{"* " + this.state.errorMsg}</span> : ""}
-                            </div>
+                        <div className="modal-footer">
+                            <button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={this.hide}>
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                aria-invalid={notSubmittable}
+                                className="btn btn-primary"
+                                onClick={this.onSubmit}
+                                disabled={notSubmittable}>
+                                Confirm
+                            </button>
                         </div>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={this.hide}>
-                            Cancel
-                        </button>
-                        <button type="button"
-                            aria-invalid={notSubmittable}
-                            className="btn btn-primary"
-                            onClick={this.onSubmit}
-                            disabled={notSubmittable}>
-                            Confirm
-                        </button>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
-
 });

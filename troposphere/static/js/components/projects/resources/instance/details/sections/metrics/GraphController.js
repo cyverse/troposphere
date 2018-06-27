@@ -4,7 +4,6 @@ import CPUGraph from "./CPUGraph";
 import MemoryGraph from "./MemoryGraph";
 import NetworkGraph from "./NetworkGraph";
 
-
 let GraphController = function(config) {
     this.container = config.container;
     this.width = config.width;
@@ -15,8 +14,7 @@ let GraphController = function(config) {
 GraphController.prototype.switch = function(settings, onSuccess, onError) {
     // Forcing a refresh is equivalent to emptying the store so that data
     // must be fetched
-    if (settings.refresh)
-        this.store.removeAll();
+    if (settings.refresh) this.store.removeAll();
 
     var key = {
         uuid: settings.uuid,
@@ -27,9 +25,11 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
 
     // Fetch data/build graphs for a timeframe
     if (graphs == undefined) {
-        graphs = [["cpu", CPUGraph],
-                  ["mem", MemoryGraph],
-                  ["net", NetworkGraph]].map((data) => {
+        graphs = [
+            ["cpu", CPUGraph],
+            ["mem", MemoryGraph],
+            ["net", NetworkGraph]
+        ].map(data => {
             return new data[1]({
                 type: data[0],
                 from: settings.from,
@@ -44,10 +44,11 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
         this.store.set(key, graphs);
 
         // Hide current graphs
-        this.graphs.forEach((g) => g.hide());
+        this.graphs.forEach(g => g.hide());
 
         // Show spinning loader
-        document.querySelector("#container.metrics .loading").style.display = "inherit";
+        document.querySelector("#container.metrics .loading").style.display =
+            "inherit";
 
         // Exit here to debug css spinning loader
         // return;
@@ -55,9 +56,11 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
         graphs[0].create(() => {
             graphs[1].create(() => {
                 graphs[2].create(() => {
-
                     // Hide spinning loader
-                    document.querySelector("#container.metrics .loading").style.display = "none";
+                    document.querySelector(
+                        "#container.metrics .loading"
+                    ).style.display =
+                        "none";
                     graphs[2].makeAxis();
                     graphs.forEach(function(g) {
                         g.show();
@@ -67,7 +70,6 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
                 }, onError);
             }, onError);
         }, onError);
-
     } else {
         this.graphs.forEach(function(g) {
             g.hide();

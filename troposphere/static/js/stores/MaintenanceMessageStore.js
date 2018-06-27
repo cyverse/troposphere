@@ -1,4 +1,3 @@
-
 import MaintenanceMessageCollection from "collections/MaintenanceMessageCollection";
 import BaseStore from "stores/BaseStore";
 
@@ -19,7 +18,6 @@ let MaintenanceMessageStore = BaseStore.extend({
 
         return isInMaintenance;
     }
-
 });
 
 let store = new MaintenanceMessageStore();

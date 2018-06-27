@@ -20,5 +20,4 @@ export default Backbone.Collection.extend({
     comparator: function(a, b) {
         return b.get("start_date").diff(a.get("start_date"), "seconds");
     }
-
 });

@@ -34,33 +34,29 @@ export default React.createClass({
     render: function() {
         var buttons = this.props.buttons.map(function(button) {
             return (
-            <button key={button.text}
-                type="button"
-                className={"btn btn-" + button.type}
-                onClick={button.handler}>
-                {button.text}
-            </button>
+                <button
+                    key={button.text}
+                    type="button"
+                    className={"btn btn-" + button.type}
+                    onClick={button.handler}>
+                    {button.text}
+                </button>
             );
         });
 
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <strong>{this.props.header}</strong>
-                    </div>
-                    <div className="modal-body">
-                        {this.props.children}
-                    </div>
-                    <div className="modal-footer">
-                        {buttons}
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <strong>{this.props.header}</strong>
+                        </div>
+                        <div className="modal-body">{this.props.children}</div>
+                        <div className="modal-footer">{buttons}</div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
-
 });

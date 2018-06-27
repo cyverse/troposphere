@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 import LicenseMultiSelect from "./LicenseMultiSelectAndCreate";
 
-
 export default React.createClass({
     displayName: "EditLicenseView",
 
@@ -20,12 +19,12 @@ export default React.createClass({
         return {
             activeLicenses: new Backbone.Collection(),
             licenses: new Backbone.Collection()
-        }
+        };
     },
     getInitialState: function() {
         return {
-            query: "",
-        }
+            query: ""
+        };
     },
     onQueryChange: function(query) {
         this.setState({
@@ -43,13 +42,19 @@ export default React.createClass({
 
         if (query) {
             licenses = this.props.licenses.filter(function(license) {
-                return license.get("title").toLowerCase().indexOf(query.toLowerCase()) >= 0;
+                return (
+                    license
+                        .get("title")
+                        .toLowerCase()
+                        .indexOf(query.toLowerCase()) >= 0
+                );
             });
             licenses = new Backbone.Collection(licenses);
         }
 
         licenseView = (
-            <LicenseMultiSelect models={licenses}
+            <LicenseMultiSelect
+                models={licenses}
                 activeModels={this.props.activeLicenses}
                 onModelAdded={this.props.onLicenseAdded}
                 onModelRemoved={this.props.onLicenseRemoved}
@@ -57,13 +62,10 @@ export default React.createClass({
                 onQueryChange={this.onQueryChange}
                 propertyName={"title"}
                 showButtonText="Create New License"
-                placeholderText="Search by License title..." />
+                placeholderText="Search by License title..."
+            />
         );
 
-        return (
-        <div className="resource-users">
-            {licenseView}
-        </div>
-        );
+        return <div className="resource-users">{licenseView}</div>;
     }
 });

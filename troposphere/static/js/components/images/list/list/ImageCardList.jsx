@@ -1,12 +1,10 @@
 import React from "react";
 import Backbone from "backbone";
 import ImageListCard from "../common/ImageListCard";
-import { filterEndDate } from "utilities/filterCollection";
+import {filterEndDate} from "utilities/filterCollection";
 import stores from "stores";
 
-
 export default React.createClass({
-
     propTypes: {
         title: React.PropTypes.string,
         images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
@@ -16,9 +14,7 @@ export default React.createClass({
         var title = this.props.title;
         if (!title) return;
 
-        return (
-        <h3 className="t-title">{title}</h3>
-        )
+        return <h3 className="t-title">{title}</h3>;
     },
 
     renderCard: function(image) {
@@ -26,9 +22,13 @@ export default React.createClass({
         let imageMetric = stores.ImageMetricsStore.get(image.id);
 
         return (
-        <li key={image.id}>
-            <ImageListCard image={image} metric={imageMetric} isEndDated={isEndDated} />
-        </li>
+            <li key={image.id}>
+                <ImageListCard
+                    image={image}
+                    metric={imageMetric}
+                    isEndDated={isEndDated}
+                />
+            </li>
         );
     },
 
@@ -37,13 +37,10 @@ export default React.createClass({
         var imageCards = images.map(this.renderCard);
 
         return (
-        <div>
-            {this.renderTitle()}
-            <ul className="app-card-list">
-                {imageCards}
-            </ul>
-        </div>
+            <div>
+                {this.renderTitle()}
+                <ul className="app-card-list">{imageCards}</ul>
+            </div>
         );
     }
 });
-

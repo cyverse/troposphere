@@ -1,10 +1,8 @@
 import d3 from "d3";
 import Utils from "./Utils";
-import { extend } from "underscore";
-
+import {extend} from "underscore";
 
 let Graph = function(settings) {
-
     switch (settings.timeframe) {
         // this.points * this.resolution == 60
         case "1 hour":
@@ -74,11 +72,16 @@ Graph.prototype.fetch = function(onSuccess, onError) {
         urlParams.fun = "perSecond";
     }
 
-    Utils.fetch(this.uuid, urlParams, function(data) {
-        me.timestamp = Date.now();
-        me.data = data;
-        onSuccess();
-    }, onError);
+    Utils.fetch(
+        this.uuid,
+        urlParams,
+        function(data) {
+            me.timestamp = Date.now();
+            me.data = data;
+            onSuccess();
+        },
+        onError
+    );
 };
 
 Graph.prototype.make = function() {
@@ -106,15 +109,18 @@ Graph.prototype.make = function() {
 
     var showRelative = false;
 
-    var x = d3.scale.linear()
+    var x = d3.scale
+        .linear()
         .range([0, width])
         .domain(d3.extent(data, getX));
 
-    var y = d3.scale.linear()
+    var y = d3.scale
+        .linear()
         .range([height, 0])
-        .domain([0, (showRelative ? 1.2 * yMax : 1)]);
+        .domain([0, showRelative ? 1.2 * yMax : 1]);
 
-    var line = d3.svg.line()
+    var line = d3.svg
+        .line()
         .x(function(d) {
             return x(d.x);
         })
@@ -122,7 +128,8 @@ Graph.prototype.make = function() {
             return y(d.y);
         });
 
-    var area = d3.svg.area()
+    var area = d3.svg
+        .area()
         .x(function(d) {
             return x(d.x);
         })
@@ -131,24 +138,26 @@ Graph.prototype.make = function() {
             return y(d.y);
         });
 
-    var svg = d3.select(graphDom).append("svg")
+    var svg = d3
+        .select(graphDom)
+        .append("svg")
         .attr("width", me.width)
         .attr("height", me.height)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var delta = 0.2;
-    var showMax = yMax > delta &&
-        yMax < 1 - delta;
+    var showMax = yMax > delta && yMax < 1 - delta;
 
     var showMean =
-    // if mean-label enough below max label
-    yMean < yMax - delta * yMax &&
+        // if mean-label enough below max label
+        yMean < yMax - delta * yMax &&
         // if mean-label enough above 0
         yMean > (showRelative ? delta * yMax : delta);
 
     if (showMean) {
-        svg.append("path")
+        svg
+            .append("path")
             .datum([
                 {
                     x: xMin,
@@ -159,16 +168,18 @@ Graph.prototype.make = function() {
                     y: yMean
                 }
             ])
-            .style("stroke-dasharray", ("3, 3"))
+            .style("stroke-dasharray", "3, 3")
             .attr("class", "metrics mean line")
             .attr("d", line);
     }
-    svg.append("path")
+    svg
+        .append("path")
         .datum(data)
         .attr("class", "metrics rx area")
         .attr("d", area);
 
-    var xAxis = d3.svg.line()
+    var xAxis = d3.svg
+        .line()
         .x(function(d) {
             return x(d.x);
         })
@@ -176,12 +187,14 @@ Graph.prototype.make = function() {
             return y(0);
         });
 
-    svg.append("path")
+    svg
+        .append("path")
         .datum(data)
         .attr("class", "metrics x line")
         .attr("d", xAxis);
 
-    svg.append("path")
+    svg
+        .append("path")
         .datum(data)
         .attr("class", "metrics rx line")
         .attr("d", line);
@@ -190,22 +203,23 @@ Graph.prototype.make = function() {
     var ticks = [0];
     if (showMean) ticks.push(yMean);
     if (showMax) ticks.push(yMax);
-    if (showRelative)
-        ticks.push(yMax);
-    else
-        ticks.push(1);
+    if (showRelative) ticks.push(yMax);
+    else ticks.push(1);
 
-    var yAxis = d3.svg.axis()
+    var yAxis = d3.svg
+        .axis()
         .tickFormat(d3.format(showRelative ? ".1%" : ".0%"))
         .tickValues(ticks)
         .scale(y)
         .orient("left");
 
-    svg.append("g")
+    svg
+        .append("g")
         .attr("class", "metrics y axis")
         .call(yAxis);
 
-    svg.append("text")
+    svg
+        .append("text")
         .attr("class", "metrics x axis")
         .attr("style", "text-anchor:end")
         .attr("x", width)
@@ -216,7 +230,6 @@ Graph.prototype.make = function() {
 
 // Horizontal labeled x axis
 Graph.prototype.makeAxis = function() {
-
     // Cpu/Mem Graph data || Network Graph data
     var data = this.data || this.lower.data;
 
@@ -237,33 +250,38 @@ Graph.prototype.makeAxis = function() {
     // Width/height of axis
     var width = this.width - margin.left - margin.right;
 
-    var svg = d3.select(graphDom).append("svg")
+    var svg = d3
+        .select(graphDom)
+        .append("svg")
         .attr("id", "labeledXAxis")
         .attr("class", "axis path")
         .attr("width", this.width)
         .attr("height", metricsAxisHeight)
         .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var x = d3.time.scale()
+    var x = d3.time
+        .scale()
         .range([0, width])
         .domain(d3.extent(data, Utils.get("x")));
 
-    var xAxis = d3.svg.axis()
+    var xAxis = d3.svg
+        .axis()
         .scale(x)
         .orient("bottom");
 
     var total_mins = this.resolution * this.points;
     if (total_mins == 60) {
         xAxis.ticks(6).tickFormat(function() {
-            return d3.time.format("%_I:%M%p")
+            return d3.time
+                .format("%_I:%M%p")
                 .apply(d3.time, arguments)
                 .toLowerCase();
         });
     } else if (total_mins == 60 * 24) {
         xAxis.ticks(12).tickFormat(function() {
-            return d3.time.format("%_I%p")
+            return d3.time
+                .format("%_I%p")
                 .apply(d3.time, arguments)
                 .toLowerCase();
         });
@@ -271,13 +289,10 @@ Graph.prototype.makeAxis = function() {
         xAxis.ticks(7).tickFormat(d3.time.format("%a"));
     }
 
-    svg.append("g")
-        .call(xAxis);
-
+    svg.append("g").call(xAxis);
 };
 
 Graph.prototype.makeTimestamp = function() {
-
     var timestamp = this.timestamp;
 
     var graphDom = this.element;
@@ -298,23 +313,24 @@ Graph.prototype.makeTimestamp = function() {
     var width = this.width - margin.left - margin.right,
         height = tsContainerHeight - margin.top - margin.bottom;
 
-    var svg = d3.select(graphDom).append("svg")
+    var svg = d3
+        .select(graphDom)
+        .append("svg")
         .attr("id", "updateTimestamp")
         .attr("width", this.width)
         .attr("height", tsContainerHeight)
         .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    svg.append("text")
+    svg
+        .append("text")
         .attr("class", "metrics x axis")
         .attr("style", "text-anchor:end")
         .attr("width", this.width)
         .attr("height", height)
         .attr("x", width)
-        .attr("dy", (height / 2) + "px")
+        .attr("dy", height / 2 + "px")
         .text("Updated: " + timestamp);
-
 };
 
 export default Graph;

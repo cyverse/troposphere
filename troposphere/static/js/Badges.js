@@ -1,4 +1,3 @@
-
 export default {
     LAUNCH_1_INSTANCE_BADGE: 1,
     LAUNCH_10_INSTANCES_BADGE: 2,

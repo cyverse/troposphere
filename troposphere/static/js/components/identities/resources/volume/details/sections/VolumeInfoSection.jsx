@@ -20,7 +20,7 @@ export default React.createClass({
         return {
             name: volume.get("name"),
             isEditing: false
-        }
+        };
     },
 
     onEnterEditMode: function(e) {
@@ -38,43 +38,48 @@ export default React.createClass({
         });
         actions.VolumeActions.update(volume, {
             name: text
-        })
+        });
     },
 
     render: function() {
         var volume = this.props.volume,
             profile = stores.ProfileStore.get(),
             type = profile.get("icon_set"),
-            instanceHash = CryptoJS.MD5((volume.id || volume.cid).toString()).toString(),
+            instanceHash = CryptoJS.MD5(
+                (volume.id || volume.cid).toString()
+            ).toString(),
             iconSize = 113,
             nameContent;
 
         if (this.state.isEditing) {
             nameContent = (
-                <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditing} />
+                <EditableInputField
+                    text={this.state.name}
+                    onDoneEditing={this.onDoneEditing}
+                />
             );
         } else {
             nameContent = (
-                <h4 onClick={this.onEnterEditMode}>{this.state.name} <i className="glyphicon glyphicon-pencil"></i></h4>
+                <h4 onClick={this.onEnterEditMode}>
+                    {this.state.name}{" "}
+                    <i className="glyphicon glyphicon-pencil" />
+                </h4>
             );
         }
 
         return (
-        <div className="resource-info-section section clearfix">
-            <div className="resource-image">
-                <Gravatar hash={instanceHash} size={iconSize} type={type} />
-            </div>
-            <div className="resource-info">
-                <div className="resource-name editable">
-                    {nameContent}
+            <div className="resource-info-section section clearfix">
+                <div className="resource-image">
+                    <Gravatar hash={instanceHash} size={iconSize} type={type} />
                 </div>
-                <div className="resource-launch-date">
-                    {`Created on `}
-                    <Time date={volume.get("start_date")} />
+                <div className="resource-info">
+                    <div className="resource-name editable">{nameContent}</div>
+                    <div className="resource-launch-date">
+                        {`Created on `}
+                        <Time date={volume.get("start_date")} />
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
-
 });

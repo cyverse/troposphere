@@ -20,22 +20,21 @@ var PastInstanceDetailsSection = React.createClass({
         var instance = this.props.instance;
 
         return (
-        <div className="resource-details-section section">
-            <h4 className="t-title">Instance Details</h4>
-            <ul>
-                <Status instance={instance} />
-                <Size instance={instance} />
-                <LaunchDate instance={instance} />
-                <EndDate instance={instance} />
-                <CreatedFrom instance={instance} />
-                <Identity instance={instance} />
-                <Id instance={instance} />
-                <Alias instance={instance} />
-            </ul>
-        </div>
+            <div className="resource-details-section section">
+                <h4 className="t-title">Instance Details</h4>
+                <ul>
+                    <Status instance={instance} />
+                    <Size instance={instance} />
+                    <LaunchDate instance={instance} />
+                    <EndDate instance={instance} />
+                    <CreatedFrom instance={instance} />
+                    <Identity instance={instance} />
+                    <Id instance={instance} />
+                    <Alias instance={instance} />
+                </ul>
+            </div>
         );
     }
-
 });
 
 export default PastInstanceDetailsSection;

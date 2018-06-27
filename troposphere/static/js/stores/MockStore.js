@@ -1,4 +1,3 @@
-
 var MockStore = function() {
     return {
         get: function() {
@@ -16,7 +15,7 @@ var MockStore = function() {
         addChangeListener: function(callback) {},
         removeChangeListener: function(callback) {},
         emitChange: function() {}
-    }
+    };
 };
 
 export default MockStore;

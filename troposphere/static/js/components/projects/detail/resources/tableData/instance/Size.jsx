@@ -10,10 +10,8 @@ export default React.createClass({
 
     render: function() {
         let instance = this.props.instance;
-        let size = instance.get('size');
+        let size = instance.get("size");
 
-        return (
-        <span style={{ textTransform: "capitalize" }}>{size.name}</span>
-        );
+        return <span style={{textTransform: "capitalize"}}>{size.name}</span>;
     }
 });

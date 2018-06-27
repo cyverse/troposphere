@@ -13,10 +13,9 @@ export default React.createClass({
         let volume = this.props.volume;
 
         return (
-        <ResourceDetail label="Provider">
-            {volume.get("provider").name}
-        </ResourceDetail>
+            <ResourceDetail label="Provider">
+                {volume.get("provider").name}
+            </ResourceDetail>
         );
     }
-
 });

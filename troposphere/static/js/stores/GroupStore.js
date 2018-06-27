@@ -1,4 +1,3 @@
-
 import BaseStore from "stores/BaseStore";
 import GroupCollection from "collections/GroupCollection";
 
@@ -11,7 +10,7 @@ let GroupStore = BaseStore.extend({
     },
     getPrivateGroup: function() {
         let identity_key = "?is_private=true",
-            query_params = {"is_private" : true};
+            query_params = {is_private: true};
         if (!this.queryModels[identity_key]) {
             return this.fetchWhere(query_params);
         } else {
@@ -22,8 +21,8 @@ let GroupStore = BaseStore.extend({
         if (this.models) {
             return this.fetchModels();
         }
-        let identity_key = "?identity_uuid="+identityObj.uuid,
-            query_params = {"identity_uuid" : identityObj.uuid};
+        let identity_key = "?identity_uuid=" + identityObj.uuid,
+            query_params = {identity_uuid: identityObj.uuid};
         if (!this.queryModels[identity_key]) {
             return this.fetchWhere(query_params);
         } else {
@@ -31,20 +30,22 @@ let GroupStore = BaseStore.extend({
         }
     },
 
-
     getGroupsFromList: function(groupnameList) {
         if (!this.models)
-            throw new Error("Must fetch groups before calling getGroupsFromList");
-        var groups = groupnameList.map(function(groupname) {
-            var group = this.models.findWhere({
-                name: groupname
-            });
-            return group;
-        }.bind(this));
+            throw new Error(
+                "Must fetch groups before calling getGroupsFromList"
+            );
+        var groups = groupnameList.map(
+            function(groupname) {
+                var group = this.models.findWhere({
+                    name: groupname
+                });
+                return group;
+            }.bind(this)
+        );
 
         return new GroupCollection(groups);
     }
-
 });
 
 let store = new GroupStore();

@@ -18,19 +18,23 @@ export default React.createClass({
 
     render: function() {
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title">Edit Group</h1>
-                    </div>
-                    <div className="modal-body">
-                        <GroupCreateView group={this.props.group} cancel={this.cancel} onConfirm={this.confirm} />
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title">Edit Group</h1>
+                        </div>
+                        <div className="modal-body">
+                            <GroupCreateView
+                                group={this.props.group}
+                                cancel={this.cancel}
+                                onConfirm={this.confirm}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

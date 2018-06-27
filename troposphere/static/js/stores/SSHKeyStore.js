@@ -1,5 +1,5 @@
 import BaseStore from "stores/BaseStore";
-import SSHKeyConstants from "constants/SSHKeyConstants"
+import SSHKeyConstants from "constants/SSHKeyConstants";
 import SSHKeyCollection from "collections/SSHKeyCollection";
 import Dispatcher from "dispatchers/Dispatcher";
 

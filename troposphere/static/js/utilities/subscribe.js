@@ -52,8 +52,52 @@ import AllocationSourceStore from "stores/AllocationSourceStore";
 // late. This wrapper component wraps the module when it is defined and
 // stores.<STORE_NAME> isn't available then.
 let stores = {
-    AllocationStore, BadgeStore, ClientCredentialStore, GroupStore, ExternalLinkStore, HelpLinkStore, ImageStore, ImagePatternMatchStore, ImageMetricsStore, ImageVersionStore, ImageVersionMembershipStore, ImageVersionLicenseStore, ImageVersionScriptStore, IdentityStore, ImageBookmarkStore, InstanceHistoryStore, ImageRequestStore, InstanceStore, InstanceTagStore, LicenseStore, ScriptStore, MaintenanceMessageStore, MyBadgeStore, MembershipStore, PatternMatchStore, ProfileStore, ProjectStore, ProjectExternalLinkStore, ProjectImageStore, ProjectInstanceStore, ProjectVolumeStore, ProviderMachineStore, ProviderStore, ResourceRequestStore, AdminResourceRequestStore, IdentityMembershipStore, StatusStore, SSHKeyStore, QuotaStore, SizeStore, TagStore, UserStore, VersionStore, VolumeStore, AllocationSourceStore
-}
+    AllocationStore,
+    BadgeStore,
+    ClientCredentialStore,
+    GroupStore,
+    ExternalLinkStore,
+    HelpLinkStore,
+    ImageStore,
+    ImagePatternMatchStore,
+    ImageMetricsStore,
+    ImageVersionStore,
+    ImageVersionMembershipStore,
+    ImageVersionLicenseStore,
+    ImageVersionScriptStore,
+    IdentityStore,
+    ImageBookmarkStore,
+    InstanceHistoryStore,
+    ImageRequestStore,
+    InstanceStore,
+    InstanceTagStore,
+    LicenseStore,
+    ScriptStore,
+    MaintenanceMessageStore,
+    MyBadgeStore,
+    MembershipStore,
+    PatternMatchStore,
+    ProfileStore,
+    ProjectStore,
+    ProjectExternalLinkStore,
+    ProjectImageStore,
+    ProjectInstanceStore,
+    ProjectVolumeStore,
+    ProviderMachineStore,
+    ProviderStore,
+    ResourceRequestStore,
+    AdminResourceRequestStore,
+    IdentityMembershipStore,
+    StatusStore,
+    SSHKeyStore,
+    QuotaStore,
+    SizeStore,
+    TagStore,
+    UserStore,
+    VersionStore,
+    VolumeStore,
+    AllocationSourceStore
+};
 
 // Add change listeners to the component for the following stores. The stores
 // will be added to the props of the instance via a prop called subscriptions.
@@ -71,23 +115,23 @@ export default function(component, storeNames) {
             // If this is thrown either:
             //    The store needs to be added to the above stores object /OR/
             //    The store name was a typo and needs to be fixed in the component
-            throw new Error(`The store: ${name} does not exist. It cannot be subscribed to.`);
+            throw new Error(
+                `The store: ${name} does not exist. It cannot be subscribed to.`
+            );
         }
     });
 
     return React.createClass({
         componentDidMount: function() {
-            Object.values(subscriptions)
-                  .forEach(store => {
-                      store.addChangeListener(this.updateState)
-                  });
+            Object.values(subscriptions).forEach(store => {
+                store.addChangeListener(this.updateState);
+            });
         },
 
         componentWillUnmount: function() {
-            Object.values(subscriptions)
-                  .forEach(store => {
-                      store.removeChangeListener(this.updateState)
-                  });
+            Object.values(subscriptions).forEach(store => {
+                store.removeChangeListener(this.updateState);
+            });
         },
 
         updateState: function() {
@@ -97,26 +141,22 @@ export default function(component, storeNames) {
         getInitialState: function() {
             return {
                 subscribeListeners: []
-            }
+            };
         },
         callSubscribeListeners: function() {
-            this.state.subscribeListeners.forEach(
-                cb => cb()
-            );
-
+            this.state.subscribeListeners.forEach(cb => cb());
         },
         addSubscriber: function(callback) {
-            this.state.subscribeListeners.push(
-                    callback)
+            this.state.subscribeListeners.push(callback);
         },
 
         render: function() {
             // Define the props so that we extend props, with a new prop:
             // 'subscriptions'
-            let newProps = Object.assign(
-                    {},
-                    this.props,
-                    { subscriptions, addSubscriber:this.addSubscriber});
+            let newProps = Object.assign({}, this.props, {
+                subscriptions,
+                addSubscriber: this.addSubscriber
+            });
             return React.createElement(component, newProps);
         }
     });

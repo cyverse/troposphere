@@ -2,7 +2,6 @@ import React from "react";
 import EditableTextAreaField from "components/common/EditableTextAreaField";
 import Showdown from "showdown";
 
-
 export default React.createClass({
     displayName: "HtmlTextAreaField",
 
@@ -16,7 +15,7 @@ export default React.createClass({
         return {
             isEditing: false,
             title: this.props.title
-        }
+        };
     },
 
     onDoneEditing: function(text) {
@@ -43,13 +42,19 @@ export default React.createClass({
 
             if (this.props.canEditTitle && this.state.isEditing) {
                 titleContent = (
-                    <EditableTextAreaField text={this.state.title} onDoneEditing={this.onDoneEditing} />
+                    <EditableTextAreaField
+                        text={this.state.title}
+                        onDoneEditing={this.onDoneEditing}
+                    />
                 );
             } else {
                 titleContent = (
                     <div onClick={this.onEnterEditMode}>
-                        <span className="html-wrapper" dangerouslySetInnerHTML={{ __html: textHtml }} />
-                        <i className="glyphicon glyphicon-pencil"></i>
+                        <span
+                            className="html-wrapper"
+                            dangerouslySetInnerHTML={{__html: textHtml}}
+                        />
+                        <i className="glyphicon glyphicon-pencil" />
                     </div>
                 );
             }
@@ -58,13 +63,8 @@ export default React.createClass({
         }
 
         var titleClassName = "project-property col-md-9";
-        if (this.props.canEditTitle)
-            titleClassName += " editable";
+        if (this.props.canEditTitle) titleClassName += " editable";
 
-        return (
-        <div className={titleClassName}>
-            {titleContent}
-        </div>
-        );
+        return <div className={titleClassName}>{titleContent}</div>;
     }
 });

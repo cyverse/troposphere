@@ -6,7 +6,6 @@ import ImageCollection from "collections/ImageCollection";
 import Image from "models/Image";
 import stores from "stores";
 
-
 let _modelsFor = {};
 let _isFetchingFor = {};
 let _pendingProjectImages = new ImageCollection();
@@ -30,24 +29,28 @@ var ProjectImageStore = BaseStore.extend({
         if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
             _isFetchingFor[projectId] = true;
             var models = new ProjectImageCollection();
-            models.fetch({
-                url: models.url + "?project__id=" + projectId
-            }).done(function() {
-                _isFetchingFor[projectId] = false;
-                // add models to existing cache
-                this.models.add(models.models);
+            models
+                .fetch({
+                    url: models.url + "?project__id=" + projectId
+                })
+                .done(
+                    function() {
+                        _isFetchingFor[projectId] = false;
+                        // add models to existing cache
+                        this.models.add(models.models);
 
-                // convert ProjectImage collection to an ImageCollection
-                var images = models.map(function(project_image) {
-                    return new Image(project_image.get("image"), {
-                        parse: true
-                    });
-                });
-                images = new ImageCollection(images);
+                        // convert ProjectImage collection to an ImageCollection
+                        var images = models.map(function(project_image) {
+                            return new Image(project_image.get("image"), {
+                                parse: true
+                            });
+                        });
+                        images = new ImageCollection(images);
 
-                _modelsFor[projectId] = images;
-                this.emitChange();
-            }.bind(this));
+                        _modelsFor[projectId] = images;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
@@ -64,11 +67,13 @@ var ProjectImageStore = BaseStore.extend({
         if (!project.id) return;
         if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
 
-        let images = this.models.filter( (pi) => {
-            return pi.get("project").id === project.id;
-        }).map( (pi) => {
-            return new Image(pi.get("image"), {parse: true});
-        });
+        let images = this.models
+            .filter(pi => {
+                return pi.get("project").id === project.id;
+            })
+            .map(pi => {
+                return new Image(pi.get("image"), {parse: true});
+            });
 
         return new ImageCollection(images);
     },
@@ -90,7 +95,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ProjectImageConstants.ADD_PROJECT_IMAGE:
             store.add(payload.projectImage);
             break;

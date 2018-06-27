@@ -35,43 +35,45 @@ const DeleteLinkModal = React.createClass({
     renderBody: function() {
         var link = this.props.external_link;
         return (
-        <div>
-            <p>
-                {"Are you sure you want to delete the link "}
-                <strong>{link.get("name")}</strong>
-                {"?"}
-            </p>
-        </div>
+            <div>
+                <p>
+                    {"Are you sure you want to delete the link "}
+                    <strong>{link.get("name")}</strong>
+                    {"?"}
+                </p>
+            </div>
         );
     },
 
     render: function() {
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title">Delete Link</h1>
-                    </div>
-                    <div className="modal-body" style={{ minHeight: "200px" }}>
-                        {this.renderBody()}
-                    </div>
-                    <div className="modal-footer">
-                        <RaisedButton
-                            style={{ marginRight: "10px" }}
-                            onTouchTap={this.cancel}
-                            label="Cancel"
-                        />
-                        <RaisedButton
-                            primary
-                            onTouchTap={this.confirm}
-                            label="Yes, delete this link"
-                        />
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title">Delete Link</h1>
+                        </div>
+                        <div
+                            className="modal-body"
+                            style={{minHeight: "200px"}}>
+                            {this.renderBody()}
+                        </div>
+                        <div className="modal-footer">
+                            <RaisedButton
+                                style={{marginRight: "10px"}}
+                                onTouchTap={this.cancel}
+                                label="Cancel"
+                            />
+                            <RaisedButton
+                                primary
+                                onTouchTap={this.confirm}
+                                label="Yes, delete this link"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

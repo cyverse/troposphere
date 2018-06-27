@@ -17,12 +17,14 @@ export default {
         };
 
         request.set(newAttributes);
-        request.save(newAttributes, {
-            patch: true
-        }).done(function() {
-            Utils.dispatch(Constants.UPDATE, {
-                model: request
+        request
+            .save(newAttributes, {
+                patch: true
+            })
+            .done(function() {
+                Utils.dispatch(Constants.UPDATE, {
+                    model: request
+                });
             });
-        });
     }
 };

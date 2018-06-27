@@ -19,53 +19,63 @@ let Modal = {
     },
 
     render: function() {
-        var dialog = React.DOM.div({
-            className: "modal-dialog"
-        },
-            React.DOM.div({
-                className: "modal-content"
+        var dialog = React.DOM.div(
+            {
+                className: "modal-dialog"
             },
-                React.DOM.div({
-                    className: "modal-header"
+            React.DOM.div(
+                {
+                    className: "modal-content"
                 },
-                    React.DOM.button({
-                        type: "button",
-                        className: "close",
-                        onClick: this.close,
-                        "aria-hidden": "true"
+                React.DOM.div(
+                    {
+                        className: "modal-header"
                     },
+                    React.DOM.button(
+                        {
+                            type: "button",
+                            className: "close",
+                            onClick: this.close,
+                            "aria-hidden": "true"
+                        },
                         "\u00d7"
                     ),
-                    React.DOM.h4({
-                        className: "modal-title"
-                    },
+                    React.DOM.h4(
+                        {
+                            className: "modal-title"
+                        },
                         this.renderTitle()
                     )
                 ),
-                React.DOM.div({
-                    className: "modal-body"
-                },
+                React.DOM.div(
+                    {
+                        className: "modal-body"
+                    },
                     this.renderBody()
                 ),
-                React.DOM.div({
-                    className: "modal-footer"
-                },
+                React.DOM.div(
+                    {
+                        className: "modal-footer"
+                    },
                     this.renderFooter()
                 )
             )
         );
 
         var className = "modal fade" + (this.state.visible ? " in" : "");
-        return React.DOM.div({
-            id: "application-modal",
-            className: className,
-            tabIndex: "-1",
-            role: "dialog",
-            "aria-hidden": !this.state.visible,
-            style: {
-                display: this.state.visible ? "block" : "none"
-            }
-        }, dialog);
+        return React.DOM.div(
+            {
+                id: "application-modal",
+                className: className,
+                tabIndex: "-1",
+                role: "dialog",
+                "aria-hidden": !this.state.visible,
+                style: {
+                    display: this.state.visible ? "block" : "none"
+                }
+            },
+            dialog
+        );
     }
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "underscore";
-import { withRouter } from "react-router";
+import {withRouter} from "react-router";
 
 import Utils from "actions/Utils";
 import stores from "stores";
@@ -8,20 +8,19 @@ import ResourceRequestView from "./ResourceRequestView";
 import AdminResourceRequestActions from "actions/AdminResourceRequestActions";
 import Quota from "models/Quota";
 import AllocationSourceConstants from "constants/AllocationSourceConstants";
-import IdentityConstants from "constants/IdentityConstants"
-import errorHandler from "actions/errorHandler"
+import IdentityConstants from "constants/IdentityConstants";
+import errorHandler from "actions/errorHandler";
 
 const ResourceRequest = React.createClass({
-
     propTypes: {
-        selectedRequest: React.PropTypes.object,
+        selectedRequest: React.PropTypes.object
     },
 
     getInitialState() {
         return {
             actionPending: false,
             allocationsSavedOnce: false,
-            identitiesSavedOnce: false,
+            identitiesSavedOnce: false
         };
     },
 
@@ -45,36 +44,38 @@ const ResourceRequest = React.createClass({
     },
 
     onAllocationSave(allocationSource) {
-        let { selectedRequest: request } = this.props;
+        let {selectedRequest: request} = this.props;
         let promise = Promise.resolve(
-            allocationSource.save(allocationSource.pick("compute_allowed"), { patch: true })
+            allocationSource.save(allocationSource.pick("compute_allowed"), {
+                patch: true
+            })
         );
         promise
             .then(() => {
                 Utils.dispatch(AllocationSourceConstants.UPDATE, {
                     allocation: allocationSource,
                     username: request.get("created_by").username
-                })
-                this.setState({ allocationsSavedOnce: true });
+                });
+                this.setState({allocationsSavedOnce: true});
             })
             .catch(errorHandler);
         return promise;
     },
 
     onIdentitySave(identity) {
-        let { selectedRequest: request } = this.props;
+        let {selectedRequest: request} = this.props;
         let username = request.get("created_by").username;
-        let quota = new Quota(_.omit(identity.get('quota'), ["id", "uuid"]));
-        let promise = Promise.resolve(quota.save())
-            .then(
-                () => {
-                    // The api expects a username query paramater for an admin
-                    // to update another users' identity. This will be
-                    // changed.
-                    let urlByUsername = `${identity.url()}?username=${username}`;
-                    return identity.save({ 'quota': quota.pick("id") }, { patch: true, url: urlByUsername })
-                }
+        let quota = new Quota(_.omit(identity.get("quota"), ["id", "uuid"]));
+        let promise = Promise.resolve(quota.save()).then(() => {
+            // The api expects a username query paramater for an admin
+            // to update another users' identity. This will be
+            // changed.
+            let urlByUsername = `${identity.url()}?username=${username}`;
+            return identity.save(
+                {quota: quota.pick("id")},
+                {patch: true, url: urlByUsername}
             );
+        });
 
         promise
             .then(() => {
@@ -82,89 +83,88 @@ const ResourceRequest = React.createClass({
                     identity,
                     username
                 });
-                this.setState({ identitiesSavedOnce: true });
+                this.setState({identitiesSavedOnce: true});
             })
             .catch(errorHandler);
         return promise;
     },
 
     onApprove() {
-        let { selectedRequest: request } = this.props;
-        let { statuses } = this.fetch();
+        let {selectedRequest: request} = this.props;
+        let {statuses} = this.fetch();
         let status = statuses.findWhere({
             name: "approved"
         });
 
-        this.setState({ actionPending: true });
-        let promise = Promise.resolve(AdminResourceRequestActions.updateRequest(request, status));
-        promise
-            .then(
-                // onSuccess, navigate away
-                () => this.props.router.push("admin/resource-requests"),
+        this.setState({actionPending: true});
+        let promise = Promise.resolve(
+            AdminResourceRequestActions.updateRequest(request, status)
+        );
+        promise.then(
+            // onSuccess, navigate away
+            () => this.props.router.push("admin/resource-requests"),
 
-                // onFailure, action is no longer pending, trigger error handler
-                err => {
-                    this.setState({ actionPending: false })
-                    errorHandler(err);
-                }
-            );
+            // onFailure, action is no longer pending, trigger error handler
+            err => {
+                this.setState({actionPending: false});
+                errorHandler(err);
+            }
+        );
         return promise;
     },
 
     onDeny(reason) {
-        let { selectedRequest: request } = this.props;
-        let { statuses } = this.fetch();
+        let {selectedRequest: request} = this.props;
+        let {statuses} = this.fetch();
 
         let status = statuses.findWhere({
             name: "denied"
         });
 
-        this.setState({ actionPending: true });
+        this.setState({actionPending: true});
         let promise = Promise.resolve(
             AdminResourceRequestActions.updateRequest(request, status, reason)
         );
-        promise
-            .then(
-                // onSuccess, navigate away
-                () => this.props.router.push("admin/resource-requests"),
+        promise.then(
+            // onSuccess, navigate away
+            () => this.props.router.push("admin/resource-requests"),
 
-                // onFailure, action is no longer pending, trigger error handler
-                err => {
-                    this.setState({ actionPending: false });
-                    errorHandler(err);
-                }
-            );
+            // onFailure, action is no longer pending, trigger error handler
+            err => {
+                this.setState({actionPending: false});
+                errorHandler(err);
+            }
+        );
         return promise;
     },
 
     onClose() {
-        let { selectedRequest: request } = this.props;
-        let { statuses } = this.fetch();
+        let {selectedRequest: request} = this.props;
+        let {statuses} = this.fetch();
 
         let status = statuses.findWhere({
             name: "closed"
         });
 
-        this.setState({ actionPending: true });
+        this.setState({actionPending: true});
         let promise = Promise.resolve(
             AdminResourceRequestActions.updateRequest(request, status)
         );
-        promise
-            .then(
-                // onSuccess, navigate away
-                () => this.props.router.push("admin/resource-requests"),
+        promise.then(
+            // onSuccess, navigate away
+            () => this.props.router.push("admin/resource-requests"),
 
-                // onFailure, action is no longer pending, trigger error handler
-                err => {
-                    this.setState({ actionPending: false });
-                    errorHandler(err);
-                }
-            )
+            // onFailure, action is no longer pending, trigger error handler
+            err => {
+                this.setState({actionPending: false});
+                errorHandler(err);
+            }
+        );
         return promise;
     },
 
     fetch() {
-        let { selectedRequest: request } = this.props;
+        let {selectedRequest: request} = this.props;
         let statuses = stores.StatusStore.getAll();
 
         let identities;
@@ -177,8 +177,8 @@ const ResourceRequest = React.createClass({
         let allocationSources;
         if (request) {
             allocationSources = stores.AllocationSourceStore.fetchWhere({
-                "username": request.get("created_by").username
-            })
+                username: request.get("created_by").username
+            });
         }
 
         return {
@@ -189,14 +189,16 @@ const ResourceRequest = React.createClass({
     },
 
     render() {
-        let { allocationSources, identities } = this.fetch();
-        let { selectedRequest } = this.props;
-        let { actionPending, allocationsSavedOnce, identitiesSavedOnce } = this.state;
+        let {allocationSources, identities} = this.fetch();
+        let {selectedRequest} = this.props;
+        let {
+            actionPending,
+            allocationsSavedOnce,
+            identitiesSavedOnce
+        } = this.state;
 
         if (actionPending) {
-            return (
-                <div className="loading"></div>
-            );
+            return <div className="loading" />;
         }
 
         let viewProps = {
@@ -208,12 +210,10 @@ const ResourceRequest = React.createClass({
             onIdentitySave: this.onIdentitySave,
             onApprove: this.onApprove,
             onDeny: this.onDeny,
-            onClose: this.onClose,
+            onClose: this.onClose
         };
 
-        return (
-        <ResourceRequestView {...viewProps} />
-        );
+        return <ResourceRequestView {...viewProps} />;
     }
 });
 

@@ -1,7 +1,5 @@
 import React from "react";
-import { Route,
-         IndexRoute,
-         IndexRedirect } from "react-router";
+import {Route, IndexRoute, IndexRedirect} from "react-router";
 
 import globals from "globals";
 
@@ -54,18 +52,18 @@ import ResourceMaster from "./components/admin/ResourceMaster";
 import ResourceRequest from "./components/admin/ResourceRequest/ResourceRequest";
 
 const providersRoute = (
-<Route path="providers" component={ProvidersMaster}>
-    <IndexRoute component={ProviderListSection} />
-    <Route path=":id" component={ProviderDetail} />
-    <Route path="all" component={ProviderListSection} />
-</Route>
-)
+    <Route path="providers" component={ProvidersMaster}>
+        <IndexRoute component={ProviderListSection} />
+        <Route path=":id" component={ProviderDetail} />
+        <Route path="all" component={ProviderListSection} />
+    </Route>
+);
 
 function AppRoutes(props) {
-    const { profile } = props;
+    const {profile} = props;
 
     const staffOnly = (StaffView, PubView) => {
-        return profile.get('is_staff') ? StaffView : PubView;
+        return profile.get("is_staff") ? StaffView : PubView;
     };
 
     return (
@@ -75,8 +73,14 @@ function AppRoutes(props) {
                 <Route path=":projectId" component={ProjectDetailsMaster}>
                     <Route path="details" component={ProjectDetailsPage} />
                     <Route path="resources" component={ProjectResourcesPage} />
-                    <Route path="instances/:instanceId" component={ProjectInstancePage} />
-                    <Route path="volumes/:volumeId" component={ProjectVolumePage} />
+                    <Route
+                        path="instances/:instanceId"
+                        component={ProjectInstancePage}
+                    />
+                    <Route
+                        path="volumes/:volumeId"
+                        component={ProjectVolumePage}
+                    />
                     <Route path="links/:linkId" component={ProjectLinkPage} />
                     <IndexRoute component={ProjectDetailsPage} />
                 </Route>
@@ -101,21 +105,19 @@ function AppRoutes(props) {
                 <Route path="search" component={ImageListPage} />
                 <Route path="favorites" component={FavoritedImagesPage} />
                 <Route path="authored" component={MyImagesPage} />
-                <Route path="my-image-requests" component={MyImageRequestsPage} />
+                <Route
+                    path="my-image-requests"
+                    component={MyImageRequestsPage}
+                />
                 <Route path="tags" component={ImageTagsPage} />
                 <Route path=":imageId" component={ImageDetailsPage} />
             </Route>
-            {globals.USE_ALLOCATION_SOURCES
-             ? null
-             : providersRoute}
+            {globals.USE_ALLOCATION_SOURCES ? null : providersRoute}
             <Route path="help" component={HelpPage} />
             <Route path="settings" component={SettingsPage} />
             <Route
                 path="admin"
-                component={staffOnly(
-                    AdminMaster, NotFoundPage
-                )}
-            >
+                component={staffOnly(AdminMaster, NotFoundPage)}>
                 <Route path="users" component={AtmosphereUserMaster} />
                 <Route path="groups" component={GroupMaster} />
                 <Route path="identities" component={IdentityMembershipMaster} />
@@ -140,8 +142,7 @@ function AppRoutes(props) {
             <IndexRoute component={DashboardPage} />
             <IndexRedirect to="dashboard" />
         </Route>
-    )
+    );
 }
-
 
 export default AppRoutes;

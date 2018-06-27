@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
-
+import {Link} from "react-router";
 
 export default React.createClass({
     displayName: "CallToAction",
@@ -14,15 +13,13 @@ export default React.createClass({
 
     render: function() {
         return (
-        <Link to={this.props.linksTo} className="option">
-            <img src={this.props.image} />
-            <br/>
-            <h2 className="t-title option__title">{this.props.title}</h2>
-            <hr/>
-            <p className="option__description">
-                {this.props.description}
-            </p>
-        </Link>
+            <Link to={this.props.linksTo} className="option">
+                <img src={this.props.image} />
+                <br />
+                <h2 className="t-title option__title">{this.props.title}</h2>
+                <hr />
+                <p className="option__description">{this.props.description}</p>
+            </Link>
         );
     }
 });

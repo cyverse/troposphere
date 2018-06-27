@@ -13,10 +13,10 @@ export default React.createClass({
     render() {
         const uuid = this.props.instance.get("uuid");
         return (
-        <ResourceDetail label="Alias">
-            { uuid }
-            <CopyButton text={ uuid }/>
-        </ResourceDetail>
+            <ResourceDetail label="Alias">
+                {uuid}
+                <CopyButton text={uuid} />
+            </ResourceDetail>
         );
     }
 });

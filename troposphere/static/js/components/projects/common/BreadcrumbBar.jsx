@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 import Breadcrumb from "./Breadcrumb";
 
-
 export default React.createClass({
     displayName: "ProjectsBreadcrumbBar",
 
@@ -26,17 +25,25 @@ export default React.createClass({
         //          ))
         //        }
 
-        var breadcrumbs = this.props.breadcrumbs.map(function(breadcrumb, index, array) {
-            var isCurrentLocation = (array.length - 1) === index ? true : false;
+        var breadcrumbs = this.props.breadcrumbs.map(function(
+            breadcrumb,
+            index,
+            array
+        ) {
+            var isCurrentLocation = array.length - 1 === index ? true : false;
             return (
-            <Breadcrumb key={breadcrumb.name} breadcrumb={breadcrumb} isCurrentLocation={isCurrentLocation} />
-            )
+                <Breadcrumb
+                    key={breadcrumb.name}
+                    breadcrumb={breadcrumb}
+                    isCurrentLocation={isCurrentLocation}
+                />
+            );
         });
 
         return (
-        <div className="button-bar" style={{ padding: "17px 0px" }}>
-            {breadcrumbs}
-        </div>
+            <div className="button-bar" style={{padding: "17px 0px"}}>
+                {breadcrumbs}
+            </div>
         );
     }
 });

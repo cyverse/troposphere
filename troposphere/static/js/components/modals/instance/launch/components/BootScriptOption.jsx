@@ -2,7 +2,6 @@ import React from "react";
 import AddScripts from "./AddScripts";
 import CreateScript from "components/common/boot_script/CreateScript";
 
-
 export default React.createClass({
     displayName: "BootScriptOption",
 
@@ -13,7 +12,7 @@ export default React.createClass({
     getInitialState: function() {
         return {
             view: "ADDSCRIPT_VIEW"
-        }
+        };
     },
 
     onCreateScript: function() {
@@ -27,40 +26,42 @@ export default React.createClass({
         this.props.onEnableFooter();
         this.setState({
             view: "ADDSCRIPT_VIEW"
-        })
+        });
     },
 
     renderSelectScripts: function() {
         return (
-        <AddScripts {...this.props} onCreateScript={this.onCreateScript} />
-        )
+            <AddScripts {...this.props} onCreateScript={this.onCreateScript} />
+        );
     },
 
     renderCreateScript: function() {
         return (
-        <CreateScript {...this.props}
-            close={this.onCloseCreateScript}
-            onCreate={this.props.onAddAttachedScript} />
-        )
+            <CreateScript
+                {...this.props}
+                close={this.onCloseCreateScript}
+                onCreate={this.props.onAddAttachedScript}
+            />
+        );
     },
 
     renderBody: function() {
         let view = this.state.view;
         switch (view) {
             case "ADDSCRIPT_VIEW":
-                return this.renderSelectScripts()
+                return this.renderSelectScripts();
             case "CREATESCRIPT_VIEW":
-                return this.renderCreateScript()
+                return this.renderCreateScript();
         }
     },
 
     render: function() {
         return (
-        <div>
-            <h3 className="t-title">Deployment Scripts</h3>
-            <hr/>
-            {this.renderBody()}
-        </div>
-        )
+            <div>
+                <h3 className="t-title">Deployment Scripts</h3>
+                <hr />
+                {this.renderBody()}
+            </div>
+        );
     }
 });

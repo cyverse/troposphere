@@ -3,7 +3,6 @@ import Backbone from "backbone";
 import Glyphicon from "components/common/Glyphicon";
 import modals from "modals";
 
-
 export default React.createClass({
     displayName: "ExternalLinkActions",
 
@@ -56,44 +55,56 @@ export default React.createClass({
 
         var links = linksArray.map(function(ext_link) {
             // Links without icons are generally section headings
-            if (!ext_link.icon) return (
-                <li key={ext_link.label} className="section-label">
-                    {ext_link.label}
-                </li>
+            if (!ext_link.icon)
+                return (
+                    <li key={ext_link.label} className="section-label">
+                        {ext_link.label}
+                    </li>
                 );
 
             var className = "section-link";
-            if (ext_link.isDangerLink)
-                className += " danger";
+            if (ext_link.isDangerLink) className += " danger";
 
             // Some actions have hrefs, because they redirect to actual pages (and are
             // not actions in need of confirmation).  While we *could* call
             // Backbone.history.navigate from an onClick callback, we want all url
             // changes to pass through our Backbone catcher in main.js that we can use
             // to log requests to Google Analytics
-            if (ext_link.href) return (
-                <li key={ext_link.label} className={className + " link"}>
-                    <a href={ext_link.href} target={ext_link.target ? ext_link.target : "_self"}><span><Glyphicon name={ext_link.icon}/>{ext_link.label}</span></a>
-                </li>
+            if (ext_link.href)
+                return (
+                    <li key={ext_link.label} className={className + " link"}>
+                        <a
+                            href={ext_link.href}
+                            target={
+                                ext_link.target ? ext_link.target : "_self"
+                            }>
+                            <span>
+                                <Glyphicon name={ext_link.icon} />
+                                {ext_link.label}
+                            </span>
+                        </a>
+                    </li>
                 );
 
             // Links with onClick callbacks will typically trigger modals requiring
             // confirmation before continuing
             return (
-            <li key={ext_link.label} className={className} onClick={ext_link.onClick}>
-                <span><Glyphicon name={ext_link.icon}/>{ext_link.label}</span>
-            </li>
+                <li
+                    key={ext_link.label}
+                    className={className}
+                    onClick={ext_link.onClick}>
+                    <span>
+                        <Glyphicon name={ext_link.icon} />
+                        {ext_link.label}
+                    </span>
+                </li>
             );
         });
 
         return (
-        <div className="resource-actions">
-            <ul>
-                {links}
-            </ul>
-        </div>
-
+            <div className="resource-actions">
+                <ul>{links}</ul>
+            </div>
         );
     }
-
 });

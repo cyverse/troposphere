@@ -1,4 +1,3 @@
-
 import React from "react";
 import Backbone from "backbone";
 
@@ -13,13 +12,10 @@ export default React.createClass({
         var provider = this.props.provider;
 
         return (
-        <div className="row provider-info-section">
-            <h4 className="t-title">Description</h4>
-            <p>
-                {provider.get("description")}
-            </p>
-        </div>
+            <div className="row provider-info-section">
+                <h4 className="t-title">Description</h4>
+                <p>{provider.get("description")}</p>
+            </div>
         );
-
     }
 });

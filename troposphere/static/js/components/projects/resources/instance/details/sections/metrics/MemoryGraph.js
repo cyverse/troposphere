@@ -1,5 +1,5 @@
 import Graph from "./Graph";
-import { extend } from "underscore";
+import {extend} from "underscore";
 
 let MemoryGraph = function(settings) {
     let defaults = {

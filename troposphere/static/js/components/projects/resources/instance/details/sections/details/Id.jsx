@@ -1,4 +1,3 @@
-
 import React from "react";
 import Backbone from "backbone";
 import ResourceDetail from "components/projects/common/ResourceDetail";
@@ -12,10 +11,7 @@ export default React.createClass({
 
     render: function() {
         return (
-        <ResourceDetail label="ID">
-            {this.props.instance.id}
-        </ResourceDetail>
+            <ResourceDetail label="ID">{this.props.instance.id}</ResourceDetail>
         );
     }
-
 });

@@ -3,7 +3,6 @@ import subscribe from "utilities/subscribe";
 import Backbone from "backbone";
 // import PercentLineChart from "components/images/detail/stats/PercentLineChart";
 
-
 const ImageStatsView = React.createClass({
     displayName: "ImageStatsView",
 
@@ -14,15 +13,17 @@ const ImageStatsView = React.createClass({
         return {
             activeChart: "Monthly",
             summaryData: null
-         }
+        };
     },
     getChartData: function(labels, data) {
-        var seriesData = [{
-            name: "Success %",
-            data: data,
-            borderWidth: 0,
-            animation: false
-        }];
+        var seriesData = [
+            {
+                name: "Success %",
+                data: data,
+                borderWidth: 0,
+                animation: false
+            }
+        ];
         if (this.state.summaryData != null) {
             seriesData.push({
                 name: "Average Featured Success %",
@@ -198,7 +199,7 @@ const ImageStatsView = React.createClass({
     */
 
     render: function() {
-        let { ProfileStore, ImageMetricsStore } = this.props.subscriptions;
+        let {ProfileStore, ImageMetricsStore} = this.props.subscriptions;
         var image = this.props.image,
             staff_user = ProfileStore.get().get("is_staff");
 
@@ -216,74 +217,72 @@ const ImageStatsView = React.createClass({
         */
 
         let imageMetric = ImageMetricsStore.get(image.id);
-        if(!imageMetric) {
-            return (<div className="loading"/>);
+        if (!imageMetric) {
+            return <div className="loading" />;
         }
 
-        if(!imageMetric.hasMetrics()) {
+        if (!imageMetric.hasMetrics()) {
             // Metrics unavailable//not-yet-generated for this image.
             return null;
         }
 
         let summarizedView = (
-            <div id="ImageMetrics" className="image-versions image-info-segment row">
+            <div
+                id="ImageMetrics"
+                className="image-versions image-info-segment row">
                 <h4 className="t-title">Image Statistics</h4>
                 <div>
-                    <table className="clearfix table" style={{ tableLayout: "fixed" }}>
+                    <table
+                        className="clearfix table"
+                        style={{tableLayout: "fixed"}}>
                         <thead>
                             <tr>
-                                <th style={{ width: "400px"}}>Statistic</th>
+                                <th style={{width: "400px"}}>Statistic</th>
                                 <th>Value</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                {"Number of Projects including this Application"}
+                                    {
+                                        "Number of Projects including this Application"
+                                    }
                                 </td>
-                                <td>
-                                {imageMetric.getProjectsTotal()}
-                                </td>
+                                <td>{imageMetric.getProjectsTotal()}</td>
                             </tr>
                             <tr>
                                 <td>
-                                {"Number of users who Bookmarked this Application"}
+                                    {
+                                        "Number of users who Bookmarked this Application"
+                                    }
                                 </td>
-                                <td>
-                                {imageMetric.getBookmarksTotal()}
-                                </td>
+                                <td>{imageMetric.getBookmarksTotal()}</td>
                             </tr>
                             <tr>
                                 <td>
-                                {"Number of Applications based on this Application"}
+                                    {
+                                        "Number of Applications based on this Application"
+                                    }
                                 </td>
-                                <td>
-                                {imageMetric.getApplicationForks()}
-                                </td>
+                                <td>{imageMetric.getApplicationForks()}</td>
                             </tr>
                             <tr>
                                 <td>
-                                {"Number of Instances Launched (Successful)"}
+                                    {
+                                        "Number of Instances Launched (Successful)"
+                                    }
                                 </td>
-                                <td>
-                                {imageMetric.getInstancesSuccess()}
-                                </td>
+                                <td>{imageMetric.getInstancesSuccess()}</td>
                             </tr>
                             <tr>
                                 <td>
-                                {"Number of Instances Launched (Total)"}
+                                    {"Number of Instances Launched (Total)"}
                                 </td>
-                                <td>
-                                {imageMetric.getInstancesTotal()}
-                                </td>
+                                <td>{imageMetric.getInstancesTotal()}</td>
                             </tr>
                             <tr>
-                                <td>
-                                {"Number of Instances Launched (%)"}
-                                </td>
-                                <td>
-                                {imageMetric.getInstancesPercent()}
-                                </td>
+                                <td>{"Number of Instances Launched (%)"}</td>
+                                <td>{imageMetric.getInstancesPercent()}</td>
                             </tr>
                         </tbody>
                     </table>

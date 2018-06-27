@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import { Link } from "react-router";
-
+import {Link} from "react-router";
 
 export default React.createClass({
     displayName: "Name",
@@ -13,15 +12,15 @@ export default React.createClass({
     render: function() {
         let provider = this.props.provider;
         return (
-        <div style={{ paddingTop: "50px", paddingBottom: "20px" }} className="row">
-            <h1 className="t-display-1">{provider.get("name")}</h1>
-            <Link className="btn btn-default" to="/providers">
-                <span className="glyphicon glyphicon-arrow-left"></span>
-                {" Back to All Providers"}
-            </Link>
-        </div>
+            <div
+                style={{paddingTop: "50px", paddingBottom: "20px"}}
+                className="row">
+                <h1 className="t-display-1">{provider.get("name")}</h1>
+                <Link className="btn btn-default" to="/providers">
+                    <span className="glyphicon glyphicon-arrow-left" />
+                    {" Back to All Providers"}
+                </Link>
+            </div>
         );
-
     }
-
 });

@@ -3,9 +3,9 @@ import Backbone from "backbone";
 let get_percent_complete = function(state) {
     // Number represents percent task *completed* when in this state
     var states = {
-        "detaching": 50,
-        "attaching": 50,
-        "available": 100,
+        detaching: 50,
+        attaching: 50,
+        available: 100,
         "in-use": 100
     };
 
@@ -14,10 +14,7 @@ let get_percent_complete = function(state) {
 
 export default Backbone.Model.extend({
     isInFinalState: function() {
-        var finalStates = [
-            "available",
-            "in-use"
-        ];
+        var finalStates = ["available", "in-use"];
 
         var isInFinalState = finalStates.indexOf(this.get("status_raw")) >= 0;
         return isInFinalState;

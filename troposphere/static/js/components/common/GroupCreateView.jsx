@@ -12,20 +12,20 @@ const GroupCreateView = React.createClass({
     },
     getDefaultProps: function() {
         return {
-            group: new Backbone.Model(),
-        }
+            group: new Backbone.Model()
+        };
     },
     getInitialState: function() {
-        let name = this.props.group.get('name') || "";
+        let name = this.props.group.get("name") || "";
         let groupUsers, groupLeaders;
-        if(this.props.group.get('users')) {
-            let users = this.props.group.get('users');
+        if (this.props.group.get("users")) {
+            let users = this.props.group.get("users");
             groupUsers = new UserCollection(users);
         } else {
             groupUsers = new Backbone.Collection();
         }
-        if(this.props.group.get('leaders')) {
-            let leaders = this.props.group.get('leaders');
+        if (this.props.group.get("leaders")) {
+            let leaders = this.props.group.get("leaders");
             groupLeaders = new UserCollection(leaders);
         } else {
             groupLeaders = new Backbone.Collection();
@@ -51,12 +51,19 @@ const GroupCreateView = React.createClass({
         groupLeaders.remove(user);
         this.setState({
             groupLeaders: groupLeaders
-        })
+        });
     },
     renderLeaderList: function() {
-        let helpLabel = "Include users to be leaders for the group. Leaders have full-control over the group and their resources. Every leader is a user.";
+        let helpLabel =
+            "Include users to be leaders for the group. Leaders have full-control over the group and their resources. Every leader is a user.";
         return (
-            <Users label="(Optional) Leaders" users={this.state.groupLeaders} onUserAdded={this.onAddLeader} onUserRemoved={this.onRemoveLeader} help={helpLabel} />
+            <Users
+                label="(Optional) Leaders"
+                users={this.state.groupLeaders}
+                onUserAdded={this.onAddLeader}
+                onUserRemoved={this.onRemoveLeader}
+                help={helpLabel}
+            />
         );
     },
 
@@ -73,30 +80,33 @@ const GroupCreateView = React.createClass({
         groupUsers.remove(user);
         this.setState({
             groupUsers: groupUsers
-        })
+        });
     },
 
     renderIdentityList: function() {
-        let { IdentityStore } = this.props.subscriptions,
-            identitiesForGroup = IdentityStore.getIdentitiesForGroup(this.props.group);
+        let {IdentityStore} = this.props.subscriptions,
+            identitiesForGroup = IdentityStore.getIdentitiesForGroup(
+                this.props.group
+            );
 
-        let identitySelection = (<div className="loading"/>);
-        if(identitiesForGroup != null) {
+        let identitySelection = <div className="loading" />;
+        if (identitiesForGroup != null) {
             let identity_items = identitiesForGroup.map(function(identity) {
                 return (
-                    <li key={identity.id} >
-                        {identity.get('key') + ", Provider: " + identity.get('provider').name}
-                    </li>)
+                    <li key={identity.id}>
+                        {identity.get("key") +
+                            ", Provider: " +
+                            identity.get("provider").name}
+                    </li>
+                );
             });
-            identitySelection = (
-                <ul>
-                    {identity_items}
-                </ul>
-            );
+            identitySelection = <ul>{identity_items}</ul>;
         }
 
-        let noteLabel = "NOTE: For now, all identities will be shared in the group. In the future, we can allow the user (or the leader) to self-select the identities they would like to include in the group."
-        let helpLabel = "These identities are part of the group and can be used to launch new resources.";
+        let noteLabel =
+            "NOTE: For now, all identities will be shared in the group. In the future, we can allow the user (or the leader) to self-select the identities they would like to include in the group.";
+        let helpLabel =
+            "These identities are part of the group and can be used to launch new resources.";
         return (
             <div className="">
                 <label className="control-label">Identities</label>
@@ -108,17 +118,19 @@ const GroupCreateView = React.createClass({
     },
 
     renderUserList: function() {
-        let helpLabel = "Include users that should be added to the group. Users in the group can share resources with each other.";
+        let helpLabel =
+            "Include users that should be added to the group. Users in the group can share resources with each other.";
         return (
             <Users
                 users={this.state.groupUsers}
                 onUserAdded={this.onAddUser}
                 onUserRemoved={this.onRemoveUser}
-                help={helpLabel} />
+                help={helpLabel}
+            />
         );
     },
 
-    validateLeaders: function () {
+    validateLeaders: function() {
         //TODO: Validate that usernames are accurate
         let hasError = false;
         let message = "";
@@ -126,24 +138,24 @@ const GroupCreateView = React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
-    validateUsersOrLeaders: function () {
+    validateUsersOrLeaders: function() {
         //TODO: Validate that usernames are accurate
         let hasError = false;
         let message = "";
 
         let users = this.state.groupUsers;
-        if(users.length == 0) {
+        if (users.length == 0) {
             hasError = true;
             message = "At least one user or leader is required";
         }
         return {
             hasError,
             message
-        }
+        };
     },
-    validateName: function () {
+    validateName: function() {
         let hasError = false;
         let message = "";
 
@@ -163,13 +175,14 @@ const GroupCreateView = React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
 
-    isSubmittable: function () {
-        if (!this.validateName().hasError &&
+    isSubmittable: function() {
+        if (
+            !this.validateName().hasError &&
             !this.validateUsersOrLeaders().hasError
-            ) {
+        ) {
             return true;
         }
 
@@ -183,10 +196,10 @@ const GroupCreateView = React.createClass({
     confirm: function() {
         if (this.isSubmittable()) {
             let group_post_data = {
-                'name': this.state.groupName.trim(),
-                'users': this.state.groupUsers.map(u => u.get('username')),
-                'leaders': this.state.groupLeaders.map(u => u.get('username'))
-            }
+                name: this.state.groupName.trim(),
+                users: this.state.groupUsers.map(u => u.get("username")),
+                leaders: this.state.groupLeaders.map(u => u.get("username"))
+            };
             this.props.onConfirm(group_post_data);
         }
         this.setState({
@@ -203,7 +216,7 @@ const GroupCreateView = React.createClass({
         });
     },
 
-    onNameBlur: function () {
+    onNameBlur: function() {
         let groupName = this.state.groupName.trim();
         this.setState({
             groupName
@@ -221,50 +234,49 @@ const GroupCreateView = React.createClass({
         let leadersClassNames = "form-group";
         let leadersErrorMessage = null;
 
-
-
         if (this.state.showValidation) {
-            nameClassNames = this.validateName().hasError ?
-                "form-group has-error" : null;
+            nameClassNames = this.validateName().hasError
+                ? "form-group has-error"
+                : null;
             nameErrorMessage = this.validateName().message;
 
-            usersClassNames = this.validateUsersOrLeaders().hasError ?
-                "form-group has-error" : null;
+            usersClassNames = this.validateUsersOrLeaders().hasError
+                ? "form-group has-error"
+                : null;
             usersErrorMessage = this.validateUsersOrLeaders().message;
 
-            leadersClassNames = this.validateUsersOrLeaders().hasError ?
-                "form-group has-error" : null;
+            leadersClassNames = this.validateUsersOrLeaders().hasError
+                ? "form-group has-error"
+                : null;
             leadersErrorMessage = this.validateUsersOrLeaders().message;
         }
 
         return (
-        <div role="form">
-            <div className={nameClassNames}>
-                <label htmlFor="group-name">
-                    Group Name
-                </label>
-                <input type="text"
-                    className="form-control"
-                    value={groupName}
-                    onChange={this.onNameChange}
-                    onBlur={this.onNameBlur} />
-                <span className="help-block">{nameErrorMessage}</span>
-            </div>
+            <div role="form">
+                <div className={nameClassNames}>
+                    <label htmlFor="group-name">Group Name</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={groupName}
+                        onChange={this.onNameChange}
+                        onBlur={this.onNameBlur}
+                    />
+                    <span className="help-block">{nameErrorMessage}</span>
+                </div>
 
-            <div className={leadersClassNames}>
-                {this.renderLeaderList()}
-                <span className="help-block">{leadersErrorMessage}</span>
-            </div>
+                <div className={leadersClassNames}>
+                    {this.renderLeaderList()}
+                    <span className="help-block">{leadersErrorMessage}</span>
+                </div>
 
-            <div className={usersClassNames}>
-                {this.renderUserList()}
-                <span className="help-block">{usersErrorMessage}</span>
-            </div>
+                <div className={usersClassNames}>
+                    {this.renderUserList()}
+                    <span className="help-block">{usersErrorMessage}</span>
+                </div>
 
-            <div className="form-group">
-                {this.renderIdentityList()}
+                <div className="form-group">{this.renderIdentityList()}</div>
             </div>
-        </div>
         );
     },
 
@@ -272,28 +284,30 @@ const GroupCreateView = React.createClass({
         let isSubmittable = true;
         if (this.state.showValidation) {
             if (!this.isSubmittable()) {
-                isSubmittable = false
+                isSubmittable = false;
             }
         }
         return (
-        <div>
-            {this.renderBody()}
-            <div className="modal-footer">
-                <button id="cancelCreateGroup"
-                    type="button"
-                    className="btn btn-default"
-                    onClick={this.props.cancel}>
-                    Cancel
-                </button>
-                <button id="submitCreateGroup"
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.confirm}
-                    disabled={!isSubmittable}>
-                    Save
-                </button>
+            <div>
+                {this.renderBody()}
+                <div className="modal-footer">
+                    <button
+                        id="cancelCreateGroup"
+                        type="button"
+                        className="btn btn-default"
+                        onClick={this.props.cancel}>
+                        Cancel
+                    </button>
+                    <button
+                        id="submitCreateGroup"
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={this.confirm}
+                        disabled={!isSubmittable}>
+                        Save
+                    </button>
+                </div>
             </div>
-        </div>
         );
     }
 });

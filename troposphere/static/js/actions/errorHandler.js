@@ -1,7 +1,6 @@
 import NotificationController from "controllers/NotificationController";
 
 export default function errorHandler(response) {
-
     // Note: this error handler supports jQuery style promises. When a jQuery
     // promise is rejected/fails, it calls the error handler with a jqXHR, so
     // here we are anticipating that response is a jqXHR
@@ -27,4 +26,3 @@ export default function errorHandler(response) {
     // Reraise the exception so other recipients can see the error
     throw response;
 }
-

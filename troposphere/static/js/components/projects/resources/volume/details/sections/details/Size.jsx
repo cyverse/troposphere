@@ -13,10 +13,9 @@ export default React.createClass({
         var volume = this.props.volume;
 
         return (
-        <ResourceDetail label="Size">
-            {volume.get("size") + " GB"}
-        </ResourceDetail>
+            <ResourceDetail label="Size">
+                {volume.get("size") + " GB"}
+            </ResourceDetail>
         );
     }
-
 });

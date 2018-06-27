@@ -1,4 +1,3 @@
-
 import $ from "jquery";
 import _ from "underscore";
 import Store from "stores/Store";
@@ -20,16 +19,19 @@ let fetchVersions = function() {
         var serverDeployVersion = new ServerDeployVersion();
         var serverVersion = new ServerVersion();
 
-        $.when(clientVersion.fetch(), serverVersion.fetch(), serverDeployVersion.fetch())
-            .done(function(client, server) {
-                _isFetching = false;
-                _version = {
-                    client: clientVersion,
-                    deploy: serverDeployVersion,
-                    server: serverVersion
-                };
-                VersionStore.emitChange();
-            })
+        $.when(
+            clientVersion.fetch(),
+            serverVersion.fetch(),
+            serverDeployVersion.fetch()
+        ).done(function(client, server) {
+            _isFetching = false;
+            _version = {
+                client: clientVersion,
+                deploy: serverDeployVersion,
+                server: serverVersion
+            };
+            VersionStore.emitChange();
+        });
     }
 };
 
@@ -40,7 +42,7 @@ let fetchVersions = function() {
 let VersionStore = {
     getVersion: function() {
         if (!_version) {
-            fetchVersions()
+            fetchVersions();
         }
         return _version;
     }

@@ -23,20 +23,20 @@ export default React.createClass({
         var instance = this.props.instance;
 
         return (
-        <div className="resource-details-section section">
-            <h4 className="t-title">Instance Details</h4>
-            <ul style={{ paddingLeft: "10px" }}>
-                <Status instance={instance} />
-                <Activity instance={instance} />
-                <Size instance={instance} />
-                <IpAddress instance={instance} />
-                <LaunchDate instance={instance} />
-                <CreatedFrom instance={instance} />
-                <Identity instance={instance} />
-                <Id instance={instance} />
-                <Alias instance={instance} />
-            </ul>
-        </div>
+            <div className="resource-details-section section">
+                <h4 className="t-title">Instance Details</h4>
+                <ul style={{paddingLeft: "10px"}}>
+                    <Status instance={instance} />
+                    <Activity instance={instance} />
+                    <Size instance={instance} />
+                    <IpAddress instance={instance} />
+                    <LaunchDate instance={instance} />
+                    <CreatedFrom instance={instance} />
+                    <Identity instance={instance} />
+                    <Id instance={instance} />
+                    <Alias instance={instance} />
+                </ul>
+            </div>
         );
     }
 });

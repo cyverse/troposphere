@@ -22,7 +22,6 @@ export default React.createClass({
     },
 
     render: function() {
-
         // todo: put these back when we can support them properly
         // right now instances can't be deleted with volumes attached,
         // and volumes can't be deleted while attached to an instance
@@ -45,40 +44,46 @@ export default React.createClass({
         // />
 
         return (
-        <div
-            style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "flex-start",
-                justifyContent: "space-between",
-            }}
-        >
             <div
                 style={{
-                    marginBottom: "10px",
-                }}
-            >
-                <SubMenu { ...this.props }/>
-                <RefreshButton/>
-                <RequestResourcesButton />
-                <Button icon="folder-open"
-                    tooltip="Move selected resources"
-                    onClick={this.props.onMoveSelectedResources}
-                    isVisible={this.props.isVisible} />
-                <Button icon="export"
-                    tooltip="Remove selected resources (admin only)"
-                    onClick={this.props.onRemoveSelectedResources}
-                    style={{ "backgroundColor": "bisque" }}
-                    isVisible={context.profile.get("is_superuser") && this.props.isVisible} />
-
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between"
+                }}>
+                <div
+                    style={{
+                        marginBottom: "10px"
+                    }}>
+                    <SubMenu {...this.props} />
+                    <RefreshButton />
+                    <RequestResourcesButton />
+                    <Button
+                        icon="folder-open"
+                        tooltip="Move selected resources"
+                        onClick={this.props.onMoveSelectedResources}
+                        isVisible={this.props.isVisible}
+                    />
+                    <Button
+                        icon="export"
+                        tooltip="Remove selected resources (admin only)"
+                        onClick={this.props.onRemoveSelectedResources}
+                        style={{backgroundColor: "bisque"}}
+                        isVisible={
+                            context.profile.get("is_superuser") &&
+                            this.props.isVisible
+                        }
+                    />
+                </div>
+                <div>
+                    <ResourceActionButtons
+                        onUnselect={this.props.onUnselect}
+                        previewedResource={this.props.previewedResource}
+                        multipleSelected={this.props.multipleSelected}
+                        project={this.props.project}
+                    />
+                </div>
             </div>
-            <div>
-                <ResourceActionButtons onUnselect={this.props.onUnselect}
-                    previewedResource={this.props.previewedResource}
-                    multipleSelected={this.props.multipleSelected}
-                    project={this.props.project} />
-            </div>
-        </div>
         );
     }
 });

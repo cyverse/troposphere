@@ -15,14 +15,14 @@ const EditMembershipView = React.createClass({
 
     getDefaultProps: function() {
         return {
-            activeMemberships: new Backbone.Collection(),
-        }
+            activeMemberships: new Backbone.Collection()
+        };
     },
     getInitialState: function() {
         return {
             isEditingMemberships: false,
             query: ""
-        }
+        };
     },
 
     onQueryChange: function(query) {
@@ -34,7 +34,7 @@ const EditMembershipView = React.createClass({
         var query = this.state.query,
             membershipView,
             memberships,
-            { GroupStore } = this.props.subscriptions;
+            {GroupStore} = this.props.subscriptions;
 
         if (query) {
             memberships = GroupStore.fetchWhere({
@@ -47,19 +47,21 @@ const EditMembershipView = React.createClass({
         }
 
         membershipView = (
-            <MembershipMultiSelect models={memberships}
+            <MembershipMultiSelect
+                models={memberships}
                 activeModels={this.props.activeMemberships}
                 onModelAdded={this.props.onMembershipAdded}
                 onModelRemoved={this.props.onMembershipRemoved}
                 onQueryChange={this.onQueryChange}
-                placeholderText="Search by user name..." />
+                placeholderText="Search by user name..."
+            />
         );
 
         return (
-        <div className="resource-users">
-            <h4 className="user-title">{this.props.label}</h4>
-            {membershipView}
-        </div>
+            <div className="resource-users">
+                <h4 className="user-title">{this.props.label}</h4>
+                {membershipView}
+            </div>
         );
     }
 });

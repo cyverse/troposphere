@@ -3,7 +3,6 @@ import ModalHelpers from "components/modals/ModalHelpers";
 
 import ProjectRemoveResourceModal from "components/modals/project/ProjectRemoveResourceModal";
 
-
 export default {
     removeResources: function(resources, project) {
         var props = {
@@ -16,6 +15,6 @@ export default {
                 project: project,
                 resources: resources
             });
-        })
+        });
     }
 };

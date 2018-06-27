@@ -2,7 +2,6 @@ import React from "react";
 import IdentityListView from "./list/IdentityListView";
 import stores from "stores";
 
-
 function getIdentityState() {
     return {
         identities: stores.IdentityStore.getAll()
@@ -38,13 +37,9 @@ export default React.createClass({
     //
     render: function() {
         if (this.state.identities) {
-            return (
-            <IdentityListView identities={this.state.identities} />
-            );
+            return <IdentityListView identities={this.state.identities} />;
         } else {
-            return (
-            <div className="loading"></div>
-            );
+            return <div className="loading" />;
         }
     }
 });

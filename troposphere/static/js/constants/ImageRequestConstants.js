@@ -1,4 +1,3 @@
-
 export default {
     ADD: "ADD_IMAGE_REQUEST",
     REMOVE: "REMOVE_IMAGE_REQUEST",
