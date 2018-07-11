@@ -4,8 +4,8 @@
 // will throw exceptions if any stores don't exist (which will be the default
 // state for functional tests that need mocked stores)
 
-export default function () {
+export default function() {
     return {
         // add stores here
-    }
+    };
 }

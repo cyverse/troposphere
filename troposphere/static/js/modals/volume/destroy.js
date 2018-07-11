@@ -1,4 +1,4 @@
-import { appBrowserHistory } from "utilities/historyFunctions";
+import {appBrowserHistory} from "utilities/historyFunctions";
 
 import ModalHelpers from "components/modals/ModalHelpers";
 
@@ -8,13 +8,10 @@ import ExplainVolumeDeleteConditionsModal from "components/modals/volume/Explain
 import actions from "actions";
 import stores from "stores";
 
-
 export default {
     destroy: function(payload, options) {
-        if (!payload.project)
-            throw new Error("Missing project");
-        if (!payload.volume)
-            throw new Error("Missing volume");
+        if (!payload.project) throw new Error("Missing project");
+        if (!payload.volume) throw new Error("Missing volume");
 
         var project = payload.project,
             volume = payload.volume,
@@ -46,6 +43,6 @@ export default {
             });
 
             appBrowserHistory.push(`/projects/${project.id}/resources`);
-        })
+        });
     }
 };

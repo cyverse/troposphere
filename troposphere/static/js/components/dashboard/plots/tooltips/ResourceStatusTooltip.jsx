@@ -19,15 +19,15 @@ export default React.createClass({
         // a status of Build - Deploying
 
         return (
-        <div>
-            {"You have "}
-            <b>{this.props.count}</b>
-            {" " + this.props.resourceName}
-            {" with "}
-            <br/>
-            {"a status of "}
-            <b>{this.props.status}</b>
-        </div>
+            <div>
+                {"You have "}
+                <b>{this.props.count}</b>
+                {" " + this.props.resourceName}
+                {" with "}
+                <br />
+                {"a status of "}
+                <b>{this.props.status}</b>
+            </div>
         );
     }
 });

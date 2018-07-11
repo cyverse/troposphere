@@ -10,7 +10,6 @@ let Project = Backbone.Model.extend({
         response.end_date = moment(response.end_date);
         return response;
     }
-
 });
 
 export default Project;

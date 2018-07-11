@@ -36,17 +36,20 @@ export default React.createClass({
     },
 
     render: function() {
-        var canRefresh = (Date.now() - this.props.timestamp) > this.props.delay;
+        var canRefresh = Date.now() - this.props.timestamp > this.props.delay;
 
-        var controlsClass = "glyphicon glyphicon-refresh" + (canRefresh ? "" : " disabled");
+        var controlsClass =
+            "glyphicon glyphicon-refresh" + (canRefresh ? "" : " disabled");
 
         return (
-        <div>
-            <span id="refresh" className={controlsClass} onClick={canRefresh ? this.props.onRefreshClick : ""} />
-            <div id="timestamp">
-                {this.getTimeMessage()}
+            <div>
+                <span
+                    id="refresh"
+                    className={controlsClass}
+                    onClick={canRefresh ? this.props.onRefreshClick : ""}
+                />
+                <div id="timestamp">{this.getTimeMessage()}</div>
             </div>
-        </div>
         );
     }
 });

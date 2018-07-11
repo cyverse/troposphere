@@ -3,7 +3,6 @@ import Backbone from "backbone";
 import globals from "globals";
 import moment from "moment";
 
-
 export default React.createClass({
     displayName: "CreatedView",
 
@@ -18,12 +17,10 @@ export default React.createClass({
                 .format("M/DD/YYYY hh:mm a z");
 
         return (
-        <div className="image-info-segment row">
-            <h4 className="t-body-2 col-md-2">Created:</h4>
-            <p className="content col-md-10">
-                {startDate}
-            </p>
-        </div>
+            <div className="image-info-segment row">
+                <h4 className="t-body-2 col-md-2">Created:</h4>
+                <p className="content col-md-10">{startDate}</p>
+            </div>
         );
     }
 });

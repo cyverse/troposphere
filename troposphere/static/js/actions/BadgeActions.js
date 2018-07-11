@@ -7,7 +7,6 @@ import Badges from "Badges";
 import NotificationController from "controllers/NotificationController";
 
 export default {
-
     checkInstanceBadges: function() {
         var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
         if (instanceCount >= 1) {
@@ -44,15 +43,16 @@ export default {
             for (var i = 0; i < cookies.length; i++) {
                 var cookie = cookies[i].trim();
                 // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + "=")) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                if (cookie.substring(0, name.length + 1) == name + "=") {
+                    cookieValue = decodeURIComponent(
+                        cookie.substring(name.length + 1)
+                    );
                     break;
                 }
             }
         }
         return cookieValue;
     },
-
 
     grant: function(params) {
         try {
@@ -83,7 +83,7 @@ export default {
                 NotificationController.info("You have earned a badge!");
                 Utils.dispatch(BadgeConstants.GRANT_BADGE, {
                     badge: badge
-                })
+                });
             },
             error: function(response) {
                 /* eslint-disable no-console */
@@ -91,8 +91,5 @@ export default {
                 /* eslint-enable no-console */
             }
         });
-
     }
-
-
 };

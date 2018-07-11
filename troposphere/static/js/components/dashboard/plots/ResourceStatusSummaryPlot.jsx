@@ -7,7 +7,6 @@ import Highcharts from "highcharts";
 
 import ResourceStatusTooltip from "./tooltips/ResourceStatusTooltip";
 
-
 export default React.createClass({
     displayName: "ResourceStatusSummaryPlot",
 
@@ -23,8 +22,9 @@ export default React.createClass({
     },
 
     componentDidUpdate: function() {
-        var chart = this.state.chart
-        var newChartTitle = this.props.resources.length + " " + this.props.title;
+        var chart = this.state.chart;
+        var newChartTitle =
+            this.props.resources.length + " " + this.props.title;
         var data = this.getChartData();
         chart.setTitle({
             text: newChartTitle
@@ -58,11 +58,13 @@ export default React.createClass({
 
     getStatusGroups: function(options) {
         var statusGroups = {};
-        this.props.resources.map(function(resource) {
-            var status = resource.get("state").get("status_raw");
-            statusGroups[status] = (statusGroups[status] || 0);
-            statusGroups[status] += 1;
-        }.bind(this));
+        this.props.resources.map(
+            function(resource) {
+                var status = resource.get("state").get("status_raw");
+                statusGroups[status] = statusGroups[status] || 0;
+                statusGroups[status] += 1;
+            }.bind(this)
+        );
 
         return statusGroups;
     },
@@ -104,8 +106,15 @@ export default React.createClass({
             tooltip: {
                 formatter: function() {
                     var formatterComponent = (
-                    <ResourceStatusTooltip resourceName={title} status={this.key} count={this.y} />);
-                    return ReactDOMServer.renderToStaticMarkup(formatterComponent);
+                        <ResourceStatusTooltip
+                            resourceName={title}
+                            status={this.key}
+                            count={this.y}
+                        />
+                    );
+                    return ReactDOMServer.renderToStaticMarkup(
+                        formatterComponent
+                    );
                 }
             },
             legend: {
@@ -123,9 +132,6 @@ export default React.createClass({
     },
 
     render: function() {
-        return (
-        <div>
-        </div>
-        );
+        return <div />;
     }
 });

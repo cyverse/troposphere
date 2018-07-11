@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 import ScriptMultiSelect from "./ScriptMultiSelectAndCreate";
 
-
 export default React.createClass({
     displayName: "EditScriptView",
 
@@ -22,12 +21,12 @@ export default React.createClass({
             requiredScripts: [],
             activeScripts: new Backbone.Collection(),
             scripts: new Backbone.Collection()
-        }
+        };
     },
     getInitialState: function() {
         return {
-            query: "",
-        }
+            query: ""
+        };
     },
     onQueryChange: function(query) {
         this.setState({
@@ -45,13 +44,19 @@ export default React.createClass({
 
         if (query) {
             scripts = this.props.scripts.filter(function(script) {
-                return script.get("title").toLowerCase().indexOf(query.toLowerCase()) >= 0;
+                return (
+                    script
+                        .get("title")
+                        .toLowerCase()
+                        .indexOf(query.toLowerCase()) >= 0
+                );
             });
             scripts = new Backbone.Collection(scripts);
         }
 
         scriptView = (
-            <ScriptMultiSelect models={scripts}
+            <ScriptMultiSelect
+                models={scripts}
                 activeModels={this.props.activeScripts}
                 requiredModels={this.props.requiredScripts}
                 onModelAdded={this.props.onScriptAdded}
@@ -60,13 +65,10 @@ export default React.createClass({
                 onQueryChange={this.onQueryChange}
                 propertyName={"title"}
                 showButtonText="Create New Script"
-                placeholderText="Search by Script title..." />
+                placeholderText="Search by Script title..."
+            />
         );
 
-        return (
-        <div className="resource-users">
-            {scriptView}
-        </div>
-        );
+        return <div className="resource-users">{scriptView}</div>;
     }
 });

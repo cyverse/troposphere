@@ -6,7 +6,6 @@ import CantMoveModal from "./project/cantMoveAttached";
 import MoveModal from "./project/moveResources";
 import RemoveModal from "./project/removeResources";
 
-
 export default {
     addImage: AddImage.addImage,
     create: CreateModal.create,

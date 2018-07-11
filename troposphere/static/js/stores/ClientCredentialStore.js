@@ -38,31 +38,31 @@ let fetchCredential = function(identityId) {
         // fetching the associated information, so pass it on
         // initialize.
         let cred = new ClientCredential({
-            "identity_uuid": identityId
+            identity_uuid: identityId
         });
 
         _isFetching = true;
 
-        cred.fetch().then(function() {
-            _isFetching = false;
-            _creds[identityId] = cred;
-            ClientCredentialStore.emitChange();
-        }).fail(function(result) {
-            let errorMsg = `There was an error exporting credentials. ${result.responseText}`;
+        cred
+            .fetch()
+            .then(function() {
+                _isFetching = false;
+                _creds[identityId] = cred;
+                ClientCredentialStore.emitChange();
+            })
+            .fail(function(result) {
+                let errorMsg = `There was an error exporting credentials. ${
+                    result.responseText
+                }`;
 
-            NotificationController.error(
-                null,
-                errorMsg,
-                {
-                    "positionClass": "toast-top-full-width",
-                    "timeOut": "0",
-                    "extendedTimeOut": "0"
-                }
-            );
-        });
+                NotificationController.error(null, errorMsg, {
+                    positionClass: "toast-top-full-width",
+                    timeOut: "0",
+                    extendedTimeOut: "0"
+                });
+            });
     }
-}
-
+};
 
 //
 // Define Store
@@ -76,19 +76,18 @@ let ClientCredentialStore = {
     }
 };
 
-
 Dispatcher.register(function(payload) {
     var action = payload.action;
 
     switch (action.actionType) {
-// TODO
-// - eventually a "reset" of credentials will be needed
-//   this will require the `identity-uuid` to reset;
-//   other details will be forthcoming
-//
-//        case ClientCredentialConstants.RESET_CREDENTIAL:
-//            update(action.name, action.identity);
-//            break;
+        // TODO
+        // - eventually a "reset" of credentials will be needed
+        //   this will require the `identity-uuid` to reset;
+        //   other details will be forthcoming
+        //
+        //        case ClientCredentialConstants.RESET_CREDENTIAL:
+        //            update(action.name, action.identity);
+        //            break;
 
         default:
             // do nothing; for now
@@ -99,7 +98,6 @@ Dispatcher.register(function(payload) {
 
     return true;
 });
-
 
 _.extend(ClientCredentialStore, Store);
 

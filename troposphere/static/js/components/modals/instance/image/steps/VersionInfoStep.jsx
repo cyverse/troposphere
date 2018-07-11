@@ -4,7 +4,6 @@ import VersionName from "../components/VersionName";
 import VersionChanges from "../components/VersionChangeLog";
 import $ from "jquery";
 
-
 export default React.createClass({
     displayName: "ImageWizard-VersionInfoStep",
 
@@ -18,7 +17,7 @@ export default React.createClass({
         return {
             versionName: "",
             versionChanges: "",
-            newImage: true,
+            newImage: true
         };
     },
 
@@ -26,27 +25,27 @@ export default React.createClass({
         return {
             name: this.props.name,
             versionChanges: this.props.versionChanges,
-            versionName: this.props.versionName,
-        }
+            versionName: this.props.versionName
+        };
     },
 
     isSubmittable: function() {
-        var hasName = !!($.trim(this.state.versionName));
-        var hasVersionChanges = !!($.trim(this.state.versionChanges));
+        var hasName = !!$.trim(this.state.versionName);
+        var hasVersionChanges = !!$.trim(this.state.versionChanges);
         return hasName && hasVersionChanges;
     },
 
     onPrevious: function() {
         this.props.onPrevious({
             versionName: this.state.versionName,
-            versionChanges: this.state.versionChanges,
+            versionChanges: this.state.versionChanges
         });
     },
 
     onNext: function() {
         this.props.onNext({
             versionName: $.trim(this.state.versionName),
-            versionChanges: $.trim(this.state.versionChanges),
+            versionChanges: $.trim(this.state.versionChanges)
         });
     },
 
@@ -62,19 +61,24 @@ export default React.createClass({
     },
     renderBody: function(instance) {
         return (
-        <div>
-            <p>
-                {"Versioning can be an important part of the Imaging process." +
-                 "Use this area to help track how your image changes over time. " +
-                 "The information you provide here will be shown to users who wish to use your image."}
-            </p>
-            <p>
-                {"Fields marked with * are required."}
-            </p>
-            <VersionName create={this.props.newImage} value={this.state.versionName} onChange={this.onVersionNameChange} />
-            <hr />
-            <VersionChanges value={this.state.versionChanges} onChange={this.onDescriptionChange} />
-        </div>
+            <div>
+                <p>
+                    {"Versioning can be an important part of the Imaging process." +
+                        "Use this area to help track how your image changes over time. " +
+                        "The information you provide here will be shown to users who wish to use your image."}
+                </p>
+                <p>{"Fields marked with * are required."}</p>
+                <VersionName
+                    create={this.props.newImage}
+                    value={this.state.versionName}
+                    onChange={this.onVersionNameChange}
+                />
+                <hr />
+                <VersionChanges
+                    value={this.state.versionChanges}
+                    onChange={this.onDescriptionChange}
+                />
+            </div>
         );
     },
 
@@ -82,22 +86,24 @@ export default React.createClass({
         var instance = this.props.instance;
 
         return (
-        <div>
-            <div className="modal-body">
-                {this.renderBody(instance)}
+            <div>
+                <div className="modal-body">{this.renderBody(instance)}</div>
+                <div className="modal-footer">
+                    <button
+                        type="button"
+                        className="btn btn-default cancel-button pull-left"
+                        onClick={this.onPrevious}>
+                        <span className="glyphicon glyphicon-chevron-left" />{" "}
+                        Back
+                    </button>
+                    <RaisedButton
+                        primary
+                        onTouchTap={this.onNext}
+                        disabled={!this.isSubmittable()}
+                        label="Next"
+                    />
+                </div>
             </div>
-            <div className="modal-footer">
-                <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>
-                    <span className="glyphicon glyphicon-chevron-left"></span> Back
-                </button>
-                <RaisedButton
-                    primary
-                    onTouchTap={this.onNext}
-                    disabled={!this.isSubmittable()}
-                    label="Next"
-                />
-            </div>
-        </div>
         );
     }
 });

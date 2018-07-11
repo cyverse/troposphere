@@ -1,18 +1,17 @@
 import React from "react";
 import Backbone from "backbone";
-import { Link } from "react-router";
+import {Link} from "react-router";
 import moment from "moment";
 
 import IdentityResource from "./IdentityResource";
 import stores from "stores";
-
 
 export default React.createClass({
     displayName: "Identity",
 
     propTypes: {
         identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        className: React.PropTypes.string,
+        className: React.PropTypes.string
     },
 
     componentDidMount: function() {
@@ -39,20 +38,29 @@ export default React.createClass({
             numInstances = "-",
             numVolumes = "-";
 
-
         // only attempt to fetching identity metadata for persisted identities
         if (identity && identity.id && !identity.isNew()) {
-            provider = identity.get('provider').name;
+            provider = identity.get("provider").name;
             identityTitle = identity.getName();
-            identityCreationDate = moment(identity.get('start_date')).format("MMM D, YYYY hh:mm a");
-            identityVolumes = stores.VolumeStore.getVolumesForIdentity(identity);
-            identityInstances = stores.InstanceStore.getInstancesForIdentity(identity);
+            identityCreationDate = moment(identity.get("start_date")).format(
+                "MMM D, YYYY hh:mm a"
+            );
+            identityVolumes = stores.VolumeStore.getVolumesForIdentity(
+                identity
+            );
+            identityInstances = stores.InstanceStore.getInstancesForIdentity(
+                identity
+            );
         } else {
             return (
-                <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
+                <li
+                    className={"col-md-4" + this.props.className}
+                    style={{padding: "15px"}}>
                     <div className="media card">
-                        <h2 className="t-title">{identity.get('name') || '...'}</h2>
-                        <div className="loading" style={{marginTop: "65px"}}/>
+                        <h2 className="t-title">
+                            {identity.get("name") || "..."}
+                        </h2>
+                        <div className="loading" style={{marginTop: "65px"}} />
                     </div>
                 </li>
             );
@@ -64,30 +72,46 @@ export default React.createClass({
         }
 
         return (
-        <li className={"col-md-4" + this.props.className} style={{ padding: "15px" }}>
-            <div className="media card">
-                <Link to={`identities/${identity.id}/resources`} style={{ color: "inherit" }}>
-                    <div style={{ "position": "relative" }}>
-                        <div className="media__content">
-                            <h2 className="t-title">{identityTitle}</h2>
-                            <hr/>
-                            <time className="t-caption" style={{ display: "block" }}>
-                                {"Created on " + identityCreationDate}
-                            </time>
-                            <p className="t-caption" style={{ display: "block" }}>
-                               {"Provider: "+ provider}
-                            </p>
+            <li
+                className={"col-md-4" + this.props.className}
+                style={{padding: "15px"}}>
+                <div className="media card">
+                    <Link
+                        to={`identities/${identity.id}/resources`}
+                        style={{color: "inherit"}}>
+                        <div style={{position: "relative"}}>
+                            <div className="media__content">
+                                <h2 className="t-title">{identityTitle}</h2>
+                                <hr />
+                                <time
+                                    className="t-caption"
+                                    style={{display: "block"}}>
+                                    {"Created on " + identityCreationDate}
+                                </time>
+                                <p
+                                    className="t-caption"
+                                    style={{display: "block"}}>
+                                    {"Provider: " + provider}
+                                </p>
+                            </div>
+                            <div className="media__footer">
+                                <ul className="identity-resource-list ">
+                                    <IdentityResource
+                                        icon={"tasks"}
+                                        count={numInstances}
+                                        resourceType={"instances"}
+                                    />
+                                    <IdentityResource
+                                        icon={"hdd"}
+                                        count={numVolumes}
+                                        resourceType={"volumes"}
+                                    />
+                                </ul>
+                            </div>
                         </div>
-                        <div className="media__footer">
-                            <ul className="identity-resource-list ">
-                                <IdentityResource icon={"tasks"} count={numInstances} resourceType={"instances"} />
-                                <IdentityResource icon={"hdd"} count={numVolumes} resourceType={"volumes"} />
-                            </ul>
-                        </div>
-                    </div>
-                </Link>
-            </div>
-        </li>
+                    </Link>
+                </div>
+            </li>
         );
     }
 });

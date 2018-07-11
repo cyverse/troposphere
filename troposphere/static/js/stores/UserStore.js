@@ -1,4 +1,3 @@
-
 import BaseStore from "stores/BaseStore";
 import UserCollection from "collections/UserCollection";
 
@@ -14,14 +13,13 @@ let UserStore = BaseStore.extend({
         page_size: 3000
     },
 
-
     getUsersForVersion: function(version) {
         if (!this.models)
             throw new Error("Must fetch users before calling getUsersFromList");
 
         var versionUserArray = version.membership.map(function(user) {
             return {
-                "username": user
+                username: user
             };
         });
 
@@ -31,16 +29,17 @@ let UserStore = BaseStore.extend({
     getUsersFromList: function(usernameList) {
         if (!this.models)
             throw new Error("Must fetch users before calling getUsersFromList");
-        var users = usernameList.map(function(username) {
-            var user = this.models.findWhere({
-                username: username
-            });
-            return user;
-        }.bind(this));
+        var users = usernameList.map(
+            function(username) {
+                var user = this.models.findWhere({
+                    username: username
+                });
+                return user;
+            }.bind(this)
+        );
 
         return new UserCollection(users);
     }
-
 });
 
 let store = new UserStore();

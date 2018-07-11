@@ -3,7 +3,6 @@ import Backbone from "backbone";
 import ImageTable from "./ImageTable";
 import NoImageNotice from "./NoImageNotice";
 
-
 export default React.createClass({
     displayName: "ImageList",
 
@@ -21,28 +20,28 @@ export default React.createClass({
             content;
 
         if (this.props.images.length <= 0) {
-            content = (
-                <NoImageNotice/>
-            );
+            content = <NoImageNotice />;
         } else {
             content = (
-                <ImageTable images={images}
+                <ImageTable
+                    images={images}
                     onResourceSelected={this.props.onResourceSelected}
                     onResourceDeselected={this.props.onResourceDeselected}
                     onPreviewResource={this.props.onPreviewResource}
                     previewedResource={this.props.previewedResource}
-                    selectedResources={this.props.selectedResources} />
+                    selectedResources={this.props.selectedResources}
+                />
             );
         }
 
         return (
-        <div>
-            <div className="header">
-                <i className="glyphicon glyphicon-floppy-disk"></i>
-                <h3 className="title-3">Images</h3>
+            <div>
+                <div className="header">
+                    <i className="glyphicon glyphicon-floppy-disk" />
+                    <h3 className="title-3">Images</h3>
+                </div>
+                {content}
             </div>
-            {content}
-        </div>
         );
     }
 });

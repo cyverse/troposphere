@@ -9,8 +9,8 @@ export default React.createClass({
     render: function() {
         var statusPageEl,
             imageParentStyle = {
-                "display": "block",
-                "margin": "auto",
+                display: "block",
+                margin: "auto",
                 "padding-top": "50px"
             };
 
@@ -19,25 +19,28 @@ export default React.createClass({
             // then build out the markup element for including it
             statusPageEl = (
                 <p>
-                    {"You can view more information about the current maintenance on the "}
-                    <a href={globals.STATUS_PAGE_LINK} target="_blank">status page</a>
+                    {
+                        "You can view more information about the current maintenance on the "
+                    }
+                    <a href={globals.STATUS_PAGE_LINK} target="_blank">
+                        status page
+                    </a>
                 </p>
             );
         }
 
         return (
-        <div>
-            <div style={imageParentStyle}>
-                <div id="imgcontainer" className="center">
-                    <img src={login} />
+            <div>
+                <div style={imageParentStyle}>
+                    <div id="imgcontainer" className="center">
+                        <img src={login} />
+                    </div>
                 </div>
+                <h4 className="t-title">
+                    Atmosphere is currently under maintenance.
+                </h4>
+                {statusPageEl}
             </div>
-            <h4 className="t-title">
-                Atmosphere is currently under maintenance.
-            </h4>
-            {statusPageEl}
-        </div>
         );
     }
-
 });

@@ -3,21 +3,22 @@ import ReactDOM from "react-dom";
 import _ from "underscore";
 import ModalMixin from "components/mixins/modal";
 
-
 let ConfirmComponent = React.createClass({
     mixins: [ModalMixin],
     getDefaultProps: function() {
         return {
             okButtonText: "OK"
-        //onCancel: function() {},
+            //onCancel: function() {},
         };
     },
 
     onConfirm: function() {
         if (this.props.onConfirm) {
-            this.props.onConfirm().done(function() {
-                this.close();
-            }.bind(this));
+            this.props.onConfirm().done(
+                function() {
+                    this.close();
+                }.bind(this)
+            );
         } else {
             this.close();
         }
@@ -32,13 +33,17 @@ let ConfirmComponent = React.createClass({
     },
 
     renderFooter: function() {
-        return React.DOM.div({},
-            React.DOM.button({
-                className: "btn btn-primary",
-                onClick: this.onConfirm
-            }, this.props.okButtonText));
+        return React.DOM.div(
+            {},
+            React.DOM.button(
+                {
+                    className: "btn btn-primary",
+                    onClick: this.onConfirm
+                },
+                this.props.okButtonText
+            )
+        );
     }
-
 });
 
 let mountModal = function(modalComponent) {

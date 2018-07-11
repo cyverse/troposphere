@@ -14,9 +14,9 @@ export default React.createClass({
             className += " checked";
         }
         return (
-        <div className={className}>
-            <img src={checkmark} />
-        </div>
+            <div className={className}>
+                <img src={checkmark} />
+            </div>
         );
     }
 });

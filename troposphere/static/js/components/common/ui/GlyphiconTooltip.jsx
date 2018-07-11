@@ -1,7 +1,7 @@
-import React from 'react';
-import Glyphicon from 'components/common/Glyphicon';
-import Tooltip from 'react-tooltip';
-import _ from 'underscore';
+import React from "react";
+import Glyphicon from "components/common/Glyphicon";
+import Tooltip from "react-tooltip";
+import _ from "underscore";
 
 export default React.createClass({
     displayName: "GlyphiconTooltip",
@@ -13,8 +13,8 @@ export default React.createClass({
     },
     getDefaultProps: function() {
         return {
-            position: "top",
-        }
+            position: "top"
+        };
     },
 
     getInitialState() {
@@ -39,18 +39,20 @@ export default React.createClass({
         let passThroughProps = _.pick(this.props, "style");
 
         return (
-        <span { ...passThroughProps }>
-            <span onMouseEnter={this.onMouseEnter}
-                  onMouseLeave={this.onMouseLeave}
-                  style={{ opacity }}
-                  aria-hidden="true">
-                <Glyphicon
-                    data-tip={this.props.tip}
-                    data-for={rand}
-                    name={this.props.glyphicon} />
+            <span {...passThroughProps}>
+                <span
+                    onMouseEnter={this.onMouseEnter}
+                    onMouseLeave={this.onMouseLeave}
+                    style={{opacity}}
+                    aria-hidden="true">
+                    <Glyphicon
+                        data-tip={this.props.tip}
+                        data-for={rand}
+                        name={this.props.glyphicon}
+                    />
+                </span>
+                <Tooltip id={rand} place={this.props.position} effect="solid" />
             </span>
-            <Tooltip id={rand} place={this.props.position} effect="solid" />
-        </span>
         );
     }
 });

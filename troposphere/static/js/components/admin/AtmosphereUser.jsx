@@ -5,7 +5,6 @@ import actions from "actions";
 import ToggleButton from "components/common/ToggleButton";
 import Emulate from "./Emulate";
 
-
 export default React.createClass({
     displayName: "AtmosphereUser",
 
@@ -16,14 +15,14 @@ export default React.createClass({
     toggleStaffStatus: function(new_status, e) {
         // Call to action -- update end_date to 'now' or 'null'
         actions.UserActions.update(this.props.user, {
-            "is_staff": new_status
+            is_staff: new_status
         });
     },
 
     toggleSuperuserStatus: function(new_status, e) {
         // Call to action -- update end_date to 'now' or 'null'
         actions.UserActions.update(this.props.user, {
-            "is_superuser": new_status
+            is_superuser: new_status
         });
     },
 
@@ -34,8 +33,8 @@ export default React.createClass({
             new_end_date = is_disabled ? null : now_time, //Toggle/flip based on existing value in 'props.user'
             is_active = is_disabled; //if is_disabled=True, new is_active=True, if is_disabled=False, new is_active=False
         actions.UserActions.update(this.props.user, {
-            "end_date": new_end_date,
-            "is_active": is_active
+            end_date: new_end_date,
+            is_active: is_active
         });
     },
 
@@ -57,49 +56,40 @@ export default React.createClass({
             email_str = "No E-mail listed";
         }
         return (
-        <tr className="card">
-            <td style={{ border: "none" }} 
-                className="user-name"
-            >
-                 <Emulate username={user.get("username")} /> {user.get("username")}
-            </td>
-            <td style={{ border: "none" }}
-                className="email"
-            >
-                {email_str}
-            </td>
-            <td style={{ border: "none" }}
-                className="is-superuser"
-            >
-                <ToggleButton 
-                    isEnabled={user.get("is_superuser")} 
-                    onToggle={this.toggleSuperuserStatus}
-                />
-            </td>
-            <td style={{ border: "none" }}
-                className="is-staff"
-            >
-                <ToggleButton 
-                    isEnabled={user.get("is_staff")}
-                    onToggle={this.toggleStaffStatus}
-                />
-            </td>
-            <td style={{ border: "none" }} className="end-date">
-                <span style={statusDisc} />
-                { 
-                    userStatus 
-                        ? "Disabled as of " + user.get("end_date") 
-                        : "Enabled"
-                }
-                <button type="button"
-                    className={btnClass}
-                    style={{ marginLeft: "10px" }}
-                    onClick={this.toggleDisableUser}
-                >
-                    { userStatus ? "Enable" : "Disable" }
-                </button>
-            </td>
-        </tr>
+            <tr className="card">
+                <td style={{border: "none"}} className="user-name">
+                    <Emulate username={user.get("username")} />{" "}
+                    {user.get("username")}
+                </td>
+                <td style={{border: "none"}} className="email">
+                    {email_str}
+                </td>
+                <td style={{border: "none"}} className="is-superuser">
+                    <ToggleButton
+                        isEnabled={user.get("is_superuser")}
+                        onToggle={this.toggleSuperuserStatus}
+                    />
+                </td>
+                <td style={{border: "none"}} className="is-staff">
+                    <ToggleButton
+                        isEnabled={user.get("is_staff")}
+                        onToggle={this.toggleStaffStatus}
+                    />
+                </td>
+                <td style={{border: "none"}} className="end-date">
+                    <span style={statusDisc} />
+                    {userStatus
+                        ? "Disabled as of " + user.get("end_date")
+                        : "Enabled"}
+                    <button
+                        type="button"
+                        className={btnClass}
+                        style={{marginLeft: "10px"}}
+                        onClick={this.toggleDisableUser}>
+                        {userStatus ? "Enable" : "Disable"}
+                    </button>
+                </td>
+            </tr>
         );
     }
 });

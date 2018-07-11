@@ -1,23 +1,22 @@
-import { browserHistory } from "react-router";
+import {browserHistory} from "react-router";
 
-import useBasename from 'history/lib/useBasename';
+import useBasename from "history/lib/useBasename";
 
 /**
  * Helper functions for simplifying the use of the `history` module
  */
 
-
 const withBasename = (history, base) => {
     return useBasename(() => history)({basename: `/${base}`});
-}
+};
 
-const withAppBasename = (history) => {
+const withAppBasename = history => {
     // might want to pull the second argument, "application" from the
     // "render context" provided in `globals` to allow for
     // configuration transparency, and the ability to "re-root" the app
     // to another _base_ URL using `basename`
     return withBasename(history, "application");
-}
+};
 
 function browserHistoryWithBase() {
     return withAppBasename(browserHistory);
@@ -33,4 +32,4 @@ function browserHistoryWithBase() {
  */
 const appBrowserHistory = browserHistoryWithBase();
 
-export { withBasename, withAppBasename, appBrowserHistory };
+export {withBasename, withAppBasename, appBrowserHistory};

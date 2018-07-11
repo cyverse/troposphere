@@ -9,8 +9,6 @@ export default React.createClass({
 
     render: function() {
         let volume = this.props.volume;
-        return (
-        <span>{volume.get("provider").name}</span>
-        );
+        return <span>{volume.get("provider").name}</span>;
     }
 });

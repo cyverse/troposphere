@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export default React.createClass({
     displayName: "FilesToExclude",
 
@@ -12,12 +11,11 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             //Add default styling here..?
-            styles: {
-            },
+            styles: {}
         };
     },
     handleChange: function(e) {
-        this.props.onChange(e.target.value)
+        this.props.onChange(e.target.value);
     },
 
     render: function() {
@@ -25,38 +23,34 @@ export default React.createClass({
             value = this.props.value;
 
         return (
-        <div className="form-group" style={styles}>
-            <label htmlFor={name} className="control-label">
-                Files to exclude
-            </label>
-            <div className="help-block">
-                <p>
-                    {"The following directories will automatically be excluded from the image:"}
-                </p>
-                <div>
-                    /home/
+            <div className="form-group" style={styles}>
+                <label htmlFor={name} className="control-label">
+                    Files to exclude
+                </label>
+                <div className="help-block">
+                    <p>
+                        {
+                            "The following directories will automatically be excluded from the image:"
+                        }
+                    </p>
+                    <div>/home/</div>
+                    <div>/mnt/</div>
+                    <div>/tmp/</div>
+                    <div>/root/</div>
                 </div>
-                <div>
-                    /mnt/
+                <div className="help-block">
+                    {"If your instance has additional files or directories you'd like to " +
+                        "exclude, please list them here. Write one path per line."}
                 </div>
-                <div>
-                    /tmp/
-                </div>
-                <div>
-                    /root/
-                </div>
+                <textarea
+                    value={value}
+                    name={"exclude"}
+                    rows="4"
+                    className="form-control"
+                    placeholder="Files to exclude (if applicable)..."
+                    onChange={this.handleChange}
+                />
             </div>
-            <div className="help-block">
-                {"If your instance has additional files or directories you'd like to " +
-                 "exclude, please list them here. Write one path per line."}
-            </div>
-            <textarea value={value}
-                name={"exclude"}
-                rows="4"
-                className="form-control"
-                placeholder="Files to exclude (if applicable)..."
-                onChange={this.handleChange} />
-        </div>
         );
     }
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import stores from "stores";
-import { Link } from "react-router";
+import {Link} from "react-router";
 
 export default React.createClass({
     displayName: "ImageTagsPage",
@@ -44,25 +44,24 @@ export default React.createClass({
             description = tag.get("description");
 
         return (
-        <tr key={tag.id || tag.cid}
-            className="card"
-        >
-            <td style={{ paddingRight: "20px", border: "none" }}>
-                <h4
-                    className="t-body-2"
-                    style={{ "margin": "0", "color": "#5A5A5A" }}
-                >
-                    <Link to={{ pathname: 'images/search', query: { q: name } }}>
-                        {name}
-                    </Link></h4>
-            </td>
-            <td style={{ border: "none" }}>
-                <span style={{ maxWidth: "550px", display: "block" }}>
-                    {description}
-                </span>
-            </td>
-        </tr>
-        )
+            <tr key={tag.id || tag.cid} className="card">
+                <td style={{paddingRight: "20px", border: "none"}}>
+                    <h4
+                        className="t-body-2"
+                        style={{margin: "0", color: "#5A5A5A"}}>
+                        <Link
+                            to={{pathname: "images/search", query: {q: name}}}>
+                            {name}
+                        </Link>
+                    </h4>
+                </td>
+                <td style={{border: "none"}}>
+                    <span style={{maxWidth: "550px", display: "block"}}>
+                        {description}
+                    </span>
+                </td>
+            </tr>
+        );
     },
 
     getFilteredTags(tags, searchTerm) {
@@ -74,7 +73,10 @@ export default React.createClass({
                 var name = tag.get("name").toLowerCase(),
                     description = tag.get("description").toLowerCase();
 
-                return name.indexOf(searchTerm) >= 0 || description.indexOf(searchTerm) >= 0;
+                return (
+                    name.indexOf(searchTerm) >= 0 ||
+                    description.indexOf(searchTerm) >= 0
+                );
             });
 
             filteredTags = new tags.constructor(filteredTags);
@@ -86,17 +88,13 @@ export default React.createClass({
     renderTagsAsTable(tags) {
         if (tags) {
             return (
-            <table className="table">
-                <tbody>
-                    {tags.map(this.renderTagRow)}
-                </tbody>
-            </table>
-            )
+                <table className="table">
+                    <tbody>{tags.map(this.renderTagRow)}</tbody>
+                </table>
+            );
         }
 
-        return (
-        <div className="loading"></div>
-        )
+        return <div className="loading" />;
     },
 
     render() {
@@ -115,33 +113,26 @@ export default React.createClass({
                 text = 'No tags matching "' + searchTerm + '"';
             }
         } else {
-            text = "Showing all tags"
+            text = "Showing all tags";
         }
 
         return (
-        <div className="container">
-            <h1 className="t-display-1">
-                Image Tags
-            </h1>
-            <div
-                id="search-container"
-                style={{ marginBottom: "30px" }}
-            >
-                <input
-                    type="text"
-                    className="form-control search-input"
-                    placeholder="Filter by tag name or description"
-                    value={this.state.searchTerm}
-                    onChange={this.handleFilterChange}
-                />
-                <h3 className="t-body-2" >
-                    { text }
-                </h3>
+            <div className="container">
+                <h1 className="t-display-1">Image Tags</h1>
+                <div id="search-container" style={{marginBottom: "30px"}}>
+                    <input
+                        type="text"
+                        className="form-control search-input"
+                        placeholder="Filter by tag name or description"
+                        value={this.state.searchTerm}
+                        onChange={this.handleFilterChange}
+                    />
+                    <h3 className="t-body-2">{text}</h3>
+                </div>
+                <div className="image-tag-list">
+                    {this.renderTagsAsTable(tags)}
+                </div>
             </div>
-            <div className="image-tag-list">
-                { this.renderTagsAsTable(tags) }
-            </div>
-        </div>
         );
     }
 });

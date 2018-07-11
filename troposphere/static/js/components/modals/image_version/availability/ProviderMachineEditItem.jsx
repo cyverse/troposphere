@@ -3,7 +3,6 @@ import Backbone from "backbone";
 import moment from "moment";
 import actions from "actions";
 
-
 export default React.createClass({
     displayName: "ProviderMachineEditItem",
 
@@ -15,7 +14,7 @@ export default React.createClass({
 
     getDefaultProps: function() {
         return {
-            allow_edits: true,
+            allow_edits: true
         };
     },
     getInitialState: function() {
@@ -39,7 +38,7 @@ export default React.createClass({
         if (isEnabled) {
             end_date = null;
         } else {
-            end_date = now_time
+            end_date = now_time;
         }
 
         actions.ProviderMachineActions.update(this.props.provider_machine, {
@@ -70,34 +69,31 @@ export default React.createClass({
             if (!end_date.isValid()) {
                 availableText = "Archiving ...";
             } else {
-                availableText = "Archived as of " +
-                end_date.format("MMM D, YYYY hh:mm a");
+                availableText =
+                    "Archived as of " + end_date.format("MMM D, YYYY hh:mm a");
             }
             classes = "list-group-item list-group-item-danger";
             activateText = "Re-Enable Provider";
         }
         //NOTE: This may or may not be enabled for end users, depending on provider..
-        isDisabled = (this.allow_edits() == false);
+        isDisabled = this.allow_edits() == false;
         //NOTE: Machines should be unique per provider..
         return (
-        <li className={classes} key={provider.id}>
-            <div className="container-fluid container-edit-provider-machine">
-                <div className="col-sm-6">
-                    {provider.name}
+            <li className={classes} key={provider.id}>
+                <div className="container-fluid container-edit-provider-machine">
+                    <div className="col-sm-6">{provider.name}</div>
+                    <div className="col-sm-3">{availableText}</div>
+                    <div className="col-sm-3">
+                        <button
+                            className="btn btn-xs btn-primary"
+                            style={{padding: "1px 5px"}}
+                            onClick={this.updateAvailability}
+                            disabled={isDisabled}>
+                            {activateText}
+                        </button>
+                    </div>
                 </div>
-                <div className="col-sm-3">
-                    {availableText}
-                </div>
-                <div className="col-sm-3">
-                    <button className="btn btn-xs btn-primary"
-                        style={{ padding: "1px 5px" }}
-                        onClick={this.updateAvailability}
-                        disabled={isDisabled}>
-                        {activateText}
-                    </button>
-                </div>
-            </div>
-        </li>
-        )
+            </li>
+        );
     }
 });

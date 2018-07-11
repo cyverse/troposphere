@@ -3,12 +3,12 @@ import Backbone from "backbone";
 import ExternalLinkTable from "./ExternalLinkTable";
 import NoExternalLinkNotice from "./NoExternalLinkNotice";
 
-
 export default React.createClass({
     displayName: "ExternalLinkList",
 
     propTypes: {
-        external_links: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        external_links: React.PropTypes.instanceOf(Backbone.Collection)
+            .isRequired,
         onResourceSelected: React.PropTypes.func.isRequired,
         onResourceDeselected: React.PropTypes.func.isRequired,
         onPreviewResource: React.PropTypes.func.isRequired,
@@ -21,28 +21,28 @@ export default React.createClass({
             content;
 
         if (this.props.external_links.length <= 0) {
-            content = (
-                <NoExternalLinkNotice/>
-            );
+            content = <NoExternalLinkNotice />;
         } else {
             content = (
-                <ExternalLinkTable external_links={external_links}
+                <ExternalLinkTable
+                    external_links={external_links}
                     onResourceSelected={this.props.onResourceSelected}
                     onResourceDeselected={this.props.onResourceDeselected}
                     onPreviewResource={this.props.onPreviewResource}
                     previewedResource={this.props.previewedResource}
-                    selectedResources={this.props.selectedResources} />
+                    selectedResources={this.props.selectedResources}
+                />
             );
         }
 
         return (
-        <div>
-            <div className="header">
-                <i className="glyphicon glyphicon-globe"></i>
-                <h3 className="title-3">Links</h3>
+            <div>
+                <div className="header">
+                    <i className="glyphicon glyphicon-globe" />
+                    <h3 className="title-3">Links</h3>
+                </div>
+                {content}
             </div>
-            {content}
-        </div>
         );
     }
 });

@@ -4,7 +4,6 @@ import IdentityMembershipCollection from "collections/IdentityMembershipCollecti
 import IdentityMembershipConstants from "constants/IdentityMembershipConstants";
 import AccountConstants from "constants/AccountConstants";
 
-
 let IdentityMembershipStore = BaseStore.extend({
     collection: IdentityMembershipCollection
 });

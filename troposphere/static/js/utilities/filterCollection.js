@@ -1,18 +1,18 @@
 import moment from "moment";
 
-const filterEndDate = (version) => {
+const filterEndDate = version => {
     let dateNow = moment(new Date()).format();
-    let endDate = version.get("end_date")
+    let endDate = version.get("end_date");
     if (!endDate) {
-        return true
+        return true;
     }
     if (endDate.format() === "Invalid date") {
-        return true
+        return true;
     }
     if (endDate.isAfter(dateNow)) {
-        return true
+        return true;
     }
-    return false
-}
+    return false;
+};
 
-export { filterEndDate }
+export {filterEndDate};

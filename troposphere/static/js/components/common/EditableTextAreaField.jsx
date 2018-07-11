@@ -2,13 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import $ from "jquery";
 
-
 export default React.createClass({
     displayName: "EditableTextAreaField",
 
     propTypes: {
         onDoneEditing: React.PropTypes.func,
-        text: React.PropTypes.string,
+        text: React.PropTypes.string
     },
 
     componentDidMount: function() {
@@ -26,12 +25,15 @@ export default React.createClass({
 
     render: function() {
         return (
-        <div>
-            <textarea type="text" defaultValue={this.props.text} />
-            <button className="btn btn-small btn-default" style={{ "display": "block", "padding": "5px 10px" }} onClick={this.onDoneEditing}>
-                Save changes
-            </button>
-        </div>
+            <div>
+                <textarea type="text" defaultValue={this.props.text} />
+                <button
+                    className="btn btn-small btn-default"
+                    style={{display: "block", padding: "5px 10px"}}
+                    onClick={this.onDoneEditing}>
+                    Save changes
+                </button>
+            </div>
         );
     }
 });

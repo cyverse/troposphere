@@ -5,7 +5,6 @@ import VolumeDetailsView from "../projects/resources/volume/details/VolumeDetail
 
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "VolumeDetailsPage",
 
@@ -30,20 +29,19 @@ export default React.createClass({
     },
 
     render() {
-        let { params } = this.props,
+        let {params} = this.props,
             identity = stores.IdentityStore.get(Number(params.identityId)),
             volume = stores.VolumeStore.get(Number(params.volumeId)),
             helpLinks = stores.HelpLinkStore.getAll();
 
         if (!identity || !volume || !helpLinks) {
-            return <div className="loading"></div>;
+            return <div className="loading" />;
         }
 
         return (
-        <IdentityResourcesWrapper identity={identity}>
-            <VolumeDetailsView identity={identity} volume={volume} />
-        </IdentityResourcesWrapper>
+            <IdentityResourcesWrapper identity={identity}>
+                <VolumeDetailsView identity={identity} volume={volume} />
+            </IdentityResourcesWrapper>
         );
     }
-
 });

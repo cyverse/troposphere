@@ -5,14 +5,12 @@ import SelectMenu from "components/common/ui/SelectMenu";
 import subscribe from "utilities/subscribe";
 import featureFlags from "utilities/featureFlags";
 
-import { trackAction } from "../../utilities/userActivity";
-
+import {trackAction} from "../../utilities/userActivity";
 
 const ProjectCreateView = React.createClass({
     displayName: "ProjectCreateView",
 
     getInitialState: function() {
-
         return {
             projectName: "",
             projectDescription: "",
@@ -21,7 +19,7 @@ const ProjectCreateView = React.createClass({
         };
     },
 
-    validateName: function () {
+    validateName: function() {
         let name = this.state.projectName;
         let hasError = false;
         let message = "";
@@ -40,10 +38,10 @@ const ProjectCreateView = React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
 
-    validateOwner: function () {
+    validateOwner: function() {
         let owner = this.state.groupOwner;
         let hasError = false;
         let message = "";
@@ -56,12 +54,14 @@ const ProjectCreateView = React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
 
-    isSubmittable: function () {
-        if (this.validateName().hasError ||
-            (featureFlags.hasProjectSharing() && this.validateOwner().hasError) ) {
+    isSubmittable: function() {
+        if (
+            this.validateName().hasError ||
+            (featureFlags.hasProjectSharing() && this.validateOwner().hasError)
+        ) {
             return false;
         }
         return true;
@@ -73,9 +73,11 @@ const ProjectCreateView = React.createClass({
 
     confirm: function() {
         if (this.isSubmittable()) {
-            this.props.onConfirm(this.state.projectName.trim(),
-                                 this.state.projectDescription.trim(),
-                                 this.state.groupOwner);
+            this.props.onConfirm(
+                this.state.projectName.trim(),
+                this.state.projectDescription.trim(),
+                this.state.groupOwner
+            );
         }
         trackAction("created-project", {});
         this.setState({
@@ -92,7 +94,7 @@ const ProjectCreateView = React.createClass({
         });
     },
 
-    onNameBlur: function () {
+    onNameBlur: function() {
         let projectName = this.state.projectName.trim();
         this.setState({
             projectName
@@ -106,23 +108,25 @@ const ProjectCreateView = React.createClass({
     },
 
     mapGroupOptions: function(group) {
-        let name = group.get('name'),
-            groupUsers = group.get('users'),
-            isPrivate = (groupUsers.length == 1),
+        let name = group.get("name"),
+            groupUsers = group.get("users"),
+            isPrivate = groupUsers.length == 1,
             optionName;
-        if(isPrivate) {
-            optionName = name + " (Private)"
+        if (isPrivate) {
+            optionName = name + " (Private)";
         } else {
-            optionName = name + " (Shared)"
+            optionName = name + " (Shared)";
         }
         return optionName;
     },
     getMemberNames: function(group) {
-        if(!group) {
+        if (!group) {
             return "";
         }
-        let user_list = group.get('users'),
-            username_list = user_list.map(function(g) {return g.username});
+        let user_list = group.get("users"),
+            username_list = user_list.map(function(g) {
+                return g.username;
+            });
 
         return username_list.join(", ");
     },
@@ -132,70 +136,74 @@ const ProjectCreateView = React.createClass({
         let nameErrorMessage = null;
         let descriptionClassNames = "form-group";
 
-        let { GroupStore } = this.props.subscriptions;
+        let {GroupStore} = this.props.subscriptions;
 
         let groupList = GroupStore.getAll();
-        if(!groupList) {
-            return (<div className="loading"></div>);
+        if (!groupList) {
+            return <div className="loading" />;
         }
         if (this.state.showValidation) {
-            nameClassNames = this.validateName().hasError ?
-                "form-group has-error" : null;
+            nameClassNames = this.validateName().hasError
+                ? "form-group has-error"
+                : null;
             nameErrorMessage = this.validateName().message;
         }
 
         return (
-        <div role="form">
-            <div className={nameClassNames}>
-                <label htmlFor="project-name">
-                    Project Name
-                </label>
-                <input type="text"
-                    name="project-name"
-                    id="project-name"
-                    className="form-control"
-                    value={projectName}
-                    onChange={this.onNameChange}
-                    onBlur={this.onNameBlur} />
-                <span className="help-block">{nameErrorMessage}</span>
+            <div role="form">
+                <div className={nameClassNames}>
+                    <label htmlFor="project-name">Project Name</label>
+                    <input
+                        type="text"
+                        name="project-name"
+                        id="project-name"
+                        className="form-control"
+                        value={projectName}
+                        onChange={this.onNameChange}
+                        onBlur={this.onNameBlur}
+                    />
+                    <span className="help-block">{nameErrorMessage}</span>
+                </div>
+                <div className={descriptionClassNames}>
+                    <label htmlFor="project-description">Description</label>
+                    <textarea
+                        type="text"
+                        name="project-description"
+                        id="project-description"
+                        className="form-control"
+                        rows="7"
+                        value={this.state.projectDescription}
+                        onChange={this.onDescriptionChange}
+                    />
+                </div>
+                {this.renderProjectVisibility()}
             </div>
-            <div className={descriptionClassNames}>
-                <label htmlFor="project-description">
-                    Description
-                </label>
-                <textarea type="text"
-                    name="project-description"
-                    id="project-description"
-                    className="form-control"
-                    rows="7"
-                    value={this.state.projectDescription}
-                    onChange={this.onDescriptionChange} />
-            </div>
-            {this.renderProjectVisibility()}
-        </div>
         );
     },
     renderProjectVisibility: function() {
-        if(! featureFlags.hasProjectSharing()) {
+        if (!featureFlags.hasProjectSharing()) {
             return;
         }
 
-        let { GroupStore } = this.props.subscriptions;
+        let {GroupStore} = this.props.subscriptions;
 
         let groupList = GroupStore.getAll();
-        if(!groupList) {
-            return (<div className="loading"></div>);
+        if (!groupList) {
+            return <div className="loading" />;
         }
         let projectType;
-        if(! featureFlags.hasProjectSharing()) {
+        if (!featureFlags.hasProjectSharing()) {
             projectType = "";
         } else if (!this.state.groupOwner) {
             projectType = "Select a Group";
-        } else if (this.state.groupOwner.get('users').length == 1) {
+        } else if (this.state.groupOwner.get("users").length == 1) {
             projectType = "Private Project";
         } else {
-            let projectUsernameList = this.getMemberNames(this.state.groupOwner);
-            projectType = "Share this Project with Users: " + projectUsernameList;
+            let projectUsernameList = this.getMemberNames(
+                this.state.groupOwner
+            );
+            projectType =
+                "Share this Project with Users: " + projectUsernameList;
         }
 
         let groupClassNames = "form-group";
@@ -203,29 +211,32 @@ const ProjectCreateView = React.createClass({
 
         if (this.state.showValidation) {
             let validateOwner = this.validateOwner();
-            groupClassNames = validateOwner.hasError ?
-                "form-group has-error" : null;
+            groupClassNames = validateOwner.hasError
+                ? "form-group has-error"
+                : null;
             groupErrorMessage = validateOwner.message;
         }
 
-        return (<div className={groupClassNames}>
-                <label htmlFor="groupOwner">
-                    Project Visibility
-                </label>
-                <SelectMenu current={this.state.groupOwner}
+        return (
+            <div className={groupClassNames}>
+                <label htmlFor="groupOwner">Project Visibility</label>
+                <SelectMenu
+                    current={this.state.groupOwner}
                     placeholder={"Select a Private/Shared Group"}
                     list={groupList}
                     optionName={g => this.mapGroupOptions(g)}
-                    onSelect={this.onGroupChange} />
-                <p className="t-caption" style={{ display: "block" }}>
-                   {projectType}
+                    onSelect={this.onGroupChange}
+                />
+                <p className="t-caption" style={{display: "block"}}>
+                    {projectType}
                 </p>
                 <span className="help-block">{groupErrorMessage}</span>
-            </div>);
+            </div>
+        );
     },
     onGroupChange: function(group) {
         this.setState({
-            groupOwner: group,
+            groupOwner: group
         });
     },
 
@@ -233,28 +244,28 @@ const ProjectCreateView = React.createClass({
         let isSubmittable = true;
         if (this.state.showValidation) {
             if (!this.isSubmittable()) {
-                isSubmittable = false
+                isSubmittable = false;
             }
         }
         return (
-        <div>
-            {this.renderBody()}
-            <div className="modal-footer">
-                <RaisedButton
-                    id="cancelCreateProject"
-                    style={{ marginRight: "10px" }}
-                    onTouchTap={this.props.cancel}
-                    label="Cancel"
-                />
-                <RaisedButton
-                    primary
-                    id="submitCreateProject"
-                    onTouchTap={this.confirm}
-                    disabled={!isSubmittable}
-                    label="Create"
-                />
+            <div>
+                {this.renderBody()}
+                <div className="modal-footer">
+                    <RaisedButton
+                        id="cancelCreateProject"
+                        style={{marginRight: "10px"}}
+                        onTouchTap={this.props.cancel}
+                        label="Cancel"
+                    />
+                    <RaisedButton
+                        primary
+                        id="submitCreateProject"
+                        onTouchTap={this.confirm}
+                        disabled={!isSubmittable}
+                        label="Create"
+                    />
+                </div>
             </div>
-        </div>
         );
     }
 });

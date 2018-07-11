@@ -1,6 +1,5 @@
 import Graph from "./Graph";
-import { extend } from "underscore";
-
+import {extend} from "underscore";
 
 let CPUGraph = function(settings) {
     let defaults = {

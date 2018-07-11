@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import Raven from "raven-js";
 
-import { alertFail } from "utilities/toastrHelpers";
+import {alertFail} from "utilities/toastrHelpers";
 
 /**
  * Report exception via Sentry error client (Raven)
@@ -54,25 +54,25 @@ function copyTextToClipboard(text) {
     //
 
     // Place in top-left corner of screen regardless of scroll position.
-    textArea.style.position = 'fixed';
+    textArea.style.position = "fixed";
     textArea.style.top = 0;
     textArea.style.left = 0;
 
     // Ensure it has a small width and height. Setting to 1px / 1em
     // doesn't work as this gives a negative w/h on some browsers.
-    textArea.style.width = '2em';
-    textArea.style.height = '2em';
+    textArea.style.width = "2em";
+    textArea.style.height = "2em";
 
     // We don't need padding, reducing the size if it does flash render.
     textArea.style.padding = 0;
 
     // Clean up any borders.
-    textArea.style.border = 'none';
-    textArea.style.outline = 'none';
-    textArea.style.boxShadow = 'none';
+    textArea.style.border = "none";
+    textArea.style.outline = "none";
+    textArea.style.boxShadow = "none";
 
     // Avoid flash of white box if rendered for any reason.
-    textArea.style.background = 'transparent';
+    textArea.style.background = "transparent";
 
     textArea.value = text;
 
@@ -82,7 +82,7 @@ function copyTextToClipboard(text) {
 
     try {
         // capture `execCommand` in a variable if offering feedback on failure
-        document.execCommand('copy');
+        document.execCommand("copy");
     } catch (err) {
         reportException(err);
     }
@@ -94,8 +94,8 @@ export default React.createClass({
     getInitialState() {
         return {
             feedbackState: "WAIT",
-            canCopy: false,
-        }
+            canCopy: false
+        };
     },
 
     componentDidMount() {
@@ -107,72 +107,72 @@ export default React.createClass({
         try {
             var canCopy = document.execCommand;
             this.setState({
-                canCopy,
+                canCopy
             });
         } catch (err) {
             reportException(err);
             this.setState({
-                canCopy: false,
+                canCopy: false
             });
         }
     },
 
     onClick() {
-        const { text } = this.props;
+        const {text} = this.props;
         copyTextToClipboard(text);
 
-        this.setState({
-            feedbackState: "FLOAT"
-        }, () => {
-            setTimeout(
-                () => {
-                    this.setState({
-                        feedbackState: "FADEOUT"
-                }, () => {
-                    setTimeout(
-                    () => {
-                        this.setState({
-                            feedbackState: "WAIT"
-                        })
-                    } , 300)
-                })}, 300)
+        this.setState(
+            {
+                feedbackState: "FLOAT"
+            },
+            () => {
+                setTimeout(() => {
+                    this.setState(
+                        {
+                            feedbackState: "FADEOUT"
+                        },
+                        () => {
+                            setTimeout(() => {
+                                this.setState({
+                                    feedbackState: "WAIT"
+                                });
+                            }, 300);
+                        }
+                    );
+                }, 300);
             }
         );
     },
 
     render() {
-        const { feedbackState } = this.state;
+        const {feedbackState} = this.state;
         const style = this.style();
 
         const feedbackStyle = () => {
             switch (feedbackState) {
                 case "WAIT":
-                    return style.feedbackHidden
+                    return style.feedbackHidden;
                 case "FLOAT":
-                    return style.feedbackShown
+                    return style.feedbackShown;
                 case "FADEOUT":
-                    return style.feedbackOut
+                    return style.feedbackOut;
             }
         };
 
-        if (!this.state.canCopy) return <span/>;
+        if (!this.state.canCopy) return <span />;
 
         return (
-            <div
-                style={ style.button }
-                onClick = { this.onClick }
-            >
+            <div style={style.button} onClick={this.onClick}>
                 <div
                     style={{
                         ...style.feedback,
                         ...feedbackStyle()
-                    }}
-                >
+                    }}>
                     Copied!
                 </div>
                 Copy
             </div>
-        )
+        );
     },
 
     style() {
@@ -183,31 +183,31 @@ export default React.createClass({
             fontSize: "11px",
             cursor: "pointer",
             color: "#0971ab",
-            marginLeft: "10px",
+            marginLeft: "10px"
         };
 
         const feedback = {
             fontSize: "12px",
-            position: "absolute",
-        }
+            position: "absolute"
+        };
 
         // Animation step styles
         const feedbackHidden = {
             position: "absolute",
             opacity: "0",
-            top: "0",
+            top: "0"
         };
 
         const feedbackShown = {
             opacity: "1",
             top: "-20px",
-            transition: "opacity .2s ease, top .15s ease",
+            transition: "opacity .2s ease, top .15s ease"
         };
 
         const feedbackOut = {
             opacity: "0",
             top: "-20px",
-            transition: "opacity .2s ease",
+            transition: "opacity .2s ease"
         };
 
         return {
@@ -215,7 +215,7 @@ export default React.createClass({
             feedback,
             feedbackHidden,
             feedbackShown,
-            feedbackOut,
-        }
-    },
-})
+            feedbackOut
+        };
+    }
+});

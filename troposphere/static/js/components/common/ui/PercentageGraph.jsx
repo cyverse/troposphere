@@ -21,9 +21,7 @@ function findMaxDataPt(seriesData, ceiling) {
     // - we need to know the max value to set the Y Axis
     return Math.max(
         ceiling,
-        Math.max(...seriesData.map(
-            (identity) => Math.max(...identity.data))
-        )
+        Math.max(...seriesData.map(identity => Math.max(...identity.data)))
     );
 }
 
@@ -52,24 +50,28 @@ export default React.createClass({
         if (seriesData.length === 0) {
             return;
         }
-        var height = (categories.length * (seriesData.length * 50)) + 100;
+        var height = categories.length * (seriesData.length * 50) + 100;
 
         var plotLines = [],
             plotBands = [];
 
         if (max > 100) {
-            plotLines = [{
-                value: 100,
-                color: "red",
-                dashStyle: "shortdash",
-                zIndex: 3,
-                width: 3
-            }];
-            plotBands = [{
-                color: "pink",
-                from: 101,
-                to: max + (max / 2)
-            }];
+            plotLines = [
+                {
+                    value: 100,
+                    color: "red",
+                    dashStyle: "shortdash",
+                    zIndex: 3,
+                    width: 3
+                }
+            ];
+            plotBands = [
+                {
+                    color: "pink",
+                    from: 101,
+                    to: max + max / 2
+                }
+            ];
         }
 
         // createChart is a CommonJS wrapping around Highcharts:
@@ -81,7 +83,7 @@ export default React.createClass({
             chart: {
                 type: "bar",
                 backgroundColor: "transparent",
-                height,
+                height
             },
             colors: [
                 "#0098aa",
@@ -100,7 +102,7 @@ export default React.createClass({
             },
             xAxis: {
                 type: "category",
-                categories,
+                categories
             },
             yAxis: {
                 min: 0,
@@ -121,9 +123,17 @@ export default React.createClass({
                     var appendMessages = this.series.options.appendMessages;
                     var appendMessage = appendMessages[this.x];
 
-                    var formatterComponent = (<ResourceUseTooltip resourceName={appendMessage} used={currentUsage} max={currentLimit} />);
+                    var formatterComponent = (
+                        <ResourceUseTooltip
+                            resourceName={appendMessage}
+                            used={currentUsage}
+                            max={currentLimit}
+                        />
+                    );
 
-                    return ReactDOMServer.renderToStaticMarkup(formatterComponent);
+                    return ReactDOMServer.renderToStaticMarkup(
+                        formatterComponent
+                    );
                 }
             },
             legend: {
@@ -143,6 +153,6 @@ export default React.createClass({
     //
 
     render: function() {
-        return ( <div/> );
+        return <div />;
     }
 });

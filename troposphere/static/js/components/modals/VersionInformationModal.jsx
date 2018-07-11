@@ -57,87 +57,83 @@ export default React.createClass({
             }
         ];
 
-        var buttons = buttonArray.map(function(button) {
-            return (
-            <button key={button.text}
-                type="button"
-                className={"btn btn-" + button.type}
-                onClick={button.handler}>
-                {button.text}
-            </button>
-            );
-        }.bind(this));
+        var buttons = buttonArray.map(
+            function(button) {
+                return (
+                    <button
+                        key={button.text}
+                        type="button"
+                        className={"btn btn-" + button.type}
+                        onClick={button.handler}>
+                        {button.text}
+                    </button>
+                );
+            }.bind(this)
+        );
 
         var content;
         if (this.state.version) {
             var client = this.state.version.client;
-            var clientVersion = client.get("git_branch") + " " + client.get("git_sha_abbrev");
-            var clientLastUpdated = moment(client.get("commit_date")).format("MMM Do YYYY hh:mm a");
+            var clientVersion =
+                client.get("git_branch") + " " + client.get("git_sha_abbrev");
+            var clientLastUpdated = moment(client.get("commit_date")).format(
+                "MMM Do YYYY hh:mm a"
+            );
 
             var serverDeploy = this.state.version.deploy;
-            var serverDeployVersion = serverDeploy.get("git_branch") + " " + serverDeploy.get("git_sha_abbrev");
-            var serverDeployLastUpdated = moment(serverDeploy.get("commit_date")).format("MMM Do YYYY hh:mm a");
+            var serverDeployVersion =
+                serverDeploy.get("git_branch") +
+                " " +
+                serverDeploy.get("git_sha_abbrev");
+            var serverDeployLastUpdated = moment(
+                serverDeploy.get("commit_date")
+            ).format("MMM Do YYYY hh:mm a");
 
             var server = this.state.version.server;
-            var serverVersion = server.get("git_branch") + " " + server.get("git_sha_abbrev");
-            var serverLastUpdated = moment(server.get("commit_date")).format("MMM Do YYYY hh:mm a");
+            var serverVersion =
+                server.get("git_branch") + " " + server.get("git_sha_abbrev");
+            var serverLastUpdated = moment(server.get("commit_date")).format(
+                "MMM Do YYYY hh:mm a"
+            );
 
             content = (
                 <div role="form">
                     <div className="form-group">
                         <div>
-                            <label>
-                                Client
-                            </label>
+                            <label>Client</label>
                             {", " + clientLastUpdated}
-                            <p>
-                                {clientVersion}
-                            </p>
+                            <p>{clientVersion}</p>
                         </div>
                         <div>
-                            <label>
-                                Server
-                            </label>
+                            <label>Server</label>
                             {", " + serverLastUpdated}
-                            <p>
-                                {serverVersion}
-                            </p>
+                            <p>{serverVersion}</p>
                         </div>
                         <div>
-                            <label>
-                                Deployment (Ansible)
-                            </label>
+                            <label>Deployment (Ansible)</label>
                             {", " + serverDeployLastUpdated}
-                            <p>
-                                {serverDeployVersion}
-                            </p>
+                            <p>{serverDeployVersion}</p>
                         </div>
                     </div>
                 </div>
             );
         } else {
-            content = (
-                <div className="loading"></div>
-            );
+            content = <div className="loading" />;
         }
 
         return (
-        <div className="modal fade">
-            <div className="modal-dialog modal-sm">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title">{this.props.header}</h1>
-                    </div>
-                    <div className="modal-body">
-                        {content}
-                    </div>
-                    <div className="modal-footer">
-                        {buttons}
+            <div className="modal fade">
+                <div className="modal-dialog modal-sm">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title">{this.props.header}</h1>
+                        </div>
+                        <div className="modal-body">{content}</div>
+                        <div className="modal-footer">{buttons}</div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

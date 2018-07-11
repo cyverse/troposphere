@@ -2,8 +2,7 @@ import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import $ from "jquery";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import { trackAction } from "../../../utilities/userActivity";
-
+import {trackAction} from "../../../utilities/userActivity";
 
 export default React.createClass({
     displayName: "ExternalLinkCreateModal",
@@ -26,7 +25,7 @@ export default React.createClass({
             description: "",
             link: "",
             shouldValidate: false
-        }
+        };
     },
 
     //
@@ -42,7 +41,8 @@ export default React.createClass({
         if (!this.isSubmittable()) {
             this.setState({
                 shouldValidate: true
-            }); return
+            });
+            return;
         }
         this.hide();
         this.props.onConfirm(
@@ -89,33 +89,33 @@ export default React.createClass({
             return {
                 valid: false,
                 cause: "empty"
-            }
+            };
         }
         return {
             valid: true,
             cause: ""
-        }
+        };
     },
 
     validateLink: function() {
         let link = this.state.link;
-        let validLink = (link.search("https?://") !== -1);
+        let validLink = link.search("https?://") !== -1;
         if (!link.length) {
             return {
                 valid: false,
                 cause: "empty"
-            }
+            };
         }
         if (!validLink) {
             return {
                 valid: false,
                 cause: "notURL"
-            }
+            };
         }
         return {
             valid: true,
             cause: ""
-        }
+        };
     },
 
     isSubmittable: function() {
@@ -134,7 +134,10 @@ export default React.createClass({
                 titleMessage = "Link must have a title";
             }
             if (title().cause === "duplicate") {
-                titleMessage = 'Link with name "' + this.state.name + '" already exists in this project.';
+                titleMessage =
+                    'Link with name "' +
+                    this.state.name +
+                    '" already exists in this project.';
             }
         }
 
@@ -160,7 +163,7 @@ export default React.createClass({
             titleMessage,
             descriptionMessage,
             linkMessage
-        }
+        };
     },
 
     //
@@ -191,49 +194,56 @@ export default React.createClass({
                 </p>
             );
         }
-        let requiredLabel = ( <span style={{ color: "red" }}>*</span> );
+        let requiredLabel = <span style={{color: "red"}}>*</span>;
 
         return (
-        <div className="clearfix" style={{ marginBottom: "50px" }} role="form">
-            <div className="form-group">
-                <label htmlFor="linkName">
-                    Link Title
-                    {requiredLabel}
-                </label>
-                <input type="text"
-                    className="form-control"
-                    value={this.state.name}
-                    onChange={this.onNameChange} />
-                {formattedTitleError}
+            <div
+                className="clearfix"
+                style={{marginBottom: "50px"}}
+                role="form">
+                <div className="form-group">
+                    <label htmlFor="linkName">
+                        Link Title
+                        {requiredLabel}
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={this.state.name}
+                        onChange={this.onNameChange}
+                    />
+                    {formattedTitleError}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="linkSize">
+                        Link Description
+                        {requiredLabel}
+                    </label>
+                    <textarea
+                        id="project-description"
+                        type="text"
+                        className="form-control"
+                        rows="7"
+                        value={this.state.description}
+                        onChange={this.onDescriptionChange}
+                    />
+                    {formattedDescriptionError}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="linkName">
+                        Link URL
+                        {requiredLabel}
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={this.state.link}
+                        onChange={this.onLinkChange}
+                    />
+                    {formattedLinkError}
+                </div>
+                <div style={{float: "right"}}>{requiredLabel} Required</div>
             </div>
-            <div className="form-group">
-                <label htmlFor="linkSize">
-                    Link Description
-                    {requiredLabel}
-                </label>
-                <textarea id="project-description"
-                    type="text"
-                    className="form-control"
-                    rows="7"
-                    value={this.state.description}
-                    onChange={this.onDescriptionChange} />
-                {formattedDescriptionError}
-            </div>
-            <div className="form-group">
-                <label htmlFor="linkName">
-                    Link URL
-                    {requiredLabel}
-                </label>
-                <input type="text"
-                    className="form-control"
-                    value={this.state.link}
-                    onChange={this.onLinkChange} />
-                {formattedLinkError}
-            </div>
-            <div style={{ float: "right" }}>
-                {requiredLabel} Required
-            </div>
-        </div>
         );
     },
 
@@ -255,33 +265,31 @@ export default React.createClass({
             }
         }
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title">Create a Link</h1>
-                    </div>
-                    <div className="modal-body">
-                        {this.renderBody()}
-                    </div>
-                    <div className="modal-footer">
-                        {footerErrorText}
-                        <RaisedButton
-                            style={{ marginRight: "10px" }}
-                            onTouchTap={this.cancel}
-                            label="Cancel"
-                        />
-                        <RaisedButton
-                            primary
-                            onTouchTap={this.confirm}
-                            disabled={isDisabled}
-                            label="Create Link"
-                        />
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title">Create a Link</h1>
+                        </div>
+                        <div className="modal-body">{this.renderBody()}</div>
+                        <div className="modal-footer">
+                            {footerErrorText}
+                            <RaisedButton
+                                style={{marginRight: "10px"}}
+                                onTouchTap={this.cancel}
+                                label="Cancel"
+                            />
+                            <RaisedButton
+                                primary
+                                onTouchTap={this.confirm}
+                                disabled={isDisabled}
+                                label="Create Link"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

@@ -26,6 +26,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased](https://github.com/cyverse/troposphere/compare/v32-0...HEAD)
 ### Changed
+  - Fix format script and format codebase ([#782](https://github.com/cyverse/troposphere/pull/782))
+    - Travis will also check that the code is formatted from now on
   - Suggest adopting a changelog format ([#766](https://github.com/cyverse/troposphere/pull/766))
     - This is very similar to what we have now. It's just documented somwhere
       on the web where we can point to as a process to follow

@@ -18,20 +18,19 @@ export default React.createClass({
         const volume = this.props.volume;
         const uuid = volume.get("uuid");
         return (
-        <div className="resource-details-section section">
-            <h4 className="t-title">Volume Details</h4>
-            <ul>
-                <Status volume={volume} />
-                <Size volume={volume} />
-                <Identity volume={volume} />
-                <Id volume={volume} />
-                <ResourceDetail label="Identifier">
-                    { uuid }
-                    <CopyButton text={ uuid } />
-                </ResourceDetail>
-            </ul>
-        </div>
+            <div className="resource-details-section section">
+                <h4 className="t-title">Volume Details</h4>
+                <ul>
+                    <Status volume={volume} />
+                    <Size volume={volume} />
+                    <Identity volume={volume} />
+                    <Id volume={volume} />
+                    <ResourceDetail label="Identifier">
+                        {uuid}
+                        <CopyButton text={uuid} />
+                    </ResourceDetail>
+                </ul>
+            </div>
         );
     }
-
 });

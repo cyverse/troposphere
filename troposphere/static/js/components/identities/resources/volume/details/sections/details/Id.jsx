@@ -12,10 +12,6 @@ export default React.createClass({
     render: function() {
         var volume = this.props.volume;
 
-        return (
-        <ResourceDetail label="ID">
-            {volume.id}
-        </ResourceDetail>
-        );
+        return <ResourceDetail label="ID">{volume.id}</ResourceDetail>;
     }
 });

@@ -1,4 +1,3 @@
-
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import ImageVersionLicenseCollection from "collections/ImageVersionLicenseCollection";
@@ -20,33 +19,40 @@ let ImageVersionLicenseStore = BaseStore.extend({
         if (!_modelsFor[imageVersionId] && !_isFetchingFor[imageVersionId]) {
             _isFetchingFor[imageVersionId] = true;
             var models = new ImageVersionLicenseCollection();
-            models.fetch({
-                url: models.url + "?version_id=" + imageVersionId
-            }).done(function() {
-                _isFetchingFor[imageVersionId] = false;
+            models
+                .fetch({
+                    url: models.url + "?version_id=" + imageVersionId
+                })
+                .done(
+                    function() {
+                        _isFetchingFor[imageVersionId] = false;
 
-                // add models to existing cache
-                this.models.add(models.models);
+                        // add models to existing cache
+                        this.models.add(models.models);
 
-                // convert ImageVersionLicense collection to a LicenseCollection
-                var licenses = models.map(function(version_license) {
-                    return new License(version_license.get("license"), {
-                        parse: true
-                    });
-                });
-                licenses = new LicenseCollection(licenses);
+                        // convert ImageVersionLicense collection to a LicenseCollection
+                        var licenses = models.map(function(version_license) {
+                            return new License(version_license.get("license"), {
+                                parse: true
+                            });
+                        });
+                        licenses = new LicenseCollection(licenses);
 
-                _modelsFor[imageVersionId] = licenses;
-                this.emitChange();
-            }.bind(this));
+                        _modelsFor[imageVersionId] = licenses;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
     getLicensesFor: function(imageversion) {
-        if (!_modelsFor[imageversion.id]) return this.fetchModelsFor(imageversion.id);
+        if (!_modelsFor[imageversion.id])
+            return this.fetchModelsFor(imageversion.id);
 
         // convert ImageVersionLicense collection to an LicenseCollection
-        var imageVersionLicenses = this.models.filter(function(version_license) {
+        var imageVersionLicenses = this.models.filter(function(
+            version_license
+        ) {
             return version_license.get("image_version").id === imageversion.id;
         });
 
@@ -57,7 +63,6 @@ let ImageVersionLicenseStore = BaseStore.extend({
         });
         return new LicenseCollection(licenses);
     }
-
 });
 
 let store = new ImageVersionLicenseStore();
@@ -68,7 +73,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ImageVersionLicenseConstants.ADD_IMAGEVERSION_LICENSE:
             store.add(payload.image_versionLicense);
             break;

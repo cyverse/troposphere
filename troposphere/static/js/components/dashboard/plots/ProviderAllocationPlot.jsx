@@ -8,7 +8,7 @@ export default React.createClass({
 
     propTypes: {
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
     //
@@ -39,16 +39,16 @@ export default React.createClass({
                 Allocation: allocationUsageStats.maxAllocation
             },
             appendMessages: {
-                Allocation: "AUs",
+                Allocation: "AUs"
             },
             borderWidth: 0,
             dataLabels: {
                 enabled: true,
                 formatter: function() {
                     if (this.y != 0) {
-                        return (Math.round(this.y * 100) / 100) + '%';
+                        return Math.round(this.y * 100) / 100 + "%";
                     } else {
-                        return '0%';
+                        return "0%";
                     }
                 }
             },
@@ -75,10 +75,13 @@ export default React.createClass({
 
     render: function() {
         return (
-        <div>
-            <h2 className="t-title">Provider Allocation</h2>
-            <PercentageGraph seriesData={this.getChartData()} categories={["Allocation"]} />
-        </div>
+            <div>
+                <h2 className="t-title">Provider Allocation</h2>
+                <PercentageGraph
+                    seriesData={this.getChartData()}
+                    categories={["Allocation"]}
+                />
+            </div>
         );
     }
 });

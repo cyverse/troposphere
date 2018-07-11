@@ -16,13 +16,13 @@ export default {
 
         // Size information for the user's browser and monitor
         data["resolution"] = {
-            "viewport": {
-                "width": $(window).width(),
-                "height": $(window).height()
+            viewport: {
+                width: $(window).width(),
+                height: $(window).height()
             },
-            "screen": {
-                "width": screen.width,
-                "height": screen.height
+            screen: {
+                width: screen.width,
+                height: screen.height
             }
         };
 
@@ -36,33 +36,38 @@ export default {
             dataType: "json",
             contentType: "application/json",
             success: function() {
-                NotificationController.info("Thanks for your feedback!", "Support has been notified.");
+                NotificationController.info(
+                    "Thanks for your feedback!",
+                    "Support has been notified."
+                );
             },
             error: function(response) {
                 var errorMessage,
                     response_error = response.responseJSON.detail;
                 if (response.status >= 500) {
-                    errorMessage = `Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:${globals.SUPPORT_EMAIL}'>${globals.SUPPORT_EMAIL}</a>.`;
+                    errorMessage = `Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:${
+                        globals.SUPPORT_EMAIL
+                    }'>${globals.SUPPORT_EMAIL}</a>.`;
                 } else {
-                    errorMessage = "There was an error submitting your request: " + response_error;
+                    errorMessage =
+                        "There was an error submitting your request: " +
+                        response_error;
                 }
                 NotificationController.error("An error occured", errorMessage);
             }
         });
-
     },
 
     requestMoreResources: function(params) {
-        if (!params.quota)
-            throw new Error("Missing quota");
-        if (!params.reason)
-            throw new Error("Missing reason");
+        if (!params.quota) throw new Error("Missing quota");
+        if (!params.reason) throw new Error("Missing reason");
 
         if (globals.BADGES_ENABLED) {
             actions.BadgeActions.askSupport();
         }
 
-        let admin_url = window.location.origin + "/application/admin/resource-requests/";
+        let admin_url =
+            window.location.origin + "/application/admin/resource-requests/";
         let data = {
             request: params.quota,
             description: params.reason,
@@ -77,7 +82,10 @@ export default {
             dataType: "json",
             contentType: "application/json",
             success: function(data) {
-                NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
+                NotificationController.info(
+                    "Resource Request submitted",
+                    "Support will be in touch with you shortly."
+                );
                 Utils.dispatch(ResourceRequestConstants.ADD, {
                     model: data
                 });
@@ -89,14 +97,18 @@ export default {
                 var errorMessage,
                     response_error = response.responseJSON.detail;
                 if (response.status >= 500) {
-                    errorMessage = "Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
+                    errorMessage =
+                        "Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
                 } else {
-                    errorMessage = "There was an error submitting your request: " + response_error;
+                    errorMessage =
+                        "There was an error submitting your request: " +
+                        response_error;
                 }
-                NotificationController.error("Request resources error", errorMessage);
+                NotificationController.error(
+                    "Request resources error",
+                    errorMessage
+                );
             }
         });
-
     }
-
 };

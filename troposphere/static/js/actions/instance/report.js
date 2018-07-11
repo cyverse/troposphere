@@ -3,12 +3,9 @@ import $ from "jquery";
 import Utils from "../Utils";
 
 export default {
-
     report: function(params) {
-        if (!params.instance)
-            throw new Error("Missing instance");
-        if (!params.reportInfo)
-            throw new Error("Missing reportInfo");
+        if (!params.instance) throw new Error("Missing instance");
+        if (!params.reportInfo) throw new Error("Missing reportInfo");
 
         let instance = params.instance,
             reportInfo = params.reportInfo;
@@ -28,7 +25,8 @@ export default {
             contentType: "application/json",
             success: function() {
                 Utils.displayInfo({
-                    message: "We're sorry to hear you're having trouble with your instance. Your report has " +
+                    message:
+                        "We're sorry to hear you're having trouble with your instance. Your report has " +
                         "been sent to support and someone will contact you through email to help resolve your issue."
                 });
             },
@@ -40,5 +38,4 @@ export default {
             }
         });
     }
-
 };

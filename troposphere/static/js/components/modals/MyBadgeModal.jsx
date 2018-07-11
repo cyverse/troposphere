@@ -1,11 +1,10 @@
 import React from "react";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 
-
 function getState() {
     return {
         badge: null
-    }
+    };
 }
 
 export default React.createClass({
@@ -41,28 +40,29 @@ export default React.createClass({
 
     render: function() {
         var content = (
-        <div>
-            <img className="badge-modal-image" src={this.props.badge.get("imageUrl")} />
-            <p>
-                {this.props.badge.get("strapline")}
-            </p>
-        </div>
+            <div>
+                <img
+                    className="badge-modal-image"
+                    src={this.props.badge.get("imageUrl")}
+                />
+                <p>{this.props.badge.get("strapline")}</p>
+            </div>
         );
 
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content badge-modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title-1">{this.props.badge.get("name")}</h1>
-                    </div>
-                    <div className="modal-body">
-                        {content}
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content badge-modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title-1">
+                                {this.props.badge.get("name")}
+                            </h1>
+                        </div>
+                        <div className="modal-body">{content}</div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

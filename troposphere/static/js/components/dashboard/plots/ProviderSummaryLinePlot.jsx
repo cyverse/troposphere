@@ -16,14 +16,16 @@ export default React.createClass({
 
     //
     // Helper Methods
-    // 
+    //
 
     getChartData: function() {
         var summaries = [];
-        this.props.identities.map(function(identity) {
-            var data = this.getDataForIdentity(identity);
-            if (data) summaries.push(data);
-        }.bind(this));
+        this.props.identities.map(
+            function(identity) {
+                var data = this.getDataForIdentity(identity);
+                if (data) summaries.push(data);
+            }.bind(this)
+        );
 
         return summaries;
     },
@@ -39,19 +41,33 @@ export default React.createClass({
         var providerVolumes = this.getProviderVolumes(volumes, provider);
 
         // CPU Usage
-        var cpuUsageStats = this.calculateCpuUsage(providerInstances, quota, sizes),
+        var cpuUsageStats = this.calculateCpuUsage(
+                providerInstances,
+                quota,
+                sizes
+            ),
             cpuUsage = cpuUsageStats.percentUsed * 100;
 
         // Memory Usage
-        var memoryUsageStats = this.calculateMemoryUsage(providerInstances, quota, sizes),
+        var memoryUsageStats = this.calculateMemoryUsage(
+                providerInstances,
+                quota,
+                sizes
+            ),
             memoryUsage = memoryUsageStats.percentUsed * 100;
 
         // Storage Usage
-        var storageUsageStats = this.calculateStorageUsage(providerVolumes, quota),
+        var storageUsageStats = this.calculateStorageUsage(
+                providerVolumes,
+                quota
+            ),
             storageUsage = storageUsageStats.percentUsed * 100;
 
         // Volume Usage
-        var volumeUsageStats = this.calculateStorageCountUsage(providerVolumes, quota),
+        var volumeUsageStats = this.calculateStorageCountUsage(
+                providerVolumes,
+                quota
+            ),
             volumeUsage = volumeUsageStats.percentUsed * 100;
 
         var seriesData = {
@@ -74,7 +90,7 @@ export default React.createClass({
                 enabled: true,
                 formatter: function() {
                     if (this.y != 0) {
-                        return (Math.round(this.y * 100) / 100) + "%";
+                        return Math.round(this.y * 100) / 100 + "%";
                     } else {
                         return "0%";
                     }
@@ -101,10 +117,13 @@ export default React.createClass({
     calculateCpuUsage: function(instances, quota, sizes) {
         var maxCpuCount = quota.cpu;
 
-        var currentCpuCount = instances.reduce(function(memo, instance) {
-            var size = sizes.get(instance.get("size").id);
-            return memo + size.get("cpu");
-        }.bind(this), 0);
+        var currentCpuCount = instances.reduce(
+            function(memo, instance) {
+                var size = sizes.get(instance.get("size").id);
+                return memo + size.get("cpu");
+            }.bind(this),
+            0
+        );
 
         return {
             currentUsage: currentCpuCount,
@@ -116,10 +135,13 @@ export default React.createClass({
     calculateMemoryUsage: function(instances, quota, sizes) {
         var maxMemory = quota.memory;
 
-        var currentMemory = instances.reduce(function(memo, instance) {
-            var size = sizes.get(instance.get("size").id);
-            return memo + size.get("mem");
-        }.bind(this), 0);
+        var currentMemory = instances.reduce(
+            function(memo, instance) {
+                var size = sizes.get(instance.get("size").id);
+                return memo + size.get("mem");
+            }.bind(this),
+            0
+        );
 
         return {
             currentUsage: currentMemory,
@@ -131,9 +153,12 @@ export default React.createClass({
     calculateStorageUsage: function(volumes, quota) {
         var maxStorage = quota.storage;
 
-        var currentStorage = volumes.reduce(function(memo, volume) {
-            return memo + volume.get("size")
-        }.bind(this), 0);
+        var currentStorage = volumes.reduce(
+            function(memo, volume) {
+                return memo + volume.get("size");
+            }.bind(this),
+            0
+        );
 
         return {
             currentUsage: currentStorage,
@@ -145,9 +170,12 @@ export default React.createClass({
     calculateStorageCountUsage: function(volumes, quota) {
         var maxStorageCount = quota.storage_count;
 
-        var currentStorageCount = volumes.reduce(function(memo, volume) {
-            return memo + 1;
-        }.bind(this), 0);
+        var currentStorageCount = volumes.reduce(
+            function(memo, volume) {
+                return memo + 1;
+            }.bind(this),
+            0
+        );
 
         return {
             currentUsage: currentStorageCount,
@@ -173,10 +201,13 @@ export default React.createClass({
 
     render: function() {
         return (
-        <div>
-            <h2 className="t-title">Provider Resources</h2>
-            <PercentageGraph seriesData={this.getChartData()} categories={["CPU", "Memory", "Storage", "Volumes"]} />
-        </div>
+            <div>
+                <h2 className="t-title">Provider Resources</h2>
+                <PercentageGraph
+                    seriesData={this.getChartData()}
+                    categories={["CPU", "Memory", "Storage", "Volumes"]}
+                />
+            </div>
         );
     }
 });

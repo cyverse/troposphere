@@ -4,7 +4,6 @@ import ProjectDetailsView from "./detail/details/ProjectDetailsView";
 
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "ProjectDetailsPage",
 
@@ -13,14 +12,9 @@ export default React.createClass({
             project = stores.ProjectStore.get(projectId);
 
         if (!project) {
-            return (
-            <div className="loading"></div>
-            );
+            return <div className="loading" />;
         }
 
-        return (
-        <ProjectDetailsView project={project} />
-        );
+        return <ProjectDetailsView project={project} />;
     }
-
 });

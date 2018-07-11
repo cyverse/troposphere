@@ -10,10 +10,6 @@ export default React.createClass({
 
     render: function() {
         var project = this.props.project;
-        return (
-        <option value={project.id}>
-            {project.get("name")}
-        </option>
-        );
+        return <option value={project.id}>{project.get("name")}</option>;
     }
 });

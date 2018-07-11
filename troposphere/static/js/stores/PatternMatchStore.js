@@ -18,31 +18,36 @@ let PatternMatchStore = BaseStore.extend({
             return;
         }
 
-        var imagePatternMatchArray = image.get("access_list").map(function(pattern) {
-            //var patternName = pattern.name;
-            //var pattern = _patterns.findWhere({name: patternName}, {parse: true});
-            //if(!pattern) throw new Error("Expected to find a pattern with name '" + patternName +"'");
-            return pattern;
-        });
+        var imagePatternMatchArray = image
+            .get("access_list")
+            .map(function(pattern) {
+                //var patternName = pattern.name;
+                //var pattern = _patterns.findWhere({name: patternName}, {parse: true});
+                //if(!pattern) throw new Error("Expected to find a pattern with name '" + patternName +"'");
+                return pattern;
+            });
 
         // Add any pending patterns to the result set
         var pendingImagePatternMatchs = _pendingImagePatternMatches[image.id];
         if (pendingImagePatternMatchs) {
-            imagePatternMatchArray = imagePatternMatchArray.concat(pendingImagePatternMatchs.models);
+            imagePatternMatchArray = imagePatternMatchArray.concat(
+                pendingImagePatternMatchs.models
+            );
         }
 
         return new PatternMatchCollection(imagePatternMatchArray);
     },
 
     addPendingPatternMatchToImage: function(pattern, image) {
-        _pendingImagePatternMatches[image.id] = _pendingImagePatternMatches[image.id] || new PatternMatchCollection();
+        _pendingImagePatternMatches[image.id] =
+            _pendingImagePatternMatches[image.id] ||
+            new PatternMatchCollection();
         _pendingImagePatternMatches[image.id].add(pattern);
     },
 
     removePendingPatternMatchFromImage: function(pattern, image) {
         _pendingImagePatternMatches[image.id].remove(pattern);
     }
-
 });
 
 let store = new PatternMatchStore();
@@ -66,11 +71,17 @@ Dispatcher.register(function(dispatch) {
             break;
 
         case PatternMatchConstants.ADD_PENDING_PATTERN_TO_IMAGE:
-            store.addPendingPatternMatchToImage(payload.pattern_match, payload.image);
+            store.addPendingPatternMatchToImage(
+                payload.pattern_match,
+                payload.image
+            );
             break;
 
         case PatternMatchConstants.REMOVE_PENDING_PATTERN_FROM_IMAGE:
-            store.removePendingPatternMatchFromImage(payload.pattern_match, payload.image);
+            store.removePendingPatternMatchFromImage(
+                payload.pattern_match,
+                payload.image
+            );
             break;
 
         default:

@@ -18,7 +18,7 @@ export default React.createClass({
     getInitialState: function() {
         return {
             isChecked: false
-        }
+        };
     },
 
     toggleCheckbox: function(e) {
@@ -31,21 +31,27 @@ export default React.createClass({
         var previewedResource = this.props.previewedResource,
             selectedResources = this.props.selectedResources;
 
-        return images.map(function(image) {
-            let uuid = image.get("uuid"),
-                isPreviewed = (previewedResource === image),
-                isChecked = selectedResources.findWhere({uuid}) ? true : false;
+        return images.map(
+            function(image) {
+                let uuid = image.get("uuid"),
+                    isPreviewed = previewedResource === image,
+                    isChecked = selectedResources.findWhere({uuid})
+                        ? true
+                        : false;
 
-            return (
-            <ImageRow key={image.id || image.cid}
-                image={image}
-                onResourceSelected={this.props.onResourceSelected}
-                onResourceDeselected={this.props.onResourceDeselected}
-                onPreviewResource={this.props.onPreviewResource}
-                isPreviewed={isPreviewed}
-                isChecked={isChecked} />
-            );
-        }.bind(this));
+                return (
+                    <ImageRow
+                        key={image.id || image.cid}
+                        image={image}
+                        onResourceSelected={this.props.onResourceSelected}
+                        onResourceDeselected={this.props.onResourceDeselected}
+                        onPreviewResource={this.props.onPreviewResource}
+                        isPreviewed={isPreviewed}
+                        isChecked={isChecked}
+                    />
+                );
+            }.bind(this)
+        );
     },
 
     render: function() {
@@ -53,15 +59,14 @@ export default React.createClass({
             imageRows = this.getImageRows(images);
 
         return (
-        <SelectableTable resources={images}
-            selectedResources={this.props.selectedResources}
-            resourceRows={imageRows}
-            onResourceSelected={this.props.onResourceSelected}
-            onResourceDeselected={this.props.onResourceDeselected}>
-            <th className="sm-header">
-                Name
-            </th>
-        </SelectableTable>
-        )
+            <SelectableTable
+                resources={images}
+                selectedResources={this.props.selectedResources}
+                resourceRows={imageRows}
+                onResourceSelected={this.props.onResourceSelected}
+                onResourceDeselected={this.props.onResourceDeselected}>
+                <th className="sm-header">Name</th>
+            </SelectableTable>
+        );
     }
 });

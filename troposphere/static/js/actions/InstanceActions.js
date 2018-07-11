@@ -12,9 +12,8 @@ import IReport from "./instance/report";
 import IRequest from "./instance/requestImage";
 import updateAllocationSource from "./instance/updateAllocationSource";
 
-import { shelve } from "./instance/shelve";
-import { unshelve } from "./instance/unshelve";
-
+import {shelve} from "./instance/shelve";
+import {unshelve} from "./instance/unshelve";
 
 export default {
     resume: IResume.resume,

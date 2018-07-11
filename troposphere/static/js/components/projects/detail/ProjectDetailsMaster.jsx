@@ -3,15 +3,14 @@ import React from "react";
 import SecondaryProjectNavigation from "../common/SecondaryProjectNavigation";
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "ProjectDetailsMaster",
 
     getChildContext() {
-        return { projectId: Number(this.props.params.projectId) };
+        return {projectId: Number(this.props.params.projectId)};
     },
 
-   childContextTypes: {
+    childContextTypes: {
         projectId: React.PropTypes.number
     },
 
@@ -28,19 +27,22 @@ export default React.createClass({
     },
 
     render: function() {
-        var project = stores.ProjectStore.get(Number(this.props.params.projectId));
+        var project = stores.ProjectStore.get(
+            Number(this.props.params.projectId)
+        );
 
         if (!project) {
-            return (
-            <div className="loading"></div>
-            )
+            return <div className="loading" />;
         }
 
         return (
-        <div className="project-details">
-            <SecondaryProjectNavigation project={project} currentRoute="todo-remove-this" />
-            {this.props.children}
-        </div>
+            <div className="project-details">
+                <SecondaryProjectNavigation
+                    project={project}
+                    currentRoute="todo-remove-this"
+                />
+                {this.props.children}
+            </div>
         );
     }
 });

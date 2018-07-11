@@ -51,58 +51,73 @@ export default React.createClass({
             style = {
                 marginRight: "10px"
             };
-        if (!this.props.multipleSelected && instance.get("state").isInFinalState()) {
+        if (
+            !this.props.multipleSelected &&
+            instance.get("state").isInFinalState()
+        ) {
             if (status === "active") {
                 linksArray.push(
-                    <Button style={style}
+                    <Button
+                        style={style}
                         key="Suspend"
                         icon="pause"
                         tooltip="Suspend"
                         onClick={this.onSuspend}
-                        isVisible={true} />
+                        isVisible={true}
+                    />
                 );
                 linksArray.push(
-                    <Button style={style}
+                    <Button
+                        style={style}
                         key="Stop"
                         icon="stop"
                         tooltip="Stop"
                         onClick={this.onStop}
-                        isVisible={true} />
+                        isVisible={true}
+                    />
                 );
                 linksArray.push(
-                    <Button style={style}
+                    <Button
+                        style={style}
                         key="Reboot"
                         icon="off"
                         tooltip="Reboot the selected instance"
                         onClick={this.onReboot}
-                        isVisible={true} />
+                        isVisible={true}
+                    />
                 );
             } else if (status === "suspended") {
                 linksArray.push(
-                    <Button style={style}
+                    <Button
+                        style={style}
                         key="Resume"
                         icon="play"
                         tooltip="Resume"
                         onClick={this.onResume}
-                        isVisible={true} />
+                        isVisible={true}
+                    />
                 );
             } else if (status === "shutoff") {
                 linksArray.push(
-                    <Button style={style}
+                    <Button
+                        style={style}
                         key="Start"
                         icon="play"
                         tooltip="Start"
                         onClick={this.onStart}
-                        isVisible={true} />
+                        isVisible={true}
+                    />
                 );
             } else if (status === "shelved_offloaded") {
-               linksArray.push(
-                    <Button style={style}
+                linksArray.push(
+                    <Button
+                        style={style}
                         key="Unshelve"
                         icon="log-out"
                         tooltip="Unshelve the selected instance"
                         onClick={this.onUnshelve}
-                        isVisible={true} />
+                        isVisible={true}
+                    />
                 );
             }
         }
@@ -112,25 +127,26 @@ export default React.createClass({
             // is currently selected - regardless of
             // the state of that resource
             linksArray.push(
-              <Button
-                  key="Delete"
-                  icon="remove"
-                  tooltip="Delete"
-                  onClick={this.onDelete}
-                  isVisible={true}
-              />
+                <Button
+                    key="Delete"
+                    icon="remove"
+                    tooltip="Delete"
+                    onClick={this.onDelete}
+                    isVisible={true}
+                />
             );
         }
 
         return (
-        <div style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            flex: "1 1 10%",
-            flexWrap: "nowrap"
-        }}>
-            {linksArray}
-        </div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    flex: "1 1 10%",
+                    flexWrap: "nowrap"
+                }}>
+                {linksArray}
+            </div>
         );
     }
 });

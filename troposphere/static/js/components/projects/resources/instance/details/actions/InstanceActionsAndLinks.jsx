@@ -8,12 +8,11 @@ import InstanceActionNames from "constants/InstanceActionNames";
 import context from "context";
 
 import featureFlags from "utilities/featureFlags";
-import { findCookie } from "utilities/cookieHelpers";
-import { trackAction, showNewMessage } from 'utilities/userActivity';
+import {findCookie} from "utilities/cookieHelpers";
+import {trackAction, showNewMessage} from "utilities/userActivity";
 
 import modals from "modals";
 import stores from "stores";
-
 
 export default React.createClass({
     displayName: "InstanceActionsAndLinks",
@@ -95,19 +94,23 @@ export default React.createClass({
     },
 
     getInitialState: function() {
-        return { actions: null, actionElements: [] };
+        return {actions: null, actionElements: []};
     },
 
     updateState: function() {
-        let actions = stores.InstanceActionStore.getActionsFor(this.props.instance),
+        let actions = stores.InstanceActionStore.getActionsFor(
+                this.props.instance
+            ),
             actionElements = this.state.actionElements;
 
         if (actions) {
             let keys = actions.pluck("key");
-            actionElements = this.actionSpecs().filter((a) => keys.includes(a.key));
+            actionElements = this.actionSpecs().filter(a =>
+                keys.includes(a.key)
+            );
         }
 
-        this.setState({actions, actionElements})
+        this.setState({actions, actionElements});
     },
 
     componentDidMount: function() {
@@ -139,9 +142,8 @@ export default React.createClass({
         // This needs to be flagged to handle the case where
         // Intercom platform is used, but Respond is *not*
         if (featureFlags.shouldReportInstanceViaIntercom()) {
-            trackAction('reported-instance',
-                       {'created_at': Date.now()});
-            showNewMessage('I am having issues with an instance. ');
+            trackAction("reported-instance", {created_at: Date.now()});
+            showNewMessage("I am having issues with an instance. ");
         } else {
             modals.InstanceModals.report({
                 instance: this.props.instance
@@ -197,37 +199,45 @@ export default React.createClass({
             .attr("action", "/web_desktop")
             .attr("target", "_blank");
 
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "instance_id")
-            .attr("value", instance.get('uuid')));
+        form.append(
+            $("<input>")
+                .attr("type", "hidden")
+                .attr("name", "instance_id")
+                .attr("value", instance.get("uuid"))
+        );
 
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "protocol")
-            .attr("value", protocol));
+        form.append(
+            $("<input>")
+                .attr("type", "hidden")
+                .attr("name", "protocol")
+                .attr("value", protocol)
+        );
 
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "client")
-            .attr("value", client));
+        form.append(
+            $("<input>")
+                .attr("type", "hidden")
+                .attr("name", "client")
+                .attr("value", client)
+        );
 
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "csrfmiddlewaretoken")
-            .attr("style", "display: none;")
-            .attr("value", CSRFToken));
+        form.append(
+            $("<input>")
+                .attr("type", "hidden")
+                .attr("name", "csrfmiddlewaretoken")
+                .attr("style", "display: none;")
+                .attr("value", CSRFToken)
+        );
 
         $("body").append(form);
         form[0].submit();
     },
 
     onWebShell: function() {
-        trackAction('activated-web_shell-ssh');
+        trackAction("activated-web_shell-ssh");
     },
 
     getIntegrationLinks() {
-        let { instance } = this.props,
+        let {instance} = this.props,
             webShellUrl = instance.shell_url(),
             webDesktopCapable = !!(instance && instance.get("web_desktop")),
             ipAddress = instance.get("ip_address"),
@@ -248,30 +258,45 @@ export default React.createClass({
             links.push({
                 label: "Open Old Web Desktop",
                 icon: "sound-stereo",
-                onClick: this.onWebDesktop.bind(this, this.props.instance, "web_desktop", "vnc"),
+                onClick: this.onWebDesktop.bind(
+                    this,
+                    this.props.instance,
+                    "web_desktop",
+                    "vnc"
+                ),
                 openInNewWindow: true,
                 isDisabled: disableWebLinks
             });
         }
 
         if (featureFlags.GUACAMOLE) {
-          links.push({
-              label: "Open Web Shell",
-              icon: "text-background",
-              onClick: this.onWebDesktop.bind(this, this.props.instance, "guacamole", "ssh"),
-              openInNewWindow: true,
-              isDisabled: disableWebLinks
-          });
-
-          if (webDesktopCapable) {
             links.push({
-              label: "Open Web Desktop",
-              icon: "sound-dolby",
-              onClick: this.onWebDesktop.bind(this, this.props.instance, "guacamole", "vnc"),
-              openInNewWindow: true,
-              isDisabled: disableWebLinks
+                label: "Open Web Shell",
+                icon: "text-background",
+                onClick: this.onWebDesktop.bind(
+                    this,
+                    this.props.instance,
+                    "guacamole",
+                    "ssh"
+                ),
+                openInNewWindow: true,
+                isDisabled: disableWebLinks
             });
-          }
+
+            if (webDesktopCapable) {
+                links.push({
+                    label: "Open Web Desktop",
+                    icon: "sound-dolby",
+                    onClick: this.onWebDesktop.bind(
+                        this,
+                        this.props.instance,
+                        "guacamole",
+                        "vnc"
+                    ),
+                    openInNewWindow: true,
+                    isDisabled: disableWebLinks
+                });
+            }
         }
 
         return links;
@@ -279,11 +304,12 @@ export default React.createClass({
 
     renderLink(link) {
         // Links without icons are generally section headings
-        if (!link.icon) return (
-            <li key={link.label} className="section-label">
-                {link.label}
-            </li>
-        );
+        if (!link.icon)
+            return (
+                <li key={link.label} className="section-label">
+                    {link.label}
+                </li>
+            );
 
         var className = "section-link";
         if (link.isDangerLink) {
@@ -292,7 +318,8 @@ export default React.createClass({
 
         let linkLabelMarkup = (
             <span>
-                <Glyphicon name={link.icon}/>{` ${link.label}`}
+                <Glyphicon name={link.icon} />
+                {` ${link.label}`}
             </span>
         );
 
@@ -304,25 +331,24 @@ export default React.createClass({
         if (link.openInNewWindow) {
             let linkProps,
                 style = {};
-            if (!link.href && !link.onClick)
-                style.cursor = "not-allowed";
+            if (!link.href && !link.onClick) style.cursor = "not-allowed";
 
             linkProps = {
                 key: link.label,
                 className: className + " link",
                 disabled: link.isDisabled
-            }
+            };
             // conditionally include a click handler
             if (link.onClick) {
-                linkProps.onClick = link.onClick
+                linkProps.onClick = link.onClick;
             }
 
             return (
-            <li {...linkProps}>
-                <a href={link.href} target="_blank">
-                    {linkLabelMarkup}
-                </a>
-            </li>
+                <li {...linkProps}>
+                    <a href={link.href} target="_blank">
+                        {linkLabelMarkup}
+                    </a>
+                </li>
             );
         }
 
@@ -334,9 +360,7 @@ export default React.createClass({
         if (link.href) {
             return (
                 <li key={link.label} className={className + " link"}>
-                    <a href={link.href}>
-                        {linkLabelMarkup}
-                    </a>
+                    <a href={link.href}>{linkLabelMarkup}</a>
                 </li>
             );
         }
@@ -350,32 +374,36 @@ export default React.createClass({
         );
     },
     getLinkElements: function() {
-        let { actionElements } = this.state;
+        let {actionElements} = this.state;
         let linkElements = [
-                {
-                    label: "Actions",
-                    icon: null
-                },
-                {
-                    label: "Report",
-                    icon: "inbox",
-                    onClick: this.onReport
-                }
-            ];
+            {
+                label: "Actions",
+                icon: null
+            },
+            {
+                label: "Report",
+                icon: "inbox",
+                onClick: this.onReport
+            }
+        ];
 
-        let instance_owner = this.props.instance.get('user'),
-            project_leaders = this.props.project.get('leaders'),
-            current_username = context.profile.get('username');
-        let is_leader = project_leaders.find(function(project) { return project.username == current_username }),
-            is_leader_or_owner = (current_username == instance_owner.username || is_leader != null);
-
+        let instance_owner = this.props.instance.get("user"),
+            project_leaders = this.props.project.get("leaders"),
+            current_username = context.profile.get("username");
+        let is_leader = project_leaders.find(function(project) {
+                return project.username == current_username;
+            }),
+            is_leader_or_owner =
+                current_username == instance_owner.username ||
+                is_leader != null;
 
         if (!is_leader_or_owner) {
             actionElements = [
-            {
-                label: "Shared Instance - No Actions Available",
-                icon: null
-            }];
+                {
+                    label: "Shared Instance - No Actions Available",
+                    icon: null
+                }
+            ];
         }
         linkElements = linkElements.concat(actionElements);
         linkElements.push({
@@ -387,22 +415,19 @@ export default React.createClass({
     },
     render: function() {
         let linkElements;
-        let { actions } = this.state;
+        let {actions} = this.state;
 
         stores.InstanceActionStore.getActionsFor(this.props.instance);
 
         if (!actions) {
-            return (<div className="loading" />);
+            return <div className="loading" />;
         }
         linkElements = this.getLinkElements();
 
         return (
-        <div className="resource-actions">
-            <ul>
-                {linkElements.map(this.renderLink)}
-            </ul>
-        </div>
-
+            <div className="resource-actions">
+                <ul>{linkElements.map(this.renderLink)}</ul>
+            </div>
         );
     }
 });

@@ -1,7 +1,6 @@
 import React from "react";
 import Breadcrumb from "./Breadcrumb";
 
-
 export default React.createClass({
     displayName: "BreadcrumbNav",
 
@@ -23,17 +22,18 @@ export default React.createClass({
         //Counting # of 'actual' steps
         var activeStepCount = 0;
         var breadcrumbs = this.props.breadcrumbs.map(function(breadcrumb) {
-
             activeStepCount = activeStepCount + 1;
             var breadcrumbText = activeStepCount;
             return (
-            <Breadcrumb key={breadcrumb.name}
-                onMouseOn={onMouseOn}
-                onMouseOff={onMouseOff}
-                breadcrumb={breadcrumb}
-                breadcrumbText={breadcrumbText}
-                onClick={self.crumbClicked} />
-            )
+                <Breadcrumb
+                    key={breadcrumb.name}
+                    onMouseOn={onMouseOn}
+                    onMouseOff={onMouseOff}
+                    breadcrumb={breadcrumb}
+                    breadcrumbText={breadcrumbText}
+                    onClick={self.crumbClicked}
+                />
+            );
         });
         return breadcrumbs;
     },
@@ -43,11 +43,6 @@ export default React.createClass({
         }
     },
     render: function() {
-
-        return (
-        <div className="breadcrumb">
-            {this.renderCrumbs()}
-        </div>
-        );
+        return <div className="breadcrumb">{this.renderCrumbs()}</div>;
     }
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router";
+import {withRouter} from "react-router";
 import Backbone from "backbone";
 import moment from "moment";
 
@@ -13,13 +13,12 @@ import globals from "globals";
 import stores from "stores";
 import Ribbon from "components/common/Ribbon";
 
-
 const ImageListCard = React.createClass({
     displayName: "ImageListCard",
 
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        metric: React.PropTypes.instanceOf(Backbone.Model),
+        metric: React.PropTypes.instanceOf(Backbone.Model)
     },
 
     onCardClick() {
@@ -30,9 +29,7 @@ const ImageListCard = React.createClass({
 
     renderEndDated() {
         if (this.props.isEndDated) {
-            return (
-                <Ribbon text={ "End Dated" }/>
-            );
+            return <Ribbon text={"End Dated"} />;
         }
     },
     getLabels(metric) {
@@ -42,27 +39,29 @@ const ImageListCard = React.createClass({
     getChartData(image, metric) {
         let metric_values = Object.values(metric);
         let percentAreaData = metric_values.map(function(mv) {
-            let percent = 100*mv.active/mv.total;
+            let percent = 100 * mv.active / mv.total;
             let index = metric_values.indexOf(mv);
-            return [index+1, percent];
+            return [index + 1, percent];
         });
-        var seriesData = [{
-            type: 'area',
-            name: "Success Percentage",
-            data: percentAreaData,
-            borderWidth: 0,
-            animation: false
-        }];
+        var seriesData = [
+            {
+                type: "area",
+                name: "Success Percentage",
+                data: percentAreaData,
+                borderWidth: 0,
+                animation: false
+            }
+        ];
 
         return seriesData;
     },
     render() {
         let image = this.props.image;
         let hasLoggedInUser = context.hasLoggedInUser();
-        let graphDiv = (<div style={{"width":"135px", "height": "15px"}}></div>);
+        let graphDiv = <div style={{width: "135px", height: "15px"}} />;
         let type = stores.ProfileStore.get().get("icon_set");
         let imageTags = stores.TagStore.getImageTags(image);
-            imageTags = imageTags ? imageTags.first(10) : null;
+        imageTags = imageTags ? imageTags.first(10) : null;
 
         // Following code is used in the commented out visualization component:
         //
@@ -88,30 +87,34 @@ const ImageListCard = React.createClass({
         //     }
         // }
         let imageCreationDate = moment(image.get("start_date"))
-                .tz(globals.TZ_REGION)
-                .format("MMM Do YY hh:mm ");
+            .tz(globals.TZ_REGION)
+            .format("MMM Do YY hh:mm ");
 
         let converter = new Showdown.Converter();
 
         let description = image.get("description");
         if (!description) {
-            description = "No Description Provided."
-        } else if ( description.length > 90 ) {
-            description = description.substring(0,90) + " ..."
+            description = "No Description Provided.";
+        } else if (description.length > 90) {
+            description = description.substring(0, 90) + " ...";
         }
 
-        let name = image.get('name');
+        let name = image.get("name");
         if (name.length > 30) {
-            name = name.substring(0,30) + " ..."
+            name = name.substring(0, 30) + " ...";
         }
 
-        let descriptionHtml = converter.makeHtml( description );
+        let descriptionHtml = converter.makeHtml(description);
         let iconSize = 40;
         let icon;
 
         // always use the Gravatar icons
         icon = (
-            <Gravatar hash={image.get("uuid_hash")} size={iconSize} type={type} />
+            <Gravatar
+                hash={image.get("uuid_hash")}
+                size={iconSize}
+                type={type}
+            />
         );
 
         // Hide bookmarking on the public page
@@ -122,9 +125,8 @@ const ImageListCard = React.createClass({
                     style={{
                         position: "absolute",
                         top: "10px",
-                        right: "10px",
-                    }}
-                >
+                        right: "10px"
+                    }}>
                     <Bookmark width="15px" image={image} />
                 </span>
             );
@@ -132,25 +134,25 @@ const ImageListCard = React.createClass({
 
         return (
             <MediaCard
-                avatar={ icon }
-                title={ name }
-                onCardClick={ this.onCardClick }
+                avatar={icon}
+                title={name}
+                onCardClick={this.onCardClick}
                 subheading={
                     <span>
-                        <time>
-                            { imageCreationDate }
-                        </time>
+                        <time>{imageCreationDate}</time>
                         by
-                        <strong> { image.get("created_by").username }</strong>
+                        <strong> {image.get("created_by").username}</strong>
                     </span>
                 }
                 summary={
                     <span>
-                        { this.renderEndDated() }
-                        { bookmark }
-                        <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-                        <Tags activeTags={imageTags}/>
-                        { graphDiv }
+                        {this.renderEndDated()}
+                        {bookmark}
+                        <span
+                            dangerouslySetInnerHTML={{__html: descriptionHtml}}
+                        />
+                        <Tags activeTags={imageTags} />
+                        {graphDiv}
                     </span>
                 }
             />

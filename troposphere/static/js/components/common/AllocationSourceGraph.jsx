@@ -4,38 +4,37 @@ import Backbone from "backbone";
 import ProgressBar from "components/common/ui/ProgressBar";
 import messages from "messages/allocationMessages";
 
-
 export default React.createClass({
-
     propTypes: {
-        allocationSource: React.PropTypes.instanceOf(Backbone.Model),
+        allocationSource: React.PropTypes.instanceOf(Backbone.Model)
     },
 
     // This is what we show if the instance will exceed our resources.
     resourceExceded: function(total, limit) {
         if (total >= limit) {
             return (
-            <div style={{ color: "red", marginTop: "-20px" }}>
-                {`You do not have enough ${messages.unitName} (${messages.unitAbbrev}).`}
-                <br/>
-                <a className="btn btn-xs btn-default"
-                   style={{ margin: "5px 0 20px" }}
-                   onClick={this.props.onRequestResources}>
-                    {messages.requestMoreFromLaunchLabel()}
-                </a>
-            </div>
-            )
+                <div style={{color: "red", marginTop: "-20px"}}>
+                    {`You do not have enough ${messages.unitName} (${
+                        messages.unitAbbrev
+                    }).`}
+                    <br />
+                    <a
+                        className="btn btn-xs btn-default"
+                        style={{margin: "5px 0 20px"}}
+                        onClick={this.props.onRequestResources}>
+                        {messages.requestMoreFromLaunchLabel()}
+                    </a>
+                </div>
+            );
         }
     },
 
     render: function() {
-        let { allocationSource } = this.props;
+        let {allocationSource} = this.props;
 
         // Check if we have our models before using their backbone methods
         if (!allocationSource) {
-            return (
-            <span>Loading...</span>
-            );
+            return <span>Loading...</span>;
         }
 
         // Calculate and set all of our graph information
@@ -60,13 +59,15 @@ export default React.createClass({
         }
 
         return (
-        <div className="form-group">
-            <label>
-                Allocation Used
-            </label>
-            <ProgressBar startColor="#56AA21" startValue={percent} label={auLabel} />
-            {this.resourceExceded(consumed, total)}
-        </div>
-        )
-    },
+            <div className="form-group">
+                <label>Allocation Used</label>
+                <ProgressBar
+                    startColor="#56AA21"
+                    startValue={percent}
+                    label={auLabel}
+                />
+                {this.resourceExceded(consumed, total)}
+            </div>
+        );
+    }
 });

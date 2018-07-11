@@ -9,8 +9,7 @@ import modals from "modals";
 import stores from "stores";
 import actions from "actions";
 
-import { trackAction } from 'utilities/userActivity';
-
+import {trackAction} from "utilities/userActivity";
 
 export default React.createClass({
     displayName: "ProjectDetails",
@@ -23,27 +22,29 @@ export default React.createClass({
         return {
             previewedResource: null,
             selectedResources: new Backbone.Collection()
-        }
+        };
     },
 
     updateState: function() {
         let project = this.props.project;
-        let externalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
+        let externalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(
+            project
+        );
         let instances = stores.ProjectInstanceStore.getInstancesFor(project);
         let volumes = stores.ProjectVolumeStore.getVolumesFor(project);
         let images = stores.ProjectImageStore.getImagesFor(project);
         let selectedResources = this.state.selectedResources;
 
-
-        if (instances && volumes && images &&  externalLinks) {
-
+        if (instances && volumes && images && externalLinks) {
             // Take into account that selected resources may be out of date, that
             // it may contain resources that no longer exist in the endpoints
             let selectedThatStillExist = selectedResources.cfilter(r => {
-                return  instances.contains(r) ||
-                        volumes.contains(r) ||
-                        images.contains(r) ||
-                        externalLinks.contains(r);
+                return (
+                    instances.contains(r) ||
+                    volumes.contains(r) ||
+                    images.contains(r) ||
+                    externalLinks.contains(r)
+                );
             });
 
             this.setState({
@@ -60,7 +61,7 @@ export default React.createClass({
         stores.ProjectInstanceStore.addChangeListener(this.updateState);
         stores.ProjectExternalLinkStore.addChangeListener(this.updateState);
         stores.InstanceStore.addChangeListener(this.updateState);
-       stores.VolumeStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
@@ -80,7 +81,7 @@ export default React.createClass({
 
         this.setState({
             previewedResource: resource,
-            selectedResources,
+            selectedResources
         });
     },
 
@@ -106,7 +107,7 @@ export default React.createClass({
 
         this.setState({
             previewedResource,
-            selectedResources,
+            selectedResources
         });
     },
 
@@ -124,7 +125,7 @@ export default React.createClass({
 
         // clicking & moving are treated as distinct actions to see how many
         // actions are _completed_: clicked + moved
-        trackAction('clicked-move-selected-resources');
+        trackAction("clicked-move-selected-resources");
 
         if (anyAttached) {
             modals.ProjectModals.cantMoveAttached();
@@ -160,60 +161,83 @@ export default React.createClass({
 
     render: function() {
         var project = this.props.project,
-            projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
-            projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+            projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(
+                project
+            ),
+            projectInstances = stores.ProjectInstanceStore.getInstancesFor(
+                project
+            ),
             projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
             projectImages = stores.ProjectImageStore.getImagesFor(project),
             previewedResource = this.state.previewedResource,
             selectedResources = this.state.selectedResources,
             isButtonBarVisible;
 
-        if (!projectInstances || !projectImages || !projectExternalLinks || !projectVolumes)
-            return <div className="loading"></div>;
+        if (
+            !projectInstances ||
+            !projectImages ||
+            !projectExternalLinks ||
+            !projectVolumes
+        )
+            return <div className="loading" />;
 
         // Only show the action button bar if the user has selected resources
         isButtonBarVisible = this.state.selectedResources.length > 0;
 
         return (
-        <div className="project-content clearfix">
-            <ButtonBar isVisible={isButtonBarVisible}
-                onMoveSelectedResources={this.onMoveSelectedResources}
-                onDeleteSelectedResources={this.onDeleteSelectedResources}
-                onReportSelectedResources={this.onReportSelectedResources}
-                onRemoveSelectedResources={this.onRemoveSelectedResources}
-                previewedResource={previewedResource}
-                multipleSelected={selectedResources && selectedResources.length > 1}
-                onUnselect={this.onResourceDeselected}
-                project={project} />
-            <div className="resource-list clearfix">
-                <div className="scrollable-content" style={{ borderTop: "solid 1px #E1E1E1" }}>
-                    <InstanceList instances={projectInstances}
-                        onResourceSelected={this.onResourceSelected}
-                        onResourceDeselected={this.onResourceDeselected}
-                        onPreviewResource={this.onPreviewResource}
-                        previewedResource={previewedResource}
-                        selectedResources={selectedResources} />
-                    <VolumeList volumes={projectVolumes}
-                        onResourceSelected={this.onResourceSelected}
-                        onResourceDeselected={this.onResourceDeselected}
-                        onPreviewResource={this.onPreviewResource}
-                        previewedResource={previewedResource}
-                        selectedResources={selectedResources} />
-                    <ImageList images={projectImages}
-                        onResourceSelected={this.onResourceSelected}
-                        onResourceDeselected={this.onResourceDeselected}
-                        onPreviewResource={this.onPreviewResource}
-                        previewedResource={previewedResource}
-                        selectedResources={selectedResources} />
-                    <ExternalLinkList external_links={projectExternalLinks}
-                        onResourceSelected={this.onResourceSelected}
-                        onResourceDeselected={this.onResourceDeselected}
-                        onPreviewResource={this.onPreviewResource}
-                        previewedResource={previewedResource}
-                        selectedResources={selectedResources} />
+            <div className="project-content clearfix">
+                <ButtonBar
+                    isVisible={isButtonBarVisible}
+                    onMoveSelectedResources={this.onMoveSelectedResources}
+                    onDeleteSelectedResources={this.onDeleteSelectedResources}
+                    onReportSelectedResources={this.onReportSelectedResources}
+                    onRemoveSelectedResources={this.onRemoveSelectedResources}
+                    previewedResource={previewedResource}
+                    multipleSelected={
+                        selectedResources && selectedResources.length > 1
+                    }
+                    onUnselect={this.onResourceDeselected}
+                    project={project}
+                />
+                <div className="resource-list clearfix">
+                    <div
+                        className="scrollable-content"
+                        style={{borderTop: "solid 1px #E1E1E1"}}>
+                        <InstanceList
+                            instances={projectInstances}
+                            onResourceSelected={this.onResourceSelected}
+                            onResourceDeselected={this.onResourceDeselected}
+                            onPreviewResource={this.onPreviewResource}
+                            previewedResource={previewedResource}
+                            selectedResources={selectedResources}
+                        />
+                        <VolumeList
+                            volumes={projectVolumes}
+                            onResourceSelected={this.onResourceSelected}
+                            onResourceDeselected={this.onResourceDeselected}
+                            onPreviewResource={this.onPreviewResource}
+                            previewedResource={previewedResource}
+                            selectedResources={selectedResources}
+                        />
+                        <ImageList
+                            images={projectImages}
+                            onResourceSelected={this.onResourceSelected}
+                            onResourceDeselected={this.onResourceDeselected}
+                            onPreviewResource={this.onPreviewResource}
+                            previewedResource={previewedResource}
+                            selectedResources={selectedResources}
+                        />
+                        <ExternalLinkList
+                            external_links={projectExternalLinks}
+                            onResourceSelected={this.onResourceSelected}
+                            onResourceDeselected={this.onResourceDeselected}
+                            onPreviewResource={this.onPreviewResource}
+                            previewedResource={previewedResource}
+                            selectedResources={selectedResources}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

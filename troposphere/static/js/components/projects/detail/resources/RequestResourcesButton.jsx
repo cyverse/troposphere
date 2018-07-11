@@ -1,9 +1,9 @@
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from "material-ui/RaisedButton";
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import modals from "modals";
-import { trackAction } from "../../../../utilities/userActivity";
+import {trackAction} from "../../../../utilities/userActivity";
 
 export default React.createClass({
     displayName: "RequestResourcesButton",
@@ -40,12 +40,11 @@ export default React.createClass({
     render: function() {
         var className = "glyphicon glyphicon-circle-arrow-up";
         return (
-        <RaisedButton
-            style={{ marginLeft: "10px" }}
-            onTouchTap={ this.handleClick }
-        >
-            <i className={className} />
-        </RaisedButton>
+            <RaisedButton
+                style={{marginLeft: "10px"}}
+                onTouchTap={this.handleClick}>
+                <i className={className} />
+            </RaisedButton>
         );
     }
 });

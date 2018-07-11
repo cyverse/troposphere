@@ -6,7 +6,6 @@ import stores from "stores";
 import CryptoJS from "crypto-js";
 import Gravatar from "components/common/Gravatar";
 
-
 export default React.createClass({
     displayName: "ImageRow",
 
@@ -21,22 +20,25 @@ export default React.createClass({
 
     render: function() {
         var image = this.props.image,
-            imageHash = CryptoJS.MD5((image.id || image.cid).toString()).toString(),
+            imageHash = CryptoJS.MD5(
+                (image.id || image.cid).toString()
+            ).toString(),
             type = stores.ProfileStore.get().get("icon_set"),
             iconSize = 18;
 
         return (
-        <SelectableRow isActive={this.props.isPreviewed}
-            isSelected={this.props.isChecked}
-            onResourceSelected={this.props.onResourceSelected}
-            onResourceDeselected={this.props.onResourceDeselected}
-            onPreviewResource={this.props.onPreviewResource}
-            resource={image}>
-            <td className="image-preview sm-cell" data-label="Name">
-                <Gravatar hash={imageHash} size={iconSize} type={type} />
-                <Name image={image} />
-            </td>
-        </SelectableRow>
+            <SelectableRow
+                isActive={this.props.isPreviewed}
+                isSelected={this.props.isChecked}
+                onResourceSelected={this.props.onResourceSelected}
+                onResourceDeselected={this.props.onResourceDeselected}
+                onPreviewResource={this.props.onPreviewResource}
+                resource={image}>
+                <td className="image-preview sm-cell" data-label="Name">
+                    <Gravatar hash={imageHash} size={iconSize} type={type} />
+                    <Name image={image} />
+                </td>
+            </SelectableRow>
         );
     }
 });

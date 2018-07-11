@@ -23,31 +23,34 @@ export default React.createClass({
 
     render: function() {
         var volume = this.props.volume,
-            volumeHash = CryptoJS.MD5((volume.id || volume.cid).toString()).toString(),
+            volumeHash = CryptoJS.MD5(
+                (volume.id || volume.cid).toString()
+            ).toString(),
             type = stores.ProfileStore.get().get("icon_set"),
             iconSize = 18;
 
         return (
-        <SelectableRow isActive={this.props.isPreviewed}
-            isSelected={this.props.isChecked}
-            onResourceSelected={this.props.onResourceSelected}
-            onResourceDeselected={this.props.onResourceDeselected}
-            onPreviewResource={this.props.onPreviewResource}
-            resource={volume}>
-            <td className="image-preview sm-cell" data-label="Name">
-                <Gravatar hash={volumeHash} size={iconSize} type={type} />
-                <Name volume={volume} />
-            </td>
-            <td className="sm-cell" data-label="Status">
-                <Status volume={volume} />
-            </td>
-            <td className="sm-cell" data-label="Size">
-                <Size volume={volume} />
-            </td>
-            <td className="sm-cell" data-label="Identity">
-                <Identity project_resource={volume} />
-            </td>
-        </SelectableRow>
+            <SelectableRow
+                isActive={this.props.isPreviewed}
+                isSelected={this.props.isChecked}
+                onResourceSelected={this.props.onResourceSelected}
+                onResourceDeselected={this.props.onResourceDeselected}
+                onPreviewResource={this.props.onPreviewResource}
+                resource={volume}>
+                <td className="image-preview sm-cell" data-label="Name">
+                    <Gravatar hash={volumeHash} size={iconSize} type={type} />
+                    <Name volume={volume} />
+                </td>
+                <td className="sm-cell" data-label="Status">
+                    <Status volume={volume} />
+                </td>
+                <td className="sm-cell" data-label="Size">
+                    <Size volume={volume} />
+                </td>
+                <td className="sm-cell" data-label="Identity">
+                    <Identity project_resource={volume} />
+                </td>
+            </SelectableRow>
         );
     }
 });

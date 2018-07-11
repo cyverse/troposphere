@@ -16,38 +16,49 @@ export default React.createClass({
     getDefaultProps() {
         return {
             disabled: false
-        }
+        };
     },
 
     getOptions: function() {
-        var identityOptions = this.props.identities.map(function(identity) {
-            var providerId = identity.get("provider").id;
-            var provider = this.props.providers.get(providerId);
-            var provider_name = provider.get("name");
-            var isInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(providerId);
-            if (isInMaintenance)
-                provider_name += " (disabled - in maintenance)";
-            return (
-            <option key={identity.id} value={identity.id} disabled={isInMaintenance}>
-                {provider_name}
-            </option>
-            );
-        }.bind(this));
+        var identityOptions = this.props.identities.map(
+            function(identity) {
+                var providerId = identity.get("provider").id;
+                var provider = this.props.providers.get(providerId);
+                var provider_name = provider.get("name");
+                var isInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(
+                    providerId
+                );
+                if (isInMaintenance)
+                    provider_name += " (disabled - in maintenance)";
+                return (
+                    <option
+                        key={identity.id}
+                        value={identity.id}
+                        disabled={isInMaintenance}>
+                        {provider_name}
+                    </option>
+                );
+            }.bind(this)
+        );
 
         return identityOptions;
     },
 
     render: function() {
         var options = this.getOptions();
-        var identityId = (this.props.identityId !== null) ? this.props.identityId : this.props.identities.first().id;
+        var identityId =
+            this.props.identityId !== null
+                ? this.props.identityId
+                : this.props.identities.first().id;
         return (
-        <select value={identityId}
-            id="identity"
-            className="form-control"
-            disabled={this.props.disabled}
-            onChange={this.props.onChange}>
-            {options}
-        </select>
+            <select
+                value={identityId}
+                id="identity"
+                className="form-control"
+                disabled={this.props.disabled}
+                onChange={this.props.onChange}>
+                {options}
+            </select>
         );
     }
 });

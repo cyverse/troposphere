@@ -35,7 +35,7 @@ export default React.createClass({
         ]),
         disabled: React.PropTypes.bool,
         current: React.PropTypes.object,
-        placeholder: React.PropTypes.string,
+        placeholder: React.PropTypes.string
     },
 
     getDefaultProps() {
@@ -43,7 +43,7 @@ export default React.createClass({
             disabled: false,
             current: null,
             placeholder: null
-        }
+        };
     },
 
     getInitialState() {
@@ -67,8 +67,8 @@ export default React.createClass({
         }
 
         return {
-            list,
-        }
+            list
+        };
     },
 
     onSelect(e) {
@@ -82,16 +82,12 @@ export default React.createClass({
         return {
             label,
             key: index,
-            value: index,
-        }
+            value: index
+        };
     },
 
     renderOption(props) {
-        return (
-        <option {...props}>
-            {props.label}
-        </option>
-        );
+        return <option {...props}>{props.label}</option>;
     },
 
     renderPlaceholderOption(label) {
@@ -110,8 +106,8 @@ export default React.createClass({
     },
 
     render() {
-        let { current, placeholder } = this.props;
-        let { list } = this.state;
+        let {current, placeholder} = this.props;
+        let {list} = this.state;
 
         // The select menu's options
         let options = [];
@@ -122,21 +118,19 @@ export default React.createClass({
         if (!list) {
             options.push(this.renderPlaceholderOption("Loading..."));
         } else {
-
             // If the current element to display is null, we render a
             // placeholder option, it can be blank or have some placeholder
             // text
             if (current == null) {
-                options.push(this.renderPlaceholderOption(placeholder || ""))
+                options.push(this.renderPlaceholderOption(placeholder || ""));
             }
 
             // Append options from the list
             options = options.concat(
                 // optionName(elem) -> name,
                 //        renderOption(name) -> option
-                list.map(this.props.optionName)
-                    .map(this.renderListOption)
-            )
+                list.map(this.props.optionName).map(this.renderListOption)
+            );
 
             index = list.indexOf(current);
             if (current != null && index == -1) {
@@ -148,13 +142,13 @@ export default React.createClass({
         }
 
         return (
-        <select
-            disabled={this.props.disabled}
-            value={index}
-            className="form-control"
-            onChange={this.onSelect}>
-            {options}
-        </select>
+            <select
+                disabled={this.props.disabled}
+                value={index}
+                className="form-control"
+                onChange={this.onSelect}>
+                {options}
+            </select>
         );
     }
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from "material-ui/RaisedButton";
 import Button from "components/common/ui/Button";
 
 export default React.createClass({
@@ -16,21 +16,23 @@ export default React.createClass({
             : "Warning, changes to Advanced Options will be lost";
 
         return (
-        <div className="modal-footer">
-            <RaisedButton
-                style={{ float: "right" }}
-                disabled={this.props.footerDisabled}
-                label="Continue to Launch"
-                onTouchTap={this.props.onSaveAdvanced}
-            />
-            <Button style={{ float: "left" }}
-                isDisabled={clearOptionsIsDisabled}
-                buttonType="link"
-                title="Restore Default Options"
-                icon="refresh"
-                onTouch={this.onClearAdvanced}
-                tooltip={tooltipTitle} />
-        </div>
-        )
+            <div className="modal-footer">
+                <RaisedButton
+                    style={{float: "right"}}
+                    disabled={this.props.footerDisabled}
+                    label="Continue to Launch"
+                    onTouchTap={this.props.onSaveAdvanced}
+                />
+                <Button
+                    style={{float: "left"}}
+                    isDisabled={clearOptionsIsDisabled}
+                    buttonType="link"
+                    title="Restore Default Options"
+                    icon="refresh"
+                    onTouch={this.onClearAdvanced}
+                    tooltip={tooltipTitle}
+                />
+            </div>
+        );
     }
 });

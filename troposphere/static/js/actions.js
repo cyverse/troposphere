@@ -1,4 +1,3 @@
-
 // Note: while we could include all the actions here, I'm not going to
 // instead, I'm going to let the application load the actions it needs
 // to use during the bootstrapping process so that the application
@@ -7,4 +6,4 @@
 
 export default {
     // add actions here
-}
+};

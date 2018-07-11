@@ -13,7 +13,10 @@ export default React.createClass({
     },
 
     onAttach: function() {
-        modals.InstanceVolumeModals.attach(this.props.volume, this.props.project);
+        modals.InstanceVolumeModals.attach(
+            this.props.volume,
+            this.props.project
+        );
     },
 
     onDetach: function() {
@@ -39,42 +42,48 @@ export default React.createClass({
         // Add in the conditional links based on current machine state
         if (!this.props.multipleSelected && status === "available") {
             linksArray.push(
-                <Button style={style}
+                <Button
+                    style={style}
                     key="Attach"
                     icon="save"
                     tooltip="Attach"
                     onClick={this.onAttach}
-                    isVisible={true} />
+                    isVisible={true}
+                />
             );
         } else if (!this.props.multipleSelected && status === "in-use") {
             linksArray.push(
-                <Button style={style}
+                <Button
+                    style={style}
                     key="Detach"
                     icon="open"
                     tooltip="Detach"
                     onClick={this.onDetach}
-                    isVisible={true} />
+                    isVisible={true}
+                />
             );
         }
 
         linksArray.push(
-            <Button key="Delete"
+            <Button
+                key="Delete"
                 icon="remove"
                 tooltip="Delete"
                 onClick={this.onDelete}
-                isVisible={true} />
+                isVisible={true}
+            />
         );
 
         return (
-        <div style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            flex: "1 1 10%",
-            flexWrap: "nowrap"
-        }}>
-            {linksArray}
-        </div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    flex: "1 1 10%",
+                    flexWrap: "nowrap"
+                }}>
+                {linksArray}
+            </div>
         );
     }
-
 });

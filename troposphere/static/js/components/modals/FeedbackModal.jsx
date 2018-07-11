@@ -1,7 +1,7 @@
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import { trackAction } from "../../utilities/userActivity";
+import {trackAction} from "../../utilities/userActivity";
 
 // Example Usage from http://bl.ocks.org/insin/raw/8449696/
 // render: function(){
@@ -31,7 +31,7 @@ import { trackAction } from "../../utilities/userActivity";
 function getState() {
     return {
         feedback: null
-    }
+    };
 }
 
 export default React.createClass({
@@ -66,7 +66,6 @@ export default React.createClass({
         trackAction("sent-feedback", {});
     },
 
-
     //
     // Custom Modal Callbacks
     // ----------------------
@@ -98,75 +97,80 @@ export default React.createClass({
             }
         ];
 
-        var buttons = buttonArray.map(function(button) {
-            // Enable all buttons be default
-            var isDisabled = false;
+        var buttons = buttonArray.map(
+            function(button) {
+                // Enable all buttons be default
+                var isDisabled = false;
 
-            // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-            var stateIsValid = this.state.feedback;
-            if (button.type === "primary" && !stateIsValid)
-                isDisabled = true;
+                // Disable the launch button if the user hasn't provided a name, size or identity for the volume
+                var stateIsValid = this.state.feedback;
+                if (button.type === "primary" && !stateIsValid)
+                    isDisabled = true;
 
-            return (
-            <RaisedButton
-                style={{ marginLeft: "10px" }}
-                primary={ !!button.type }
-                key={button.text}
-                onTouchTap={button.handler}
-                disabled={isDisabled}
-                label={button.text}
-            />
-            );
-        }.bind(this));
+                return (
+                    <RaisedButton
+                        style={{marginLeft: "10px"}}
+                        primary={!!button.type}
+                        key={button.text}
+                        onTouchTap={button.handler}
+                        disabled={isDisabled}
+                        label={button.text}
+                    />
+                );
+            }.bind(this)
+        );
 
         var content = (
-        <div role="form">
-            <div className="form-group">
-                <p>
-                    {"Are you experiencing a problem with Atmosphere to which you can't find a solution? " +
-                     "Do you have a feature request or bug report? Let us know!"}
-                </p>
-                <div className="alert alert-info">
+            <div role="form">
+                <div className="form-group">
                     <p>
-                        <i className="glyphicon glyphicon-info-sign" />
-                        <strong> Reporting an issue with an Instance? </strong>
+                        {"Are you experiencing a problem with Atmosphere to which you can't find a solution? " +
+                            "Do you have a feature request or bug report? Let us know!"}
                     </p>
-                    <p>
-                        {"If you're letting us know about an issue with an Instance, please "}
-                        <strong>do not</strong> {"delete that instance."}
-                    </p>
-                    <p>
-                        {"If you're running multiple instances, please include the Instance's Alias " +
-                         "(this can be found on the detail page). Or, use the Report action from the " +
-                         " Instance detail page"}
-                    </p>
+                    <div className="alert alert-info">
+                        <p>
+                            <i className="glyphicon glyphicon-info-sign" />
+                            <strong>
+                                {" "}
+                                Reporting an issue with an Instance?{" "}
+                            </strong>
+                        </p>
+                        <p>
+                            {
+                                "If you're letting us know about an issue with an Instance, please "
+                            }
+                            <strong>do not</strong> {"delete that instance."}
+                        </p>
+                        <p>
+                            {"If you're running multiple instances, please include the Instance's Alias " +
+                                "(this can be found on the detail page). Or, use the Report action from the " +
+                                " Instance detail page"}
+                        </p>
+                    </div>
+                    <textarea
+                        type="text"
+                        className="form-control"
+                        rows="7"
+                        value={this.state.feedback}
+                        onChange={this.onFeedbackChange}
+                    />
                 </div>
-                <textarea type="text"
-                    className="form-control"
-                    rows="7"
-                    value={this.state.feedback}
-                    onChange={this.onFeedbackChange} />
             </div>
-        </div>
         );
 
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title">{this.props.header}</h1>
-                    </div>
-                    <div className="modal-body">
-                        {content}
-                    </div>
-                    <div className="modal-footer">
-                        {buttons}
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title">{this.props.header}</h1>
+                        </div>
+                        <div className="modal-body">{content}</div>
+                        <div className="modal-footer">{buttons}</div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

@@ -28,30 +28,39 @@ let ProjectStore = BaseStore.extend({
     fetchModelsFor: function(projectId) {
         // Stop request if no ID
         if (!projectId) {
-            return
+            return;
         }
 
         if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
             _isFetchingFor[projectId] = true;
             var models = new ProjectExternalLinkCollection();
-            models.fetch({
-                url: models.url + "?project__id=" + projectId
-            }).done(function() {
-                _isFetchingFor[projectId] = false;
-                // add models to existing cache
-                this.models.add(models.models);
+            models
+                .fetch({
+                    url: models.url + "?project__id=" + projectId
+                })
+                .done(
+                    function() {
+                        _isFetchingFor[projectId] = false;
+                        // add models to existing cache
+                        this.models.add(models.models);
 
-                // convert ProjectExternalLink collection to an ExternalLinkCollection
-                var external_links = models.map(function(p_link) {
-                    return new ExternalLink(p_link.get("external_link"), {
-                        parse: true
-                    });
-                });
-                external_links = new ExternalLinkCollection(external_links);
+                        // convert ProjectExternalLink collection to an ExternalLinkCollection
+                        var external_links = models.map(function(p_link) {
+                            return new ExternalLink(
+                                p_link.get("external_link"),
+                                {
+                                    parse: true
+                                }
+                            );
+                        });
+                        external_links = new ExternalLinkCollection(
+                            external_links
+                        );
 
-                _modelsFor[projectId] = external_links;
-                this.emitChange();
-            }.bind(this));
+                        _modelsFor[projectId] = external_links;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
@@ -60,29 +69,37 @@ let ProjectStore = BaseStore.extend({
         if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
         if (!allExternalLinks) return;
 
-        var external_links = this.models.filter(function(p_link) {
-            // filter out irrelevant project external_links (not in target project)
-            return p_link.get("project").id === project.id;
-        }).filter(function(p_link) {
-            // filter out the external_links that don't exist (not in local cache)
-            return allExternalLinks.get(p_link.get("external_link").id);
-        }).map(function(p_link) {
-            // return the actual external_links
-            return allExternalLinks.get(p_link.get("external_link").id);
-        });
+        var external_links = this.models
+            .filter(function(p_link) {
+                // filter out irrelevant project external_links (not in target project)
+                return p_link.get("project").id === project.id;
+            })
+            .filter(function(p_link) {
+                // filter out the external_links that don't exist (not in local cache)
+                return allExternalLinks.get(p_link.get("external_link").id);
+            })
+            .map(function(p_link) {
+                // return the actual external_links
+                return allExternalLinks.get(p_link.get("external_link").id);
+            });
 
-        var pendingExternalLinks = _pendingProjectExternalLinks.filter(function(p_link) {
-            // filter out irrelevant project external_links (not in target project)
-            return p_link.get("project").id === project.id;
-        }).filter(function(p_link) {
-            // filter out the external_links that don't exist (not in local cache)
-            return allExternalLinks.get(p_link.get("external_link"));
-        }).map(function(p_link) {
-            // return the actual external_links
-            return allExternalLinks.get(p_link.get("external_link"));
-        });
+        var pendingExternalLinks = _pendingProjectExternalLinks
+            .filter(function(p_link) {
+                // filter out irrelevant project external_links (not in target project)
+                return p_link.get("project").id === project.id;
+            })
+            .filter(function(p_link) {
+                // filter out the external_links that don't exist (not in local cache)
+                return allExternalLinks.get(p_link.get("external_link"));
+            })
+            .map(function(p_link) {
+                // return the actual external_links
+                return allExternalLinks.get(p_link.get("external_link"));
+            });
 
-        return new ExternalLinkCollection(external_links.concat(pendingExternalLinks));
+        return new ExternalLinkCollection(
+            external_links.concat(pendingExternalLinks)
+        );
     }
 });
 
@@ -94,7 +111,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ProjectExternalLinkConstants.ADD_PROJECT_LINK:
             store.add(payload.projectExternalLink);
             break;

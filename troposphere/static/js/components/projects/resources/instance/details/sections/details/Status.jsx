@@ -3,7 +3,6 @@ import Backbone from "backbone";
 import ResourceDetail from "components/projects/common/ResourceDetail";
 import Status from "components/projects/detail/resources/tableData/instance/Status";
 
-
 export default React.createClass({
     displayName: "Status",
 
@@ -13,11 +12,11 @@ export default React.createClass({
 
     render: function() {
         return (
-        <ResourceDetail label="Status">
-            <div className="resource-status">
-                <Status instance={this.props.instance} />
-            </div>
-        </ResourceDetail>
+            <ResourceDetail label="Status">
+                <div className="resource-status">
+                    <Status instance={this.props.instance} />
+                </div>
+            </ResourceDetail>
         );
     }
 });

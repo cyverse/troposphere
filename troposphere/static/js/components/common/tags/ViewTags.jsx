@@ -13,13 +13,11 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             renderLinks: true
-        }
+        };
     },
 
     renderTag: function(tag) {
-        return (
-            <Tag key={tag.id || tag.cid} tag={tag} />
-        );
+        return <Tag key={tag.id || tag.cid} tag={tag} />;
     },
 
     render: function() {
@@ -29,18 +27,9 @@ export default React.createClass({
         if (tags.length > 0) {
             content = tags.map(this.renderTag);
         } else {
-            content = (
-                <p>
-                    This resource has not been tagged.
-                </p>
-            )
+            content = <p>This resource has not been tagged.</p>;
         }
 
-        return (
-        <ul className="tags">
-            {content}
-        </ul>
-        );
-
+        return <ul className="tags">{content}</ul>;
     }
 });

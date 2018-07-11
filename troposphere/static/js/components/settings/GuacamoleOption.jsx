@@ -26,13 +26,13 @@ export default React.createClass({
         var imgSrc = this.getSrc(this.props.type);
 
         return (
-        <li className={this.props.selected ? "selected" : ""}>
-            <a href="#" onClick={onClick}>
-                <img src={imgSrc} width="100" height="100" />
-                <br/>
-                {this.props.text}
-            </a>
-        </li>
+            <li className={this.props.selected ? "selected" : ""}>
+                <a href="#" onClick={onClick}>
+                    <img src={imgSrc} width="100" height="100" />
+                    <br />
+                    {this.props.text}
+                </a>
+            </li>
         );
     }
 });

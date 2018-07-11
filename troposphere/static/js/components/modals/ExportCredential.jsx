@@ -2,12 +2,11 @@ import React from "react";
 import moment from "moment";
 
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import Glyphicon from "components/common/Glyphicon"
+import Glyphicon from "components/common/Glyphicon";
 
 import stores from "stores";
 
-import { hasClipboardAPI,
-         copyElement } from "utilities/clipboardFunctions";
+import {hasClipboardAPI, copyElement} from "utilities/clipboardFunctions";
 
 /**
  * Merges the argument model with a `openrc` credential template.
@@ -21,14 +20,22 @@ import { hasClipboardAPI,
  */
 function populateOpenRCTemplate(credModel) {
     let exportTime = moment().format("MMM DD, YYYY hh:mm a"),
-        envVarNames = [ "OS_PROJECT_NAME", "OS_USERNAME", "OS_IDENTITY_API_VERSION",
-                        "OS_USER_DOMAIN_NAME", "OS_TENANT_NAME", "OS_AUTH_URL",
-                        "OS_PROJECT_DOMAIN_NAME", "OS_REGION_NAME", "OS_PASSWORD"];
+        envVarNames = [
+            "OS_PROJECT_NAME",
+            "OS_USERNAME",
+            "OS_IDENTITY_API_VERSION",
+            "OS_USER_DOMAIN_NAME",
+            "OS_TENANT_NAME",
+            "OS_AUTH_URL",
+            "OS_PROJECT_DOMAIN_NAME",
+            "OS_REGION_NAME",
+            "OS_PASSWORD"
+        ];
 
     let openrc = `# generated on ${exportTime}\n`;
 
     // produce an "openrc" string that includes only defined values from endpoint
-    envVarNames.forEach((env) => {
+    envVarNames.forEach(env => {
         if (credModel.get(env)) {
             openrc += `export ${env}=${credModel.get(env)}\n`;
         }
@@ -37,16 +44,14 @@ function populateOpenRCTemplate(credModel) {
     return openrc;
 }
 
-
 export default React.createClass({
-
     mixins: [BootstrapModalMixin],
 
     getInitialState() {
         return {
             identityUUID: "",
-            step: 0,
-        }
+            step: 0
+        };
     },
 
     updateState() {
@@ -94,27 +99,28 @@ export default React.createClass({
     },
 
     renderIdentities(identities) {
-        return identities.map((identity) => {
+        return identities.map(identity => {
             let provider = identity.get("provider"),
                 identityUUID = identity.get("uuid"),
                 key = identity.id || identity.cid,
-                inputId = provider.name.replace(' ','-') + key;
+                inputId = provider.name.replace(" ", "-") + key;
 
             return (
                 <div key={`check-${key}`} className="form-check">
-                <label className="form-check-label">
-                    <input key={key}
-                           id={inputId}
-                           name="identities"
-                           type="radio"
-                           className="form-check-input"
-                           value={identityUUID}
-                           onChange={this.updateSelect} />
-                    {` ${provider.name}`}
-                </label>
+                    <label className="form-check-label">
+                        <input
+                            key={key}
+                            id={inputId}
+                            name="identities"
+                            type="radio"
+                            className="form-check-input"
+                            value={identityUUID}
+                            onChange={this.updateSelect}
+                        />
+                        {` ${provider.name}`}
+                    </label>
                 </div>
             );
-
         });
     },
 
@@ -126,72 +132,77 @@ export default React.createClass({
         }
 
         return (
-        <div className="modal-content">
-            <div className="modal-header">
-                {this.renderCloseButton()}
-                <h1 className="t-title">Select provider</h1>
-            </div>
-            <div style={{ minHeight: "300px" }} className="modal-body">
-                <p>
-                    Each Atmosphere "provider" will have different credentials for you.
-                    Please select the provider to export:
-                </p>
-                <div key="export-cred-radio-grp" className="form-group">
-                    {this.renderIdentities(identities)}
+            <div className="modal-content">
+                <div className="modal-header">
+                    {this.renderCloseButton()}
+                    <h1 className="t-title">Select provider</h1>
                 </div>
-            </div>
-            <div className="modal-footer">
-                <button type="button"
+                <div style={{minHeight: "300px"}} className="modal-body">
+                    <p>
+                        Each Atmosphere "provider" will have different
+                        credentials for you. Please select the provider to
+                        export:
+                    </p>
+                    <div key="export-cred-radio-grp" className="form-group">
+                        {this.renderIdentities(identities)}
+                    </div>
+                </div>
+                <div className="modal-footer">
+                    <button
+                        type="button"
                         className="btn btn-danger"
                         onClick={this.hide}>
-                    Cancel
-                </button>
-                <button type="button"
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
                         aria-invalid={cannotGenerate}
                         className="btn btn-primary"
                         onClick={this.onSelect}
                         disabled={cannotGenerate}>
-                    Export
-                </button>
+                        Export
+                    </button>
+                </div>
             </div>
-        </div>
         );
     },
 
     renderGenerate() {
         let identityUUID = this.state.identityUUID,
-            credential =
-                stores.ClientCredentialStore.getForIdentity(identityUUID),
+            credential = stores.ClientCredentialStore.getForIdentity(
+                identityUUID
+            ),
             activeButton;
 
         if (!credential) {
             return (
-            <div className="modal-content">
-                <div className="modal-header">
-                    {this.renderCloseButton()}
-                    <h1 className="t-title">Exporting credential ...</h1>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <h1 className="t-title">Exporting credential ...</h1>
+                    </div>
+                    <div style={{minHeight: "300px"}} className="modal-body">
+                        <div className="loading" />
+                    </div>
                 </div>
-                <div style={{ minHeight: "300px" }} className="modal-body">
-                    <div className="loading"></div>
-                </div>
-            </div>
             );
         }
 
         if (hasClipboardAPI()) {
             activeButton = (
-                <button type="button"
-                        className="btn btn-primary"
-                        onClick={this.onCopyText}>
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.onCopyText}>
                     Copy
                 </button>
             );
-
         } else {
             activeButton = (
-                <button type="button"
-                        className="btn btn-primary"
-                        onClick={this.hide}>
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.hide}>
                     Okay
                 </button>
             );
@@ -200,36 +211,38 @@ export default React.createClass({
         let openrc = populateOpenRCTemplate(credential);
 
         return (
-        <div className="modal-content">
-            <div className="modal-header">
-                {this.renderCloseButton()}
-                <h1 className="t-title">Exported Credential</h1>
+            <div className="modal-content">
+                <div className="modal-header">
+                    {this.renderCloseButton()}
+                    <h1 className="t-title">Exported Credential</h1>
+                </div>
+                <div style={{minHeight: "300px"}} className="modal-body">
+                    <p>
+                        Copy the exported credential and paste into a file. This
+                        file will be used within a shell scripting environment
+                        to "export" the necessary information used by
+                        command-line interfaces (CLI) for the OpenStack APIs.
+                    </p>
+                    <p className="alert alert-info">
+                        <Glyphicon name="info-sign" />{" "}
+                        <strong>PLEASE NOTE</strong>
+                        <br />
+                        When using these credentials, ensure that the domain and
+                        port for{" "}
+                        <span style={{fontFamily: "monospace"}}>
+                            $OS_AUTH_URL
+                        </span>{" "}
+                        are reachable. Simply using{" "}
+                        <span style={{fontFamily: "monospace"}}>curl</span> or
+                        navigating to the base URL will help to determine
+                        reachability.
+                    </p>
+                    <pre id="openrc" ref="openrcExport">
+                        {openrc}
+                    </pre>
+                </div>
+                <div className="modal-footer">{activeButton}</div>
             </div>
-            <div style={{ minHeight: "300px" }} className="modal-body">
-                <p>
-                    Copy the exported credential and paste into a file.
-                    This file will be used within a shell scripting
-                    environment to "export" the necessary information
-                    used by command-line interfaces (CLI) for the
-                    OpenStack APIs.
-                </p>
-                <p className="alert alert-info">
-                    <Glyphicon name="info-sign" />
-                    {" "}
-                    <strong>PLEASE NOTE</strong><br/>
-                    When using these credentials, ensure that the domain
-                    and port for <span style={{fontFamily: "monospace"}}>$OS_AUTH_URL</span>
-                    {" "}are reachable. Simply using <span style={{fontFamily: "monospace"}}>curl</span>
-                    {" "}or navigating to the base URL will help to determine reachability.
-                </p>
-                <pre id="openrc" ref="openrcExport">
-                    {openrc}
-                </pre>
-            </div>
-            <div className="modal-footer">
-                {activeButton}
-            </div>
-        </div>
         );
     },
 
@@ -245,15 +258,15 @@ export default React.createClass({
         let identities = stores.IdentityStore.getAll();
 
         if (!identities) {
-            return (<div className="loading"></div>);
+            return <div className="loading" />;
         }
 
         return (
-        <div className="modal fade">
-            <div className="modal-dialog" style={{ minWidth: "705px"}}>
-                {this.renderContent(identities)}
+            <div className="modal fade">
+                <div className="modal-dialog" style={{minWidth: "705px"}}>
+                    {this.renderContent(identities)}
+                </div>
             </div>
-        </div>
         );
     }
 });

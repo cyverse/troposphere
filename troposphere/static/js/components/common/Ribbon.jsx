@@ -2,7 +2,6 @@ import _ from "underscore";
 
 import React from "react";
 
-
 /**
  * Provides a "ribbon" effect over an icon
  *
@@ -31,14 +30,10 @@ export default React.createClass({
                 display: "inline-block",
                 padding: "3px 5px",
                 color: "white",
-                fontSize: "10px",
+                fontSize: "10px"
             },
             merged = _.extend(style, override);
 
-        return (
-            <div style={ merged }>
-                {this.props.text}
-            </div>
-        );
+        return <div style={merged}>{this.props.text}</div>;
     }
 });

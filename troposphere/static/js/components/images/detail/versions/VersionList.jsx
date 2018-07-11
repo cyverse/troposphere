@@ -19,25 +19,36 @@ export default React.createClass({
         return {
             showAvailability: true,
             editable: true
-        }
+        };
     },
     //TODO: Next refactor should convert this into 'edit version'
     openEditVersion: function(version) {
-
         var props = {
             version: version,
             image: this.props.image
         };
 
-        ModalHelpers.renderModal(ImageVersionEditModal, props, this.onCompletedEdit);
-
+        ModalHelpers.renderModal(
+            ImageVersionEditModal,
+            props,
+            this.onCompletedEdit
+        );
     },
-    onCompletedEdit: function(version, name, changeLog, end_date,
-                              canImage, image, minCPU, minMem,
-                              versionMembership, docObjectId) {
+    onCompletedEdit: function(
+        version,
+        name,
+        changeLog,
+        end_date,
+        canImage,
+        image,
+        minCPU,
+        minMem,
+        versionMembership,
+        docObjectId
+    ) {
         if (end_date) {
             // Move from datestring to ISO string
-            end_date = new Date(Date.parse(end_date)).toISOString()
+            end_date = new Date(Date.parse(end_date)).toISOString();
         } else {
             end_date = null;
         }
@@ -55,12 +66,14 @@ export default React.createClass({
     },
     renderVersion: function(version) {
         return (
-        <Version key={version.id}
-            version={version}
-            image={this.props.image}
-            editable={this.props.editable}
-            showAvailability={this.props.showAvailability}
-            onEditClicked={this.openEditVersion} />
+            <Version
+                key={version.id}
+                version={version}
+                image={this.props.image}
+                editable={this.props.editable}
+                showAvailability={this.props.showAvailability}
+                onEditClicked={this.openEditVersion}
+            />
         );
     },
     getVersions: function(versions) {
@@ -89,15 +102,14 @@ export default React.createClass({
         return versions;
     },
     render: function() {
-
         //TODO: Add 'sort by' && '+/-'
         //      API ordering filters: Start Date _OR_ parent-hierarchy
         return (
-        <div className="content">
-            <ul className="app-card-list">
-                {this.props.versions.map(this.renderVersion)}
-            </ul>
-        </div>
+            <div className="content">
+                <ul className="app-card-list">
+                    {this.props.versions.map(this.renderVersion)}
+                </ul>
+            </div>
         );
     }
 });

@@ -10,15 +10,15 @@ import _ from "underscore";
  */
 
 var defaults = {
-    "closeButton": true,
-    "timeOut": 5000, // Time to close notification
-    "extendedTimeOut": 2000 // Additional time if mouse enters
+    closeButton: true,
+    timeOut: 5000, // Time to close notification
+    extendedTimeOut: 2000 // Additional time if mouse enters
 };
 
 var noFadeDefaults = {
-    "closeButton": true,
-    "timeOut": 0,
-    "extendedTimeOut": 0
+    closeButton: true,
+    timeOut: 0,
+    extendedTimeOut: 0
 };
 
 export default {

@@ -17,12 +17,12 @@ const Users = React.createClass({
     getInitialState: function() {
         return {
             query: ""
-        }
+        };
     },
     getDefaultProps() {
         return {
             label: "Users"
-        }
+        };
     },
 
     onUserAdded: function(user) {
@@ -42,7 +42,7 @@ const Users = React.createClass({
         var users = this.props.users,
             query = this.state.query,
             allUsers;
-        let { UserStore } = this.props.subscriptions;
+        let {UserStore} = this.props.subscriptions;
 
         if (this.state.query) {
             allUsers = UserStore.fetchWhere({
@@ -55,23 +55,23 @@ const Users = React.createClass({
         //if(!users) return <div className="loading"/>;
 
         return (
-        <div className="form-group">
-            <label htmlFor="tags" className="control-label">
-                {this.props.label}
-            </label>
-            <div className="tagger_container">
-                <div className="help-block">
-                    {this.props.help}
+            <div className="form-group">
+                <label htmlFor="tags" className="control-label">
+                    {this.props.label}
+                </label>
+                <div className="tagger_container">
+                    <div className="help-block">{this.props.help}</div>
+                    <ChosenDropdown
+                        models={allUsers}
+                        activeModels={users}
+                        onModelAdded={this.onUserAdded}
+                        onModelRemoved={this.props.onUserRemoved}
+                        width={"100%"}
+                        onQueryChange={this.onQueryChange}
+                        placeholderText="Search by username..."
+                    />
                 </div>
-                <ChosenDropdown models={allUsers}
-                    activeModels={users}
-                    onModelAdded={this.onUserAdded}
-                    onModelRemoved={this.props.onUserRemoved}
-                    width={"100%"}
-                    onQueryChange={this.onQueryChange}
-                    placeholderText="Search by username..." />
             </div>
-        </div>
         );
     }
 });

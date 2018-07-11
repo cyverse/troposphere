@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 import classNames from "classnames";
 
-
 export default React.createClass({
     displayName: "ChosenDropdownMembership",
 
@@ -15,25 +14,25 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             propertyName: "name"
-        }
+        };
     },
 
     getInitialState: function() {
         return {
             isMouseOver: false
-        }
+        };
     },
 
     onMouseEnter: function() {
         this.setState({
             isMouseOver: true
-        })
+        });
     },
 
     onMouseLeave: function() {
         this.setState({
             isMouseOver: false
-        })
+        });
     },
 
     onMembershipSelected: function() {
@@ -44,16 +43,17 @@ export default React.createClass({
         var membership = this.props.membership,
             classes = classNames({
                 "active-result": true,
-                "highlighted": this.state.isMouseOver
+                highlighted: this.state.isMouseOver
             });
 
         return (
-        <li className={classes}
-            onMouseEnter={this.onMouseEnter}
-            onMouseLeave={this.onMouseLeave}
-            onClick={this.onMembershipSelected}>
-            {membership.get(this.props.propertyName)}
-        </li>
+            <li
+                className={classes}
+                onMouseEnter={this.onMouseEnter}
+                onMouseLeave={this.onMouseLeave}
+                onClick={this.onMembershipSelected}>
+                {membership.get(this.props.propertyName)}
+            </li>
         );
     }
 });

@@ -4,9 +4,7 @@ import showManageUserModal from "modals/admin/showManageUserModal";
 import actions from "actions";
 import moment from "moment";
 
-
 export default React.createClass({
-
     propTypes: {
         membership: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
@@ -15,9 +13,11 @@ export default React.createClass({
         //showManageUserModal.showModal(this.props.membership);
         // Call to action -- update end_date to 'now' or 'null'
         var now_time = moment(Date.now()),
-            new_end_date = (this.props.membership.get("end_date")) ? null : now_time;
+            new_end_date = this.props.membership.get("end_date")
+                ? null
+                : now_time;
         actions.IdentityMembershipActions.update(this.props.membership, {
-            "end_date": new_end_date
+            end_date: new_end_date
         });
     },
 
@@ -41,32 +41,32 @@ export default React.createClass({
             width: "10px"
         };
         if (membership.get("provider").active == false) {
-            provider_str = provider_str + " - Inactive"
+            provider_str = provider_str + " - Inactive";
         } else if (membership.get("provider").end_date) {
-            provider_str = provider_str + " - Inactive as of " + membership.get("provider").end_date;
+            provider_str =
+                provider_str +
+                " - Inactive as of " +
+                membership.get("provider").end_date;
         }
         return (
-        <tr>
-            <td className="user-name">
-                {membership.get("user").username}
-            </td>
-            <td className="identity-key">
-                {identity_key}
-            </td>
-            <td className="provider">
-                {provider_str}
-            </td>
-            <td className="end-date">
-                <span style={statusDisc}></span>
-                {membershipStatus ? "Disabled as of " + membership.get("end_date") : "Enabled"}
-                <button type="button"
-                    className={btnClass}
-                    style={{ marginLeft: "10px" }}
-                    onClick={this.toggleDisableUser}>
-                    {membershipStatus ? "Enable" : "Disable"}
-                </button>
-            </td>
-        </tr>
+            <tr>
+                <td className="user-name">{membership.get("user").username}</td>
+                <td className="identity-key">{identity_key}</td>
+                <td className="provider">{provider_str}</td>
+                <td className="end-date">
+                    <span style={statusDisc} />
+                    {membershipStatus
+                        ? "Disabled as of " + membership.get("end_date")
+                        : "Enabled"}
+                    <button
+                        type="button"
+                        className={btnClass}
+                        style={{marginLeft: "10px"}}
+                        onClick={this.toggleDisableUser}>
+                        {membershipStatus ? "Enable" : "Disable"}
+                    </button>
+                </td>
+            </tr>
         );
     }
 });

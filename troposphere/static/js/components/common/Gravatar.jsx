@@ -22,15 +22,29 @@ export default React.createClass({
             case "unicorn":
                 return "//unicornify.appspot.com/avatar/" + hash + "?s=" + size;
             case "wavatar":
-                return "//www.gravatar.com/avatar/" + hash + "?d=wavatar&s=" + size;
+                return (
+                    "//www.gravatar.com/avatar/" + hash + "?d=wavatar&s=" + size
+                );
             case "monster":
-                return "//www.gravatar.com/avatar/" + hash + "?d=monsterid&s=" + size;
+                return (
+                    "//www.gravatar.com/avatar/" +
+                    hash +
+                    "?d=monsterid&s=" +
+                    size
+                );
             case "retro":
-                return "//www.gravatar.com/avatar/" + hash + "?d=retro&s=" + size;
+                return (
+                    "//www.gravatar.com/avatar/" + hash + "?d=retro&s=" + size
+                );
             case "robot":
                 return "//robohash.org/" + hash + "?size=" + size + "x" + size;
             default:
-                return "//www.gravatar.com/avatar/" + hash + "?d=identicon&s=" + size;
+                return (
+                    "//www.gravatar.com/avatar/" +
+                    hash +
+                    "?d=identicon&s=" +
+                    size
+                );
         }
     },
 
@@ -39,9 +53,17 @@ export default React.createClass({
          * profile setting
          */
 
-        var imgSrc = this.getSrc(this.props.hash, this.props.type, this.props.size);
+        var imgSrc = this.getSrc(
+            this.props.hash,
+            this.props.type,
+            this.props.size
+        );
         return (
-        <img src={imgSrc} width={this.props.size} height={this.props.size} />
+            <img
+                src={imgSrc}
+                width={this.props.size}
+                height={this.props.size}
+            />
         );
     }
 });

@@ -5,7 +5,6 @@ import stores from "stores";
 import ImageCardList from "./list/ImageCardList";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 
-
 export default React.createClass({
     displayName: "ImageListView",
 
@@ -21,8 +20,8 @@ export default React.createClass({
             query: this.props.query || "",
             isLoadingMoreResults: false,
             nextUrl: null,
-            viewType: "list",
-        }
+            viewType: "list"
+        };
     },
 
     componentWillReceiveProps(newProps) {
@@ -34,9 +33,12 @@ export default React.createClass({
         //
         // That means that we have to listen for props
         if (newProps.query != this.props.query) {
-            this.setState({
-                query: newProps.query || ""
-            }, this.updateState);
+            this.setState(
+                {
+                    query: newProps.query || ""
+                },
+                this.updateState
+            );
         }
     },
 
@@ -47,7 +49,7 @@ export default React.createClass({
         if (query) {
             images = stores.ImageStore.fetchWhere({
                 search: query
-            })
+            });
         } else {
             images = stores.ImageStore.getAll();
         }
@@ -62,9 +64,8 @@ export default React.createClass({
 
         this.setState({
             isLoadingMoreResults,
-            nextUrl,
+            nextUrl
         });
-
     },
 
     componentDidMount: function() {
@@ -114,13 +115,15 @@ export default React.createClass({
 
     onSearchChange: function(e) {
         var input = e.target.value;
-        this.setState({
-            query: input
-        }, () => {
-            this.callIfNotInterruptedAfter(500 /* ms */ , this.updateState);
-        });
+        this.setState(
+            {
+                query: input
+            },
+            () => {
+                this.callIfNotInterruptedAfter(500 /* ms */, this.updateState);
+            }
+        );
     },
-
 
     // --------------
     // Render methods
@@ -141,11 +144,13 @@ export default React.createClass({
         images.sort();
 
         return (
-        <ImageCardList key="featured"
-                       title="Featured Images"
-                       images={images}
-                       metrics={metrics}
-                       tags={tags} />
+            <ImageCardList
+                key="featured"
+                title="Featured Images"
+                images={images}
+                metrics={metrics}
+                tags={tags}
+            />
         );
     },
 
@@ -158,35 +163,38 @@ export default React.createClass({
             };
             images.sort();
             return (
-                <ImageCardList key="all"
+                <ImageCardList
+                    key="all"
                     title="All Images"
                     images={images}
                     metrics={metrics}
-                    tags={tags} />
+                    tags={tags}
+                />
             );
         }
 
-        return (
-        <div className="loading"></div>
-        );
+        return <div className="loading" />;
     },
 
     renderLoadMoreButton: function(images) {
         if (this.state.isLoadingMoreResults) {
             return (
-            <div style={{ "margin": "auto", "display": "block" }} className="loading" />
-            )
+                <div
+                    style={{margin: "auto", display: "block"}}
+                    className="loading"
+                />
+            );
         }
 
         if (images.meta && images.meta.next) {
             return (
-                <div style={{ display: "table", margin: "auto" }}>
+                <div style={{display: "table", margin: "auto"}}>
                     <RaisedButton
                         onTouchTap={this.onLoadMoreImages}
                         label="Show more images..."
                     />
                 </div>
-            )
+            );
         }
     },
 
@@ -205,46 +213,50 @@ export default React.createClass({
         let metrics = stores.ImageMetricsStore.getAll();
 
         if (!images || !metrics || this.awaitingTimeout()) {
-            return <div className="loading"></div>;
+            return <div className="loading" />;
         }
 
         if (!images.meta || !images.meta.count) {
             title = "Showing " + images.length + " images";
         } else if (query) {
-            title = "Showing "+ images.length + " results for '" + query + "'";
+            title = "Showing " + images.length + " results for '" + query + "'";
         } else {
-            title = "Showing " + images.length + " of " + images.meta.count + " images";
+            title =
+                "Showing " +
+                images.length +
+                " of " +
+                images.meta.count +
+                " images";
         }
 
         return (
-        <div>
-            <div style={{ marginBottom: "30px" }} className="t-body-2">
-                {title}
+            <div>
+                <div style={{marginBottom: "30px"}} className="t-body-2">
+                    {title}
+                </div>
+                {this.renderFeaturedImages()}
+                {this.renderImages(images, metrics)}
+                {this.renderLoadMoreButton(images)}
             </div>
-            {this.renderFeaturedImages()}
-            {this.renderImages(images, metrics)}
-            {this.renderLoadMoreButton(images)}
-        </div>
         );
     },
 
     render: function() {
         return (
-        <div className="container image-card-view">
-            <h1 className="t-display-1">
-                Image Search
-            </h1>
-            <div id="search-container">
-                <input type="text"
-                    className="form-control search-input"
-                    placeholder="Search across image name, tag or description"
-                    onChange={this.onSearchChange}
-                    value={this.state.query}
-                    ref="textField" />
+            <div className="container image-card-view">
+                <h1 className="t-display-1">Image Search</h1>
+                <div id="search-container">
+                    <input
+                        type="text"
+                        className="form-control search-input"
+                        placeholder="Search across image name, tag or description"
+                        onChange={this.onSearchChange}
+                        value={this.state.query}
+                        ref="textField"
+                    />
+                </div>
+                {this.renderBody()}
             </div>
-            {this.renderBody()}
-        </div>
         );
     }
-
 });

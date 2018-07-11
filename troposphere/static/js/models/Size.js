@@ -5,7 +5,7 @@ import moment from "moment";
 export default Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/sizes",
 
-    parse: function (response) {
+    parse: function(response) {
         return Object.assign({}, response, {
             mem: response.mem / 1024,
             start_date: moment(response.start_date),
@@ -20,7 +20,7 @@ export default Backbone.Model.extend({
             resources.push(this.get("disk"));
         }
 
-        return resources.every((r) => r > 0);
+        return resources.every(r => r > 0);
     },
 
     formattedDetails: function() {

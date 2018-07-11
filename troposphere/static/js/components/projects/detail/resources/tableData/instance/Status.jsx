@@ -16,7 +16,7 @@ export default React.createClass({
             status = instanceState.get("status"),
             activity = instanceState.get("activity");
 
-        if (instance.get('end_date')){
+        if (instance.get("end_date")) {
             status = "deleted";
             activity = "";
         }
@@ -43,18 +43,25 @@ export default React.createClass({
 
         if (!instanceState || instanceState.isDeployError()) {
             return (
-            <span>
-                <div> <StatusLight status="error"/> <span style={style}>{status}</span> </div>
-            </span>
+                <span>
+                    <div>
+                        {" "}
+                        <StatusLight status="error" />{" "}
+                        <span style={style}>{status}</span>{" "}
+                    </div>
+                </span>
             );
         }
 
         return (
-        <span>
-            <div> <StatusLight status={lightStatus}/> <span style={style}>{status}</span> </div>
-            <StatusBar state={instanceState}
-                       activity={activity} />
-        </span>
+            <span>
+                <div>
+                    {" "}
+                    <StatusLight status={lightStatus} />{" "}
+                    <span style={style}>{status}</span>{" "}
+                </div>
+                <StatusBar state={instanceState} activity={activity} />
+            </span>
         );
     }
 });

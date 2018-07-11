@@ -45,7 +45,7 @@ export default React.createClass({
             });
             this.setState({
                 isEditing: false,
-                name: text,
+                name: text
             });
         }
     },
@@ -65,14 +65,20 @@ export default React.createClass({
          */
 
         let instance = this.props.instance,
-            imageName = instance.get("image") ? instance.get("image").name : "...",
+            imageName = instance.get("image")
+                ? instance.get("image").name
+                : "...",
             uuid = instance.get("uuid") || "...",
-            provider = instance.get("provider") ? instance.get("provider").name : "...",
+            provider = instance.get("provider")
+                ? instance.get("provider").name
+                : "...",
             ip = instance.get("ip_address") || "x.x.x.x",
             startDate = instance.get("start_date") || "<no-start-date>";
 
         /* eslint-disable no-console */
-        console.log(`${imageName} - ${uuid} - ${provider} - ${ip} - ${startDate}`);
+        console.log(
+            `${imageName} - ${uuid} - ${provider} - ${ip} - ${startDate}`
+        );
         /* eslint-enable no-console */
     },
 
@@ -84,40 +90,42 @@ export default React.createClass({
 
     render: function() {
         var instance = this.props.instance,
-            instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
+            instanceHash = CryptoJS.MD5(
+                (instance.id || instance.cid).toString()
+            ).toString(),
             type = stores.ProfileStore.get().get("icon_set"),
             iconSize = 113,
             nameContent;
-        let errorMessage = this.isValid(this.state.editedName) ?
-            "" : 'Invalid format, names can not end in a period followed by numbers. For example: "Name.2222"';
+        let errorMessage = this.isValid(this.state.editedName)
+            ? ""
+            : 'Invalid format, names can not end in a period followed by numbers. For example: "Name.2222"';
         if (this.state.isEditing) {
             nameContent = (
                 <div>
                     <EditableInputField
                         errorMessage={errorMessage}
                         text={this.state.name}
-                        onChange={ this.onChange }
+                        onChange={this.onChange}
                         onDoneEditing={this.onDoneEditing}
                     />
                 </div>
             );
         } else {
             nameContent = (
-                <h4 onClick={this.onEnterEditMode}>{this.state.name} <i className="glyphicon glyphicon-pencil"></i></h4>
+                <h4 onClick={this.onEnterEditMode}>
+                    {this.state.name}{" "}
+                    <i className="glyphicon glyphicon-pencil" />
+                </h4>
             );
         }
 
         return (
             <div className="resource-info-section section clearfix">
                 <div className="resource-image" onClick={this.onDebugInfo}>
-                    <Gravatar hash={instanceHash}
-                              size={iconSize}
-                              type={type}/>
+                    <Gravatar hash={instanceHash} size={iconSize} type={type} />
                 </div>
                 <div className="resource-info">
-                    <div className="resource-name editable">
-                        {nameContent}
-                    </div>
+                    <div className="resource-name editable">{nameContent}</div>
                 </div>
             </div>
         );

@@ -47,18 +47,20 @@ export default React.createClass({
             if (instance) {
                 placeholderMessage = "Attached to " + instance.get("name");
             } else {
-                console.error("Volume cannot be in use and not attached to an instance");
+                console.error(
+                    "Volume cannot be in use and not attached to an instance"
+                );
             }
         } else {
             lightStatus = "transition";
         }
 
         return (
-        <div className="resource-status">
-            <StatusLight status={lightStatus} />
-            <span style={style}>{placeholderMessage}</span>
-            <StatusBar state={volumeState} activity={activity} />
-        </div>
+            <div className="resource-status">
+                <StatusLight status={lightStatus} />
+                <span style={style}>{placeholderMessage}</span>
+                <StatusBar state={volumeState} activity={activity} />
+            </div>
         );
     }
 });

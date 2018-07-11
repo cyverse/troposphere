@@ -13,18 +13,17 @@ export default React.createClass({
         return {};
     },
     render: function() {
-        const { provider } = this.props;
+        const {provider} = this.props;
         return (
             <form>
-              <div className="login-screen-footer modal-footer">
-                  <RaisedButton
-                      primary
-                      onTouchTap={this.props.attemptLogin}
-                      label={ `Click to Login with ${provider}` }
-                  />
-              </div>
+                <div className="login-screen-footer modal-footer">
+                    <RaisedButton
+                        primary
+                        onTouchTap={this.props.attemptLogin}
+                        label={`Click to Login with ${provider}`}
+                    />
+                </div>
             </form>
         );
     }
 });
-

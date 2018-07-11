@@ -8,7 +8,7 @@ export default Backbone.Collection.extend({
     url: globals.API_V2_ROOT + "/links",
 
     comparator: function(model) {
-        name = model.get("name")
+        name = model.get("name");
         if (!name) {
             return name;
         }

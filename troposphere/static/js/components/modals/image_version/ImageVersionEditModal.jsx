@@ -14,7 +14,6 @@ import ImageSelect from "components/modals/image_version/ImageSelect";
 import stores from "stores";
 import actions from "actions";
 
-
 export default React.createClass({
     displayName: "ImageVersionEditModal",
 
@@ -28,7 +27,6 @@ export default React.createClass({
         var version = this.props.version,
             parent_version = version.get("parent");
 
-
         return {
             showOptions: false,
             cpuMinVal: 1,
@@ -38,19 +36,30 @@ export default React.createClass({
             version: version,
             versionImage: this.props.image,
             versionName: version.get("name"),
-            versionChangeLog: (version.get("change_log") == null) ? "" : version.get("change_log"),
-            versionStartDate: (version.get("start_date") == null) ? "" : version.get("start_date"),
-            versionEndDate: (version.get("end_date") == null) ? "" : version.get("end_date"),
+            versionChangeLog:
+                version.get("change_log") == null
+                    ? ""
+                    : version.get("change_log"),
+            versionStartDate:
+                version.get("start_date") == null
+                    ? ""
+                    : version.get("start_date"),
+            versionEndDate:
+                version.get("end_date") == null ? "" : version.get("end_date"),
             versionCanImage: version.get("allow_imaging"),
-            versionParentID: (parent_version == null) ? "" : parent_version.id,
+            versionParentID: parent_version == null ? "" : parent_version.id,
             versionLicenses: null,
             docObjectId: version.get("doc_object_id"),
             versionScripts: null,
             versionMemberships: null,
-            versionMinCPU: (version.get("min_cpu") == null) ? 0 : version.get("min_cpu"),
+            versionMinCPU:
+                version.get("min_cpu") == null ? 0 : version.get("min_cpu"),
             // display memory as GB
-            versionMinMem: (version.get("min_mem") == null) ? 0 : version.get("min_mem") / 1024
-        }
+            versionMinMem:
+                version.get("min_mem") == null
+                    ? 0
+                    : version.get("min_mem") / 1024
+        };
     },
 
     updateState: function() {
@@ -83,7 +92,9 @@ export default React.createClass({
         stores.LicenseStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
-        stores.ImageVersionMembershipStore.removeChangeListener(this.updateState);
+        stores.ImageVersionMembershipStore.removeChangeListener(
+            this.updateState
+        );
         stores.ImageVersionLicenseStore.removeChangeListener(this.updateState);
         stores.ImageVersionScriptStore.removeChangeListener(this.updateState);
         stores.ProviderMachineStore.removeChangeListener(this.updateState);
@@ -101,24 +112,31 @@ export default React.createClass({
     },
 
     isSubmittable: function() {
-        var hasValidName = !!this.validateName(this.state.versionImage, this.state.versionName);
+        var hasValidName = !!this.validateName(
+            this.state.versionImage,
+            this.state.versionName
+        );
         var hasChangeLog = !!this.state.versionChangeLog;
         var validEndDate = !!this.valid_date(this.state.versionEndDate);
         var validRequirements = this.checkValidMem() && this.checkValidCPU();
-        return hasValidName && hasChangeLog && validEndDate && validRequirements;
+        return (
+            hasValidName && hasChangeLog && validEndDate && validRequirements
+        );
     },
 
     validateName: function(image, name) {
         let orig_version = this.props.version,
             versions = image.get("versions");
-        name = (name == null) ? "" : name.trim().toLowerCase();
+        name = name == null ? "" : name.trim().toLowerCase();
         //No-name is always invalid.
         if (name == "") {
             return false;
         }
         versions = versions.filter(function(version) {
-            return (version.id !== orig_version.id &&
-            (version.name && version.name.toLowerCase() === name));
+            return (
+                version.id !== orig_version.id &&
+                (version.name && version.name.toLowerCase() === name)
+            );
         });
         return versions.length == 0;
     },
@@ -128,16 +146,15 @@ export default React.createClass({
             memMinVal = this.state.memMinVal,
             memMaxVal = this.state.memMaxVal;
 
-        return (!curMemVal || (curMemVal >= memMinVal && curMemVal <= memMaxVal));
+        return !curMemVal || (curMemVal >= memMinVal && curMemVal <= memMaxVal);
     },
-
 
     checkValidCPU: function() {
         var curCPUVal = this.state.versionMinCPU,
             cpuMinVal = this.state.cpuMinVal,
             cpuMaxVal = this.state.cpuMaxVal;
 
-        return (!curCPUVal || (curCPUVal >= cpuMinVal && curCPUVal <= cpuMaxVal));
+        return !curCPUVal || (curCPUVal >= cpuMinVal && curCPUVal <= cpuMaxVal);
     },
 
     //
@@ -174,8 +191,11 @@ export default React.createClass({
         if (image == null || name == null) {
             return "";
         }
-        let versionNameError = this.validateName(image, name) ? ""
-            : `There already exists a version named '${name}' in application '${image.get('name')}'.`;
+        let versionNameError = this.validateName(image, name)
+            ? ""
+            : `There already exists a version named '${name}' in application '${image.get(
+                  "name"
+              )}'.`;
         return versionNameError;
     },
 
@@ -202,14 +222,17 @@ export default React.createClass({
     },
 
     onUncopyableSelected: function(e) {
-        let uncopyable = (e.target.checked);
+        let uncopyable = e.target.checked;
         this.setState({
             versionCanImage: uncopyable
         });
     },
 
     onImageSelected: function(image) {
-        let versionNameError = this.getVersionNameError(image, this.state.versionName);
+        let versionNameError = this.getVersionNameError(
+            image,
+            this.state.versionName
+        );
 
         this.setState({
             versionImage: image,
@@ -338,68 +361,86 @@ export default React.createClass({
     //
 
     renderLicenseView: function() {
-        let { version } = this.props,
+        let {version} = this.props,
             licensesList = stores.LicenseStore.getAll(),
-            activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(version);
+            activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(
+                version
+            );
 
         return (
-            <EditLicensesView activeLicenses={activeLicensesList}
+            <EditLicensesView
+                activeLicenses={activeLicensesList}
                 licenses={licensesList}
                 onLicenseAdded={this.onLicenseAdded}
                 onLicenseRemoved={this.onLicenseRemoved}
                 onCreateNewLicense={this.onLicenseCreate}
-                label={"Licenses Required"} />
+                label={"Licenses Required"}
+            />
         );
     },
 
     renderMembershipsView: function() {
-        let { version, image } = this.props,
+        let {version, image} = this.props,
             membershipView,
-            versionMembers = stores.ImageVersionMembershipStore.getMembershipsFor(version);
+            versionMembers = stores.ImageVersionMembershipStore.getMembershipsFor(
+                version
+            );
 
         if (image && image.get("is_public")) {
             membershipView = (
                 <p className="alert alert-info">
-                    {"Before updating membership, select 'Edit Image' and update 'Visibility' to 'Private'"}
-                </p>);
+                    {
+                        "Before updating membership, select 'Edit Image' and update 'Visibility' to 'Private'"
+                    }
+                </p>
+            );
         } else {
             membershipView = (
                 <EditMembershipView
                     activeMemberships={versionMembers}
                     onMembershipAdded={this.onMembershipAdded}
                     onMembershipRemoved={this.onMembershipRemoved}
-                    label={"Version Shared With:"} />
+                    label={"Version Shared With:"}
+                />
             );
         }
         return membershipView;
     },
 
     renderMinRequirementsView: function() {
-        let { versionMinCPU, versionMinMem,
-              memMinVal, memMaxVal,
-              cpuMinVal, cpuMaxVal } = this.state;
+        let {
+            versionMinCPU,
+            versionMinMem,
+            memMinVal,
+            memMaxVal,
+            cpuMinVal,
+            cpuMaxVal
+        } = this.state;
 
         return (
-        <div className="form-group">
-            <EditMinimumRequirementsView
-                cpu={versionMinCPU}
-                mem={versionMinMem}
-                memMinVal={memMinVal}
-                memMaxVal={memMaxVal}
-                cpuMinVal={cpuMinVal}
-                cpuMaxVal={cpuMaxVal}
-                onCPUChange={this.onCPUChange}
-                onMemChange={this.onMemChange}
-                checkValidCPU={this.checkValidCPU}
-                checkValidMem={this.checkValidMem} />
-        </div>
+            <div className="form-group">
+                <EditMinimumRequirementsView
+                    cpu={versionMinCPU}
+                    mem={versionMinMem}
+                    memMinVal={memMinVal}
+                    memMaxVal={memMaxVal}
+                    cpuMinVal={cpuMinVal}
+                    cpuMaxVal={cpuMaxVal}
+                    onCPUChange={this.onCPUChange}
+                    onMemChange={this.onMemChange}
+                    checkValidCPU={this.checkValidCPU}
+                    checkValidMem={this.checkValidMem}
+                />
+            </div>
         );
     },
 
     renderScriptsView: function() {
-        let { version } = this.props,
+        let {version} = this.props,
             scriptsList = stores.ScriptStore.getAll(),
-            activeScriptsList = stores.ImageVersionScriptStore.getScriptsFor(version);
+            activeScriptsList = stores.ImageVersionScriptStore.getScriptsFor(
+                version
+            );
 
         return (
             <EditScriptsView
@@ -408,37 +449,40 @@ export default React.createClass({
                 onScriptAdded={this.onScriptAdded}
                 onScriptRemoved={this.onScriptRemoved}
                 onCreateNewScript={this.onScriptCreate}
-                label={"Scripts Required"} />
+                label={"Scripts Required"}
+            />
         );
     },
 
     renderAvailabilityView: function() {
-        let { image, version } = this.props;
-        return (
-            <EditAvailabilityView image={image} version={version} />
-        );
+        let {image, version} = this.props;
+        return <EditAvailabilityView image={image} version={version} />;
     },
 
     renderApplicationView: function() {
-        let versionImageId = this.state.versionImage ? this.state.versionImage.id : null;
+        let versionImageId = this.state.versionImage
+            ? this.state.versionImage.id
+            : null;
         return (
             <div className="application-select-container">
-                <ImageSelect imageId={versionImageId}
-                             onChange={this.onImageSelected} />
+                <ImageSelect
+                    imageId={versionImageId}
+                    onChange={this.onImageSelected}
+                />
             </div>
         );
-
     },
 
-    renderDocObjectIdView: function () {
+    renderDocObjectIdView: function() {
         return (
-            <AddDocumentObjectIdentifier currentDOI={this.state.docObjectId}
-                                         onChange={this.onDocObjectIdChange} />
+            <AddDocumentObjectIdentifier
+                currentDOI={this.state.docObjectId}
+                onChange={this.onDocObjectIdChange}
+            />
         );
     },
 
     renderAdvancedOptions: function() {
-
         return (
             <div className="advanced-options">
                 {this.renderAvailabilityView()}
@@ -458,9 +502,8 @@ export default React.createClass({
         );
     },
 
-
     renderStartEndDateView: function() {
-        let { versionStartDate, versionEndDate } = this.state,
+        let {versionStartDate, versionEndDate} = this.state,
             created = versionStartDate.format("MMM D, YYYY hh:mm a"),
             ended;
 
@@ -468,9 +511,11 @@ export default React.createClass({
         // but with efforts to rework the overall design, it can stay
         // here for now ... if you're looking at this modal for a
         // reference - please note this is a Model or helper duty
-        if (versionEndDate
-            && versionEndDate._isAMomentObject
-            && versionEndDate.isValid()) {
+        if (
+            versionEndDate &&
+            versionEndDate._isAMomentObject &&
+            versionEndDate.isValid()
+        ) {
             ended = versionEndDate.format("MMM D, YYYY hh:mm a");
         } else {
             ended = versionEndDate;
@@ -479,88 +524,94 @@ export default React.createClass({
         return (
             <div>
                 <div className="form-group">
-                    <label htmlFor="version-version">
-                        Version Created On
-                    </label>
-                    <input type="text"
-                           className="form-control"
-                           value={created}
-                           readOnly={true}/>
+                    <label htmlFor="version-version">Version Created On</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={created}
+                        readOnly={true}
+                    />
                 </div>
-                <div style={{ marginBottom: "15px" }}>
+                <div style={{marginBottom: "15px"}}>
                     <InteractiveDateField
                         styleOverride={{lineHeight: "1.47"}}
                         value={ended}
                         labelText={"Version End-dated On"}
-                        onChange={this.onEndDateChange} />
+                        onChange={this.onEndDateChange}
+                    />
                 </div>
             </div>
         );
     },
 
     renderBody: function() {
-        let { showOptions,
-              versionName,
-              versionNameError,
-              versionChangeLog } = this.state,
-            optionsButtonText = showOptions ? "Hide Advanced Options" : "Advanced Options";
+        let {
+                showOptions,
+                versionName,
+                versionNameError,
+                versionChangeLog
+            } = this.state,
+            optionsButtonText = showOptions
+                ? "Hide Advanced Options"
+                : "Advanced Options";
 
         let images = stores.ImageStore.getAll();
 
-
         if (versionName == null || images == null) {
-            return (<div className="loading" />);
+            return <div className="loading" />;
         }
 
         return (
-        <div role="form">
-            <VersionName update={true}
-                         value={versionName}
-                         onChange={this.onNameChange} />
-            <p className="no-results text-danger">
-                {versionNameError}
-            </p>
-            <hr />
-            <VersionChanges value={versionChangeLog}
-                            onChange={this.onDescriptionChange} />
-            <hr />
-            {this.renderStartEndDateView()}
-            <hr />
-            <div className="form-group clearfix">
-                <button type="button"
+            <div role="form">
+                <VersionName
+                    update={true}
+                    value={versionName}
+                    onChange={this.onNameChange}
+                />
+                <p className="no-results text-danger">{versionNameError}</p>
+                <hr />
+                <VersionChanges
+                    value={versionChangeLog}
+                    onChange={this.onDescriptionChange}
+                />
+                <hr />
+                {this.renderStartEndDateView()}
+                <hr />
+                <div className="form-group clearfix">
+                    <button
+                        type="button"
                         className="btn btn-default pull-right"
                         onClick={this.onOptionsChange}>
-                    {optionsButtonText} <span className="caret"></span>
-                </button>
+                        {optionsButtonText} <span className="caret" />
+                    </button>
+                </div>
+                {showOptions ? this.renderAdvancedOptions() : null}
             </div>
-            {showOptions ? this.renderAdvancedOptions() : null}
-        </div>
         );
     },
 
     render: function() {
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div id="ImageVersionEditModal" className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title">Edit Image Version</h1>
-                    </div>
-                    <div className="modal-body">
-                        {this.renderBody()}
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button"
-                            className="btn btn-primary"
-                            onClick={this.confirm}
-                            disabled={!this.isSubmittable()}>
-                            Save Changes
-                        </button>
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div id="ImageVersionEditModal" className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title">Edit Image Version</h1>
+                        </div>
+                        <div className="modal-body">{this.renderBody()}</div>
+                        <div className="modal-footer">
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={this.confirm}
+                                disabled={!this.isSubmittable()}>
+                                Save Changes
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

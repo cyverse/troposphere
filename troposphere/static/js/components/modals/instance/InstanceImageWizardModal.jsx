@@ -77,7 +77,6 @@ export default React.createClass({
                     step: REVIEW_STEP
                 }
             ]
-
         };
     },
 
@@ -97,7 +96,6 @@ export default React.createClass({
         stores.ScriptStore.addChangeListener(this.updateState);
         stores.LicenseStore.addChangeListener(this.updateState);
         stores.PatternMatchStore.addChangeListener(this.updateState);
-
     },
 
     componentWillUnmount: function() {
@@ -107,7 +105,6 @@ export default React.createClass({
         stores.ScriptStore.removeChangeListener(this.updateState);
         stores.LicenseStore.removeChangeListener(this.updateState);
         stores.PatternMatchStore.removeChangeListener(this.updateState);
-
     },
 
     //
@@ -123,22 +120,24 @@ export default React.createClass({
         data = data || {};
 
         var step = REVIEW_STEP,
-            state = _.extend({
-                step: step
-            }, data);
+            state = _.extend(
+                {
+                    step: step
+                },
+                data
+            );
 
         this.setState(state);
     },
 
     onRequestImage: function() {
-        var scriptIDs,
-            licenseIDs;
-        scriptIDs = this.state.activeScripts.map(function(script) {
+        var scriptIDs, licenseIDs;
+        (scriptIDs = this.state.activeScripts.map(function(script) {
             return script.id;
-        }),
-        licenseIDs = this.state.activeLicenses.map(function(license) {
-            return license.id;
-        });
+        })),
+            (licenseIDs = this.state.activeLicenses.map(function(license) {
+                return license.id;
+            }));
         var params = {
             newImage: this.state.newImage,
             name: this.state.name,
@@ -178,10 +177,13 @@ export default React.createClass({
         // Breadcrumbs still starts at 0 even though steps starts at 1.
         // this.state.step - 2 == current breadcrumb - 1
         var previousStep = this.state.breadcrumbs[this.state.step - 2],
-            state = _.extend({
-                step: previousStep.step,
-                title: previousStep.name
-            }, data);
+            state = _.extend(
+                {
+                    step: previousStep.step,
+                    title: previousStep.name
+                },
+                data
+            );
 
         this.setState(state);
     },
@@ -191,10 +193,13 @@ export default React.createClass({
 
         // Similar logic to onPrevious. this.state.step == breadcrumbs + 1
         var nextStep = this.state.breadcrumbs[this.state.step],
-            state = _.extend({
-                step: nextStep.step,
-                title: nextStep.name
-            }, data);
+            state = _.extend(
+                {
+                    step: nextStep.step,
+                    title: nextStep.name
+                },
+                data
+            );
 
         this.setState(state);
     },
@@ -215,65 +220,76 @@ export default React.createClass({
             helpLink = stores.HelpLinkStore.get("request-image"),
             activeScripts = this.state.activeScripts;
 
-        if(allPatterns == null) {
-            return (<div className="loading" />);
+        if (allPatterns == null) {
+            return <div className="loading" />;
         }
 
         switch (step) {
             case IMAGE_INFO_STEP:
                 return (
-                <ImageInfoStep instance={instance}
-                    imageOwner={this.props.imageOwner}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                    helpLink={helpLink} />
+                    <ImageInfoStep
+                        instance={instance}
+                        imageOwner={this.props.imageOwner}
+                        onPrevious={this.onPrevious}
+                        onNext={this.onNext}
+                        helpLink={helpLink}
+                    />
                 );
 
             case VERSION_INFO_STEP:
                 return (
-                <VersionInfoStep versionName={this.state.versionName}
-                    versionChanges={this.state.versionChanges}
-                    instance={instance}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext} />
+                    <VersionInfoStep
+                        versionName={this.state.versionName}
+                        versionChanges={this.state.versionChanges}
+                        instance={instance}
+                        onPrevious={this.onPrevious}
+                        onNext={this.onNext}
+                    />
                 );
 
             case VISIBILITY_STEP:
                 return (
-                <VisibilityStep instance={instance}
-                    visibility={this.state.visibility}
-                    activeAccessList={activeAccessList}
-                    allPatterns={allPatterns}
-                    imageUsers={this.state.imageUsers}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                    onSubmit={this.onReviewImage} />
+                    <VisibilityStep
+                        instance={instance}
+                        visibility={this.state.visibility}
+                        activeAccessList={activeAccessList}
+                        allPatterns={allPatterns}
+                        imageUsers={this.state.imageUsers}
+                        onPrevious={this.onPrevious}
+                        onNext={this.onNext}
+                        onSubmit={this.onReviewImage}
+                    />
                 );
 
             case EXCLUDE_FILES_STEP:
                 return (
-                <FilesToExcludeStep
-                    filesToExclude={this.state.filesToExclude}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext} />
+                    <FilesToExcludeStep
+                        filesToExclude={this.state.filesToExclude}
+                        onPrevious={this.onPrevious}
+                        onNext={this.onNext}
+                    />
                 );
 
             case SCRIPTS_LICENSE_STEP:
                 return (
-                <BootScriptsAndLicenseStep instance={instance}
-                    activeScripts={activeScripts}
-                    scripts={allScripts}
-                    activeLicenses={activeLicenses}
-                    licenses={allLicenses}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext} />
+                    <BootScriptsAndLicenseStep
+                        instance={instance}
+                        activeScripts={activeScripts}
+                        scripts={allScripts}
+                        activeLicenses={activeLicenses}
+                        licenses={allLicenses}
+                        onPrevious={this.onPrevious}
+                        onNext={this.onNext}
+                    />
                 );
 
             case REVIEW_STEP:
                 return (
-                <ReviewStep imageData={this.state}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onRequestImage} />
+                    <ReviewStep
+                        imageData={this.state}
+                        onPrevious={this.onPrevious}
+                        onNext={this.onRequestImage}
+                    />
                 );
         }
     },
@@ -285,24 +301,29 @@ export default React.createClass({
         breadcrumbs.map(function(breadcrumb, index, array) {
             var state;
             if (
-                (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
-                (typeof breadcrumb.active === "function" && !breadcrumb.active())
+                (typeof breadcrumb.active === "boolean" &&
+                    !breadcrumb.active) ||
+                (typeof breadcrumb.active === "function" &&
+                    !breadcrumb.active())
             ) {
-                state = "inactive"
+                state = "inactive";
             } else if (breadcrumb.step === self.state.step) {
-                state = "active"
+                state = "active";
             } else if (breadcrumb.step < self.state.step) {
-                state = "available"
+                state = "available";
             } else {
-                state = ""
+                state = "";
             }
             breadcrumb.state = state;
         });
-        return (<BreadcrumbNav breadcrumbs={breadcrumbs}
-                    onMouseOn={this.hoverTitleChange}
-                    onMouseOff={this.changeTitleBack}
-                    step={this.state.step}
-                    onCrumbClick={self.toStep} />
+        return (
+            <BreadcrumbNav
+                breadcrumbs={breadcrumbs}
+                onMouseOn={this.hoverTitleChange}
+                onMouseOff={this.changeTitleBack}
+                step={this.state.step}
+                onCrumbClick={self.toStep}
+            />
         );
     },
 
@@ -324,22 +345,26 @@ export default React.createClass({
             minHeight: "700px"
         };
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content" style={modalStyle}>
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title">{"Image Request - " + this.state.title}</h1>
-                    </div>
-                    <div className="modal-section" style={{padding: "15px 15px 0px 15px"}}>
-                        {this.renderBreadCrumbTrail()}
-                    </div>
-                    <div className="modal-container-body">
-                        {this.renderBody()}
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content" style={modalStyle}>
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title">
+                                {"Image Request - " + this.state.title}
+                            </h1>
+                        </div>
+                        <div
+                            className="modal-section"
+                            style={{padding: "15px 15px 0px 15px"}}>
+                            {this.renderBreadCrumbTrail()}
+                        </div>
+                        <div className="modal-container-body">
+                            {this.renderBody()}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

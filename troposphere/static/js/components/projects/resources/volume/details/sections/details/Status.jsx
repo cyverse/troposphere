@@ -10,9 +10,9 @@ export default React.createClass({
     },
     render: function() {
         return (
-        <ResourceDetail label="Status">
-            <Status volume={this.props.volume} />
-        </ResourceDetail>
+            <ResourceDetail label="Status">
+                <Status volume={this.props.volume} />
+            </ResourceDetail>
         );
     }
 });

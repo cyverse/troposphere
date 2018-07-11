@@ -4,61 +4,61 @@ import RaisedButton from "material-ui/RaisedButton";
 import ResourceRequestActions from "actions/ResourceRequestActions";
 import subscribe from "utilities/subscribe";
 
+export default subscribe(
+    React.createClass({
+        displayName: "MyResourceRequestsPage",
 
-export default subscribe(React.createClass({
-    displayName: "MyResourceRequestsPage",
+        props: {
+            subscriptions: React.PropTypes.object.isRequired
+        },
 
-    props: {
-        subscriptions: React.PropTypes.object.isRequired
-    },
+        fetch() {
+            let {
+                ProfileStore,
+                StatusStore,
+                ResourceRequestStore
+            } = this.props.subscriptions;
 
-    fetch() {
-        let {
-            ProfileStore, StatusStore, ResourceRequestStore
-        } = this.props.subscriptions;
+            let profile = ProfileStore.get();
+            let statuses = StatusStore.getAll();
 
-        let profile = ProfileStore.get();
-        let statuses = StatusStore.getAll();
+            let requests;
+            if (profile) {
+                requests = ResourceRequestStore.findWhere({
+                    "created_by.username": profile.get("username")
+                });
+            }
 
-        let requests;
-        if (profile) {
-            requests = ResourceRequestStore.findWhere({
-                "created_by.username": profile.get('username')
-            });
+            return {
+                statuses,
+                requests,
+                profile
+            };
+        },
+
+        onClose(request, statuses) {
+            let closedStatus = statuses.findWhere({name: "closed"});
+            ResourceRequestActions.updateRequest(request, closedStatus);
+        },
+
+        render() {
+            let {statuses, requests, profile} = this.fetch();
+
+            if (!(requests && statuses && profile)) {
+                return <div className="loading" />;
+            }
+
+            let viewProps = {
+                statuses,
+                requests,
+                onClose: this.onClose
+            };
+
+            return <MyResourceRequestsPageView {...viewProps} />;
         }
-
-        return {
-            statuses,
-            requests,
-            profile
-        }
-    },
-
-    onClose(request, statuses) {
-        let closedStatus = statuses.findWhere({ "name": "closed" });
-        ResourceRequestActions.updateRequest(
-            request,
-            closedStatus
-        );
-    },
-
-    render() {
-        let { statuses, requests, profile } = this.fetch();
-
-        if (!(requests && statuses && profile)) {
-            return <div className="loading" />
-        }
-
-        let viewProps = {
-            statuses,
-            requests,
-            onClose: this.onClose
-        };
-
-        return <MyResourceRequestsPageView {...viewProps} />
-    }
-
-}), ["ProfileStore", "StatusStore", "ResourceRequestStore"]);
+    }),
+    ["ProfileStore", "StatusStore", "ResourceRequestStore"]
+);
 
 let MyResourceRequestsPageView = React.createClass({
     displayName: "MyResourceRequestsPageView",
@@ -73,7 +73,7 @@ let MyResourceRequestsPageView = React.createClass({
         let statuses = this.props.statuses;
         let statusName = request.get("status").name;
 
-        let className = "active"
+        let className = "active";
         if (statusName == "approved") {
             className = "success";
         } else if (statusName == "denied") {
@@ -81,25 +81,23 @@ let MyResourceRequestsPageView = React.createClass({
         }
 
         let closeButton = (
-        <RaisedButton primary
-            className="pull-right"
-            onTouchTap={() => this.props.onClose(request, statuses)}
-            label="Close" />
+            <RaisedButton
+                primary
+                className="pull-right"
+                onTouchTap={() => this.props.onClose(request, statuses)}
+                label="Close"
+            />
         );
 
         return (
-        <tr key={request.id} className={className}>
-            <td className="col-md-5">
-                {request.get("request")}
-            </td>
-            <td className="col-md-5">
-                {request.get("description")}
-            </td>
-            <td className="col-md-2">
-                {statusName}
-                {statusName == "pending" ? closeButton : null}
-            </td>
-        </tr>
+            <tr key={request.id} className={className}>
+                <td className="col-md-5">{request.get("request")}</td>
+                <td className="col-md-5">{request.get("description")}</td>
+                <td className="col-md-2">
+                    {statusName}
+                    {statusName == "pending" ? closeButton : null}
+                </td>
+            </tr>
         );
     },
 
@@ -107,36 +105,30 @@ let MyResourceRequestsPageView = React.createClass({
         let requests = this.props.requests;
 
         if (!requests.length) {
-            return (
-            <p>You have not made any resource requests.</p>
-            );
+            return <p>You have not made any resource requests.</p>;
         }
 
         return (
-        <table className="table table-condensed image-requests">
-            <tbody>
-                <tr>
-                    <th>
-                        <h3 className="t-title">Request</h3>
-                    </th>
-                    <th>
-                        <h3 className="t-title">Reason</h3>
-                    </th>
-                    <th>
-                        <h3 className="t-title">Status</h3>
-                    </th>
-                </tr>
-                { requests.map(this.renderRequestRow) }
-            </tbody>
-        </table>
+            <table className="table table-condensed image-requests">
+                <tbody>
+                    <tr>
+                        <th>
+                            <h3 className="t-title">Request</h3>
+                        </th>
+                        <th>
+                            <h3 className="t-title">Reason</h3>
+                        </th>
+                        <th>
+                            <h3 className="t-title">Status</h3>
+                        </th>
+                    </tr>
+                    {requests.map(this.renderRequestRow)}
+                </tbody>
+            </table>
         );
     },
 
     render() {
-        return (
-        <div className="container">
-            { this.renderBody() }
-        </div>
-        );
+        return <div className="container">{this.renderBody()}</div>;
     }
 });

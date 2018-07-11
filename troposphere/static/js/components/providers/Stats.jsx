@@ -42,23 +42,30 @@ export default React.createClass({
 
     renderStat: function(value, subText, moreInfo) {
         return (
-        <div className="col-md-3 provider-stat">
-            <div>
-                <span className="stat">{value}</span>
-                <span className="sub-text">{subText}</span>
+            <div className="col-md-3 provider-stat">
+                <div>
+                    <span className="stat">{value}</span>
+                    <span className="sub-text">{subText}</span>
+                </div>
+                <div className="more-info">{moreInfo}</div>
             </div>
-            <div className="more-info">
-                {moreInfo}
-            </div>
-        </div>
-        )
+        );
     },
 
-    renderAllocationStat: function(allocationConsumedPercent, allocationConsumed, allocationTotal) {
+    renderAllocationStat: function(
+        allocationConsumedPercent,
+        allocationConsumed,
+        allocationTotal
+    ) {
         var allocationPercent = allocationConsumedPercent + "%";
-        var usedOverTotal = "(" + allocationConsumed + "/" + allocationTotal + ") AUs";
+        var usedOverTotal =
+            "(" + allocationConsumed + "/" + allocationTotal + ") AUs";
 
-        return this.renderStat(allocationPercent, usedOverTotal, "AUs currently used");
+        return this.renderStat(
+            allocationPercent,
+            usedOverTotal,
+            "AUs currently used"
+        );
     },
 
     renderStats: function(identity, instances, sizes) {
@@ -66,9 +73,16 @@ export default React.createClass({
         var allocationConsumed = allocation.current;
         var allocationTotal = allocation.threshold;
         var allocationRemaining = allocationTotal - allocationConsumed;
-        var allocationConsumedPercent = Math.round(allocationConsumed / allocationTotal * 100);
-        var instancesConsumingAllocation = identity.getInstancesConsumingAllocation(instances);
-        var allocationBurnRate = identity.getCpusUsed(instancesConsumingAllocation, sizes);
+        var allocationConsumedPercent = Math.round(
+            allocationConsumed / allocationTotal * 100
+        );
+        var instancesConsumingAllocation = identity.getInstancesConsumingAllocation(
+            instances
+        );
+        var allocationBurnRate = identity.getCpusUsed(
+            instancesConsumingAllocation,
+            sizes
+        );
         var timeRemaining = allocationRemaining / allocationBurnRate;
         var timeRemainingSubText = "hours";
 
@@ -80,13 +94,29 @@ export default React.createClass({
         }
 
         return (
-        <div className="row provider-info-section provider-stats">
-            {this.renderAllocationStat(allocationConsumedPercent, allocationConsumed, allocationTotal)}
-            {this.renderStat(instancesConsumingAllocation.length, "instances", "Number of instances consuming allocation")}
-            {this.renderStat(timeRemaining, timeRemainingSubText, "Time remaining before allocation runs out")}
-            {this.renderStat(allocationBurnRate, "AUs/hour", "Rate at which AUs are being used")}
-        </div>
-        )
+            <div className="row provider-info-section provider-stats">
+                {this.renderAllocationStat(
+                    allocationConsumedPercent,
+                    allocationConsumed,
+                    allocationTotal
+                )}
+                {this.renderStat(
+                    instancesConsumingAllocation.length,
+                    "instances",
+                    "Number of instances consuming allocation"
+                )}
+                {this.renderStat(
+                    timeRemaining,
+                    timeRemainingSubText,
+                    "Time remaining before allocation runs out"
+                )}
+                {this.renderStat(
+                    allocationBurnRate,
+                    "AUs/hour",
+                    "Rate at which AUs are being used"
+                )}
+            </div>
+        );
     },
 
     render: function() {
@@ -104,12 +134,9 @@ export default React.createClass({
             });
 
         if (!provider || !identity || !instances || !sizes) {
-            return (
-            <div className="loading"></div>
-            )
+            return <div className="loading" />;
         }
 
         return this.renderStats(identity, instances, sizes);
     }
-
 });

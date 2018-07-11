@@ -3,15 +3,14 @@ import React from "react";
 import SecondaryIdentityNavigation from "../common/SecondaryIdentityNavigation";
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "IdentityDetailsMaster",
 
     getChildContext() {
-        return { identityId: Number(this.props.params.identityId) };
+        return {identityId: Number(this.props.params.identityId)};
     },
 
-   childContextTypes: {
+    childContextTypes: {
         identityId: React.PropTypes.number
     },
 
@@ -28,19 +27,22 @@ export default React.createClass({
     },
 
     render: function() {
-        var identity = stores.IdentityStore.get(Number(this.props.params.identityId));
+        var identity = stores.IdentityStore.get(
+            Number(this.props.params.identityId)
+        );
 
         if (!identity) {
-            return (
-            <div className="loading"></div>
-            )
+            return <div className="loading" />;
         }
 
         return (
-        <div className="identity-details">
-            <SecondaryIdentityNavigation identity={identity} currentRoute="todo-remove-this" />
-            {this.props.children}
-        </div>
+            <div className="identity-details">
+                <SecondaryIdentityNavigation
+                    identity={identity}
+                    currentRoute="todo-remove-this"
+                />
+                {this.props.children}
+            </div>
         );
     }
 });

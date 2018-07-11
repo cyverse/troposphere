@@ -1,5 +1,5 @@
-import { ShowMoreEllipsis } from "cyverse-ui";
-import { marg } from "cyverse-ui/styles";
+import {ShowMoreEllipsis} from "cyverse-ui";
+import {marg} from "cyverse-ui/styles";
 import React from "react";
 
 /**
@@ -8,7 +8,7 @@ import React from "react";
  * This will likely be redefined within CyVerse-UI. When that
  * happened, this can be replaced w/ the official version.
  */
-const Code = (props) => {
+const Code = props => {
     // FIXME: don't hardcode these:
     // - `style.color`
     // -color in `style.borderLeft`
@@ -24,12 +24,8 @@ const Code = (props) => {
             ...marg(props)
         };
 
-    return (
-        <pre style={style}>
-            {text}
-        </pre>
-    );
-}
+    return <pre style={style}>{text}</pre>;
+};
 
 /**
  * Allow a region to be collapsed and expanded to avoid
@@ -57,36 +53,29 @@ const CollapsibleOutput = React.createClass({
     },
 
     render() {
-        let { open } = this.state,
-            { output } = this.props,
+        let {open} = this.state,
+            {output} = this.props,
             content = null,
-            partial = output
-                    ? output.substring(0, 32) : '***';
+            partial = output ? output.substring(0, 32) : "***";
 
         if (!open) {
             content = (
                 <span onClick={this.onEllipsisClick}>
                     {` ${partial} `}
-                    <ShowMoreEllipsis  />
+                    <ShowMoreEllipsis />
                 </span>
             );
         } else {
             content = (
                 <span onClick={this.onEllipsisClick}>
-                    <ShowMoreEllipsis  />
+                    <ShowMoreEllipsis />
                     <Code text={output} />
                 </span>
             );
         }
 
-        return (
-            <div style={{display: "inline-block"}}>
-                    {content}
-            </div>
-        );
+        return <div style={{display: "inline-block"}}>{content}</div>;
     }
 });
-
-
 
 export default CollapsibleOutput;

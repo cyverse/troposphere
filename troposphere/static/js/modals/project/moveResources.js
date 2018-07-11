@@ -3,16 +3,16 @@ import ModalHelpers from "components/modals/ModalHelpers";
 
 import ProjectMoveResourceModal from "components/modals/project/ProjectMoveResourceModal";
 
-
 export default {
     moveResources: function(resources, currentProject, callback) {
-
         var props = {
             currentProject: currentProject,
             resources: resources
         };
 
-        ModalHelpers.renderModal(ProjectMoveResourceModal, props, function(newProject) {
+        ModalHelpers.renderModal(ProjectMoveResourceModal, props, function(
+            newProject
+        ) {
             actions.ProjectActions.moveResources({
                 currentProject: currentProject,
                 resources: resources,

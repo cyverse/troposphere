@@ -4,7 +4,6 @@ import BaseStore from "stores/BaseStore";
 import ProviderMachineConstants from "constants/ProviderMachineConstants";
 import _ from "underscore";
 
-
 let ProviderMachineStore = BaseStore.extend({
     collection: ProviderMachineCollection,
 
@@ -15,7 +14,6 @@ let ProviderMachineStore = BaseStore.extend({
             queryString = this.generateQueryString(queryParams);
 
         this.queryModels[queryString] = null;
-
     },
     get: function(machineId) {
         if (!this.models) return this.fetchModels();
@@ -25,7 +23,7 @@ let ProviderMachineStore = BaseStore.extend({
     },
     getMachinesFor: function(image) {
         var image_key = "image=" + image.id;
-        var use_query = "?image_id=" + image.id
+        var use_query = "?image_id=" + image.id;
         if (!this.queryModels[image_key]) {
             this.fetchWhere(use_query);
         } else {
@@ -38,7 +36,7 @@ let ProviderMachineStore = BaseStore.extend({
             use_query = "?version_id=" + version.id;
 
         if (this.queryModels[version_key]) {
-            return this.queryModels[version_key]
+            return this.queryModels[version_key];
         }
 
         // Fetch models
@@ -50,18 +48,23 @@ let ProviderMachineStore = BaseStore.extend({
         if (!this.queryModels[image_key] && !this.isFetching) {
             this.isFetching = true;
             var models = new this.collection();
-            models.fetch({
-                url: _.result(models, "url") + use_query
-            }).done(function() {
-                this.isFetching = false;
+            models
+                .fetch({
+                    url: _.result(models, "url") + use_query
+                })
+                .done(
+                    function() {
+                        this.isFetching = false;
 
-                this.queryModels[image_key] = models;
-                if (this.pollingEnabled) {
-                    this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
-                }
-                this.emitChange();
-
-            }.bind(this));
+                        this.queryModels[image_key] = models;
+                        if (this.pollingEnabled) {
+                            this.models.each(
+                                this.pollNowUntilBuildIsFinished.bind(this)
+                            );
+                        }
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     }
 });

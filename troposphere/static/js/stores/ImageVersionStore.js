@@ -26,12 +26,11 @@ let ImageVersionStore = BaseStore.extend({
         return _scripts;
     },
     getMachines: function(versionId) {
-        var _machines = stores.ProviderMachineStore ?
-            stores.ProviderMachineStore.fetchWhere(
-                {
-                    version_id: versionId
-                }
-            ) : null;
+        var _machines = stores.ProviderMachineStore
+            ? stores.ProviderMachineStore.fetchWhere({
+                  version_id: versionId
+              })
+            : null;
 
         if (_machines == null) {
             return null;

@@ -7,12 +7,12 @@ import React from "react";
  */
 const WaitingIndicator = React.createClass({
     propTypes: {
-        label: React.PropTypes.string,
+        label: React.PropTypes.string
     },
     getDefaultProps() {
         return {
-            label: "Launching ...",
-        }
+            label: "Launching ..."
+        };
     },
 
     render() {
@@ -29,10 +29,11 @@ const WaitingIndicator = React.createClass({
             color: "rgba(0, 0, 0, 0.87)"
         };
         return (
-            <div style={{height: "36px", display: "flex", alignItems: "center"}}
-                 className="pull-right">
-              <span className="loading-tiny-inline" />
-              <span style={style}>{this.props.label}</span>
+            <div
+                style={{height: "36px", display: "flex", alignItems: "center"}}
+                className="pull-right">
+                <span className="loading-tiny-inline" />
+                <span style={style}>{this.props.label}</span>
             </div>
         );
     }

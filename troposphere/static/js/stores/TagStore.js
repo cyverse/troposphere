@@ -36,7 +36,8 @@ let TagStore = BaseStore.extend({
     },
 
     addPendingTagToInstance: function(tag, instance) {
-        _pendingInstanceTags[instance.id] = _pendingInstanceTags[instance.id] || new TagCollection();
+        _pendingInstanceTags[instance.id] =
+            _pendingInstanceTags[instance.id] || new TagCollection();
         _pendingInstanceTags[instance.id].add(tag);
     },
 
@@ -45,14 +46,14 @@ let TagStore = BaseStore.extend({
     },
 
     addPendingTagToImage: function(tag, image) {
-        _pendingImageTags[image.id] = _pendingImageTags[image.id] || new TagCollection();
+        _pendingImageTags[image.id] =
+            _pendingImageTags[image.id] || new TagCollection();
         _pendingImageTags[image.id].add(tag);
     },
 
     removePendingTagFromImage: function(tag, image) {
         _pendingImageTags[image.id].remove(tag);
     }
-
 });
 
 let store = new TagStore();

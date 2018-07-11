@@ -1,3 +1,3 @@
 export default {
-    UPDATE: "UPDATE_IDENTITY",
+    UPDATE: "UPDATE_IDENTITY"
 };

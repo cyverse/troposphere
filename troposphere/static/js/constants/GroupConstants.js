@@ -1,4 +1,3 @@
-
 export default {
     ADD_GROUP: "ADD_GROUP",
     UPDATE_GROUP: "UPDATE_GROUP",

@@ -1,5 +1,4 @@
-import { hasLoggedInUser,
-         hasExpiredPassword } from "utilities/profilePredicate";
+import {hasLoggedInUser, hasExpiredPassword} from "utilities/profilePredicate";
 
 export default {
     hasMaintenanceNotice: function() {

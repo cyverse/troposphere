@@ -9,7 +9,7 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-        script: React.PropTypes.instanceOf(Backbone.Model),
+        script: React.PropTypes.instanceOf(Backbone.Model)
     },
 
     onScriptChanged: function() {
@@ -20,7 +20,6 @@ export default React.createClass({
     },
 
     renderBody: function() {
-
         return (
             <EditScript
                 script={this.props.script}
@@ -33,21 +32,21 @@ export default React.createClass({
 
     render: function() {
         return (
-        <div className="modal fade">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        {this.renderCloseButton()}
-                        <h1 className="t-title">
-                            {(this.props.script) ? "Update Deployment Script" : "Add New Deployment Script"}
-                        </h1>
-                    </div>
-                    <div className="modal-body">
-                        {this.renderBody()}
+            <div className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            {this.renderCloseButton()}
+                            <h1 className="t-title">
+                                {this.props.script
+                                    ? "Update Deployment Script"
+                                    : "Add New Deployment Script"}
+                            </h1>
+                        </div>
+                        <div className="modal-body">{this.renderBody()}</div>
                     </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

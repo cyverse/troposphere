@@ -1,18 +1,14 @@
-import { appBrowserHistory } from "utilities/historyFunctions";
+import {appBrowserHistory} from "utilities/historyFunctions";
 
 import ModalHelpers from "components/modals/ModalHelpers";
 import ExternalLinkDeleteModal from "components/modals/link/ExternalLinkDeleteModal";
 
 import actions from "actions";
 
-
 export default {
-
     destroy: function(payload) {
-        if (!payload.project)
-            throw new Error("Missing project");
-        if (!payload.external_link)
-            throw new Error("Missing external_link");
+        if (!payload.project) throw new Error("Missing project");
+        if (!payload.external_link) throw new Error("Missing external_link");
 
         let external_link = payload.external_link;
         let project = payload.project;
@@ -26,6 +22,6 @@ export default {
                 external_link: external_link
             });
             appBrowserHistory.push(`/projects/${project.id}/resources`);
-        })
+        });
     }
 };

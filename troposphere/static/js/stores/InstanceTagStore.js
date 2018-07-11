@@ -1,4 +1,3 @@
-
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import InstanceTagCollection from "collections/InstanceTagCollection";
@@ -20,25 +19,29 @@ let InstanceTagStore = BaseStore.extend({
         if (!_modelsFor[instanceId] && !_isFetchingFor[instanceId]) {
             _isFetchingFor[instanceId] = true;
             var models = new InstanceTagCollection();
-            models.fetch({
-                url: models.url + "?instance__id=" + instanceId
-            }).done(function() {
-                _isFetchingFor[instanceId] = false;
+            models
+                .fetch({
+                    url: models.url + "?instance__id=" + instanceId
+                })
+                .done(
+                    function() {
+                        _isFetchingFor[instanceId] = false;
 
-                // add models to existing cache
-                this.models.add(models.models);
+                        // add models to existing cache
+                        this.models.add(models.models);
 
-                // convert InstanceTag collection to a TagCollection
-                var tags = models.map(function(it) {
-                    return new Tag(it.get("tag"), {
-                        parse: true
-                    });
-                });
-                tags = new TagCollection(tags);
+                        // convert InstanceTag collection to a TagCollection
+                        var tags = models.map(function(it) {
+                            return new Tag(it.get("tag"), {
+                                parse: true
+                            });
+                        });
+                        tags = new TagCollection(tags);
 
-                _modelsFor[instanceId] = tags;
-                this.emitChange();
-            }.bind(this));
+                        _modelsFor[instanceId] = tags;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
@@ -57,7 +60,6 @@ let InstanceTagStore = BaseStore.extend({
         });
         return new TagCollection(tags);
     }
-
 });
 
 let store = new InstanceTagStore();
@@ -68,7 +70,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case InstanceTagConstants.ADD_INSTANCE_TAG:
             store.add(payload.instanceTag);
             break;

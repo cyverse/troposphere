@@ -3,7 +3,6 @@ import Backbone from "backbone";
 
 import Identity from "./Identity";
 
-
 export default React.createClass({
     displayName: "IdentityList",
 
@@ -18,26 +17,33 @@ export default React.createClass({
     },
     render: function() {
         var self = this,
-            identities = this.props.identities.map(function(identity) {
-                var className;
-                if (this.props.selectedIdentity && this.props.selectedIdentity == identity) {
-                    className = "active"
-                } else {
-                    className = ""
-                }
-                return (
-                <Identity key={identity.id || identity.cid}
-                    identity={identity}
-                    identities={this.props.identities}
-                    onClick={self.identityClicked}
-                    className={className} />
-                );
-            }.bind(this));
+            identities = this.props.identities.map(
+                function(identity) {
+                    var className;
+                    if (
+                        this.props.selectedIdentity &&
+                        this.props.selectedIdentity == identity
+                    ) {
+                        className = "active";
+                    } else {
+                        className = "";
+                    }
+                    return (
+                        <Identity
+                            key={identity.id || identity.cid}
+                            identity={identity}
+                            identities={this.props.identities}
+                            onClick={self.identityClicked}
+                            className={className}
+                        />
+                    );
+                }.bind(this)
+            );
 
         return (
-        <ul id="identity-list" className="row">
-            {identities}
-        </ul>
+            <ul id="identity-list" className="row">
+                {identities}
+            </ul>
         );
     }
 });

@@ -1,17 +1,13 @@
-import React from 'react';
+import React from "react";
 
-const Code = ({ children, ...rest }) => {
+const Code = ({children, ...rest}) => {
     let styles = computeStyles(rest);
 
-    return (
-        <div style={ styles.container }>
-            { children }
-        </div>
-    );
+    return <div style={styles.container}>{children}</div>;
 };
 
-const computeStyles = ({ mb }) => {
-    let styles= {};
+const computeStyles = ({mb}) => {
+    let styles = {};
     let fontStack = [
         "Consolas",
         "Monaco",
@@ -19,7 +15,7 @@ const computeStyles = ({ mb }) => {
         "Liberation Mono",
         "DejaVu Sans Mono",
         "Bitstream Vera Sans Mono",
-        "Courier New",
+        "Courier New"
     ];
 
     styles.container = {
@@ -34,10 +30,10 @@ const computeStyles = ({ mb }) => {
         border: "solid 1px #d6d4d4",
         display: "inline-block",
         background: "#efefef",
-        borderRadius: "2px",
+        borderRadius: "2px"
     };
 
-    return styles
+    return styles;
 };
 
-export default Code
+export default Code;

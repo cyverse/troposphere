@@ -3,10 +3,8 @@ import ModalHelpers from "components/modals/ModalHelpers";
 
 import ProjectDeleteModal from "components/modals/project/ProjectDeleteModal";
 
-
 export default {
     destroy: function(project) {
-
         var props = {
             project: project
         };
@@ -15,7 +13,6 @@ export default {
             actions.ProjectActions.destroy({
                 project: project
             });
-
-        })
+        });
     }
 };

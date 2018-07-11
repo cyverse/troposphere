@@ -3,7 +3,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Highcharts from "highcharts";
 
-
 export default React.createClass({
     displayName: "SparklineGraph",
 
@@ -36,51 +35,51 @@ export default React.createClass({
         new Highcharts.createChart(el, {
             chart: {
                 backgroundColor: "transparent",
-                margin:[0, 0, 0, 0],
+                margin: [0, 0, 0, 0],
                 width,
-                height,
+                height
             },
             credits: {
                 enabled: false
             },
             title: {
-                text: this.props.title,
+                text: this.props.title
             },
             xAxis: {
-                labels:{
-                    enabled:false
+                labels: {
+                    enabled: false
                 }
             },
             yAxis: {
-                maxPadding:0,
-                minPadding:0,
+                maxPadding: 0,
+                minPadding: 0,
                 gridLineWidth: 0,
-                endOnTick:false,
-                labels:{
-                    enabled:false
+                endOnTick: false,
+                labels: {
+                    enabled: false
                 }
             },
-            legend:{
-                enabled:false
+            legend: {
+                enabled: false
             },
-            tooltip:{
-                enabled:false
+            tooltip: {
+                enabled: false
             },
-            plotOptions:{
-                series:{
-                    enableMouseTracking:false,
-                    lineWidth:1,
-                    shadow:false,
-                    states:{
-                        hover:{
-                            lineWidth:1
+            plotOptions: {
+                series: {
+                    enableMouseTracking: false,
+                    lineWidth: 1,
+                    shadow: false,
+                    states: {
+                        hover: {
+                            lineWidth: 1
                         }
                     },
-                    marker:{
-                        radius:0,
-                        states:{
-                            hover:{
-                                radius:2
+                    marker: {
+                        radius: 0,
+                        states: {
+                            hover: {
+                                radius: 2
                             }
                         }
                     }
@@ -99,6 +98,6 @@ export default React.createClass({
     //
 
     render: function() {
-        return ( <div/> );
+        return <div />;
     }
 });

@@ -9,11 +9,10 @@ import Description from "../components/Description";
 import Tags from "../components/Tags";
 import TagCollection from "collections/TagCollection";
 
-import { captureMessage } from "utilities/capture";
+import {captureMessage} from "utilities/capture";
 
 import actions from "actions";
 import stores from "stores";
-
 
 export default React.createClass({
     displayName: "ImageWizard-ImageInfoStep",
@@ -21,7 +20,7 @@ export default React.createClass({
     propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         imageOwner: React.PropTypes.bool.isRequired,
-        helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     componentDidMount: function() {
@@ -51,8 +50,8 @@ export default React.createClass({
             nameError: this.setNameError(defaultName),
             description: defaultDescription,
             newImage: true,
-            imageTags,
-        }
+            imageTags
+        };
     },
 
     updateState: function() {
@@ -67,9 +66,9 @@ export default React.createClass({
     },
     isSubmittable: function() {
         var testName = $.trim(this.state.name);
-        var hasName = !!(testName);
+        var hasName = !!testName;
         var validName = this.isValidName(testName);
-        var hasDescription = !!($.trim(this.state.description));
+        var hasDescription = !!$.trim(this.state.description);
         var notNullTags = this.state.imageTags != null;
         return hasName && hasDescription && validName && notNullTags;
     },
@@ -85,8 +84,11 @@ export default React.createClass({
     setNameError: function(newName) {
         var invalid_characters = "!#$%^&*\"',;/\\<>?{|}~";
         if (!this.isValidName(newName)) {
-            return "The name selected is using an invalid special character. " +
-            "Please remove these character(s) from your name: " + invalid_characters;
+            return (
+                "The name selected is using an invalid special character. " +
+                "Please remove these character(s) from your name: " +
+                invalid_characters
+            );
         }
     },
     onNameChange: function(newName) {
@@ -112,7 +114,7 @@ export default React.createClass({
         imageTags.add(addedTag);
         this.setState({
             imageTags: imageTags
-        })
+        });
     },
 
     onTagCreated: function(tagObj) {
@@ -121,22 +123,25 @@ export default React.createClass({
         imageTags.add(newTag);
         this.setState({
             imageTags: imageTags
-        })
+        });
     },
     onTagRemoved: function(removedTag) {
         var imageTags = this.state.imageTags;
         imageTags.remove(removedTag);
         this.setState({
             imageTags: imageTags
-        })
+        });
     },
     renderCreateUpdateFlag: function() {
         return (
-        <CreateUpdateFlag value={this.state.newImage} onChange={this.onCreateUpdateChange} />
+            <CreateUpdateFlag
+                value={this.state.newImage}
+                onChange={this.onCreateUpdateChange}
+            />
         );
     },
     renderBody: function(instance) {
-        let { helpLink } = this.props,
+        let {helpLink} = this.props,
             link;
 
         if (helpLink) {
@@ -150,37 +155,43 @@ export default React.createClass({
         }
 
         return (
-        <div>
-            <div className="alert alert-danger">
-                <strong>Note:</strong> All volumes must be detached from an instance before it can be imaged.
+            <div>
+                <div className="alert alert-danger">
+                    <strong>Note:</strong> All volumes must be detached from an
+                    instance before it can be imaged.
+                </div>
+                <p className="alert alert-info">
+                    {"Please read the "}
+                    <a href={link} target="_blank">
+                        wiki page about requesting an image of your instance
+                    </a>
+                    {" before completing the form below."}
+                </p>
+                <p>
+                    {"Please provide some information to help others discover this image. The information you " +
+                        "provide here will be the primary means for others to discover this image."}
+                </p>
+                <p>{"Fields marked with * are required."}</p>
+                {this.props.imageOwner ? this.renderCreateUpdateFlag() : ""}
+                <Name
+                    create={this.state.newImage}
+                    value={this.state.name}
+                    error={this.state.nameError}
+                    onChange={this.onNameChange}
+                />
+                <hr />
+                <Description
+                    value={this.state.description}
+                    onChange={this.onDescriptionChange}
+                />
+                <hr />
+                <Tags
+                    onTagAdded={this.onTagAdded}
+                    onTagRemoved={this.onTagRemoved}
+                    onTagCreated={this.onTagCreated}
+                    imageTags={this.state.imageTags}
+                />
             </div>
-            <p className="alert alert-info">
-                {"Please read the "}
-                <a href={link} target="_blank">wiki page about requesting an image of your instance</a>
-                {" before completing the form below."}
-            </p>
-            <p>
-                {"Please provide some information to help others discover this image. The information you " +
-                 "provide here will be the primary means for others to discover this image."}
-            </p>
-            <p>
-                {"Fields marked with * are required."}
-            </p>
-            {this.props.imageOwner
-             ? this.renderCreateUpdateFlag()
-             : ""}
-            <Name create={this.state.newImage}
-                value={this.state.name}
-                error={this.state.nameError}
-                onChange={this.onNameChange} />
-            <hr />
-            <Description value={this.state.description} onChange={this.onDescriptionChange} />
-            <hr />
-            <Tags onTagAdded={this.onTagAdded}
-                onTagRemoved={this.onTagRemoved}
-                onTagCreated={this.onTagCreated}
-                imageTags={this.state.imageTags} />
-        </div>
         );
     },
 
@@ -188,19 +199,17 @@ export default React.createClass({
         var instance = this.props.instance;
 
         return (
-        <div>
-            <div className="modal-body">
-                {this.renderBody(instance)}
+            <div>
+                <div className="modal-body">{this.renderBody(instance)}</div>
+                <div className="modal-footer">
+                    <RaisedButton
+                        primary
+                        onTouchTap={this.onNext}
+                        disabled={!this.isSubmittable()}
+                        label="Next"
+                    />
+                </div>
             </div>
-            <div className="modal-footer">
-                <RaisedButton
-                    primary
-                    onTouchTap={this.onNext}
-                    disabled={!this.isSubmittable()}
-                    label="Next"
-                />
-            </div>
-        </div>
         );
     }
 });

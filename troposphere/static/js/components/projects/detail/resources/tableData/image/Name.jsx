@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import { Link } from "react-router";
-
+import {Link} from "react-router";
 
 export default React.createClass({
     displayName: "Name",
@@ -14,15 +13,9 @@ export default React.createClass({
         var image = this.props.image;
 
         if (!image.id) {
-            return (
-            <span>{image.get("name")}</span>
-            );
+            return <span>{image.get("name")}</span>;
         }
 
-        return (
-        <Link to={`images/${image.id}`}>
-            {image.get("name")}
-        </Link>
-        );
+        return <Link to={`images/${image.id}`}>{image.get("name")}</Link>;
     }
 });

@@ -3,9 +3,8 @@ import InstanceState from "models/InstanceState";
 import Utils from "../Utils";
 import InstanceActionRequest from "models/InstanceActionRequest";
 
-const unshelve = (params) => {
-    if (!params.instance)
-        throw new Error("Missing instance");
+const unshelve = params => {
+    if (!params.instance) throw new Error("Missing instance");
 
     var instance = params.instance,
         instanceState = new InstanceState({
@@ -25,31 +24,35 @@ const unshelve = (params) => {
         instance: instance
     });
 
-    actionRequest.save(null, {
-        attrs: {
-            action: "unshelve"
-        }
-    }).done(function() {
-        instance.set({
-            state: instanceState
+    actionRequest
+        .save(null, {
+            attrs: {
+                action: "unshelve"
+            }
+        })
+        .done(function() {
+            instance.set({
+                state: instanceState
+            });
+        })
+        .fail(function(response) {
+            instance.set({
+                state: originalState
+            });
+            Utils.displayError({
+                title: "Your instance could not be unshelved",
+                response: response
+            });
+        })
+        .always(function() {
+            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
+                instance: instance
+            });
+            Utils.dispatch(InstanceConstants.POLL_INSTANCE_WITH_DELAY, {
+                instance: instance,
+                delay: 25 * 1000
+            });
         });
-    }).fail(function(response) {
-        instance.set({
-            state: originalState
-        });
-        Utils.displayError({
-            title: "Your instance could not be unshelved",
-            response: response
-        });
-    }).always(function() {
-        Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
-            instance: instance
-        });
-        Utils.dispatch(InstanceConstants.POLL_INSTANCE_WITH_DELAY, {
-            instance: instance,
-            delay: 25*1000
-        });
-    });
-}
+};
 
-export { unshelve };
+export {unshelve};

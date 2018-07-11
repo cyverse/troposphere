@@ -7,11 +7,10 @@ import RequestMoreQuotaOrAllocationModal from "components/modals/RequestMoreQuot
 // Based on the allocation strategy being used, we want to select
 // the matching request-more-requests modal to be rendered
 let RequestModal = globals.EXTERNAL_ALLOCATION
-                   ? RequestMoreQuotaOrAllocationModal
-                   : RequestMoreResourcesModal;
+    ? RequestMoreQuotaOrAllocationModal
+    : RequestMoreResourcesModal;
 
 export default {
-
     requestMoreResources: function(props) {
         ModalHelpers.renderModal(RequestModal, props, function(quota, reason) {
             actions.HelpActions.requestMoreResources({
@@ -20,5 +19,4 @@ export default {
             });
         });
     }
-
 };

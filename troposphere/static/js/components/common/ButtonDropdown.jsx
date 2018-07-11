@@ -1,7 +1,6 @@
 /* http://getbootstrap.com/components/#btn-dropdowns */
 import React from "react";
 
-
 export default React.createClass({
     displayName: "ButtonDropdown",
 
@@ -27,21 +26,24 @@ export default React.createClass({
 
     render: function() {
         var className = "btn-group";
-        var buttonClassName = "btn btn-" + this.props.buttonType + " dropdown-toggle";
-        if (this.state.open)
-            className += " open";
+        var buttonClassName =
+            "btn btn-" + this.props.buttonType + " dropdown-toggle";
+        if (this.state.open) className += " open";
 
         return (
-        <div className={className}>
-            <button className={buttonClassName} onClick={this.toggleOpen} disabled={this.props.disabled}>
-                {this.props.buttonContent}
-                <span>{" "}</span>
-                <span className="caret"></span>
-            </button>
-            <ul className="dropdown-menu" role="menu">
-                {this.props.children}
-            </ul>
-        </div>
+            <div className={className}>
+                <button
+                    className={buttonClassName}
+                    onClick={this.toggleOpen}
+                    disabled={this.props.disabled}>
+                    {this.props.buttonContent}
+                    <span> </span>
+                    <span className="caret" />
+                </button>
+                <ul className="dropdown-menu" role="menu">
+                    {this.props.children}
+                </ul>
+            </div>
         );
     }
 });

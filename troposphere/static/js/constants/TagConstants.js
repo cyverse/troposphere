@@ -1,4 +1,3 @@
-
 export default {
     ADD_TAG: "ADD_TAG",
     UPDATE_TAG: "UPDATE_TAG",

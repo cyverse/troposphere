@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from "material-ui/RaisedButton";
 import $ from "jquery";
-
 
 export default React.createClass({
     displayName: "Button",
@@ -43,12 +42,11 @@ export default React.createClass({
     render: function() {
         if (this.props.isVisible) {
             return (
-            <RaisedButton
-                style={{ ...this.props.style, marginLeft: "10px" }}
-                onTouchTap={this.onClick}
-            >
-                <i className={"glyphicon glyphicon-" + this.props.icon} />
-            </RaisedButton>
+                <RaisedButton
+                    style={{...this.props.style, marginLeft: "10px"}}
+                    onTouchTap={this.onClick}>
+                    <i className={"glyphicon glyphicon-" + this.props.icon} />
+                </RaisedButton>
             );
         }
         return null;

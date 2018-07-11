@@ -8,10 +8,7 @@ export default React.createClass({
     },
 
     render: function() {
-
         var status = this.props.status || "";
-        return (
-        <span className={"instance-status-light " + status}></span>
-        );
+        return <span className={"instance-status-light " + status} />;
     }
 });

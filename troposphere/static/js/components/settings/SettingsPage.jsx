@@ -1,4 +1,4 @@
-import { trackAction } from "../../utilities/userActivity";
+import {trackAction} from "../../utilities/userActivity";
 import React from "react";
 import AdvancedSettingsPage from "components/settings/AdvancedSettingsPage";
 import IconSelect from "./IconSelect";
@@ -67,40 +67,60 @@ export default React.createClass({
         var wantsEmails = profile.get("settings")["send_emails"];
 
         return (
-        <div className="settings-view">
-            <SettingsHeader/>
-            <div className="container">
-                <div className="notifications">
-                    <h3 className="t-title">Notifications</h3>
-                    <div>
-                        <input type="checkbox" checked={wantsEmails} onChange={this.handleChangeEmailPreference} /> Receive an email notification when an instance finishes launching
+            <div className="settings-view">
+                <SettingsHeader />
+                <div className="container">
+                    <div className="notifications">
+                        <h3 className="t-title">Notifications</h3>
+                        <div>
+                            <input
+                                type="checkbox"
+                                checked={wantsEmails}
+                                onChange={this.handleChangeEmailPreference}
+                            />{" "}
+                            Receive an email notification when an instance
+                            finishes launching
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <h3 className="t-title">Allocation</h3>
                     <div>
+                        <h3 className="t-title">Allocation</h3>
+                        <div>
+                            <p>
+                                If you need a temporary or permanent boost in
+                                your allocation (more CPUs, etc.) you may{" "}
+                                <a
+                                    href="#"
+                                    onClick={this.handleRequestMoreResources}>
+                                    request more resources.
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className="t-title">Appearance</h3>
+                        <h4>Icon Color Select</h4>
                         <p>
-                            If you need a temporary or permanent boost in your allocation (more CPUs, etc.) you may <a href="#" onClick={this.handleRequestMoreResources}>request more resources.</a>
+                            Select the Image and Instance icon set you would
+                            like to use:
                         </p>
-                    </div>
-                </div>
-                <div>
-                    <h3 className="t-title">Appearance</h3>
-                    <h4>Icon Color Select</h4>
-                    <p>
-                        Select the Image and Instance icon set you would like to use:
-                    </p>
-                    <IconSelect selected={selectedIconSet} onSelect={this.handleIconSelect} />
+                        <IconSelect
+                            selected={selectedIconSet}
+                            onSelect={this.handleIconSelect}
+                        />
 
-                    <h4>Web Shell Color Select</h4>
-                    <p>
-                        Use the form below to select color for SSH terminal in "New Web Shell".
-                    </p>
-                    <GuacamoleSelect selected={selectedGuacamoleColor} onSelect={this.handleColorSelect} />
+                        <h4>Web Shell Color Select</h4>
+                        <p>
+                            Use the form below to select color for SSH terminal
+                            in "New Web Shell".
+                        </p>
+                        <GuacamoleSelect
+                            selected={selectedGuacamoleColor}
+                            onSelect={this.handleColorSelect}
+                        />
+                    </div>
+                    <AdvancedSettingsPage />
                 </div>
-                <AdvancedSettingsPage />
             </div>
-        </div>
         );
     }
 });

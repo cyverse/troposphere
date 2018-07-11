@@ -12,21 +12,19 @@ import InstanceMetricsSection from "components/projects/resources/instance/detai
 import InstanceInfoSection from "components/projects/resources/instance/details/sections/InstanceInfoSection";
 import InstanceHistorySection from "components/common/InstanceHistorySection";
 
-
 function getInstanceObjectFrom(history, store) {
     let instanceHistory = history.first(),
         instance;
 
     if (instanceHistory) {
-        let ih = instanceHistory.get('instance') || {};
+        let ih = instanceHistory.get("instance") || {};
         instance = store.fetchOne(ih.id, {
-            archived: true,
+            archived: true
         });
     }
 
     return instance;
 }
-
 
 const InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
@@ -35,38 +33,36 @@ const InstanceDetail = React.createClass({
         params: React.PropTypes.object
     },
 
-    onNewData: function() { this.forceUpdate(); },
-
-    renderAllocationSourceSection(instance) {
-        let instanceUsername = instance.get('user').username,
-            currentUsername = context.profile.get('username');
-
-        let props = {
-            disabled: (currentUsername != instanceUsername),
-            instance,
-            ...this.props
-        }
-
-        return (
-        <AllocationSourceSection { ...props }/>
-        );
+    onNewData: function() {
+        this.forceUpdate();
     },
 
+    renderAllocationSourceSection(instance) {
+        let instanceUsername = instance.get("user").username,
+            currentUsername = context.profile.get("username");
+
+        let props = {
+            disabled: currentUsername != instanceUsername,
+            instance,
+            ...this.props
+        };
+
+        return <AllocationSourceSection {...props} />;
+    },
 
     renderInactiveInstance: function(history) {
-        let { InstanceStore } = this.props.subscriptions,
-            instanceObj = getInstanceObjectFrom(
-                history,
-                InstanceStore
-            );
+        let {InstanceStore} = this.props.subscriptions,
+            instanceObj = getInstanceObjectFrom(history, InstanceStore);
 
-        if(!instanceObj) {
-            return <div className="loading" />
+        if (!instanceObj) {
+            return <div className="loading" />;
         }
 
-        var metrics = globals.SHOW_INSTANCE_METRICS
-            ? <InstanceMetricsSection instance={instanceObj} />
-            : "";
+        var metrics = globals.SHOW_INSTANCE_METRICS ? (
+            <InstanceMetricsSection instance={instanceObj} />
+        ) : (
+            ""
+        );
 
         return (
             <div className="row resource-details-instanceDetailsSection">
@@ -74,9 +70,9 @@ const InstanceDetail = React.createClass({
                     <InstanceInfoSection instance={instanceObj} />
                     <hr />
                     <PastInstanceDetailsSection instance={instanceObj} />
-                    <hr/>
+                    <hr />
                     {metrics}
-                    <hr/>
+                    <hr />
                     <InstanceHistorySection instance={instanceObj} />
                 </div>
             </div>
@@ -84,54 +80,57 @@ const InstanceDetail = React.createClass({
     },
 
     renderActiveInstance: function(instance) {
-        let { ProjectStore } = this.props.subscriptions;
-        var metricsSection = globals.SHOW_INSTANCE_METRICS
-            ? <InstanceMetricsSection instance={instance} />
-            : null;
+        let {ProjectStore} = this.props.subscriptions;
+        var metricsSection = globals.SHOW_INSTANCE_METRICS ? (
+            <InstanceMetricsSection instance={instance} />
+        ) : null;
         var allocationSourceSection = globals.USE_ALLOCATION_SOURCES
             ? this.renderAllocationSourceSection(instance)
             : null;
-        let project = ProjectStore.get(instance.get('project').id);
+        let project = ProjectStore.get(instance.get("project").id);
         if (!project) {
-            return (<div className="loading" />);
+            return <div className="loading" />;
         }
 
         return (
             <div className="row resource-details-instanceDetailsSection">
                 <div className="col-md-9">
                     <InstanceInfoSection instance={instance} />
-                    <hr/>
+                    <hr />
                     {allocationSourceSection}
                     <InstanceDetailsSection instance={instance} />
-                    <hr/>
+                    <hr />
                     {metricsSection}
-                    <hr/>
+                    <hr />
                     <InstanceHistorySection instance={instance} />
                 </div>
                 <div className="col-md-3">
-                    <InstanceActionsAndLinks project={project} instance={instance} />
+                    <InstanceActionsAndLinks
+                        project={project}
+                        instance={instance}
+                    />
                 </div>
             </div>
         );
     },
 
     render: function() {
-        let { instance } = this.props,
-            { InstanceStore, InstanceHistoryStore } = this.props.subscriptions,
+        let {instance} = this.props,
+            {InstanceStore, InstanceHistoryStore} = this.props.subscriptions,
             instances = InstanceStore.getAll(),
             history = null;
 
         // if we are provided w/ an instance,
         // then fetch history using provided id in paramas
         if (!instance) {
-            let { instanceId } = this.props.params;
+            let {instanceId} = this.props.params;
 
             history = InstanceHistoryStore.fetchWhere({
-                "instance": instanceId
+                instance: instanceId
             });
         } else {
             history = InstanceHistoryStore.fetchWhere({
-                "instance": instance.id
+                instance: instance.id
             });
         }
 
@@ -140,7 +139,7 @@ const InstanceDetail = React.createClass({
         // Use truthy check to see if loaded
         let loaded = requires.every(r => Boolean(r));
         if (!loaded) {
-            return (<div className="loading" />);
+            return <div className="loading" />;
         }
 
         let instanceDetailsSection;
@@ -150,13 +149,13 @@ const InstanceDetail = React.createClass({
             instanceDetailsSection = this.renderActiveInstance(instance);
         }
 
-        return (
-            <div className="container">
-                {instanceDetailsSection}
-            </div>
-        );
-    },
-
+        return <div className="container">{instanceDetailsSection}</div>;
+    }
 });
 
-export default subscribe(InstanceDetail, ["ProjectStore", "ImageStore", "InstanceStore", "InstanceHistoryStore"]);
+export default subscribe(InstanceDetail, [
+    "ProjectStore",
+    "ImageStore",
+    "InstanceStore",
+    "InstanceHistoryStore"
+]);

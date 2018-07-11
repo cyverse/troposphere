@@ -4,7 +4,6 @@ import IdentityList from "./IdentityList";
 import modals from "modals";
 import IdentityListHeader from "../common/IdentityListHeader";
 
-
 export default React.createClass({
     displayName: "IdentityListView",
 
@@ -18,13 +17,14 @@ export default React.createClass({
 
     render: function() {
         return (
-        <div>
-            <IdentityListHeader title={this.props.identities.length + " Identities"}>
-            </IdentityListHeader>
-            <div className="container">
-                <IdentityList identities={this.props.identities} />
+            <div>
+                <IdentityListHeader
+                    title={this.props.identities.length + " Identities"}
+                />
+                <div className="container">
+                    <IdentityList identities={this.props.identities} />
+                </div>
             </div>
-        </div>
         );
     }
 });

@@ -5,8 +5,8 @@ import Backbone from "backbone";
 var fix = function(f) {
     return function(...args) {
         return new this.constructor(f.apply(this, args));
-    }
-}
+    };
+};
 
 // Export variants of common functions, to operate on and return collections
 // For example:
@@ -20,4 +20,4 @@ export default {
     csome: fix(new Backbone.Collection().some),
     cwhere: fix(new Backbone.Collection().where),
     csort: fix(new Backbone.Collection().sort)
-}
+};

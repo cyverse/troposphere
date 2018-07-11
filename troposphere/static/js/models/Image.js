@@ -10,12 +10,11 @@ import moment from "moment";
  * It might be enough to do:
  *   obj && obj.isValid && obj.isValid()
  */
-const safeIsValid = (obj) => {
-    return obj
-        && obj.isValid
-        && (typeof obj.isValid === 'function')
-        && obj.isValid();
-}
+const safeIsValid = obj => {
+    return (
+        obj && obj.isValid && typeof obj.isValid === "function" && obj.isValid()
+    );
+};
 
 export default Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/images",
@@ -26,8 +25,9 @@ export default Backbone.Model.extend({
         attributes.start_date = moment(attributes.start_date);
         attributes.end_date = moment(attributes.end_date); // might be null, which is an Invalid Date
         attributes.description = attributes.description || "";
-        attributes.uuid_hash = attributes.uuid_hash || CryptoJS.MD5((attributes.uuid).toString()).toString();
-
+        attributes.uuid_hash =
+            attributes.uuid_hash ||
+            CryptoJS.MD5(attributes.uuid.toString()).toString();
 
         return attributes;
     },

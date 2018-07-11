@@ -3,7 +3,6 @@ import Backbone from "backbone";
 
 import Project from "./Project";
 
-
 export default React.createClass({
     displayName: "ProjectList",
 
@@ -18,26 +17,33 @@ export default React.createClass({
     },
     render: function() {
         var self = this,
-            projects = this.props.projects.map(function(project) {
-                var className;
-                if (this.props.selectedProject && this.props.selectedProject == project) {
-                    className = "active"
-                } else {
-                    className = ""
-                }
-                return (
-                <Project key={project.id || project.cid}
-                    project={project}
-                    projects={this.props.projects}
-                    onClick={self.projectClicked}
-                    className={className} />
-                );
-            }.bind(this));
+            projects = this.props.projects.map(
+                function(project) {
+                    var className;
+                    if (
+                        this.props.selectedProject &&
+                        this.props.selectedProject == project
+                    ) {
+                        className = "active";
+                    } else {
+                        className = "";
+                    }
+                    return (
+                        <Project
+                            key={project.id || project.cid}
+                            project={project}
+                            projects={this.props.projects}
+                            onClick={self.projectClicked}
+                            className={className}
+                        />
+                    );
+                }.bind(this)
+            );
 
         return (
-        <ul id="project-list" className="row">
-            {projects}
-        </ul>
+            <ul id="project-list" className="row">
+                {projects}
+            </ul>
         );
     }
 });

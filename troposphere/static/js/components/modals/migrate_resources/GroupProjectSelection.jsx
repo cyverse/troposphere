@@ -5,7 +5,6 @@ import ResourceSelectMenu from "components/modals/migrate_resources/ResourceSele
 import stores from "stores";
 import actions from "actions";
 
-
 export default React.createClass({
     displayName: "GroupProjectSelection",
 
@@ -22,38 +21,41 @@ export default React.createClass({
     //
 
     getInitialState: function() {
-
         let resourceProjectMap = {};
         let resourceGroupsMap = {};
 
         this.props.resources.forEach(resource => {
-            let limitedGroups = stores.GroupStore.getGroupsForIdentity(resource.get('identity'));
+            let limitedGroups = stores.GroupStore.getGroupsForIdentity(
+                resource.get("identity")
+            );
             resourceGroupsMap[resource.id] = limitedGroups;
             resourceProjectMap[resource.id] = {
                 project: null,
                 resource
-            }
+            };
         });
         var initialState = {
             projectName: "",
             resourceProjectMap,
-            resourceGroupsMap,
+            resourceGroupsMap
         };
 
         return initialState;
     },
 
     getState: function() {
-        let { projectName, resourceGroupsMap } = this.state;
+        let {projectName, resourceGroupsMap} = this.state;
 
         this.props.resources.forEach(resource => {
-            let limitedGroups = stores.GroupStore.getGroupsForIdentity(resource.get('identity'));
+            let limitedGroups = stores.GroupStore.getGroupsForIdentity(
+                resource.get("identity")
+            );
             resourceGroupsMap[resource.id] = limitedGroups;
         });
 
         var state = {
             resourceGroupsMap,
-            projectName,
+            projectName
         };
         return state;
     },
@@ -78,20 +80,22 @@ export default React.createClass({
     renderResourceProjectSelection: function(group, resource) {
         let resource_project = this.state.resourceProjectMap[resource.id];
         return (
-        <ResourceSelectMenu key={resource.id}
-                            resource={resource}
-                            projects={this.props.projects}
-                            project={resource_project.project}
-                            onProjectSelected={this.pairResourceWithProject} />
+            <ResourceSelectMenu
+                key={resource.id}
+                resource={resource}
+                projects={this.props.projects}
+                project={resource_project.project}
+                onProjectSelected={this.pairResourceWithProject}
+            />
         );
     },
 
     pairResourceWithProject(resource, project) {
-        let { resourceProjectMap } = this.state;
+        let {resourceProjectMap} = this.state;
         resourceProjectMap[resource.id] = {
             resource,
-            project,
-        }
+            project
+        };
         this.setState({
             resourceProjectMap
         });
@@ -112,32 +116,37 @@ export default React.createClass({
     },
     renderProjectCreationForm: function() {
         let group = this.props.group,
-            users = group.get('users'),
-            isPrivate = (users.length == 1),
+            users = group.get("users"),
+            isPrivate = users.length == 1,
             labelText;
-        if(isPrivate) {
+        if (isPrivate) {
             labelText = "New Private Project";
         } else {
             let usernames = this.renderUsersText(users);
             labelText = "New Shared Project with Members: " + usernames;
         }
         return (
-        <div className="form-group">
-            <label>
-                {labelText}
-            </label>
-            <input type="text"
-                className="form-control"
-                value={this.state.projectName}
-                onChange={this.onProjectNameChange}
-                placeholder="Enter project name..." />
-            <button className="btn btn-primary" onClick={this.createNewProject} disabled={this.isCreateDisabled()}>{"Create Project"}</button>
-        </div>
-        )
+            <div className="form-group">
+                <label>{labelText}</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.projectName}
+                    onChange={this.onProjectNameChange}
+                    placeholder="Enter project name..."
+                />
+                <button
+                    className="btn btn-primary"
+                    onClick={this.createNewProject}
+                    disabled={this.isCreateDisabled()}>
+                    {"Create Project"}
+                </button>
+            </div>
+        );
     },
 
     isCreateDisabled: function() {
-        return (this.state.projectName.trim() == "");
+        return this.state.projectName.trim() == "";
     },
 
     onProjectCreateFailed: function() {
@@ -149,34 +158,44 @@ export default React.createClass({
     },
 
     createNewProject: function() {
-        let { projectName } = this.state;
+        let {projectName} = this.state;
         let project_params = {
-                name: projectName,
-                description: projectName,
-                owner: this.props.group,
-            };
+            name: projectName,
+            description: projectName,
+            owner: this.props.group
+        };
         actions.ProjectActions.create(
-            project_params, this.onProjectCreated, this.onProjectCreateFailed);
+            project_params,
+            this.onProjectCreated,
+            this.onProjectCreateFailed
+        );
     },
 
     render: function() {
-        let { group, resources } = this.props;
+        let {group, resources} = this.props;
         let that = this;
 
         return (
             <div key={group.id} className="form-group">
-                <h3>{group.get('name')}</h3>
+                <h3>{group.get("name")}</h3>
                 <ul>
                     {resources.map(function(resource) {
                         let groups = that.state.resourceGroupsMap[resource.id];
-                        if(groups && groups.some(function(test_group) {
-                            return test_group.id == group.id;
-                        })) {
-                            return that.renderResourceProjectSelection(group, resource);
+                        if (
+                            groups &&
+                            groups.some(function(test_group) {
+                                return test_group.id == group.id;
+                            })
+                        ) {
+                            return that.renderResourceProjectSelection(
+                                group,
+                                resource
+                            );
                         }
                     })}
                 </ul>
                 {this.renderProjectCreationForm()}
-            </div>);
+            </div>
+        );
     }
 });

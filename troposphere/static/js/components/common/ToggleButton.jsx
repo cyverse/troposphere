@@ -1,5 +1,5 @@
-import React from 'react';
-import tinyColor from 'tinycolor2'
+import React from "react";
+import tinyColor from "tinycolor2";
 
 export default React.createClass({
     displayName: "ToggleButton",
@@ -9,12 +9,12 @@ export default React.createClass({
         enabled_text: React.PropTypes.string,
         disabled_text: React.PropTypes.string,
         isEnabled: React.PropTypes.bool,
-        onToggle: React.PropTypes.func.isRequired,
+        onToggle: React.PropTypes.func.isRequired
     },
 
     getInitialState() {
         return {
-            isEnabled: this.props.isEnabled || false,
+            isEnabled: this.props.isEnabled || false
         };
     },
 
@@ -26,7 +26,6 @@ export default React.createClass({
     },
 
     onToggle(e) {
-
         let isEnabled = this.state.isEnabled ? false : true;
         this.setState({
             isEnabled
@@ -35,26 +34,21 @@ export default React.createClass({
     },
 
     render() {
-        let { enabled_text, disabled_text } = this.props;
+        let {enabled_text, disabled_text} = this.props;
         let styles = this.styles();
-        let text = this.state.isEnabled
-            ? enabled_text
-            : disabled_text;
+        let text = this.state.isEnabled ? enabled_text : disabled_text;
 
         return (
-        <div style={ styles.toggleWrapper } onClick={ this.onToggle} >
-            <div style={ styles.toggleSwitch } />
-            <div style={ styles.toggleBackground }>
-                <div style={ styles.toggleText }>
-                    { text }
+            <div style={styles.toggleWrapper} onClick={this.onToggle}>
+                <div style={styles.toggleSwitch} />
+                <div style={styles.toggleBackground}>
+                    <div style={styles.toggleText}>{text}</div>
                 </div>
             </div>
-        </div>
         );
     },
 
     styles() {
-
         let isEnabled = this.state.isEnabled;
 
         let enabledColor = "#eb6538";
@@ -66,7 +60,7 @@ export default React.createClass({
             cursor: "pointer",
             position: "relative",
             paddingTop: "1px",
-            width: "120px",
+            width: "120px"
         };
 
         let toggleBGColor = isEnabled
@@ -81,25 +75,23 @@ export default React.createClass({
             height: "20px",
             borderRadius: "900px",
             backgroundColor: toggleBGColor,
-            transition: "background-color ease .2s",
+            transition: "background-color ease .2s"
         };
 
-        let textColor = isEnabled
-            ? "white" : "black";
+        let textColor = isEnabled ? "white" : "black";
 
         style.toggleText = {
             textAlign: "center",
             color: textColor,
             fontWeight: "100",
-            fontSize: "12px",
+            fontSize: "12px"
         };
 
-        let switchBGColor = isEnabled
-            ? enabledColor
-            : disabledColor;
+        let switchBGColor = isEnabled ? enabledColor : disabledColor;
 
         let switchPosition = isEnabled
-        ? { right: "0"} : { right: "calc(100% - 22px)" };
+            ? {right: "0"}
+            : {right: "calc(100% - 22px)"};
 
         style.toggleSwitch = {
             ...switchPosition,
@@ -113,6 +105,6 @@ export default React.createClass({
             transition: "right ease .1s"
         };
 
-        return style
+        return style;
     }
 });

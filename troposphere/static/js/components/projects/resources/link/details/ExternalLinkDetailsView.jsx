@@ -35,18 +35,18 @@ export default React.createClass({
         ];
 
         return (
-        <div>
-            <BreadcrumbBar breadcrumbs={breadcrumbs} />
-            <div className="row resource-details-content">
-                <div className="col-md-9 resource-detail-sections">
-                    <ExternalLinkInfoSection link={link} />
-                    <hr/>
-                </div>
-                <div className="col-md-3 resource-actions">
-                    <ExternalLinkActions link={link} project={project} />
+            <div>
+                <BreadcrumbBar breadcrumbs={breadcrumbs} />
+                <div className="row resource-details-content">
+                    <div className="col-md-9 resource-detail-sections">
+                        <ExternalLinkInfoSection link={link} />
+                        <hr />
+                    </div>
+                    <div className="col-md-3 resource-actions">
+                        <ExternalLinkActions link={link} project={project} />
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

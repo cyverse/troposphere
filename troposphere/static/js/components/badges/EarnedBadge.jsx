@@ -12,23 +12,21 @@ export default React.createClass({
     getInitialState: function() {
         var badgeText = this.props.badge.get("strapline");
 
-        return ({
+        return {
             text: badgeText,
             badgeSlug: this.props.badge.get("slug")
-        });
+        };
     },
 
     render: function() {
         var badge = this.props.badge;
 
         return (
-        <li onClick={this.renderBadgeDetail} className="badge-li">
-            <img className="image" src={badge.get("imageUrl")} />
-            <h4 className="badge-name">{badge.get("name")}</h4>
-            <p className="text">
-                {this.state.text}
-            </p>
-        </li>
+            <li onClick={this.renderBadgeDetail} className="badge-li">
+                <img className="image" src={badge.get("imageUrl")} />
+                <h4 className="badge-name">{badge.get("name")}</h4>
+                <p className="text">{this.state.text}</p>
+            </li>
         );
     }
 });

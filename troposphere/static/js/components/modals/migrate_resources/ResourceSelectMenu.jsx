@@ -13,7 +13,7 @@ const ResourceSelectMenu = React.createClass({
         project: React.PropTypes.instanceOf(Backbone.Model),
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onProjectSelected: React.PropTypes.func.isRequired,
-        optionName: React.PropTypes.func,
+        optionName: React.PropTypes.func
     },
     getInitialState: function() {
         return {
@@ -21,22 +21,24 @@ const ResourceSelectMenu = React.createClass({
         };
     },
     renderSelectMenu() {
-        let { projects, project, optionName } = this.props;
-        let projectTip = (projects.length > 0) ? "Select a Project": "Create a Project";
-        if(!optionName) {
+        let {projects, project, optionName} = this.props;
+        let projectTip =
+            projects.length > 0 ? "Select a Project" : "Create a Project";
+        if (!optionName) {
             optionName = p => p.get("name");
         }
         return (
-            <span style={{ width: "40%" }}>
+            <span style={{width: "40%"}}>
                 <SelectMenu
                     className={"form-control"}
                     current={project}
                     list={projects}
                     placeholder={projectTip}
                     onSelect={p => this.onProjectSelected(p)}
-                    optionName={optionName} />
+                    optionName={optionName}
+                />
             </span>
-        )
+        );
     },
 
     onProjectSelected(project) {
@@ -54,13 +56,11 @@ const ResourceSelectMenu = React.createClass({
         }
 
         return (
-        <li>
-            <b style={{ whiteSpace: "nowrap" }}>
-                {resource_type + ": "}
-            </b>
-            {resource.get("name")}
-            {this.renderSelectMenu()}
-        </li>
+            <li>
+                <b style={{whiteSpace: "nowrap"}}>{resource_type + ": "}</b>
+                {resource.get("name")}
+                {this.renderSelectMenu()}
+            </li>
         );
     }
 });

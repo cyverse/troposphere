@@ -13,9 +13,9 @@ export default React.createClass({
     },
 
     getInitialState: function() {
-        return ({
+        return {
             showTooltip: false
-        });
+        };
     },
 
     showTooltip: function() {
@@ -48,23 +48,19 @@ export default React.createClass({
     tooltip: function() {
         let tooltip = this.props.tooltip;
         if (!tooltip || !this.state.showTooltip) {
-            return
+            return;
         }
 
-        return (
-        <Tooltip message={tooltip} />
-        )
+        return <Tooltip message={tooltip} />;
     },
 
     icon: function() {
         let icon = this.props.icon;
         if (!icon) {
-            return null
+            return null;
         }
 
-        return (
-        <i className={`glyphicon glyphicon-${icon}`} />
-        )
+        return <i className={`glyphicon glyphicon-${icon}`} />;
     },
 
     render: function() {
@@ -72,18 +68,19 @@ export default React.createClass({
         let buttonType = this.props.buttonType;
 
         return (
-        <div style={{ ...this.props.style, position: "relative" }}>
-            <button type="button"
-                disabled={this.props.isDisabled}
-                className={`btn btn-${buttonType}`}
-                onClick={this.onTouch}
-                onMouseEnter={this.onMouseEnter}
-                onMouseLeave={this.onMouseLeave}>
-                {this.icon()}
-                {` ${this.props.title}`}
-            </button>
-            {this.tooltip()}
-        </div>
-        )
+            <div style={{...this.props.style, position: "relative"}}>
+                <button
+                    type="button"
+                    disabled={this.props.isDisabled}
+                    className={`btn btn-${buttonType}`}
+                    onClick={this.onTouch}
+                    onMouseEnter={this.onMouseEnter}
+                    onMouseLeave={this.onMouseLeave}>
+                    {this.icon()}
+                    {` ${this.props.title}`}
+                </button>
+                {this.tooltip()}
+            </div>
+        );
     }
 });

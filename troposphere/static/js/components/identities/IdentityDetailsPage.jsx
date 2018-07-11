@@ -4,7 +4,6 @@ import IdentityDetailsView from "./detail/details/IdentityDetailsView";
 
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "IdentityDetailsPage",
 
@@ -13,14 +12,9 @@ export default React.createClass({
             project = stores.IdentityStore.get(projectId);
 
         if (!project) {
-            return (
-            <div className="loading"></div>
-            );
+            return <div className="loading" />;
         }
 
-        return (
-        <IdentityDetailsView project={project} />
-        );
+        return <IdentityDetailsView project={project} />;
     }
-
 });

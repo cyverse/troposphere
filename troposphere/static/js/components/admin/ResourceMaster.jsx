@@ -1,12 +1,10 @@
 import React from "react";
-import { withRouter } from "react-router";
+import {withRouter} from "react-router";
 
-import ResourceRequestNav from "./ResourceRequest/ResourceRequestNav"
+import ResourceRequestNav from "./ResourceRequest/ResourceRequestNav";
 import stores from "stores";
 
-
 const ResourceMaster = React.createClass({
-
     propTypes: {
         params: React.PropTypes.object.isRequired,
         children: React.PropTypes.object
@@ -15,15 +13,19 @@ const ResourceMaster = React.createClass({
     getInitialState() {
         return {
             refreshing: false
-        }
+        };
     },
 
     componentWillUnmount() {
-        stores.AdminResourceRequestStore.removeChangeListener(this.requestListener);
+        stores.AdminResourceRequestStore.removeChangeListener(
+            this.requestListener
+        );
     },
 
     componentDidMount() {
-        stores.AdminResourceRequestStore.addChangeListener(this.requestListener);
+        stores.AdminResourceRequestStore.addChangeListener(
+            this.requestListener
+        );
         stores.AdminResourceRequestStore.getAll();
     },
 
@@ -34,17 +36,21 @@ const ResourceMaster = React.createClass({
     },
 
     renderRefreshButton() {
-        let { refreshing } = this.state;
-        let { refreshIcon } = this.style();
+        let {refreshing} = this.state;
+        let {refreshIcon} = this.style();
         let controlsClass = "glyphicon glyphicon-refresh";
 
         if (refreshing) {
-            controlsClass += " refreshing"
+            controlsClass += " refreshing";
             refreshIcon.color = "inherit";
         }
 
         return (
-        <span className={controlsClass} style={refreshIcon} onClick={this.onRefresh} />
+            <span
+                className={controlsClass}
+                style={refreshIcon}
+                onClick={this.onRefresh}
+            />
         );
     },
 
@@ -71,7 +77,7 @@ const ResourceMaster = React.createClass({
             container: {
                 display: "flex"
             }
-        }
+        };
     },
 
     renderRequestNav(requests, selectedRequest) {
@@ -81,9 +87,7 @@ const ResourceMaster = React.createClass({
             onSelect: this.onSelect
         };
 
-        return (
-            <ResourceRequestNav {...navProps} />
-        );
+        return <ResourceRequestNav {...navProps} />;
     },
 
     renderRequestDetail(selectedRequest) {
@@ -92,7 +96,7 @@ const ResourceMaster = React.createClass({
         // If we don't have children then the user is at
         // `/application/admin/resource-requests`
         if (!children) {
-            return <p style={{ margin: "1em" }}>Please select a request.</p>;
+            return <p style={{margin: "1em"}}>Please select a request.</p>;
         }
 
         if (!selectedRequest) {
@@ -100,12 +104,13 @@ const ResourceMaster = React.createClass({
         }
 
         // Pass props to the child route
-        return React.Children.map(children,
-                c => React.cloneElement(c, { selectedRequest }));
+        return React.Children.map(children, c =>
+            React.cloneElement(c, {selectedRequest})
+        );
     },
 
     renderBody() {
-        let { container } = this.style();
+        let {container} = this.style();
         let params = this.props.params;
         let requestId = params.id;
         let requests = stores.AdminResourceRequestStore.getAll();
@@ -121,23 +126,26 @@ const ResourceMaster = React.createClass({
         // Lookup selectedRequest by requestId, or make a separate request for
         // the model specifically
         let selectedRequest =
-            (requests.get(requestId) || stores.AdminResourceRequestStore.getModel(requestId));
+            requests.get(requestId) ||
+            stores.AdminResourceRequestStore.getModel(requestId);
 
         return (
-        <div style={container}>
-            { this.renderRequestNav(requests, selectedRequest) }
-            { this.renderRequestDetail(selectedRequest) }
-        </div>
+            <div style={container}>
+                {this.renderRequestNav(requests, selectedRequest)}
+                {this.renderRequestDetail(selectedRequest)}
+            </div>
         );
     },
 
     render() {
         return (
-        <div className="resource-master">
-            <h2 className="t-headline">Resource Requests {this.renderRefreshButton()}</h2>
-            <hr />
-            { this.renderBody() }
-        </div>
+            <div className="resource-master">
+                <h2 className="t-headline">
+                    Resource Requests {this.renderRefreshButton()}
+                </h2>
+                <hr />
+                {this.renderBody()}
+            </div>
         );
     }
 });

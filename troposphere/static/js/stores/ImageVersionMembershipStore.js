@@ -1,4 +1,3 @@
-
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import ImageVersionMembershipCollection from "collections/ImageVersionMembershipCollection";
@@ -20,44 +19,59 @@ let ImageVersionMembershipStore = BaseStore.extend({
         if (!_modelsFor[imageVersionId] && !_isFetchingFor[imageVersionId]) {
             _isFetchingFor[imageVersionId] = true;
             var models = new ImageVersionMembershipCollection();
-            models.fetch({
-                url: models.url + "?version_id=" + imageVersionId
-            }).done(function() {
-                _isFetchingFor[imageVersionId] = false;
+            models
+                .fetch({
+                    url: models.url + "?version_id=" + imageVersionId
+                })
+                .done(
+                    function() {
+                        _isFetchingFor[imageVersionId] = false;
 
-                // add models to existing cache
-                this.models.add(models.models);
+                        // add models to existing cache
+                        this.models.add(models.models);
 
-                // convert ImageVersionMembership collection to a MembershipCollection
-                var memberships = models.map(function(version_membership) {
-                    return new Membership(version_membership.get("membership"), {
-                        parse: true
-                    });
-                });
-                memberships = new MembershipCollection(memberships);
+                        // convert ImageVersionMembership collection to a MembershipCollection
+                        var memberships = models.map(function(
+                            version_membership
+                        ) {
+                            return new Membership(
+                                version_membership.get("membership"),
+                                {
+                                    parse: true
+                                }
+                            );
+                        });
+                        memberships = new MembershipCollection(memberships);
 
-                _modelsFor[imageVersionId] = memberships;
-                this.emitChange();
-            }.bind(this));
+                        _modelsFor[imageVersionId] = memberships;
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
 
     getMembershipsFor: function(imageversion) {
-        if (!_modelsFor[imageversion.id]) return this.fetchModelsFor(imageversion.id);
+        if (!_modelsFor[imageversion.id])
+            return this.fetchModelsFor(imageversion.id);
 
         // convert ImageVersionMembership collection to an MembershipCollection
-        var imageVersionMemberships = this.models.filter(function(version_membership) {
-            return version_membership.get("image_version").id === imageversion.id;
+        var imageVersionMemberships = this.models.filter(function(
+            version_membership
+        ) {
+            return (
+                version_membership.get("image_version").id === imageversion.id
+            );
         });
 
-        var memberships = imageVersionMemberships.map(function(version_membership) {
+        var memberships = imageVersionMemberships.map(function(
+            version_membership
+        ) {
             return new Membership(version_membership.get("group"), {
                 parse: true
             });
         });
         return new MembershipCollection(memberships);
     }
-
 });
 
 let store = new ImageVersionMembershipStore();
@@ -68,7 +82,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ImageVersionMembershipConstants.ADD_IMAGEVERSION_MEMBERSHIP:
             store.add(payload.image_versionMembership);
             break;

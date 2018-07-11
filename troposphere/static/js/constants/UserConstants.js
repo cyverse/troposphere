@@ -1,4 +1,3 @@
-
 export default {
     UPDATE_USER: "UPDATE_USER",
     EMIT_CHANGE: "EMIT_CHANGE_USER",

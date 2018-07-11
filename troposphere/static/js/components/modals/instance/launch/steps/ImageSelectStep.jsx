@@ -7,7 +7,7 @@ import ImageList from "../components/ImageList";
 import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 import InstanceLaunchFooter from "../components/InstanceLaunchFooter";
 
-import { filterEndDate } from "utilities/filterCollection";
+import {filterEndDate} from "utilities/filterCollection";
 
 export default React.createClass({
     displayName: "InstanceLaunchWizardModal-ImageSelectStep",
@@ -24,7 +24,7 @@ export default React.createClass({
             query: null,
             view: this.FEATURED_VIEW,
             page: 1
-        }
+        };
     },
 
     componentDidMount: function() {
@@ -33,12 +33,12 @@ export default React.createClass({
         stores.TagStore.addChangeListener(this.updateState);
         this.focusSearchInput();
 
-    // Here we have the option to prime the data, in the future
-    // subscribing to a data source should do this automatically
-    //
-    // this.fetchAll();
-    // this.fetchFeatured();
-    // this.fetchFavorites();
+        // Here we have the option to prime the data, in the future
+        // subscribing to a data source should do this automatically
+        //
+        // this.fetchAll();
+        // this.fetchFeatured();
+        // this.fetchFavorites();
     },
 
     componentWillUnmount: function() {
@@ -70,32 +70,42 @@ export default React.createClass({
 
         // Skip the timeout, if the query is empty
         if (!input) {
-            this.setState({
-                query: input
-            }, this.updateState);
+            this.setState(
+                {
+                    query: input
+                },
+                this.updateState
+            );
         } else {
-
             // The callback will be called at least after 500 ms, if the
             // function is called again, its internal timer will be reset
-            this.setState({
-                query: input
-            }, () => {
-                this.callIfNotInterruptedAfter(500 /*ms*/ , this.updateState);
-            });
+            this.setState(
+                {
+                    query: input
+                },
+                () => {
+                    this.callIfNotInterruptedAfter(
+                        500 /*ms*/,
+                        this.updateState
+                    );
+                }
+            );
         }
-
     },
 
     handleLoadMoreImages: function() {
         this.setState({
             page: this.state.page + 1
-        })
+        });
     },
 
     onChangeView: function(view) {
-        this.setState({
-            view
-        }, this.updateState);
+        this.setState(
+            {
+                view
+            },
+            this.updateState
+        );
     },
 
     fetchAll: function() {
@@ -198,9 +208,8 @@ export default React.createClass({
         // Waiting on a network request, or user is typing
         if (!images || this.awaitingTimeout()) {
             return (
-            // Note: this div collapses w/o nbsp
-            <div className="filter-description">
-            </div>
+                // Note: this div collapses w/o nbsp
+                <div className="filter-description" />
             );
         }
 
@@ -223,20 +232,19 @@ export default React.createClass({
             message += ` for "${query}"`;
         }
 
-        return (
-        <div className="filter-description">
-            {message}
-        </div>
-        );
+        return <div className="filter-description">{message}</div>;
     },
 
     renderMoreImagesButton: function() {
         return (
-        <li>
-            <button style={{ "margin": "15px auto", "display": "block" }} className="btn btn-default" onClick={this.handleLoadMoreImages}>
-                Show more images...
-            </button>
-        </li>
+            <li>
+                <button
+                    style={{margin: "15px auto", display: "block"}}
+                    className="btn btn-default"
+                    onClick={this.handleLoadMoreImages}>
+                    Show more images...
+                </button>
+            </li>
         );
     },
 
@@ -246,13 +254,14 @@ export default React.createClass({
 
     renderSearchInput: function() {
         return (
-        <input
-            style={{ marginBottom: "20px" }}
-            ref="searchField"
-            type="text"
-            placeholder="Search across image name, tag or description"
-            className="form-control search-input"
-            onChange={this.onSearchChange} />
+            <input
+                style={{marginBottom: "20px"}}
+                ref="searchField"
+                type="text"
+                placeholder="Search across image name, tag or description"
+                className="form-control search-input"
+                onChange={this.onSearchChange}
+            />
         );
     },
 
@@ -283,11 +292,11 @@ export default React.createClass({
         // Render loading
         if (!(images && tags)) {
             return (
-            <div>
-                {this.renderSearchInput()}
-                {this.renderFilterDescription()}
-                <div className="loading" />
-            </div>
+                <div>
+                    {this.renderSearchInput()}
+                    {this.renderFilterDescription()}
+                    <div className="loading" />
+                </div>
             );
         }
 
@@ -301,37 +310,41 @@ export default React.createClass({
         let shownImages = pagedImages.cfilter(filterEndDate);
 
         return (
-        <div>
-            {this.renderSearchInput()}
-            {this.renderFilterDescription(shownImages, images.length)}
-            <ImageList images={shownImages} onSelectImage={this.props.onSelectImage}>
-                {       
-                    isMoreImages
-                    ? this.renderMoreImagesButton()
-                    : null
-                }
-            </ImageList>
-        </div>
+            <div>
+                {this.renderSearchInput()}
+                {this.renderFilterDescription(shownImages, images.length)}
+                <ImageList
+                    images={shownImages}
+                    onSelectImage={this.props.onSelectImage}>
+                    {isMoreImages ? this.renderMoreImagesButton() : null}
+                </ImageList>
+            </div>
         );
-
     },
 
     render: function() {
         return (
-        <div>
-            <div className="modal-section">
-                <h3 className="t-body-2">First choose an image for your instance</h3>
-                <hr/>
-                <TabLinks links={["Show Featured", "Show Favorites", "Show All"]} defaultLink={this.FEATURED_VIEW} onTabClick={this.onChangeView} />
-                {this.renderImageTabView()}
+            <div>
+                <div className="modal-section">
+                    <h3 className="t-body-2">
+                        First choose an image for your instance
+                    </h3>
+                    <hr />
+                    <TabLinks
+                        links={["Show Featured", "Show Favorites", "Show All"]}
+                        defaultLink={this.FEATURED_VIEW}
+                        onTabClick={this.onChangeView}
+                    />
+                    {this.renderImageTabView()}
+                </div>
+                <InstanceLaunchFooter
+                    showValidationErr={true}
+                    onCancel={this.props.onCancel}
+                    launchIsDisabled={true}
+                    advancedIsDisabled={true}
+                    backIsDisabled={true}
+                />
             </div>
-            <InstanceLaunchFooter showValidationErr={true}
-                onCancel={this.props.onCancel}
-                launchIsDisabled={true}
-                advancedIsDisabled={true}
-                backIsDisabled={true} />
-        </div>
         );
-
     }
 });

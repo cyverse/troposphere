@@ -6,52 +6,52 @@ export default React.createClass({
     propTypes: {
         style: React.PropTypes.object,
         close: React.PropTypes.func.isRequired,
-        onCreate: React.PropTypes.func.isRequired,
+        onCreate: React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
-        return ({
+        return {
             type: "URL",
             strategy: "always",
             wait_for_deploy: true,
             title: "",
             text: "",
             validate: false
-        })
+        };
     },
 
     getDefaultProps: function() {
         return {
-            style: { position: "absolute", bottom: "75px", right: "15px" }
-        }
+            style: {position: "absolute", bottom: "75px", right: "15px"}
+        };
     },
 
     onChangeStrategy: function(e) {
         let strategy = e.target.value;
         this.setState({
             strategy
-        })
+        });
     },
 
     onChangeType: function(e) {
         let type = e.target.value;
         this.setState({
             type
-        })
+        });
     },
 
     onChangeDeployment: function(e) {
         let deployType = e.target.value === "sync";
         this.setState({
             wait_for_deploy: deployType
-        })
+        });
     },
 
     onChangeTitle: function(e) {
         let title = e.target.value;
         this.setState({
             title
-        })
+        });
     },
 
     onBlurTitle: function() {
@@ -65,7 +65,7 @@ export default React.createClass({
         let text = e.target.value;
         this.setState({
             text
-        })
+        });
     },
 
     onBlurText: function() {
@@ -99,19 +99,19 @@ export default React.createClass({
     // There is probably a better place to put this.
     isValidString: function(str) {
         if (str !== "") {
-            return true
+            return true;
         }
-        return false
+        return false;
     },
 
     isValidUrl: function(str) {
         if (!(str.search("https?://") < 0)) {
             if (str.indexOf(" ") >= 0) {
-                return false
+                return false;
             }
-            return true
+            return true;
         }
-        return false
+        return false;
     },
 
     isSubmittable: function() {
@@ -121,12 +121,12 @@ export default React.createClass({
         if (this.isValidString(title) && this.isValidString(text)) {
             if (this.state.type === "URL") {
                 if (!this.isValidUrl(text)) {
-                    return false
+                    return false;
                 }
             }
             return true;
         }
-        return false
+        return false;
     },
 
     renderInputType: function() {
@@ -143,18 +143,18 @@ export default React.createClass({
             }
 
             return (
-            <div className={classNames}>
-                <label>
-                    Script URL
-                </label>
-                <input className="form-control"
-                    placeholder="http://yourscript.org"
-                    value={this.state.text}
-                    onChange={this.onChangeText}
-                    onBlur={this.onBlurText} />
-                <span className="help-block">{errorMessage}</span>
-            </div>
-            )
+                <div className={classNames}>
+                    <label>Script URL</label>
+                    <input
+                        className="form-control"
+                        placeholder="http://yourscript.org"
+                        value={this.state.text}
+                        onChange={this.onChangeText}
+                        onBlur={this.onBlurText}
+                    />
+                    <span className="help-block">{errorMessage}</span>
+                </div>
+            );
         } else {
             if (this.state.validate) {
                 if (!this.isValidString(text)) {
@@ -164,19 +164,19 @@ export default React.createClass({
             }
 
             return (
-            <div className={classNames}>
-                <label>
-                    Raw Text
-                </label>
-                <textarea className="form-control"
-                    placeholder="#!/bin/bash"
-                    rows="6"
-                    value={this.state.text}
-                    onChange={this.onChangeText}
-                    onBlur={this.onBlurText} />
-                <span className="help-block">{errorMessage}</span>
-            </div>
-            )
+                <div className={classNames}>
+                    <label>Raw Text</label>
+                    <textarea
+                        className="form-control"
+                        placeholder="#!/bin/bash"
+                        rows="6"
+                        value={this.state.text}
+                        onChange={this.onChangeText}
+                        onBlur={this.onBlurText}
+                    />
+                    <span className="help-block">{errorMessage}</span>
+                </div>
+            );
         }
     },
 
@@ -195,104 +195,132 @@ export default React.createClass({
         }
 
         return (
-
-        <div>
-            <h3 className="t-subheading">Create and Add a New Script</h3>
-            <hr/>
-            <div className="row">
-                <div className="col-md-6">
-                    <div className={classNames}>
-                        <label>
-                            Script Title
-                        </label>
-                        <input className="form-control"
-                            placeholder="My Script"
-                            value={this.state.title}
-                            onChange={this.onChangeTitle}
-                            onBlur={this.onBlurTitle} />
-                        <span className="help-block">{errorMessage}</span>
+            <div>
+                <h3 className="t-subheading">Create and Add a New Script</h3>
+                <hr />
+                <div className="row">
+                    <div className="col-md-6">
+                        <div className={classNames}>
+                            <label>Script Title</label>
+                            <input
+                                className="form-control"
+                                placeholder="My Script"
+                                value={this.state.title}
+                                onChange={this.onChangeTitle}
+                                onBlur={this.onBlurTitle}
+                            />
+                            <span className="help-block">{errorMessage}</span>
+                        </div>
+                        <div className={classNames}>
+                            <h4 className="t-body-2">Input Type</h4>
+                            <div className="radio-inline">
+                                <label className="radio">
+                                    <input
+                                        type="radio"
+                                        name="optionsRadios"
+                                        value="URL"
+                                        defaultChecked={
+                                            this.state.type === "URL"
+                                        }
+                                        onClick={this.onChangeType}
+                                    />{" "}
+                                    URL
+                                </label>
+                            </div>
+                            <div className="radio-inline">
+                                <label className="radio">
+                                    <input
+                                        type="radio"
+                                        name="optionsRadios"
+                                        value="Raw Text"
+                                        defaultChecked={
+                                            this.state.type === "Raw Text"
+                                        }
+                                        onClick={this.onChangeType}
+                                    />{" "}
+                                    Raw Text
+                                </label>
+                            </div>
+                            <h4 className="t-body-2">
+                                Execution Strategy Type
+                            </h4>
+                            <div className="radio">
+                                <label className="radio">
+                                    <input
+                                        type="radio"
+                                        name="strategyTypeRadios"
+                                        value="once"
+                                        defaultChecked={
+                                            this.state.strategy === "once"
+                                        }
+                                        onClick={this.onChangeStrategy}
+                                    />{" "}
+                                    {"Run script on first boot"}
+                                </label>
+                            </div>
+                            <div className="radio">
+                                <label className="radio">
+                                    <input
+                                        type="radio"
+                                        name="strategyTypeRadios"
+                                        value="always"
+                                        defaultChecked={
+                                            this.state.strategy === "always"
+                                        }
+                                        onClick={this.onChangeStrategy}
+                                    />{" "}
+                                    {"Run script on each deployment"}
+                                </label>
+                            </div>
+                            <h4 className="t-body-2">Deployment Type</h4>
+                            <div className="radio">
+                                <label className="radio">
+                                    <input
+                                        type="radio"
+                                        name="deploymentTypeRadios"
+                                        value="once"
+                                        defaultChecked={
+                                            this.state.wait_for_deploy
+                                        }
+                                        onClick={this.onChangeDeployment}
+                                    />{" "}
+                                    {"Wait for script to complete"}
+                                </label>
+                            </div>
+                            <div className="radio">
+                                <label className="radio">
+                                    <input
+                                        type="radio"
+                                        name="deploymentTypeRadios"
+                                        value="always"
+                                        defaultChecked={
+                                            !this.state.wait_for_deploy
+                                        }
+                                        onClick={this.onChangeDeployment}
+                                    />{" "}
+                                    {"Execute script asynchronously"}
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div className={classNames}>
-                        <h4 className="t-body-2">Input Type</h4>
-                        <div className="radio-inline">
-                            <label className="radio">
-                                <input type="radio"
-                                       name="optionsRadios"
-                                       value="URL"
-                                       defaultChecked={this.state.type === "URL"}
-                                       onClick={this.onChangeType} /> URL
-                            </label>
-                        </div>
-                        <div className="radio-inline">
-                            <label className="radio">
-                                <input type="radio"
-                                       name="optionsRadios"
-                                       value="Raw Text"
-                                       defaultChecked={this.state.type === "Raw Text"}
-                                       onClick={this.onChangeType} /> Raw Text
-                            </label>
-                        </div>
-                        <h4 className="t-body-2">Execution Strategy Type</h4>
-                        <div className="radio">
-                            <label className="radio">
-                                <input type="radio"
-                                       name="strategyTypeRadios"
-                                       value="once"
-                                       defaultChecked={this.state.strategy === "once"}
-                                       onClick={this.onChangeStrategy} /> {"Run script on first boot"}
-                            </label>
-                        </div>
-                        <div className="radio">
-                            <label className="radio">
-                                <input type="radio"
-                                       name="strategyTypeRadios"
-                                       value="always"
-                                       defaultChecked={this.state.strategy === "always"}
-                                       onClick={this.onChangeStrategy} /> {"Run script on each deployment"}
-                            </label>
-                        </div>
-                        <h4 className="t-body-2">Deployment Type</h4>
-                        <div className="radio">
-                            <label className="radio">
-                                <input type="radio"
-                                       name="deploymentTypeRadios"
-                                       value="once"
-                                       defaultChecked={this.state.wait_for_deploy}
-                                       onClick={this.onChangeDeployment} /> {"Wait for script to complete"}
-                            </label>
-                        </div>
-                        <div className="radio">
-                            <label className="radio">
-                                <input type="radio"
-                                       name="deploymentTypeRadios"
-                                       value="always"
-                                       defaultChecked={!this.state.wait_for_deploy}
-                                       onClick={this.onChangeDeployment} /> {"Execute script asynchronously"}
-                            </label>
-                        </div>
-
-                    </div>
+                    <div className="col-md-6">{this.renderInputType()}</div>
                 </div>
-                <div className="col-md-6">
-                    {this.renderInputType()}
+                <div style={this.props.style}>
+                    <RaisedButton
+                        primary
+                        className="pull-right"
+                        disabled={disable}
+                        onTouchTap={this.onCreateScript}
+                        label="Save and Add Script"
+                    />
+                    <RaisedButton
+                        className="pull-right"
+                        style={{marginRight: "10px"}}
+                        onTouchTap={this.props.close}
+                        label="Cancel Create Script"
+                    />
                 </div>
             </div>
-            <div style={this.props.style}>
-                <RaisedButton
-                    primary
-                    className="pull-right"
-                    disabled={disable}
-                    onTouchTap={this.onCreateScript}
-                    label="Save and Add Script"
-                />
-                <RaisedButton
-                    className="pull-right"
-                    style={{ marginRight: "10px" }}
-                    onTouchTap={this.props.close}
-                    label="Cancel Create Script"
-                />
-            </div>
-        </div>
-        )
+        );
     }
 });

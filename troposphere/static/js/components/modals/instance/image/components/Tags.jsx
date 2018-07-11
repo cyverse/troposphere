@@ -5,7 +5,6 @@ import actions from "actions";
 import TagMultiSelect from "components/common/tags/TagMultiSelect";
 import TagCreateForm from "./TagCreateForm";
 
-
 export default React.createClass({
     displayName: "Tags",
 
@@ -23,7 +22,7 @@ export default React.createClass({
             newTagName: "",
             newTagDescription: "",
             showTagCreateForm: false
-        }
+        };
     },
 
     componentDidMount: function() {
@@ -37,7 +36,7 @@ export default React.createClass({
 
     updateState: function() {
         this.setState({
-            tags: stores.TagStore.getAll(),
+            tags: stores.TagStore.getAll()
         });
     },
 
@@ -123,13 +122,13 @@ export default React.createClass({
     renderTagCreateForm() {
         return (
             <TagCreateForm
-                isSubmittable={ this.isSubmittable }
-                createTagAndAddToImage={ this.createTagAndAddToImage }
-                newTagDescription={ this.state.newTagDescription }
-                newTagName={ this.state.newTagName }
-                onNewTagDescriptionChange={ this.onNewTagDescriptionChange }
-                onNewTagName={ this.onNewTagName }
-                onNewTagNameChange={ this.onNewTagNameChange }
+                isSubmittable={this.isSubmittable}
+                createTagAndAddToImage={this.createTagAndAddToImage}
+                newTagDescription={this.state.newTagDescription}
+                newTagName={this.state.newTagName}
+                onNewTagDescriptionChange={this.onNewTagDescriptionChange}
+                onNewTagName={this.onNewTagName}
+                onNewTagNameChange={this.onNewTagNameChange}
             />
         );
     },
@@ -138,28 +137,31 @@ export default React.createClass({
         let imageTags = this.props.imageTags;
         let tags = this.state.tags;
 
-        if (!(imageTags && tags))
-            return <div className="loading" />;
+        if (!(imageTags && tags)) return <div className="loading" />;
 
         return (
-        <div className="form-group" style={{ marginBottom: "30px" }}>
-            <label htmlFor="tags" className="control-label">
-                Image Tags
-            </label>
-            <div className="tagger_container">
-                <div className="help-block">
-                    Please include tags that will help users decide whether this image will suit their needs. You can include the operating system, installed software, or configuration
-                    information. E.g. Ubuntu, NGS Viewers, MAKER, QIIME, etc.
+            <div className="form-group" style={{marginBottom: "30px"}}>
+                <label htmlFor="tags" className="control-label">
+                    Image Tags
+                </label>
+                <div className="tagger_container">
+                    <div className="help-block">
+                        Please include tags that will help users decide whether
+                        this image will suit their needs. You can include the
+                        operating system, installed software, or configuration
+                        information. E.g. Ubuntu, NGS Viewers, MAKER, QIIME,
+                        etc.
+                    </div>
+                    <div className="help-block">
+                        For your convenience, we've automatically added the tags
+                        that were already on the instance.
+                    </div>
+                    {this.renderTagSelect()}
+                    {this.state.showTagCreateForm
+                        ? this.renderTagCreateForm()
+                        : null}
                 </div>
-                <div className="help-block">
-                    For your convenience, we've automatically added the tags that were already on the instance.
-                </div>
-                {this.renderTagSelect()}
-                {this.state.showTagCreateForm
-                 ? this.renderTagCreateForm()
-                 : null}
             </div>
-        </div>
         );
     }
-})
+});

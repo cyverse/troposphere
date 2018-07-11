@@ -4,7 +4,6 @@ import Poll from "./volume/poll";
 import Create from "./volume/create";
 import Destroy from "./volume/destroy";
 
-
 export default {
     update: Update.update,
     report: Report.report,

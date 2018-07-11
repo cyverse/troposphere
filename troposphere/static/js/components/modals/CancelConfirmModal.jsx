@@ -33,13 +33,14 @@ export default React.createClass({
         ];
 
         return (
-        <BootstrapModal ref="modal"
-            show={true}
-            header={this.props.header}
-            buttons={buttons}
-            handleHidden={this.cleanup}>
-            {this.props.body}
-        </BootstrapModal>
+            <BootstrapModal
+                ref="modal"
+                show={true}
+                header={this.props.header}
+                buttons={buttons}
+                handleHidden={this.cleanup}>
+                {this.props.body}
+            </BootstrapModal>
         );
     }
 });

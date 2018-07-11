@@ -1,4 +1,3 @@
-
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import ProjectVolumeCollection from "collections/ProjectVolumeCollection";
@@ -25,31 +24,35 @@ let ProjectStore = BaseStore.extend({
         if (!this.models) return this.fetchModels();
         if (!allVolumes) return;
 
-        var volumes = this.models.filter(function(pv) {
-            // filter out irrelevant project volumes (not in target project)
-            let compare_project = pv.get("project");
-            return (compare_project &&
-                compare_project.id === project.id);
-        }).filter(function(pv) {
-            // filter out the volumes that don't exist (not in local cache)
-            return allVolumes.get(pv.get("volume").id);
-        }).map(function(pv) {
-            // return the actual volumes
-            return allVolumes.get(pv.get("volume").id);
-        });
+        var volumes = this.models
+            .filter(function(pv) {
+                // filter out irrelevant project volumes (not in target project)
+                let compare_project = pv.get("project");
+                return compare_project && compare_project.id === project.id;
+            })
+            .filter(function(pv) {
+                // filter out the volumes that don't exist (not in local cache)
+                return allVolumes.get(pv.get("volume").id);
+            })
+            .map(function(pv) {
+                // return the actual volumes
+                return allVolumes.get(pv.get("volume").id);
+            });
 
-        var pendingVolumes = _pendingProjectVolumes.filter(function(pv) {
-            // filter out irrelevant project volumes (not in target project)
-            let compare_project = pv.get("project");
-            return (compare_project &&
-                compare_project.id === project.id);
-        }).filter(function(pv) {
-            // filter out the volumes that don't exist (not in local cache)
-            return allVolumes.get(pv.get("volume"));
-        }).map(function(pv) {
-            // return the actual volumes
-            return allVolumes.get(pv.get("volume"));
-        });
+        var pendingVolumes = _pendingProjectVolumes
+            .filter(function(pv) {
+                // filter out irrelevant project volumes (not in target project)
+                let compare_project = pv.get("project");
+                return compare_project && compare_project.id === project.id;
+            })
+            .filter(function(pv) {
+                // filter out the volumes that don't exist (not in local cache)
+                return allVolumes.get(pv.get("volume"));
+            })
+            .map(function(pv) {
+                // return the actual volumes
+                return allVolumes.get(pv.get("volume"));
+            });
 
         return new VolumeCollection(volumes.concat(pendingVolumes));
     }
@@ -63,7 +66,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ProjectVolumeConstants.ADD_PROJECT_VOLUME:
             store.add(payload.projectVolume);
             break;
@@ -95,4 +97,3 @@ Dispatcher.register(function(dispatch) {
 });
 
 export default store;
-

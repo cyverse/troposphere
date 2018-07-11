@@ -8,7 +8,6 @@ import modals from "modals";
 import stores from "stores";
 import actions from "actions";
 
-
 export default React.createClass({
     displayName: "IdentityDetails",
 
@@ -20,7 +19,7 @@ export default React.createClass({
         return {
             previewedResource: null,
             selectedResources: new Backbone.Collection()
-        }
+        };
     },
 
     updateState: function() {
@@ -29,14 +28,11 @@ export default React.createClass({
         let instances = stores.InstanceStore.getInstancesForIdentity(identity);
         let selectedResources = this.state.selectedResources;
 
-
         if (instances && volumes) {
-
             // Take into account that selected resources may be out of date, that
             // it may contain resources that no longer exist in the endpoints
             let selectedThatStillExist = selectedResources.cfilter(r => {
-                return  instances.contains(r) ||
-                        volumes.contains(r);
+                return instances.contains(r) || volumes.contains(r);
             });
 
             this.setState({
@@ -65,7 +61,7 @@ export default React.createClass({
 
         this.setState({
             previewedResource: resource,
-            selectedResources,
+            selectedResources
         });
     },
 
@@ -91,7 +87,7 @@ export default React.createClass({
 
         this.setState({
             previewedResource,
-            selectedResources,
+            selectedResources
         });
     },
 
@@ -122,45 +118,59 @@ export default React.createClass({
 
     render: function() {
         var identity = this.props.identity,
-            identityVolumes = stores.VolumeStore.getVolumesForIdentity(identity),
-            identityInstances = stores.InstanceStore.getInstancesForIdentity(identity),
+            identityVolumes = stores.VolumeStore.getVolumesForIdentity(
+                identity
+            ),
+            identityInstances = stores.InstanceStore.getInstancesForIdentity(
+                identity
+            ),
             previewedResource = this.state.previewedResource,
             selectedResources = this.state.selectedResources,
             isButtonBarVisible;
 
         if (!identityInstances || !identityVolumes)
-            return <div className="loading"></div>;
+            return <div className="loading" />;
 
         // Only show the action button bar if the user has selected resources
         isButtonBarVisible = this.state.selectedResources.length > 0;
 
         return (
-        <div className="identity-content clearfix">
-            <ButtonBar isVisible={isButtonBarVisible}
-                onDeleteSelectedResources={this.onDeleteSelectedResources}
-                onReportSelectedResources={this.onReportSelectedResources}
-                onRemoveSelectedResources={this.onRemoveSelectedResources}
-                previewedResource={previewedResource}
-                multipleSelected={selectedResources && selectedResources.length > 1}
-                onUnselect={this.onResourceDeselected}
-                identity={identity} />
-            <div className="resource-list clearfix">
-                <div className="scrollable-content" style={{ borderTop: "solid 1px #E1E1E1" }}>
-                    <InstanceList instances={identityInstances}
-                        onResourceSelected={this.onResourceSelected}
-                        onResourceDeselected={this.onResourceDeselected}
-                        onPreviewResource={this.onPreviewResource}
-                        previewedResource={previewedResource}
-                        selectedResources={selectedResources} />
-                    <VolumeList volumes={identityVolumes}
-                        onResourceSelected={this.onResourceSelected}
-                        onResourceDeselected={this.onResourceDeselected}
-                        onPreviewResource={this.onPreviewResource}
-                        previewedResource={previewedResource}
-                        selectedResources={selectedResources} />
+            <div className="identity-content clearfix">
+                <ButtonBar
+                    isVisible={isButtonBarVisible}
+                    onDeleteSelectedResources={this.onDeleteSelectedResources}
+                    onReportSelectedResources={this.onReportSelectedResources}
+                    onRemoveSelectedResources={this.onRemoveSelectedResources}
+                    previewedResource={previewedResource}
+                    multipleSelected={
+                        selectedResources && selectedResources.length > 1
+                    }
+                    onUnselect={this.onResourceDeselected}
+                    identity={identity}
+                />
+                <div className="resource-list clearfix">
+                    <div
+                        className="scrollable-content"
+                        style={{borderTop: "solid 1px #E1E1E1"}}>
+                        <InstanceList
+                            instances={identityInstances}
+                            onResourceSelected={this.onResourceSelected}
+                            onResourceDeselected={this.onResourceDeselected}
+                            onPreviewResource={this.onPreviewResource}
+                            previewedResource={previewedResource}
+                            selectedResources={selectedResources}
+                        />
+                        <VolumeList
+                            volumes={identityVolumes}
+                            onResourceSelected={this.onResourceSelected}
+                            onResourceDeselected={this.onResourceDeselected}
+                            onPreviewResource={this.onPreviewResource}
+                            previewedResource={previewedResource}
+                            selectedResources={selectedResources}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
 });

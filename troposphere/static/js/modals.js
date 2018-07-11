@@ -4,9 +4,8 @@
 // will throw exceptions if any actions don't exist (which will be the default
 // state for functional tests that need mocked modals)
 
-export default function () {
-
+export default function() {
     return {
         // add modals here
-    }
+    };
 }

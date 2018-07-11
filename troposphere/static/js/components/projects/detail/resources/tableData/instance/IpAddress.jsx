@@ -17,8 +17,6 @@ export default React.createClass({
             address = "N/A";
         }
 
-        return (
-        <span>{address}</span>
-        );
+        return <span>{address}</span>;
     }
 });

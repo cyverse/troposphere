@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import RaisedButton from "material-ui/RaisedButton"
+import RaisedButton from "material-ui/RaisedButton";
 import Backbone from "backbone";
 import $ from "jquery";
 import stores from "stores";
 import modals from "modals";
-import { trackAction } from "utilities/userActivity";
-import { hasExpiredPassword } from "utilities/profilePredicate";
+import {trackAction} from "utilities/userActivity";
+import {hasExpiredPassword} from "utilities/profilePredicate";
 import Bookmark from "../../common/Bookmark";
 
 export default React.createClass({
@@ -21,7 +21,8 @@ export default React.createClass({
         var el = ReactDOM.findDOMNode(this);
         var $el = $(el).find(".tooltip-wrapper");
         $el.tooltip({
-            title: "You can add an Image to a project to make launching instances easier!",
+            title:
+                "You can add an Image to a project to make launching instances easier!",
             placement: "left"
         });
     },
@@ -37,7 +38,7 @@ export default React.createClass({
     showExpiredPasswordModal: function(e) {
         // launch a model that explains you need to update your password
         e.preventDefault();
-        modals.ExpiredPasswordModals.show()
+        modals.ExpiredPasswordModals.show();
         trackAction("shown-expired-password-info", {});
     },
 
@@ -53,7 +54,7 @@ export default React.createClass({
 
     render: function() {
         let profile = stores.ProfileStore.get(),
-            { image } = this.props,
+            {image} = this.props,
             expiredBadge,
             buttonGroup,
             launchButton;
@@ -71,27 +72,28 @@ export default React.createClass({
                 left: "-5px"
             };
             expiredBadge = (
-                <i className="glyphicon glyphicon-exclamation-sign" style={style} />
+                <i
+                    className="glyphicon glyphicon-exclamation-sign"
+                    style={style}
+                />
             );
             launchButton = (
-                    <button
-                        className="btn btn-primary launch-button"
-                        disabled={ image.isEndDated() }
-                        style={{position: "relative"}}
-                        onClick={ this.showExpiredPasswordModal }
-                    >
-                        {expiredBadge} Launch
-                    </button>
+                <button
+                    className="btn btn-primary launch-button"
+                    disabled={image.isEndDated()}
+                    style={{position: "relative"}}
+                    onClick={this.showExpiredPasswordModal}>
+                    {expiredBadge} Launch
+                </button>
             );
         } else {
             launchButton = (
-                    <button
-                        className="btn btn-primary launch-button"
-                        disabled={ image.isEndDated() }
-                        onClick={ this.showLaunchModal }
-                    >
-                        Launch
-                    </button>
+                <button
+                    className="btn btn-primary launch-button"
+                    disabled={image.isEndDated()}
+                    onClick={this.showLaunchModal}>
+                    Launch
+                </button>
             );
         }
 
@@ -100,19 +102,19 @@ export default React.createClass({
         if (profile.id) {
             buttonGroup = (
                 <div>
-                    <span style={{ marginRight: "20px" }}>
-                        <Bookmark width="25px" image={ image }/>
+                    <span style={{marginRight: "20px"}}>
+                        <Bookmark width="25px" image={image} />
                     </span>
                     <span
                         className="tooltip-wrapper"
-                        style={{ marginRight: "20px" }}>
+                        style={{marginRight: "20px"}}>
                         <RaisedButton
-                            disabled={ image.isEndDated() }
-                            onTouchTap={ this.showAddProjectModal }
+                            disabled={image.isEndDated()}
+                            onTouchTap={this.showAddProjectModal}
                             label={
                                 <span>
-                                    <i className="glyphicon glyphicon-plus"></i> 
-                                    { " Add to Project" }
+                                    <i className="glyphicon glyphicon-plus" />
+                                    {" Add to Project"}
                                 </span>
                             }
                         />
@@ -123,26 +125,22 @@ export default React.createClass({
         }
 
         return (
-            <div
-                style={ this.style().header }
-                className="image-header">
-                <div style={ this.style().titleGroup }>
+            <div style={this.style().header} className="image-header">
+                <div style={this.style().titleGroup}>
                     <svg
-                        style={ this.style().backButton }
-                        onClick={ this.onReturnToPreviousPage }
+                        style={this.style().backButton}
+                        onClick={this.onReturnToPreviousPage}
                         fill="#000000"
                         height="24"
                         viewBox="0 0 24 24"
                         width="24"
                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"/>
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z" />
                     </svg>
-                    <h1 className="t-headline">
-                        {image.get("name")}
-                    </h1>
+                    <h1 className="t-headline">{image.get("name")}</h1>
                 </div>
-                { buttonGroup }
+                {buttonGroup}
             </div>
         );
     },
@@ -157,15 +155,15 @@ export default React.createClass({
             },
 
             titleGroup: {
-                flex: "1",
+                flex: "1"
             },
 
             backButton: {
                 float: "left",
                 cursor: "pointer",
                 position: "relative",
-                marginRight: "10px",
-            },
+                marginRight: "10px"
+            }
         };
-    },
+    }
 });

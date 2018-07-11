@@ -3,7 +3,7 @@ import Backbone from "backbone";
 import context from "context";
 import modals from "modals";
 
-import { trackAction } from 'utilities/userActivity';
+import {trackAction} from "utilities/userActivity";
 
 export default React.createClass({
     displayName: "SubMenu",
@@ -15,7 +15,10 @@ export default React.createClass({
     onCreateExternalLink: function() {
         //TODO: Add initial_text if that makes sense.
         var initial_text = "";
-        modals.ExternalLinkModals.createAndAddToProject(initial_text, this.props.project);
+        modals.ExternalLinkModals.createAndAddToProject(
+            initial_text,
+            this.props.project
+        );
     },
 
     onCreateVolume: function() {
@@ -43,23 +46,31 @@ export default React.createClass({
         dropdownMenu = (
             <ul className="dropdown-menu">
                 <li>
-                    <a id="res-create-instance" href="#"
-                       onClick={this.onCreateInstance}>
-                        <i className={'glyphicon glyphicon-tasks'} /> Instance</a>
+                    <a
+                        id="res-create-instance"
+                        href="#"
+                        onClick={this.onCreateInstance}>
+                        <i className={"glyphicon glyphicon-tasks"} /> Instance
+                    </a>
                 </li>
                 <li>
-                    <a id="res-create-volume" href="#"
-                       onClick={this.onCreateVolume}>
-                        <i className={'glyphicon glyphicon-hdd'} /> Volume</a>
+                    <a
+                        id="res-create-volume"
+                        href="#"
+                        onClick={this.onCreateVolume}>
+                        <i className={"glyphicon glyphicon-hdd"} /> Volume
+                    </a>
                 </li>
                 <li>
-                    <a id="res-create-link" href="#"
-                       onClick={this.onCreateExternalLink}>
-                        <i className={'glyphicon glyphicon-globe'} /> Link</a>
+                    <a
+                        id="res-create-link"
+                        href="#"
+                        onClick={this.onCreateExternalLink}>
+                        <i className={"glyphicon glyphicon-globe"} /> Link
+                    </a>
                 </li>
             </ul>
         );
-
 
         if (context && context.hasExpiredPassword()) {
             let style = {
@@ -72,38 +83,49 @@ export default React.createClass({
                 marginRight: "3px"
             };
             expiredBadge = (
-                <i className="glyphicon glyphicon-exclamation-sign" style={style} />
+                <i
+                    className="glyphicon glyphicon-exclamation-sign"
+                    style={style}
+                />
             );
             dropdownMenu = (
                 <ul className="dropdown-menu">
                     <li>
-                        <a id="res-create-instance" href="#"
-                           onClick={this.onExpiredPassword}>
-                            <i className={'glyphicon glyphicon-exclamation-sign'} />
-                            Expired Password</a>
+                        <a
+                            id="res-create-instance"
+                            href="#"
+                            onClick={this.onExpiredPassword}>
+                            <i
+                                className={
+                                    "glyphicon glyphicon-exclamation-sign"
+                                }
+                            />
+                            Expired Password
+                        </a>
                     </li>
                 </ul>
             );
         }
 
         return (
-        <div className="sub-menu"
-            style={{
-                display: "inline-block",
-                marginRight: "10px"
-            }}
-        >
-            <div className="dropdown">
-                <button id="res-new-menu"
+            <div
+                className="sub-menu"
+                style={{
+                    display: "inline-block",
+                    marginRight: "10px"
+                }}>
+                <div className="dropdown">
+                    <button
+                        id="res-new-menu"
                         className="btn btn-primary dropdown-toggle"
-                        style={{ height: "36px" }}
+                        style={{height: "36px"}}
                         data-toggle="dropdown">
-                    New
-                </button>
-                {expiredBadge}
-                {dropdownMenu}
+                        New
+                    </button>
+                    {expiredBadge}
+                    {dropdownMenu}
+                </div>
             </div>
-        </div>
         );
     }
 });

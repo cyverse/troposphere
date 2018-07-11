@@ -4,7 +4,6 @@ import ModalHelpers from "components/modals/ModalHelpers";
 
 import VolumeAttachModal from "components/modals/volume/VolumeAttachModal";
 
-
 export default {
     attach: function(volume, project) {
         var links = stores.HelpLinkStore.getAll(),
@@ -15,16 +14,17 @@ export default {
                 helpLink: helpLink
             };
 
-        ModalHelpers.renderModal(VolumeAttachModal, props,
-            function(instance, mountLocation) {
-                actions.InstanceVolumeActions.attach({
-                    instance: instance,
-                    volume: volume,
-                    project: project,
-                    mountLocation: mountLocation,
-                    helpLink: helpLink
-                });
-            }
-        );
+        ModalHelpers.renderModal(VolumeAttachModal, props, function(
+            instance,
+            mountLocation
+        ) {
+            actions.InstanceVolumeActions.attach({
+                instance: instance,
+                volume: volume,
+                project: project,
+                mountLocation: mountLocation,
+                helpLink: helpLink
+            });
+        });
     }
 };

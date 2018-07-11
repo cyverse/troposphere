@@ -2,7 +2,6 @@ import React from "react";
 import Backbone from "backbone";
 import stores from "stores";
 
-
 export default React.createClass({
     displayName: "Instances",
 
@@ -31,26 +30,16 @@ export default React.createClass({
             burnRate = ausPerCpu * numberOfCpus;
 
         return (
-        <tr key={instance.id}>
-            <td>
-                <span>{instance.get("name")}</span>
-            </td>
-            <td>
-                {instance.get("state").get("status")}
-            </td>
-            <td>
-                {instance.get("state").get("activity")}
-            </td>
-            <td>
-                {numberOfCpus}
-            </td>
-            <td>
-                {burnRate}
-            </td>
-            <td>
-                {instance.get("usage")}
-            </td>
-        </tr>
+            <tr key={instance.id}>
+                <td>
+                    <span>{instance.get("name")}</span>
+                </td>
+                <td>{instance.get("state").get("status")}</td>
+                <td>{instance.get("state").get("activity")}</td>
+                <td>{numberOfCpus}</td>
+                <td>{burnRate}</td>
+                <td>{instance.get("usage")}</td>
+            </tr>
         );
     },
 
@@ -58,7 +47,7 @@ export default React.createClass({
         var provider = this.props.provider,
             instances = stores.InstanceStore.findWhere({
                 "provider.id": provider.id,
-                "status": "active"
+                status: "active"
             }),
             sizes = stores.SizeStore.fetchWhere({
                 provider__id: provider.id,
@@ -67,41 +56,36 @@ export default React.createClass({
             }),
             content = null;
 
-        if (!provider || !instances || !sizes) return <div className="loading"></div>;
+        if (!provider || !instances || !sizes)
+            return <div className="loading" />;
 
         if (instances.length > 0) {
             content = (
                 <div>
                     <p>
-                        The following instances are currently consuming allocation on this provider:
+                        The following instances are currently consuming
+                        allocation on this provider:
                     </p>
                     <table className="table table-striped table-condensed">
                         <thead>
                             <tr>
-                                <th>
-                                    Instance
-                                </th>
-                                <th>
-                                    Status
-                                </th>
-                                <th>
-                                    Activity
-                                </th>
-                                <th>
-                                    CPUs
-                                </th>
-                                <th>
-                                    AUs/hour
-                                </th>
-                                <th>
-                                    Total AU
-                                </th>
+                                <th>Instance</th>
+                                <th>Status</th>
+                                <th>Activity</th>
+                                <th>CPUs</th>
+                                <th>AUs/hour</th>
+                                <th>Total AU</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {instances.map(function(instance) {
-                                 return this.renderInstanceTableRow(instance, sizes);
-                             }.bind(this))}
+                            {instances.map(
+                                function(instance) {
+                                    return this.renderInstanceTableRow(
+                                        instance,
+                                        sizes
+                                    );
+                                }.bind(this)
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -109,19 +93,16 @@ export default React.createClass({
         } else {
             content = (
                 <div>
-                    <p>
-                        You currently have no instances using allocation.
-                    </p>
+                    <p>You currently have no instances using allocation.</p>
                 </div>
             );
         }
 
         return (
-        <div className="row provider-info-section">
-            <h4 className="t-title">Instances Consuming Allocation</h4>
-            {content}
-        </div>
+            <div className="row provider-info-section">
+                <h4 className="t-title">Instances Consuming Allocation</h4>
+                {content}
+            </div>
         );
-
     }
 });

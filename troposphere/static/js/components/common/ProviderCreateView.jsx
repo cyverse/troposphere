@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 import ToggleButton from "components/common/ToggleButton";
 
-import { trackAction } from "../../utilities/userActivity";
+import {trackAction} from "../../utilities/userActivity";
 
 export default React.createClass({
     displayName: "ProviderCreateView",
@@ -23,7 +23,7 @@ export default React.createClass({
         };
     },
 
-    validateName: function () {
+    validateName: function() {
         let name = this.state.providerName;
         let hasError = false;
         let message = "";
@@ -42,10 +42,10 @@ export default React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
 
-    validateTimezone: function () {
+    validateTimezone: function() {
         let name = this.state.providerTimezone;
         let hasError = false;
         let message = "";
@@ -63,10 +63,10 @@ export default React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
 
-    validateDescription: function () {
+    validateDescription: function() {
         let description = this.state.providerDescription;
         let hasError = false;
         let message = "";
@@ -79,10 +79,10 @@ export default React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
 
-    validateCloudConfig: function () {
+    validateCloudConfig: function() {
         let cloud_config = this.state.providerCloudConfig;
         let hasError = false;
         let message = "";
@@ -93,13 +93,13 @@ export default React.createClass({
         }
         try {
             let json_data = JSON.parse(cloud_config);
-            if(!json_data.network) {
+            if (!json_data.network) {
                 throw "Missing network section";
             }
-            if(!json_data.user) {
+            if (!json_data.user) {
                 throw "Missing user section";
             }
-            if(!json_data.deploy) {
+            if (!json_data.deploy) {
                 throw "Missing deploy section";
             }
         } catch (e) {
@@ -110,10 +110,10 @@ export default React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
 
-    validateCredentials: function () {
+    validateCredentials: function() {
         let credentials = this.state.providerCredentials;
         let hasError = false;
         let message = "";
@@ -124,32 +124,36 @@ export default React.createClass({
         }
         try {
             let json_data = JSON.parse(credentials);
-            if(!json_data.length) {
+            if (!json_data.length) {
                 throw "JSON object is not an array";
             }
-            for (var i=0;i<json_data.length;i++) {
+            for (var i = 0; i < json_data.length; i++) {
                 let cred = json_data[i];
                 if (!cred.key || !cred.value) {
-                    throw "JSON object "+i+" missing keys: [key, value]";}
+                    throw "JSON object " + i + " missing keys: [key, value]";
+                }
             }
         } catch (e) {
             hasError = true;
-            message = 'Valid JSON object expected, format: [{"key":"key", "value":"username"}, ...] - ' + e;
+            message =
+                'Valid JSON object expected, format: [{"key":"key", "value":"username"}, ...] - ' +
+                e;
         }
 
         return {
             hasError,
             message
-        }
+        };
     },
 
-    isSubmittable: function () {
-        if (!this.validateName().hasError &&
+    isSubmittable: function() {
+        if (
+            !this.validateName().hasError &&
             !this.validateCloudConfig().hasError &&
             !this.validateCredentials().hasError &&
             !this.validateDescription().hasError &&
             !this.validateTimezone().hasError
-            ) {
+        ) {
             return true;
         }
 
@@ -163,15 +167,15 @@ export default React.createClass({
     confirm: function() {
         if (this.isSubmittable()) {
             let provider_post_data = {
-                'name': this.state.providerName.trim(),
-                'description': this.state.providerDescription.trim(),
-                'cloud_config': JSON.parse(this.state.providerCloudConfig),
-                'credentials': JSON.parse(this.state.providerCredentials),
-                'timezone': this.state.providerTimezone,
-                'public': this.state.providerIsPublic,
-                'active': this.state.providerIsActive,
-                'auto_imaging': this.state.providerAllowAutoImaging
-            }
+                name: this.state.providerName.trim(),
+                description: this.state.providerDescription.trim(),
+                cloud_config: JSON.parse(this.state.providerCloudConfig),
+                credentials: JSON.parse(this.state.providerCredentials),
+                timezone: this.state.providerTimezone,
+                public: this.state.providerIsPublic,
+                active: this.state.providerIsActive,
+                auto_imaging: this.state.providerAllowAutoImaging
+            };
             this.props.onConfirm(provider_post_data);
         }
         trackAction("created-provider", {});
@@ -189,7 +193,7 @@ export default React.createClass({
         });
     },
 
-    onNameBlur: function () {
+    onNameBlur: function() {
         let providerName = this.state.providerName.trim();
         this.setState({
             providerName
@@ -222,22 +226,21 @@ export default React.createClass({
 
     onIsPublicChange: function(new_status, e) {
         this.setState({
-            providerIsPublic: new_status,
+            providerIsPublic: new_status
         });
     },
 
     onIsActiveChange: function(new_status, e) {
         this.setState({
-            providerIsActive: new_status,
+            providerIsActive: new_status
         });
     },
 
     onImagingChange: function(new_status, e) {
         this.setState({
-            providerAllowAutoImaging: new_status,
+            providerAllowAutoImaging: new_status
         });
     },
-
 
     renderBody: function() {
         let providerName = this.state.providerName;
@@ -256,128 +259,133 @@ export default React.createClass({
         let timezoneClassNames = "form-group";
         let timezoneErrorMessage = null;
 
-
-
         if (this.state.showValidation) {
-            nameClassNames = this.validateName().hasError ?
-                "form-group has-error" : null;
+            nameClassNames = this.validateName().hasError
+                ? "form-group has-error"
+                : null;
             nameErrorMessage = this.validateName().message;
 
-            cloud_configClassNames = this.validateCloudConfig().hasError ?
-                "form-group has-error" : null;
+            cloud_configClassNames = this.validateCloudConfig().hasError
+                ? "form-group has-error"
+                : null;
             cloud_configErrorMessage = this.validateCloudConfig().message;
 
-            credentialsClassNames = this.validateCredentials().hasError ?
-                "form-group has-error" : null;
+            credentialsClassNames = this.validateCredentials().hasError
+                ? "form-group has-error"
+                : null;
             credentialsErrorMessage = this.validateCredentials().message;
 
-            descriptionClassNames = this.validateDescription().hasError ?
-                "form-group has-error" : null;
+            descriptionClassNames = this.validateDescription().hasError
+                ? "form-group has-error"
+                : null;
             descriptionErrorMessage = this.validateDescription().message;
 
-            timezoneClassNames = this.validateTimezone().hasError ?
-                "form-group has-error" : null;
+            timezoneClassNames = this.validateTimezone().hasError
+                ? "form-group has-error"
+                : null;
             timezoneErrorMessage = this.validateTimezone().message;
         }
 
         return (
-        <div role="form">
-            <div className={nameClassNames}>
-                <label htmlFor="provider-name">
-                    Provider Name
-                </label>
-                <input type="text"
-                    className="form-control"
-                    value={providerName}
-                    onChange={this.onNameChange}
-                    onBlur={this.onNameBlur} />
-                <span className="help-block">{nameErrorMessage}</span>
-            </div>
+            <div role="form">
+                <div className={nameClassNames}>
+                    <label htmlFor="provider-name">Provider Name</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={providerName}
+                        onChange={this.onNameChange}
+                        onBlur={this.onNameBlur}
+                    />
+                    <span className="help-block">{nameErrorMessage}</span>
+                </div>
 
-            <div className={cloud_configClassNames}>
-                <label htmlFor="provider-cloud_config">
-                    CloudConfig
-                </label>
-                <textarea type="text"
-                    className="form-control"
-                    placeholder='Expects a JSON object - format: {"deploy":{}, "network": {}, "user": {}}'
-                    rows="7"
-                    value={this.state.providerCloudConfig}
-                    onChange={this.onCloudConfigChange} />
-                <span className="help-block">{cloud_configErrorMessage}</span>
-            </div>
+                <div className={cloud_configClassNames}>
+                    <label htmlFor="provider-cloud_config">CloudConfig</label>
+                    <textarea
+                        type="text"
+                        className="form-control"
+                        placeholder="Expects a JSON object - format: {&quot;deploy&quot;:{}, &quot;network&quot;: {}, &quot;user&quot;: {}}"
+                        rows="7"
+                        value={this.state.providerCloudConfig}
+                        onChange={this.onCloudConfigChange}
+                    />
+                    <span className="help-block">
+                        {cloud_configErrorMessage}
+                    </span>
+                </div>
 
-            <div className={credentialsClassNames}>
-                <label htmlFor="provider-credentials">
-                    Credentials
-                </label>
-                <textarea type="text"
-                    className="form-control"
-                    placeholder='Expects a JSON array - format: [{"key":"key", "value":"username"}'
-                    rows="7"
-                    value={this.state.providerCredentials}
-                    onChange={this.onCredentialsChange} />
-                <span className="help-block">{credentialsErrorMessage}</span>
-            </div>
+                <div className={credentialsClassNames}>
+                    <label htmlFor="provider-credentials">Credentials</label>
+                    <textarea
+                        type="text"
+                        className="form-control"
+                        placeholder="Expects a JSON array - format: [{&quot;key&quot;:&quot;key&quot;, &quot;value&quot;:&quot;username&quot;}"
+                        rows="7"
+                        value={this.state.providerCredentials}
+                        onChange={this.onCredentialsChange}
+                    />
+                    <span className="help-block">
+                        {credentialsErrorMessage}
+                    </span>
+                </div>
 
-            <div className={descriptionClassNames}>
-                <label htmlFor="provider-description">
-                    Description
-                </label>
-                <textarea type="text"
-                    className="form-control"
-                    rows="7"
-                    value={this.state.providerDescription}
-                    onChange={this.onDescriptionChange} />
-                <span className="help-block">{descriptionErrorMessage}</span>
-            </div>
+                <div className={descriptionClassNames}>
+                    <label htmlFor="provider-description">Description</label>
+                    <textarea
+                        type="text"
+                        className="form-control"
+                        rows="7"
+                        value={this.state.providerDescription}
+                        onChange={this.onDescriptionChange}
+                    />
+                    <span className="help-block">
+                        {descriptionErrorMessage}
+                    </span>
+                </div>
 
-            <div className={timezoneClassNames}>
-                <label htmlFor="provider-timezone">
-                    Provider timezoneName
-                </label>
-                <input type="text"
-                    className="form-control"
-                    value={this.state.providerTimezone}
-                    onChange={this.onTimezoneChange}
-                />
-                <span className="help-block">{timezoneErrorMessage}</span>
-            </div>
+                <div className={timezoneClassNames}>
+                    <label htmlFor="provider-timezone">
+                        Provider timezoneName
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={this.state.providerTimezone}
+                        onChange={this.onTimezoneChange}
+                    />
+                    <span className="help-block">{timezoneErrorMessage}</span>
+                </div>
 
-            <div className={'form-group'}>
-                <label htmlFor="provider-is_public">
-                    Public Provider
-                </label>
-                <ToggleButton
-                    id="provider-is_public"
-                    isEnabled={this.state.providerIsPublic}
-                    onToggle={this.onIsPublicChange}
-                />
-            </div>
+                <div className={"form-group"}>
+                    <label htmlFor="provider-is_public">Public Provider</label>
+                    <ToggleButton
+                        id="provider-is_public"
+                        isEnabled={this.state.providerIsPublic}
+                        onToggle={this.onIsPublicChange}
+                    />
+                </div>
 
-            <div className={'form-group'}>
-                <label htmlFor="provider-is_active">
-                    Active Provider
-                </label>
-                <ToggleButton
-                    id="provider-is_active"
-                    isEnabled={this.state.providerIsActive}
-                    onToggle={this.onIsActiveChange}
-                />
-            </div>
+                <div className={"form-group"}>
+                    <label htmlFor="provider-is_active">Active Provider</label>
+                    <ToggleButton
+                        id="provider-is_active"
+                        isEnabled={this.state.providerIsActive}
+                        onToggle={this.onIsActiveChange}
+                    />
+                </div>
 
-            <div className={'form-group'}>
-                <label htmlFor="provider-allow-imaging">
-                    Automatic Imaging
-                </label>
-                <ToggleButton
-                    id="provider-allow-imaging"
-                    isEnabled={this.state.providerAllowAutoImaging}
-                    onToggle={this.onImagingChange}
-                />
+                <div className={"form-group"}>
+                    <label htmlFor="provider-allow-imaging">
+                        Automatic Imaging
+                    </label>
+                    <ToggleButton
+                        id="provider-allow-imaging"
+                        isEnabled={this.state.providerAllowAutoImaging}
+                        onToggle={this.onImagingChange}
+                    />
+                </div>
             </div>
-
-        </div>
         );
     },
 
@@ -385,28 +393,30 @@ export default React.createClass({
         let isSubmittable = true;
         if (this.state.showValidation) {
             if (!this.isSubmittable()) {
-                isSubmittable = false
+                isSubmittable = false;
             }
         }
         return (
-        <div>
-            {this.renderBody()}
-            <div className="modal-footer">
-                <button id="cancelCreateProvider"
-                    type="button"
-                    className="btn btn-default"
-                    onClick={this.props.cancel}>
-                    Cancel
-                </button>
-                <button id="submitCreateProvider"
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.confirm}
-                    disabled={!isSubmittable}>
-                    Create
-                </button>
+            <div>
+                {this.renderBody()}
+                <div className="modal-footer">
+                    <button
+                        id="cancelCreateProvider"
+                        type="button"
+                        className="btn btn-default"
+                        onClick={this.props.cancel}>
+                        Cancel
+                    </button>
+                    <button
+                        id="submitCreateProvider"
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={this.confirm}
+                        disabled={!isSubmittable}>
+                        Create
+                    </button>
+                </div>
             </div>
-        </div>
         );
     }
 });

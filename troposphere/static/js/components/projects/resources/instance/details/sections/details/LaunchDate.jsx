@@ -3,7 +3,6 @@ import Backbone from "backbone";
 import ResourceDetail from "components/projects/common/ResourceDetail";
 import Time from "components/common/Time";
 
-
 export default React.createClass({
     displayName: "LaunchDate",
 
@@ -13,10 +12,9 @@ export default React.createClass({
 
     render: function() {
         return (
-        <ResourceDetail label="Launched">
-            <Time date={this.props.instance.get("start_date")} />
-        </ResourceDetail>
+            <ResourceDetail label="Launched">
+                <Time date={this.props.instance.get("start_date")} />
+            </ResourceDetail>
         );
     }
-
 });

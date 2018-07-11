@@ -39,16 +39,16 @@ function findCookie(cookieName) {
 }
 
 function setCookie(cname, cvalue, exdays) {
-    if(exdays == null) {
+    if (exdays == null) {
         exdays = 1;
     }
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
 function deleteCookie(cname) {
     setCookie(cname, null, -1);
 }
-export { findCookie, findAllCookies, setCookie, deleteCookie };
+export {findCookie, findAllCookies, setCookie, deleteCookie};

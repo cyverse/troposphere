@@ -4,7 +4,6 @@ import EditableInputField from "components/common/EditableInputField";
 import EditableTextAreaField from "components/common/EditableTextAreaField";
 import actions from "actions";
 
-
 export default React.createClass({
     displayName: "ExternalLinkInfoSection",
 
@@ -22,7 +21,7 @@ export default React.createClass({
             isEditingName: false,
             isEditingDescription: false,
             isEditingLink: false
-        }
+        };
     },
 
     onEnterEditName: function(e) {
@@ -52,7 +51,7 @@ export default React.createClass({
         });
         actions.ExternalLinkActions.update(link, {
             description: text
-        })
+        });
     },
 
     onDoneEditingLink: function(text) {
@@ -64,7 +63,7 @@ export default React.createClass({
         });
         actions.ExternalLinkActions.update(link, {
             link: text
-        })
+        });
     },
 
     onDoneEditingName: function(text) {
@@ -76,61 +75,73 @@ export default React.createClass({
         });
         actions.ExternalLinkActions.update(link, {
             title: text
-        })
+        });
     },
 
     render: function() {
-        var nameContent,
-            descriptionContent,
-            linkContent;
+        var nameContent, descriptionContent, linkContent;
 
         if (this.state.isEditingDescription) {
             descriptionContent = (
-                <EditableTextAreaField text={this.state.description} onDoneEditing={this.onDoneEditingDescription} />
+                <EditableTextAreaField
+                    text={this.state.description}
+                    onDoneEditing={this.onDoneEditingDescription}
+                />
             );
         } else {
             descriptionContent = (
-                <h4 className="t-body-2" onClick={this.onEnterEditDescription}>{this.state.description} <i className="glyphicon glyphicon-pencil"></i></h4>
+                <h4 className="t-body-2" onClick={this.onEnterEditDescription}>
+                    {this.state.description}{" "}
+                    <i className="glyphicon glyphicon-pencil" />
+                </h4>
             );
         }
 
         if (this.state.isEditingLink) {
             linkContent = (
-                <EditableInputField text={this.state.link} onDoneEditing={this.onDoneEditingLink} />
+                <EditableInputField
+                    text={this.state.link}
+                    onDoneEditing={this.onDoneEditingLink}
+                />
             );
         } else {
             linkContent = (
-                <h4 className="t-body-2" onClick={this.onEnterEditLink}>{this.state.link} <i className="glyphicon glyphicon-pencil"></i></h4>
+                <h4 className="t-body-2" onClick={this.onEnterEditLink}>
+                    {this.state.link}{" "}
+                    <i className="glyphicon glyphicon-pencil" />
+                </h4>
             );
         }
 
         if (this.state.isEditingName) {
             nameContent = (
-                <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditingName} />
+                <EditableInputField
+                    text={this.state.name}
+                    onDoneEditing={this.onDoneEditingName}
+                />
             );
         } else {
             nameContent = (
-                <h4 className="t-body-2" onClick={this.onEnterEditName}>{this.state.name} <i className="glyphicon glyphicon-pencil"></i></h4>
+                <h4 className="t-body-2" onClick={this.onEnterEditName}>
+                    {this.state.name}{" "}
+                    <i className="glyphicon glyphicon-pencil" />
+                </h4>
             );
         }
 
         return (
-        <div className="resource-info-section section clearfix">
-            <div className="resource-info">
-                <h2 className="t-title">Name</h2>
-                <div className="resource-name editable">
-                    {nameContent}
-                </div>
-                <h2 className="t-title">Description</h2>
-                <div className="resource-name editable">
-                    {descriptionContent}
-                </div>
-                <h2 className="t-title">Link</h2>
-                <div className="resource-name editable">
-                    {linkContent}
+            <div className="resource-info-section section clearfix">
+                <div className="resource-info">
+                    <h2 className="t-title">Name</h2>
+                    <div className="resource-name editable">{nameContent}</div>
+                    <h2 className="t-title">Description</h2>
+                    <div className="resource-name editable">
+                        {descriptionContent}
+                    </div>
+                    <h2 className="t-title">Link</h2>
+                    <div className="resource-name editable">{linkContent}</div>
                 </div>
             </div>
-        </div>
         );
     }
 });

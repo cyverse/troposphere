@@ -1,11 +1,10 @@
-
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import ResourceRequestCollection from "collections/ResourceRequestCollection";
 import ResourceRequestConstants from "constants/ResourceRequestConstants";
 
 let ResourceRequestStore = BaseStore.extend({
-    collection: ResourceRequestCollection,
+    collection: ResourceRequestCollection
 });
 
 let store = new ResourceRequestStore();

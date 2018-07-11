@@ -3,14 +3,16 @@ import AppDispatcher from "dispatchers/AppDispatcher";
 import ImageConstants from "constants/ImageConstants";
 
 export default {
-
     updateImageAttributes: function(image, newAttributes) {
         if (newAttributes.end_date != null) {
             var end_date;
             if (typeof newAttributes.end_date === "object") {
-                end_date = newAttributes.end_date
+                end_date = newAttributes.end_date;
             } else {
-                end_date = moment(newAttributes.end_date, "M/DD/YYYY hh:mm a z");
+                end_date = moment(
+                    newAttributes.end_date,
+                    "M/DD/YYYY hh:mm a z"
+                );
             }
             newAttributes.end_date = end_date;
         }
@@ -29,5 +31,4 @@ export default {
             }
         });
     }
-
 };

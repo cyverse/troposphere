@@ -4,7 +4,6 @@ import ModalHelpers from "components/modals/ModalHelpers";
 
 import VolumeDetachModal from "components/modals/volume/VolumeDetachModal";
 
-
 export default {
     detach: function(volume) {
         var helpLink = stores.HelpLinkStore.get("volumes"),
@@ -17,8 +16,7 @@ export default {
             actions.InstanceVolumeActions.detach({
                 volume: volume,
                 helpLink: helpLink
-            })
-        })
-
+            });
+        });
     }
 };

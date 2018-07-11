@@ -1,14 +1,11 @@
-
 import InstanceConstants from "constants/InstanceConstants";
 import InstanceState from "models/InstanceState";
 import Utils from "../Utils";
 import globals from "globals";
 
 export default {
-
     destroy: function(payload, options) {
-        if (!payload.instance)
-            throw new Error("Missing instance");
+        if (!payload.instance) throw new Error("Missing instance");
 
         var instance = payload.instance,
             originalState = instance.get("state"),
@@ -19,12 +16,14 @@ export default {
             }),
             identity = instance.get("identity"),
             provider = instance.get("provider"),
-            url = (
-            globals.API_ROOT +
-            "/provider/" + provider.uuid +
-            "/identity/" + identity.uuid +
-            "/instance/" + instance.get("uuid")
-            );
+            url =
+                globals.API_ROOT +
+                "/provider/" +
+                provider.uuid +
+                "/identity/" +
+                identity.uuid +
+                "/instance/" +
+                instance.get("uuid");
 
         instance.set({
             state: instanceState
@@ -37,27 +36,29 @@ export default {
             instance: instance
         });
 
-        instance.destroy({
-            url: url
-        }).done(function() {
-            Utils.dispatch(InstanceConstants.POLL_FOR_DELETED, {
-                instance: instance
+        instance
+            .destroy({
+                url: url
+            })
+            .done(function() {
+                Utils.dispatch(InstanceConstants.POLL_FOR_DELETED, {
+                    instance: instance
+                });
+            })
+            .fail(function(response) {
+                instance.set({
+                    state: originalState
+                });
+                Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
+                    instance: instance
+                });
+                Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
+                    instance: instance
+                });
+                Utils.displayError({
+                    title: "Your instance could not be deleted",
+                    response: response
+                });
             });
-        }).fail(function(response) {
-            instance.set({
-                state: originalState
-            });
-            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
-                instance: instance
-            });
-            Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
-                instance: instance
-            });
-            Utils.displayError({
-                title: "Your instance could not be deleted",
-                response: response
-            });
-        });
     }
-
 };

@@ -9,5 +9,5 @@ export default function mockSyncDecorator(fakeData, delay = 50) {
             deferred.resolve(collection);
         }, delay);
         return deferred;
-    }
+    };
 }

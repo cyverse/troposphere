@@ -5,7 +5,6 @@ import $ from "jquery";
 import Backbone from "backbone";
 import classNames from "classnames";
 
-
 let ENTER_KEY = 13;
 
 export default {
@@ -13,7 +12,7 @@ export default {
         return {
             showOptions: false,
             query: ""
-        }
+        };
     },
 
     propTypes: {
@@ -33,7 +32,7 @@ export default {
             activeModels: new Backbone.Collection(),
             requiredModels: [],
             placeholderText: "Search..."
-        }
+        };
     },
 
     closeDropdown: function() {
@@ -70,9 +69,11 @@ export default {
         var $node = $(node);
         var container = $node; //.find('.chosen-container');
 
-        if (!container.is(e.target) // if the target of the click isn't the container...
-            && container.has(e.target).length === 0) // ... nor a descendant of the container
-        {
+        if (
+            !container.is(e.target) && // if the target of the click isn't the container...
+            container.has(e.target).length === 0
+        ) {
+            // ... nor a descendant of the container
             return true;
         }
         return false;
@@ -103,9 +104,11 @@ export default {
     },
     getFilteredResults: function(models, activeModels) {
         var filteredResults = models.filter(function(model) {
-            return activeModels.filter(function(activeModel) {
-                return model.id === activeModel.id;
-            }).length === 0;
+            return (
+                activeModels.filter(function(activeModel) {
+                    return model.id === activeModel.id;
+                }).length === 0
+            );
         });
         return filteredResults;
     },
@@ -141,47 +144,37 @@ export default {
 
     renderLoadingListItem: function(query) {
         return (
-        <li className="no-results">
-            Searching for "
-            {query}"...
-        </li>
-        )
+            <li className="no-results">
+                Searching for "
+                {query}"...
+            </li>
+        );
     },
 
     renderNoResultsForQueryListItem: function(query) {
         var phrase = 'No results found matching "' + query + '"';
-        if (this.getNoResultsPhrase)
-            phrase = this.getNoResultsPhrase(query);
-        return <li className="no-results">
-                   {phrase}
-               </li>;
+        if (this.getNoResultsPhrase) phrase = this.getNoResultsPhrase(query);
+        return <li className="no-results">{phrase}</li>;
     },
 
     renderAlreadyAddedAllUsersMatchingQueryListItem: function(query) {
         var phrase = 'All results matching "' + query + '" have been added';
         if (this.getAllAddedMatchingQueryPhrase)
             phrase = this.getAllAddedMatchingQueryPhrase(query);
-        return <li className="no-results">
-                   {phrase}
-               </li>;
+        return <li className="no-results">{phrase}</li>;
     },
 
     renderNoDataListItem: function() {
         var phrase = "No results exist";
-        if (this.getNoDataPhrase)
-            phrase = this.getNoDataPhrase();
-        return <li className="no-results">
-                   {phrase}
-               </li>;
+        if (this.getNoDataPhrase) phrase = this.getNoDataPhrase();
+        return <li className="no-results">{phrase}</li>;
     },
 
     renderAllAddedListItem: function() {
         var phrase = "All results have been added";
         if (this.getAllResultsAddedPhrase)
             phrase = this.getAllResultsAddedPhrase();
-        return <li className="no-results">
-                   {phrase}
-               </li>;
+        return <li className="no-results">{phrase}</li>;
     },
     _mergeModels: function(required_models, active_models) {
         //Required models is a list, active models is a collection..
@@ -189,13 +182,14 @@ export default {
         if (!required_models || required_models.length == 0) {
             if (this.props.activeModels instanceof Array)
                 return new Backbone.Collection(activeModels);
-            else
-                return active_models;
+            else return active_models;
         }
 
         var activeModels = _.union(
                 this.props.requiredModels,
-                (this.props.activeModels instanceof Array) ? this.props.activeModels : this.props.activeModels.toJSON()
+                this.props.activeModels instanceof Array
+                    ? this.props.activeModels
+                    : this.props.activeModels.toJSON()
             ),
             activeCollection = new Backbone.Collection(activeModels);
         return activeCollection;
@@ -208,7 +202,8 @@ export default {
             query = this.state.query,
             activeCollection = this._mergeModels(
                 this.props.requiredModels,
-                this.props.activeModels),
+                this.props.activeModels
+            ),
             selectedModels = activeCollection.map(this.renderSelectedModel),
             placeholderText = this.props.placeholderText,
             filteredModels,
@@ -231,40 +226,44 @@ export default {
         } else {
             // filter out results that have already been added
             filteredModels = models.filter(function(model) {
-                return activeCollection.filter(function(activeModel) {
-                    return model.id === activeModel.id;
-                }).length === 0;
+                return (
+                    activeCollection.filter(function(activeModel) {
+                        return model.id === activeModel.id;
+                    }).length === 0
+                );
             });
             if (models.length > 0 && filteredModels.length === 0) {
-                results = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
+                results = this.renderAlreadyAddedAllUsersMatchingQueryListItem(
+                    query
+                );
             } else {
                 results = filteredModels.map(this.renderModel);
             }
         }
 
         return (
-        <div className={classes}>
-            <ul className="chosen-choices clearfix" onFocus={this.onEnterOptions}>
-                {selectedModels}
-            </ul>
-            <div className="form-group">
-                <input type="text"
-                    ref="searchField"
-                    className="form-control"
-                    placeholder={placeholderText}
-                    autoComplete="off"
-                    onKeyDown={this.onEnter}
-                    onKeyUp={this.filterSearchResults}
-                    onFocus={this.onEnterOptions} />
-                <div className="chosen-drop">
-                    <ul className="chosen-results">
-                        {results}
-                    </ul>
+            <div className={classes}>
+                <ul
+                    className="chosen-choices clearfix"
+                    onFocus={this.onEnterOptions}>
+                    {selectedModels}
+                </ul>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        ref="searchField"
+                        className="form-control"
+                        placeholder={placeholderText}
+                        autoComplete="off"
+                        onKeyDown={this.onEnter}
+                        onKeyUp={this.filterSearchResults}
+                        onFocus={this.onEnterOptions}
+                    />
+                    <div className="chosen-drop">
+                        <ul className="chosen-results">{results}</ul>
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
-
 };
-

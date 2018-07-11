@@ -27,18 +27,16 @@ export default React.createClass({
         stores.ProviderStore.removeChangeListener(this.updateState);
     },
 
-
     render: function() {
         let providers = this.state.providers;
-        if (!providers) return <div className="loading"></div>;
+        if (!providers) return <div className="loading" />;
         return (
-        <div style={{ paddingTop: "50px" }}>
-            <header>
-                <h1 className="t-display-1">Your Providers</h1>
-            </header>
-            <ProviderList providers={providers} />
-        </div>
-        )
+            <div style={{paddingTop: "50px"}}>
+                <header>
+                    <h1 className="t-display-1">Your Providers</h1>
+                </header>
+                <ProviderList providers={providers} />
+            </div>
+        );
     }
-
 });

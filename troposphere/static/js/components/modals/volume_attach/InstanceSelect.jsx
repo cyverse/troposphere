@@ -14,23 +14,20 @@ export default React.createClass({
     render: function() {
         if (this.props.instances) {
             var options = this.props.instances.map(function(instance) {
-                return (
-                <InstanceOption key={instance.id} instance={instance} />
-                );
+                return <InstanceOption key={instance.id} instance={instance} />;
             });
 
             return (
-            <select value={this.props.instanceId}
-                className="form-control"
-                id="size"
-                onChange={this.props.onChange}>
-                {options}
-            </select>
+                <select
+                    value={this.props.instanceId}
+                    className="form-control"
+                    id="size"
+                    onChange={this.props.onChange}>
+                    {options}
+                </select>
             );
         } else {
-            return (
-            <div className="loading-small"></div>
-            );
+            return <div className="loading-small" />;
         }
     }
 });

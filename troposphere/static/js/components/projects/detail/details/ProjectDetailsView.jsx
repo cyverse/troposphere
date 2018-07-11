@@ -14,26 +14,29 @@ export default React.createClass({
     getInitialState: function() {
         return {
             isEditing: false
-        }
+        };
     },
 
     handleCancel: function() {
         this.setState({
             isEditing: false
-        })
+        });
     },
 
     handleSave: function(params) {
         this.setState({
             isEditing: false
         });
-        actions.ProjectActions.updateProjectAttributes(this.props.project, params)
+        actions.ProjectActions.updateProjectAttributes(
+            this.props.project,
+            params
+        );
     },
 
     handleEdit: function() {
         this.setState({
             isEditing: true
-        })
+        });
     },
 
     // ------
@@ -42,21 +45,27 @@ export default React.createClass({
 
     renderDetailsView: function(project) {
         return (
-        <div className="container">
-            <div className="row edit-link-row">
-                <a className="edit-link" onClick={this.handleEdit}>Edit details</a>
+            <div className="container">
+                <div className="row edit-link-row">
+                    <a className="edit-link" onClick={this.handleEdit}>
+                        Edit details
+                    </a>
+                </div>
+                <ViewDetails project={project} />
             </div>
-            <ViewDetails project={project} />
-        </div>
-        )
+        );
     },
 
     renderEditDetailsView: function(project) {
         return (
-        <div className="container">
-            <EditDetails project={project} onSave={this.handleSave} onCancel={this.handleCancel} />
-        </div>
-        )
+            <div className="container">
+                <EditDetails
+                    project={project}
+                    onSave={this.handleSave}
+                    onCancel={this.handleCancel}
+                />
+            </div>
+        );
     },
 
     render: function() {

@@ -1,4 +1,3 @@
-
 export default {
     ADD_PROVIDER: "ADD_PROVIDER",
     UPDATE_PROVIDER: "UPDATE_PROVIDER",

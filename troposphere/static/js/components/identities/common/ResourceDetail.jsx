@@ -11,29 +11,23 @@ export default React.createClass({
 
     render: function() {
         let detailValue,
-            { children, label, onClick } = this.props;
+            {children, label, onClick} = this.props;
 
         if (onClick) {
             detailValue = (
-            <div className="detail-value" onClick={onClick}>
-                {children}
-            </div>
+                <div className="detail-value" onClick={onClick}>
+                    {children}
+                </div>
             );
         } else {
-            detailValue = (
-            <div className="detail-value">
-                {children}
-            </div>
-            );
+            detailValue = <div className="detail-value">{children}</div>;
         }
 
         return (
-        <li className="clearfix">
-            <div className="t-body-2 detail-label">
-                {label + " "}
-            </div>
-            {detailValue}
-        </li>
+            <li className="clearfix">
+                <div className="t-body-2 detail-label">{label + " "}</div>
+                {detailValue}
+            </li>
         );
     }
 });

@@ -1,4 +1,3 @@
-
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import ImageBookmarkCollection from "collections/ImageBookmarkCollection";
@@ -24,8 +23,7 @@ let ImageBookmarkStore = BaseStore.extend({
         var images = this.models.map(function(ib) {
             // this will cause the image to be fetched if we don't yet have it
             var image = stores.ImageStore.get(ib.get("image").id);
-            if (!image)
-                haveAllImages = false;
+            if (!image) haveAllImages = false;
             return image;
         });
 
@@ -33,7 +31,6 @@ let ImageBookmarkStore = BaseStore.extend({
         // Check the user's badges when we know we have all of their bookmarked images
         return new ImageCollection(images);
     }
-
 });
 
 let store = new ImageBookmarkStore();
@@ -44,7 +41,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ImageBookmarkConstants.ADD_IMAGE_BOOKMARK:
             store.add(payload.imageBookmark);
             break;
@@ -66,6 +62,5 @@ Dispatcher.register(function(dispatch) {
 
     return true;
 });
-
 
 export default store;

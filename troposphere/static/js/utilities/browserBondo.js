@@ -14,9 +14,11 @@ function conditionalFill() {
     // source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes#Polyfill
     if (!Array.prototype.includes) {
         Array.prototype.includes = function(searchElement /*, fromIndex*/) {
-            'use strict';
+            "use strict";
             if (this == null) {
-                throw new TypeError('Array.prototype.includes called on null or undefined');
+                throw new TypeError(
+                    "Array.prototype.includes called on null or undefined"
+                );
             }
 
             var O = Object(this);
@@ -30,13 +32,18 @@ function conditionalFill() {
                 k = n;
             } else {
                 k = len + n;
-                if (k < 0) {k = 0;}
+                if (k < 0) {
+                    k = 0;
+                }
             }
             var currentElement;
             while (k < len) {
                 currentElement = O[k];
-                if (searchElement === currentElement ||
-                    (searchElement !== searchElement && currentElement !== currentElement)) {
+                if (
+                    searchElement === currentElement ||
+                    (searchElement !== searchElement &&
+                        currentElement !== currentElement)
+                ) {
                     // NaN !== NaN
                     return true;
                 }
@@ -48,15 +55,16 @@ function conditionalFill() {
 
     // source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex#Polyfill
     if (!Array.prototype.findIndex) {
-        Object.defineProperty(Array.prototype, 'findIndex', {
+        Object.defineProperty(Array.prototype, "findIndex", {
             value: function(predicate) {
-                'use strict';
+                "use strict";
                 if (this == null) {
                     throw new TypeError(
-                        'Array.prototype.findIndex called on null or undefined');
+                        "Array.prototype.findIndex called on null or undefined"
+                    );
                 }
-                if (typeof predicate !== 'function') {
-                    throw new TypeError('predicate must be a function');
+                if (typeof predicate !== "function") {
+                    throw new TypeError("predicate must be a function");
                 }
                 var list = Object(this);
                 var length = list.length >>> 0;
@@ -76,7 +84,6 @@ function conditionalFill() {
             writable: false
         });
     }
-
 }
 
-export default { conditionalFill };
+export default {conditionalFill};

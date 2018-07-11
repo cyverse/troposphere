@@ -4,8 +4,7 @@ import stores from "stores";
 import ToggleButton from "components/common/ToggleButton";
 import SelectMenu from "components/common/ui/SelectMenu";
 
-import { trackAction } from "../../utilities/userActivity";
-
+import {trackAction} from "../../utilities/userActivity";
 
 export default React.createClass({
     displayName: "AccountCreateView",
@@ -13,7 +12,7 @@ export default React.createClass({
     componentDidMount() {
         stores.QuotaStore.addChangeListener(this.updateState);
         stores.ProviderStore.addChangeListener(this.updateState);
-        if(this.refs.atmosphereUsername != null) {
+        if (this.refs.atmosphereUsername != null) {
             ReactDOM.findDOMNode(this.refs.atmosphereUsername).select();
         }
     },
@@ -33,11 +32,11 @@ export default React.createClass({
             provider: null,
             quota: null,
             createAccount: false,
-            adminAccount: false,
+            adminAccount: false
         };
     },
 
-    validateGroupname: function () {
+    validateGroupname: function() {
         let name = this.state.atmosphereGroupname;
         let hasError = false;
         let message = "";
@@ -56,10 +55,10 @@ export default React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
 
-    validateUsername: function () {
+    validateUsername: function() {
         let name = this.state.atmosphereUsername;
         let hasError = false;
         let message = "";
@@ -78,10 +77,10 @@ export default React.createClass({
         return {
             hasError,
             message
-        }
+        };
     },
 
-    validateCredentials: function () {
+    validateCredentials: function() {
         let credentials = this.state.accountCredentials;
         let hasError = false;
         let message = "";
@@ -92,30 +91,34 @@ export default React.createClass({
         }
         try {
             let json_data = JSON.parse(credentials);
-            if(!json_data.length) {
+            if (!json_data.length) {
                 throw "JSON object is not an array";
             }
-            for (var i=0;i<json_data.length;i++) {
+            for (var i = 0; i < json_data.length; i++) {
                 let cred = json_data[i];
                 if (!cred.key || !cred.value) {
-                    throw "JSON object "+i+" missing keys: [key, value]";}
+                    throw "JSON object " + i + " missing keys: [key, value]";
+                }
             }
         } catch (e) {
             hasError = true;
-            message = 'Valid JSON object expected, format: [{"key":"key", "value":"username"}, ...] - ' + e;
+            message =
+                'Valid JSON object expected, format: [{"key":"key", "value":"username"}, ...] - ' +
+                e;
         }
 
         return {
             hasError,
             message
-        }
+        };
     },
 
-    isSubmittable: function () {
-        if (!this.validateUsername().hasError &&
+    isSubmittable: function() {
+        if (
+            !this.validateUsername().hasError &&
             !this.validateGroupname().hasError &&
             !this.validateCredentials().hasError
-            ) {
+        ) {
             return true;
         }
 
@@ -128,16 +131,16 @@ export default React.createClass({
 
     confirm: function() {
         if (this.isSubmittable()) {
-            let quota = (this.state.quota) ? this.state.quota.get('uuid') : null;
+            let quota = this.state.quota ? this.state.quota.get("uuid") : null;
             let accountPostData = {
-                'atmo_user': this.state.atmosphereUsername.trim(),
-                'atmo_group': this.state.atmosphereGroupname.trim(),
-                'credentials': JSON.parse(this.state.accountCredentials),
-                'quota': quota,
-                'provider': this.state.provider.get('uuid'),
-                'create_account': this.state.createAccount,
-                'admin_account': this.state.adminAccount
-            }
+                atmo_user: this.state.atmosphereUsername.trim(),
+                atmo_group: this.state.atmosphereGroupname.trim(),
+                credentials: JSON.parse(this.state.accountCredentials),
+                quota: quota,
+                provider: this.state.provider.get("uuid"),
+                create_account: this.state.createAccount,
+                admin_account: this.state.adminAccount
+            };
             this.props.onConfirm(accountPostData);
         }
         trackAction("created-account", {});
@@ -155,7 +158,7 @@ export default React.createClass({
         });
     },
 
-    onUsernameBlur: function () {
+    onUsernameBlur: function() {
         let atmosphereUsername = this.state.atmosphereUsername.trim();
         this.setState({
             atmosphereUsername
@@ -168,7 +171,7 @@ export default React.createClass({
         });
     },
 
-    onGroupnameBlur: function () {
+    onGroupnameBlur: function() {
         let atmosphereGroupname = this.state.atmosphereGroupname.trim();
         this.setState({
             atmosphereGroupname
@@ -183,13 +186,13 @@ export default React.createClass({
 
     onAdminAccountChange: function(new_status, e) {
         this.setState({
-            adminAccount: new_status,
+            adminAccount: new_status
         });
     },
 
     onCreateAccountChange: function(new_status, e) {
         this.setState({
-            createAccount: new_status,
+            createAccount: new_status
         });
     },
 
@@ -209,7 +212,7 @@ export default React.createClass({
         //let floating_ip_count = quota.get("floating_ip_count");
         //let port_count = quota.get("port_count");
 
-        return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB, Disk: ${ storage } GB, ...)`;
+        return `${name} (CPU: ${cpu}, Mem: ${memory} GB, Disk: ${storage} GB, ...)`;
     },
 
     onQuotaChange: function(quota) {
@@ -229,7 +232,7 @@ export default React.createClass({
         let quotaList = stores.QuotaStore.getAll();
 
         if (!quotaList || !providerList) {
-            return (<div className="loading"/>);
+            return <div className="loading" />;
         }
         let atmosphereUsername = this.state.atmosphereUsername;
 
@@ -243,101 +246,109 @@ export default React.createClass({
         let credentialsErrorMessage = null;
 
         if (this.state.showValidation) {
-            usernameClassNames = this.validateUsername().hasError ?
-                "form-group has-error" : null;
+            usernameClassNames = this.validateUsername().hasError
+                ? "form-group has-error"
+                : null;
             usernameErrorMessage = this.validateUsername().message;
 
-            groupnameClassNames = this.validateGroupname().hasError ?
-                "form-group has-error" : null;
+            groupnameClassNames = this.validateGroupname().hasError
+                ? "form-group has-error"
+                : null;
             groupnameErrorMessage = this.validateGroupname().message;
 
-            credentialsClassNames = this.validateCredentials().hasError ?
-                "form-group has-error" : null;
+            credentialsClassNames = this.validateCredentials().hasError
+                ? "form-group has-error"
+                : null;
             credentialsErrorMessage = this.validateCredentials().message;
         }
 
         return (
-        <div role="form">
-            <div className={usernameClassNames}>
-                <label htmlFor="atmosphere-username">
-                    Atmosphere Username
-                </label>
-                <input type="text"
-                    ref="atmosphereUsername"
-                    className="form-control"
-                    value={atmosphereUsername}
-                    onChange={this.onUsernameChange}
-                    onBlur={this.onUsernameBlur} />
-                <span className="help-block">{usernameErrorMessage}</span>
-            </div>
+            <div role="form">
+                <div className={usernameClassNames}>
+                    <label htmlFor="atmosphere-username">
+                        Atmosphere Username
+                    </label>
+                    <input
+                        type="text"
+                        ref="atmosphereUsername"
+                        className="form-control"
+                        value={atmosphereUsername}
+                        onChange={this.onUsernameChange}
+                        onBlur={this.onUsernameBlur}
+                    />
+                    <span className="help-block">{usernameErrorMessage}</span>
+                </div>
 
-            <div className={groupnameClassNames}>
-                <label htmlFor="atmosphere-groupname">
-                    Atmosphere Group Name
-                </label>
-                <input type="text"
-                    className="form-control"
-                    value={this.state.atmosphereGroupname}
-                    onChange={this.onGroupnameChange}
-                    onBlur={this.onGroupnameBlur} />
-                <span className="help-block">{groupnameErrorMessage}</span>
-            </div>
+                <div className={groupnameClassNames}>
+                    <label htmlFor="atmosphere-groupname">
+                        Atmosphere Group Name
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={this.state.atmosphereGroupname}
+                        onChange={this.onGroupnameChange}
+                        onBlur={this.onGroupnameBlur}
+                    />
+                    <span className="help-block">{groupnameErrorMessage}</span>
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="provider">
-                    Provider
-                </label>
-                <SelectMenu id="provider"
-                            placeholder='Select a Provider'
-                            current={ this.state.provider }
-                            optionName={ p => p.get("name") }
-                            list={ providerList }
-                            onSelect={ this.onProviderChange } />
-            </div>
-            <div className="form-group">
-                <label htmlFor="quota">
-                    Quota
-                </label>
-                <SelectMenu current={this.state.quota}
-                    placeholder='Use Default Quota'
-                    optionName={this.getQuotaName}
-                    list={quotaList}
-                    onSelect={this.onQuotaChange} />
-            </div>
-            <div className={credentialsClassNames}>
-                <label htmlFor="account-credentials">
-                    Credentials
-                </label>
-                <textarea type="text"
-                    className="form-control"
-                    placeholder='Expects a JSON array - format: [{"key":"key", "value":"username"}'
-                    rows="7"
-                    value={this.state.accountCredentials}
-                    onChange={this.onCredentialsChange} />
-                <span className="help-block">{credentialsErrorMessage}</span>
-            </div>
+                <div className="form-group">
+                    <label htmlFor="provider">Provider</label>
+                    <SelectMenu
+                        id="provider"
+                        placeholder="Select a Provider"
+                        current={this.state.provider}
+                        optionName={p => p.get("name")}
+                        list={providerList}
+                        onSelect={this.onProviderChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="quota">Quota</label>
+                    <SelectMenu
+                        current={this.state.quota}
+                        placeholder="Use Default Quota"
+                        optionName={this.getQuotaName}
+                        list={quotaList}
+                        onSelect={this.onQuotaChange}
+                    />
+                </div>
+                <div className={credentialsClassNames}>
+                    <label htmlFor="account-credentials">Credentials</label>
+                    <textarea
+                        type="text"
+                        className="form-control"
+                        placeholder="Expects a JSON array - format: [{&quot;key&quot;:&quot;key&quot;, &quot;value&quot;:&quot;username&quot;}"
+                        rows="7"
+                        value={this.state.accountCredentials}
+                        onChange={this.onCredentialsChange}
+                    />
+                    <span className="help-block">
+                        {credentialsErrorMessage}
+                    </span>
+                </div>
 
-            <div className={'form-group'}>
-                <label htmlFor="create_account">
-                    {"Create a New Account?"}
-                </label>
-                <ToggleButton
-                    isEnabled={this.state.createAccount}
-                    onToggle={this.onCreateAccountChange}
-                />
-            </div>
+                <div className={"form-group"}>
+                    <label htmlFor="create_account">
+                        {"Create a New Account?"}
+                    </label>
+                    <ToggleButton
+                        isEnabled={this.state.createAccount}
+                        onToggle={this.onCreateAccountChange}
+                    />
+                </div>
 
-            <div className={'form-group'}>
-                <label htmlFor="admin_account">
-                    {"Is this an admin account?"}
-                </label>
-                <ToggleButton
-                    isEnabled={this.state.adminAccount}
-                    onToggle={this.onAdminAccountChange}
-                />
+                <div className={"form-group"}>
+                    <label htmlFor="admin_account">
+                        {"Is this an admin account?"}
+                    </label>
+                    <ToggleButton
+                        isEnabled={this.state.adminAccount}
+                        onToggle={this.onAdminAccountChange}
+                    />
+                </div>
             </div>
-
-        </div>
         );
     },
 
@@ -345,28 +356,30 @@ export default React.createClass({
         let isSubmittable = true;
         if (this.state.showValidation) {
             if (!this.isSubmittable()) {
-                isSubmittable = false
+                isSubmittable = false;
             }
         }
         return (
-        <div>
-            {this.renderBody()}
-            <div className="modal-footer">
-                <button id="cancelCreateProvider"
-                    type="button"
-                    className="btn btn-default"
-                    onClick={this.props.cancel}>
-                    Cancel
-                </button>
-                <button id="submitCreateProvider"
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.confirm}
-                    disabled={!isSubmittable}>
-                    Create
-                </button>
+            <div>
+                {this.renderBody()}
+                <div className="modal-footer">
+                    <button
+                        id="cancelCreateProvider"
+                        type="button"
+                        className="btn btn-default"
+                        onClick={this.props.cancel}>
+                        Cancel
+                    </button>
+                    <button
+                        id="submitCreateProvider"
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={this.confirm}
+                        disabled={!isSubmittable}>
+                        Create
+                    </button>
+                </div>
             </div>
-        </div>
         );
     }
 });

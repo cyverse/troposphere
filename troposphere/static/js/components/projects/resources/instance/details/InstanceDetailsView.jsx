@@ -16,8 +16,8 @@ const InstanceDetailsView = React.createClass({
     },
 
     render() {
-        let { instance, project, allocationSources, params } = this.props;
-        let { HelpLinkStore } = this.props.subscriptions;
+        let {instance, project, allocationSources, params} = this.props;
+        let {HelpLinkStore} = this.props.subscriptions;
         let helpLinks = HelpLinkStore.getAll();
 
         var breadcrumbs = [
@@ -41,13 +41,13 @@ const InstanceDetailsView = React.createClass({
         let requires = [project, instance, helpLinks];
 
         if (globals.USE_ALLOCATION_SOURCES) {
-            requires.push(allocationSources)
+            requires.push(allocationSources);
         }
 
         // Use truthy check to see if loaded
         let loaded = requires.every(r => Boolean(r));
         if (!loaded) {
-            return <div className="loading"></div>;
+            return <div className="loading" />;
         }
 
         let props = {
@@ -58,12 +58,11 @@ const InstanceDetailsView = React.createClass({
             helpLinks
         };
 
-
         return (
-        <div>
-            <BreadcrumbBar breadcrumbs={breadcrumbs} />
-            <InstanceDetail { ...props} />
-        </div>
+            <div>
+                <BreadcrumbBar breadcrumbs={breadcrumbs} />
+                <InstanceDetail {...props} />
+            </div>
         );
     }
 });

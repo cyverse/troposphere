@@ -14,11 +14,11 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             renderLinks: true
-        }
+        };
     },
 
     onClick(e) {
-        let { onTagClick } = this.props;
+        let {onTagClick} = this.props;
         e.stopPropagation();
         e.preventDefault();
         if (onTagClick) {
@@ -45,9 +45,7 @@ export default React.createClass({
 
         return (
             <li className="tag">
-                <span onClick={ this.onClick }>
-                    {tagName}
-                </span>
+                <span onClick={this.onClick}>{tagName}</span>
             </li>
         );
     }

@@ -4,15 +4,16 @@ import globals from "globals";
 
 function isRelevant(model, identityId) {
     // using double ~ to convert string to number
-    return model.id && model.get("identity") &&
-    ~~model.get("identity").id === identityId;
-
+    return (
+        model.id &&
+        model.get("identity") &&
+        ~~model.get("identity").id === identityId
+    );
 }
 
 export default Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/identities",
     parse: function(attributes) {
-
         // put default allocation data here since it isn't
         // in the data structure for admins (but we want it
         // in the object for consistency)
@@ -20,11 +21,14 @@ export default Backbone.Model.extend({
             attributes.allocation = {
                 current: 10,
                 threshold: 168
-            }
+            };
         }
 
         // todo: put this in the API
-        if (attributes.allocation.current === null || attributes.allocation.current === undefined) {
+        if (
+            attributes.allocation.current === null ||
+            attributes.allocation.current === undefined
+        ) {
             attributes.allocation.current = 777;
         }
 
@@ -44,22 +48,27 @@ export default Backbone.Model.extend({
     },
 
     getName: function() {
-        let provider = this.get('provider');
+        let provider = this.get("provider");
         if (!featureFlags.hasProjectSharing()) {
-                return provider.name;
+            return provider.name;
         }
         return this.get("key") + " on " + provider.name;
     },
     toString: function() {
-        let verboseText = this.getCredentialValue('key')
-            + "/" + this.getCredentialValue('ex_project_name')
-            + " on " + this.get("provider").name;
+        let verboseText =
+            this.getCredentialValue("key") +
+            "/" +
+            this.getCredentialValue("ex_project_name") +
+            " on " +
+            this.get("provider").name;
 
         return verboseText;
     },
     getCredentialValue: function(key_name) {
-        let credentials = this.get('credentials');
-        let filtered = credentials.filter(function(cred) { return cred.key == key_name; });
+        let credentials = this.get("credentials");
+        let filtered = credentials.filter(function(cred) {
+            return cred.key == key_name;
+        });
         return filtered.length != 0 ? filtered[0].clean_value : "";
     },
 

@@ -6,7 +6,7 @@ import ReactDOM from "react-dom";
 
 // Needed for MUI's onTouchTap
 // http://stackoverflow.com/a/34015469/988941
-import injectTapEvent from 'react-tap-event-plugin';
+import injectTapEvent from "react-tap-event-plugin";
 injectTapEvent();
 
 import SplashScreen from "components/SplashScreen";
@@ -22,7 +22,6 @@ Object.keys(Backbone.Events).forEach(function(functionName) {
     Backbone.Model.prototype[functionName] = function() {};
     Backbone.Collection.prototype[functionName] = function() {};
 });
-
 
 Backbone.Collection.prototype.get = function(obj) {
     if (obj == null) return void 0;
@@ -150,14 +149,13 @@ export default {
     run: function() {
         let authHeaders = {
             "Content-Type": "application/json"
-        }
+        };
 
         // Assure that an auth header is only included when we have
         // an actually `access_token` to provide.
         if (window.access_token) {
             authHeaders["Authorization"] = "Token " + window.access_token;
         }
-
 
         // Make sure the Authorization header is added to every AJAX request
         $.ajaxSetup({
@@ -172,15 +170,18 @@ export default {
         Backbone.sync = function(attrs, textStatus, xhr) {
             var dfd = $.Deferred();
 
-            originalSync.apply(this, arguments).then(function() {
-                dfd.resolve.apply(this, arguments);
-            }).fail(function(response) {
-                if (response.status === 503) {
-                    window.location = '/maintenance'
-                } else {
-                    dfd.reject.apply(this, arguments);
-                }
-            });
+            originalSync
+                .apply(this, arguments)
+                .then(function() {
+                    dfd.resolve.apply(this, arguments);
+                })
+                .fail(function(response) {
+                    if (response.status === 503) {
+                        window.location = "/maintenance";
+                    } else {
+                        dfd.reject.apply(this, arguments);
+                    }
+                });
 
             return dfd.promise();
         };
@@ -191,10 +192,11 @@ export default {
             var LoginMasterComponent = React.createFactory(LoginMaster);
 
             //Show login component when user is not already-logged in.
-            const Render = window.access_token ?
-                SplashScreenComponent() : LoginMasterComponent();
+            const Render = window.access_token
+                ? SplashScreenComponent()
+                : LoginMasterComponent();
 
             ReactDOM.render(Render, document.getElementById("application"));
         });
     }
-}
+};

@@ -9,16 +9,14 @@ var Activity = React.createClass({
     },
 
     render: function() {
-
         return (
-        <ResourceDetail label="Activity">
-            <div className="resource-status">
-                <ActivitySection instance={this.props.instance} />
-            </div>
-        </ResourceDetail>
+            <ResourceDetail label="Activity">
+                <div className="resource-status">
+                    <ActivitySection instance={this.props.instance} />
+                </div>
+            </ResourceDetail>
         );
     }
-
 });
 
 export default Activity;

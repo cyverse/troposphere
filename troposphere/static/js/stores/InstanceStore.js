@@ -33,34 +33,47 @@ var InstanceStore = BaseStore.extend({
 
             // Build the query string if queryParameters have been provided
             if (this.queryParams) {
-                queryString = this.buildQueryStringFromQueryParams(this.queryParams);
+                queryString = this.buildQueryStringFromQueryParams(
+                    this.queryParams
+                );
             }
 
-            models.fetch({
-                url: _.result(models, "url") + queryString
-            }).done(function() {
-                this.isFetching = false;
-                this.models = models;
-                let self = this;
-                if (this.pollingEnabled) {
-                    this.models.each(function(instance) {
-                        let instance_status = instance.get("status"),
-                            instance_activity = instance.get("activity");
-                        if( (instance_status == "active" || instance_status == "shutoff" || instance_status == "suspended") && instance_activity == "") {
-                            return;
+            models
+                .fetch({
+                    url: _.result(models, "url") + queryString
+                })
+                .done(
+                    function() {
+                        this.isFetching = false;
+                        this.models = models;
+                        let self = this;
+                        if (this.pollingEnabled) {
+                            this.models.each(function(instance) {
+                                let instance_status = instance.get("status"),
+                                    instance_activity = instance.get(
+                                        "activity"
+                                    );
+                                if (
+                                    (instance_status == "active" ||
+                                        instance_status == "shutoff" ||
+                                        instance_status == "suspended") &&
+                                    instance_activity == ""
+                                ) {
+                                    return;
+                                }
+                                self.pollNowUntilBuildIsFinished(instance);
+                            });
                         }
-                        self.pollNowUntilBuildIsFinished(instance);
-                    });
-                }
-                this.emitChange();
-            }.bind(this));
+                        this.emitChange();
+                    }.bind(this)
+                );
         }
     },
     getInstancesForIdentity: function(identity) {
         if (!this.models) return this.fetchModels();
 
         var instances = this.models.filter(function(instance) {
-            return instance.get("identity").uuid === identity.get('uuid');
+            return instance.get("identity").uuid === identity.get("uuid");
         });
 
         return new InstanceCollection(instances);
@@ -70,9 +83,12 @@ var InstanceStore = BaseStore.extend({
         if (!this.models) return this.fetchModels();
 
         let profile = context.profile,
-            username =  profile.get('username');
+            username = profile.get("username");
         var instances = this.models.filter(function(instance) {
-            return (instance.get("project") == null && instance.get('user').username == username);
+            return (
+                instance.get("project") == null &&
+                instance.get("user").username == username
+            );
         });
 
         return new InstanceCollection(instances);
@@ -105,13 +121,14 @@ var InstanceStore = BaseStore.extend({
      * Poll handler, last chance to signal updates for resource
      */
     isInFinalState: function(instance) {
-
         Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
             instance: instance
         });
 
-        if (instance.get("state").get("status") == "active" &&
-            instance.get("ip_address").charAt(0) == "0") {
+        if (
+            instance.get("state").get("status") == "active" &&
+            instance.get("ip_address").charAt(0) == "0"
+        ) {
             return false;
         }
 
@@ -120,40 +137,41 @@ var InstanceStore = BaseStore.extend({
 
     // Poll for a model
     pollUntilDeleted: function(instance) {
-        this.pollWhile(instance, function(model, response) {
-            // If 404 then remove the model
-            if (response.status == "404") {
-                Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {
-                    instance: model
+        this.pollWhile(
+            instance,
+            function(model, response) {
+                // If 404 then remove the model
+                if (response.status == "404") {
+                    Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {
+                        instance: model
+                    });
+                    // This is a hack. Some components only listen to the
+                    // ProjectInstanceStore. We need them to react when an
+                    // instance is deleted, so we prompt the addChangeListeners of
+                    // each of those components here.
+                    Utils.dispatch(ProjectInstanceConstants.EMIT_CHANGE);
+
+                    return false;
+                }
+
+                var status = instance.get("state").get("status");
+                instance.set({
+                    state: new InstanceState({
+                        status_raw: status + " - deleting",
+                        status: "active",
+                        activity: "deleting"
+                    })
                 });
-                // This is a hack. Some components only listen to the
-                // ProjectInstanceStore. We need them to react when an
-                // instance is deleted, so we prompt the addChangeListeners of
-                // each of those components here.
-                Utils.dispatch(ProjectInstanceConstants.EMIT_CHANGE);
 
-                return false;
-            }
+                Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
+                    instance: instance
+                });
 
-            var status = instance.get("state").get("status");
-            instance.set({
-                state: new InstanceState({
-                    status_raw: status + " - deleting",
-                    status: "active",
-                    activity: "deleting"
-                })
-            });
-
-            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
-                instance: instance
-            });
-
-            // Keep polling while 200 or not 404
-            return response.status == "200";
-
-        }.bind(this));
+                // Keep polling while 200 or not 404
+                return response.status == "200";
+            }.bind(this)
+        );
     }
-
 });
 
 let store = new InstanceStore();
@@ -164,7 +182,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case InstanceConstants.ADD_INSTANCE:
             store.add(payload.instance);
             break;

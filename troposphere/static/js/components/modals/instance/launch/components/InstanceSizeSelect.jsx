@@ -11,15 +11,19 @@ export default React.createClass({
     },
 
     renderOption: function(size) {
-        var disabled = this.props.min_cpu != null && this.props.min_mem != null && (size.get("cpu") < this.props.min_cpu || size.get("mem") < this.props.min_mem / 1024);
+        var disabled =
+            this.props.min_cpu != null &&
+            this.props.min_mem != null &&
+            (size.get("cpu") < this.props.min_cpu ||
+                size.get("mem") < this.props.min_mem / 1024);
         var text = size.formattedDetails();
         if (disabled) {
             text += " Unavailable: fails minimum requirements";
         }
         return (
-        <option disabled={disabled} key={size.id} value={size.id}>
-            {text}
-        </option>
+            <option disabled={disabled} key={size.id} value={size.id}>
+                {text}
+            </option>
         );
     },
 
@@ -28,17 +32,16 @@ export default React.createClass({
             var options = this.props.sizes.map(this.renderOption);
 
             return (
-            <select value={this.props.sizeId}
-                className="form-control"
-                id="size"
-                onChange={this.props.onChange}>
-                {options}
-            </select>
+                <select
+                    value={this.props.sizeId}
+                    className="form-control"
+                    id="size"
+                    onChange={this.props.onChange}>
+                    {options}
+                </select>
             );
         }
 
-        return (
-        <div className="loading-small"></div>
-        );
+        return <div className="loading-small" />;
     }
 });

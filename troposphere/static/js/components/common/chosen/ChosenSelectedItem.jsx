@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
 
-
 export default React.createClass({
     displayName: "ChosenDropdownItem",
 
@@ -15,7 +14,7 @@ export default React.createClass({
     getDefaultProps: function() {
         return {
             propertyName: "name"
-        }
+        };
     },
 
     onRemoveItem: function() {
@@ -25,15 +24,19 @@ export default React.createClass({
     render: function() {
         var item = this.props.item;
         let propertyName;
-        if(this.props.propertyCB) {
+        if (this.props.propertyCB) {
             propertyName = this.props.propertyCB(item);
         } else {
             propertyName = item.get(this.props.propertyName);
         }
         return (
-        <li className="search-choice">
-            <span className="search-choice-close" onClick={this.onRemoveItem}>{propertyName} <i className="glyphicon glyphicon-remove"></i></span>
-        </li>
+            <li className="search-choice">
+                <span
+                    className="search-choice-close"
+                    onClick={this.onRemoveItem}>
+                    {propertyName} <i className="glyphicon glyphicon-remove" />
+                </span>
+            </li>
         );
     }
 });

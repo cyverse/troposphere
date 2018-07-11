@@ -14,23 +14,20 @@ export default React.createClass({
     render: function() {
         if (this.props.projects) {
             var options = this.props.projects.map(function(project) {
-                return (
-                <ProjectOption key={project.id} project={project} />
-                );
+                return <ProjectOption key={project.id} project={project} />;
             });
 
             return (
-            <select value={this.props.projectId}
-                className="form-control"
-                id="project"
-                onChange={this.props.onChange}>
-                {options}
-            </select>
+                <select
+                    value={this.props.projectId}
+                    className="form-control"
+                    id="project"
+                    onChange={this.props.onChange}>
+                    {options}
+                </select>
             );
         } else {
-            return (
-            <div className="loading-small"></div>
-            );
+            return <div className="loading-small" />;
         }
     }
 });

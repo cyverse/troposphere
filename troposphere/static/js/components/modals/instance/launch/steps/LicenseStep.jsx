@@ -4,17 +4,17 @@ import InstanceLaunchFooter from "../components/InstanceLaunchFooter";
 
 export default React.createClass({
     getInitialState: function() {
-        return ({
+        return {
             license: this.props.licenseList[0],
             signedList: []
-        })
+        };
     },
 
     isSigned: function(license) {
         if (this.state.signedList.indexOf(license) !== -1) {
-            return true
+            return true;
         }
-        return false
+        return false;
     },
 
     changeLicense: function(item) {
@@ -36,9 +36,9 @@ export default React.createClass({
         let signedList = this.state.signedList;
 
         if (signedList.length === 0) {
-            signedList = [...this.props.licenseList]
+            signedList = [...this.props.licenseList];
         } else {
-            signedList = []
+            signedList = [];
         }
 
         this.setState({
@@ -58,11 +58,13 @@ export default React.createClass({
                 left: "5px"
             }
         };
-        let checkMark = this.isSigned(item) ?
-            () => <i className="glyphicon glyphicon-ok" style={style.checked} /> :
-            () => {
-                return
-            };
+        let checkMark = this.isSigned(item)
+            ? () => (
+                  <i className="glyphicon glyphicon-ok" style={style.checked} />
+              )
+            : () => {
+                  return;
+              };
 
         let title = item.title;
         let isActive = "";
@@ -72,36 +74,39 @@ export default React.createClass({
         }
 
         return (
-        <li className={`NavStacked-link ${isActive}`}>
-            <a style={style.listItem} onClick={this.changeLicense.bind(this, item)}>
-                {checkMark()}
-                {title}
-            </a>
-        </li>
+            <li className={`NavStacked-link ${isActive}`}>
+                <a
+                    style={style.listItem}
+                    onClick={this.changeLicense.bind(this, item)}>
+                    {checkMark()}
+                    {title}
+                </a>
+            </li>
         );
     },
 
     renderLicenseList: function() {
         if (this.props.licenseList.length <= 1) {
-            return
+            return;
         }
 
         let licenses = this.props.licenseList.map(this.renderLicense);
-        return (
-        <ul className="AdvancedOptions-optionList">
-            {licenses}
-        </ul>
-        )
+        return <ul className="AdvancedOptions-optionList">{licenses}</ul>;
     },
 
     renderCheckAgree: function() {
         return (
-        <div className="checkbox">
-            <label>
-                <input checked={this.isSigned(this.state.license)} onClick={this.onAgree} type="checkbox" /> I agree to all of these terms
-            </label>
-        </div>
-        )
+            <div className="checkbox">
+                <label>
+                    <input
+                        checked={this.isSigned(this.state.license)}
+                        onClick={this.onAgree}
+                        type="checkbox"
+                    />{" "}
+                    I agree to all of these terms
+                </label>
+            </div>
+        );
     },
 
     render: function() {
@@ -134,34 +139,41 @@ export default React.createClass({
         }
 
         let nextButton = () => {
-            if (licenseList.indexOf(license) !== (licenseList.length - 1)) {
-                return <button type="button" onClick={this.onNext} className="btn btn-xs btn-default pull-right">
-                           View Next License
-                       </button>
+            if (licenseList.indexOf(license) !== licenseList.length - 1) {
+                return (
+                    <button
+                        type="button"
+                        onClick={this.onNext}
+                        className="btn btn-xs btn-default pull-right">
+                        View Next License
+                    </button>
+                );
             }
-            return
+            return;
         };
 
         return (
-        <div>
-            <div className="modal-section AdvancedOptions">
-                {this.renderLicenseList()}
-                <div className="clearfix" style={style.mainContent}>
-                    <h2 className="t-title">{license.title}</h2>
-                    <div className="u-insetShadow" style={style.agreement}>
-                        {license.text}
+            <div>
+                <div className="modal-section AdvancedOptions">
+                    {this.renderLicenseList()}
+                    <div className="clearfix" style={style.mainContent}>
+                        <h2 className="t-title">{license.title}</h2>
+                        <div className="u-insetShadow" style={style.agreement}>
+                            {license.text}
+                        </div>
+                        {nextButton()}
+                        <form style={style.form}>
+                            {this.renderCheckAgree()}
+                        </form>
                     </div>
-                    {nextButton()}
-                    <form style={style.form}>
-                        {this.renderCheckAgree()}
-                    </form>
                 </div>
+                <InstanceLaunchFooter
+                    {...this.props}
+                    showValidationErr={true}
+                    launchIsDisabled={notSigned}
+                    advancedIsDisabled={true}
+                />
             </div>
-            <InstanceLaunchFooter {...this.props}
-                showValidationErr={true}
-                launchIsDisabled={notSigned}
-                advancedIsDisabled={true} />
-        </div>
-        )
+        );
     }
 });

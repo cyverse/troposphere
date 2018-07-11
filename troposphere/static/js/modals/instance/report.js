@@ -4,11 +4,9 @@ import InstanceReportModal from "components/modals/instance/InstanceReportModal"
 import stores from "stores";
 import actions from "actions";
 
-
 export default {
     report: function(params) {
-        if (!params.instance)
-            throw new Error("Missing instance");
+        if (!params.instance) throw new Error("Missing instance");
 
         var instance = params.instance,
             props = {
@@ -17,11 +15,13 @@ export default {
                 usingInstances: stores.HelpLinkStore.get("instances")
             };
 
-        ModalHelpers.renderModal(InstanceReportModal, props, function(reportInfo) {
+        ModalHelpers.renderModal(InstanceReportModal, props, function(
+            reportInfo
+        ) {
             actions.InstanceActions.report({
                 instance: instance,
                 reportInfo: reportInfo
-            })
-        })
+            });
+        });
     }
 };

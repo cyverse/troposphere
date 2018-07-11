@@ -4,11 +4,9 @@ import ModalHelpers from "components/modals/ModalHelpers";
 
 import VolumeReportModal from "components/modals/volume/VolumeReportModal";
 
-
 export default {
     report: function(params) {
-        if (!params.volume)
-            throw new Error("Missing volume");
+        if (!params.volume) throw new Error("Missing volume");
 
         var volume = params.volume,
             props = {
@@ -17,11 +15,13 @@ export default {
                 helpLink: stores.HelpLinkStore.get("volumes")
             };
 
-        ModalHelpers.renderModal(VolumeReportModal, props, function(reportInfo) {
+        ModalHelpers.renderModal(VolumeReportModal, props, function(
+            reportInfo
+        ) {
             actions.VolumeActions.report({
                 reportInfo: reportInfo,
                 volume: volume
             });
-        })
+        });
     }
 };

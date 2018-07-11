@@ -1,4 +1,3 @@
-
 import Dispatcher from "dispatchers/Dispatcher";
 import BaseStore from "stores/BaseStore";
 import ScriptConstants from "constants/ScriptConstants";
@@ -16,14 +15,15 @@ let ScriptStore = BaseStore.extend({
         page_size: 6000
     },
 
-
     getScriptsForVersion: function(version) {
         if (!this.models)
-            throw new Error("Must fetch users before calling getScriptsFromList");
+            throw new Error(
+                "Must fetch users before calling getScriptsFromList"
+            );
 
         var versionScriptArray = version.script.map(function(user) {
             return {
-                "username": user
+                username: user
             };
         });
 
@@ -32,17 +32,20 @@ let ScriptStore = BaseStore.extend({
 
     getScriptsFromList: function(usernameList) {
         if (!this.models)
-            throw new Error("Must fetch users before calling getScriptsFromList");
-        var users = usernameList.map(function(username) {
-            var user = this.models.findWhere({
-                username: username
-            });
-            return user;
-        }.bind(this));
+            throw new Error(
+                "Must fetch users before calling getScriptsFromList"
+            );
+        var users = usernameList.map(
+            function(username) {
+                var user = this.models.findWhere({
+                    username: username
+                });
+                return user;
+            }.bind(this)
+        );
 
         return new ScriptCollection(users);
     }
-
 });
 
 let store = new ScriptStore();
@@ -53,7 +56,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ScriptConstants.ADD_SCRIPT:
             store.add(payload.script);
             break;

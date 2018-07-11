@@ -10,15 +10,14 @@ let ProjectStore = BaseStore.extend({
         if (!this.models) {
             return this.fetchModels();
         }
-        let identity_key = "?identity_uuid="+identityObj.uuid,
-            query_params = {"identity_uuid" : identityObj.uuid};
+        let identity_key = "?identity_uuid=" + identityObj.uuid,
+            query_params = {identity_uuid: identityObj.uuid};
         if (!this.queryModels[identity_key]) {
             return this.fetchWhere(query_params);
         } else {
             return this.queryModels[identity_key];
         }
     }
-
 });
 
 let store = new ProjectStore();
@@ -29,7 +28,6 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
         case ProjectConstants.ADD_PROJECT:
             store.add(payload.project);
             break;

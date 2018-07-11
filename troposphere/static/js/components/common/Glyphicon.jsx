@@ -17,7 +17,10 @@ export default React.createClass({
     render: function() {
         let passThroughProps = _.omit(this.props, "name");
         return (
-        <i { ...passThroughProps } className={"glyphicon glyphicon-" + this.props.name} />
+            <i
+                {...passThroughProps}
+                className={"glyphicon glyphicon-" + this.props.name}
+            />
         );
     }
 });

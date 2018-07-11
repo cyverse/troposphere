@@ -33,19 +33,15 @@ export default React.createClass({
             img;
 
         if (isFavorited) {
-            img = (
-                <img src={filled_star} />
-            );
+            img = <img src={filled_star} />;
         } else {
-            img = (
-                <img src={empty_star} />
-            );
+            img = <img src={empty_star} />;
         }
 
         return (
-        <a className="bookmark" href="#" onClick={this.toggleFavorite}>
-            {img}
-        </a>
+            <a className="bookmark" href="#" onClick={this.toggleFavorite}>
+                {img}
+            </a>
         );
     }
 });

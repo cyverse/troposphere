@@ -26,8 +26,12 @@ export default React.createClass({
 
     getInitialState: function() {
         var image = this.props.image,
-            endDate = image.isEndDated() ?
-                image.get("end_date").tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z") : "";
+            endDate = image.isEndDated()
+                ? image
+                      .get("end_date")
+                      .tz(globals.TZ_REGION)
+                      .format("M/DD/YYYY hh:mm a z")
+                : "";
 
         var imageTags = stores.TagStore.getImageTags(image);
         var imageAccessList = stores.PatternMatchStore.getImageAccess(image);
@@ -38,7 +42,7 @@ export default React.createClass({
             accessList: imageAccessList,
             endDate: endDate,
             tags: imageTags
-        }
+        };
     },
 
     handleSave: function() {
@@ -78,20 +82,20 @@ export default React.createClass({
     onVisibilityChange: function(visibility) {
         let is_public = visibility == "Public";
         this.setState({
-            is_public,
+            is_public
         });
     },
 
     onAccessAdded: function(pattern_match) {
-        let accessList = this.state.accessList
-        accessList.add(pattern_match)
+        let accessList = this.state.accessList;
+        accessList.add(pattern_match);
         this.setState({
             accessList: accessList
         });
     },
     onAccessRemoved: function(pattern_match) {
-        let accessList = this.state.accessList
-        accessList.remove(pattern_match)
+        let accessList = this.state.accessList;
+        accessList.remove(pattern_match);
         this.setState({
             accessList: accessList
         });
@@ -100,25 +104,24 @@ export default React.createClass({
         let params = {
             image: this.props.image,
             pattern: patternObj.pattern,
-            type: (patternObj.type == "E-Mail") ? 'Email': 'Username',
+            type: patternObj.type == "E-Mail" ? "Email" : "Username",
             allowAccess: patternObj.allowAccess,
             onSuccess: this.onAccessAdded
         };
         actions.PatternMatchActions.create_AddToImage(params);
-
     },
 
     onTagAdded: function(tag) {
-        let tags = this.state.tags
-        tags.add(tag)
+        let tags = this.state.tags;
+        tags.add(tag);
         this.setState({
             tags: tags
         });
     },
 
     onTagRemoved: function(tag) {
-        let tags = this.state.tags
-        tags.remove(tag)
+        let tags = this.state.tags;
+        tags.remove(tag);
         this.setState({
             tags: tags
         });
@@ -132,69 +135,69 @@ export default React.createClass({
             imageTags = this.state.tags;
 
         return (
-        <div className="card" style={{ maxWidth: "600px" }} >
-            <div style={{ marginBottom: "20px" }} >
-                <EditNameView
-                    image={image}
-                    value={this.state.name}
-                    onChange={this.handleNameChange}
-                />
-                <div>
-                    <h4 className="t-body-2">
-                        Date to hide image from public view
-                    </h4>
-                    <div style={{ marginBottom: "15px" }} >
-                        <InteractiveDateField
-                            styleOverride={{lineHeight: "1.47"}}
-                            value={this.state.endDate}
-                            onChange={this.handleEndDateChange}
+            <div className="card" style={{maxWidth: "600px"}}>
+                <div style={{marginBottom: "20px"}}>
+                    <EditNameView
+                        image={image}
+                        value={this.state.name}
+                        onChange={this.handleNameChange}
+                    />
+                    <div>
+                        <h4 className="t-body-2">
+                            Date to hide image from public view
+                        </h4>
+                        <div style={{marginBottom: "15px"}}>
+                            <InteractiveDateField
+                                styleOverride={{lineHeight: "1.47"}}
+                                value={this.state.endDate}
+                                onChange={this.handleEndDateChange}
+                            />
+                        </div>
+                    </div>
+                    <EditDescriptionView
+                        titleClassName="title"
+                        formClassName="form-group"
+                        title="Description"
+                        image={image}
+                        value={this.state.description}
+                        onChange={this.handleDescriptionChange}
+                    />
+                    <EditVisibilityView
+                        image={image}
+                        value={this.state.is_public}
+                        onChange={this.onVisibilityChange}
+                    />
+                    <EditAccessView
+                        allPatterns={allPatterns}
+                        activeAccessList={accessList}
+                        onAccessAdded={this.onAccessAdded}
+                        onAccessRemoved={this.onAccessRemoved}
+                        onCreateNewPattern={this.onPatternCreated}
+                    />
+                    <EditTagsView
+                        image={image}
+                        tags={allTags}
+                        imageTags={imageTags}
+                        onTagAdded={this.onTagAdded}
+                        onTagRemoved={this.onTagRemoved}
+                    />
+                </div>
+                <div className="edit-link-row clearfix">
+                    <hr />
+                    <div style={{float: "right"}}>
+                        <RaisedButton
+                            style={{marginRight: "20px"}}
+                            onTouchTap={this.props.onCancel}
+                            label="Cancel"
+                        />
+                        <RaisedButton
+                            primary
+                            onTouchTap={this.handleSave}
+                            label="Save"
                         />
                     </div>
                 </div>
-                <EditDescriptionView
-                    titleClassName="title"
-                    formClassName="form-group"
-                    title="Description"
-                    image={image}
-                    value={this.state.description}
-                    onChange={this.handleDescriptionChange}
-                />
-                <EditVisibilityView
-                    image={image}
-                    value={this.state.is_public}
-                    onChange={this.onVisibilityChange}
-                />
-                <EditAccessView
-                    allPatterns={allPatterns}
-                    activeAccessList={accessList}
-                    onAccessAdded={this.onAccessAdded}
-                    onAccessRemoved={this.onAccessRemoved}
-                    onCreateNewPattern={this.onPatternCreated}
-                />
-                <EditTagsView
-                    image={image}
-                    tags={allTags}
-                    imageTags={imageTags}
-                    onTagAdded={this.onTagAdded}
-                    onTagRemoved={this.onTagRemoved}
-                />
             </div>
-            <div className="edit-link-row clearfix">
-                <hr/>
-                <div style={{ float: "right" }}>
-                    <RaisedButton
-                        style={{ marginRight: "20px" }}
-                        onTouchTap={this.props.onCancel}
-                        label="Cancel"
-                    />
-                    <RaisedButton
-                        primary
-                        onTouchTap={this.handleSave}
-                        label="Save"
-                    />
-                </div>
-            </div>
-        </div>
         );
     }
 });
