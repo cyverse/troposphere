@@ -3,5 +3,4 @@
     "jsxBracketSameLine": true,
     "parser": "babylon",
     "tabWidth": 4,
-    "trailingComma": "es5"
 }
