@@ -9,8 +9,7 @@ export default {
 
         var instance = params.instance,
             instanceState = new InstanceState({
-                status_raw: "active - initializing",
-                status: "active",
+                status: "deploying",
                 activity: "initializing"
             }),
             originalState = instance.get("state"),

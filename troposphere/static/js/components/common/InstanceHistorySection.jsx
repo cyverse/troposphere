@@ -12,44 +12,27 @@ const HistoryRow = React.createClass({
         historyItem: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    renderFormattedExtra(isStaffUser, extra) {
-        let formattedExtra = "";
-        let show_traceback = isStaffUser || context.hasEmulatedSession();
-
-        if (extra && "display_error" in extra) {
-            formattedExtra = <p>extra['display_error']</p>;
-            if ("traceback" in extra && show_traceback) {
-                let formattedText =
-                    extra["display_error"] + "\n" + extra["traceback"];
-                formattedExtra = <CollapsibleOutput output={formattedText} />;
-            }
+    renderFormattedExtra(extra) {
+        if (!extra) {
+            return "";
+        } else if (extra.length > 32) {
+            return <CollapsibleOutput output={extra} />;
         }
-        return formattedExtra;
+        return <p>extra</p>;
     },
 
     render() {
         let {historyItem} = this.props;
-
-        let profile = stores.ProfileStore.get();
-        let isStaffUser = profile ? profile.get("is_staff") : false;
         let extra = historyItem.get("extra"),
             formattedStartDate = moment(historyItem.get("start_date")).format(
                 "MMMM Do YYYY, h:mm a"
-            ),
-            formattedEndDate = "Present";
-
-        if (historyItem.isEndDated()) {
-            formattedEndDate = moment(historyItem.get("end_date")).format(
-                "MMMM Do YYYY, h:mm a"
             );
-        }
 
         return (
             <tr key={historyItem.cid}>
                 <td>{historyItem.get("status")}</td>
                 <td>{formattedStartDate}</td>
-                <td>{formattedEndDate}</td>
-                <td>{this.renderFormattedExtra(isStaffUser, extra)}</td>
+                <td>{this.renderFormattedExtra(extra)}</td>
             </tr>
         );
     }
@@ -159,9 +142,9 @@ const InstanceHistorySection = React.createClass({
                     style={{tableLayout: "fixed"}}>
                     <thead>
                         <tr>
-                            <th style={{width: "100px"}}>Status</th>
+                            <th style={{width: "150px"}}>Status</th>
+                            <th>Activity</th>
                             <th>Start Date</th>
-                            <th>End Date</th>
                             <th>Message</th>
                         </tr>
                     </thead>

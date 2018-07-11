@@ -88,6 +88,18 @@ var get_percent_complete = function(state, activity) {
                 shelving_image_uploading: 88,
                 running_boot_script: 90
             },
+            networking: {
+                initializing: 20,
+                "adding fixed ip": 40,
+                "adding floating ip": 60,
+                "ensuring instance is reachable": 80
+            },
+            deploying: {
+                initializing: 20,
+                "checking support for NoVNC desktop": 40,
+                "checking support for VNC desktop": 60,
+                "running user services": 80
+            },
             hard_reboot: {
                 "rebooting-hard": 50
             },
