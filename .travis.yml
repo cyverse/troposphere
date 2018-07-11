@@ -39,3 +39,5 @@
     - ./manage.py test
     - npm run build
     - npm run lint
+      # The format command will error if there are unformatted files
+    - npm run format -- -l
