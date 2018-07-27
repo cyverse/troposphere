@@ -35,6 +35,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Fixed
   - Fix launch modal including providers where an image version is end-dated ([#775](https://github.com/cyverse/troposphere/pull/775))
+  - Fix a few bugs to enable optimistic updating on the settings page ([#783](https://github.com/cyverse/troposphere/pull/783))
+    - In the SettingsPage, get the user's preferences directly from the attributes instead of `attributes.settings`
+    - Fix usage of the ProfileStore's update method by passing it just one argument from the action payload and converting it to JSON before setting the new preferences
+    - Finally, create a clone of the profile object in ProfileActions before modifying it to show the newly-selected preferences. This allows the program to easily revert the changes by switching back to the clone if the Atmosphere API call fails
 
 ## [v32-0](https://github.com/cyverse/troposphere/compare/v31-0...v32-0) - 2018-04-06
 ### Added
