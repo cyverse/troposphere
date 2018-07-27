@@ -62,9 +62,9 @@ export default React.createClass({
 
     render: function() {
         var profile = this.state.profile;
-        var selectedIconSet = profile.get("settings")["icon_set"];
-        var selectedGuacamoleColor = profile.get("settings")["guacamole_color"];
-        var wantsEmails = profile.get("settings")["send_emails"];
+        var selectedIconSet = profile.get("icon_set");
+        var selectedGuacamoleColor = profile.get("guacamole_color");
+        var wantsEmails = profile.get("send_emails");
 
         return (
             <div className="settings-view">

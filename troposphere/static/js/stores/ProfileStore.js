@@ -50,9 +50,7 @@ let fetchProfile = function() {
 };
 
 function update(profile) {
-    _profile.set(profile, {
-        merge: true
-    });
+    _profile.set(profile.toJSON());
 }
 
 //
@@ -67,12 +65,10 @@ let ProfileStore = {
     }
 };
 
-Dispatcher.register(function(payload) {
-    var action = payload.action;
-
-    switch (action.actionType) {
+Dispatcher.register(function({action: {actionType, payload}}) {
+    switch (actionType) {
         case ProfileConstants.UPDATE_PROFILE:
-            update(action.name, action.description);
+            update(payload.profile);
             break;
 
         default:
