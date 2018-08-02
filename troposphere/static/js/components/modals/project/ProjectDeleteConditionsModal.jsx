@@ -30,16 +30,19 @@ export default React.createClass({
         <div role="form">
             <div className="form-group">
                 <p className="alert alert-info">
-                    <i className="glyphicon glyphicon-info-sign" /> 
+                    <i className="glyphicon glyphicon-info-sign" />
                     <strong> Uh-oh! </strong>
                     {"It looks like you're trying to delete this project. However, we don't currently support " +
                      "deleting projects that have resources in them."}
                 </p>
                 <p>
-                    Before you can delete this project, you first need to either <strong>DELETE</strong> all resources in this project <span style={{ "textDecoration": "underline" }}>or</span>            <strong>MOVE</strong> them into another project.
+                    Before you can delete this project, you first need to
+                    either <strong>DELETE</strong> any instances and volumes{" "}
+                    <span style={{textDecoration: "underline"}}>or</span>{" "}
+                    <strong>MOVE</strong> them into another project.
                 </p>
                 <p>
-                    Once there are no resources left in the project, you'll be able to delete it.
+                    Once these are removed, you'll be able to delete it.
                 </p>
             </div>
         </div>
