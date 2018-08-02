@@ -32,6 +32,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - Make it easy to create projects (don't require a project description) ([#777](https://github.com/cyverse/troposphere/pull/777))
   - During migrate resources, choose a default project, so users don't have to
     mechanically select multiple times (especially helpful for developers) ([#776](https://github.com/cyverse/troposphere/pull/776))
+  - Allow deleting projects that still contain applications/links
+    ([#785](https://github.com/cyverse/troposphere/pull/785))
 
 ### Fixed
   - Fix launch modal including providers where an image version is end-dated ([#775](https://github.com/cyverse/troposphere/pull/775))
