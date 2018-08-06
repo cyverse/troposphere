@@ -24,39 +24,62 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v32-0...HEAD)
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v33-0...HEAD) - YYYY-MM-DD
 ### Changed
   - Fix format script and format codebase ([#782](https://github.com/cyverse/troposphere/pull/782))
     - Travis will also check that the code is formatted from now on
-  - Suggest adopting a changelog format ([#766](https://github.com/cyverse/troposphere/pull/766))
+
+## [v33-0](https://github.com/cyverse/troposphere/compare/v32-0...v33-0) - 2018-08-06
+### Changed
+  - Suggest adopting a changelog format
+    ([#766](https://github.com/cyverse/troposphere/pull/766))
     - This is very similar to what we have now. It's just documented somwhere
       on the web where we can point to as a process to follow
-  - Make it easy to create projects (don't require a project description) ([#777](https://github.com/cyverse/troposphere/pull/777))
+  - Make it easy to create projects (don't require a project description)
+    ([#777](https://github.com/cyverse/troposphere/pull/777))
   - During migrate resources, choose a default project, so users don't have to
-    mechanically select multiple times (especially helpful for developers) ([#776](https://github.com/cyverse/troposphere/pull/776))
+    mechanically select multiple times (especially helpful for developers)
+    ([#776](https://github.com/cyverse/troposphere/pull/776))
+  - Allow deleting projects that still contain applications/links
+    ([#785](https://github.com/cyverse/troposphere/pull/785))
 
 ### Fixed
-  - Fix launch modal including providers where an image version is end-dated ([#775](https://github.com/cyverse/troposphere/pull/775))
-  - Fix a few bugs to enable optimistic updating on the settings page ([#783](https://github.com/cyverse/troposphere/pull/783))
-    - In the SettingsPage, get the user's preferences directly from the attributes instead of `attributes.settings`
-    - Fix usage of the ProfileStore's update method by passing it just one argument from the action payload and converting it to JSON before setting the new preferences
-    - Finally, create a clone of the profile object in ProfileActions before modifying it to show the newly-selected preferences. This allows the program to easily revert the changes by switching back to the clone if the Atmosphere API call fails
+  - Fix launch modal including providers where an image version is end-dated
+    ([#775](https://github.com/cyverse/troposphere/pull/775))
+  - Fix a few bugs to enable optimistic updating on the settings page
+    ([#783](https://github.com/cyverse/troposphere/pull/783))
+    - In the SettingsPage, get the user's preferences directly from the
+      attributes instead of `attributes.settings`
+    - Fix usage of the ProfileStore's update method by passing it just one
+      argument from the action payload and converting it to JSON before
+      setting the new preferences
+    - Finally, create a clone of the profile object in ProfileActions before
+      modifying it to show the newly-selected preferences. This allows the
+      program to easily revert the changes by switching back to the clone if
+      the Atmosphere API call fails
 
 ## [v32-0](https://github.com/cyverse/troposphere/compare/v31-0...v32-0) - 2018-04-06
 ### Added
-  - Add confirmation modal to admin resource request ([#750](https://github.com/cyverse/troposphere/pull/750))
-    - Solves problem where requests were being 'approved' while the resources were not being updated
+  - Add confirmation modal to admin resource request
+    ([#750](https://github.com/cyverse/troposphere/pull/750))
+    - Solves problem where requests were being 'approved' while the resources
+      were not being updated
 
 ### Changed
-  - Change ./manage.py maintenance to be non-interactive ([#769](https://github.com/cyverse/troposphere/pull/769))
+  - Change ./manage.py maintenance to be non-interactive
+    ([#769](https://github.com/cyverse/troposphere/pull/769))
 
 ### Fixed
-  - Admin request panel can view older requests ([#751](https://github.com/cyverse/troposphere/pull/751))
-    - It used to be constrained to viewing only pending requests, within the most recent 1000, now can show any request by id
-  - Use the correct endpoint for showing atmosphere-ansible version ([#768](https://github.com/cyverse/troposphere/pull/768))
+  - Admin request panel can view older requests
+    ([#751](https://github.com/cyverse/troposphere/pull/751))
+    - It used to be constrained to viewing only pending requests, within the
+      most recent 1000, now can show any request by id
+  - Use the correct endpoint for showing atmosphere-ansible version
+    ([#768](https://github.com/cyverse/troposphere/pull/768))
 
 ### Security
-  - Update to jQuery 3.* to address 2 CVEs ([#752](https://github.com/cyverse/troposphere/pull/752))
+  - Update to jQuery 3.* to address 2 CVEs
+    ([#752](https://github.com/cyverse/troposphere/pull/752))
 
 ## [v31-0](https://github.com/cyverse/troposphere/compare/v30...v31-0) - 2018-03-08
 ### Added
@@ -70,7 +93,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - Remove support for nginx/uwsgi (its now part of clank)
 
 ### Fixed
-  - Fix broken enddate field in instance detail (when instance is still active)
+  - Fix broken enddate field in instance detail (when instance is still
+    active)
   - Fix issue where modals become unscrollable
 
 ## [v30](https://github.com/cyverse/troposphere/compare/v29...v30) - 2017-12-07
@@ -87,7 +111,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Deprecated
   - Begin deprecate existing web desktop and shell
-    - (the previous technology for "Web Shell" & "Web Desktop" will be replaced by Guacamole in 2018)
+    - (the previous technology for "Web Shell" & "Web Desktop" will be
+      replaced by Guacamole in 2018)
 
 ### Fixed
   - Move non-theme images into troposphere static
@@ -95,16 +120,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [v28](https://github.com/cyverse/troposphere/compare/v27...v28) - 2017-10-03
 ### Added
-  - Image Owner can now [update visibility & access](https://github.com/cyverse/troposphere/pull/706) to images
+  - Image Owner can now [update visibility &
+    access](https://github.com/cyverse/troposphere/pull/706) to images
   - Support for Unlimited Allocation Sources
-  - [Improved Boot Scripts](https://github.com/cyverse/troposphere/pull/703) management and handling
-  - Volume creation modal pauses until complete, showning new Volume in Project
+  - [Improved Boot Scripts](https://github.com/cyverse/troposphere/pull/703)
+    management and handling
+  - Volume creation modal pauses until complete, showning new Volume in
+    Project
   - Added Django Manage command to start and stop Maintenance
 
 ### Fixed
-  - No longer need to [refresh an Instance Detail page to see "Web Desktop" link](https://github.com/cyverse/troposphere/pull/716) on Active instance
+  - No longer need to [refresh an Instance Detail page to see "Web Desktop"
+    link](https://github.com/cyverse/troposphere/pull/716) on Active instance
   - Corrected Maintenance Records to have structure consistent with Atmosphere
-  - Fixed so that log out of Troposphere logs a user out of Atmosphere API as well
+  - Fixed so that log out of Troposphere logs a user out of Atmosphere API as
+    well
 
 ## [v27](https://github.com/cyverse/troposphere/compare/zesty-zapdos...v27) - 2017-09-13
 ### Added
@@ -151,12 +181,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - (Admin) Added setting flag for how resources can be "reported"
 
 ### Fixed
-  - Corrected issue where Instances within Project View appear to be "stuck" in Build
+  - Corrected issue where Instances within Project View appear to be "stuck"
+    in Build
   - Made inclusion of Google Analytics optional (based on Community Feedback)
-  - "not found" (404) messaging shown for Image Details Pages unavailable to community member
+  - "not found" (404) messaging shown for Image Details Pages unavailable to
+    community member
   - Corrected rendering of Project Resources for medium screen sizes
   - Adjusted Web Desktop signature generation
-     - Fixes issues with Network Address Translation origins related to Client IP.
+     - Fixes issues with Network Address Translation origins related to Client
+       IP.
   - Added newline rendering to Maintenance Messages
   - Corrected cloud provider selection for "Request More Resources" modal
   - (Admin) Corrected Image Request statuses not updating
@@ -176,15 +209,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Whimsical-Wyvern](https://github.com/cyverse/troposphere/compare/voracious-velociraptor...whimsical-wyvern) - 2017-03-21
 ### Added
-  - Provided a framework that allows support for custom messages within Troposphere UI
+  - Provided a framework that allows support for custom messages within
+    Troposphere UI
   - Staff users will now see basic image metrics in the image catalog
-  - Provide support for Resource Requests using both 'varieties' of allocation and quota
+  - Provide support for Resource Requests using both 'varieties' of allocation
+    and quota
   - Sentry.io is now configurable via Clank
 
 ## [Voracious-Velociraptor](https://github.com/cyverse/troposphere/compare/undulating-umbrellabird...voracious-velociraptor) - 2017-02-14
 ### Added
-  - Provided a framework that allows support for custom messages within Troposphere UI
-  - Provide support for Resource Requests using both 'varieties' of allocation and quota
+  - Provided a framework that allows support for custom messages within
+    Troposphere UI
+  - Provide support for Resource Requests using both 'varieties' of allocation
+    and quota
 
 ### Fixed
   - Image Details now clearly show end-dated indication
