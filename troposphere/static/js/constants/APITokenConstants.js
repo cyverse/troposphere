@@ -1,0 +1,5 @@
+export default {
+    ADD_TOKEN: "ADD_TOKEN",
+    UPDATE_TOKEN: "UPDATE_TOKEN",
+    REMOVE_TOKEN: "REMOVE_TOKEN"
+};

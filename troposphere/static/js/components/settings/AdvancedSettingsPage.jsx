@@ -1,6 +1,7 @@
 import React from "react";
 import featureFlags from "utilities/featureFlags";
 import SSHConfiguration from "components/settings/advanced/SSHConfiguration";
+import TokenListView from "components/settings/advanced/TokenListView";
 import ScriptListView from "components/settings/advanced/ScriptListView";
 import ClientCredentials from "components/settings/advanced/ClientCredentials";
 
@@ -39,6 +40,7 @@ export default React.createClass({
                 {this.renderClientCredentials()}
                 {this.renderScripts()}
                 <SSHConfiguration />
+                <TokenListView />
                 <button onClick={this.showToggle}>Show Less</button>
             </div>
         );
