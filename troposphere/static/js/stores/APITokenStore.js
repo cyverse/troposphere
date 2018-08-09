@@ -15,15 +15,15 @@ Dispatcher.register(function(dispatch) {
 
     switch (actionType) {
         case APITokenConstants.ADD_TOKEN:
-            store.add(payload.sshKey);
+            store.add(payload.apiToken);
             break;
 
         case APITokenConstants.REMOVE_TOKEN:
-            store.remove(payload.sshKey);
+            store.remove(payload.apiToken);
             break;
 
         case APITokenConstants.UPDATE_TOKEN:
-            store.update(payload.sshKey);
+            store.update(payload.apiToken);
             break;
 
         default:

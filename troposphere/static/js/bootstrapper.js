@@ -91,6 +91,7 @@ stores.AllocationSourceStore = require("stores/AllocationSourceStore");
 import actions from "actions";
 
 actions.AccountActions = require("actions/AccountActions");
+actions.APITokenActions = require("actions/APITokenActions");
 actions.BadgeActions = require("actions/BadgeActions");
 actions.GroupActions = require("actions/GroupActions");
 actions.ExternalLinkActions = require("actions/ExternalLinkActions");

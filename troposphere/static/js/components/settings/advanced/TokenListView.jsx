@@ -88,7 +88,6 @@ const APITokenConfiguration = React.createClass({
         let {APITokenStore} = this.props.subscriptions,
             profile = this.state.profile,
             api_token = APITokenStore.getAll();
-        debugger;
         return (
             <div>
                 <h3>Personal Access Tokens</h3>

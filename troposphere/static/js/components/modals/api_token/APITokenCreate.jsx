@@ -37,11 +37,12 @@ export default React.createClass({
         this.setState({
             isSubmitting: true
         });
+        var response = actions.APITokenActions.create(attributes);
         setTimeout(() => {
             this.setState({
                 isSubmitting: false,
                 successView: true,
-                hash: "343rw24fg983498j3urfu39"
+                hash: response.changed.token
             });
         }, 2000);
     },
