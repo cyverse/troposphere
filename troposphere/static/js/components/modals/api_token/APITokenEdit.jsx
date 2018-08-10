@@ -7,7 +7,7 @@ import {RaisedButton} from "material-ui";
 export default React.createClass({
     mixins: [BootstrapModalMixin],
     propTypes: {
-        token: React.PropTypes.number.isRequired
+        token: React.PropTypes.object.isRequired
     },
 
     getInitialState() {
@@ -25,7 +25,9 @@ export default React.createClass({
     },
 
     onSubmit() {
+        let token = this.props.token;
         const {name} = this.state;
+        actions.APITokenActions.update(token, { name: name.trim() });
         this.hide();
     },
 

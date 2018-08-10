@@ -8,6 +8,7 @@ var APITokenStore = BaseStore.extend({
 });
 
 let store = new APITokenStore();
+
 Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;

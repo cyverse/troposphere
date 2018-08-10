@@ -5,16 +5,29 @@ import actions from "actions";
 import {RaisedButton} from "material-ui";
 import WarningIcon from "material-ui/svg-icons/alert/warning";
 
-export default React.createClass({
+import subscribe from "utilities/subscribe";
+
+const APITokenDelete = React.createClass({
     propTypes: {
         token: React.PropTypes.instanceOf(Backbone.Model),
-        user: React.PropTypes.number.isRequired
     },
 
     mixins: [BootstrapModalMixin],
 
     onSubmit() {
         this.hide();
+        let token = this.props.token;
+        let {APITokenStore} = this.props.subscriptions;
+        APITokenStore.remove(token);
+        token.destroy({
+            success: function() {
+                APITokenStore.emitChange();
+            },
+            error: function() {
+                APITokenStore.add(token);
+                APITokenStore.emitChange();
+            }
+        });
     },
 
     render() {
@@ -58,3 +71,5 @@ export default React.createClass({
         );
     }
 });
+
+export default subscribe(APITokenDelete, ["APITokenStore"]);
