@@ -3,7 +3,7 @@ import APIToken from "models/APIToken";
 import Utils from "./Utils";
 
 export default {
-    create: ({name, atmo_user}) => {
+    create: ({name, atmo_user}, callback) => {
         if (!name) throw new Error("Missing Token name");
         if (!atmo_user) throw new Error("Missing Token author");
         let apiToken = new APIToken({
@@ -18,6 +18,7 @@ export default {
             .save()
             .done(() => {
                 Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
+                callback(apiToken);
             })
             .fail(() => {
                 Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
