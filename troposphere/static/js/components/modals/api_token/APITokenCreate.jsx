@@ -37,12 +37,21 @@ export default React.createClass({
         this.setState({
             isSubmitting: true
         });
-        actions.APITokenActions.create(attributes, (response) => {
-            this.setState({
-                isSubmitting: false,
-                successView: true,
-                hash: response.changed.token
-            });
+        actions.APITokenActions.create(attributes, this.successCallback, this.failCallback);
+    },
+
+    successCallback(response) {
+        this.setState({
+            isSubmitting: false,
+            successView: true,
+            hash: response.changed.token
+        });
+    },
+
+    failCallback(response) {
+        this.setState({
+            isSubmitting: false,
+            successView: false
         });
     },
 
