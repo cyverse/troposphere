@@ -51,10 +51,7 @@ export default React.createClass({
     },
 
     failCallback(response) {
-        this.setState({
-            isSubmitting: false,
-            successView: false
-        });
+        this.hide();
     },
 
     renderFormView() {
