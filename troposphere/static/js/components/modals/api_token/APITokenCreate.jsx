@@ -1,11 +1,9 @@
 import React from "react";
-import Backbone from "backbone";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import actions from "actions";
 import {RaisedButton, CircularProgress} from "material-ui";
 import WarningIcon from "material-ui/svg-icons/alert/warning";
 import CopyButton from "components/common/ui/CopyButton";
-import Code from "components/common/ui/Code";
 
 export default React.createClass({
     mixins: [BootstrapModalMixin],
@@ -37,7 +35,11 @@ export default React.createClass({
         this.setState({
             isSubmitting: true
         });
-        actions.APITokenActions.create(attributes, this.successCallback, this.failCallback);
+        actions.APITokenActions.create(
+            attributes,
+            this.successCallback,
+            this.failCallback
+        );
     },
 
     successCallback(response) {
@@ -155,7 +157,6 @@ export default React.createClass({
 
     render() {
         const {successView, isSubmitting} = this.state;
-        const {edit} = this.props;
 
         return (
             <div className="modal fade">

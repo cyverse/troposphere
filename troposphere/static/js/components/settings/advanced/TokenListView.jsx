@@ -5,8 +5,6 @@ import APITokenDelete from "components/modals/api_token/APITokenDelete";
 import APITokenEdit from "components/modals/api_token/APITokenEdit";
 import subscribe from "utilities/subscribe";
 
-import globals from "globals";
-
 const APITokenConfiguration = React.createClass({
     getInitialState() {
         let {ProfileStore} = this.props.subscriptions;

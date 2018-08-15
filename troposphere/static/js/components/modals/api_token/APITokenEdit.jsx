@@ -1,5 +1,4 @@
 import React from "react";
-import Backbone from "backbone";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import actions from "actions";
 import {RaisedButton} from "material-ui";
@@ -27,7 +26,7 @@ export default React.createClass({
     onSubmit() {
         let token = this.props.token;
         const {name} = this.state;
-        actions.APITokenActions.update(token, { name: name.trim() });
+        actions.APITokenActions.update(token, {name: name.trim()});
         this.hide();
     },
 

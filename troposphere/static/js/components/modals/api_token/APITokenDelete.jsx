@@ -1,15 +1,13 @@
 import React from "react";
 import Backbone from "backbone";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import actions from "actions";
 import {RaisedButton} from "material-ui";
 import WarningIcon from "material-ui/svg-icons/alert/warning";
-
 import subscribe from "utilities/subscribe";
 
 const APITokenDelete = React.createClass({
     propTypes: {
-        token: React.PropTypes.instanceOf(Backbone.Model),
+        token: React.PropTypes.instanceOf(Backbone.Model)
     },
 
     mixins: [BootstrapModalMixin],
@@ -47,7 +45,12 @@ const APITokenDelete = React.createClass({
                             style={{minHeight: "300px"}}
                             className="modal-body">
                             <div style={{display: "flex"}}>
-                                <WarningIcon style={{marginRight: "16px"}} />{" "}
+                                <WarningIcon
+                                    style={{
+                                        marginRight: "16px",
+                                        flex: "1 0 24px"
+                                    }}
+                                />{" "}
                                 <p>
                                     {`Are you sure you want to delete Access Token "${name}"? Any applications using this Token will not be able to connect to your account`}
                                 </p>

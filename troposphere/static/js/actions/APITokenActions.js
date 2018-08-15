@@ -26,7 +26,7 @@ export default {
                 NotificationController.error(
                     "Error creating token.",
                     "Your login might be expired. If you continue to see this error " +
-                    "after logging in again, contact support."
+                        "after logging in again, contact support."
                 );
                 failCallback(apiToken);
             });
