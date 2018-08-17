@@ -14,8 +14,10 @@ export default React.createClass({
     getInitialState() {
         return {
             errorMsg: "",
-            name: this.props.name || "",
-            successView: false
+            name: "",
+            hash: "",
+            successView: false,
+            isSubmitting: false
         };
     },
 
@@ -30,7 +32,7 @@ export default React.createClass({
         const {user} = this.props;
         let attributes = {
             name: name.trim(),
-            atmo_user: user
+            atmoUser: user
         };
         this.setState({
             isSubmitting: true

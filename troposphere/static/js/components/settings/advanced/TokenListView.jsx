@@ -14,36 +14,22 @@ const APITokenConfiguration = React.createClass({
         };
     },
 
-    updateState() {
-        this.setState(this.getInitialState());
-    },
     launchDeleteModal(token) {
-        ModalHelpers.renderModal(
-            APITokenDelete,
-            {
-                token
-            },
-            () => {}
-        );
+        ModalHelpers.renderModal(APITokenDelete, {
+            token
+        });
     },
+
     launchCreateModal(user) {
-        ModalHelpers.renderModal(
-            APITokenCreate,
-            {
-                user
-            },
-            () => {}
-        );
+        ModalHelpers.renderModal(APITokenCreate, {
+            user
+        });
     },
+
     launchEditModal(token) {
-        ModalHelpers.renderModal(
-            APITokenEdit,
-            {
-                token,
-                edit: true
-            },
-            () => {}
-        );
+        ModalHelpers.renderModal(APITokenEdit, {
+            token
+        });
     },
 
     style() {
@@ -61,8 +47,6 @@ const APITokenConfiguration = React.createClass({
     renderTokenRow(apiToken) {
         let {td} = this.style();
 
-        // Set a key that lexicograhically sorts first by title then by cid.
-        // Cannot sort by id, because recently created bootscript has no id
         let key = apiToken.get("name") + apiToken.cid;
         return (
             <tr key={key}>
@@ -85,7 +69,7 @@ const APITokenConfiguration = React.createClass({
     render() {
         let {APITokenStore} = this.props.subscriptions,
             profile = this.state.profile,
-            api_token = APITokenStore.getAll();
+            apiTokens = APITokenStore.getAll();
         return (
             <div>
                 <h3>Personal Access Tokens</h3>
@@ -108,9 +92,7 @@ const APITokenConfiguration = React.createClass({
                             </tr>
                         </thead>
                         <tbody>
-                            {api_token
-                                ? api_token.map(this.renderTokenRow)
-                                : []}
+                            {(apiTokens || []).map(this.renderTokenRow)}
                             <tr>
                                 <td>
                                     <a

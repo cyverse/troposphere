@@ -4,12 +4,12 @@ import NotificationController from "controllers/NotificationController";
 import Utils from "./Utils";
 
 export default {
-    create: ({name, atmo_user}, successCallback, failCallback) => {
+    create: ({name, atmoUser}, successCallback, failCallback) => {
         if (!name) throw new Error("Missing Token name");
-        if (!atmo_user) throw new Error("Missing Token author");
+        if (!atmoUser) throw new Error("Missing Token author");
         let apiToken = new APIToken({
             name,
-            atmo_user
+            atmo_user: atmoUser
         });
 
         // Add token optimistically
