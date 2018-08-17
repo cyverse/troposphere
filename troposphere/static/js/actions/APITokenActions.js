@@ -51,5 +51,24 @@ export default {
                 Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
             });
         return apiToken;
+    },
+    destroy: apiToken => {
+        // Destroy token optimistically
+        Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
+
+        apiToken
+            .destroy()
+            .done(() => {
+                Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
+            })
+            .fail(() => {
+                Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
+                NotificationController.error(
+                    "Error deleting token.",
+                    "Your login might be expired. If you continue to see this error " +
+                        "after logging in again, contact support."
+                );
+            });
+        return apiToken;
     }
 };

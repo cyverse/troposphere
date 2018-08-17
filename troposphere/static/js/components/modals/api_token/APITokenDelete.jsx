@@ -1,5 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
+import actions from "actions";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import {RaisedButton} from "material-ui";
 import WarningIcon from "material-ui/svg-icons/alert/warning";
@@ -15,17 +16,7 @@ const APITokenDelete = React.createClass({
     onSubmit() {
         this.hide();
         let token = this.props.token;
-        let {APITokenStore} = this.props.subscriptions;
-        APITokenStore.remove(token);
-        token.destroy({
-            success: function() {
-                APITokenStore.emitChange();
-            },
-            error: function() {
-                APITokenStore.add(token);
-                APITokenStore.emitChange();
-            }
-        });
+        actions.APITokenActions.destroy(token);
     },
 
     render() {
