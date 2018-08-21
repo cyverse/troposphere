@@ -4,33 +4,30 @@ import NotificationController from "controllers/NotificationController";
 import Utils from "./Utils";
 
 export default {
-    create: ({name, atmoUser}, successCallback, failCallback) => {
+    create: (name, userId) => {
         if (!name) throw new Error("Missing Token name");
-        if (!atmoUser) throw new Error("Missing Token author");
+        if (!userId) throw new Error("Missing Token author");
         let apiToken = new APIToken({
             name,
-            atmo_user: atmoUser
+            atmo_user: userId
         });
 
         // Add token optimistically
         Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken});
 
-        apiToken
-            .save()
-            .done(() => {
-                Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
-                successCallback(apiToken);
-            })
-            .fail(() => {
-                Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
-                NotificationController.error(
-                    "Error creating token.",
-                    "Your login might be expired. If you continue to see this error " +
-                        "after logging in again, contact support."
-                );
-                failCallback(apiToken);
-            });
-        return apiToken;
+        let promise = Promise.resolve(apiToken.save());
+        promise.then(() => {
+            Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
+        });
+        promise.catch(() => {
+            Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
+            NotificationController.error(
+                "Error creating token.",
+                "Your login might be expired. If you continue to see this error " +
+                    "after logging in again, contact support."
+            );
+        });
+        return promise;
     },
     update: (apiToken, newAttributes) => {
         let prevAttributes = Object.assign({}, apiToken.attributes);

@@ -30,29 +30,23 @@ export default React.createClass({
     onSubmit() {
         const {name} = this.state;
         const {user} = this.props;
-        let attributes = {
-            name: name.trim(),
-            atmoUser: user
-        };
         this.setState({
             isSubmitting: true
         });
-        actions.APITokenActions.create(
-            attributes,
-            this.successCallback,
-            this.failCallback
-        );
+        let promise = actions.APITokenActions.create(name.trim(), user);
+        promise.then(this.onSuccess);
+        promise.catch(this.onError);
     },
 
-    successCallback(response) {
+    onSuccess(response) {
         this.setState({
             isSubmitting: false,
             successView: true,
-            hash: response.changed.token
+            hash: response.token
         });
     },
 
-    failCallback(response) {
+    onError(response) {
         this.hide();
     },
 
