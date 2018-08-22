@@ -12,15 +12,11 @@ export default {
             atmo_user: userId
         });
 
-        // Add token optimistically
-        Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken});
-
         let promise = Promise.resolve(apiToken.save());
         promise.then(() => {
-            Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
+            Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken});
         });
         promise.catch(() => {
-            Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
             NotificationController.error(
                 "Error creating token.",
                 "Your login might be expired. If you continue to see this error " +
