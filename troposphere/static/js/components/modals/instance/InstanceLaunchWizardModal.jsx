@@ -43,7 +43,7 @@ export default React.createClass({
         image: React.PropTypes.instanceOf(Backbone.Model),
         project: React.PropTypes.instanceOf(Backbone.Model),
         onConfirm: React.PropTypes.func.isRequired,
-        initialView: React.PropTypes.string.isRequired
+        initialView: React.PropTypes.string.isRequired,
     },
 
     getInitialState: function() {
@@ -81,7 +81,7 @@ export default React.createClass({
             identityProvider: null,
             attachedScripts: [],
             allocationSource: null,
-            waitingOnLaunch: false
+            waitingOnLaunch: false,
         };
     },
 
@@ -113,7 +113,7 @@ export default React.createClass({
         let imageVersionList;
         if (this.state.image) {
             imageVersionList = stores.ImageVersionStore.fetchWhere({
-                image_id: this.state.image.id
+                image_id: this.state.image.id,
             });
         }
 
@@ -138,10 +138,10 @@ export default React.createClass({
         let identityProvider, providerSizeList;
         if (provider) {
             identityProvider = stores.IdentityStore.findOne({
-                "provider.id": provider.id
+                "provider.id": provider.id,
             });
             providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
+                provider__id: provider.id,
             });
         }
 
@@ -173,7 +173,7 @@ export default React.createClass({
             provider,
             providerSize,
             identityProvider,
-            allocationSource
+            allocationSource,
         });
     },
 
@@ -210,31 +210,31 @@ export default React.createClass({
 
     viewImageSelect: function() {
         this.setState({
-            view: "IMAGE_VIEW"
+            view: "IMAGE_VIEW",
         });
     },
 
     viewProject: function() {
         this.setState({
-            view: "PROJECT_VIEW"
+            view: "PROJECT_VIEW",
         });
     },
 
     viewBasic: function() {
         this.setState({
-            view: "BASIC_VIEW"
+            view: "BASIC_VIEW",
         });
     },
 
     viewAdvanced: function() {
         this.setState({
-            view: "ADVANCED_VIEW"
+            view: "ADVANCED_VIEW",
         });
     },
 
     viewLicense: function() {
         this.setState({
-            view: "LICENSE_VIEW"
+            view: "LICENSE_VIEW",
         });
     },
 
@@ -250,7 +250,7 @@ export default React.createClass({
         }
 
         let imageVersionList = stores.ImageVersionStore.fetchWhere({
-            image_id: image.id
+            image_id: image.id,
         });
 
         let imageVersion;
@@ -274,10 +274,10 @@ export default React.createClass({
         let identityProvider, providerSizeList;
         if (provider) {
             identityProvider = stores.IdentityStore.findOne({
-                "provider.id": provider.id
+                "provider.id": provider.id,
             });
             providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
+                provider__id: provider.id,
             });
         }
 
@@ -301,7 +301,7 @@ export default React.createClass({
                 provider,
                 imageVersion,
                 providerSize,
-                identityProvider
+                identityProvider,
             },
             this.viewBasic
         );
@@ -313,14 +313,14 @@ export default React.createClass({
 
     onNameChange: function(e) {
         this.setState({
-            instanceName: e.target.value
+            instanceName: e.target.value,
         });
     },
 
     onNameBlur: function(e) {
         let instanceName = this.state.instanceName.trim();
         this.setState({
-            instanceName
+            instanceName,
         });
     },
 
@@ -337,10 +337,10 @@ export default React.createClass({
         let identityProvider, providerSizeList;
         if (provider) {
             identityProvider = stores.IdentityStore.findOne({
-                "provider.id": provider.id
+                "provider.id": provider.id,
             });
             providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
+                provider__id: provider.id,
             });
         }
 
@@ -361,19 +361,19 @@ export default React.createClass({
             imageVersion,
             provider,
             providerSize,
-            identityProvider
+            identityProvider,
         });
     },
 
     onProjectChange: function(project) {
         this.setState({
-            project
+            project,
         });
     },
 
     onAllocationSourceChange: function(source) {
         this.setState({
-            allocationSource: source
+            allocationSource: source,
         });
     },
 
@@ -383,7 +383,7 @@ export default React.createClass({
         let provider = stores.ProviderStore.findWhere({id: providerId});
 
         let providerSizeList = stores.SizeStore.fetchWhere({
-            provider__id: providerId
+            provider__id: providerId,
         });
 
         let imageVersion = this.state.imageVersion;
@@ -402,13 +402,13 @@ export default React.createClass({
         this.setState({
             provider,
             providerSize,
-            identityProvider
+            identityProvider,
         });
     },
 
     onProviderChange: function(provider) {
         let providerSizeList = stores.SizeStore.fetchWhere({
-            provider__id: provider.id
+            provider__id: provider.id,
         });
 
         let imageVersion = this.state.imageVersion;
@@ -426,7 +426,7 @@ export default React.createClass({
         }
 
         let identityProvider = stores.IdentityStore.findOne({
-            "provider.id": provider.id
+            "provider.id": provider.id,
         });
 
         if (providerSizeList) {
@@ -436,20 +436,20 @@ export default React.createClass({
         this.setState({
             provider,
             providerSize,
-            identityProvider
+            identityProvider,
         });
     },
 
     onSizeChange: function(providerSize) {
         this.setState({
-            providerSize
+            providerSize,
         });
     },
 
     onRequestResources: function() {
         this.hide();
         modals.HelpModals.requestMoreResources({
-            identity: this.state.identityProvider.id
+            identity: this.state.identityProvider.id,
         });
     },
 
@@ -457,7 +457,7 @@ export default React.createClass({
         let attachedScripts = this.state.attachedScripts;
         if (attachedScripts.indexOf(value) === -1) {
             this.setState({
-                attachedScripts: [...attachedScripts, value]
+                attachedScripts: [...attachedScripts, value],
             });
         }
     },
@@ -466,7 +466,7 @@ export default React.createClass({
         let attachedScripts = this.state.attachedScripts.filter(i => i != item);
 
         this.setState({
-            attachedScripts
+            attachedScripts,
         });
     },
 
@@ -476,7 +476,7 @@ export default React.createClass({
 
     onClearAdvanced: function() {
         this.setState({
-            attachedScripts: []
+            attachedScripts: [],
         });
     },
 
@@ -484,13 +484,13 @@ export default React.createClass({
         this.viewBasic();
         actions.ProjectActions.create({
             name: name,
-            description
+            description,
         });
     },
 
     onLaunchFailed: function() {
         this.setState({
-            waitingOnLaunch: false
+            waitingOnLaunch: false,
         });
     },
 
@@ -541,7 +541,7 @@ export default React.createClass({
                 },
                 onFail: () => {
                     this.onLaunchFailed();
-                }
+                },
             };
 
             if (globals.USE_ALLOCATION_SOURCES) {
@@ -555,7 +555,7 @@ export default React.createClass({
             // enter into a "waiting" state to determine
             // result of launch operation
             this.setState({
-                waitingOnLaunch: true
+                waitingOnLaunch: true,
             });
 
             return;
@@ -564,7 +564,7 @@ export default React.createClass({
         // if we cannot launch, we are in a world of hurt
         // - show some indication of that
         this.setState({
-            showValidationErr: true
+            showValidationErr: true,
         });
     },
 
@@ -641,7 +641,7 @@ export default React.createClass({
             "identityProvider",
             "providerSize",
             "imageVersion",
-            "attachedScripts"
+            "attachedScripts",
         ];
 
         // Check if we are using AllocationSource and add to requierd fields
@@ -729,7 +729,7 @@ export default React.createClass({
         let imageVersionList;
         if (this.state.image) {
             imageVersionList = stores.ImageVersionStore.fetchWhere({
-                image_id: this.state.image.id
+                image_id: this.state.image.id,
             });
 
             if (imageVersionList) {
@@ -749,7 +749,7 @@ export default React.createClass({
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
             providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
+                provider__id: provider.id,
             });
         }
 
@@ -807,7 +807,7 @@ export default React.createClass({
                     hasAdvancedOptions: this.hasAdvancedOptions(),
                     allocationSource: this.state.allocationSource,
                     allocationSourceList,
-                    waitingOnLaunch
+                    waitingOnLaunch,
                 }}
             />
         );
@@ -862,5 +862,5 @@ export default React.createClass({
                 </div>
             </div>
         );
-    }
+    },
 });

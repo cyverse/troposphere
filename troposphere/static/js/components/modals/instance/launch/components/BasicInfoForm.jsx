@@ -17,7 +17,7 @@ export default React.createClass({
         instanceName: React.PropTypes.string,
         onNameChange: React.PropTypes.func,
         onVersionChange: React.PropTypes.func,
-        onProjectChange: React.PropTypes.func
+        onProjectChange: React.PropTypes.func,
     },
 
     componentDidMount: function() {
@@ -60,7 +60,7 @@ export default React.createClass({
             projectList,
             instanceName,
             showValidationErr,
-            waitingOnLaunch
+            waitingOnLaunch,
         } = this.props;
         let hasErrorClass;
         let errorMessage = null;
@@ -139,5 +139,5 @@ export default React.createClass({
                 </div>
             </form>
         );
-    }
+    },
 });

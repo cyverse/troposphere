@@ -7,9 +7,6 @@ import CopyButton from "components/common/ui/CopyButton";
 
 export default React.createClass({
     mixins: [BootstrapModalMixin],
-    propTypes: {
-        user: React.PropTypes.number.isRequired
-    },
 
     getInitialState() {
         return {
@@ -29,11 +26,10 @@ export default React.createClass({
 
     onSubmit() {
         const {name} = this.state;
-        const {user} = this.props;
         this.setState({
             isSubmitting: true
         });
-        let promise = actions.APITokenActions.create(name.trim(), user);
+        let promise = actions.APITokenActions.create(name.trim());
         promise.then(this.onSuccess);
         promise.catch(this.onError);
     },
