@@ -6,24 +6,14 @@ import APITokenEdit from "components/modals/api_token/APITokenEdit";
 import subscribe from "utilities/subscribe";
 
 const APITokenConfiguration = React.createClass({
-    getInitialState() {
-        let {ProfileStore} = this.props.subscriptions;
-        var profile = ProfileStore.get();
-        return {
-            profile
-        };
-    },
-
     launchDeleteModal(token) {
         ModalHelpers.renderModal(APITokenDelete, {
             token
         });
     },
 
-    launchCreateModal(user) {
-        ModalHelpers.renderModal(APITokenCreate, {
-            user
-        });
+    launchCreateModal() {
+        ModalHelpers.renderModal(APITokenCreate);
     },
 
     launchEditModal(token) {
@@ -68,7 +58,6 @@ const APITokenConfiguration = React.createClass({
 
     render() {
         let {APITokenStore} = this.props.subscriptions,
-            profile = this.state.profile,
             apiTokens = APITokenStore.getAll();
         return (
             <div>
@@ -95,11 +84,7 @@ const APITokenConfiguration = React.createClass({
                             {(apiTokens || []).map(this.renderTokenRow)}
                             <tr>
                                 <td>
-                                    <a
-                                        onClick={this.launchCreateModal.bind(
-                                            this,
-                                            profile.get("user")
-                                        )}>
+                                    <a onClick={this.launchCreateModal}>
                                         <i className="glyphicon glyphicon-plus" />
                                     </a>
                                 </td>
@@ -114,7 +99,4 @@ const APITokenConfiguration = React.createClass({
     }
 });
 
-export default subscribe(APITokenConfiguration, [
-    "APITokenStore",
-    "ProfileStore"
-]);
+export default subscribe(APITokenConfiguration, ["APITokenStore"]);

@@ -4,12 +4,10 @@ import NotificationController from "controllers/NotificationController";
 import Utils from "./Utils";
 
 export default {
-    create: (name, userId) => {
+    create: name => {
         if (!name) throw new Error("Missing Token name");
-        if (!userId) throw new Error("Missing Token author");
         let apiToken = new APIToken({
-            name,
-            atmo_user: userId
+            name
         });
 
         let promise = Promise.resolve(apiToken.save());
