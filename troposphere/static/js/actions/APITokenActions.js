@@ -28,38 +28,37 @@ export default {
 
         apiToken.set(newAttributes);
         Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
-        apiToken
-            .save(newAttributes, {patch: true})
-            .done(() => {
-                Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
-            })
-            .fail(response => {
-                Utils.displayError({
-                    title: "Token could not be saved",
-                    response
-                });
-                apiToken.set(prevAttributes);
-                Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
+        let promise = Promise.resolve(
+            apiToken.save(newAttributes, {patch: true})
+        );
+        promise.then(() => {
+            Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
+        });
+        promise.catch(response => {
+            Utils.displayError({
+                title: "Token could not be saved",
+                response
             });
-        return apiToken;
+            apiToken.set(prevAttributes);
+            Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
+        });
+        return promise;
     },
     destroy: apiToken => {
         // Destroy token optimistically
         Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
-
-        apiToken
-            .destroy()
-            .done(() => {
-                Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
-            })
-            .fail(() => {
-                Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken})
-                NotificationController.error(
-                    "Error deleting token.",
-                    "Your login might be expired. If you continue to see this error " +
-                        "after logging in again, contact support."
-                );
-            });
-        return apiToken;
+        let promise = Promise.resolve(apiToken.destroy());
+        promise.then(() => {
+            Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken})
+        });
+        promise.catch(response => {
+            Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken});
+            NotificationController.error(
+                "Error deleting token.",
+                "Your login might be expired. If you continue to see this error " +
+                    "after logging in again, contact support."
+            );
+        });
+        return promise;
     }
 };
