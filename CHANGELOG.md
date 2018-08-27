@@ -28,7 +28,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
   - Fix format script and format codebase ([#782](https://github.com/cyverse/troposphere/pull/782))
     - Travis will also check that the code is formatted from now on
-
+### Added
+  - Add ability to create, edit, and delete "Personal Access Tokens" from the advanced section on the "settings" view ([#789](https://github.com/cyverse/troposphere/pull/789))
 ## [v33-0](https://github.com/cyverse/troposphere/compare/v32-0...v33-0) - 2018-08-06
 ### Changed
   - Suggest adopting a changelog format
@@ -64,7 +65,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
     ([#750](https://github.com/cyverse/troposphere/pull/750))
     - Solves problem where requests were being 'approved' while the resources
       were not being updated
-
 ### Changed
   - Change ./manage.py maintenance to be non-interactive
     ([#769](https://github.com/cyverse/troposphere/pull/769))

@@ -38,6 +38,7 @@ import AdminResourceRequestStore from "stores/AdminResourceRequestStore";
 import IdentityMembershipStore from "stores/IdentityMembershipStore";
 import StatusStore from "stores/StatusStore";
 import SSHKeyStore from "stores/SSHKeyStore";
+import APITokenStore from "stores/APITokenStore";
 import QuotaStore from "stores/QuotaStore";
 import SizeStore from "stores/SizeStore";
 import TagStore from "stores/TagStore";
@@ -90,6 +91,7 @@ let stores = {
     IdentityMembershipStore,
     StatusStore,
     SSHKeyStore,
+    APITokenStore,
     QuotaStore,
     SizeStore,
     TagStore,
