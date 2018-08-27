@@ -11,9 +11,9 @@ export default {
         });
 
         let promise = Promise.resolve(apiToken.save());
-        promise.then(() => {
-            Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken});
-        });
+        promise.then(() =>
+            Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken})
+        );
         promise.catch(() => {
             NotificationController.error(
                 "Error creating token.",
@@ -31,9 +31,9 @@ export default {
         let promise = Promise.resolve(
             apiToken.save(newAttributes, {patch: true})
         );
-        promise.then(() => {
-            Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
-        });
+        promise.then(() =>
+            Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken})
+        );
         promise.catch(response => {
             Utils.displayError({
                 title: "Token could not be saved",
@@ -48,9 +48,9 @@ export default {
         // Destroy token optimistically
         Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
         let promise = Promise.resolve(apiToken.destroy());
-        promise.then(() => {
+        promise.then(() =>
             Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken})
-        });
+        );
         promise.catch(response => {
             Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken});
             NotificationController.error(
