@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import ModalHelpers from "components/modals/ModalHelpers";
 import APITokenCreate from "components/modals/api_token/APITokenCreate";
@@ -39,9 +40,13 @@ const APITokenConfiguration = React.createClass({
         let {td} = this.style();
 
         let key = apiToken.get("name") + apiToken.cid;
+        let issued = moment(apiToken.get("issued_time")).format(
+            "MMM Do YY, hh:mm"
+        );
         return (
             <tr key={key}>
                 <td style={td}>{apiToken.get("name")}</td>
+                <td style={td}>{issued}</td>
                 <td>
                     <a onClick={this.launchEditModal.bind(this, apiToken)}>
                         <i className="glyphicon glyphicon-pencil" />
@@ -77,7 +82,8 @@ const APITokenConfiguration = React.createClass({
                         style={{tableLayout: "fixed"}}>
                         <thead>
                             <tr>
-                                <th style={{width: "100%"}}>Name</th>
+                                <th style={{width: "50%"}}>Name</th>
+                                <th style={{width: "50%"}}>Issued</th>
                                 <th style={{width: "60px"}}>Actions</th>
                             </tr>
                         </thead>
