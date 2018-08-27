@@ -1,6 +1,5 @@
 import APITokenConstants from "constants/APITokenConstants";
 import APIToken from "models/APIToken";
-import NotificationController from "controllers/NotificationController";
 import Utils from "./Utils";
 
 export default {
@@ -14,19 +13,15 @@ export default {
         promise.then(() =>
             Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken})
         );
-        promise.catch(() => {
-            NotificationController.error(
-                "Error creating token.",
-                "Your login might be expired. If you continue to see this error " +
-                    "after logging in again, contact support."
-            );
-        });
+        promise.catch(response =>
+            Utils.displayError({title: "Error creating token", response})
+        );
         return promise;
     },
     update: (apiToken, newAttributes) => {
         let prevAttributes = Object.assign({}, apiToken.attributes);
-
         apiToken.set(newAttributes);
+        // Update token optimistically
         Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
         let promise = Promise.resolve(
             apiToken.save(newAttributes, {patch: true})
@@ -53,11 +48,10 @@ export default {
         );
         promise.catch(response => {
             Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken});
-            NotificationController.error(
-                "Error deleting token.",
-                "Your login might be expired. If you continue to see this error " +
-                    "after logging in again, contact support."
-            );
+            Utils.displayError({
+                title: "Error deleting token",
+                response
+            });
         });
         return promise;
     }
