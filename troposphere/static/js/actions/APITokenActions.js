@@ -53,7 +53,7 @@ export default {
                 Utils.dispatch(APITokenConstants.REMOVE_TOKEN, {apiToken});
             })
             .fail(() => {
-                Utils.dispatch(APITokenConstants.UPDATE_TOKEN, {apiToken});
+                Utils.dispatch(APITokenConstants.ADD_TOKEN, {apiToken})
                 NotificationController.error(
                     "Error deleting token.",
                     "Your login might be expired. If you continue to see this error " +
