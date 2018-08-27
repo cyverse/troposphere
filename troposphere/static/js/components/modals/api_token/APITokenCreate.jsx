@@ -1,8 +1,9 @@
 import React from "react";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import actions from "actions";
 import {RaisedButton, CircularProgress} from "material-ui";
 import WarningIcon from "material-ui/svg-icons/alert/warning";
+
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
+import actions from "actions";
 import CopyButton from "components/common/ui/CopyButton";
 
 export default React.createClass({

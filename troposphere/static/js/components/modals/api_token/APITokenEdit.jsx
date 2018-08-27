@@ -1,7 +1,8 @@
 import React from "react";
+import {RaisedButton} from "material-ui";
+
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import actions from "actions";
-import {RaisedButton} from "material-ui";
 
 export default React.createClass({
     mixins: [BootstrapModalMixin],

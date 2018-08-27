@@ -1,9 +1,10 @@
 import React from "react";
 import Backbone from "backbone";
-import actions from "actions";
-import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import {RaisedButton} from "material-ui";
 import WarningIcon from "material-ui/svg-icons/alert/warning";
+
+import actions from "actions";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import subscribe from "utilities/subscribe";
 
 const APITokenDelete = React.createClass({

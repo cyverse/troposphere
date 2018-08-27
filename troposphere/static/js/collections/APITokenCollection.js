@@ -1,4 +1,5 @@
 import Backbone from "backbone";
+
 import APIToken from "models/APIToken";
 import globals from "globals";
 
