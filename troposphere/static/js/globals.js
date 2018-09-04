@@ -26,7 +26,6 @@ export default {
     SITE_FOOTER_HTML: window.SITE_FOOTER_HTML || "",
     SITE_FOOTER: window.SITE_FOOTER || "CyVerse",
     SITE_FOOTER_LINK: window.SITE_FOOTER_LINK || default_footer_link,
-    UI_VERSION: window.UI_VERSION || "Unknown Unicolored-Jay",
     SUPPORT_EMAIL: window.SUPPORT_EMAIL || "support@iplantcollaborative.org",
     TZ_REGION: tz_region,
     BADGE_HOST: window.BADGE_HOST,
