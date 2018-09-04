@@ -8,7 +8,6 @@ import subscribe from "utilities/subscribe";
 import featureFlags from "utilities/featureFlags";
 
 import ResourceGraphs from "../components/ResourceGraphs";
-import ProviderAllocationGraph from "../components/ProviderAllocationGraph";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph";
 import SelectMenu from "components/common/ui/SelectMenu";
 
@@ -100,10 +99,6 @@ const ResourcesForm = React.createClass({
         return <AllocationSourceGraph {...this.props} />;
     },
 
-    renderProviderGraph() {
-        //FIXME: Identity-specific this quota could change.
-        return <ProviderAllocationGraph {...this.props} />;
-    },
     identityToOptionName: function(ident) {
         let optionText = ident.toString();
 
@@ -202,9 +197,7 @@ const ResourcesForm = React.createClass({
 
         return (
             <form>
-                {globals.USE_ALLOCATION_SOURCES
-                    ? this.renderAllocationSourceMenu()
-                    : null}
+                {this.renderAllocationSourceMenu()}
                 {featureFlags.hasProjectSharing()
                     ? this.renderIdentity()
                     : this.renderProvider()}
@@ -219,9 +212,7 @@ const ResourcesForm = React.createClass({
                     />
                 </div>
                 <div className="form-group">
-                    {globals.USE_ALLOCATION_SOURCES
-                        ? this.renderAllocationSourceGraph()
-                        : this.renderProviderGraph()}
+                    {this.renderAllocationSourceGraph()}
                     <ResourceGraphs {...this.props} />
                 </div>
             </form>

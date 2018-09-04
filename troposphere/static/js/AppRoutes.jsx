@@ -51,14 +51,6 @@ import NotFoundPage from "./components/NotFoundPage";
 import ResourceMaster from "./components/admin/ResourceMaster";
 import ResourceRequest from "./components/admin/ResourceRequest/ResourceRequest";
 
-const providersRoute = (
-    <Route path="providers" component={ProvidersMaster}>
-        <IndexRoute component={ProviderListSection} />
-        <Route path=":id" component={ProviderDetail} />
-        <Route path="all" component={ProviderListSection} />
-    </Route>
-);
-
 function AppRoutes(props) {
     const {profile} = props;
 
@@ -112,7 +104,11 @@ function AppRoutes(props) {
                 <Route path="tags" component={ImageTagsPage} />
                 <Route path=":imageId" component={ImageDetailsPage} />
             </Route>
-            {globals.USE_ALLOCATION_SOURCES ? null : providersRoute}
+            <Route path="providers" component={ProvidersMaster}>
+                <IndexRoute component={ProviderListSection} />
+                <Route path=":id" component={ProviderDetail} />
+                <Route path="all" component={ProviderListSection} />
+            </Route>
             <Route path="help" component={HelpPage} />
             <Route path="settings" component={SettingsPage} />
             <Route

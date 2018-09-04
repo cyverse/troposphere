@@ -77,11 +77,8 @@ export default Backbone.Model.extend({
         if (!options.size_alias) throw new Error("Missing size_alias");
         if (!options.source_alias) throw new Error("Missing source_alias");
         if (!options.project) throw new Error("Missing project");
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            if (!options.allocation_source_id) {
-                throw new Error("Missing allocation_source_id");
-            }
+        if (!options.allocation_source_id) {
+            throw new Error("Missing allocation_source_id");
         }
 
         let identity = this.get("identity").uuid,
@@ -118,11 +115,8 @@ export default Backbone.Model.extend({
         if (!options.name) throw new Error("Missing name");
         if (!options.size_alias) throw new Error("Missing size_alias");
         if (!options.machine_alias) throw new Error("Missing machine_alias");
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            if (!options.allocation_source_uuid) {
-                throw new Error("Missing allocation_source_uuid");
-            }
+        if (!options.allocation_source_uuid) {
+            throw new Error("Missing allocation_source_uuid");
         }
 
         var providerId = this.get("provider").uuid,
@@ -151,9 +145,7 @@ export default Backbone.Model.extend({
             scripts: scriptIDs
         };
 
-        if (globals.USE_ALLOCATION_SOURCES) {
-            attrs.allocation_source_uuid = options.allocation_source_uuid;
-        }
+        attrs.allocation_source_uuid = options.allocation_source_uuid;
 
         return Backbone.sync("create", this, {
             url,

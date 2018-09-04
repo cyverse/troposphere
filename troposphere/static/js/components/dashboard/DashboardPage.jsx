@@ -8,7 +8,6 @@ import stores from "stores";
 import InstanceHistoryList from "./InstanceHistoryList";
 import ResourceStatusSummaryPlot from "./plots/ResourceStatusSummaryPlot";
 import AllocationSourcePlot from "./plots/AllocationSourcePlot";
-import ProviderAllocationPlot from "./plots/ProviderAllocationPlot";
 import ProviderSummaryLinePlot from "./plots/ProviderSummaryLinePlot";
 import CallToAction from "./CallToAction";
 import {trackAction} from "../../utilities/userActivity";
@@ -85,15 +84,6 @@ export default React.createClass({
             return <div className="loading" />;
         }
 
-        let renderAllocationPlot = globals.USE_ALLOCATION_SOURCES ? (
-            <AllocationSourcePlot />
-        ) : (
-            <ProviderAllocationPlot
-                providers={providers}
-                identities={identities}
-            />
-        );
-
         return (
             <div id="dashboard-view">
                 <div style={{paddingTop: "30px"}} className="container">
@@ -143,7 +133,7 @@ export default React.createClass({
                     </div>
                     <div className="row">
                         <div className="col-md-8">
-                            {renderAllocationPlot}
+                            <AllocationSourcePlot />
                             <ProviderSummaryLinePlot
                                 providers={providers}
                                 identities={identities}
