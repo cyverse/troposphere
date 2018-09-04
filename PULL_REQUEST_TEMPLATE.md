@@ -9,5 +9,4 @@ Please describe your pull request. If you're solving a problem, include a onelin
 - [ ] Documentation created/updated (include links)
 - [ ] Reviewed and approved by at least one other contributor.
 - [ ] New variables supported in Clank
-- [ ] New variables committed to secrets repos
 -->
