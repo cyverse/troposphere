@@ -1,6 +1,5 @@
 import React from "react";
 import Backbone from "backbone";
-import globals from "globals";
 
 import subscribe from "utilities/subscribe";
 import BreadcrumbBar from "components/projects/common/BreadcrumbBar";

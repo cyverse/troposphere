@@ -1,7 +1,6 @@
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 
-import globals from "globals";
 import context from "context";
 import modals from "modals";
 import stores from "stores";

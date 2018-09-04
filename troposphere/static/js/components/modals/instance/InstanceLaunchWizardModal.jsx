@@ -16,7 +16,6 @@ import Backbone from "backbone";
 import _ from "underscore";
 import modals from "modals";
 import stores from "stores";
-import globals from "globals";
 import actions from "actions";
 import featureFlags from "utilities/featureFlags";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";

@@ -14,8 +14,6 @@ import ProjectInstanceConstants from "constants/ProjectInstanceConstants";
 import Instance from "models/Instance";
 import ProjectInstance from "models/ProjectInstance";
 
-import globals from "globals";
-
 function launch(params) {
     if (!params.project) throw new Error("Missing project");
     if (!params.instanceName) throw new Error("Missing instanceName");

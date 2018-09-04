@@ -3,7 +3,6 @@ import React from "react";
 import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper";
 import InstanceDetailsView from "./resources/instance/details/InstanceDetailsView";
 
-import globals from "globals";
 import stores from "stores";
 
 export default React.createClass({

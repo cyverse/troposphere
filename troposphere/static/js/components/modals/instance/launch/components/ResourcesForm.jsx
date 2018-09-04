@@ -3,7 +3,6 @@ import Backbone from "backbone";
 import Tooltip from "react-tooltip";
 
 import context from "context";
-import globals from "globals";
 import subscribe from "utilities/subscribe";
 import featureFlags from "utilities/featureFlags";
 

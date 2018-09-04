@@ -3,7 +3,6 @@ import React from "react";
 import IdentityResourcesWrapper from "./detail/resources/IdentityResourcesWrapper";
 import InstanceDetailsView from "./resources/instance/details/InstanceDetailsView";
 
-import globals from "globals";
 import stores from "stores";
 
 export default React.createClass({

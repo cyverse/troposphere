@@ -4,7 +4,6 @@ import _ from "underscore";
 
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
-import globals from "globals";
 import SelectMenu from "components/common/ui/SelectMenu";
 import InstanceActions from "actions/InstanceActions";
 

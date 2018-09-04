@@ -10,7 +10,6 @@ import CreatedFrom from "../details/sections/details/CreatedFrom";
 import Identity from "../details/sections/details/Identity";
 import AllocationSource from "../details/sections/details/AllocationSource";
 import stores from "stores";
-import globals from "globals";
 
 export default React.createClass({
     displayName: "InstancePreviewView",

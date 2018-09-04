@@ -1,8 +1,6 @@
 import React from "react";
 import {Route, IndexRoute, IndexRedirect} from "react-router";
 
-import globals from "globals";
-
 import Master from "./components/Master";
 import BadgeMaster from "./components/badges/BadgeMaster";
 import MyBadges from "./components/badges/MyBadges";
