@@ -84,9 +84,6 @@ const InstanceDetail = React.createClass({
         var metricsSection = globals.SHOW_INSTANCE_METRICS ? (
             <InstanceMetricsSection instance={instance} />
         ) : null;
-        var allocationSourceSection = globals.USE_ALLOCATION_SOURCES
-            ? this.renderAllocationSourceSection(instance)
-            : null;
         let project = ProjectStore.get(instance.get("project").id);
         if (!project) {
             return <div className="loading" />;
@@ -97,7 +94,7 @@ const InstanceDetail = React.createClass({
                 <div className="col-md-9">
                     <InstanceInfoSection instance={instance} />
                     <hr />
-                    {allocationSourceSection}
+                    {this.renderAllocationSourceSection(instance)}
                     <InstanceDetailsSection instance={instance} />
                     <hr />
                     {metricsSection}

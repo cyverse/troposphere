@@ -73,20 +73,16 @@ export default React.createClass({
 
         Promise.resolve()
             .then(() => {
-                if (globals.USE_ALLOCATION_SOURCES) {
-                    let profile = context.profile,
-                        username = profile.get("username"),
-                        missing = all_instances.cfilter(
-                            i =>
-                                !i.get("allocation_source") &&
-                                i.get("user").username == username
-                        );
+                let profile = context.profile,
+                    username = profile.get("username"),
+                    missing = all_instances.cfilter(
+                        i =>
+                            !i.get("allocation_source") &&
+                            i.get("user").username == username
+                    );
 
-                    if (missing.length > 0) {
-                        return modals.NoAllocationSourceModal.showModal(
-                            missing
-                        );
-                    }
+                if (missing.length > 0) {
+                    return modals.NoAllocationSourceModal.showModal(missing);
                 }
             })
             .then(() => {

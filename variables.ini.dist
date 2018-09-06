@@ -46,7 +46,6 @@ KEYSTONE_SERVER = # "https://my-openstack.cloud.org:5000"
 KEYSTONE_DOMAIN_NAME = # "default"
 MOCK_USER =
 USE_MOCK_DATA = False # True to use fake api when possible
-USE_ALLOCATION_SOURCES = True # True for jetstream
 DATABASE_NAME = troposphere_db
 DATABASE_ENGINE = django.db.backends.postgresql
 DATABASE_USER = troposphere_db_user

@@ -16,7 +16,6 @@ import Backbone from "backbone";
 import _ from "underscore";
 import modals from "modals";
 import stores from "stores";
-import globals from "globals";
 import actions from "actions";
 import featureFlags from "utilities/featureFlags";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
@@ -184,10 +183,7 @@ export default React.createClass({
         stores.ProjectStore.addChangeListener(this.updateState);
         stores.ImageVersionStore.addChangeListener(this.updateState);
         stores.ScriptStore.addChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.addChangeListener(this.updateState);
-        }
+        stores.AllocationSourceStore.addChangeListener(this.updateState);
 
         // NOTE: This is not nice. This enforces that every time a component
         // mounts updateState gets called. Otherwise, if a component mounts
@@ -202,10 +198,7 @@ export default React.createClass({
         stores.ProjectStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            stores.AllocationSourceStore.removeChangeListener(this.updateState);
-        }
+        stores.AllocationSourceStore.removeChangeListener(this.updateState);
     },
 
     viewImageSelect: function() {
@@ -544,11 +537,9 @@ export default React.createClass({
                 }
             };
 
-            if (globals.USE_ALLOCATION_SOURCES) {
-                launchData.allocation_source_uuid = this.state.allocationSource.get(
-                    "uuid"
-                );
-            }
+            launchData.allocation_source_uuid = this.state.allocationSource.get(
+                "uuid"
+            );
 
             actions.InstanceActions.launch(launchData);
 
@@ -593,17 +584,9 @@ export default React.createClass({
             /* eslint-disable no-unused-vars */
 
             // AU's Used
-            let allocationConsumed, allocationTotal;
-
-            // If we are not using AllocationSource set to provider
-            if (globals.USE_ALLOCATION_SOURCES) {
-                let allocationSource = this.state.allocationSource;
-                allocationConsumed = allocationSource.get("compute_used");
-                allocationTotal = allocationSource.get("compute_allowed");
-            } else {
-                allocationConsumed = identityProvider.get("usage").current;
-                allocationTotal = identityProvider.get("usage").threshold;
-            }
+            let allocationSource = this.state.allocationSource;
+            let allocationConsumed = allocationSource.get("compute_used");
+            let allocationTotal = allocationSource.get("compute_allowed");
 
             // CPU's have used + will use
             let allocationCpu = identityProvider.get("quota").cpu;
@@ -641,13 +624,9 @@ export default React.createClass({
             "identityProvider",
             "providerSize",
             "imageVersion",
-            "attachedScripts"
+            "attachedScripts",
+            "allocationSource"
         ];
-
-        // Check if we are using AllocationSource and add to requierd fields
-        if (globals.USE_ALLOCATION_SOURCES) {
-            requiredFields.push("allocationSource");
-        }
 
         // All required fields are truthy
         let requiredExist = _.every(requiredFields, prop =>
@@ -761,10 +740,7 @@ export default React.createClass({
             );
         }
 
-        let allocationSourceList;
-        if (globals.USE_ALLOCATION_SOURCES) {
-            allocationSourceList = stores.AllocationSourceStore.getAll();
-        }
+        let allocationSourceList = stores.AllocationSourceStore.getAll();
         let identityList;
         if (featureFlags.hasProjectSharing()) {
             identityList = stores.IdentityStore.getAll();

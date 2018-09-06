@@ -1,6 +1,5 @@
 import React from "react";
 import Backbone from "backbone";
-import globals from "globals";
 
 import subscribe from "utilities/subscribe";
 import BreadcrumbBar from "components/projects/common/BreadcrumbBar";
@@ -38,11 +37,7 @@ const InstanceDetailsView = React.createClass({
             }
         ];
 
-        let requires = [project, instance, helpLinks];
-
-        if (globals.USE_ALLOCATION_SOURCES) {
-            requires.push(allocationSources);
-        }
+        let requires = [project, instance, helpLinks, allocationSources];
 
         // Use truthy check to see if loaded
         let loaded = requires.every(r => Boolean(r));

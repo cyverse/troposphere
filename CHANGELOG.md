@@ -35,6 +35,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Removed
   - Remove `UI_VERSION` setting that was unused
     ([#788](https://github.com/cyverse/troposphere/pull/788))
+  - Remove all traces of USE_ALLOCATION_SOURCES
+    ([#790](https://github.com/cyverse/troposphere/pull/790))
 
 ## [v33-0](https://github.com/cyverse/troposphere/compare/v32-0...v33-0) - 2018-08-06
 ### Changed

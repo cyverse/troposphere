@@ -14,8 +14,6 @@ import ProjectInstanceConstants from "constants/ProjectInstanceConstants";
 import Instance from "models/Instance";
 import ProjectInstance from "models/ProjectInstance";
 
-import globals from "globals";
-
 function launch(params) {
     if (!params.project) throw new Error("Missing project");
     if (!params.instanceName) throw new Error("Missing instanceName");
@@ -93,12 +91,9 @@ function launch(params) {
         size_alias: size.get("alias"),
         source_alias: machine.uuid,
         scripts: scripts,
-        project: project
+        project: project,
+        allocation_source_id: params.allocation_source_uuid
     };
-
-    if (globals.USE_ALLOCATION_SOURCES) {
-        payload.allocation_source_id = params.allocation_source_uuid;
-    }
 
     // Create Instance using the v2 API endpoint
     instance
