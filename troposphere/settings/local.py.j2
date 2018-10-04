@@ -14,10 +14,6 @@ ADMINS = [
 ]
 {%- endif %}
 
-{%- if SERVER_EMAIL %}
-# This email will be used as the FROM: address for emails to the ADMINS
-SERVER_EMAIL="{{ SERVER_EMAIL }}"
-{%- endif %}
 
 {% if DEBUG -%}
 if len(TEMPLATES) > 0 and 'OPTIONS' in TEMPLATES[0]:
