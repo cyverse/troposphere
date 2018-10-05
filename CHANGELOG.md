@@ -25,6 +25,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 -->
 
 ## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...HEAD) - YYYY-MM-DD
+### Removed
+  - Remove unused SERVER_EMAIL variable
+
 ## [v34-0](https://github.com/cyverse/troposphere/compare/v33-0...v34-0) - 2018-09-17
 ### Added
   - Add ability to create, edit, and delete "Personal Access Tokens" from the advanced section on the "settings" view ([#789](https://github.com/cyverse/troposphere/pull/789))
