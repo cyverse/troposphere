@@ -25,6 +25,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 -->
 
 ## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...HEAD) - YYYY-MM-DD
+### Added
+  - Add support for CAS 5
+
 ### Removed
   - Remove unused SERVER_EMAIL variable
 
