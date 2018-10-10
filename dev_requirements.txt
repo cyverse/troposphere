@@ -11,7 +11,7 @@ backports.shutil-get-terminal-size==1.0.0  # via ipython
 backports.ssl-match-hostname==3.5.0.1
 behave==1.2.5
 behaving==1.5.6
-caslib.py==2.2.2
+caslib.py==2.3.0
 certifi==2017.4.17
 cffi==1.10.0
 chardet==3.0.4
@@ -21,7 +21,7 @@ coverage==4.4.1
 cryptography==2.0
 debtcollector==1.17.0
 decorator==4.1.1          # via ipython, traitlets
-django-cyverse-auth==1.1.7
+django-cyverse-auth==1.2.0
 django-jenkins==0.110.0
 django-sslserver==0.19
 django-webpack-loader==0.5.0
