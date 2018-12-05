@@ -44,7 +44,7 @@ oslo.serialization==2.20.0  # via python-keystoneclient
 oslo.utils==3.28.0        # via oslo.serialization, python-keystoneclient
 pbr==3.1.1                # via debtcollector, keystoneauth1, oslo.i18n, oslo.serialization, oslo.utils, positional, python-keystoneclient, stevedore
 positional==1.1.1         # via keystoneauth1, python-keystoneclient
-psycopg2==2.7.1
+psycopg2==2.7.3.1
 pyasn1-modules==0.0.9     # via oauth2client
 pyasn1==0.2.3             # via oauth2client, pyasn1-modules, rsa
 pycparser==2.18

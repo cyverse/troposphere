@@ -12,7 +12,7 @@ Jinja2
 pycrypto
 PyJWT
 python-dateutil
-psycopg2
+psycopg2==2.7.3.1
 requests[security]
 uWSGI
 
