@@ -75,9 +75,13 @@ export default React.createClass({
                         </a>
                         {"."}
                         {
-                         <strong><p style={{marginTop: "15px"}}>Please do not open multiple tickets or support requests for the same issue.</p></strong>
+                            <strong>
+                                <p style={{marginTop: "15px"}}>
+                                    Please do not open multiple tickets or
+                                    support requests for the same issue.
+                                </p>
+                            </strong>
                         }
-                        
                     </p>
                 </div>
             </div>
