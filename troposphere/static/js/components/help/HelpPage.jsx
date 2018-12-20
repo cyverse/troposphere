@@ -6,17 +6,17 @@ let resources = [
     {
         title: "User Manual",
         link_key: "default",
-        description: "Complete documentation for using Atmosphere"
+        description: "Complete documentation for using Atmosphere."
     },
     {
         title: "User Forums",
         link_key: "forums",
-        description: "Get answers from Atmosphere users and staff"
+        description: "Get answers from Atmosphere users and staff."
     },
     {
         title: "FAQs",
         link_key: "faq",
-        description: "Atmosphere's most frequently asked questions"
+        description: "Atmosphere's most frequently asked questions."
     }
 ];
 
@@ -58,7 +58,7 @@ export default React.createClass({
         return (
             <div style={{paddingTop: "50px"}} className="container">
                 <h1 className="t-display-1">Help Page</h1>
-                <h2 className="t-title">External resources</h2>
+                <h2 className="t-title">External Resources</h2>
                 <ul>{resourceElements}</ul>
                 <div>
                     <h2 className="t-title">Contact</h2>
@@ -74,6 +74,14 @@ export default React.createClass({
                             {globals.SUPPORT_EMAIL}
                         </a>
                         {"."}
+                        {
+                            <strong>
+                                <p style={{marginTop: "15px"}}>
+                                    Please do not open multiple tickets or
+                                    support requests for the same issue.
+                                </p>
+                            </strong>
+                        }
                     </p>
                 </div>
             </div>
