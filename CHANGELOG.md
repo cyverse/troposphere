@@ -28,6 +28,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Added
   - Add support for CAS 5
 
+### Changed
+  - Update `psycopg` requirement to version 2.7.3.1
+    ([#795](https://github.com/cyverse/troposphere/pull/795))
+
 ### Removed
   - Remove unused SERVER_EMAIL variable
 
