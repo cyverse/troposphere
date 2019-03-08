@@ -1,6 +1,7 @@
+import React from "react";
 import {ShowMoreEllipsis} from "cyverse-ui";
 import {marg} from "cyverse-ui/styles";
-import React from "react";
+import CopyButton from "components/common/ui/CopyButton";
 
 /**
  * A consistently styled `<code/>` element
@@ -26,6 +27,18 @@ const Code = props => {
 
     return <pre style={style}>{text}</pre>;
 };
+
+const NoStyleButton = props => (
+    <button
+        {...props}
+        style={{
+            display: "inline",
+            background: "none",
+            outline: "none",
+            border: "none"
+        }}
+    />
+);
 
 /**
  * Allow a region to be collapsed and expanded to avoid
@@ -60,21 +73,26 @@ const CollapsibleOutput = React.createClass({
 
         if (!open) {
             content = (
-                <span onClick={this.onEllipsisClick}>
-                    {` ${partial} `}
-                    <ShowMoreEllipsis />
+                <span>
+                    <span>{` ${partial} `}</span>
+                    <NoStyleButton onClick={this.onEllipsisClick}>
+                        <ShowMoreEllipsis />
+                    </NoStyleButton>
                 </span>
             );
         } else {
             content = (
-                <span onClick={this.onEllipsisClick}>
-                    <ShowMoreEllipsis />
+                <span>
+                    <NoStyleButton onClick={this.onEllipsisClick}>
+                        <ShowMoreEllipsis />
+                    </NoStyleButton>
+                    <CopyButton text={output} />
                     <Code text={output} />
                 </span>
             );
         }
 
-        return <div style={{display: "inline-block"}}>{content}</div>;
+        return <span>{content}</span>;
     }
 });
 
