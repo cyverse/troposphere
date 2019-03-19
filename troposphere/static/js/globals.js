@@ -21,6 +21,7 @@ export default {
     TROPO_API_ROOT: window.TROPO_API_ROOT || "/tropo-api",
     WEB_SH_URL: window.WEB_SH_URL || shell_proxy,
     THEME_URL: window.THEME_URL || "",
+    THEME_NAME: window.THEME_NAME || "",
     STATUS_PAGE_LINK: window.STATUS_PAGE_LINK || "",
     SITE_TITLE: window.SITE_TITLE || "Atmosphere",
     SITE_FOOTER_HTML: window.SITE_FOOTER_HTML || "",

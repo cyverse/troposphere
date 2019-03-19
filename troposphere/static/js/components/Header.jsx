@@ -14,6 +14,7 @@ import logoPath from "themeImages/mini_logo.png";
 import {trackAction} from "utilities/userActivity";
 import {hasLoggedInUser} from "utilities/profilePredicate";
 import {deleteCookie} from "utilities/cookieHelpers";
+import XcedeX from "./icons/XcedeX";
 
 const links = [
     {
@@ -72,20 +73,34 @@ let LoginLink = React.createClass({
         modals.PublicModals.showPublicLoginModal();
     },
     renderLink: function() {
-        if (window.use_login_selection) {
-            return (
-                <a id="login_link" href="#" onClick={this.onLogin}>
-                    Login
-                </a>
-            );
-        } else {
-            return (
-                <a id="login_link" href="/login">
-                    Login
-                </a>
-            );
-        }
+        const isJetstream = globals.THEME_NAME === "jetstream_theme";
+        const label = isJetstream ? "Login with XSEDE" : "Login";
+        const attributes = window.use_login_selection ? {
+            id:"login_link",
+            href: "#",
+            onClick: this.onLogin
+        } : {
+            id: "login_link",
+            href: "/login"
+        };
+
+        const loginStyle = {
+            background: isJetstream ? "#034680" : "none",
+            borderRadius: "3px",
+            padding: "4px 8px",
+            display: "flex",
+            alignItems: "center",
+            marginTop: "8px"
+        };
+
+        return (
+            <a { ...attributes } style={loginStyle}>
+                { isJetstream && <XcedeX style={{ marginRight: "5px" }}/> }
+                { label }
+            </a>
+        );
     },
+
     render: function() {
         return <li className="dropdown">{this.renderLink()}</li>;
     }
