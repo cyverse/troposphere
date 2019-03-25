@@ -35,6 +35,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Removed
   - Remove unused SERVER_EMAIL variable
 
+### Fixed
+  - Fix `python-ldap` dependency's broken version (now using 3.1.0)
+    ([#798](https://github.com/cyverse/troposphere/pull/798))
+
 ## [v34-0](https://github.com/cyverse/troposphere/compare/v33-0...v34-0) - 2018-09-17
 ### Added
   - Add ability to create, edit, and delete "Personal Access Tokens" from the advanced section on the "settings" view ([#789](https://github.com/cyverse/troposphere/pull/789))
