@@ -75,14 +75,16 @@ let LoginLink = React.createClass({
     renderLink: function() {
         const isJetstream = globals.THEME_NAME === "jetstream_theme";
         const label = isJetstream ? "Login with XSEDE" : "Login";
-        const attributes = window.use_login_selection ? {
-            id:"login_link",
-            href: "#",
-            onClick: this.onLogin
-        } : {
-            id: "login_link",
-            href: "/login"
-        };
+        const attributes = window.use_login_selection
+            ? {
+                  id: "login_link",
+                  href: "#",
+                  onClick: this.onLogin
+              }
+            : {
+                  id: "login_link",
+                  href: "/login"
+              };
 
         const loginStyle = {
             background: isJetstream ? "#034680" : "none",
@@ -94,9 +96,9 @@ let LoginLink = React.createClass({
         };
 
         return (
-            <a { ...attributes } style={loginStyle}>
-                { isJetstream && <XcedeX style={{ marginRight: "5px" }}/> }
-                { label }
+            <a {...attributes} style={loginStyle}>
+                {isJetstream && <XcedeX style={{marginRight: "5px"}} />}
+                {label}
             </a>
         );
     },
