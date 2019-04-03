@@ -27,6 +27,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...HEAD) - YYYY-MM-DD
 ### Added
   - Add support for CAS 5
+  - Added Dockerfile and related files to enable automated Dockerhub build/test
+    ([#800](https://github.com/cyverse/troposphere/pull/800))
 
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
