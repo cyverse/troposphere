@@ -72,7 +72,7 @@ const APITokenConfiguration = React.createClass({
                     <p>
                         Personal Access Tokens are API Tokens that can be used
                         instead of passwords for authentication. Other
-                        aplications can use Personal Access Tokens to access
+                        applications can use Personal Access Tokens to access
                         Atmosphere services under your account.
                     </p>
                 </div>
