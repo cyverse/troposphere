@@ -132,10 +132,11 @@ export default React.createClass({
                             <ul>
                                 <li>
                                     <p>
-                                        Quota controls the amount of resources (CPU,
-                                        RAM, etc) that can be used at a given time.
-                                        The end result would be that you can launch
-                                        more instances, or larger instances.
+                                        Quota controls the amount of resources
+                                        (CPU, RAM, etc) that can be used at a
+                                        given time. The end result would be that
+                                        you can launch more instances, or larger
+                                        instances.
                                     </p>
                                 </li>
                             </ul>
@@ -145,17 +146,20 @@ export default React.createClass({
                             <ul>
                                 <li>
                                     <p>
-                                        Allocation controls the use of resources,
-                                        over time. This means that you can use
-                                        instances, for example, for a longer period
-                                        of time.
+                                        Allocation controls the use of
+                                        resources, over time. This means that
+                                        you can use instances, for example, for
+                                        a longer period of time.
                                     </p>
-                                    <p className="alert alert-warning" role="alert">
-                                        <strong>NOTE:</strong> Jetstream Trial Allocations (JTA) are
-                                         for exploratory purposes only and currently
-                                         the limits are hard-wired into the allocation.
-                                         As such requests for JTA alterations cannot be
-                                         supported.
+                                    <p
+                                        className="alert alert-warning"
+                                        role="alert">
+                                        <strong>NOTE:</strong> Jetstream Trial
+                                        Allocations (JTA) are for exploratory
+                                        purposes only and currently the limits
+                                        are hard-wired into the allocation. As
+                                        such requests for JTA alterations cannot
+                                        be supported.
                                     </p>
                                 </li>
                             </ul>
