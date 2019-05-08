@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...HEAD) - YYYY-MM-DD
 ### Added
   - Add support for CAS 5
+  - Alert message to the Resource Request Modal for Jetstream users explaining JTA restrictions
 
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
