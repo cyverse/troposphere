@@ -19,6 +19,11 @@ check_for_repo atmosphere-docker-secrets || exit 1
 source /opt/env/troposphere/bin/activate && \
 pip install -r /opt/dev/troposphere/requirements.txt
 
+if [[ -d "/opt/dev/atmosphere-docker-secrets/theme-images" ]]
+then
+  cp -R /opt/dev/atmosphere-docker-secrets/theme-images /opt/dev/troposphere/troposphere/static/theme/themeImages
+fi
+
 ln -s /opt/dev/atmosphere-docker-secrets/inis/troposphere.ini /opt/dev/troposphere/variables.ini
 /opt/env/troposphere/bin/python /opt/dev/troposphere/configure
 
