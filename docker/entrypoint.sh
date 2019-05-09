@@ -15,6 +15,16 @@ function check_for_repo() {
 check_for_repo troposphere || exit 1
 check_for_repo atmosphere-docker-secrets || exit 1
 
+# Get user_id variable if used
+user_id=$1
+
+if [ -z $user_id ]; then
+  user_id=1000
+else
+  usermod -u $user_id user
+  groupmod -u $user_id user
+fi
+
 # Setup Troposphere
 source /opt/env/troposphere/bin/activate && \
 pip install -r /opt/dev/troposphere/requirements.txt
@@ -45,7 +55,7 @@ then
   ln -s /etc/nginx/sites-available/site-dev.conf /etc/nginx/sites-enabled/site.conf
   nginx
   sed -i "s/^    url = .*$/    url = data.get('token_url').replace('guacamole','localhost',1)/" /opt/dev/troposphere/troposphere/views/web_desktop.py
-  chown -R 1000:1000 /opt/dev/troposphere
+  chown -R $user_id:$user_id /opt/dev/troposphere
   sudo su -l user -s /bin/bash -c "/opt/env/troposphere/bin/python /opt/dev/troposphere/manage.py runserver 0.0.0.0:8001 &"
   npm run serve -- --public localhost
 else
