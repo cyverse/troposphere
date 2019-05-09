@@ -1,7 +1,7 @@
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
-import globals from 'globals';
+import globals from "globals";
 
 export default React.createClass({
     displayName: "InstanceStopModal",
@@ -32,21 +32,20 @@ export default React.createClass({
             <div>
                 <p>{"Would you like to stop this instance?"}</p>
                 <div className="alert alert-warning clearfix" role="alert">
-                <p>
-                    <strong>NOTE:</strong> A stopped instance will still consume
-                    some of your resources. To fully preserve your resources,
-                    please shelve or suspend.
-                </p>
-                { globals.EXTERNAL_ALLOCATION &&
-                    <a
-                        style={{marginTop: "8px"}}
-                        className="pull-right"
-                        target="_blank"
-                        href="http://wiki.jetstream-cloud.org/XSEDE+Service+Units+and+Jetstream"
-                    >
-                        LEARN MORE
-                    </a>
-                }
+                    <p>
+                        <strong>NOTE:</strong> A stopped instance will still
+                        consume some of your resources. To fully preserve your
+                        resources, please shelve or suspend.
+                    </p>
+                    {globals.EXTERNAL_ALLOCATION && (
+                        <a
+                            style={{marginTop: "8px"}}
+                            className="pull-right"
+                            target="_blank"
+                            href="http://wiki.jetstream-cloud.org/XSEDE+Service+Units+and+Jetstream">
+                            LEARN MORE
+                        </a>
+                    )}
                 </div>
             </div>
         );
