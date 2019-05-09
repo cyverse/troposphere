@@ -33,7 +33,7 @@ export default React.createClass({
                 <p className="alert alert-warning">
                     <Glyphicon name="warning-sign" /> <strong>WARNING</strong>
                     {
-                        " Shelving an instance will freeze its state, and the IP address be removed from the instance."
+                        " Shelving an instance will freeze its state, and the IP address will be removed from the instance."
                     }
                 </p>
                 <p>
