@@ -27,11 +27,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...HEAD) - YYYY-MM-DD
 ### Added
   - Add support for CAS 5
+  - Add link to resources wiki on instance stop modal warning copy within jetstream context 
 
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
     ([#795](https://github.com/cyverse/troposphere/pull/795))
-
+  - Correct copy on instance stop modal warning message explaining resource consumtion
 ### Removed
   - Remove unused SERVER_EMAIL variable
 
