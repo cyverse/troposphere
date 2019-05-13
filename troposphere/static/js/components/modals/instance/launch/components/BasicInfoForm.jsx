@@ -14,6 +14,8 @@ export default React.createClass({
         identity: React.PropTypes.instanceOf(Backbone.Model),
         identityList: React.PropTypes.instanceOf(Backbone.Collection),
         project: React.PropTypes.instanceOf(Backbone.Model),
+        onProvisionOptionChange: React.PropTypes.func,
+        provisionOption: React.PropTypes.string,
         image: React.PropTypes.instanceOf(Backbone.Model),
         instanceName: React.PropTypes.string,
         onNameChange: React.PropTypes.func,
@@ -61,6 +63,7 @@ export default React.createClass({
             projectList,
             instanceName,
             provisionOption,
+            onProvisionOptionChange,
             showValidationErr,
             waitingOnLaunch
         } = this.props;
@@ -147,7 +150,7 @@ export default React.createClass({
                     <RadioButtonGroup
                         name="provision-options"
                         valueSelected={provisionOption}
-                        onChange={this.props.onProvisionOptionChange}>
+                        onChange={onProvisionOptionChange}>
                         <RadioButton
                             value="full-provision"
                             label="Full Provision (Recomended)"
