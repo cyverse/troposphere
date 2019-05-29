@@ -7,7 +7,6 @@ import Name from "../components/Name";
 import CreateUpdateFlag from "../components/CreateUpdateFlag";
 import Description from "../components/Description";
 import Tags from "../components/Tags";
-import TagCollection from "collections/TagCollection";
 
 import {captureMessage} from "utilities/capture";
 
@@ -25,14 +24,11 @@ export default React.createClass({
 
     componentDidMount: function() {
         stores.ImageStore.addChangeListener(this.updateState);
-        stores.TagStore.addChangeListener(this.updateState);
-
         this.updateState();
     },
 
     componentWillUnmount: function() {
         stores.ImageStore.removeChangeListener(this.updateState);
-        stores.TagStore.removeChangeListener(this.updateState);
     },
 
     getInitialState: function() {
@@ -43,14 +39,13 @@ export default React.createClass({
             defaultName = instance.get("image").name;
             defaultDescription = instance.get("image").description;
         }
-        let imageTags = new TagCollection(instance.get("image").tags);
 
         return {
             name: defaultName,
             nameError: this.setNameError(defaultName),
             description: defaultDescription,
             newImage: true,
-            imageTags
+            imageTags: this.props.tags
         };
     },
 
@@ -153,7 +148,6 @@ export default React.createClass({
                 component: this.displayName
             });
         }
-
         return (
             <div>
                 <div className="alert alert-danger">

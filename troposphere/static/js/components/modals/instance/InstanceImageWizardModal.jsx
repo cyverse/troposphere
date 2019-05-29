@@ -4,6 +4,7 @@ import _ from "underscore";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import BreadcrumbNav from "components/common/breadcrumb/BreadcrumbNav";
 import stores from "stores";
+import TagCollection from "collections/TagCollection";
 import ImageInfoStep from "./image/steps/ImageInfoStep";
 import VersionInfoStep from "./image/steps/VersionInfoStep";
 import VisibilityStep from "./image/steps/VisibilityStep";
@@ -34,6 +35,9 @@ export default React.createClass({
     //
 
     getInitialState: function() {
+        const imageId = this.props.instance.get("image").id;
+        const tags = stores.ImageStore.get(imageId).get("tags");
+        const imageTags = new TagCollection(tags);
         return {
             step: 1,
             title: "Image Info", // Identical to first breadcrumb name
@@ -45,7 +49,7 @@ export default React.createClass({
             minCPU: "0",
             minMem: "0",
             identity: null,
-            imageTags: new Backbone.Collection(),
+            imageTags,
             imageUsers: new Backbone.Collection(),
             activeScripts: new Backbone.Collection(),
             activeLicenses: new Backbone.Collection(),
@@ -96,6 +100,7 @@ export default React.createClass({
         stores.ScriptStore.addChangeListener(this.updateState);
         stores.LicenseStore.addChangeListener(this.updateState);
         stores.PatternMatchStore.addChangeListener(this.updateState);
+        stores.TagStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
@@ -105,6 +110,7 @@ export default React.createClass({
         stores.ScriptStore.removeChangeListener(this.updateState);
         stores.LicenseStore.removeChangeListener(this.updateState);
         stores.PatternMatchStore.removeChangeListener(this.updateState);
+        stores.TagStore.removeChangeListener(this.updateState);
     },
 
     //
@@ -210,15 +216,18 @@ export default React.createClass({
     //
 
     renderBody: function() {
-        var instance = this.props.instance,
-            step = this.state.step,
-            allLicenses = stores.LicenseStore.getAll(),
+        const {
+            imageTags,
+            activeAccessList,
+            activeLicenses,
+            activeScripts,
+            step
+        } = this.state;
+        const {instance} = this.props;
+        const allLicenses = stores.LicenseStore.getAll(),
             allPatterns = stores.PatternMatchStore.getAll(),
-            activeAccessList = this.state.activeAccessList,
-            activeLicenses = this.state.activeLicenses,
             allScripts = stores.ScriptStore.getAll(),
-            helpLink = stores.HelpLinkStore.get("request-image"),
-            activeScripts = this.state.activeScripts;
+            helpLink = stores.HelpLinkStore.get("request-image");
 
         if (allPatterns == null) {
             return <div className="loading" />;
@@ -228,6 +237,7 @@ export default React.createClass({
             case IMAGE_INFO_STEP:
                 return (
                     <ImageInfoStep
+                        tags={imageTags}
                         instance={instance}
                         imageOwner={this.props.imageOwner}
                         onPrevious={this.onPrevious}
