@@ -93,6 +93,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
   - Change ./manage.py maintenance to be non-interactive
     ([#769](https://github.com/cyverse/troposphere/pull/769))
+  - Improve Delete Instance while Volumes Attached warning message
+    ([#809](https://github.com/cyverse/troposphere/pull/809))
 
 ### Fixed
   - Admin request panel can view older requests
