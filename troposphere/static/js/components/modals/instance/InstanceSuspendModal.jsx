@@ -89,7 +89,7 @@ export default React.createClass({
                             <RaisedButton
                                 style={{marginRight: "10px"}}
                                 onTouchTap={this.cancel}
-                                label={isAttached ? "OK" : "Cancel"}
+                                label={"Cancel"}
                             />
                             {isAttached || (
                                 <RaisedButton
