@@ -22,7 +22,7 @@ if [ -z $user_id ]; then
   user_id=1000
 else
   usermod -u $user_id user
-  groupmod -u $user_id user
+  groupmod -g $user_id user
 fi
 
 # Setup Troposphere

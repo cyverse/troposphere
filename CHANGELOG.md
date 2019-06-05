@@ -42,6 +42,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
     ([#795](https://github.com/cyverse/troposphere/pull/795))
   - Correct copy on instance stop modal warning message explaining resource consumtion
   - Fix typo on shelve instance modal
+  - Update Dockerfile to use Ubuntu 18.04
+    ([#810](https://github.com/cyverse/troposphere/pull/810))
 
 ### Removed
   - Remove unused SERVER_EMAIL variable
