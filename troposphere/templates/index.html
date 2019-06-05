@@ -125,6 +125,10 @@
     var GUACAMOLE_ENABLED = "{{ GUACAMOLE_ENABLED }}";
 {% endif %}
 
+{% if THEME_NAME %}
+    var THEME_NAME = "{{ THEME_NAME }}";
+{% endif %}
+
 {% if show_public_site %}
     var show_public_site = true;
 {%  else %}

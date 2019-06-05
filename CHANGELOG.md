@@ -26,6 +26,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...HEAD) - YYYY-MM-DD
 ### Added
+  - Custom login button for Jetstream when THEME_NAME is "jetstream_theme"
+  - Variable "THEME_NAME" added to global variables on front end
+
+### Added
   - Add support for CAS 5
   - Added Dockerfile and related files to enable automated Dockerhub build/test
     ([#800](https://github.com/cyverse/troposphere/pull/800))
