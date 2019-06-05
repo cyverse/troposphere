@@ -29,6 +29,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - Add support for CAS 5
   - Added Dockerfile and related files to enable automated Dockerhub build/test
     ([#800](https://github.com/cyverse/troposphere/pull/800))
+  - Run npm install as part of Dockerfile
+    ([#811](https://github.com/cyverse/troposphere/pull/811))
 
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
