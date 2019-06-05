@@ -36,6 +36,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - Alert message to the Resource Request Modal for Jetstream users explaining JTA restrictions
   - Add link to resources wiki on instance stop modal warning copy within jetstream context 
   - Add sort options to instance and volume tables in project resources
+  - Run npm install as part of Dockerfile
+    ([#811](https://github.com/cyverse/troposphere/pull/811))
 
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
