@@ -34,11 +34,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - Added Dockerfile and related files to enable automated Dockerhub build/test
     ([#800](https://github.com/cyverse/troposphere/pull/800))
   - Alert message to the Resource Request Modal for Jetstream users explaining JTA restrictions
+  - Add link to resources wiki on instance stop modal warning copy within jetstream context 
 
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
     ([#795](https://github.com/cyverse/troposphere/pull/795))
-
+  - Correct copy on instance stop modal warning message explaining resource consumtion
 ### Removed
   - Remove unused SERVER_EMAIL variable
 
