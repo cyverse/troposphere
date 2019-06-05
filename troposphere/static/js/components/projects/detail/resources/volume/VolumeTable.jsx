@@ -2,8 +2,48 @@ import React from "react";
 import Backbone from "backbone";
 import VolumeRow from "./VolumeRow";
 import SelectableTable from "../SelectableTable";
-
+import TableActions from "../TableActions";
 import featureFlags from "utilities/featureFlags";
+
+import {
+    compareRoot,
+    compareChild,
+    compareWithMethodReverse
+} from "utilities/comparators";
+
+const getComparator = (options, sortBy) =>
+    options.find(obj => obj.value === sortBy).comparator;
+
+const compareName = compareChild("name");
+const sortOptions = [
+    {
+        value: "name",
+        label: "Name",
+        comparator: compareRoot("name")
+    },
+    {
+        value: "status",
+        label: "Status",
+        comparator: compareWithMethodReverse(item =>
+            item.get("state").get("status")
+        )
+    },
+    {
+        value: "start_date",
+        label: "Start Date",
+        comparator: compareRoot("start_date")
+    },
+    {
+        value: "size",
+        label: "Size",
+        comparator: compareRoot("size")
+    },
+    {
+        value: "provider",
+        label: "Provider",
+        comparator: compareName("provider")
+    }
+];
 
 export default React.createClass({
     displayName: "VolumeTable",
@@ -19,8 +59,13 @@ export default React.createClass({
 
     getInitialState: function() {
         return {
-            isChecked: false
+            isChecked: false,
+            sortBy: "name"
         };
+    },
+
+    onChangeSort(e) {
+        this.setState({sortBy: e.target.value});
     },
 
     toggleCheckbox: function(e) {
@@ -57,23 +102,36 @@ export default React.createClass({
     },
 
     render: function() {
-        var volumes = this.props.volumes,
-            volumeRows = this.getVolumeRows(volumes);
+        const volumes = this.props.volumes;
+        const {sortBy} = this.state;
+
+        volumes.comparator = getComparator(sortOptions, sortBy);
+        const sortedVolumes = volumes.sort();
+        const volumeRows = this.getVolumeRows(sortedVolumes);
 
         return (
-            <SelectableTable
-                resources={volumes}
-                selectedResources={this.props.selectedResources}
-                resourceRows={volumeRows}
-                onResourceSelected={this.props.onResourceSelected}
-                onResourceDeselected={this.props.onResourceDeselected}>
-                <th className="sm-header">Name</th>
-                <th className="sm-header">Status</th>
-                <th className="sm-header">Size</th>
-                <th className="sm-header">
-                    {featureFlags.hasProjectSharing() ? "Identity" : "Provider"}
-                </th>
-            </SelectableTable>
+            <div>
+                <TableActions
+                    sortBy={sortBy}
+                    sortOptions={sortOptions}
+                    onChangeSort={this.onChangeSort}
+                />
+                <SelectableTable
+                    resources={sortedVolumes}
+                    selectedResources={this.props.selectedResources}
+                    resourceRows={volumeRows}
+                    onResourceSelected={this.props.onResourceSelected}
+                    onResourceDeselected={this.props.onResourceDeselected}>
+                    <th className="sm-header">Name</th>
+                    <th className="sm-header">Status</th>
+                    <th className="sm-header">Size</th>
+                    <th className="sm-header">
+                        {featureFlags.hasProjectSharing()
+                            ? "Identity"
+                            : "Provider"}
+                    </th>
+                </SelectableTable>
+            </div>
         );
     }
 });

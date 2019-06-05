@@ -35,16 +35,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
     ([#800](https://github.com/cyverse/troposphere/pull/800))
   - Alert message to the Resource Request Modal for Jetstream users explaining JTA restrictions
   - Add link to resources wiki on instance stop modal warning copy within jetstream context 
+  - Add sort options to instance and volume tables in project resources
 
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
     ([#795](https://github.com/cyverse/troposphere/pull/795))
-<<<<<<< HEAD
   - Correct copy on instance stop modal warning message explaining resource consumtion
-=======
   - Fix typo on shelve instance modal
 
->>>>>>> JETSTREAM-237
 ### Removed
   - Remove unused SERVER_EMAIL variable
 
