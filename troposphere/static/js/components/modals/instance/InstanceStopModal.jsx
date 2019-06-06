@@ -48,11 +48,14 @@ export default React.createClass({
                 ) : (
                     <div>
                         <p>{"Would you like to stop this instance?"}</p>
-                        <div className="alert alert-warning clearfix" role="alert">
+                        <div
+                            className="alert alert-warning clearfix"
+                            role="alert">
                             <p>
-                                <strong>NOTE:</strong> A stopped instance will still
-                                consume some of your resources. To fully preserve your
-                                resources, please shelve or suspend.
+                                <strong>NOTE:</strong> A stopped instance will
+                                still consume some of your resources. To fully
+                                preserve your resources, please shelve or
+                                suspend.
                             </p>
                             {globals.EXTERNAL_ALLOCATION && (
                                 <a
