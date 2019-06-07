@@ -46,6 +46,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - Fix typo on shelve instance modal
   - Update Dockerfile to use Ubuntu 18.04
     ([#810](https://github.com/cyverse/troposphere/pull/810))
+  - Use feature flag "GUACAMOLE" to alternativly render Guacmole or Legacy remote service links on instance actions not both
+    ([#812](https://github.com/cyverse/troposphere/pull/812))
 
 ### Removed
   - Remove unused SERVER_EMAIL variable
