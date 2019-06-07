@@ -13,6 +13,7 @@ import {trackAction, showNewMessage} from "utilities/userActivity";
 
 import modals from "modals";
 import stores from "stores";
+import globals from "globals";
 
 export default React.createClass({
     displayName: "InstanceActionsAndLinks",
@@ -243,36 +244,11 @@ export default React.createClass({
             ipAddress = instance.get("ip_address"),
             disableWebLinks = !ipAddress || ipAddress === "0.0.0.0";
 
-        let links = [
-            {
-                label: "Open Old Web Shell",
-                icon: "console",
-                href: webShellUrl,
-                onClick: this.onWebShell,
-                openInNewWindow: true,
-                isDisabled: disableWebLinks
-            }
-        ];
-
-        if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
-            links.push({
-                label: "Open Old Web Desktop",
-                icon: "sound-stereo",
-                onClick: this.onWebDesktop.bind(
-                    this,
-                    this.props.instance,
-                    "web_desktop",
-                    "vnc"
-                ),
-                openInNewWindow: true,
-                isDisabled: disableWebLinks
-            });
-        }
-
+        let links = [];
         if (featureFlags.GUACAMOLE) {
             links.push({
                 label: "Open Web Shell",
-                icon: "text-background",
+                icon: "console",
                 onClick: this.onWebDesktop.bind(
                     this,
                     this.props.instance,
@@ -286,11 +262,35 @@ export default React.createClass({
             if (webDesktopCapable) {
                 links.push({
                     label: "Open Web Desktop",
-                    icon: "sound-dolby",
+                    icon: "sound-stereo",
                     onClick: this.onWebDesktop.bind(
                         this,
                         this.props.instance,
                         "guacamole",
+                        "vnc"
+                    ),
+                    openInNewWindow: true,
+                    isDisabled: disableWebLinks
+                });
+            }
+        } else {
+            links.push({
+                label: "Open Web Shell",
+                icon: "console",
+                href: webShellUrl,
+                onClick: this.onWebShell,
+                openInNewWindow: true,
+                isDisabled: disableWebLinks
+            });
+
+            if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
+                links.push({
+                    label: "Open Web Desktop",
+                    icon: "sound-stereo",
+                    onClick: this.onWebDesktop.bind(
+                        this,
+                        this.props.instance,
+                        "web_desktop",
                         "vnc"
                     ),
                     openInNewWindow: true,
