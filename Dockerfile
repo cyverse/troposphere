@@ -1,15 +1,15 @@
 # Docker Container for Troposphere
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 
 # Set environment
 SHELL ["/bin/bash", "-c"]
 
 # Install dependencies with apt
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y curl && \
-    curl -skL https://deb.nodesource.com/setup_8.x | bash -
+    apt-get install --no-install-recommends -y curl gnupg && \
+    curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
       apt-transport-https \
       build-essential \
       git \
@@ -18,12 +18,14 @@ RUN apt-get update && \
       libldap2-dev \
       libpq-dev \
       libsasl2-dev \
-      libssl-dev \
+      libssl1.0-dev \
       libxml2-dev \
       libxslt1-dev \
       make \
+      netcat \
       nginx \
       nodejs \
+      npm \
       openssl \
       python \
       python-dev \
