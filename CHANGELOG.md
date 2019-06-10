@@ -39,7 +39,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
     ([#795](https://github.com/cyverse/troposphere/pull/795))
+  - Fix typo on shelve instance modal
   - Correct copy on instance stop modal warning message explaining resource consumtion
+
 ### Removed
   - Remove unused SERVER_EMAIL variable
 
