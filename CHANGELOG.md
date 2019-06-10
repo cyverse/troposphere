@@ -42,6 +42,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
     ([#795](https://github.com/cyverse/troposphere/pull/795))
+  - Use feature flag "GUACAMOLE" to alternativly render Guacmole or Legacy remote service links on instance actions not both
+    ([#812](https://github.com/cyverse/troposphere/pull/812))
   - Update Dockerfile to use Ubuntu 18.04
     ([#810](https://github.com/cyverse/troposphere/pull/810))
   - Fix typo on shelve instance modal
