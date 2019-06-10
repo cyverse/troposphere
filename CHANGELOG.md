@@ -48,6 +48,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Fixed
   - Fix `python-ldap` dependency's broken version (now using 3.1.0)
     ([#798](https://github.com/cyverse/troposphere/pull/798))
+  - ATMO-2143: Image Request not populating base image tags
+    ([#808](https://github.com/cyverse/troposphere/pull/808))
 
 ## [v34-0](https://github.com/cyverse/troposphere/compare/v33-0...v34-0) - 2018-09-17
 ### Added
