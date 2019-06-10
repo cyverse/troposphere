@@ -74,6 +74,8 @@ RUN apt-get autoremove -y && \
 RUN openssl dhparam -out /etc/ssl/certs/dhparam.pem 1024 && \
     cp -r docker/nginx/ /etc/
 
+RUN npm install --unsafe-perm
+
 RUN useradd user
 
 # Prepare entrypoint
