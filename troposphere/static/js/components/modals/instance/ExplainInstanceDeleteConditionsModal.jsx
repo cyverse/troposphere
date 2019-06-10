@@ -37,26 +37,27 @@ export default React.createClass({
                 <div className="form-group">
                     <div className="alert alert-danger" role="alert">
                         <Glyphicon name="exclamation-sign" />
-                        {" Cannot delete while volumes are attached."}
+                        {
+                            " It is not advised to delete while volumes are attached"
+                        }
                     </div>
                     <p>
+                        {`If volumes are being read or written to, instance deletion can corrupt them.
+                        Please first detach the volume(s) before deleting this instance`}
+                    </p>
+                    <p>
                         {
-                            "This instance currently has the following volumes attached to it:"
+                            "This following volumes are attached to this instance:"
                         }
                     </p>
-                    <ul>{this.renderAttachedVolumes()}</ul>
-                    <p>
-                        {"Detach the above volumes to safely delete this instance. " +
-                            "If volumes are being read or written to, instance deletion can corrupt volumes. "}
-                        <a
-                            style={{
-                                color: "black",
-                                textDecoration: "underline"
-                            }}
-                            onClick={this.confirm}>
-                            Delete anyway
-                        </a>.
-                    </p>
+                    <ul style={{marginBottom: "48px"}}>
+                        {this.renderAttachedVolumes()}
+                    </ul>
+                    <button
+                        className="btn btn-danger pull-right"
+                        onClick={this.confirm}>
+                        <Glyphicon name="exclamation-sign" /> DELETE ANYWAY
+                    </button>
                 </div>
             </div>
         );
@@ -75,9 +76,9 @@ export default React.createClass({
                         <div className="modal-body">{this.renderBody()}</div>
                         <div className="modal-footer">
                             <RaisedButton
-                                primary
+                                default
                                 onTouchTap={this.hide}
-                                label="Okay"
+                                label="Cancel"
                             />
                         </div>
                     </div>
