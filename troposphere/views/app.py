@@ -202,6 +202,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         template_params['USE_GATE_ONE_API'] = settings.USE_GATE_ONE_API
         template_params['WEB_SH_URL'] = settings.WEB_SH_URL
 
+    if hasattr(settings, "THEME_NAME"):
+        template_params['THEME_NAME'] = settings.THEME_NAME
+
     return template_params
 
 

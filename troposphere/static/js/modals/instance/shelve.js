@@ -5,7 +5,7 @@ import actions from "actions";
 
 export default {
     shelve: function(instance) {
-        ModalHelpers.renderModal(InstanceShelveModal, null, function() {
+        ModalHelpers.renderModal(InstanceShelveModal, {instance}, function() {
             actions.InstanceActions.shelve({
                 instance: instance
             });

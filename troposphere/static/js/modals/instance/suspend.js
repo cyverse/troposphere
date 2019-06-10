@@ -5,7 +5,7 @@ import actions from "actions";
 
 export default {
     suspend: function(instance) {
-        ModalHelpers.renderModal(InstanceSuspendModal, null, function() {
+        ModalHelpers.renderModal(InstanceSuspendModal, {instance}, function() {
             actions.InstanceActions.suspend({
                 instance: instance
             });

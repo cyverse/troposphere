@@ -5,7 +5,7 @@ import actions from "actions";
 
 export default {
     stop: function(instance) {
-        ModalHelpers.renderModal(InstanceStopModal, null, function() {
+        ModalHelpers.renderModal(InstanceStopModal, {instance}, function() {
             actions.InstanceActions.stop({
                 instance: instance
             });
