@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Added
   - Add support for CAS 5
+  - Alert message to the Resource Request Modal for Jetstream users explaining JTA restrictions
   - Added Dockerfile and related files to enable automated Dockerhub build/test
     ([#800](https://github.com/cyverse/troposphere/pull/800))
 
