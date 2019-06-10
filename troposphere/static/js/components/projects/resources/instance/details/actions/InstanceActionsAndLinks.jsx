@@ -13,7 +13,6 @@ import {trackAction, showNewMessage} from "utilities/userActivity";
 
 import modals from "modals";
 import stores from "stores";
-import globals from "globals";
 
 export default React.createClass({
     displayName: "InstanceActionsAndLinks",
