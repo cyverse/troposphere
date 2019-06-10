@@ -26,21 +26,37 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...HEAD) - YYYY-MM-DD
 ### Added
+  - Custom login button for Jetstream when THEME_NAME is "jetstream_theme"
+  - Variable "THEME_NAME" added to global variables on front end
+
+### Added
   - Add support for CAS 5
+  - Add link to resources wiki on instance stop modal warning copy within jetstream context 
+  - Alert message to the Resource Request Modal for Jetstream users explaining JTA restrictions
   - Added Dockerfile and related files to enable automated Dockerhub build/test
     ([#800](https://github.com/cyverse/troposphere/pull/800))
-
+  - Run npm install as part of Dockerfile
+    ([#811](https://github.com/cyverse/troposphere/pull/811))
+  - Add sort options to instance and volume tables in project resources
+  
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
     ([#795](https://github.com/cyverse/troposphere/pull/795))
   - Use feature flag "GUACAMOLE" to alternativly render Guacmole or Legacy remote service links on instance actions not both
     ([#812](https://github.com/cyverse/troposphere/pull/812))
+  - Update Dockerfile to use Ubuntu 18.04
+    ([#810](https://github.com/cyverse/troposphere/pull/810))
+  - Fix typo on shelve instance modal
+  - Correct copy on instance stop modal warning message explaining resource consumtion
+
 ### Removed
   - Remove unused SERVER_EMAIL variable
 
 ### Fixed
   - Fix `python-ldap` dependency's broken version (now using 3.1.0)
     ([#798](https://github.com/cyverse/troposphere/pull/798))
+  - ATMO-2143: Image Request not populating base image tags
+    ([#808](https://github.com/cyverse/troposphere/pull/808))
 
 ## [v34-0](https://github.com/cyverse/troposphere/compare/v33-0...v34-0) - 2018-09-17
 ### Added
@@ -94,6 +110,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
   - Change ./manage.py maintenance to be non-interactive
     ([#769](https://github.com/cyverse/troposphere/pull/769))
+  - Improve Delete Instance while Volumes Attached warning message
+    ([#809](https://github.com/cyverse/troposphere/pull/809))
 
 ### Fixed
   - Admin request panel can view older requests
