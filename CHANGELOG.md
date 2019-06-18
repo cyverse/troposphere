@@ -24,7 +24,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...HEAD) - YYYY-MM-DD
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-0...HEAD) - YYYY-MM-DD
+
+
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...v36-0) - 2019-06-18
 ### Added
   - Custom login button for Jetstream when THEME_NAME is "jetstream_theme"
   - Variable "THEME_NAME" added to global variables on front end
