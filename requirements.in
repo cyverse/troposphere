@@ -8,7 +8,7 @@ markdown
 
 django-webpack-loader
 itsdangerous
-Jinja2
+Jinja2>=2.10.1
 pycrypto
 PyJWT
 python-dateutil

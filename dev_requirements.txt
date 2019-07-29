@@ -38,7 +38,7 @@ ipython-genutils==0.2.0   # via traitlets
 ipython==5.4.1
 iso8601==0.1.11
 itsdangerous==0.24
-jinja2==2.9.6
+jinja2==2.10.1
 jwt.py==0.1.0
 keystoneauth1==3.0.0
 markdown==2.6.8
