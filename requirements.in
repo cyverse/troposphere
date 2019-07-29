@@ -3,7 +3,7 @@ pycparser
 django
 django-sslserver
 
-djangorestframework
+djangorestframework>=3.9.1
 markdown
 
 django-webpack-loader
