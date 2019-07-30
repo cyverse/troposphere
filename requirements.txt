@@ -58,13 +58,13 @@ python-ldap==3.1.0        # via django-cyverse-auth
 pytz==2017.2              # via babel, django, oslo.serialization, oslo.utils
 pyyaml==5.1.1
 raven==6.1.0
-requests[security]==2.18.1
+requests[security]==2.22.0
 rfc3986==1.1.0            # via oslo.config
 rsa==3.4.2                # via oauth2client
 six==1.10.0               # via cryptography, debtcollector, keystoneauth1, oauth2client, oslo.config, oslo.i18n, oslo.serialization, oslo.utils, pyopenssl, python-dateutil, python-keystoneclient, stevedore
 stevedore==1.25.0         # via keystoneauth1, oslo.config, python-keystoneclient
 threepio==0.2             # via django-cyverse-auth
-urllib3==1.21.1           # via requests
+urllib3==1.25.3
 uwsgi==2.0.15
 wrapt==1.10.10            # via debtcollector, positional
 

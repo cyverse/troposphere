@@ -13,7 +13,8 @@ pycrypto
 PyJWT
 python-dateutil
 psycopg2==2.7.3.1
-requests[security]
+requests[security]>=2.20.0
+urllib3>=1.24.2
 uWSGI
 pyyaml>=4.2b1
 
