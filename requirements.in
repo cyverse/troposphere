@@ -15,6 +15,7 @@ python-dateutil
 psycopg2==2.7.3.1
 requests[security]
 uWSGI
+pyyaml>=4.2b1
 
 # Application Insights
 raven
