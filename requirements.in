@@ -1,6 +1,6 @@
 # External/Third Party
 pycparser
-django
+django>=1.11.22
 django-sslserver
 
 djangorestframework>=3.9.1
