@@ -10,7 +10,6 @@ markdown
 django-webpack-loader
 itsdangerous
 Jinja2>=2.10.1
-pycrypto
 PyJWT
 python-dateutil
 psycopg2==2.7.3.1
