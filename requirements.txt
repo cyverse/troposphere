@@ -13,7 +13,7 @@ certifi==2017.4.17        # via requests
 cffi==1.10.0              # via cryptography
 chardet==3.0.4            # via requests
 contextlib2==0.5.5        # via raven
-cryptography==2.0         # via pyopenssl, requests
+cryptography==2.7
 debtcollector==1.17.0     # via oslo.config, oslo.utils, python-keystoneclient
 django-cyverse-auth==1.2.0
 django-sslserver==0.19
@@ -23,7 +23,7 @@ djangorestframework==3.9.4
 enum34==1.1.6             # via cryptography
 funcsigs==1.0.2           # via debtcollector, oslo.utils
 httplib2==0.10.3          # via oauth2client
-idna==2.5                 # via cryptography, requests
+idna==2.5                 # via requests
 ipaddress==1.0.18         # via cryptography
 iso8601==0.1.11           # via keystoneauth1, oslo.utils
 itsdangerous==0.24

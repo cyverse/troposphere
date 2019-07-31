@@ -3,6 +3,7 @@ pycparser
 django>=1.11.22
 django-sslserver
 
+cryptography>=2.3
 djangorestframework>=3.9.1
 markdown
 
