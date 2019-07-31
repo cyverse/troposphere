@@ -69,7 +69,7 @@ pycparser==2.18
 pycrypto==2.6.1
 pygments==2.2.0           # via ipython
 pyjwt==1.5.2
-pyopenssl==17.2.0
+pyopenssl==19.0.0
 pyparsing==2.2.0
 python-dateutil==2.6.1
 python-keystoneclient==3.12.0

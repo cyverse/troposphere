@@ -18,6 +18,7 @@ requests[security]>=2.20.0
 urllib3>=1.24.2
 uWSGI
 pyyaml>=4.2b1
+pyopenssl>=17.5.0
 
 # Application Insights
 raven
