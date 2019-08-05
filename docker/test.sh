@@ -14,11 +14,10 @@ pip install pip-tools==1.11.0
 
 # Wait for DB to be active
 echo "Waiting for postgres..."
-while ! nc -z postgres 5432; do sleep 5; done
+while ! nc -z localhost 5432; do sleep 5; done
 
 pip install -r dev_requirements.txt
 npm install
-sed -i 's/DATABASE_HOST = localhost/DATABASE_HOST = postgres/' variables.ini.dist
 cp ./variables.ini.dist ./variables.ini
 ./configure
 ./travis/check_properly_generated_requirements.sh

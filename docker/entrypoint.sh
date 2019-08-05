@@ -39,7 +39,7 @@ ln -s /opt/dev/atmosphere-docker-secrets/inis/troposphere.ini /opt/dev/troposphe
 
 # Wait for DB to be active
 echo "Waiting for postgres..."
-while ! nc -z postgres 5432; do sleep 5; done
+while ! nc -z localhost 5432; do sleep 5; done
 
 mkdir -p /opt/dev/troposphere/troposphere/tropo-static
 /opt/env/troposphere/bin/python /opt/dev/troposphere/manage.py collectstatic --noinput --settings=troposphere.settings --pythonpath=/opt/dev/troposphere
@@ -56,7 +56,7 @@ then
   nginx
   sed -i "s/^    url = .*$/    url = data.get('token_url').replace('guacamole','localhost',1)/" /opt/dev/troposphere/troposphere/views/web_desktop.py
   chown -R $user_id:$user_id /opt/dev/troposphere
-  sudo su -l user -s /bin/bash -c "/opt/env/troposphere/bin/python /opt/dev/troposphere/manage.py runserver 0.0.0.0:8001 &"
+  sudo su -l user -s /bin/bash -c "/opt/env/troposphere/bin/python /opt/dev/troposphere/manage.py runserver 127.0.0.1:8001 &"
   npm run serve -- --public localhost
 else
   chown -R www-data:www-data /opt/dev/troposphere
