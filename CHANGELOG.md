@@ -24,24 +24,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-0...HEAD) - YYYY-MM-DD
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-2...HEAD) - YYYY-MM-DD
 
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v34-0...v36-0) - 2019-06-18
+## [v36-2](https://github.com/cyverse/troposphere/compare/v36-0...v36-2) - 2019-08-06
+### Fixed
+  - Updated python dependencies to secure versions
+    ([#815](https://github.com/cyverse/troposphere/pull/815))
+
+## [v36-0](https://github.com/cyverse/troposphere/compare/v34-0...v36-0) - 2019-06-18
 ### Added
   - Custom login button for Jetstream when THEME_NAME is "jetstream_theme"
   - Variable "THEME_NAME" added to global variables on front end
 
 ### Added
   - Add support for CAS 5
-  - Add link to resources wiki on instance stop modal warning copy within jetstream context 
+  - Add link to resources wiki on instance stop modal warning copy within jetstream context
   - Alert message to the Resource Request Modal for Jetstream users explaining JTA restrictions
   - Added Dockerfile and related files to enable automated Dockerhub build/test
     ([#800](https://github.com/cyverse/troposphere/pull/800))
   - Run npm install as part of Dockerfile
     ([#811](https://github.com/cyverse/troposphere/pull/811))
   - Add sort options to instance and volume tables in project resources
-  
+
 ### Changed
   - Update `psycopg` requirement to version 2.7.3.1
     ([#795](https://github.com/cyverse/troposphere/pull/795))
