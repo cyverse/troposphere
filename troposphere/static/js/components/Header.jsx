@@ -92,7 +92,8 @@ let LoginLink = React.createClass({
             padding: "4px 8px",
             display: "flex",
             alignItems: "center",
-            marginTop: "8px"
+            marginTop: "8px",
+            color: "white"
         };
 
         return (
