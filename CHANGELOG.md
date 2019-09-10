@@ -24,8 +24,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-2...HEAD) - YYYY-MM-DD
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-4...HEAD) - YYYY-MM-DD
 
+
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-2...v36-4) - 2019-09-10
+### Fixed
+  - Patched style issue with XSEDE button
+    ([#818](https://github.com/cyverse/troposphere/pull/818))
+  - Updated django dependency to secure version
+    ([#819](https://github.com/cyverse/troposphere/pull/819))
 
 ## [v36-2](https://github.com/cyverse/troposphere/compare/v36-0...v36-2) - 2019-08-06
 ### Fixed
