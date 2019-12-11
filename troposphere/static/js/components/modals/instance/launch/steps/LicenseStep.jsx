@@ -33,17 +33,13 @@ export default React.createClass({
     },
 
     onAgree: function() {
-        let signedList = this.state.signedList;
+        let {signedList, license} = this.state;
+        // Toggle State: remove or add license to list
+        const newSignedList = signedList.includes(license)
+            ? signedList.filter(item => item !== license)
+            : [...signedList, license];
 
-        if (signedList.length === 0) {
-            signedList = [...this.props.licenseList];
-        } else {
-            signedList = [];
-        }
-
-        this.setState({
-            signedList
-        });
+        this.setState({signedList: newSignedList});
     },
 
     renderLicense: function(item) {
