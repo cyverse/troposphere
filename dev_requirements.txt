@@ -59,7 +59,7 @@ pathlib2==2.3.0           # via ipython, pickleshare
 pbr==3.1.1
 pexpect==4.2.1            # via ipython
 pickleshare==0.7.4        # via ipython
-#positional==1.1.1
+positional==1.1.1
 prompt-toolkit==1.0.14    # via ipython
 psycopg2==2.7.3.1
 ptyprocess==0.5.2         # via pexpect
