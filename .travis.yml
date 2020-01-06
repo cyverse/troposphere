@@ -3,7 +3,7 @@
   group: deprecated-2017Q3
   dist: trusty
   language: node_js
-  node_js: 6.11
+  node_js: 12.14.0
   cache:
     pip: true
     directories:
