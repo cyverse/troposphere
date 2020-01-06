@@ -816,7 +816,7 @@ export default React.createClass({
                 onSubmitLaunch={this.onSubmitLaunch}
                 onBack={this.viewBasic}
                 onCancel={this.hide}
-                waitingOnLaunch={this.state.waitingOnLaunch}		
+                waitingOnLaunch={this.state.waitingOnLaunch}
             />
         );
     },

@@ -38,7 +38,7 @@ export default React.createClass({
         const newSignedList = signedList.includes(license)
             ? signedList.filter(item => item !== license)
             : [...signedList, license];
-        this.setState({signedList: newSignedList});	    
+        this.setState({signedList: newSignedList});
     },
 
     renderLicense: function(item) {
