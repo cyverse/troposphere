@@ -80,7 +80,8 @@ export default React.createClass({
             identityProvider: null,
             attachedScripts: [],
             allocationSource: null,
-            waitingOnLaunch: false
+            waitingOnLaunch: false,
+            instanceCount: 1
         };
     },
 
@@ -361,6 +362,19 @@ export default React.createClass({
     onProjectChange: function(project) {
         this.setState({
             project
+        });
+    },
+
+    onCountChange: function(e) {
+        this.setState({
+            instanceCount: e.target.value
+        });
+    },
+
+    onCountBlur: function(e) {
+        let instanceCount = this.state.instanceCount.trim();
+        this.setState({
+            instanceCount
         });
     },
 
@@ -783,7 +797,10 @@ export default React.createClass({
                     hasAdvancedOptions: this.hasAdvancedOptions(),
                     allocationSource: this.state.allocationSource,
                     allocationSourceList,
-                    waitingOnLaunch
+                    waitingOnLaunch,
+                    instanceCount: this.state.instanceCount,
+                    onCountChange: this.onCountChange,
+                    onCountBlur: this.onCountBlur
                 }}
             />
         );
