@@ -366,13 +366,19 @@ export default React.createClass({
     },
 
     onCountChange: function(e) {
+        let instanceCount = parseInt(e.target.value);
+        instanceCount = Number.isNaN(instanceCount) || instanceCount < 1
+            ? 1 : instanceCount;
         this.setState({
-            instanceCount: e.target.value
+            instanceCount
         });
     },
 
     onCountBlur: function(e) {
-        let instanceCount = this.state.instanceCount.trim();
+        let instanceCount = parseInt(e.target.value);
+        instanceCount = Number.isNaN(instanceCount) || instanceCount < 1
+            ? 1 : instanceCount;
+        e.target.value = instanceCount;
         this.setState({
             instanceCount
         });
@@ -543,6 +549,7 @@ export default React.createClass({
                 size: this.state.providerSize,
                 version: this.state.imageVersion,
                 scripts: this.state.attachedScripts,
+                instanceCount: this.state.instanceCount,
                 onSuccess: () => {
                     this.onLaunchSuccess();
                 },
@@ -631,6 +638,16 @@ export default React.createClass({
         return this.state.instanceName.match(regex);
     },
 
+    invalidInstanceCount: function() {
+        if (!Number.isInteger(this.state.instanceCount)) {
+            return true;
+        }
+        if (this.state.instanceCount < 1) {
+            return true;
+        }
+        return false;
+    },
+
     canLaunch: function() {
         let requiredFields = [
             "instanceName",
@@ -639,7 +656,8 @@ export default React.createClass({
             "providerSize",
             "imageVersion",
             "attachedScripts",
-            "allocationSource"
+            "allocationSource",
+            "instanceCount"
         ];
 
         // All required fields are truthy
@@ -647,7 +665,8 @@ export default React.createClass({
             Boolean(this.state[prop])
         );
 
-        return requiredExist && !this.exceedsResources() && !this.invalidName();
+        return requiredExist && !this.exceedsResources()
+            && !this.invalidName() && !this.invalidInstanceCount();
     },
 
     //==================
