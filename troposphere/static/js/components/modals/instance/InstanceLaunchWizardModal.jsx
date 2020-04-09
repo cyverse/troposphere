@@ -562,7 +562,11 @@ export default React.createClass({
                 "uuid"
             );
 
-            actions.InstanceActions.launch(launchData);
+            if(launchData.instanceCount == 1) {
+                actions.InstanceActions.launch(launchData);
+            } else {
+                actions.InstanceActions.multiLaunch(launchData);
+            }
 
             // enter into a "waiting" state to determine
             // result of launch operation

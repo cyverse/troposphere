@@ -6,6 +6,7 @@ import IReboot from "./instance/reboot";
 import IRedeploy from "./instance/redeploy";
 import IPoll from "./instance/poll";
 import ILaunch from "./instance/launch";
+import IMultiLaunch from "./instance/multiLaunch";
 import IDestroy from "./instance/destroy";
 import IUpdate from "./instance/update";
 import IReport from "./instance/report";
@@ -24,6 +25,7 @@ export default {
     redeploy: IRedeploy.redeploy,
     poll: IPoll.poll,
     launch: ILaunch.launch,
+    multiLaunch: IMultiLaunch.multiLaunch,
     destroy: IDestroy.destroy,
     update: IUpdate.update,
     report: IReport.report,

@@ -35,13 +35,17 @@ function launch(params) {
         params.machine = selected_machines[0];
     }
     if (!params.machine) throw new Error("Missing machine");
-    if (params.instanceCount) {
-        if (!Number.isInteger(params.instanceCount)) {
-            throw new Error("Instance count should be an integer");
-        }
-        if (params.instanceCount < 1) {
-            throw new Error("Instance count should be a postive integer");
-        }
+    if (!params.instanceCount) {
+        throw new Error("missing instanceCount");
+    }
+    if (!Number.isInteger(params.instanceCount)) {
+        throw new Error("Instance count should be an integer");
+    }
+    if (params.instanceCount < 1) {
+        throw new Error("Instance count should be a postive integer");
+    }
+    if (params.instanceCount != 1) {
+        throw new Error("Single launch require instance count of 1");
     }
 
     let {
