@@ -134,6 +134,10 @@ function multiLaunch(params) {
 
             // launched fewer instances than requsted
             if(attrs.length < instances.length) {
+                Utils.displayError({
+                    title: "Some instances failed to launch",
+                    response: "Only launched ${attrs.length} out of ${instances.length} instances"
+                });
             }
 
             // if multi launch, attrs is an array
