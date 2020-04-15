@@ -173,13 +173,16 @@ function multiLaunch(params) {
             appBrowserHistory.push(`/projects/${project.id}/resources`);
         })
         .fail(function(response) {
-            // Remove instance from stores
-            Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {
-                instance: instances[0]
-            });
-            Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {
-                projectInstance: projectInstances[0]
-            });
+
+            // Remove instances from stores
+            for(let i = 0; i < instanceCount; i++) {
+                Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {
+                    instance: instances[i]
+                });
+                Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {
+                    projectInstance: projectInstances[i]
+                });
+            }
             Utils.displayError({
                 title: "Instances could not be launched",
                 response: response
