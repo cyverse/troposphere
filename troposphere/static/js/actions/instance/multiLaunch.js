@@ -136,7 +136,10 @@ function multiLaunch(params) {
             if(attrs.length < instances.length) {
                 Utils.displayError({
                     title: "Some instances failed to launch",
-                    response: "Only launched ${attrs.length} out of ${instances.length} instances"
+                    response: {
+                        status: status,
+                        responseText: "Only launched " + attrs.length + " out of " + instances.length + " instances"
+                    }
                 });
             }
 
