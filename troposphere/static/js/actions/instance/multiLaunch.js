@@ -148,20 +148,15 @@ function multiLaunch(params) {
 
                 instances[i].set("id", attrs[i].id);
                 instances[i].set("uuid", attrs[i].alias);
-                console.log("instances[" + i + "]:");
-                console.log(instances[i]);
 
                 // Get the instance from the cloud, ignore our local copy
                 instances[i].fetch().then(
                     function() {
-                        console.log("fetch");
-                        console.log(instances[i]);
                         Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
                             instance: instances[i]
                         });
                     },
                     function() {
-                        console.log("fetch failed");
                         /**
                          * this can have the same function signature as a `fail`
                          *
