@@ -8,7 +8,7 @@ export default React.createClass({
         resourcesUsed: React.PropTypes.object,
         identityProvider: React.PropTypes.instanceOf(Backbone.Model),
         providerSize: React.PropTypes.instanceOf(Backbone.Model),
-        instanceCount: React.PropTypes.number	
+        instanceCount: React.PropTypes.number
     },
 
     // This is what we show if the instance will exceed our resources.

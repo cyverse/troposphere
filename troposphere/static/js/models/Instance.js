@@ -100,8 +100,10 @@ export default Backbone.Model.extend({
                       return script.get("uuid");
                   })
                 : [],
-            extra = options.instance_count > 1
-                ? {instance_count: options.instance_count} : {};
+            extra =
+                options.instance_count > 1
+                    ? {instance_count: options.instance_count}
+                    : {};
 
         var url = globals.API_V2_ROOT + "/instances";
 

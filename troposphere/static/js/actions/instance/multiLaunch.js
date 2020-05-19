@@ -60,12 +60,10 @@ function multiLaunch(params) {
         onFail
     } = params;
 
-
     let instances = [];
     let projectInstances = [];
 
-    for(let i = 0; i < instanceCount; i++) {
-
+    for (let i = 0; i < instanceCount; i++) {
         // Create Instance
         let instance = new Instance(
             {
@@ -98,8 +96,7 @@ function multiLaunch(params) {
         projectInstances.push(projectInstance);
     }
 
-    for(let i = 0; i < instanceCount; i++) {
-
+    for (let i = 0; i < instanceCount; i++) {
         // Add instance to InstanceStore
         Utils.dispatch(InstanceConstants.ADD_INSTANCE, {
             instance: instances[i]
@@ -109,7 +106,6 @@ function multiLaunch(params) {
         Utils.dispatch(ProjectInstanceConstants.ADD_PROJECT_INSTANCE, {
             projectInstance: projectInstances[i]
         });
-
     }
 
     let payload = {
@@ -126,26 +122,29 @@ function multiLaunch(params) {
     instances[0]
         .create(payload)
         .done(function(attrs, status, response) {
-
             // Response to a multi-launch must be an array
-            if (! Array.isArray(attrs)) {
+            if (!Array.isArray(attrs)) {
                 throw new Error("Response does not contain array");
             }
 
             // launched fewer instances than requsted
-            if(attrs.length < instances.length) {
+            if (attrs.length < instances.length) {
                 Utils.displayError({
                     title: "Some instances failed to launch",
                     response: {
                         status: status,
-                        responseText: "Only launched " + attrs.length + " out of " + instances.length + " instances"
+                        responseText:
+                            "Only launched " +
+                            attrs.length +
+                            " out of " +
+                            instances.length +
+                            " instances"
                     }
                 });
             }
 
             // if multi launch, attrs is an array
             for (let i = 0; i < attrs.length; i++) {
-
                 instances[i].set("id", attrs[i].id);
                 instances[i].set("uuid", attrs[i].alias);
 
@@ -175,15 +174,17 @@ function multiLaunch(params) {
             appBrowserHistory.push(`/projects/${project.id}/resources`);
         })
         .fail(function(response) {
-
             // Remove instances from stores
-            for(let i = 0; i < instanceCount; i++) {
+            for (let i = 0; i < instanceCount; i++) {
                 Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {
                     instance: instances[i]
                 });
-                Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {
-                    projectInstance: projectInstances[i]
-                });
+                Utils.dispatch(
+                    ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE,
+                    {
+                        projectInstance: projectInstances[i]
+                    }
+                );
             }
             Utils.displayError({
                 title: "Instances could not be launched",
