@@ -24,8 +24,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-4...HEAD) - YYYY-MM-DD
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-5...HEAD) - YYYY-MM-DD
 
+## [v36-5](https://github.com/cyverse/troposphere/compare/v36-5...HEAD) - 2020-05-19
 
 ## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-2...v36-4) - 2019-09-10
 ### Fixed
