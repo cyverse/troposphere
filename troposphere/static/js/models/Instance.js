@@ -80,6 +80,14 @@ export default Backbone.Model.extend({
         if (!options.allocation_source_id) {
             throw new Error("Missing allocation_source_id");
         }
+        if (options.instance_count) {
+            if (!Number.isInteger(options.instance_count)) {
+                throw new Error("Instance count should be an integer");
+            }
+            if (options.instance_count < 1) {
+                throw new Error("Instance count should be a postive integer");
+            }
+        }
 
         let identity = this.get("identity").uuid,
             name = options.name,
@@ -91,7 +99,11 @@ export default Backbone.Model.extend({
                 ? options.scripts.map(function(script) {
                       return script.get("uuid");
                   })
-                : [];
+                : [],
+            extra =
+                options.instance_count > 1
+                    ? {instance_count: options.instance_count}
+                    : {};
 
         var url = globals.API_V2_ROOT + "/instances";
 
@@ -102,7 +114,8 @@ export default Backbone.Model.extend({
             name,
             scripts,
             project,
-            identity
+            identity,
+            extra
         };
 
         return Backbone.sync("create", this, {

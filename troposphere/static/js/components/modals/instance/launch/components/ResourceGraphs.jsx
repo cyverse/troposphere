@@ -7,7 +7,8 @@ export default React.createClass({
         onRequestResources: React.PropTypes.func,
         resourcesUsed: React.PropTypes.object,
         identityProvider: React.PropTypes.instanceOf(Backbone.Model),
-        providerSize: React.PropTypes.instanceOf(Backbone.Model)
+        providerSize: React.PropTypes.instanceOf(Backbone.Model),
+        instanceCount: React.PropTypes.number
     },
 
     // This is what we show if the instance will exceed our resources.
@@ -32,6 +33,7 @@ export default React.createClass({
         let identityProvider = this.props.identityProvider;
         let size = this.props.providerSize;
         let resourcesUsed = this.props.resourcesUsed;
+        let instanceCount = this.props.instanceCount;
 
         // Here we are declaring all of our variables that require 'if' check below before using our backbone methods.
         // If we don't have models yet, we still want to pass these empty declarations down to our child.
@@ -62,7 +64,7 @@ export default React.createClass({
             // CPU's have used + will use
             allocationCpu = identityProvider.get("quota").cpu;
             cpuUsed = resourcesUsed.cpu;
-            cpuWillUse = size.get("cpu");
+            cpuWillUse = size.get("cpu") * instanceCount;
             cpuWillTotal = cpuUsed + cpuWillUse;
             percentOfCpuUsed = Math.round(cpuUsed / allocationCpu * 100);
             percentOfCpuWillUse = Math.round(cpuWillUse / allocationCpu * 100);
@@ -70,7 +72,7 @@ export default React.createClass({
             // Memory have used + will use
             allocationGb = identityProvider.get("quota").memory;
             gbUsed = resourcesUsed.mem / 1024;
-            gbWillUse = size.get("mem");
+            gbWillUse = size.get("mem") * instanceCount;
             gbWillTotal = gbUsed + gbWillUse;
             percentOfGbUsed = Math.round(gbUsed / allocationGb * 100);
             percentOfGbWillUse = Math.round(gbWillUse / allocationGb * 100);

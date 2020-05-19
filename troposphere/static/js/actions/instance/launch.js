@@ -35,6 +35,18 @@ function launch(params) {
         params.machine = selected_machines[0];
     }
     if (!params.machine) throw new Error("Missing machine");
+    if (!params.instanceCount) {
+        throw new Error("missing instanceCount");
+    }
+    if (!Number.isInteger(params.instanceCount)) {
+        throw new Error("Instance count should be an integer");
+    }
+    if (params.instanceCount < 1) {
+        throw new Error("Instance count should be a postive integer");
+    }
+    if (params.instanceCount != 1) {
+        throw new Error("Single launch require instance count of 1");
+    }
 
     let {
         project,
@@ -43,6 +55,7 @@ function launch(params) {
         size,
         machine,
         scripts,
+        instanceCount,
         onSuccess,
         onFail
     } = params;
@@ -92,7 +105,8 @@ function launch(params) {
         source_alias: machine.uuid,
         scripts: scripts,
         project: project,
-        allocation_source_id: params.allocation_source_uuid
+        allocation_source_id: params.allocation_source_uuid,
+        instance_count: instanceCount
     };
 
     // Create Instance using the v2 API endpoint

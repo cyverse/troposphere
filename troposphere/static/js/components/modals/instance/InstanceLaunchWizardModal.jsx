@@ -80,7 +80,8 @@ export default React.createClass({
             identityProvider: null,
             attachedScripts: [],
             allocationSource: null,
-            waitingOnLaunch: false
+            waitingOnLaunch: false,
+            instanceCount: 1
         };
     },
 
@@ -364,6 +365,29 @@ export default React.createClass({
         });
     },
 
+    onCountChange: function(e) {
+        let instanceCount = parseInt(e.target.value);
+        instanceCount =
+            Number.isNaN(instanceCount) || instanceCount < 1
+                ? 1
+                : instanceCount;
+        this.setState({
+            instanceCount
+        });
+    },
+
+    onCountBlur: function(e) {
+        let instanceCount = parseInt(e.target.value);
+        instanceCount =
+            Number.isNaN(instanceCount) || instanceCount < 1
+                ? 1
+                : instanceCount;
+        e.target.value = instanceCount;
+        this.setState({
+            instanceCount
+        });
+    },
+
     onAllocationSourceChange: function(source) {
         this.setState({
             allocationSource: source
@@ -529,6 +553,7 @@ export default React.createClass({
                 size: this.state.providerSize,
                 version: this.state.imageVersion,
                 scripts: this.state.attachedScripts,
+                instanceCount: this.state.instanceCount,
                 onSuccess: () => {
                     this.onLaunchSuccess();
                 },
@@ -541,7 +566,11 @@ export default React.createClass({
                 "uuid"
             );
 
-            actions.InstanceActions.launch(launchData);
+            if (launchData.instanceCount == 1) {
+                actions.InstanceActions.launch(launchData);
+            } else {
+                actions.InstanceActions.multiLaunch(launchData);
+            }
 
             // enter into a "waiting" state to determine
             // result of launch operation
@@ -617,6 +646,16 @@ export default React.createClass({
         return this.state.instanceName.match(regex);
     },
 
+    invalidInstanceCount: function() {
+        if (!Number.isInteger(this.state.instanceCount)) {
+            return true;
+        }
+        if (this.state.instanceCount < 1) {
+            return true;
+        }
+        return false;
+    },
+
     canLaunch: function() {
         let requiredFields = [
             "instanceName",
@@ -625,7 +664,8 @@ export default React.createClass({
             "providerSize",
             "imageVersion",
             "attachedScripts",
-            "allocationSource"
+            "allocationSource",
+            "instanceCount"
         ];
 
         // All required fields are truthy
@@ -633,7 +673,12 @@ export default React.createClass({
             Boolean(this.state[prop])
         );
 
-        return requiredExist && !this.exceedsResources() && !this.invalidName();
+        return (
+            requiredExist &&
+            !this.exceedsResources() &&
+            !this.invalidName() &&
+            !this.invalidInstanceCount()
+        );
     },
 
     //==================
@@ -783,7 +828,10 @@ export default React.createClass({
                     hasAdvancedOptions: this.hasAdvancedOptions(),
                     allocationSource: this.state.allocationSource,
                     allocationSourceList,
-                    waitingOnLaunch
+                    waitingOnLaunch,
+                    instanceCount: this.state.instanceCount,
+                    onCountChange: this.onCountChange,
+                    onCountBlur: this.onCountBlur
                 }}
             />
         );
