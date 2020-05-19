@@ -17,7 +17,10 @@ export default React.createClass({
         instanceName: React.PropTypes.string,
         onNameChange: React.PropTypes.func,
         onVersionChange: React.PropTypes.func,
-        onProjectChange: React.PropTypes.func
+        onProjectChange: React.PropTypes.func,
+        instanceCount: React.PropTypes.number,
+        onCountChange: React.PropTypes.func,
+        onCountBlur: React.PropTypes.func
     },
 
     componentDidMount: function() {
@@ -60,7 +63,8 @@ export default React.createClass({
             projectList,
             instanceName,
             showValidationErr,
-            waitingOnLaunch
+            waitingOnLaunch,
+            instanceCount
         } = this.props;
         let hasErrorClass;
         let errorMessage = null;
@@ -136,6 +140,21 @@ export default React.createClass({
                     <p className="t-caption" style={{display: "block"}}>
                         {projectType}
                     </p>
+                </div>
+                <div className={"form-group " + hasErrorClass}>
+                    <label htmlFor="instanceCount">Instance Count</label>
+                    <input
+                        required
+                        disabled={waitingOnLaunch}
+                        type="number"
+                        className="form-control"
+                        id="instanceCount"
+                        value={instanceCount}
+                        ref="countInput"
+                        onChange={this.props.onCountChange}
+                        onBlur={this.props.onCountBlur}
+                    />
+                    <span className="help-block">{errorMessage}</span>
                 </div>
             </form>
         );
