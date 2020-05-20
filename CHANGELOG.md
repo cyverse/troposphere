@@ -24,9 +24,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-5...HEAD) - YYYY-MM-DD
+## [Unreleased](https://github.com/cyverse/troposphere/compare/v36-6...HEAD) - YYYY-MM-DD
 
-## [v36-5](https://github.com/cyverse/troposphere/compare/v36-5...HEAD) - 2020-05-19
+
+## [v36-6](https://github.com/cyverse/troposphere/compare/v36-5...v36-6) - 2020-05-20
+
+### Removed
+  - Removed 'User Forums' link on the Help page
+    ([#835](https://github.com/cyverse/troposphere/pull/835))
+    
+## [v36-5](https://github.com/cyverse/troposphere/compare/v36-4...v36-5) - 2020-05-19
 
 ### Added
   - Add instance count field in launch wizard to support multi-instance-launch
