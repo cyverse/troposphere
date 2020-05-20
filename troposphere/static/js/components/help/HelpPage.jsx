@@ -9,11 +9,6 @@ let resources = [
         description: "Complete documentation for using Atmosphere."
     },
     {
-        title: "User Forums",
-        link_key: "forums",
-        description: "Get answers from Atmosphere users and staff."
-    },
-    {
         title: "FAQs",
         link_key: "faq",
         description: "Atmosphere's most frequently asked questions."
